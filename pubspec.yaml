@@ -1,4 +1,4 @@
-name: club_application
+name: onesthrm
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -71,7 +71,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/app_icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,8 +94,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/lottie/
-    - assets/donation_icon/
+    - assets/home_icon/
+    - assets/expense/
+    - assets/menu_drawer_icons/
+    - assets/menu_report/
+    - assets/translations/
+    - assets/car_icon/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

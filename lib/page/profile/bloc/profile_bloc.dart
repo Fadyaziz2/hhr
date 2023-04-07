@@ -1,8 +1,9 @@
-import 'package:club_application/res/enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/get_user_by_id_Response.dart';
+
+import '../../../res/enum.dart';
 
 part 'profile_event.dart';
 

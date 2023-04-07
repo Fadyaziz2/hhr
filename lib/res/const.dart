@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
-Color textColor = const Color(0xFF695086);
-Color mainColor = const Color(0xFF181a3c);
-Color buttonColor = Colors.purple;
+Color mainColor                     = const Color(0xFF00a8e6);
+Color buttonColor                   = const Color(0xFF00a8e6);
+const Color colorPrimary            = Color(0xFF00a8e6);
+const Color colorPrimaryGradient    = Color(0xff00a7ab);
+const Color colorDeepRed            = Color(0xFFBE5258);
+const Color appBarColor             = Colors.white;
+const Color appColor                = Color(0xFF00a8e6);
+const Color gradiantColorOne        = Color(0xFF00a8e6);
+const Color gradiantColorTwo        = Color(0xDA0DC21E);

@@ -1,20 +1,8 @@
-import 'package:club_application/page/acts_regulation/view/acts_regulation_page.dart';
-import 'package:club_application/page/anniversary/view/anniversary_page.dart';
-import 'package:club_application/page/authentication/bloc/authentication_bloc.dart';
-import 'package:club_application/page/birthday/view/birthday_page.dart';
-import 'package:club_application/page/contact/contact.dart';
-import 'package:club_application/page/directory/directory.dart';
-import 'package:club_application/page/gallery/view/gallery_page.dart';
-import 'package:club_application/page/more/view/more_page.dart';
-import 'package:club_application/page/profile/profile.dart';
-import 'package:club_application/res/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../donation/view/donation_page.dart';
-import '../../../election/view/election_page.dart';
-import '../../../event/view/event_page.dart';
-import '../../../notice/view/notice_page.dart';
-import '../../../pending_request/view/pending_request_page.dart';
+import '../../../../res/const.dart';
+import '../../../authentication/bloc/authentication_bloc.dart';
+import '../../../profile/view/profile_page.dart';
 import '../../models/home_item_model.dart';
 import 'home_item.dart';
 
@@ -24,7 +12,6 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final userGroup = context.read<AuthenticationBloc>().state.data?.user?.userGroup;
     final items = HomeItems.getHomeItems;
     final itemsWithPaddingList = HomeItems.getHomeItemsWithPaddingList;
 
@@ -125,18 +112,14 @@ class HomeContent extends StatelessWidget {
           Expanded(
             child: GridView.builder(
                 padding: const EdgeInsets.all(0),
-                itemCount: userGroup == "management"
-                    ? itemsWithPaddingList.length
-                    : items.length,
+                itemCount: items.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1,
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0),
                 itemBuilder: (BuildContext context, int index) {
-                  final data = userGroup == "management"
-                      ? itemsWithPaddingList[index]
-                      : items[index];
+                  final data = items[index];
                   return HomeItem(
                       name: data.name,
                       icon: data.icon,
@@ -151,47 +134,11 @@ class HomeContent extends StatelessWidget {
 
 void homeNavigation(ItemType type, BuildContext context) {
   switch (type) {
-    case ItemType.gallery:
-      Navigator.of(context).push(GalleryPage.route);
-      break;
-    case ItemType.birthday:
-      Navigator.of(context).push(BirthdayPage.route);
-      break;
-    case ItemType.directory:
-      Navigator.of(context).push(DirectoryPage.route);
-      break;
     case ItemType.faculty:
       break;
     case ItemType.profile:
       Navigator.of(context).push(ProfileScreen.route(
           context.read<AuthenticationBloc>().state.data?.user?.id));
-      break;
-    case ItemType.donation:
-      Navigator.of(context).push(DonationPage.route);
-      break;
-    case ItemType.contacts:
-      Navigator.of(context).push(ContactPage.route);
-      break;
-    case ItemType.anniversary:
-      Navigator.of(context).push(AnniversaryPage.route);
-      break;
-    case ItemType.event:
-      Navigator.of(context).push(EventPage.route);
-      break;
-    case ItemType.notice:
-      Navigator.of(context).push(NoticePage.route);
-      break;
-    case ItemType.ec:
-      Navigator.of(context).push(ElectionPage.route);
-      break;
-    case ItemType.acts:
-      Navigator.of(context).push(ActsRegulationPage.route);
-      break;
-    case ItemType.pendingRequest:
-      Navigator.of(context).push(PaddingRequestPage.route);
-      break;
-    case ItemType.more:
-      Navigator.of(context).push(MorePage.route);
       break;
     default:
       break;

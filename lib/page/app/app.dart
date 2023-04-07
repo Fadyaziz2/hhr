@@ -1,12 +1,13 @@
-import 'package:club_application/page/authentication/bloc/authentication_bloc.dart';
-import 'package:club_application/page/home/home.dart';
-import 'package:club_application/page/login/login.dart';
-import 'package:club_application/page/splash/view/splash.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
+import '../authentication/bloc/authentication_bloc.dart';
+import '../home/view/home_page.dart';
+import '../login/view/login_page.dart';
+import '../splash/view/splash.dart';
 
 class App extends StatelessWidget {
 
@@ -53,11 +54,7 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                if(state.data?.user?.isVerified == 0 && state.data?.user?.isActive == 0){
-                  _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
-                }else{
-                  _navigator.pushAndRemoveUntil(HomePage.route(), (route) => false,);
-                }
+                _navigator.pushAndRemoveUntil(HomePage.route(), (route) => false,);
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);

@@ -29,18 +29,20 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://club.onesttech.com';
+  static const _rootUrl = 'https://hrm.onesttech.com';
 
-  static const _baseUrl = '$_rootUrl/api/v1/';
+  static const _baseUrl = '$_rootUrl/api/V11/';
 
-  Future<LoginData?> login(
-      {required String phone, required String password}) async {
+  Future<LoginData?> login({required String email, required String password}) async {
+
     const String login = 'login';
 
-    final body = {"phone": phone, "password": password};
+    final body = {'email': email, 'password': password};
 
     try {
       final response = await _httpServiceImpl.postRequest('$_baseUrl$login', body);
+
+      print('response ${response.data}');
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();

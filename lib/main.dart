@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:club_application/page/app/app.dart';
-import 'package:club_application/page/app/app_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/app.dart';
+import 'package:onesthrm/page/app/app_bloc_observer.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:path_provider/path_provider.dart';
 

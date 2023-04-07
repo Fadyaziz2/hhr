@@ -1,11 +1,11 @@
-import 'package:club_application/page/login/bloc/login_bloc.dart';
-import 'package:club_application/page/registration/view/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
+import '../../registration/view/registration_page.dart';
+import '../bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
 
@@ -22,6 +22,9 @@ class LoginForm extends StatelessWidget {
           if(state.status.isSubmissionCanceled){
              showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
           }
+          if(state.status.isSubmissionSuccess){
+            showLoginDialog(context: context,isSuccess: true,message: 'Authentication Successful');
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -29,11 +32,19 @@ class LoginForm extends StatelessWidget {
             reverse: true,
             child: Column(
               children: [
-                const _HeaderWidget(),
+                const SizedBox(
+                  height: 50,
+                ),
+                Center(
+                    child: Image.asset(
+                      "assets/images/app_icon.png",
+                      height: 130,
+                      width: 130,
+                    )),
                 const SizedBox(
                   height: 32.0,
                 ),
-                const _PhoneInput(),
+                const _EmailInput(),
                 const SizedBox(
                   height: 18.0,
                 ),
@@ -50,7 +61,7 @@ class LoginForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(RegistrationPage.route);
                     },
-                    style: ElevatedButton.styleFrom(primary: buttonColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                     child: const Text('Registration'),
                   ),
                 )
@@ -94,25 +105,28 @@ class _HeaderWidget extends StatelessWidget {
   }
 }
 
-class _PhoneInput extends StatelessWidget {
-  const _PhoneInput({Key? key}) : super(key: key);
+class _EmailInput extends StatelessWidget {
+  const _EmailInput({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.phone != current.phone,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return TextField(
-          key: const Key('phone_text_field'),
+          key: const Key('email_text_field'),
           onChanged: (phone) =>
-              context.read<LoginBloc>().add(LoginPhoneChange(phone: phone)),
+              context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
           decoration: InputDecoration(
-            labelText: 'Phone',
+            labelText: 'Email',
             fillColor: Colors.white,
             filled: true,
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
             prefixIcon: const Icon(Icons.phone_android_rounded),
             prefixIconColor: mainColor,
-            errorText: state.phone.invalid ? 'Invalid phone' : null,
+            errorText: state.email.invalid ? 'Invalid email' : null,
           ),
         );
       },
@@ -137,6 +151,18 @@ class _PasswordInput extends StatelessWidget {
             labelText: 'Password',
             fillColor: Colors.white,
             filled: true,
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            suffixIcon: IconButton(
+              icon: const Icon(
+                Icons.visibility_off,
+                color: colorPrimary,
+              ),
+              onPressed: () {
+
+              },
+            ),
             prefixIcon: const Icon(Icons.password),
             prefixIconColor: mainColor,
             errorText: state.password.invalid ? 'Invalid password' : null,

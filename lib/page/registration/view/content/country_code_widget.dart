@@ -1,9 +1,8 @@
-import 'package:club_application/page/registration/cubit/country_cubit.dart';
-import 'package:club_application/page/registration/view/content/registration_content.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/registration_bloc.dart';
+import 'package:onesthrm/page/registration/view/content/registration_content.dart';
+import '../../cubit/country_cubit.dart';
 import 'custom_input_field.dart';
 
 class CountryCodeView extends StatelessWidget {

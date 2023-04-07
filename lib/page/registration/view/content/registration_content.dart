@@ -1,9 +1,8 @@
-import 'package:club_application/page/registration/view/content/qualification_item.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/src/models/body_registration.dart';
+import 'package:onesthrm/page/registration/view/content/qualification_item.dart';
 import '../../../../res/dialogs/custom_dialogs.dart';
 import '../../../../res/enum.dart';
 import '../../bloc/registration_bloc.dart';
@@ -140,114 +139,6 @@ class RegistrationContent extends StatelessWidget {
                   ),
 
                   const CountryCodeView(),
-
-                  // BlocBuilder<RegistrationBloc, RegistrationState>(
-                  //   builder: (context,state){
-                  //
-                  //     debugPrint("country code from state : ${state.selectedCountry}");
-                  //
-                  //     return  SizedBox(
-                  //       height: 55.0,
-                  //       child: Row(
-                  //         children: [
-                  //           SizedBox(
-                  //             width: 75.0,
-                  //             height: 48.0,
-                  //             child: OutlinedButton(
-                  //               style: OutlinedButton.styleFrom(
-                  //                 side: const BorderSide(color: Colors.grey),
-                  //                 shape: const RoundedRectangleBorder(
-                  //                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  //                 ),
-                  //               ),
-                  //               onPressed: () {
-                  //                 showCountryPicker(
-                  //                   context: context,
-                  //                   showPhoneCode: true,
-                  //                   onSelect: (Country country) {
-                  //                     BlocProvider.of<RegistrationBloc>(context).add(OnCountryChanged(selectedCountry: country.phoneCode));
-                  //                     debugPrint('Select country: ${country.phoneCode}');
-                  //                     debugPrint('Select country state: ${state.selectedCountry}');
-                  //                   },
-                  //                 );
-                  //               },
-                  //               child: Text(
-                  //                 state.selectedCountry,
-                  //                 style: const TextStyle(
-                  //                     color: Colors.black,
-                  //                     fontSize: 13.0,
-                  //                     fontWeight: FontWeight.bold),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           const SizedBox(
-                  //             width: 8.0,
-                  //           ),
-                  //           Expanded(
-                  //             child: CustomInputField(
-                  //               onChanged: (value) {
-                  //                 bodyRegistration.phone = value;
-                  //               },
-                  //               hintText: "Phone number",
-                  //               textInputType: TextInputType.phone,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-
-                  // SizedBox(
-                  //   height: 55.0,
-                  //   child: Row(
-                  //     children: [
-                  //
-                  //       SizedBox(
-                  //         width: 75.0,
-                  //         height: 48.0,
-                  //         child: OutlinedButton(
-                  //           style: OutlinedButton.styleFrom(
-                  //             side: const BorderSide(color: Colors.grey),
-                  //             shape: const RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  //             ),
-                  //           ),
-                  //           onPressed: () {
-                  //             showCountryPicker(
-                  //               context: context,
-                  //               showPhoneCode: true,
-                  //               onSelect: (Country country) {
-                  //                 context.read<RegistrationBloc>().add(OnCountryChanged(selectedCountry: country.phoneCode));
-                  //                 state.copyWith(selectedCountry: country.phoneCode);
-                  //                 debugPrint('Select country: ${country.phoneCode}');
-                  //               },
-                  //             );
-                  //           },
-                  //           child: Text(
-                  //             context.watch<RegistrationBloc>().state.selectedCountry,
-                  //             style: const TextStyle(
-                  //                 color: Colors.black,
-                  //                 fontSize: 13.0,
-                  //                 fontWeight: FontWeight.bold),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       const SizedBox(
-                  //         width: 8.0,
-                  //       ),
-                  //       Expanded(
-                  //         child: CustomInputField(
-                  //           onChanged: (value) {
-                  //             bodyRegistration.phone = value;
-                  //           },
-                  //           hintText: "Phone number",
-                  //           textInputType: TextInputType.phone,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
 
                   /// password ===================
                   const SizedBox(

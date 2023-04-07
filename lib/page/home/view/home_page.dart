@@ -1,5 +1,5 @@
-import 'package:club_application/res/const.dart';
 import 'package:flutter/material.dart';
+import '../../../res/const.dart';
 import 'content/home_content.dart';
 class HomePage extends StatelessWidget {
 

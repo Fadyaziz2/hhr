@@ -9,14 +9,16 @@ class UserRepository {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://club.onesttech.com';
+  static const _rootUrl = 'https://hrm.onesttech.com';
 
   static const _baseUrl = '$_rootUrl/api/v1/';
 
-  Future<LoginData?> getUser() async {
-    const String userEndpoint = 'user';
+  Future<LoginData?> getUser(
+      {required String email, required String password}) async {
+    const String userEndpoint = 'login';
+    final body = {'email': email, 'password': password};
     try {
-      final response = await _httpServiceImpl.getRequest('$_baseUrl$userEndpoint');
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$userEndpoint', body);
       if (response.statusCode == 200) {
         return LoginData.fromJson(response.data);
       } else {
@@ -29,24 +31,23 @@ class UserRepository {
 
   Future<bool> logout() async {
     const String logoutEndpoint = 'user';
-    try{
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$logoutEndpoint', null);
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$logoutEndpoint', null);
 
       bool isLogout = response.data['result'];
 
-      if(isLogout){
+      if (isLogout) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch(_){
+    } catch (_) {
       return false;
     }
   }
 
-
   Future<bool> tokenVerification({required String token}) async {
-
     String api = 'token-alive/$token';
 
     try {

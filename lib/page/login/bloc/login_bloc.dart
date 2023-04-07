@@ -1,10 +1,12 @@
-import 'package:club_application/page/login/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+
+import '../models/password.dart';
+import '../models/phone.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
@@ -15,14 +17,14 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   LoginBloc({required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(const LoginState()){
-   on<LoginPhoneChange>(_onPhoneUpdate);
+   on<LoginEmailChange>(_onPhoneUpdate);
    on<LoginPasswordChange>(_onPasswordUpdate);
    on<LoginSubmit>(_onLoginSubmitted);
   }
 
-  void _onPhoneUpdate(LoginPhoneChange event,Emitter<LoginState> emit){
+  void _onPhoneUpdate(LoginEmailChange event,Emitter<LoginState> emit){
 
-    final phone = Phone.dirty(event.phone);
+    final phone = Email.dirty(event.email);
 
     emit(state.copyWith(phone: phone,status: Formz.validate([phone,state.password])));
   }
@@ -31,7 +33,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
     final password = Password.dirty(event.password);
 
-    emit(state.copyWith(password: password,status: Formz.validate([state.phone,password])));
+    emit(state.copyWith(password: password,status: Formz.validate([state.email,password])));
   }
 
   void _onLoginSubmitted(LoginSubmit event,Emitter<LoginState> emit) async {
@@ -42,18 +44,12 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
       try{
 
-        final user = await _authenticationRepository.login(phone: state.phone.value, password: state.password.value);
-
-        debugPrint('object ${user?.token}');
+        final user = await _authenticationRepository.login(email: state.email.value, password: state.password.value);
 
         if(user == null){
           emit(state.copyWith(status: FormzStatus.submissionFailure,user: user));
         }else{
-          if(user.user?.isActive  == 0 && user.user?.isVerified  == 0){
-            emit(state.copyWith(status: FormzStatus.submissionCanceled,user: user));
-          }else{
-            emit(state.copyWith(status: FormzStatus.submissionSuccess,user: user));
-          }
+          emit(state.copyWith(status: FormzStatus.submissionSuccess,user: user));
         }
       }catch(_){
         emit(state.copyWith(status: FormzStatus.submissionFailure));

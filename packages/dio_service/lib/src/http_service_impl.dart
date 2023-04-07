@@ -69,7 +69,7 @@ class HttpServiceImpl implements HttpService {
 
 
   @override
-  Future<Response> postRequest(String url, body, {contentType = 'application/json'}) async {
+  Future<Response> postRequest(String url, body, {contentType = 'application/json;charset=UTF-8'}) async {
     Response response;
 
     try {
@@ -77,6 +77,7 @@ class HttpServiceImpl implements HttpService {
           data: body,
           options: Options(headers: {
             "Content-Type": "$contentType",
+            'Charset': 'utf-8',
             "Authorization": "Bearer $token"
           }));
     } on SocketException catch (e) {

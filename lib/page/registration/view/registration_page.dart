@@ -1,12 +1,12 @@
-import 'package:club_application/page/registration/cubit/country_cubit.dart';
-import 'package:club_application/page/registration/view/content/registration_content.dart';
-import 'package:club_application/res/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
+import '../../../res/const.dart';
 import '../bloc/registration_bloc.dart';
+import '../cubit/country_cubit.dart';
 import '../cubit/qualification_cubit.dart';
+import 'content/registration_content.dart';
 
 class RegistrationPage extends StatefulWidget {
   static get route =>

@@ -1,5 +1,6 @@
-import 'package:club_application/page/login/login.dart';
 import 'package:flutter/material.dart';
+
+import '../../page/login/view/login_page.dart';
 
 Future<void> showRegistrationSuccessDialog(
     {required BuildContext context,

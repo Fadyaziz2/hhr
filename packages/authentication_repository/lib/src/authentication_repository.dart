@@ -37,17 +37,13 @@ class AuthenticationRepository{
     yield* _userController.stream;
   }
 
-  Future<LoginData?> login({required String phone,required String password}) async {
+  Future<LoginData?> login({required String email,required String password}) async {
 
-    final user = await apiClient.login(phone: phone, password: password);
+    final user = await apiClient.login(email: email, password: password);
 
     if(user != null){
-      if(user.user?.isVerified == 0 && user.user?.isActive == 0){
-        _controller.add(AuthenticationStatus.unauthenticated);
-      }else{
-        _controller.add(AuthenticationStatus.authenticated);
-        _userController.add(user);
-      }
+      _controller.add(AuthenticationStatus.authenticated);
+      _userController.add(user);
     }else{
       _controller.add(AuthenticationStatus.unauthenticated);
     }

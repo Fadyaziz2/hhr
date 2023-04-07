@@ -1,11 +1,10 @@
-import 'package:club_application/page/authentication/bloc/authentication_bloc.dart';
-import 'package:club_application/page/profile/profile.dart';
-import 'package:club_application/page/profile/view/content/profile_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
 import '../../../res/const.dart';
+import '../../authentication/bloc/authentication_bloc.dart';
+import '../bloc/profile_bloc.dart';
+import 'content/profile_content.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key,this.id}) : super(key: key);
@@ -22,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.token}'))
+      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))
         ..add(ProfileLoadRequest(userId: id!)),
       child: DefaultTabController(
           length: 3,

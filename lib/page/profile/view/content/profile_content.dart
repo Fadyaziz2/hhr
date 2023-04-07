@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:club_application/page/authentication/bloc/authentication_bloc.dart';
-import 'package:club_application/page/profile/profile.dart';
-import 'package:club_application/res/custom_build_profile_details.dart';
-import 'package:club_application/res/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../res/custom_build_profile_details.dart';
+import '../../../../res/enum.dart';
+import '../../../authentication/bloc/authentication_bloc.dart';
+import '../../bloc/profile_bloc.dart';
 
 class ProfileContent extends StatelessWidget {
   const ProfileContent({Key? key}) : super(key: key);

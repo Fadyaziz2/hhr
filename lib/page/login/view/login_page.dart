@@ -1,9 +1,9 @@
-import 'package:club_application/page/login/bloc/login_bloc.dart';
-import 'package:club_application/page/login/view/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import '../../../res/const.dart';
+import '../bloc/login_bloc.dart';
+import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: mainColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocProvider(
           create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),

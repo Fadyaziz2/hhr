@@ -1,11 +1,11 @@
-import 'package:club_application/page/registration/cubit/qualification_cubit.dart';
-import 'package:club_application/page/registration/registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/src/models/body_registration.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import '../../../../res/enum.dart';
+import '../../bloc/registration_bloc.dart';
+import '../../cubit/qualification_cubit.dart';
 import 'registration_content.dart';
 
 class QualificationItem extends StatefulWidget {

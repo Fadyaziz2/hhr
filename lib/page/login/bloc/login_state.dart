@@ -2,25 +2,24 @@ part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
   final FormzStatus status;
-  final Phone phone;
+  final Email email;
   final Password password;
   final LoginData? user;
 
-  const LoginState(
-      {this.status = FormzStatus.pure,
-      this.phone = const Phone.pure(),
+  const LoginState({this.status = FormzStatus.pure,
+      this.email = const Email.pure(),
       this.password = const Password.pure(),
       this.user});
 
   LoginState copyWith(
-      {FormzStatus? status, Phone? phone, Password? password, LoginData? user}) {
+      {FormzStatus? status, Email? phone, Password? password, LoginData? user}) {
     return LoginState(
         status: status ?? this.status,
-        phone: phone ?? this.phone,
+        email: phone ?? email,
         password: password ?? this.password,
         user: user ?? this.user);
   }
 
   @override
-  List<Object?> get props => [status, phone, password,user];
+  List<Object?> get props => [status, email, password,user];
 }

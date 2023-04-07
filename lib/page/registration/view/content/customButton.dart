@@ -1,10 +1,8 @@
-import 'package:club_application/page/registration/bloc/registration_bloc.dart';
-import 'package:club_application/page/registration/view/content/registration_content.dart';
-import 'package:club_application/res/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/registration/view/content/registration_content.dart';
 import '../../../../res/const.dart';
-import '../../../../res/dialogs/custom_dialogs.dart';
+import '../../bloc/registration_bloc.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({Key? key}) : super(key: key);

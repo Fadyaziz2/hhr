@@ -64,13 +64,13 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
       final user = LoginData.fromJson(userJson);
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.authenticated);
       _authenticationRepository.updateUserData(user);
-      if(user.token != null) {
-        _userRepository.tokenVerification(token: user.token ?? '').then((isVerified) {
+      if(user.user != null) {
+        _userRepository.tokenVerification(token: user.user?.token ?? '').then((isVerified) {
           if(isVerified){
             return AuthenticationState.authenticated(user);
           }
           _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
-          _authenticationRepository.updateUserData(LoginData(token: null,user:  null));
+          _authenticationRepository.updateUserData(LoginData(user:  null));
           return const AuthenticationState.unauthenticated();
         });
       }
