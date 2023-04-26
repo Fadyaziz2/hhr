@@ -67,7 +67,7 @@ class _AppViewState extends State<AppView> {
       theme: ThemeData(
        textTheme: GoogleFonts.robotoSerifTextTheme(),
       ),
-      onGenerateRoute: (_) => SplashPage.route(),
+      onGenerateRoute: (_) => SplashScreen.route(),
     );
   }
 }

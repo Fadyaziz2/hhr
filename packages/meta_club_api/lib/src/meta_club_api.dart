@@ -20,6 +20,7 @@ import 'models/content.dart';
 import 'models/directory.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
+import 'models/settings.dart';
 
 class MetaClubApiClient {
   final String token;
@@ -33,14 +34,15 @@ class MetaClubApiClient {
 
   static const _baseUrl = '$_rootUrl/api/V11/';
 
-  Future<LoginData?> login({required String email, required String password}) async {
-
+  Future<LoginData?> login(
+      {required String email, required String password}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password};
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$login', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$login', body);
 
       print('response ${response.data}');
 
@@ -54,12 +56,12 @@ class MetaClubApiClient {
   }
 
   Future<bool> deleteAccount() async {
-
     const String delete = 'delete-account';
 
-    final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$delete');
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$delete');
 
-    if(response?.statusCode == 200){
+    if (response?.statusCode == 200) {
       return true;
     } else {
       return false;
@@ -78,6 +80,21 @@ class MetaClubApiClient {
       return RegistrationData.fromJson(response.data);
     } catch (e) {
       print(e.toString());
+      return null;
+    }
+  }
+
+  Future<Settings?> getSettings() async {
+    const String api = 'app/base-settings';
+
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return Settings.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
       return null;
     }
   }
@@ -157,7 +174,6 @@ class MetaClubApiClient {
   Future<Mores?> mores() async {
     const String api = 'content/list';
     try {
-
       final response = await _httpServiceImpl.getRequest('$_baseUrl$api');
 
       if (response.statusCode != 200) {

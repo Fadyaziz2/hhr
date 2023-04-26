@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../../registration/view/registration_page.dart';
@@ -70,37 +69,6 @@ class LoginForm extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _HeaderWidget extends StatelessWidget {
-  const _HeaderWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.network(
-          'https://upload.wikimedia.org/wikipedia/en/5/5a/Shaheen_College_Logo_Dhaka.png',
-          scale: 3,
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        const Text(
-          'Welcome to club application',
-          style: TextStyle(fontSize: 15.0, color: Colors.white),
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        const Text(
-          'Login',
-          style: TextStyle(
-              fontSize: 27.0, color: Colors.white, fontWeight: FontWeight.bold),
-        )
-      ],
     );
   }
 }

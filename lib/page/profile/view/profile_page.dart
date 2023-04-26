@@ -21,10 +21,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))
-        ..add(ProfileLoadRequest(userId: id!)),
+      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(ProfileLoadRequest(userId: id!)),
       child: DefaultTabController(
-          length: 3,
+          length: 4,
           initialIndex: 0,
           child: Scaffold(
               backgroundColor: Colors.white,
@@ -41,6 +40,9 @@ class ProfileScreen extends StatelessWidget {
                   labelPadding:
                       EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   tabs: [
+                    Text(
+                      "Official",
+                    ),
                     Text(
                       "Personal",
                     ),

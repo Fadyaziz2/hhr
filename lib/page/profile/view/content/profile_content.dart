@@ -212,6 +212,53 @@ class ProfileContent extends StatelessWidget {
                         ],
                       ),
                     ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover,
+                                imageUrl:
+                                '${state.userByIdResponse?.data?.avatar}',
+                                placeholder: (context, url) => Center(
+                                  child: Image.asset(
+                                      "assets/images/placeholder.png"),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          buildProfileDetails(
+                              title: "Emergency Name",
+                              description:
+                              state.userByIdResponse?.data?.emergencyName ??
+                                  "N/A"),
+                          buildProfileDetails(
+                              title: "Emergency Mobile Number",
+                              description: state.userByIdResponse?.data
+                                  ?.emergencyMobileNumber ??
+                                  "N/A"),
+                          buildProfileDetails(
+                              title: "Emergency Mobile Relationship",
+                              description: state.userByIdResponse?.data
+                                  ?.emergencyMobileRelationship ??
+                                  "N/A"),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
