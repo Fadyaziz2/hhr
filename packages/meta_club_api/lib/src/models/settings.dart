@@ -1,5 +1,6 @@
+import 'package:equatable/equatable.dart';
 
-class Settings {
+class Settings extends Equatable{
 
   Settings({
     this.result,
@@ -23,9 +24,12 @@ class Settings {
         "message": message,
         "data": data!.toJson(),
       };
+
+  @override
+  List<Object?> get props => [result,message,data];
 }
 
-class Setting {
+class Setting extends Equatable{
   Setting(
       {this.isIpEnabled,
       this.timeWish,
@@ -86,6 +90,9 @@ class Setting {
         "barikoi_api": barikoiAPI!.toJson(),
         "attendance_method": attendanceMethod,
       };
+
+  @override
+  List<Object?> get props => [isIpEnabled,currencyCode,attendanceMethod,isAdmin,isFaceRegistered];
 }
 
 class DutySchedule {

@@ -14,3 +14,4 @@ dependencies:
     path: ../dio_service
   user_repository:
     path: ../user_repository
+  equatable: ^2.0.3

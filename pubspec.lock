@@ -1075,7 +1075,7 @@ packages:
     source: hosted
     version: "3.0.5"
   user_repository:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/user_repository"
       relative: true
