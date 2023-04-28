@@ -20,6 +20,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+
+
     return BlocProvider(
       create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(ProfileLoadRequest(userId: id!)),
       child: DefaultTabController(
@@ -38,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
                     fontSize: 12,
                   ),
                   labelPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                   tabs: [
                     Text(
                       "Official",

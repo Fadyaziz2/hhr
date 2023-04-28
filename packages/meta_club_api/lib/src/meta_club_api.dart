@@ -2,6 +2,7 @@ library meta_club_api;
 
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/exception.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
@@ -30,7 +31,7 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://hrm.onesttech.com';
+  static const _rootUrl = 'https://hrm.onestweb.com';
 
   static const _baseUrl = '$_rootUrl/api/V11/';
 
@@ -92,6 +93,21 @@ class MetaClubApiClient {
 
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<Profile?> getProfile() async {
+    const String api = 'user/profile-info';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',{});
+
+      if (response.statusCode == 200) {
+        return Profile.fromJson(response.data['data']);
       }
       return null;
     } catch (_) {

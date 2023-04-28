@@ -15,15 +15,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
-            const SizedBox(height: 16.0,),
-            Text(
-              'xShaheen',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: mainColor, fontWeight: FontWeight.bold,fontSize: 24.0),
-            ),
-            const SizedBox(height: 16.0,),
-            const Expanded(child: HomeContent())
+          children: const [
+            SizedBox(height: 16.0,),
+            Expanded(child: HomeContent())
           ],
         ),
       ),

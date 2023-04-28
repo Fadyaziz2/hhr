@@ -65,6 +65,7 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.authenticated);
       _authenticationRepository.updateUserData(user);
       if(user.user != null) {
+        return AuthenticationState.authenticated(user);
         _userRepository.tokenVerification(token: user.user?.token ?? '').then((isVerified) {
           if(isVerified){
             return AuthenticationState.authenticated(user);

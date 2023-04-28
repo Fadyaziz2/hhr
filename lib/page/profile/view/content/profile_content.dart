@@ -18,9 +18,28 @@ class ProfileContent extends StatelessWidget {
         );
       }
       if (state.status == NetworkStatus.success) {
-        if (state.userByIdResponse != null) {
+        if (state.profile != null) {
           return Column(
             children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover,
+                    imageUrl: '${state.profile?.official?.avatar}',
+                    placeholder: (context, url) => Center(
+                      child: Image.asset(
+                          "assets/images/app_icon.png"),
+                    ),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
+                  ),
+                ),
+              ),
               Expanded(
                 child: TabBarView(
                   children: [
@@ -30,229 +49,117 @@ class ProfileContent extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Center(
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                    '${state.userByIdResponse?.data?.avatar}',
-                                placeholder: (context, url) => Center(
-                                  child: Image.asset(
-                                      "assets/images/placeholder.png"),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
+                          buildProfileDetails(
+                              title: "Name",
+                              description:
+                                  state.profile?.official?.name ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Email",
+                              description:
+                                  state.profile?.official?.email ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Designation",
+                              description:
+                                  state.profile?.official?.designation ??
+                                      "N/A"),
+                          buildProfileDetails(
+                              title: "Department",
+                              description:
+                                  state.profile?.official?.department ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Manager",
+                              description:
+                                  state.profile?.official?.designation ??
+                                      "N/A"),
+                          buildProfileDetails(
+                              title: "Date of joinig",
+                              description:
+                                  state.profile?.official?.joiningDate ??
+                                      "N/A"),
+                          buildProfileDetails(
+                            title: "Employee Type",
+                            description:
+                                state.profile?.official?.employeeType ?? "N/A",
                           ),
+                          buildProfileDetails(
+                              title: "Employee ID",
+                              description:
+                                  state.profile?.official?.employeeId ?? "N/A"),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          buildProfileDetails(
+                              title: "Gender",
+                              description: state.profile?.personal?.gender  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Phone",
+                              description: state.profile?.personal?.phone  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Date of Birth",
+                              description: state.profile?.personal?.birthDate  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Address",
+                              description: state.profile?.personal?.address  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Nationality",
+                              description: state.profile?.personal?.nationality  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Passport",
+                              description: state.profile?.personal?.passport  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Blood",
+                              description: state.profile?.personal?.bloodGroup  ?? "N/A"),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          buildProfileDetails(
+                              title: "TIN",
+                              description: state.profile?.financial?.tin  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Bank Name",
+                              description: state.profile?.financial?.bankName  ?? "N/A"),
+                          buildProfileDetails(
+                              title: "Bank Account No",
+                              description: state.profile?.financial?.bankAccount  ?? "N/A"),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
                           const SizedBox(
                             height: 20,
                           ),
                           buildProfileDetails(
                               title: "Name",
-                              description:
-                                  state.userByIdResponse?.data?.name ?? "N/A"),
+                              description: state.profile?.emergency?.name  ?? "N/A"),
                           buildProfileDetails(
-                              title: "Email",
-                              description:
-                                  state.userByIdResponse?.data?.email ?? "N/A"),
+                              title: "Mobile Number",
+                              description: state.profile?.emergency?.mobile  ?? "N/A"),
                           buildProfileDetails(
-                              title: "Father Name",
-                              description:
-                                  state.userByIdResponse?.data?.fatherName ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Mother Name",
-                              description:
-                                  state.userByIdResponse?.data?.motherName ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Gender",
-                              description:
-                                  state.userByIdResponse?.data?.gender ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Phone",
-                              description:
-                                  state.userByIdResponse?.data?.phone ?? "N/A"),
-                          buildProfileDetails(
-                            title: "Date of Birth",
-                            description:
-                                state.userByIdResponse?.data?.birthDate ??
-                                    "N/A",
-                          ),
-                          buildProfileDetails(
-                              title: "Permanent Address",
-                              description: state.userByIdResponse?.data
-                                      ?.permanentAddress ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Nationality",
-                              description:
-                                  state.userByIdResponse?.data?.nationality ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Passport",
-                              description: state
-                                      .userByIdResponse?.data?.passportNumber ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Blood Group",
-                              description:
-                                  state.userByIdResponse?.data?.bloodGroup ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Mailing Address",
-                              description: state
-                                      .userByIdResponse?.data?.mailingAddress ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Organization",
-                              description:
-                                  state.userByIdResponse?.data?.organization ??
-                                      "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                    '${state.userByIdResponse?.data?.avatar}',
-                                placeholder: (context, url) => Center(
-                                  child: Image.asset(
-                                      "assets/images/placeholder.png"),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Tin",
-                              description:
-                                  state.userByIdResponse?.data?.tin ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Bank Name",
-                              description:
-                                  state.userByIdResponse?.data?.bankName ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Bank Account",
-                              description:
-                                  state.userByIdResponse?.data?.bankAccount ??
-                                      "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                    '${state.userByIdResponse?.data?.avatar}',
-                                placeholder: (context, url) => Center(
-                                  child: Image.asset(
-                                      "assets/images/placeholder.png"),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Emergency Name",
-                              description:
-                                  state.userByIdResponse?.data?.emergencyName ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Emergency Mobile Number",
-                              description: state.userByIdResponse?.data
-                                      ?.emergencyMobileNumber ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Emergency Mobile Relationship",
-                              description: state.userByIdResponse?.data
-                                      ?.emergencyMobileRelationship ??
-                                  "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                '${state.userByIdResponse?.data?.avatar}',
-                                placeholder: (context, url) => Center(
-                                  child: Image.asset(
-                                      "assets/images/placeholder.png"),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Emergency Name",
-                              description:
-                              state.userByIdResponse?.data?.emergencyName ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Emergency Mobile Number",
-                              description: state.userByIdResponse?.data
-                                  ?.emergencyMobileNumber ??
-                                  "N/A"),
-                          buildProfileDetails(
-                              title: "Emergency Mobile Relationship",
-                              description: state.userByIdResponse?.data
-                                  ?.emergencyMobileRelationship ??
-                                  "N/A"),
+                              title: "Relationship",
+                              description: state.profile?.emergency?.relationship  ?? "N/A"),
                           const SizedBox(
                             height: 40,
                           ),
@@ -262,25 +169,30 @@ class ProfileContent extends StatelessWidget {
                   ],
                 ),
               ),
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(builder: (context, state) {
-                return  SizedBox(
+              BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (context, state) {
+                return SizedBox(
                   width: double.infinity,
                   height: 45.0,
                   child: ElevatedButton(
                     onPressed: () => showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
-                        content: const Text('Are you sure, you want to delete the account'),
+                        content: const Text(
+                            'Are you sure, you want to delete the account'),
                         actions: [
                           TextButton(
                               onPressed: () => Navigator.of(context).pop(),
                               child: const Text('No')),
                           TextButton(
                               onPressed: () {
-                                BlocProvider.of<ProfileBloc>(context).add(ProfileDeleteRequest());
-                                BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLogoutRequest());
+                                BlocProvider.of<ProfileBloc>(context)
+                                    .add(ProfileDeleteRequest());
+                                BlocProvider.of<AuthenticationBloc>(context)
+                                    .add(AuthenticationLogoutRequest());
                                 Navigator.of(context).pop();
-                              }, child: const Text('Yes')),
+                              },
+                              child: const Text('Yes')),
                         ],
                       ),
                     ),

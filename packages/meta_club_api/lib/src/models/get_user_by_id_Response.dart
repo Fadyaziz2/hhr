@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 GetUserByIdResponse getUserByIdResponseFromJson(String str) =>
@@ -14,12 +13,12 @@ class GetUserByIdResponse {
   });
 
   bool? result;
-  Data? data;
+  UserData? data;
 
   factory GetUserByIdResponse.fromJson(Map<String, dynamic> json) =>
       GetUserByIdResponse(
         result: json["result"],
-        data: Data.fromJson(json["data"]),
+        data: UserData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -28,8 +27,8 @@ class GetUserByIdResponse {
       };
 }
 
-class Data {
-  Data({
+class UserData {
+  UserData({
     this.id,
     this.collegeId,
     this.clubId,
@@ -87,7 +86,7 @@ class Data {
   String? emergencyMobileNumber;
   String? emergencyMobileRelationship;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"],
         collegeId: json["college_id"],
         clubId: json["club_id"],

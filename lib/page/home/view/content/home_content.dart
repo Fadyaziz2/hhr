@@ -109,23 +109,6 @@ class HomeContent extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: GridView.builder(
-                padding: const EdgeInsets.all(0),
-                itemCount: items.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0),
-                itemBuilder: (BuildContext context, int index) {
-                  final data = items[index];
-                  return HomeItem(
-                      name: data.name,
-                      icon: data.icon,
-                      onPressed: () => homeNavigation(data.type, context));
-                }),
-          ),
         ],
       ),
     );

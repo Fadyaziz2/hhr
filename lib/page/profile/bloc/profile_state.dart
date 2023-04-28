@@ -1,19 +1,16 @@
-part of'profile_bloc.dart';
+part of 'profile_bloc.dart';
 
 class ProfileState extends Equatable {
-  final GetUserByIdResponse? userByIdResponse;
+  final Profile? profile;
   final NetworkStatus status;
 
-  const ProfileState(
-      {this.userByIdResponse, this.status = NetworkStatus.initial});
+  const ProfileState({this.profile, this.status = NetworkStatus.initial});
 
-  ProfileState copyWith(
-      {GetUserByIdResponse? userByIdResponse, NetworkStatus? status}) {
+  ProfileState copyWith({Profile? profile, NetworkStatus? status}) {
     return ProfileState(
-        userByIdResponse: userByIdResponse ?? this.userByIdResponse,
-        status: status ?? this.status);
+        profile: profile ?? this.profile, status: status ?? this.status);
   }
 
   @override
-  List<Object?> get props => [userByIdResponse, status];
+  List<Object?> get props => [profile, status];
 }

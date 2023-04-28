@@ -10,10 +10,14 @@ class Profile extends Equatable {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      official: json['official'],
-      personal: json['personal'],
-      financial: json['financial'],
-      emergency: json['emergency'],
+      official: json['official'] != null ? Official.fromJson(json['official']) : null,
+      personal: json['personal'] != null ? Personal.fromJson(json['personal']) : null,
+      financial: json['financial'] != null
+          ? Financial.fromJson(json['financial'])
+          : null,
+      emergency: json['emergency'] != null
+          ? Emergency.fromJson(json['emergency'])
+          : null,
     );
   }
 

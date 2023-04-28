@@ -8,9 +8,9 @@ class Settings extends Equatable{
     this.data,
   });
 
-  bool? result;
-  String? message;
-  Setting? data;
+  final bool? result;
+  final String? message;
+  final Setting? data;
 
   factory Settings.fromJson(Map<String, dynamic> json) =>
       Settings(
@@ -46,20 +46,20 @@ class Setting extends Equatable{
       this.barikoiAPI,
       this.attendanceMethod});
 
-  bool? isIpEnabled;
-  bool? isHr;
-  bool? isAdmin;
-  bool? isFaceRegistered;
-  bool? multiCheckIn;
-  bool? locationService;
-  TimeWish? timeWish;
-  BarikoiAPI? barikoiAPI;
-  String? timeZone;
-  String? currencyCode;
-  String? attendanceMethod;
-  DutySchedule? dutySchedule;
-  BreakStatus? breakStatus;
-  LiveTracking? liveTracking;
+  final bool? isIpEnabled;
+  final bool? isHr;
+  final bool? isAdmin;
+  final bool? isFaceRegistered;
+  final bool? multiCheckIn;
+  final bool? locationService;
+  final TimeWish? timeWish;
+  final BarikoiAPI? barikoiAPI;
+  final String? timeZone;
+  final String? currencyCode;
+  final String? attendanceMethod;
+  final DutySchedule? dutySchedule;
+  final BreakStatus? breakStatus;
+  final LiveTracking? liveTracking;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
       isHr: json["is_hr"],
