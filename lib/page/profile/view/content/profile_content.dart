@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/profile/view/content/emergency_profile_content.dart';
+import 'package:onesthrm/page/profile/view/content/finalcial_profile_content.dart';
+import 'package:onesthrm/page/profile/view/content/personal_profile_content.dart';
 import '../../../../res/custom_build_profile_details.dart';
 import '../../../../res/enum.dart';
+import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/profile_bloc.dart';
+import 'official_profile_content.dart';
 
 class ProfileContent extends StatelessWidget {
   const ProfileContent({Key? key}) : super(key: key);
@@ -32,140 +37,24 @@ class ProfileContent extends StatelessWidget {
                     fit: BoxFit.cover,
                     imageUrl: '${state.profile?.official?.avatar}',
                     placeholder: (context, url) => Center(
-                      child: Image.asset(
-                          "assets/images/app_icon.png"),
+                      child: Image.asset("assets/images/app_icon.png"),
                     ),
                     errorWidget: (context, url, error) =>
-                    const Icon(Icons.error),
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
               Expanded(
                 child: TabBarView(
                   children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Name",
-                              description:
-                                  state.profile?.official?.name ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Email",
-                              description:
-                                  state.profile?.official?.email ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Designation",
-                              description:
-                                  state.profile?.official?.designation ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Department",
-                              description:
-                                  state.profile?.official?.department ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Manager",
-                              description:
-                                  state.profile?.official?.designation ??
-                                      "N/A"),
-                          buildProfileDetails(
-                              title: "Date of joinig",
-                              description:
-                                  state.profile?.official?.joiningDate ??
-                                      "N/A"),
-                          buildProfileDetails(
-                            title: "Employee Type",
-                            description:
-                                state.profile?.official?.employeeType ?? "N/A",
-                          ),
-                          buildProfileDetails(
-                              title: "Employee ID",
-                              description:
-                                  state.profile?.official?.employeeId ?? "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Gender",
-                              description: state.profile?.personal?.gender  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Phone",
-                              description: state.profile?.personal?.phone  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Date of Birth",
-                              description: state.profile?.personal?.birthDate  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Address",
-                              description: state.profile?.personal?.address  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Nationality",
-                              description: state.profile?.personal?.nationality  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Passport",
-                              description: state.profile?.personal?.passport  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Blood",
-                              description: state.profile?.personal?.bloodGroup  ?? "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "TIN",
-                              description: state.profile?.financial?.tin  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Bank Name",
-                              description: state.profile?.financial?.bankName  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Bank Account No",
-                              description: state.profile?.financial?.bankAccount  ?? "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildProfileDetails(
-                              title: "Name",
-                              description: state.profile?.emergency?.name  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Mobile Number",
-                              description: state.profile?.emergency?.mobile  ?? "N/A"),
-                          buildProfileDetails(
-                              title: "Relationship",
-                              description: state.profile?.emergency?.relationship  ?? "N/A"),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ),
+                    state.profile?.official != null ?
+                      OfficialProfileContent(official: state.profile!.official!) : const SizedBox.shrink(),
+                    state.profile?.personal != null ?
+                      PersonalProfileContent(personal: state.profile!.personal!) : const SizedBox.shrink(),
+                    state.profile?.financial != null ?
+                      FinancialProfileContent(financial: state.profile!.financial!) : const SizedBox.shrink(),
+                    state.profile?.emergency != null ?
+                      EmergencyProfileContent(emergency: state.profile!.emergency!) : const SizedBox.shrink(),
                   ],
                 ),
               ),

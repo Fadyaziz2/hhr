@@ -19,8 +19,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
 
+    final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
       create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(ProfileLoadRequest(userId: id!)),
