@@ -27,7 +27,7 @@ class HttpServiceImpl implements HttpService {
       throw FormatException(e.message);
     } on DioError catch (e) {
       if(e.response?.statusCode == 401){
-        debugPrint('you are unauth');
+        debugPrint('unAuthentication');
       }
       debugPrint(e.message);
       throw Exception(e.message);

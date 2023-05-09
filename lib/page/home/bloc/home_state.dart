@@ -10,8 +10,8 @@ class HomeState extends Equatable{
 
   const HomeState({this.settings,this.status = NetworkStatus.initial});
 
-  HomeState copy({BuildContext? context, Settings? settings}) {
-    return HomeState(settings: settings ?? this.settings);
+  HomeState copy({BuildContext? context, Settings? settings,NetworkStatus? status}) {
+    return HomeState(settings: settings ?? this.settings,status: status ?? this.status);
   }
 
   @override

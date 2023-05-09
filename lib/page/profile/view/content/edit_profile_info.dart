@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
+import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
-import '../../bloc/profile_bloc.dart';
+import 'custom_text_field_with_title.dart';
 
 class EditProfileInfo extends StatelessWidget {
   final String? pageName;
+  final Settings? settings;
 
-  const EditProfileInfo({Key? key, required this.pageName}) : super(key: key);
+  const EditProfileInfo({Key? key, required this.pageName,required this.settings}) : super(key: key);
 
-  static Route route({required String pageName}) =>
-      MaterialPageRoute(builder: (_) => EditProfileInfo(pageName: pageName));
+  static Route route({required String pageName,required Settings? settings}) =>
+      MaterialPageRoute(builder: (_) => EditProfileInfo(pageName: pageName,settings: settings,));
 
   @override
   Widget build(BuildContext context) {
@@ -29,171 +30,33 @@ class EditProfileInfo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Name',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+              CustomTextField(
+                title: 'Name',
+                value: '${user?.user?.name}',
+                onData: (data) {
+
+                },
               ),
               const SizedBox(
-                height: 10,
+                height: 16.0,
               ),
-               TextField(
-                style: const TextStyle(fontSize: 14),
-                keyboardType: TextInputType.name,
-                controller: TextEditingController(text: '${user?.user?.name}'),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
-                  hintText: 'Enter Name',
-                  hintStyle: TextStyle(fontSize: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                ),
+              CustomTextField(
+                title: 'email*',
+                value: '${user?.user?.email}',
+                onData: (data) {
+
+                },
               ),
               const SizedBox(
-                height: 20,
+                height: 16.0,
               ),
-              const Text(
-                'email*',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
+              ProfileDropDown(items: settings?.data?.departments ?? [],title: 'Department',),
               const SizedBox(
-                height: 10,
+                height: 16.0,
               ),
-              const TextField(
-                style: TextStyle(fontSize: 14),
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
-                  hintText: 'Enter Email',
-                  hintStyle: TextStyle(fontSize: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                ),
-              ),
+              ProfileDropDown(items: settings?.data?.designations ?? [],title: 'Designation'),
               const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Department',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.grey, spreadRadius: 1),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text(
-                        'Select Department',
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      ),
-                      Spacer(),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Designation',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.grey, spreadRadius: 1),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text(
-                        'Select Department',
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      ),
-                      Spacer(),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'manager*',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.grey, spreadRadius: 1),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text(
-                        'Select Manager',
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      ),
-                      Spacer(),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
+                height: 16.0,
               ),
               const Text(
                 'Date Of Joining',
@@ -226,58 +89,11 @@ class EditProfileInfo extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 16.0,
               ),
-              const Text(
-                'Employee Type',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
+              SimpleDropDown(items: settings?.data?.employeeTypes ?? [],title: 'Employee Type',),
               const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(color: Colors.grey, spreadRadius: 1),
-                  ],
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    hint: const Text(
-                      'Enter Employee Type',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    value: 'Permanent',
-                    icon: const Icon(
-                      Icons.arrow_downward,
-                      size: 20,
-                    ),
-                    iconSize: 24,
-                    elevation: 16,
-                    onChanged: (String? newValue) {},
-                    items: ['Permanent', 'Contact']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
+                height: 16.0,
               ),
               const Text(
                 'Employee Id',

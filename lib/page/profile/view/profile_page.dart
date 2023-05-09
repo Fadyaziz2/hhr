@@ -3,16 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
+import '../../home/bloc/home_bloc.dart';
 import '../bloc/profile_bloc.dart';
 import 'content/profile_content.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key,this.id}) : super(key: key);
+  const ProfileScreen({Key? key,this.id,this.settings}) : super(key: key);
   final int? id;
+  final Settings? settings;
 
-  static Route route(int? userId) => MaterialPageRoute(
+  static Route route(int? userId,Settings? settings) => MaterialPageRoute(
       builder: (_) => ProfileScreen(
         id: userId,
+        settings: settings,
       ));
 
 
@@ -59,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                 automaticallyImplyLeading: true,
                 centerTitle: false,
               ),
-              body: const ProfileContent())),
+              body: ProfileContent(settings: settings,))),
     );
   }
 }

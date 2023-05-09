@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'authentication_event.dart';
@@ -41,7 +40,10 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
 
   _onAuthenticationUserChanged(AuthenticationUserChanged event,Emitter<AuthenticationState> emit) async {
     debugPrint('event.data.toJson()${event.data.toJson()}');
-    return emit(AuthenticationState.authenticated(event.data));
+    if(event.data.user != null){
+      return emit(AuthenticationState.authenticated(event.data));
+    }
+    return emit(const AuthenticationState.unauthenticated());
   }
 
   _onAuthenticationLogoutRequest(AuthenticationLogoutRequest event,Emitter<AuthenticationState> emit) async {
@@ -65,8 +67,8 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.authenticated);
       _authenticationRepository.updateUserData(user);
       if(user.user != null) {
-        return AuthenticationState.authenticated(user);
-        _userRepository.tokenVerification(token: user.user?.token ?? '').then((isVerified) {
+        ///verify token at startup
+        _userRepository.tokenVerification(token: '${user.user?.token}' ?? '').then((isVerified) {
           if(isVerified){
             return AuthenticationState.authenticated(user);
           }

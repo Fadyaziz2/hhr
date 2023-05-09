@@ -53,17 +53,6 @@ class LoginForm extends StatelessWidget {
                 ),
                 const _LoginButton(),
                 const SizedBox(height: 16,),
-                SizedBox(
-                  width: double.infinity,
-                  height: 45.0,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(RegistrationPage.route);
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
-                    child: const Text('Registration'),
-                  ),
-                )
               ],
             ),
           ),

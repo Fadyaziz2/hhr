@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/emergency_profile_content.dart';
 import 'package:onesthrm/page/profile/view/content/finalcial_profile_content.dart';
 import 'package:onesthrm/page/profile/view/content/personal_profile_content.dart';
@@ -8,14 +9,19 @@ import '../../../../res/custom_build_profile_details.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
+import '../../../home/bloc/home_bloc.dart';
 import '../../bloc/profile_bloc.dart';
 import 'official_profile_content.dart';
 
 class ProfileContent extends StatelessWidget {
-  const ProfileContent({Key? key}) : super(key: key);
+
+  final Settings? settings;
+
+  const ProfileContent({Key? key, required this.settings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
         return const Center(
@@ -48,7 +54,7 @@ class ProfileContent extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     state.profile?.official != null ?
-                      OfficialProfileContent(official: state.profile!.official!) : const SizedBox.shrink(),
+                      OfficialProfileContent(official: state.profile!.official!,settings: settings,) : const SizedBox.shrink(),
                     state.profile?.personal != null ?
                       PersonalProfileContent(personal: state.profile!.personal!) : const SizedBox.shrink(),
                     state.profile?.financial != null ?

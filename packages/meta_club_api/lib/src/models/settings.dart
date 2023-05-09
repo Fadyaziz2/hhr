@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Settings extends Equatable{
-
+class Settings extends Equatable {
   Settings({
     this.result,
     this.message,
@@ -12,24 +11,17 @@ class Settings extends Equatable{
   final String? message;
   final Setting? data;
 
-  factory Settings.fromJson(Map<String, dynamic> json) =>
-      Settings(
+  factory Settings.fromJson(Map<String, dynamic> json) => Settings(
         result: json["result"],
         message: json["message"],
         data: Setting.fromJson(json["data"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "result": result,
-        "message": message,
-        "data": data!.toJson(),
-      };
-
   @override
-  List<Object?> get props => [result,message,data];
+  List<Object?> get props => [result, message, data];
 }
 
-class Setting extends Equatable{
+class Setting extends Equatable {
   Setting(
       {this.isIpEnabled,
       this.timeWish,
@@ -44,7 +36,10 @@ class Setting extends Equatable{
       this.locationService,
       this.liveTracking,
       this.barikoiAPI,
-      this.attendanceMethod});
+      this.attendanceMethod,
+      this.departments = const [],
+      this.designations = const [],
+      this.employeeTypes = const []});
 
   final bool? isIpEnabled;
   final bool? isHr;
@@ -60,6 +55,9 @@ class Setting extends Equatable{
   final DutySchedule? dutySchedule;
   final BreakStatus? breakStatus;
   final LiveTracking? liveTracking;
+  final List<Department> departments;
+  final List<Department> designations;
+  final List<String> employeeTypes;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
       isHr: json["is_hr"],
@@ -77,22 +75,20 @@ class Setting extends Equatable{
       attendanceMethod: json["attendance_method"],
       dutySchedule: DutySchedule.fromJson(json['duty_schedule']),
       breakStatus: BreakStatus.fromJson(json["break_status"]),
-      liveTracking: LiveTracking.fromJson(json["live_tracking"]));
-
-  Map<String, dynamic> toJson() => {
-        "is_ip_enabled": isIpEnabled,
-        "time_wish": timeWish!.toJson(),
-        "time_zone": timeZone,
-        "currency_code": currencyCode,
-        "duty_schedule": dutySchedule!.toJson(),
-        "break_status": breakStatus!.toJson(),
-        "live_tracking": liveTracking!.toJson(),
-        "barikoi_api": barikoiAPI!.toJson(),
-        "attendance_method": attendanceMethod,
-      };
+      liveTracking: LiveTracking.fromJson(json["live_tracking"]),
+      departments: json["departments"] != null
+          ? List<Department>.from(
+              (json["departments"] as List).map((e) => Department.fromJson(e)))
+          : [],
+      designations: json["designations"] != null
+          ? List<Department>.from(
+              (json["designations"] as List).map((e) => Department.fromJson(e)))
+          : [],
+      employeeTypes: List<String>.from(json["employee_types"]));
 
   @override
-  List<Object?> get props => [isIpEnabled,currencyCode,attendanceMethod,isAdmin,isFaceRegistered];
+  List<Object?> get props =>
+      [isIpEnabled, currencyCode, attendanceMethod, isAdmin, isFaceRegistered];
 }
 
 class DutySchedule {
@@ -229,4 +225,15 @@ class BarikoiAPI {
         "endpoint": endPoint,
         "status_id": statusId,
       };
+}
+
+class Department {
+  final int? id;
+  final String? title;
+
+  Department({this.id, this.title});
+
+  factory Department.fromJson(Map<String, dynamic> json) {
+    return Department(id: json['id'], title: json['title']);
+  }
 }

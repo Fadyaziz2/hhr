@@ -7,8 +7,9 @@ import '../../../../res/widgets/custom_button_widget1.dart';
 class OfficialProfileContent extends StatelessWidget {
 
   final Official official;
+  final Settings? settings;
 
-  const OfficialProfileContent({Key? key,required this.official}) : super(key: key);
+  const OfficialProfileContent({Key? key,required this.official,required this.settings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class OfficialProfileContent extends StatelessWidget {
             height: 16.0,
           ),
           CustomButton1(onTap: () {
-            Navigator.of(context).push(EditProfileInfo.route(pageName: 'official'));
+            Navigator.of(context).push(EditProfileInfo.route(pageName: 'official',settings: settings));
           }, text: 'Edit Official Info',),
           const SizedBox(
             height: 24.0,

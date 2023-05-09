@@ -5,9 +5,9 @@ abstract class HomeEvent extends Equatable{
   List<Object?> get props => [];
 }
 
-abstract class LoadSettings extends HomeEvent{}
+ class LoadSettings extends HomeEvent{}
 
-abstract class OnHomeRefresh extends HomeEvent{
+ class OnHomeRefresh extends HomeEvent{
 
 }
 

@@ -9,9 +9,9 @@ class UserRepository {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://hrm.onesttech.com';
+  static const _rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$_rootUrl/api/v1/';
+  static const _baseUrl = '$_rootUrl/api/V11/';
 
   Future<LoginData?> getUser(
       {required String email, required String password}) async {
@@ -48,7 +48,7 @@ class UserRepository {
   }
 
   Future<bool> tokenVerification({required String token}) async {
-    String api = 'token-alive/$token';
+    String api = 'user/token-alive/$token';
 
     try {
       final response = await _httpServiceImpl.getRequest('$_baseUrl$api');
@@ -56,7 +56,7 @@ class UserRepository {
         return false;
       }
       return true;
-    } catch (_) {
+    } catch (e) {
       return false;
     }
   }
