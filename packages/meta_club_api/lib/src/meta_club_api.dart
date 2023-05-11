@@ -89,7 +89,8 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
@@ -104,7 +105,7 @@ class MetaClubApiClient {
     const String api = 'user/profile-info';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',{});
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', {});
 
       if (response.statusCode == 200) {
         return Profile.fromJson(response.data['data']);
@@ -112,6 +113,22 @@ class MetaClubApiClient {
       return null;
     } catch (_) {
       return null;
+    }
+  }
+
+  Future<bool> updateProfile({required String slag, required data}) async {
+    String api = '/user/profile/update/$slag';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 
