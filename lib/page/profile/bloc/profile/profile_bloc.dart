@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/enum.dart';
+import '../../../../res/enum.dart';
 
 part 'profile_event.dart';
 
@@ -14,6 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       : super(const ProfileState(status: NetworkStatus.initial)) {
     on<ProfileLoadRequest>(_onProfileDataRequest);
     on<ProfileDeleteRequest>(_onAuthenticationDeleteRequest);
+    on<ProfileUpdate>(_onProfileUpdateRequest);
   }
 
   void _onProfileDataRequest(
@@ -23,6 +24,23 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final profile = await metaClubApiClient.getProfile();
       emit(ProfileState(status: NetworkStatus.success, profile: profile));
     } catch (e) {
+      emit(const ProfileState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  _onProfileUpdateRequest(ProfileUpdate event, Emitter<ProfileState> emit) async {
+
+    emit(const ProfileState(status: NetworkStatus.loading));
+
+    try{
+      final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
+      if(success){
+        add(ProfileLoadRequest());
+      }else{
+        emit(const ProfileState(status: NetworkStatus.failure));
+      }
+    }catch(e){
       emit(const ProfileState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }

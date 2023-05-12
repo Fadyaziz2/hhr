@@ -4,9 +4,11 @@ import 'package:meta_club_api/meta_club_api.dart';
 class ProfileDropDown extends StatelessWidget {
 
   final List<Department> items;
+  final Department? item;
   final String title;
+  final Function(Department?) onChange;
 
-  const ProfileDropDown({Key? key,required this.items,required this.title}) : super(key: key);
+  const ProfileDropDown({Key? key,required this.items,required this.title,required this.onChange, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +41,14 @@ class ProfileDropDown extends StatelessWidget {
                 title,
                 style: const TextStyle(fontSize: 14),
               ),
-              value: items.first,
-
+              value: item,
               icon: const Icon(
                 Icons.keyboard_arrow_down,
                 size: 20,
               ),
               iconSize: 24,
               elevation: 16,
-              onChanged: (Department? dept) {
-
-              },
-
+              onChanged: onChange,
               items: items.map<DropdownMenuItem<Department>>((Department value) {
                 return DropdownMenuItem<Department>(
                   value: value,

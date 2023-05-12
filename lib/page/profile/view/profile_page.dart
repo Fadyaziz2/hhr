@@ -4,7 +4,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
-import '../bloc/profile_bloc.dart';
+import '../bloc/profile/profile_bloc.dart';
 import 'content/profile_content.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(ProfileLoadRequest(userId: id!)),
+      create: (_) => ProfileBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(ProfileLoadRequest()),
       child: DefaultTabController(
           length: 4,
           initialIndex: 0,

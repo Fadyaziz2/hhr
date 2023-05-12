@@ -50,12 +50,6 @@ class OfficialProfileContent extends StatelessWidget {
               title: "Employee ID",
               description:official.employeeId ?? "N/A"),
           const SizedBox(
-            height: 16.0,
-          ),
-          CustomButton1(onTap: () {
-            Navigator.of(context).push(EditProfileInfo.route(pageName: 'official',settings: settings));
-          }, text: 'Edit Official Info',),
-          const SizedBox(
             height: 24.0,
           ),
         ],

@@ -10,18 +10,17 @@ import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../../home/bloc/home_bloc.dart';
-import '../../bloc/profile_bloc.dart';
+import '../../bloc/profile/profile_bloc.dart';
+import 'edit_profile_info.dart';
 import 'official_profile_content.dart';
 
 class ProfileContent extends StatelessWidget {
-
   final Settings? settings;
 
   const ProfileContent({Key? key, required this.settings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
         return const Center(
@@ -53,47 +52,77 @@ class ProfileContent extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    state.profile?.official != null ?
-                      OfficialProfileContent(official: state.profile!.official!,settings: settings,) : const SizedBox.shrink(),
-                    state.profile?.personal != null ?
-                      PersonalProfileContent(personal: state.profile!.personal!) : const SizedBox.shrink(),
-                    state.profile?.financial != null ?
-                      FinancialProfileContent(financial: state.profile!.financial!) : const SizedBox.shrink(),
-                    state.profile?.emergency != null ?
-                      EmergencyProfileContent(emergency: state.profile!.emergency!) : const SizedBox.shrink(),
+                    state.profile?.official != null
+                        ? OfficialProfileContent(
+                            official: state.profile!.official!,
+                            settings: settings,
+                          )
+                        : const SizedBox.shrink(),
+                    state.profile?.personal != null
+                        ? PersonalProfileContent(
+                            personal: state.profile!.personal!)
+                        : const SizedBox.shrink(),
+                    state.profile?.financial != null
+                        ? FinancialProfileContent(
+                            financial: state.profile!.financial!)
+                        : const SizedBox.shrink(),
+                    state.profile?.emergency != null
+                        ? EmergencyProfileContent(
+                            emergency: state.profile!.emergency!)
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
+              CustomButton1(
+                onTap: () {
+                  Navigator.of(context).push(
+                      EditProfileInfo.route(
+                      onSave: () {
+                        print('profile data update');
+                      },
+                      pageName: 'official',
+                      settings: settings,
+                      profile: state.profile));
+                },
+                text: 'Edit Official Info',
+                radius: 4,
+              ),
+              const SizedBox(
+                height: 16.0,
+              ),
               BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (context, state) {
-                return SizedBox(
-                  width: double.infinity,
-                  height: 45.0,
-                  child: ElevatedButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        content: const Text(
-                            'Are you sure, you want to delete the account'),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('No')),
-                          TextButton(
-                              onPressed: () {
-                                BlocProvider.of<ProfileBloc>(context)
-                                    .add(ProfileDeleteRequest());
-                                BlocProvider.of<AuthenticationBloc>(context)
-                                    .add(AuthenticationLogoutRequest());
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Yes')),
-                        ],
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 45.0,
+                    child: ElevatedButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          content: const Text(
+                              'Are you sure, you want to delete the account'),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('No')),
+                            TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<ProfileBloc>(context)
+                                      .add(ProfileDeleteRequest());
+                                  BlocProvider.of<AuthenticationBloc>(context)
+                                      .add(AuthenticationLogoutRequest());
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Yes')),
+                          ],
+                        ),
                       ),
+                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      child: const Text('Delete Account',
+                          style: TextStyle(fontSize: 16)),
                     ),
-                    style: ElevatedButton.styleFrom(primary: Colors.red),
-                    child: const Text('Delete Account',
-                        style: TextStyle(fontSize: 16)),
                   ),
                 );
               })

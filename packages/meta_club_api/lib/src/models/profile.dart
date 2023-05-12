@@ -10,8 +10,10 @@ class Profile extends Equatable {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      official: json['official'] != null ? Official.fromJson(json['official']) : null,
-      personal: json['personal'] != null ? Personal.fromJson(json['personal']) : null,
+      official:
+          json['official'] != null ? Official.fromJson(json['official']) : null,
+      personal:
+          json['personal'] != null ? Personal.fromJson(json['personal']) : null,
       financial: json['financial'] != null
           ? Financial.fromJson(json['financial'])
           : null,
@@ -69,6 +71,21 @@ class Official extends Equatable {
         employeeId: json['employee_id']);
   }
 
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'address': phone,
+        'avatar': avatar,
+        'department_id': address,
+        'department': department,
+        'designation': designation,
+        'designation_id': designationId,
+        'joining_date': joiningDate,
+        'employee_type': employeeType,
+        'employee_id': employeeId
+      };
+
   @override
   List<Object?> get props => [name, email, phone];
 }
@@ -120,6 +137,22 @@ class Personal extends Equatable {
         bloodGroup: json['blood_group']);
   }
 
+  Map<String, dynamic> toJson() => {
+        'department': department,
+        'name': name,
+        'gender': gender,
+        'tin': tin,
+        'avatar': avatar,
+        'phone': phone,
+        'birth_date': birthDate,
+        'address': address,
+        'nationality': nationality,
+        'nid_card_number': nid,
+        'passport_number': passport,
+        'marital_status': maritalStatus,
+        'blood_group': bloodGroup
+      };
+
   @override
   List<Object?> get props => [name, nid, phone, tin];
 }
@@ -136,9 +169,16 @@ class Financial extends Equatable {
     return Financial(
         tin: json['tin'],
         bankAccount: json['bank_account'],
-        bankName: json['bank_account'],
+        bankName: json['bank_name'],
         avatar: json['avatar']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'tin': tin,
+        'bank_account': bankAccount,
+        'bank_name': bankName,
+        'avatar': avatar
+      };
 
   @override
   List<Object?> get props => [tin, bankAccount, bankName];
@@ -159,6 +199,13 @@ class Emergency extends Equatable {
         relationship: json['emergency_mobile_relationship'],
         avatar: json['avatar']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'emergency_name': name,
+        'emergency_mobile_number': mobile,
+        'emergency_mobile_relationship': relationship,
+        'avatar': avatar
+      };
 
   @override
   List<Object?> get props => [name, mobile, relationship];
