@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/profile/bloc/profile/profile_bloc.dart';
 import 'package:onesthrm/page/profile/bloc/update/update_profile_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
@@ -10,27 +11,27 @@ class EditProfileInfo extends StatelessWidget {
   final String? pageName;
   final Settings? settings;
   final Profile? profile;
-  final VoidCallback onSave;
+  final Bloc profileBloc;
 
   const EditProfileInfo(
       {Key? key,
       required this.pageName,
       required this.settings,
       required this.profile,
-      required this.onSave})
+      required this.profileBloc})
       : super(key: key);
 
   static Route route(
           {required String pageName,
           required Settings? settings,
           required Profile? profile,
-          required VoidCallback onSave}) =>
+          required ProfileBloc bloc}) =>
       MaterialPageRoute(
           builder: (context) => EditProfileInfo(
                 pageName: pageName,
                 settings: settings,
                 profile: profile,
-                onSave: onSave,
+                profileBloc: bloc,
               ));
 
   @override
@@ -50,7 +51,8 @@ class EditProfileInfo extends StatelessWidget {
         body: BlocListener<UpdateProfileBloc, UpdateProfileState>(
           listener: (context, state) {
             if(state.status == NetworkStatus.success){
-
+              profileBloc.add(ProfileLoadRequest());
+              Navigator.of(context).pop();
             }
             if(state.status == NetworkStatus.failure){
 
@@ -63,7 +65,7 @@ class EditProfileInfo extends StatelessWidget {
             pageName: pageName,
             settings: settings,
             profile: profile,
-            onSave: onSave,
+            bloc: profileBloc,
           ),
         ),
       ),

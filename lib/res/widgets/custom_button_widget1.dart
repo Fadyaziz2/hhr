@@ -7,6 +7,7 @@ class CustomButton1 extends StatelessWidget {
   final Color textColor;
   final double textSize;
   final FontWeight fontWeight;
+  final bool asyncCall;
 
   const CustomButton1(
       {Key? key,
@@ -15,6 +16,7 @@ class CustomButton1 extends StatelessWidget {
       this.radius = 8.0,
       this.textColor = Colors.white,
       this.fontWeight = FontWeight.bold,
+      this.asyncCall = false,
       this.textSize = 16.0})
       : super(key: key);
 
@@ -25,7 +27,7 @@ class CustomButton1 extends StatelessWidget {
       height: 50.0,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: asyncCall ? null : onTap,
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -33,12 +35,16 @@ class CustomButton1 extends StatelessWidget {
             ),
           ),
         ),
-        child: Text(text,
-            style: TextStyle(
-              color: textColor,
-              fontWeight: fontWeight,
-              fontSize: textSize,
-            )),
+        child: asyncCall
+            ?  Center(
+                child: CircularProgressIndicator(color: textColor,),
+              )
+            : Text(text,
+                style: TextStyle(
+                  color: textColor,
+                  fontWeight: fontWeight,
+                  fontSize: textSize,
+                )),
       ),
     );
   }

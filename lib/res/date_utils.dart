@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 String getDateAsString({required DateTime dateTime,String format = 'MM-dd-yyyy'}) {
@@ -6,11 +7,14 @@ String getDateAsString({required DateTime dateTime,String format = 'MM-dd-yyyy'}
       .toString();
 }
 
-DateTime? getFormattedDateTime({required String? date,String format = 'MM-dd-yyyy'}) {
+DateTime? getFormattedDateTime({required String date,String format = 'MM-dd-yyyy'}) {
 
-  DateFormat formatter = DateFormat(format,'en');
-
-  return date != null ? formatter.parse(date) : null;
+  try{
+    DateFormat formatter = DateFormat(format);
+    return date != 'N/A' ? formatter.parse(date) : null;
+  } on FormatException catch(e){
+    debugPrint(e.toString());
+  }
 }
 
 String? getDateddMMMyyyyString({DateTime? dateTime}) {

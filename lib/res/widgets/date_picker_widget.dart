@@ -7,7 +7,7 @@ class CustomDatePicker extends StatelessWidget {
   final DateTime? initialDate;
   final Function(DateTime) onDatePicked;
 
-  const CustomDatePicker({Key? key,required this.label,required this.onDatePicked,required this.initialDate}) : super(key: key);
+  const CustomDatePicker({Key? key,required this.label,required this.onDatePicked,this.initialDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class CustomDatePicker extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
-          showCustomDatePicker(context: context, initialDate: initialDate ?? DateTime.now(), onDatePicked: (DateTime dateTime) {
+          showCustomDatePicker(context: context, initialDate: initialDate, onDatePicked: (DateTime dateTime) {
             onDatePicked(dateTime);
           });
         },

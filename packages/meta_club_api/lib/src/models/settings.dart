@@ -227,7 +227,7 @@ class BarikoiAPI {
       };
 }
 
-class Department {
+class Department extends Equatable{
   final int? id;
   final String? title;
 
@@ -236,4 +236,7 @@ class Department {
   factory Department.fromJson(Map<String, dynamic> json) {
     return Department(id: json['id'], title: json['title']);
   }
+
+  @override
+  List<Object?> get props => [id,title];
 }

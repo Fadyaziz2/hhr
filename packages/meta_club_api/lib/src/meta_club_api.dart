@@ -114,6 +114,8 @@ class MetaClubApiClient {
 
     try {
 
+      debugPrint('body: $data');
+
       FormData formData = FormData.fromMap(data);
 
       final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../../page/login/view/login_page.dart';
 
 Future<void> showRegistrationSuccessDialog(
@@ -110,20 +109,11 @@ showCustomDatePicker({required BuildContext context,required Function(DateTime d
                   Navigator.of(context).pop();
                 },
                 onSubmit: (arg) {},
-                // todayHighlightColor: context.primaryColor,
-                // selectionColor: context.primaryColor,
-                // rangeSelectionColor: context.primaryColor.withOpacity(0.1),
-                // startRangeSelectionColor: context.primaryColor,
-                // endRangeSelectionColor: context.primaryColor,
-                maxDate: DateTime.now().add(const Duration(days: 30)),
+                maxDate: DateTime.now().add(const Duration(days: 365)),
                 initialDisplayDate: initialDate ?? DateTime.now(),
                 view: DateRangePickerView.month,
                 selectionMode: DateRangePickerSelectionMode.single,
                 allowViewNavigation: true,
-                // headerStyle: DateRangePickerHeaderStyle(
-                //   textStyle:
-                //   context.getTitleMediumTextStyle(context.primaryColor),
-                // ),
               ),
             ),
           ],

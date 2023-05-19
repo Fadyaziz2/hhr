@@ -77,9 +77,7 @@ class ProfileContent extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                       EditProfileInfo.route(
-                      onSave: () {
-                        print('profile data update');
-                      },
+                      bloc: context.read<ProfileBloc>(),
                       pageName: 'official',
                       settings: settings,
                       profile: state.profile));
