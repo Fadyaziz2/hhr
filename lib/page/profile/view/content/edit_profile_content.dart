@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
 
+import '../../../../res/date_utils.dart';
+import '../../../../res/widgets/date_picker_widget.dart';
 import '../../bloc/update/update_profile_bloc.dart';
 import '../../model/UpdateOfficialData.dart';
 import 'custom_text_field_with_title.dart';
@@ -74,22 +76,12 @@ class _EditProfileContentState extends State<EditProfileContent> {
             ProfileDropDown(
               items: widget.settings?.data?.departments ?? [],
               title: 'Department',
-              item: context.watch<UpdateProfileBloc>().state.department,
+              item: bloc.state.department,
               onChange: (department) {
                 official.departmentId = department?.id;
                 bloc.add(OnDepartmentUpdate(department: department));
               },
             ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            ProfileDropDown(
-                items: widget.settings?.data?.designations ?? [],
-                title: 'Designation',
-                item: widget.settings?.data?.designations.first,
-                onChange: (department) {
-                  official.designationId = department?.id;
-                }),
             const SizedBox(
               height: 16.0,
             ),
@@ -103,33 +95,13 @@ class _EditProfileContentState extends State<EditProfileContent> {
             const SizedBox(
               height: 10,
             ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      'Select joining Date',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Icon(Icons.date_range_outlined)
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            SimpleDropDown(
-              items: widget.settings?.data?.employeeTypes ?? [],
-              title: 'Employee Type',
-            ),
+            CustomDatePicker(label:  getDateddMMMyyyyString(dateTime: bloc.state.dateTime) ?? 'Select Joining Date',initialDate: getFormattedDateTime(date: official.joiningDateDb,format: 'yyyy-MM-dd'),onDatePicked: (DateTime date){
+
+              official.joiningDateDb =  getDateAsString(dateTime:date,format: 'yyyy-MM-dd');
+
+              bloc.add(OnJoiningDateUpdate(date: date));
+
+            },),
             const SizedBox(
               height: 16.0,
             ),
@@ -160,25 +132,12 @@ class _EditProfileContentState extends State<EditProfileContent> {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              'Grade',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 30),
+            SizedBox(
               height: 45,
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  bloc.add(ProfileUpdate(
-                      slug: 'personal', data: official.toJson()));
-                  widget.onSave.call();
+                  bloc.add(ProfileUpdate(slug: 'personal', data: official.toJson()));
                 },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -16,6 +14,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
   UpdateProfileBloc({required this.metaClubApiClient}):super(const UpdateProfileState(status: NetworkStatus.initial)) {
     on<ProfileUpdate>(_onProfileUpdateRequest);
     on<OnDepartmentUpdate>(_onDepartmentUpdate);
+    on<OnJoiningDateUpdate>(_onDateUpdate);
   }
 
   _onProfileUpdateRequest(ProfileUpdate event, Emitter<UpdateProfileState> emit) async {
@@ -33,6 +32,9 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
     }
   }
 
+  void _onDateUpdate(OnJoiningDateUpdate event, Emitter<UpdateProfileState> emit) {
+    emit(state.copyWith(dateTime: event.date));
+  }
 
   void _onDepartmentUpdate(OnDepartmentUpdate event, Emitter<UpdateProfileState> emit) {
       emit(state.copyWith(department: event.department));

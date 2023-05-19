@@ -3,25 +3,18 @@ library meta_club_api;
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:meta_club_api/src/exception.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
-import 'package:meta_club_api/src/models/contact.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
-import 'package:meta_club_api/src/models/get_user_by_id_Response.dart';
 import 'package:meta_club_api/src/models/more.dart';
-import 'package:meta_club_api/src/models/notice.dart';
-import 'package:meta_club_api/src/models/event.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
-import 'package:meta_club_api/src/models/response_user_list.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
 import 'models/content.dart';
-import 'models/directory.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
-import 'models/settings.dart';
+import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
   final String token;
@@ -117,11 +110,13 @@ class MetaClubApiClient {
   }
 
   Future<bool> updateProfile({required String slag, required data}) async {
-    String api = '/user/profile/update/$slag';
+    String api = 'user/profile/update/$slag';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      FormData formData = FormData.fromMap(data);
+
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;

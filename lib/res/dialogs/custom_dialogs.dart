@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../page/login/view/login_page.dart';
 
@@ -83,4 +84,51 @@ void showLoginDialog(
           ],
         );
       });
+}
+
+showCustomDatePicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
+  showModalBottomSheet(
+    context: context,
+    builder: (ctx) {
+      return Container(
+        padding: const EdgeInsets.only(
+          top: 15,
+          bottom: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+              ),
+              child: SfDateRangePicker(
+                onSelectionChanged: (arg) {
+                  onDatePicked(arg.value);
+                  Navigator.of(context).pop();
+                },
+                onSubmit: (arg) {},
+                // todayHighlightColor: context.primaryColor,
+                // selectionColor: context.primaryColor,
+                // rangeSelectionColor: context.primaryColor.withOpacity(0.1),
+                // startRangeSelectionColor: context.primaryColor,
+                // endRangeSelectionColor: context.primaryColor,
+                maxDate: DateTime.now().add(const Duration(days: 30)),
+                initialDisplayDate: initialDate ?? DateTime.now(),
+                view: DateRangePickerView.month,
+                selectionMode: DateRangePickerSelectionMode.single,
+                allowViewNavigation: true,
+                // headerStyle: DateRangePickerHeaderStyle(
+                //   textStyle:
+                //   context.getTitleMediumTextStyle(context.primaryColor),
+                // ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

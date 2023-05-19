@@ -24,3 +24,13 @@ class OnDepartmentUpdate extends UpdateProfileEvent{
   @override
   List<Object?> get props => [department?.id];
 }
+
+class OnJoiningDateUpdate extends UpdateProfileEvent{
+
+  final DateTime date;
+
+  OnJoiningDateUpdate({required this.date});
+
+  @override
+  List<Object?> get props => [date];
+}

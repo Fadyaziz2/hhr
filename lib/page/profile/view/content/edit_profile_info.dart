@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/bloc/update/update_profile_bloc.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import 'edit_profile_content.dart';
 
@@ -47,7 +48,17 @@ class EditProfileInfo extends StatelessWidget {
           title: Text('Update $pageName data'),
         ),
         body: BlocListener<UpdateProfileBloc, UpdateProfileState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if(state.status == NetworkStatus.success){
+
+            }
+            if(state.status == NetworkStatus.failure){
+
+            }
+            if(state.status == NetworkStatus.loading){
+
+            }
+          },
           child: EditProfileContent(
             pageName: pageName,
             settings: settings,

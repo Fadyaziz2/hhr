@@ -36,9 +36,9 @@ class BodyOfficialInfo {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['user_id'] = userId;
     map['name'] = name;
     map['email'] = email;
+    map['phone'] = '01903273865';
     map['department_id'] = departmentId;
     map['designation_id'] = designationId;
     map['joining_date'] = joiningDateDb;
