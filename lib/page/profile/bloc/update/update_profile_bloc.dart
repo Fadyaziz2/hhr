@@ -1,0 +1,40 @@
+import 'dart:async';
+
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import '../../../../res/enum.dart';
+
+part 'update_profile_event.dart';
+
+part 'update_profile_state.dart';
+
+class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
+  final MetaClubApiClient metaClubApiClient;
+  Profile? updateProfile;
+
+  UpdateProfileBloc({required this.metaClubApiClient}):super(const UpdateProfileState(status: NetworkStatus.initial)) {
+    on<ProfileUpdate>(_onProfileUpdateRequest);
+    on<OnDepartmentUpdate>(_onDepartmentUpdate);
+  }
+
+  _onProfileUpdateRequest(ProfileUpdate event, Emitter<UpdateProfileState> emit) async {
+    emit(const UpdateProfileState(status: NetworkStatus.loading));
+    try {
+      final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
+      if (success) {
+        emit(const UpdateProfileState(status: NetworkStatus.success));
+      } else {
+        emit(const UpdateProfileState(status: NetworkStatus.failure));
+      }
+    } catch (e) {
+      emit(const UpdateProfileState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+
+  void _onDepartmentUpdate(OnDepartmentUpdate event, Emitter<UpdateProfileState> emit) {
+      emit(state.copyWith(department: event.department));
+  }
+}
