@@ -15,6 +15,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
     on<ProfileUpdate>(_onProfileUpdateRequest);
     on<OnDepartmentUpdate>(_onDepartmentUpdate);
     on<OnJoiningDateUpdate>(_onDateUpdate);
+    on<OnGenderUpdate>(_onGenderUpdate);
   }
 
   _onProfileUpdateRequest(ProfileUpdate event, Emitter<UpdateProfileState> emit) async {
@@ -34,6 +35,10 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
 
   void _onDateUpdate(OnJoiningDateUpdate event, Emitter<UpdateProfileState> emit) {
     emit(state.copyWith(dateTime: event.date));
+  }
+
+  void _onGenderUpdate(OnGenderUpdate event, Emitter<UpdateProfileState> emit){
+    emit(state.copyWith(gender: event.gender));
   }
 
   void _onDepartmentUpdate(OnDepartmentUpdate event, Emitter<UpdateProfileState> emit) {

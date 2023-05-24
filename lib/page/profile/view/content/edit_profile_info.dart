@@ -7,13 +7,13 @@ import 'package:onesthrm/res/enum.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import 'edit_profile_content.dart';
 
-class EditProfileInfo extends StatelessWidget {
+class EditOfficialInfo extends StatelessWidget {
   final String? pageName;
   final Settings? settings;
   final Profile? profile;
   final Bloc profileBloc;
 
-  const EditProfileInfo(
+  const EditOfficialInfo(
       {Key? key,
       required this.pageName,
       required this.settings,
@@ -27,7 +27,7 @@ class EditProfileInfo extends StatelessWidget {
           required Profile? profile,
           required ProfileBloc bloc}) =>
       MaterialPageRoute(
-          builder: (context) => EditProfileInfo(
+          builder: (context) => EditOfficialInfo(
                 pageName: pageName,
                 settings: settings,
                 profile: profile,

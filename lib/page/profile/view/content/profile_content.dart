@@ -54,13 +54,13 @@ class ProfileContent extends StatelessWidget {
                   children: [
                     state.profile?.official != null
                         ? OfficialProfileContent(
-                            official: state.profile!.official!,
+                            profile: state.profile!,
                             settings: settings,
                           )
                         : const SizedBox.shrink(),
                     state.profile?.personal != null
                         ? PersonalProfileContent(
-                            personal: state.profile!.personal!)
+                            profile: state.profile!,settings: settings,)
                         : const SizedBox.shrink(),
                     state.profile?.financial != null
                         ? FinancialProfileContent(
@@ -72,18 +72,6 @@ class ProfileContent extends StatelessWidget {
                         : const SizedBox.shrink(),
                   ],
                 ),
-              ),
-              CustomButton1(
-                onTap: () {
-                  Navigator.of(context).push(
-                      EditProfileInfo.route(
-                      bloc: context.read<ProfileBloc>(),
-                      pageName: 'official',
-                      settings: settings,
-                      profile: state.profile));
-                },
-                text: 'Edit Official Info',
-                radius: 4,
               ),
               const SizedBox(
                 height: 16.0,

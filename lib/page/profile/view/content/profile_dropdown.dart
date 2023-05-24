@@ -121,7 +121,7 @@ class SimpleDropDown extends StatelessWidget {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
-                    '${value}',
+                    '$value',
                     style: const TextStyle(fontSize: 14),
                   ),
                 );

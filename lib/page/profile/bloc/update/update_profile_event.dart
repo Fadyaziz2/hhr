@@ -34,3 +34,13 @@ class OnJoiningDateUpdate extends UpdateProfileEvent{
   @override
   List<Object?> get props => [date];
 }
+
+class OnGenderUpdate extends UpdateProfileEvent{
+
+  final String gender;
+
+  OnGenderUpdate({required this.gender});
+
+  @override
+  List<Object?> get props => [gender];
+}
