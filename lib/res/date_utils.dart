@@ -24,9 +24,9 @@ String? getDateddMMMyyyyString({DateTime? dateTime}) {
       .toString() : null;
 }
 
-String? getDDMMYYYYAsString({required String date, String outputFormat = 'yyyy-mm-dd'}) {
+String? getDDMMYYYYAsString({required String date, String outputFormat = 'yyyy-mm-dd',String inputFormat = 'dd-mm-yyyy'}) {
   try{
-    DateFormat formatter = DateFormat('dd-mm-yyyy');
+    DateFormat formatter = DateFormat(inputFormat);
     DateFormat outputFormatter = DateFormat(outputFormat);
     return outputFormatter.format(formatter.parse(date));
   } on FormatException catch(e){
