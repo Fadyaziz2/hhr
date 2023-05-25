@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/enum.dart';
@@ -16,6 +17,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
     on<OnDepartmentUpdate>(_onDepartmentUpdate);
     on<OnJoiningDateUpdate>(_onDateUpdate);
     on<OnGenderUpdate>(_onGenderUpdate);
+    on<OnBloodUpdate>(_onBloodUpdate);
   }
 
   _onProfileUpdateRequest(ProfileUpdate event, Emitter<UpdateProfileState> emit) async {
@@ -39,6 +41,10 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
 
   void _onGenderUpdate(OnGenderUpdate event, Emitter<UpdateProfileState> emit){
     emit(state.copyWith(gender: event.gender));
+  }
+
+  void _onBloodUpdate(OnBloodUpdate event, Emitter<UpdateProfileState> emit){
+    emit(state.copyWith(bloodGroup: event.bloodGroup));
   }
 
   void _onDepartmentUpdate(OnDepartmentUpdate event, Emitter<UpdateProfileState> emit) {

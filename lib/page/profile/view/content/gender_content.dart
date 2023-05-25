@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
+import '../../bloc/update/update_profile_bloc.dart';
+import '../../model/UpdateOfficialData.dart';
+
+class GenderRadioContent extends StatelessWidget {
+  final BodyPersonalInfo personal;
+  final Bloc bloc;
+  final Function(BodyPersonalInfo) onPersonalUpdate;
+
+  const GenderRadioContent(
+      {Key? key,
+        required this.personal,
+        required this.bloc,
+        required this.onPersonalUpdate,})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    personal.gender ??= bloc.state.gender;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "gender*",
+          style: TextStyle(
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: CustomRadioTile(
+                onChanged: (genderValue) {
+                  if (kDebugMode) {
+                    print("Radio $genderValue");
+                  }
+                  personal.gender = genderValue;
+                  onPersonalUpdate(personal);
+                  bloc.add(OnGenderUpdate(gender: personal.gender!));
+                },
+                title: 'male',
+                initialData: personal.gender,
+              ),
+            ),
+            Expanded(
+              child: CustomRadioTile(
+                onChanged: (genderValue) {
+                  if (kDebugMode) {
+                    print("Radio $genderValue");
+                  }
+                  personal.gender = genderValue;
+                  onPersonalUpdate(personal);
+                  bloc.add(OnGenderUpdate(gender: personal.gender!));
+                },
+                title: 'female',
+                initialData: personal.gender,
+              ),
+            ),
+            Expanded(
+              child: CustomRadioTile(
+                onChanged: (genderValue) {
+                  if (kDebugMode) {
+                    print("Radio $genderValue");
+                  }
+                  personal.gender = genderValue;
+                  onPersonalUpdate(personal);
+                  bloc.add(OnGenderUpdate(gender: personal.gender!));
+                },
+                title: 'unisex',
+                initialData: personal.gender,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

@@ -92,9 +92,6 @@ class BodyPersonalInfo {
     map['nationality'] = nationality;
     map['nid_card_number'] = nidCardNumber;
     map['passport_number'] = passportNumber;
-    map['facebook_link'] = facebookLink;
-    map['linkedin_link'] = linkedinLink;
-    map['instagram_link'] = instagramLink;
     map['blood_group'] = bloodGroup;
     map['nid_file'] = nidFile;
     map['passport_file'] = passportFile;

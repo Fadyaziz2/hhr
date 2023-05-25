@@ -24,7 +24,6 @@ class NavUtil {
           );
         },
       ),
-//      MaterialPageRoute(builder: (context) => screen),
     );
   }
 

@@ -44,3 +44,13 @@ class OnGenderUpdate extends UpdateProfileEvent{
   @override
   List<Object?> get props => [gender];
 }
+
+class OnBloodUpdate extends UpdateProfileEvent{
+
+  final String bloodGroup;
+
+  OnBloodUpdate({required this.bloodGroup});
+
+  @override
+  List<Object?> get props => [bloodGroup];
+}

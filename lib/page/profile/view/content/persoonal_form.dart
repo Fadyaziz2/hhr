@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
+import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
+import '../../../../res/const.dart';
 import '../../../../res/date_utils.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
@@ -10,6 +12,7 @@ import '../../../../res/widgets/date_picker_widget.dart';
 import '../../bloc/update/update_profile_bloc.dart';
 import '../../model/UpdateOfficialData.dart';
 import 'custom_text_field_with_title.dart';
+import 'gender_content.dart';
 
 class PersonalForm extends StatefulWidget {
   final Profile? profile;
@@ -17,11 +20,12 @@ class PersonalForm extends StatefulWidget {
   final Settings? settings;
   final Function(BodyPersonalInfo) onPersonalUpdate;
 
-  const PersonalForm({Key? key,
-    required this.profile,
-    required this.bloc,
-    required this.onPersonalUpdate,
-    required this.settings})
+  const PersonalForm(
+      {Key? key,
+      required this.profile,
+      required this.bloc,
+      required this.onPersonalUpdate,
+      required this.settings})
       : super(key: key);
 
   @override
@@ -29,120 +33,33 @@ class PersonalForm extends StatefulWidget {
 }
 
 class _PersonalFormState extends State<PersonalForm> {
-
   BodyPersonalInfo personal = BodyPersonalInfo();
 
   @override
   void initState() {
-
-    personal.gender = widget.profile?.personal?.gender ?? 'male';
+    personal.gender = widget.profile?.personal?.gender?.toLowerCase() ?? 'male';
     personal.phone = widget.profile?.personal?.phone;
-    personal.birthDate = widget.profile?.personal?.birthDate;
+    personal.birthDate = getDDMMYYYYAsString(date:widget.profile?.personal?.birthDate ?? '');
     personal.address = widget.profile?.personal?.address;
     personal.nationality = widget.profile?.personal?.nationality;
     personal.nidCardNumber = widget.profile?.personal?.nid;
     personal.nidFile = null;
     personal.passportNumber = widget.profile?.personal?.passport;
     personal.passportFile = null;
-    personal.bloodGroup = widget.profile?.personal?.bloodGroup;
+    personal.bloodGroup = widget.profile?.personal?.bloodGroup ?? 'O+';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    personal.gender ??= widget.bloc.state.gender;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "gender*",
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Radio<String>(
-                      value: "male",
-                      groupValue:  personal.gender,
-                      onChanged: (String? genderValue) {
-                        if (kDebugMode) {
-                          print("Radio $genderValue");
-                        }
-                        personal.gender = genderValue;
-                        widget.onPersonalUpdate(personal);
-                        widget.bloc.add(OnGenderUpdate(gender: personal.gender!));
-                      }),
-                  const Text(
-                    "male",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black45),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Radio<String>(
-                      value: "female",
-                      groupValue:  personal.gender,
-                      onChanged: (String? genderValue) {
-                        if (kDebugMode) {
-                          print("Radio $genderValue");
-                        }
-                        personal.gender = genderValue;
-                        widget.onPersonalUpdate(personal);
-                        widget.bloc.add(OnGenderUpdate(gender: personal.gender!));
-                      }),
-                  const Text(
-                    "female",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black45),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Radio<String>(
-                      value: "unisex",
-                      groupValue:  personal.gender,
-                      onChanged: (String? genderValue) {
-                        if (kDebugMode) {
-                          print("Radio $genderValue");
-                        }
-                        personal.gender = genderValue;
-                        widget.onPersonalUpdate(personal);
-                        widget.bloc.add(OnGenderUpdate(gender: personal.gender!));
-                      }),
-                  const Text(
-                    "other",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black45),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+        GenderRadioContent(personal: personal, bloc: widget.bloc, onPersonalUpdate: (personalData){
+          personal.gender = personalData.gender;
+          widget.onPersonalUpdate(personalData);
+        }),
         const SizedBox(
           height: 16.0,
         ),
@@ -177,7 +94,7 @@ class _PersonalFormState extends State<PersonalForm> {
           title: 'Address',
           value: widget.profile?.personal?.address ?? '',
           onData: (data) {
-            personal.phone = data;
+            personal.address = data;
             widget.onPersonalUpdate(personal);
           },
         ),
@@ -186,9 +103,9 @@ class _PersonalFormState extends State<PersonalForm> {
         ),
         CustomTextField(
           title: 'Nationality',
-          value: widget.profile?.personal?.address ?? '',
+          value: widget.profile?.personal?.nationality ?? '',
           onData: (data) {
-            personal.phone = data;
+            personal.nationality = data;
             widget.onPersonalUpdate(personal);
           },
         ),
@@ -199,7 +116,7 @@ class _PersonalFormState extends State<PersonalForm> {
           title: 'NID',
           value: widget.profile?.personal?.nid ?? '',
           onData: (data) {
-            personal.phone = data;
+            personal.nidCardNumber = data;
             widget.onPersonalUpdate(personal);
           },
         ),
@@ -210,17 +127,18 @@ class _PersonalFormState extends State<PersonalForm> {
           title: 'Passport Number',
           value: widget.profile?.personal?.nid ?? '',
           onData: (data) {
-            personal.phone = data;
+            personal.passportNumber = data;
             widget.onPersonalUpdate(personal);
           },
         ),
         const SizedBox(
           height: 16.0,
         ),
-        const SimpleDropDown(
-          items: ['A+','A-','B+','B+'],
-          title: 'Blood'
-        ),
+        SimpleDropDown(items: bloodGroup, title: 'Blood', onChanged: (bloodGroup) {
+          personal.bloodGroup = bloodGroup;
+          widget.onPersonalUpdate(personal);
+          widget.bloc.add(OnBloodUpdate(bloodGroup: bloodGroup!));
+        }, initialData: widget.bloc.state.bloodGroup ?? personal.bloodGroup),
         const SizedBox(
           height: 16.0,
         ),

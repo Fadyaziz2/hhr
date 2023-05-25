@@ -15,12 +15,24 @@ DateTime? getFormattedDateTime({required String date,String format = 'MM-dd-yyyy
   } on FormatException catch(e){
     debugPrint(e.toString());
   }
+  return null;
 }
 
 String? getDateddMMMyyyyString({DateTime? dateTime}) {
   return dateTime != null ? DateFormat('dd MMM yyyy')
       .format(dateTime)
       .toString() : null;
+}
+
+String? getDDMMYYYYAsString({required String date, String outputFormat = 'yyyy-mm-dd'}) {
+  try{
+    DateFormat formatter = DateFormat('dd-mm-yyyy');
+    DateFormat outputFormatter = DateFormat(outputFormat);
+    return outputFormatter.format(formatter.parse(date));
+  } on FormatException catch(e){
+    debugPrint(e.toString());
+  }
+  return null;
 }
 
 String getTimeAmPm(DateTime dateTime) {

@@ -71,8 +71,10 @@ class SimpleDropDown extends StatelessWidget {
 
   final List<String> items;
   final String title;
+  final String? initialData;
+  final Function(String?) onChanged;
 
-  const SimpleDropDown({Key? key,required this.items,required this.title}) : super(key: key);
+  const SimpleDropDown({Key? key,required this.items,required this.title,required this.onChanged,required this.initialData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,23 +107,19 @@ class SimpleDropDown extends StatelessWidget {
                 title,
                 style: const TextStyle(fontSize: 14),
               ),
-              value: items.first,
-
+              value: initialData ?? items.first,
               icon: const Icon(
                 Icons.keyboard_arrow_down,
                 size: 20,
               ),
               iconSize: 24,
               elevation: 16,
-              onChanged: (String? val) {
-
-              },
-
+              onChanged:onChanged,
               items: items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
-                    '$value',
+                    value,
                     style: const TextStyle(fontSize: 14),
                   ),
                 );
