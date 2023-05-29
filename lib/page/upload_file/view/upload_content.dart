@@ -1,0 +1,38 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/upload_file/bloc/bloc.dart';
+import '../../authentication/bloc/authentication_bloc.dart';
+
+class UploadContent extends StatelessWidget {
+  const UploadContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
+
+    return BlocProvider<UploadFileBloc>(
+      create: (context) => UploadFileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+      child: BlocBuilder<UploadFileBloc,UploadFileState>(builder: (context, state) {
+        return InkWell(
+          onTap: () {
+            context.read<UploadFileBloc>().add(SelectFile(context: context));
+          },
+          child: ClipOval(
+            child: CachedNetworkImage(
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover,
+              imageUrl: '',
+              placeholder: (context, url) => Center(
+                child: Image.asset("assets/images/app_icon.png"),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}

@@ -10,6 +10,7 @@ import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../../home/bloc/home_bloc.dart';
+import '../../../upload_file/view/upload_content.dart';
 import '../../bloc/profile/profile_bloc.dart';
 import 'edit_profile_info.dart';
 import 'official_profile_content.dart';
@@ -34,20 +35,8 @@ class ProfileContent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Center(
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                    imageUrl: '${state.profile?.official?.avatar}',
-                    placeholder: (context, url) => Center(
-                      child: Image.asset("assets/images/app_icon.png"),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
+              const Center(
+                child: UploadContent(),
               ),
               Expanded(
                 child: TabBarView(

@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../page/login/view/login_page.dart';
 
@@ -118,6 +122,147 @@ showCustomDatePicker({required BuildContext context,required Function(DateTime d
             ),
           ],
         ),
+      );
+    },
+  );
+}
+
+class CustomDialogImagePicker extends StatelessWidget {
+  final Function? onCameraClick;
+  final Function? onGalleryClick;
+
+  const CustomDialogImagePicker(
+      {Key? key, this.onCameraClick, this.onGalleryClick})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: SizedBox(
+        height: 210,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: Text(
+                "Select Image",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (onCameraClick != null) onCameraClick!();
+                  },
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/images/ic_camera.json",height: 50,width: 50),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        "Camera",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 70,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (onGalleryClick != null) onGalleryClick!();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Column(
+                      children: [
+                        Lottie.asset("assets/images/ic_gallery.json",height: 50,width: 50),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        const Text(
+                          "Gallery",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Future<File?> pickFile(BuildContext context) async {
+
+  File? file;
+
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomDialogImagePicker(
+        onCameraClick: () async {
+          final ImagePicker picker = ImagePicker();
+          final XFile? image = await picker.pickImage(
+              source: ImageSource.camera,
+              maxHeight: 320,
+              maxWidth: 300);
+          file = File(image!.path);
+          debugPrint(image.path);
+          Navigator.of(context).pop(file);
+        },
+        onGalleryClick: () async {
+          final ImagePicker pickerGallery = ImagePicker();
+          final XFile? imageGallery = await pickerGallery.pickImage(
+              source: ImageSource.gallery,
+              maxHeight: 320,
+              maxWidth: 300);
+          file = File(imageGallery!.path);
+          debugPrint(file?.path);
+          Navigator.of(context).pop(file);
+        },
       );
     },
   );

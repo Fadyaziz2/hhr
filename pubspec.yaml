@@ -61,6 +61,7 @@ dependencies:
   photo_view: ^0.14.0
   fluttertoast: ^8.0.9
   flutter_html: ^2.2.1
+  image_picker: ^0.8.7+5
 
 dev_dependencies:
   flutter_test:
