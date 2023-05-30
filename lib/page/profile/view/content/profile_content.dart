@@ -37,9 +37,8 @@ class ProfileContent extends StatelessWidget {
               ),
                Center(
                 child: UploadContent(onFileUploaded: (FileUpload? data) {
-                  debugPrint('data ${data?.fileId}');
                   context.read<ProfileBloc>().add(ProfileAvatarUpdate(avatarId: data?.fileId));
-                },),
+                },initialAvatar: state.profile?.personal?.avatar,),
               ),
               Expanded(
                 child: TabBarView(

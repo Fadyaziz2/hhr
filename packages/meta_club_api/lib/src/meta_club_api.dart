@@ -136,9 +136,9 @@ class MetaClubApiClient {
 
     try {
 
-      debugPrint('body: ${{"avatar":avatarId}}');
+      debugPrint('body: ${{"avatar_id":avatarId}}');
 
-      FormData formData = FormData.fromMap({"avatar":avatarId});
+      FormData formData = FormData.fromMap({"avatar_id":avatarId});
 
       final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 

@@ -9,8 +9,9 @@ import '../../authentication/bloc/authentication_bloc.dart';
 class UploadContent extends StatelessWidget {
 
   final Function(FileUpload? data) onFileUploaded;
+  final String? initialAvatar;
 
-  const UploadContent({Key? key,required this.onFileUploaded}) : super(key: key);
+  const UploadContent({Key? key,required this.onFileUploaded,this.initialAvatar}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class UploadContent extends StatelessWidget {
                 height: 120,
                 width: 120,
                 fit: BoxFit.cover,
-                imageUrl: '${state.fileUpload?.previewUrl}',
+                imageUrl: '${state.fileUpload?.previewUrl ?? initialAvatar}',
                 placeholder: (context, url) => Center(
                   child: Image.asset("assets/images/app_icon.png"),
                 ),
