@@ -24,5 +24,14 @@ class ProfileUpdate extends ProfileEvent{
   List<Object?> get props => [slug,data];
 }
 
+class ProfileAvatarUpdate extends ProfileEvent{
+
+  final int? avatarId;
+
+  ProfileAvatarUpdate({required this.avatarId});
+
+  @override
+  List<Object?> get props => [avatarId];
+}
 
 class ProfileDeleteRequest extends ProfileEvent {}

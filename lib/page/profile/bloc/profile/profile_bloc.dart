@@ -15,6 +15,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileLoadRequest>(_onProfileDataRequest);
     on<ProfileDeleteRequest>(_onAuthenticationDeleteRequest);
     on<ProfileUpdate>(_onProfileUpdateRequest);
+    on<ProfileAvatarUpdate>(_onAvatarUpdate);
   }
 
   void _onProfileDataRequest(
@@ -48,6 +49,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   _onAuthenticationDeleteRequest(ProfileDeleteRequest event,Emitter<ProfileState> emit) async {
     final isDeleted = await metaClubApiClient.deleteAccount();
+  }
+
+  _onAvatarUpdate(ProfileAvatarUpdate event,Emitter<ProfileState> emit) async {
+    if(event.avatarId != null) {
+      await metaClubApiClient.updateProfileAvatar(avatarId: event.avatarId!);
+      emit(ProfileState(status: NetworkStatus.success,profile: state.profile));
+    }
   }
 
 }

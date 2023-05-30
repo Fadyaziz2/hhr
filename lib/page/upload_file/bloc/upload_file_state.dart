@@ -1,17 +1,19 @@
+import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/enum.dart';
 
 class UploadFileState extends Equatable {
-  final String? imagePath;
-  final int? imageId;
+  final FileUpload? fileUpload;
+  final NetworkStatus networkStatus;
+  final File? file;
 
-  const UploadFileState({this.imagePath, this.imageId});
+  const UploadFileState({this.fileUpload,this.networkStatus = NetworkStatus.initial,this.file});
 
-  UploadFileState copyWith({String? imagePath, int? imageId}) {
-    return UploadFileState(
-        imagePath: imagePath ?? this.imagePath,
-        imageId: imageId ?? this.imageId);
+  UploadFileState copyWith({FileUpload? fileUpload,NetworkStatus? networkStatus}) {
+    return UploadFileState(fileUpload: fileUpload ?? this.fileUpload,networkStatus: networkStatus ?? this.networkStatus);
   }
 
   @override
-  List<Object?> get props => [imageId];
+  List<Object?> get props => [fileUpload,networkStatus];
 }

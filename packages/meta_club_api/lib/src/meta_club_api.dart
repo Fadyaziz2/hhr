@@ -1,5 +1,7 @@
 library meta_club_api;
 
+import 'dart:io';
+
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -129,17 +131,41 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Contacts?> contacts() async {
-    const String api = 'club/all-contacts-list';
+  Future<bool> updateProfileAvatar({required int avatarId}) async {
+    String api = 'user/profile-update';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
-      if (response?.statusCode != 200) {
-        throw ContactRequestFailure();
+      debugPrint('body: ${{"avatar":avatarId}}');
+
+      FormData formData = FormData.fromMap({"avatar":avatarId});
+
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
       }
-      return Contacts.fromJson(response?.data);
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<FileUpload?> uploadFile({required File file}) async {
+    const String api = 'file-upload';
+
+    try {
+
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(file.path)
+      });
+
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',formData);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return FileUpload.fromJson(response.data);
     } catch (_) {
       return null;
     }

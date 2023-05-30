@@ -35,8 +35,11 @@ class ProfileContent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Center(
-                child: UploadContent(),
+               Center(
+                child: UploadContent(onFileUploaded: (FileUpload? data) {
+                  debugPrint('data ${data?.fileId}');
+                  context.read<ProfileBloc>().add(ProfileAvatarUpdate(avatarId: data?.fileId));
+                },),
               ),
               Expanded(
                 child: TabBarView(

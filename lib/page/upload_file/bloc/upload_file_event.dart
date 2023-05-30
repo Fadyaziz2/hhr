@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,6 +16,11 @@ class SelectFile extends UploadFileEvent{
 }
 
 class UploadFile extends UploadFileEvent{
+
+  final File file;
+
+  UploadFile({required this.file});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [file.path];
 }

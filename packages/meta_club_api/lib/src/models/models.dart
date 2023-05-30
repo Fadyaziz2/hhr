@@ -6,3 +6,4 @@ export 'response_user_list.dart';
 export 'settings.dart';
 export 'profile.dart';
 export 'get_user_by_id_Response.dart';
+export 'upload_file_model.dart';

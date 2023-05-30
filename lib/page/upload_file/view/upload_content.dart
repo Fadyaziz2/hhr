@@ -3,36 +3,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/upload_file/bloc/bloc.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class UploadContent extends StatelessWidget {
-  const UploadContent({Key? key}) : super(key: key);
+
+  final Function(FileUpload? data) onFileUploaded;
+
+  const UploadContent({Key? key,required this.onFileUploaded}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider<UploadFileBloc>(
       create: (context) => UploadFileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
-      child: BlocBuilder<UploadFileBloc,UploadFileState>(builder: (context, state) {
-        return InkWell(
-          onTap: () {
-            context.read<UploadFileBloc>().add(SelectFile(context: context));
-          },
-          child: ClipOval(
-            child: CachedNetworkImage(
-              height: 120,
-              width: 120,
-              fit: BoxFit.cover,
-              imageUrl: '',
-              placeholder: (context, url) => Center(
-                child: Image.asset("assets/images/app_icon.png"),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+      child: BlocListener<UploadFileBloc,UploadFileState>(
+        listener: (context,state){
+          if(state.networkStatus == NetworkStatus.success){
+            onFileUploaded(state.fileUpload);
+          }
+        },
+        child: BlocBuilder<UploadFileBloc,UploadFileState>(builder: (context, state) {
+          return InkWell(
+            onTap: () {
+              context.read<UploadFileBloc>().add(SelectFile(context: context));
+            },
+            child: ClipOval(
+              child: state.networkStatus != NetworkStatus.loading ? CachedNetworkImage(
+                height: 120,
+                width: 120,
+                fit: BoxFit.cover,
+                imageUrl: '${state.fileUpload?.previewUrl}',
+                placeholder: (context, url) => Center(
+                  child: Image.asset("assets/images/app_icon.png"),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ) : const CircularProgressIndicator(),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
