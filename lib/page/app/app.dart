@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
-import '../bottom_navigation/buttom_navigation_bar.dart';
+import '../bottom_navigation/view/bottom_navigation_page.dart';
 import '../home/view/home_page.dart';
 import '../login/view/login_page.dart';
 import '../splash/view/splash.dart';

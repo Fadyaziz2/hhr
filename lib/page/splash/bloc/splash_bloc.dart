@@ -7,7 +7,7 @@ import 'package:onesthrm/page/splash/bloc/splash_state.dart';
 import '../../../res/nav_utail.dart';
 import 'package:user_repository/src/models/user.dart';
 
-import '../../bottom_navigation/buttom_navigation_bar.dart';
+import '../../bottom_navigation/view/bottom_navigation_page.dart';
 
 class SplashBloc extends Cubit<SplashState>{
 

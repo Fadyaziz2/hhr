@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:upgrader/upgrader.dart';
 
-import '../../res/const.dart';
+import '../../../res/const.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   final int? bottomNavigationIndex;
