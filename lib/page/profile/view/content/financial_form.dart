@@ -1,0 +1,107 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
+import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
+import '../../../../res/const.dart';
+import '../../../../res/date_utils.dart';
+import '../../../../res/enum.dart';
+import '../../../../res/widgets/custom_button_widget1.dart';
+import '../../../../res/widgets/date_picker_widget.dart';
+import '../../bloc/update/update_profile_bloc.dart';
+import '../../model/UpdateOfficialData.dart';
+import 'custom_text_field_with_title.dart';
+import 'gender_content.dart';
+
+class FinancialForm extends StatefulWidget {
+  final Profile? profile;
+  final Bloc bloc;
+  final Settings? settings;
+  final Function(BodyFinancialInfo) onFinancialUpdate;
+
+  const FinancialForm(
+      {Key? key,
+      required this.profile,
+      required this.bloc,
+      required this.onFinancialUpdate,
+      required this.settings})
+      : super(key: key);
+
+  @override
+  State<FinancialForm> createState() => _FinancialFormState();
+}
+
+class _FinancialFormState extends State<FinancialForm> {
+
+  BodyFinancialInfo financial = BodyFinancialInfo();
+
+  @override
+  void initState() {
+    financial.tin = widget.profile?.financial?.tin;
+    financial.bankAccount = widget.profile?.financial?.bankAccount;
+    financial.bankName = widget.profile?.financial?.bankName;
+    financial.avatar = widget.profile?.financial?.avatar;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 16.0,
+        ),
+        CustomTextField(
+          title: 'Tin',
+          value: widget.profile?.financial?.tin,
+          hints: widget.profile?.financial?.tin,
+          onData: (data) {
+            financial.tin = data;
+            widget.onFinancialUpdate(financial);
+          },
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        CustomTextField(
+          title: 'Bank Account',
+          value: widget.profile?.financial?.bankAccount,
+          hints: widget.profile?.financial?.bankAccount,
+          onData: (data) {
+            financial.bankAccount = data;
+            widget.onFinancialUpdate(financial);
+          },
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        CustomTextField(
+          title: 'Bank Name',
+          value: widget.profile?.financial?.bankName,
+          hints: widget.profile?.financial?.bankName,
+          onData: (data) {
+            financial.bankName = data;
+            widget.onFinancialUpdate(financial);
+          },
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        CustomButton1(
+          onTap: () {
+            widget.bloc.add(ProfileUpdate(slug: 'financial', data: financial.toJson()));
+          },
+          text: 'save',
+          radius: 8.0,
+          asyncCall: widget.bloc.state.status == NetworkStatus.loading,
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+      ],
+    );
+  }
+}

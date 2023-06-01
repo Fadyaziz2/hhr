@@ -134,11 +134,15 @@ class _PersonalFormState extends State<PersonalForm> {
         const SizedBox(
           height: 16.0,
         ),
-        SimpleDropDown(items: bloodGroup, title: 'Blood', onChanged: (bloodGroup) {
-          personal.bloodGroup = bloodGroup;
-          widget.onPersonalUpdate(personal);
-          widget.bloc.add(OnBloodUpdate(bloodGroup: bloodGroup!));
-        }, initialData: widget.bloc.state.bloodGroup ?? personal.bloodGroup),
+        BlocBuilder<UpdateProfileBloc,UpdateProfileState>(
+          builder: (context,state){
+            return SimpleDropDown(items: bloodGroup, title: 'Blood', onChanged: (bloodGroup) {
+              personal.bloodGroup = bloodGroup;
+              widget.onPersonalUpdate(personal);
+              widget.bloc.add(OnBloodUpdate(bloodGroup: bloodGroup!));
+            }, initialData: widget.bloc.state.bloodGroup ?? personal.bloodGroup);
+          },
+        ),
         const SizedBox(
           height: 16.0,
         ),

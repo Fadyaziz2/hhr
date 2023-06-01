@@ -39,10 +39,8 @@ class EditOfficialInfo extends StatelessWidget {
 
     final user = context.read<AuthenticationBloc>().state.data;
 
-
     return BlocProvider(
-      create: (_) => UpdateProfileBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),),
+      create: (_) => UpdateProfileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

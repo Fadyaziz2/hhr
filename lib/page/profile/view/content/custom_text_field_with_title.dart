@@ -4,10 +4,10 @@ class CustomTextField extends StatelessWidget {
 
   final String title;
   final String? hints;
-  final String value;
+  final String? value;
   final Function(String?) onData;
 
-  const CustomTextField({Key? key,required this.title,required this.value,required this.onData,this.hints,}) : super(key: key);
+  const CustomTextField({Key? key,required this.title, this.value,required this.onData,this.hints,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -68,17 +68,21 @@ class _OfficialFormState extends State<OfficialForm> {
         const SizedBox(
           height: 16.0,
         ),
-        ProfileDropDown(
-          items: widget.settings?.data?.departments ?? [],
-          title: 'Department',
-          item: widget.bloc.state.department ??
-              Department(
-                  id: widget.profile?.official?.departmentId,
-                  title: widget.profile?.official?.department),
-          onChange: (department) {
-            official.departmentId = department?.id;
-            widget.onOfficialUpdate(official);
-            widget.bloc.add(OnDepartmentUpdate(department: department));
+        BlocBuilder<UpdateProfileBloc,UpdateProfileState>(
+          builder: (context,state){
+            return ProfileDropDown(
+              items: widget.settings?.data?.departments ?? [],
+              title: 'Department',
+              item: widget.bloc.state.department ??
+                  Department(
+                      id: widget.profile?.official?.departmentId,
+                      title: widget.profile?.official?.department),
+              onChange: (department) {
+                official.departmentId = department?.id;
+                widget.onOfficialUpdate(official);
+                widget.bloc.add(OnDepartmentUpdate(department: department));
+              },
+            );
           },
         ),
         const SizedBox(

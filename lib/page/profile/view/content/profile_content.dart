@@ -55,11 +55,11 @@ class ProfileContent extends StatelessWidget {
                         : const SizedBox.shrink(),
                     state.profile?.financial != null
                         ? FinancialProfileContent(
-                            financial: state.profile!.financial!)
+                            profile: state.profile!, settings: settings,)
                         : const SizedBox.shrink(),
                     state.profile?.emergency != null
                         ? EmergencyProfileContent(
-                            emergency: state.profile!.emergency!)
+                            profile: state.profile!,settings: settings,)
                         : const SizedBox.shrink(),
                   ],
                 ),

@@ -99,3 +99,48 @@ class BodyPersonalInfo {
   }
 
 }
+
+class BodyFinancialInfo {
+
+  String? tin;
+  String? bankName;
+  String? bankAccount;
+  String? avatar;
+
+
+  BodyFinancialInfo({
+    this.tin,
+    this.bankName,
+    this.bankAccount,
+    this.avatar});
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['tin'] = tin;
+    map['bank_name'] = bankName;
+    map['bank_account'] = bankAccount;
+    map['avatar'] = avatar;
+    return map;
+  }
+}
+
+class BodyEmergencyInfo {
+
+  String? name;
+  String? mobile;
+  String? relationship;
+
+  BodyEmergencyInfo({
+    this.name,
+    this.mobile,
+    this.relationship});
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['emergency_name'] = name;
+    map['emergency_mobile_number'] = mobile;
+    map['emergency_mobile_relationship'] = relationship;
+    return map;
+  }
+
+}

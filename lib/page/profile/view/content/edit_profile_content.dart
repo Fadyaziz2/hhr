@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/profile/view/content/persoonal_form.dart';
+import 'package:onesthrm/page/profile/view/content/personal_form.dart';
 import '../../bloc/update/update_profile_bloc.dart';
 import '../../model/UpdateOfficialData.dart';
+import 'emergency_form.dart';
+import 'financial_form.dart';
 import 'official_form.dart';
 
 class EditProfileContent extends StatefulWidget {
@@ -28,11 +30,13 @@ class _EditProfileContentState extends State<EditProfileContent> {
 
   BodyOfficialInfo official = BodyOfficialInfo();
   BodyPersonalInfo personal = BodyPersonalInfo();
+  BodyFinancialInfo financial = BodyFinancialInfo();
+  BodyEmergencyInfo emergency = BodyEmergencyInfo();
 
   @override
   Widget build(BuildContext context) {
 
-    UpdateProfileBloc  bloc = context.watch<UpdateProfileBloc>();
+    UpdateProfileBloc  bloc = context.read<UpdateProfileBloc>();
 
     return SingleChildScrollView(
       child: Padding(
@@ -51,14 +55,14 @@ class _EditProfileContentState extends State<EditProfileContent> {
                 print(personal.toJson());
               }, settings: widget.settings,),
             if(widget.pageName == 'financial')
-              PersonalForm(profile: widget.profile, bloc: bloc, onPersonalUpdate: (data) {
-                personal = data;
+              FinancialForm(profile: widget.profile, bloc: bloc, onFinancialUpdate: (data) {
+                financial = data;
                 print(personal.toJson());
               }, settings: widget.settings,),
             if(widget.pageName == 'emergency')
-              PersonalForm(profile: widget.profile, bloc: bloc, onPersonalUpdate: (data) {
-                personal = data;
-                print(personal.toJson());
+              EmergencyForm(profile: widget.profile, bloc: bloc, onEmergencyUpdate: (data) {
+                emergency = data;
+                print(emergency.toJson());
               }, settings: widget.settings,),
           ],
         ),
