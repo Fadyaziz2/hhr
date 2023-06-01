@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
+import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
+import '../bottom_navigation/buttom_navigation_bar.dart';
 import '../home/view/home_page.dart';
 import '../login/view/login_page.dart';
 import '../splash/view/splash.dart';
@@ -54,7 +56,7 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil(HomePage.route(), (route) => false,);
+                _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false,);
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
@@ -64,8 +66,11 @@ class _AppViewState extends State<AppView> {
             }
           }, child: child,);
       },
-      theme: ThemeData(
-       textTheme: GoogleFonts.robotoSerifTextTheme(),
+      theme: Theme.of(context).copyWith(
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: colorPrimary,
+        ),
+        textTheme: GoogleFonts.robotoTextTheme(),
       ),
       onGenerateRoute: (_) => SplashScreen.route(),
     );

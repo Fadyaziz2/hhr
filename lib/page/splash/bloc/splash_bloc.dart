@@ -7,6 +7,8 @@ import 'package:onesthrm/page/splash/bloc/splash_state.dart';
 import '../../../res/nav_utail.dart';
 import 'package:user_repository/src/models/user.dart';
 
+import '../../bottom_navigation/buttom_navigation_bar.dart';
+
 class SplashBloc extends Cubit<SplashState>{
 
   SplashBloc({required BuildContext context,required MetaClubApiClient client,LoginData? data}):super(SplashState(context: context)){
@@ -16,7 +18,7 @@ class SplashBloc extends Cubit<SplashState>{
   void initSplash(BuildContext context,LoginData? data){
     Future.delayed(const Duration(seconds: 2), () async {
       if (data?.user != null) {
-        NavUtil.replaceScreen(context, const HomePage());
+        NavUtil.replaceScreen(context, const BottomNavigationPage());
       } else {
         NavUtil.replaceScreen(context, const LoginPage());
       }

@@ -21,16 +21,9 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       lazy: false,
       create: (_) => HomeBloc(metaClubApiClient: MetaClubApiClient(token : '${user?.user?.token}'))..add(LoadSettings()),
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: const [
-              SizedBox(height: 16.0,),
-              Expanded(child: HomeContent())
-            ],
-          ),
+      child: const Scaffold(
+        body: Padding(padding: EdgeInsets.only(top: 32.0),child: HomeContent()),
         ),
-      ),
-    );
+      );
   }
 }

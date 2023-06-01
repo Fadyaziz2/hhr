@@ -62,6 +62,9 @@ dependencies:
   fluttertoast: ^8.0.9
   flutter_html: ^2.2.1
   image_picker: ^0.8.7+5
+  flutter_svg: ^0.22.0
+  upgrader: ^4.11.1
+  page_transition: ^2.0.4
 
 dev_dependencies:
   flutter_test:
