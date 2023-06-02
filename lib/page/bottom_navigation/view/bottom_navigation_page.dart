@@ -15,7 +15,7 @@ class BottomNavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-      create: (_) => BottomNabCubit(),
+      create: (_) => BottomNavCubit(),
       child: const BottomNavContent(),
     );
   }

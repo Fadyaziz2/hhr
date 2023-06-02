@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
 import '../bloc/bottom_nav_cubit.dart';
+import 'bottom_nav_item.dart';
 
 class BottomNavContent extends StatelessWidget {
   const BottomNavContent({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class BottomNavContent extends StatelessWidget {
     final PageController myPage = PageController(initialPage: 0);
     DateTime timeBackPressed = DateTime.now();
 
-    final selectedTab = context.select((BottomNabCubit cubit) => cubit.state.tab);
+    final selectedTab = context.select((BottomNavCubit cubit) => cubit.state.tab);
 
     return UpgradeAlert(
       upgrader: Upgrader(
@@ -52,51 +52,17 @@ class BottomNavContent extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/home_icon/home.svg',
-                        height: 20,
-                        color: selectedTab  == BottomNavTab.home ? colorPrimary: const Color(0xFF555555),
-                      ),
-                      onPressed: () => context.read<BottomNabCubit>().setTab(BottomNavTab.home),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/home_icon/attendance.svg',
-                          height: 20,
-                          color: selectedTab  == BottomNavTab.attendance ? colorPrimary: const Color(0xFF555555),
-                        ),
-                        onPressed: () => context.read<BottomNabCubit>().setTab(BottomNavTab.attendance),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/home_icon/leave.svg',
-                          height: 20,
-                          color: selectedTab  == BottomNavTab.leave ? colorPrimary: const Color(0xFF555555),
-                        ),
-                        onPressed: () => context.read<BottomNabCubit>().setTab(BottomNavTab.leave),
-                      ),
-                    ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/home_icon/notifications.svg',
-                        height:20,
-                        color: selectedTab  == BottomNavTab.notification ? colorPrimary: const Color(0xFF555555),
-                      ),
-                      onPressed: () => context.read<BottomNabCubit>().setTab(BottomNavTab.notification),
-                    ),
+                    BottomNavItem(icon: 'assets/home_icon/home.svg', isSelected: selectedTab  == BottomNavTab.home, tab: BottomNavTab.home,),
+                    BottomNavItem(icon: 'assets/home_icon/attendance.svg', isSelected: selectedTab  == BottomNavTab.attendance, tab: BottomNavTab.attendance,),
+                    const SizedBox(width: 8.0),
+                    BottomNavItem(icon: 'assets/home_icon/leave.svg', isSelected: selectedTab  == BottomNavTab.leave, tab: BottomNavTab.leave,),
+                    BottomNavItem(icon: 'assets/home_icon/notifications.svg', isSelected: selectedTab  == BottomNavTab.notification, tab: BottomNavTab.notification,),
                   ],
                 )),
           ),
           floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.white,
               child:
-              // const Icon(Icons.menu),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(
