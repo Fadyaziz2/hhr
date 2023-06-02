@@ -1,8 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:meta_club_api/meta_club_api.dart';
-
-import '../../../res/enum.dart';
+part of 'home_bloc.dart';
 
 class HomeState extends Equatable{
   final Settings? settings;

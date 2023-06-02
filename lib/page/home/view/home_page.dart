@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../bloc/home_bloc.dart';
-import '../bloc/home_event.dart';
 import 'content/home_content.dart';
 class HomePage extends StatelessWidget {
 
