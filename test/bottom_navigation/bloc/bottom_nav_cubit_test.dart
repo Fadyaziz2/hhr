@@ -4,7 +4,7 @@ import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 
 void main() {
   group('BottomNavCubit', () {
-    BottomNavCubit buildCubit() => BottomNavCubit();
+    BottomNavCubit buildCubit()=> BottomNavCubit();
 
     group('constructor', () {
       test('works properly', () {

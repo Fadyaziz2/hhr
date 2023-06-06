@@ -3,13 +3,14 @@ part of 'home_bloc.dart';
 class HomeState extends Equatable{
   final Settings? settings;
   final NetworkStatus status;
+  final DashboardModel? dashboardModel;
 
-  const HomeState({this.settings,this.status = NetworkStatus.initial});
+  const HomeState({this.settings,this.dashboardModel,this.status = NetworkStatus.initial});
 
-  HomeState copy({BuildContext? context, Settings? settings,NetworkStatus? status}) {
-    return HomeState(settings: settings ?? this.settings,status: status ?? this.status);
+  HomeState copy({BuildContext? context, Settings? settings, DashboardModel? dashboardModel,NetworkStatus? status}) {
+    return HomeState(settings: settings ?? this.settings,status: status ?? this.status,dashboardModel: dashboardModel ?? this.dashboardModel);
   }
 
   @override
-  List<Object?> get props => [settings];
+  List<Object?> get props => [settings,dashboardModel];
 }

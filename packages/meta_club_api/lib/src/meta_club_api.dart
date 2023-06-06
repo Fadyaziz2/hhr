@@ -96,6 +96,22 @@ class MetaClubApiClient {
     }
   }
 
+  Future<DashboardModel?> getDashboardData() async {
+    const String api = 'dashboard/statistics';
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return DashboardModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<Profile?> getProfile() async {
     const String api = 'user/profile-info';
 

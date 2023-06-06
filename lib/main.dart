@@ -17,8 +17,7 @@ void main() {
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
-  runZonedGuarded(
-    () async {
+  runZonedGuarded(() async {
       await HydratedBlocOverrides.runZoned(() async {
         ///disable http certificate checking
         HttpOverrides.global = MyHttpOverrides();

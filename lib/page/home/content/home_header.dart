@@ -10,8 +10,9 @@ class HomeHeader extends StatelessWidget {
 
   final Settings? settings;
   final LoginData? user;
+  final DashboardModel? dashboardModel;
 
-  const HomeHeader({Key? key,required this.settings,required this.user}) : super(key: key);
+  const HomeHeader({Key? key,required this.settings,required this.user,required this.dashboardModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +114,8 @@ class HomeHeader extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Row(
                   children: List.generate(
-                    5, (index) => EventCard(
-                    data: Today(image: 'https://upload.wikimedia.org/wikipedia/en/5/5a/Shaheen_College_Logo_Dhaka.png',title: 'Leave',number: 21),
+                    dashboardModel?.data?.today?.length ?? 0, (index) => EventCard(
+                    data: dashboardModel?.data?.today![index],
                     onPressed: () => null,
                   ),
                   )),

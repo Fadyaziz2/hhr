@@ -1,24 +1,24 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 
-class CheckInOutCard extends StatelessWidget {
+class BreakCard extends StatelessWidget {
 
   final Settings? settings;
   final LoginData? user;
   final DashboardModel? dashboardModel;
 
-  const CheckInOutCard({Key? key,required this.settings,required this.user,required this.dashboardModel}) : super(key: key);
+  const BreakCard({Key? key,required this.settings,required this.user,required this.dashboardModel}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 18.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18.0),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
@@ -28,19 +28,10 @@ class CheckInOutCard extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: SvgPicture.asset(
-                    dashboardModel?.data?.attendanceData?.checkIn == false ? 'assets/home_icon/in.svg'
-                        : 'assets/home_icon/out.svg',
-                    height: 40,
-                    width: 40,
-                    placeholderBuilder: (BuildContext
-                    context) =>
-                        Container(
-                            padding:
-                            const EdgeInsets
-                                .all(30.0),
-                            child:
-                            const CircularProgressIndicator()),
+                  child: Lottie.asset(
+                    'assets/images/tea_time.json',
+                    height: 65.0,
+                    width: 65.0,
                   ),
                 ),
                 Expanded(
@@ -50,9 +41,9 @@ class CheckInOutCard extends StatelessWidget {
                         .start,
                     children: [
                       Text(
-                          dashboardModel?.data?.attendanceData?.checkIn == false
-                              ? "Start time"
-                              : "Done for today",
+                          dashboardModel?.data?.config?.breakStatus?.status != 'break_out'
+                              ? "You're in break"
+                              : "Take Coffee",
                           style: const TextStyle(
                               fontSize: 16,
                               fontWeight:
@@ -64,7 +55,8 @@ class CheckInOutCard extends StatelessWidget {
                       const SizedBox(
                           height: 10),
                        Text(
-                         dashboardModel?.data?.attendanceData?.checkIn == false ? "Check In": "Check Out",
+                        dashboardModel?.data?.config?.breakStatus?.status != 'break_out'
+                            ?'${dashboardModel?.data?.config?.breakStatus?.breakTime}' : 'Break',
                         style: const TextStyle(
                             color: colorPrimary,
                             fontSize: 16,

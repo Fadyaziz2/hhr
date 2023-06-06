@@ -7,6 +7,8 @@ abstract class HomeEvent extends Equatable{
 
  class LoadSettings extends HomeEvent{}
 
+class LoadHomeData extends HomeEvent{}
+
  class OnHomeRefresh extends HomeEvent{
 
 }
