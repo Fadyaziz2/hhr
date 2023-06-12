@@ -1,6 +1,6 @@
 part of 'bottom_nav_cubit.dart';
 
-enum BottomNavTab { home, leave, attendance, notification }
+enum BottomNavTab { home, leave, menu, attendance, notification }
 
 class BottomNavState extends Equatable {
 const BottomNavState({

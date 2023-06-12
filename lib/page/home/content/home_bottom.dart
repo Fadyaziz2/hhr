@@ -17,6 +17,10 @@ class HomeBottom extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children:  [
         const SizedBox(height: 16.0,),
+        UpcomingEventCard(
+          events: dashboardModel?.data?.upcomingEvents ?? [],
+        ),
+        const SizedBox(height: 16.0,),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(

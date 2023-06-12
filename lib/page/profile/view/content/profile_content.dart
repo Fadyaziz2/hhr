@@ -1,18 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/emergency_profile_content.dart';
 import 'package:onesthrm/page/profile/view/content/finalcial_profile_content.dart';
 import 'package:onesthrm/page/profile/view/content/personal_profile_content.dart';
-import '../../../../res/custom_build_profile_details.dart';
 import '../../../../res/enum.dart';
-import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
-import '../../../home/bloc/home_bloc.dart';
 import '../../../upload_file/view/upload_content.dart';
 import '../../bloc/profile/profile_bloc.dart';
-import 'edit_profile_info.dart';
 import 'official_profile_content.dart';
 
 class ProfileContent extends StatelessWidget {
@@ -96,7 +91,7 @@ class ProfileContent extends StatelessWidget {
                           ],
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       child: const Text('Delete Account',
                           style: TextStyle(fontSize: 16)),
                     ),

@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
+import '../../menu/view/menu_screen.dart';
 import '../bloc/bottom_nav_cubit.dart';
 import 'bottom_nav_item.dart';
 
@@ -14,9 +15,7 @@ class BottomNavContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final PageController myPage = PageController(initialPage: 0);
     DateTime timeBackPressed = DateTime.now();
-
     final selectedTab = context.select((BottomNavCubit cubit) => cubit.state.tab);
 
     return UpgradeAlert(
@@ -61,30 +60,28 @@ class BottomNavContent extends StatelessWidget {
                 )),
           ),
           floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.white,
+              backgroundColor: selectedTab == BottomNavTab.menu ?  colorPrimary : Colors.white,
               child:
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(
                   'assets/home_icon/FavLogo.png',
-                  color: colorPrimary,
+                  color:  selectedTab == BottomNavTab.menu ? Colors.white : colorPrimary,
                 ),
               ),
               onPressed: () {
-
+                context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
+                // myPage.jumpToPage(2);
               }),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          body: PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: myPage,
-            onPageChanged: (index) {
-
-            },
+          body: IndexedStack(
+           index: selectedTab.index,
             children:  const [
               HomePage(),
-              HomePage(),
-              HomePage(),
-              HomePage(),
+              SizedBox(),
+              MenuScreen(),
+              SizedBox(),
+              SizedBox(),
             ],
           ),
         ),
