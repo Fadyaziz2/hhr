@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
@@ -18,6 +17,7 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final settings = context.read<HomeBloc>().state.settings;
+    final homeData = context.watch<HomeBloc>().state.dashboardModel;
     final user = context.read<AuthenticationBloc>().state.data;
 
     return Scaffold(
@@ -108,16 +108,15 @@ class MenuScreen extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     padding: const EdgeInsets.all(0),
-                    itemCount: 6,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: 2),
+                    itemCount: homeData?.data?.menus?.length ?? 0,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2),
                     itemBuilder: (BuildContext context, int index) {
-                      return MenuContentItem(
-                          name: 'name',
-                          image: 'https://hrm.onestweb.com/public/static/blank_small.png',
-                          imageType: 'png',
-                          onPressed: () {});
+
+                      final menu =  homeData?.data?.menus?[index];
+
+                      return menu != null ? MenuContentItem(
+                          menu: menu,
+                          onPressed: () {}):const SizedBox.shrink();
                     },
                   ),
                 ),

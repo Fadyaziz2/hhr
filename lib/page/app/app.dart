@@ -1,13 +1,10 @@
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
-import '../home/view/home_page.dart';
 import '../login/view/login_page.dart';
 import '../splash/view/splash.dart';
 
@@ -70,7 +67,6 @@ class _AppViewState extends State<AppView> {
         colorScheme: Theme.of(context).colorScheme.copyWith(
           primary: colorPrimary,
         ),
-        textTheme: GoogleFonts.robotoTextTheme(),
       ),
       onGenerateRoute: (_) => SplashScreen.route(),
     );

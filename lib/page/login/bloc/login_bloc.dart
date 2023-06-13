@@ -26,33 +26,33 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
     final phone = Email.dirty(event.email);
 
-    emit(state.copyWith(phone: phone,status: Formz.validate([phone,state.password])));
+    emit(state.copyWith(phone: phone,status: Formz.validate([phone,state.password]) ? FormzSubmissionStatus.success : FormzSubmissionStatus.failure));
   }
 
   void _onPasswordUpdate(LoginPasswordChange event,Emitter<LoginState> emit){
 
     final password = Password.dirty(event.password);
 
-    emit(state.copyWith(password: password,status: Formz.validate([state.email,password])));
+    emit(state.copyWith(password: password,status: Formz.validate([state.email,password])? FormzSubmissionStatus.success : FormzSubmissionStatus.failure));
   }
 
   void _onLoginSubmitted(LoginSubmit event,Emitter<LoginState> emit) async {
 
-    if(state.status.isValidated){
+    if(state.status.isInProgress){
 
-      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
       try{
 
         final user = await _authenticationRepository.login(email: state.email.value, password: state.password.value);
 
         if(user == null){
-          emit(state.copyWith(status: FormzStatus.submissionFailure,user: user));
+          emit(state.copyWith(status: FormzSubmissionStatus.failure,user: user));
         }else{
-          emit(state.copyWith(status: FormzStatus.submissionSuccess,user: user));
+          emit(state.copyWith(status: FormzSubmissionStatus.success,user: user));
         }
       }catch(_){
-        emit(state.copyWith(status: FormzStatus.submissionFailure));
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }
   }
@@ -64,9 +64,9 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
     if(data != null) {
       final userData = LoginData.fromJson(data);
-      return LoginState(user: userData,status: FormzStatus.submissionSuccess);
+      return LoginState(user: userData,status: FormzSubmissionStatus.success);
     } else {
-      return const LoginState(user: null,status: FormzStatus.submissionFailure);
+      return const LoginState(user: null,status: FormzSubmissionStatus.failure);
     }
   }
 

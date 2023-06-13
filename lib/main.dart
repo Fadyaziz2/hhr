@@ -10,24 +10,32 @@ import 'package:onesthrm/page/app/app_bloc_observer.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
-  runZonedGuarded(() async {
-      await HydratedBlocOverrides.runZoned(() async {
-        ///disable http certificate checking
-        HttpOverrides.global = MyHttpOverrides();
-        return runApp(App(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
-        ));
-      },
-       blocObserver: AppBlocObserver(),
-       storage: await HydratedStorage.build(storageDirectory: await getTemporaryDirectory()));
+
+  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
+  Bloc.observer = AppBlocObserver();
+
+  runZonedGuarded((){
+    runApp(App(
+      authenticationRepository: authenticationRepository,
+      userRepository: userRepository,
+    ));
+      // await HydratedBlocOverrides.runZoned(() async {
+      //   ///disable http certificate checking
+      //   HttpOverrides.global = MyHttpOverrides();
+      //   return runApp(App(
+      //     authenticationRepository: authenticationRepository,
+      //     userRepository: userRepository,
+      //   ));
+      // },
+      //  blocObserver: AppBlocObserver(),
+      //  storage: await HydratedStorage.build(storageDirectory: await getTemporaryDirectory()));
     }, (error, trace) {
       log('main:runZonedGuarded => ${error.runtimeType} $trace');
     },

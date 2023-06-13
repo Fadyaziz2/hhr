@@ -15,13 +15,13 @@ class LoginForm extends StatelessWidget {
     return Center(
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state.status.isSubmissionFailure) {
+          if (state.status.isFailure) {
              showLoginDialog(context: context,isSuccess: false,body: 'Authentication failed');
           }
-          if(state.status.isSubmissionCanceled){
+          if(state.status.isCanceled){
              showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
           }
-          if(state.status.isSubmissionSuccess){
+          if(state.status.isSuccess){
             showLoginDialog(context: context,isSuccess: true,message: 'Authentication Successful');
           }
         },
@@ -83,7 +83,7 @@ class _EmailInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.phone_android_rounded),
             prefixIconColor: mainColor,
-            errorText: state.email.invalid ? 'Invalid email' : null,
+            errorText: state.email.isValid ? 'Invalid email' : null,
           ),
         );
       },
@@ -122,7 +122,7 @@ class _PasswordInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.password),
             prefixIconColor: mainColor,
-            errorText: state.password.invalid ? 'Invalid password' : null,
+            errorText: state.password.isValid ? 'Invalid password' : null,
           ),
         );
       },
@@ -137,7 +137,7 @@ class _LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
+        return state.status.isInProgress
             ? const CircularProgressIndicator()
             : SizedBox(
                 width: double.infinity,

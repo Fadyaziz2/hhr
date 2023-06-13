@@ -27,6 +27,7 @@ class DashboardData extends Equatable{
     this.currentMonth,
     this.upcomingEvents,
     this.appointments,
+    this.menus,
     this.config,
     this.attendanceData
   });
@@ -35,6 +36,7 @@ class DashboardData extends Equatable{
   final List<CurrentMonthData>? currentMonth;
   final List<UpcomingEvent>? upcomingEvents;
   final List<Appointment>? appointments;
+  final List<Menu>? menus;
   final AttendanceData? attendanceData;
   final Config? config;
 
@@ -43,11 +45,44 @@ class DashboardData extends Equatable{
         upcomingEvents: List<UpcomingEvent>.from(json["upcoming_events"].map((x) => UpcomingEvent.fromJson(x))),
         appointments: List<Appointment>.from(json["appoinment_list"].map((x) => Appointment.fromJson(x))),
         currentMonth: List<CurrentMonthData>.from(json["current_month"].map((x) => CurrentMonthData.fromJson(x))),
+        menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
         attendanceData: AttendanceData.fromJson(json['attendance_status']),
         config: Config.fromJson(json['config']),
       );
   @override
-  List<Object?> get props => [today,currentMonth,upcomingEvents,appointments,attendanceData,config];
+  List<Object?> get props => [today,currentMonth,upcomingEvents,appointments,attendanceData,config,menus];
+}
+
+class Menu {
+  Menu({
+    this.name,
+    this.slug,
+    this.position,
+    this.icon,
+    this.imageType,
+  });
+
+  String? name;
+  String? slug;
+  int? position;
+  String? icon;
+  String? imageType;
+
+  factory Menu.fromJson(Map<String, dynamic> json) => Menu(
+    name: json["name"],
+    slug: json["slug"],
+    position: json["position"],
+    icon: json["icon"],
+    imageType: json["image_type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "slug": slug,
+    "position": position,
+    "icon": icon,
+    "image_type": imageType,
+  };
 }
 
 class AttendanceData{

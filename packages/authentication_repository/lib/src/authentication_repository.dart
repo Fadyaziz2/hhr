@@ -27,13 +27,11 @@ class AuthenticationRepository{
   }
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(microseconds: 300));
     yield initialStatus;
     yield* _controller.stream;
   }
 
   Stream<LoginData> get loginData async* {
-    await Future<void>.delayed(const Duration(microseconds: 300));
     yield* _userController.stream;
   }
 

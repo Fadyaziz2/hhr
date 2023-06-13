@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 
 class MenuContentItem extends StatelessWidget {
 
   final Function() onPressed;
-  final String? image;
-  final String? name;
-  final String? imageType;
+  final Menu menu;
 
-  const MenuContentItem({Key? key,required this.onPressed,this.image,this.name,this.imageType}) : super(key: key);
+  const MenuContentItem({Key? key,required this.onPressed,required this.menu}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +23,23 @@ class MenuContentItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: [
-              imageType?.contains('svg') == true
+              menu.icon?.contains('svg') == true
                   ? SvgPicture.network(
-                image ?? "",
+                menu.icon ?? "",
                 height: 25,
                 width: 25,
                 color: colorPrimary,
-              )
-                  : Image.network(
-                image ?? '',
+              ) : Image.network(
+                menu.icon ?? '',
                 height: 25,
                 width: 25,
               ),
               const SizedBox(
                 width: 10,
               ),
-              const Text(
-                'Home',
-                style: TextStyle(fontSize: 12),
+               Text(
+                menu.name ?? '',
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),
