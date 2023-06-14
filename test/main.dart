@@ -10,7 +10,7 @@ void main() {
 
   initHydratedStorage();
 
-  group('HRM App', () {
+  group('HRM App Initialization', () {
 
     late MetaClubApiClient apiClient;
     late AuthenticationRepository authenticationRepository;
