@@ -21,15 +21,10 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
   Bloc.observer = AppBlocObserver();
 
-  runZonedGuarded((){
-    runApp(App(
-      authenticationRepository: authenticationRepository,
-      userRepository: userRepository,
-    ));
-    }, (error, trace) {
-      log('main:runZonedGuarded => ${error.runtimeType} $trace');
-    },
-  );
+  runApp(App(
+    authenticationRepository: authenticationRepository,
+    userRepository: userRepository,
+  ));
 }
 
 class MyHttpOverrides extends HttpOverrides {
