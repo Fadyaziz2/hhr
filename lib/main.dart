@@ -26,16 +26,6 @@ void main() async {
       authenticationRepository: authenticationRepository,
       userRepository: userRepository,
     ));
-      // await HydratedBlocOverrides.runZoned(() async {
-      //   ///disable http certificate checking
-      //   HttpOverrides.global = MyHttpOverrides();
-      //   return runApp(App(
-      //     authenticationRepository: authenticationRepository,
-      //     userRepository: userRepository,
-      //   ));
-      // },
-      //  blocObserver: AppBlocObserver(),
-      //  storage: await HydratedStorage.build(storageDirectory: await getTemporaryDirectory()));
     }, (error, trace) {
       log('main:runZonedGuarded => ${error.runtimeType} $trace');
     },

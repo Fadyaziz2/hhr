@@ -22,7 +22,7 @@ void main() {
        userRepository = UserRepository(token: '');
     });
 
-    testWidgets('Render HRM App', (widgetTester) async {
+    testWidgets('Render HRM AppView', (widgetTester) async {
       await widgetTester.pumpWidget(App(authenticationRepository: authenticationRepository, userRepository: userRepository));
       expect(find.byType(AppView), findsOneWidget);
     });
