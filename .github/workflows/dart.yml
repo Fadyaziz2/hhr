@@ -7,36 +7,70 @@ name: Dart
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest]
+        dart-version: [ stable, dev ]
+        # for now, code-version will mirror dart-version to reduce number of bots
+        # code-version: [stable] #, insiders]
+        include:
+          - dart-version: stable
+            flutter-version: beta
+            code-version: stable
+          - dart-version: dev
+            flutter-version: dev
+            code-version: insiders
+
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Dart ${{ matrix.dart-version }}
+        uses: DanTup/gh-actions/setup-dart@master
+        with:
+          channel: ${{ matrix.dart-version }}
+
+      - name: Setup Flutter ${{ matrix.flutter-version }}
+        id: flutter
+        if: "!startsWith(matrix.bot, 'dart')"
+        uses: DanTup/gh-actions/setup-flutter@master
+        with:
+          channel: ${{ matrix.flutter-version }}
+
+
+      - run: flutter update-packages
+        if: matrix.bot == 'flutter_repo'
+
+      - name: Print Dart version
+        run: dart --version
+
+      - name: Print Flutter version
+        run: flutter --version
 
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
       # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
-
-      - name: Install dependencies
-        run: dart pub get
+#      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: dart analyze
+#      - name: Analyze project source
+#        run: dart analyze
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
+      - name: Run flutter tests
+        run: flutter test test
