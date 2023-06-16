@@ -84,9 +84,7 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
       }
