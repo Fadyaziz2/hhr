@@ -1,21 +1,24 @@
 part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
+  final bool isValid;
   final FormzSubmissionStatus status;
   final Email email;
   final Password password;
   final LoginData? user;
 
-  const LoginState({this.status = FormzSubmissionStatus.initial,
+  const LoginState({this.isValid = false,
+      this.status = FormzSubmissionStatus.initial,
       this.email = const Email.pure(),
       this.password = const Password.pure(),
       this.user});
 
   LoginState copyWith(
-      {FormzSubmissionStatus? status, Email? phone, Password? password, LoginData? user}) {
+      { FormzSubmissionStatus? status,bool? isValid, Email? email, Password? password, LoginData? user}) {
     return LoginState(
         status: status ?? this.status,
-        email: phone ?? email,
+        isValid: isValid ?? this.isValid,
+        email: email ?? this.email,
         password: password ?? this.password,
         user: user ?? this.user);
   }

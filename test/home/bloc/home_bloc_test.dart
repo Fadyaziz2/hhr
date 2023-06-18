@@ -7,11 +7,9 @@ import 'package:onesthrm/res/enum.dart';
 
 class MockMetaClubApiClientRepository extends Mock implements MetaClubApiClient {
 
-   String mockToken = '';
-
-  @override
-  String get token => mockToken;
 }
+
+class MockSettings extends Mock implements Settings{}
 
 main() {
 
@@ -20,12 +18,16 @@ main() {
     late MetaClubApiClient metaClubApiClient;
     late HomeBloc homeBloc;
     DashboardModel? dashboardModel;
-    Settings? settings;
+    late Settings settings;
 
     setUp(() async {
       metaClubApiClient = MockMetaClubApiClientRepository();
+      metaClubApiClient.token = 'H6NlnVYnF6W6okJkrbSWyXh89eNV3j0wS0xtRTWM';
+      settings = MockSettings();
+      when(() => settings.data?.attendanceMethod).thenReturn('N');
+      when(() => settings.data?.currencyCode).thenReturn('\$');
+      when(() => settings.data?.isAdmin).thenReturn(false);
       when(() => metaClubApiClient.getSettings()).thenAnswer((_) async => settings);
-      when(() => metaClubApiClient.getDashboardData()).thenAnswer((_) async => dashboardModel);
       homeBloc = HomeBloc(metaClubApiClient: metaClubApiClient);
     });
 
@@ -53,27 +55,20 @@ main() {
           }
       );
 
-      blocTest<HomeBloc,HomeState>(
-        'Emit status [loading, success] when settings api call',
-          setUp: (){
-            when(()=> metaClubApiClient.getSettings());
-          },
-        build: ()=> homeBloc,
-        act: (bloc)=> bloc.add(LoadSettings()),
-        expect: ()=> <HomeState>[const HomeState(status: NetworkStatus.loading),
-          const HomeState(status: NetworkStatus.success)]
-      );
-
       // blocTest<HomeBloc,HomeState>(
-      //     'Emit status [success] when settings api call',
-      //     setUp: (){
-      //       metaClubApiClient = MockMetaClubApiClientRepository();
-      //       when(()=> metaClubApiClient.getSettings()).thenAnswer((_) async => settings);
-      //     },
-      //     build: ()=> homeBloc,
-      //     act: (bloc)=> bloc.add(LoadSettings()),
-      //     expect: ()=> <HomeState>[const HomeState(status: NetworkStatus.success)]
+      //   'Emit status [loading, failure] when settings api call',
+      //   build: ()=> homeBloc,
+      //   act: (bloc)=> bloc.add(LoadSettings()),
+      //   expect: ()=> <HomeState>[const HomeState(status: NetworkStatus.loading),
+      //     const HomeState(status: NetworkStatus.failure)]
       // );
+
+      blocTest<HomeBloc,HomeState>(
+          'Emit status [loading,success] when settings api call',
+          build: ()=> homeBloc,
+          act: (bloc)=> bloc.add(LoadSettings()),
+          expect: ()=> <HomeState>[const HomeState(status: NetworkStatus.loading), HomeState(status: NetworkStatus.success,settings: settings)]
+      );
 
     });
 

@@ -19,7 +19,7 @@ import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
-  final String token;
+  String token;
   late final HttpServiceImpl _httpServiceImpl;
 
   MetaClubApiClient({required this.token}) {
