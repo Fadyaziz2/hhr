@@ -26,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copy(settings: settings,status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
-      // throw NetworkRequestFailure(e.toString());
+      throw NetworkRequestFailure(e.toString());
     }
   }
 
@@ -38,7 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copy(dashboardModel: dashboardModel,status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
-      // throw NetworkRequestFailure(e.toString());
+      throw NetworkRequestFailure(e.toString());
     }
   }
 }

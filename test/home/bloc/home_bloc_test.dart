@@ -12,7 +12,6 @@ class MockMetaClubApiClientRepository extends Mock implements MetaClubApiClient 
 class MockSettings extends Mock implements Settings{}
 
 main() {
-
   group('HomeBloc', () {
 
     late MetaClubApiClient metaClubApiClient;
@@ -22,7 +21,7 @@ main() {
 
     setUp(() async {
       metaClubApiClient = MockMetaClubApiClientRepository();
-      metaClubApiClient.token = 'H6NlnVYnF6W6okJkrbSWyXh89eNV3j0wS0xtRTWM';
+      metaClubApiClient.token = 'H6NlnVYnF6W6okJkrbSWyXh89eNV3j0wS0xtRT324234234WM';
       settings = MockSettings();
       when(() => settings.data?.attendanceMethod).thenReturn('N');
       when(() => settings.data?.currencyCode).thenReturn('\$');
@@ -69,9 +68,6 @@ main() {
           act: (bloc)=> bloc.add(LoadSettings()),
           expect: ()=> <HomeState>[const HomeState(status: NetworkStatus.loading), HomeState(status: NetworkStatus.success,settings: settings)]
       );
-
     });
-
   });
-
 }

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-StaticsModel staticsModelFromJson(String str) =>
-    StaticsModel.fromJson(json.decode(str));
+import 'package:equatable/equatable.dart';
+
+StaticsModel staticsModelFromJson(String str) => StaticsModel.fromJson(json.decode(str));
 
 String staticsModelToJson(StaticsModel data) => json.encode(data.toJson());
 
@@ -14,12 +15,12 @@ class StaticsModel {
 
   bool? result;
   String? message;
-  Data? data;
+  Statics? data;
 
   factory StaticsModel.fromJson(Map<String, dynamic> json) => StaticsModel(
         result: json["result"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: Statics.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -29,8 +30,8 @@ class StaticsModel {
       };
 }
 
-class Data {
-  Data({
+class Statics {
+  Statics({
     this.today,
     this.currentMonth,
   });
@@ -38,7 +39,7 @@ class Data {
   List<Today>? today;
   List<CurrentMonth>? currentMonth;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Statics.fromJson(Map<String, dynamic> json) => Statics(
         today: List<Today>.from(json["today"].map((x) => Today.fromJson(x))),
         currentMonth: List<CurrentMonth>.from(
             json["current_month"].map((x) => CurrentMonth.fromJson(x))),
@@ -51,7 +52,7 @@ class Data {
       };
 }
 
-class CurrentMonth {
+class CurrentMonth extends Equatable{
   CurrentMonth({this.image, this.title, this.number, this.slug});
 
   String? image;
@@ -69,10 +70,14 @@ class CurrentMonth {
         "image": image,
         "title": title,
         "number": number,
+        "slug": slug
       };
+
+  @override
+  List<Object?> get props => [image, title, number, slug];
 }
 
-class Today {
+class Today extends Equatable{
   Today({this.image, this.title, this.number, this.slug});
 
   String? image;
@@ -90,5 +95,9 @@ class Today {
         "image": image,
         "title": title,
         "number": number,
+        "slug": slug,
       };
+
+  @override
+  List<Object?> get props => [image, title, number, slug];
 }
