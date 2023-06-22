@@ -141,7 +141,7 @@ class Appointment {
     time: json["time"],
     startAt: json["start_at"],
     endAt: json["end_at"],
-    location: json["location"],
+    location: json["location_track"],
     duration: json["duration"],
     participants: List<Participant>.from(json["participants"].map((x) => Participant.fromJson(x))),
     appointmentWith: json["appoinmentWith"],

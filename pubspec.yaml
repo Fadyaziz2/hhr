@@ -55,6 +55,8 @@ dependencies:
     path: packages/meta_club_api
   user_repository:
     path: packages/user_repository
+  location_track:
+    path: packages/location_track
   lottie: ^2.4.0
   flutter_lints: ^2.0.1
   photo_view: ^0.14.0

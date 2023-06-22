@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_track/location_track.dart';
 import 'package:onesthrm/page/home/content/home_bottom.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/home_bloc.dart';
@@ -13,6 +14,7 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    LocationProvider().getCurrentLocationStream();
 
     return BlocBuilder<HomeBloc,HomeState>(
       builder: (context,state){

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/app_bloc_observer.dart';
@@ -15,6 +16,8 @@ void main() async {
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
+  ///openBox for location hive
+  openLocationBox();
 
   HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
   Bloc.observer = AppBlocObserver();
