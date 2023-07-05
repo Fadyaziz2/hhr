@@ -6,7 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../location_track.dart';
-import 'package:permission_handler/permission_handler.dart' as permission;
 
 Future openLocationBox() async {
   final document = await getApplicationDocumentsDirectory();
@@ -15,12 +14,14 @@ Future openLocationBox() async {
   await Hive.openBox<LocationModel>(location);
 }
 
-class LocationProvider {
+class LocationServiceProvider {
   late LocationService locationServiceProvider;
   HiveLocationProvider locationProvider = HiveLocationProvider();
   GeoLocatorService geoService = GeoLocatorService();
-  LocationData? userLocation;
-  StreamSubscription? locationSubscription;
+  LocationData userLocation = LocationData.fromMap({});
+  geocoding.Placemark? placeMark;
+  String place = '';
+  late StreamSubscription locationSubscription;
   LatLng initialCameraPosition = const LatLng(23.256555, 90.157965);
 
 
@@ -39,6 +40,7 @@ class LocationProvider {
     await askForLocationAlwaysPermission();
 
     locationServiceProvider = LocationService();
+
 
     ///listening data from location service
     locationSubscription = locationServiceProvider.locationStream.listen((event) async {
@@ -64,6 +66,16 @@ class LocationProvider {
 
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
+
+      locationSubscription.pause();
+    });
+
+    Timer.periodic(const Duration(minutes: 2), (timer) async {
+      print('isPaused ${locationSubscription.isPaused}');
+      if(locationSubscription.isPaused){
+        locationSubscription.resume();
+        print('isPaused ${locationSubscription.isPaused}');
+      }
     });
   }
 
@@ -84,7 +96,11 @@ class LocationProvider {
   ///store data to local
   addLocationDataToLocal({String? currentDateData,required Position position}) async {
 
-    final placeMark = await getAddressByPosition(position: position);
+    final places = await getAddressByPosition(position: position);
+
+    placeMark = places?.first;
+
+    place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
 
     Timer.periodic(const Duration(minutes: 2), (timer) async {
 
@@ -94,22 +110,23 @@ class LocationProvider {
 
       double distance = 0.0;
 
-      final driverLocationModel = LocationModel(
+      final locationModel = LocationModel(
           latitude: position.latitude,
           longitude: position.longitude,
           speed: position.speed,
-          city: placeMark?.first.locality,
-          country: placeMark?.first.country,
-          countryCode: placeMark?.first.isoCountryCode,
-          address: '${placeMark?.first.name} ${placeMark?.first.subLocality} ${placeMark?.first.thoroughfare} ${placeMark?.first.subThoroughfare}',
+          city: placeMark?.locality,
+          country: placeMark?.country,
+          countryCode: placeMark?.isoCountryCode,
+          address: '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
           heading: position.heading,
           distance: distance,
           datetime: currentDateData);
 
       ///add data to local database
-      locationProvider.add(driverLocationModel);
+      locationProvider.add(locationModel);
     });
   }
+
 
   ///data will be delete after data store ro server
   deleteDataAndSendToServer({String? currentDateData}) async {

@@ -94,6 +94,20 @@ class MetaClubApiClient {
     }
   }
 
+  Future<CheckInOut?> checkInOut() async {
+    const String api = 'user/attendance';
+
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return CheckInOut.fromJson(response?.data['data']);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<DashboardModel?> getDashboardData() async {
     const String api = 'dashboard/statistics';
 

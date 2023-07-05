@@ -8,13 +8,15 @@ import '../../content/breakCard.dart';
 import '../../content/checkInOutCard.dart';
 import '../../content/home_header.dart';
 
+LocationServiceProvider locationServiceProvider = LocationServiceProvider();
+
 class HomeContent extends StatelessWidget {
   const HomeContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    LocationProvider().getCurrentLocationStream();
+    locationServiceProvider.getCurrentLocationStream();
 
     return BlocBuilder<HomeBloc,HomeState>(
       builder: (context,state){

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
@@ -11,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
@@ -22,9 +24,17 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
   Bloc.observer = AppBlocObserver();
 
-  runApp(App(
-    authenticationRepository: authenticationRepository,
-    userRepository: userRepository,
+  runApp(EasyLocalization(
+    supportedLocales: const [
+      Locale('en', 'US'),
+      Locale('bn', 'BN'),
+      Locale('ar', 'AR')
+    ],
+    path: 'assets/translations',
+    child: App(
+      authenticationRepository: authenticationRepository,
+      userRepository: userRepository,
+    ),
   ));
 }
 
