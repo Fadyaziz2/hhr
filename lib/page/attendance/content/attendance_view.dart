@@ -7,9 +7,9 @@ import '../../home/bloc/home_bloc.dart';
 
 class AttendanceView extends StatefulWidget {
 
-  HomeBloc homeBloc;
+   final HomeBloc homeBloc;
 
-   AttendanceView({Key? key,required this.homeBloc}) : super(key: key);
+   const AttendanceView({Key? key,required this.homeBloc}) : super(key: key);
 
   @override
   State<AttendanceView> createState() => _AttendanceState();
