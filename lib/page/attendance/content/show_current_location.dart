@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -16,6 +17,7 @@ class ShowCurrentLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Container(
@@ -30,7 +32,7 @@ class ShowCurrentLocation extends StatelessWidget {
                 Expanded(
                   child: SizedBox(
                     child: Text(
-                      locationServiceProvider.place,
+                      context.read<AttendanceBloc>().state.location ??  locationServiceProvider.place,
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -44,8 +46,10 @@ class ShowCurrentLocation extends StatelessWidget {
                   width: 5,
                 ),
                 InkWell(
-                  onTap: () async {},
-                  child: Row(
+                  onTap: () async {
+                    context.read<AttendanceBloc>().add(OnLocationRefreshEvent());
+                  },
+                  child: context.read<AttendanceBloc>().state.locationLoaded ? Row(
                     children: [
                       CircleAvatar(
                         radius: 14,
@@ -67,7 +71,7 @@ class ShowCurrentLocation extends StatelessWidget {
                             color: colorPrimary, fontWeight: FontWeight.bold),
                       ),
                     ],
-                  ),
+                  ): const CircularProgressIndicator(),
                 )
               ],
             ),
@@ -109,6 +113,7 @@ class ShowCurrentLocation extends StatelessWidget {
               /// RemoteModeType
               /// 0 ==> Home
               /// 1 ==> office
+              context.read<AttendanceBloc>().add(OnRemoteModeChanged(mode: index??0));
             },
           ),
         )

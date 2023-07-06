@@ -31,6 +31,16 @@ class LocationServiceProvider {
     return await geoService.getCordFuture();
   }
 
+  Future<String?> onLocationRefresh() async {
+   Position? position = await getUserPositionFuture();
+   if(position != null) {
+     final places = await getAddressByPosition(position: position);
+     placeMark = places?.first;
+     place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+   }
+   return place;
+  }
+
   ///return driver current location stream
   ///for this we use another package called {Location:any}
   ///to get location more better way
