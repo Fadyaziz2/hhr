@@ -6,7 +6,7 @@ class AttendanceState extends Equatable {
   final NetworkStatus status;
   final bool locationLoaded;
   final DashboardModel? dashboardModel;
-  final CheckInOut? checkInOut;
+  final CheckData? checkInOut;
   final String? location;
 
   const AttendanceState({this.status = NetworkStatus.initial,this.locationLoaded = true, this.dashboardModel, this.checkInOut, this.location});
@@ -14,7 +14,7 @@ class AttendanceState extends Equatable {
   AttendanceState copyWith(
       {NetworkStatus? status,
       DashboardModel? dashboardModel,
-      CheckInOut? checkInOut,
+        CheckData? checkInOut,
       String? location}) {
     return AttendanceState(
         status: status ?? this.status,

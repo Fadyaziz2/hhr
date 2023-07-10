@@ -94,13 +94,13 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckInOut?> checkInOut({required Map<String,dynamic> body}) async {
+  Future<CheckData?> checkInOut({required Map<String,dynamic> body}) async {
     const String api = 'user/attendance';
 
     try {
       final response = await _httpServiceImpl.postRequest('$_baseUrl$api',body);
       if (response.statusCode == 200) {
-        return CheckInOut.fromJson(response.data['data']);
+        return CheckData.fromJson(response.data);
       }
       return null;
     } catch (_) {

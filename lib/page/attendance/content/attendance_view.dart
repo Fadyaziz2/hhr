@@ -37,45 +37,54 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
     final user = context.read<AuthenticationBloc>().state.data;
     final homeData = widget.homeBloc.state.dashboardModel;
 
-    return BlocBuilder<AttendanceBloc,AttendanceState>(
-      builder: (context,state){
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: const Text('Attendance'),
-          ),
-          body: Center(
-            child: ListView(
-              children:  [
-                /// Show Current Location and Remote mode ......
-                if(homeData != null)
-                  ShowCurrentLocation(homeData: homeData,),
-
-                /// Show Current time .......
-                if(homeData != null)
-                  ShowCurrentTime(homeData: homeData),
-
-                // /// Check In Check Out Button .......
-                // if(homeData != null)
-                //   CheckInCheckOutButton(homeData: homeData),
-                if(homeData != null)
-                 AnimatedCircularButton(onComplete: (){
-                   context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
-                 },),
-
-                const SizedBox(
-                  height: 35,
-                ),
-
-                /// Show Check In Check Out time
-                if(homeData != null)
-                  CheckInCheckOutTime(homeData: homeData,),
-                const SizedBox(height: 70.0)
-              ],
-            ),
-          ),
-        );
+    return BlocListener<AttendanceBloc,AttendanceState>(
+      listenWhen: (previous,current){
+        print(current.checkInOut?.message);
+        return current != previous;
       },
+      listener: (context,state){
+        print(state.checkInOut?.message);
+      },
+      child: BlocBuilder<AttendanceBloc,AttendanceState>(
+        builder: (context,state){
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: const Text('Attendance'),
+            ),
+            body: Center(
+              child: ListView(
+                children:  [
+                  /// Show Current Location and Remote mode ......
+                  if(homeData != null)
+                    ShowCurrentLocation(homeData: homeData,),
+
+                  /// Show Current time .......
+                  if(homeData != null)
+                    ShowCurrentTime(homeData: homeData),
+
+                  // /// Check In Check Out Button .......
+                  // if(homeData != null)
+                  //   CheckInCheckOutButton(homeData: homeData),
+                  if(homeData != null)
+                   AnimatedCircularButton(onComplete: (){
+                     context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
+                   },),
+
+                  const SizedBox(
+                    height: 35,
+                  ),
+
+                  /// Show Check In Check Out time
+                  if(homeData != null)
+                    CheckInCheckOutTime(homeData: homeData,),
+                  const SizedBox(height: 70.0)
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -40,7 +40,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(status: NetworkStatus.loading));
-    body.reason = '';
+    body.mode ??= 0;
     body.attendanceId = '${event.homeData.data?.attendanceData?.id}';
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
     emit(AttendanceState(status: NetworkStatus.success,checkInOut: checkInOut));

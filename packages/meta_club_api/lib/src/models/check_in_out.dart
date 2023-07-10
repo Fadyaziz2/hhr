@@ -1,6 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-class CheckInOut extends Equatable{
+class CheckData {
+  final String? message;
+  final bool? result;
+  final CheckInOut? checkInOut;
+
+  CheckData({this.message, this.result, this.checkInOut});
+
+  factory CheckData.fromJson(Map<String, dynamic> json) {
+    return CheckData(
+        result: json['result'],
+        message: json['message'],
+        checkInOut: json['data'] != null ? CheckInOut.fromJson(json['data']) : null);
+  }
+}
+
+class CheckInOut extends Equatable {
   final int? id;
   final int? remoteMode;
   final String? date;
@@ -10,32 +25,39 @@ class CheckInOut extends Equatable{
   final String? longitude;
   final String? inStatus;
 
-  const CheckInOut({this.id, this.remoteMode, this.date, this.checkIn, this.checkInIp, this.latitude, this.longitude, this.inStatus});
+  const CheckInOut(
+      {this.id,
+      this.remoteMode,
+      this.date,
+      this.checkIn,
+      this.checkInIp,
+      this.latitude,
+      this.longitude,
+      this.inStatus});
 
-  factory CheckInOut.fromJson(Map<String,dynamic> json){
+  factory CheckInOut.fromJson(Map<String, dynamic> json) {
     return CheckInOut(
-      id: json['id'],
-      remoteMode: json['remote_mode_in'],
-      date: json['date'],
-      checkIn: json['check_in'],
-      checkInIp: json['checkin_ip'],
-      latitude: json['check_in_location'],
-      longitude: json['check_in_latitude'],
-      inStatus: json['in_status']
-    );
+        id: json['id'],
+        remoteMode: json['remote_mode_in'],
+        date: json['date'],
+        checkIn: json['check_in'],
+        checkInIp: json['checkin_ip'],
+        latitude: json['check_in_latitude'],
+        longitude: json['check_in_longitude'],
+        inStatus: json['in_status']);
   }
 
-  Map<String,dynamic> toJson() => {
-    'id':id,
-    'remote_mode_in':remoteMode,
-    'date':date,
-    'check_in':checkIn,
-    'checkin_ip':checkInIp,
-    'check_in_location':latitude,
-    'check_in_latitude':longitude,
-    'in_status':inStatus,
-  };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'remote_mode_in': remoteMode,
+        'date': date,
+        'check_in': checkIn,
+        'checkin_ip': checkInIp,
+        'check_in_location': latitude,
+        'check_in_latitude': longitude,
+        'in_status': inStatus,
+      };
 
   @override
-  List<Object?> get props => [id,remoteMode,date];
+  List<Object?> get props => [id, remoteMode, date];
 }
