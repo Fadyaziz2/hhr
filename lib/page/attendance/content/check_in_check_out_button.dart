@@ -2,27 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 
-class CheckInCheckOutButton extends StatelessWidget {
+class CheckInCheckOutButton extends StatefulWidget {
 
   final DashboardModel homeData;
 
   const CheckInCheckOutButton({Key? key,required this.homeData}) : super(key: key);
 
   @override
+  State<CheckInCheckOutButton> createState() => _CheckInCheckOutButtonState();
+}
+
+class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton> with TickerProviderStateMixin{
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 3),
+        animationBehavior: AnimationBehavior.preserve);
+
+    controller.addStatusListener((AnimationStatus status) {
+      print('AnimationStatus ${status.name}');
+      setState(() {
+
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
         onVerticalDragCancel: () {
-
+          controller.reset();
         },
         onHorizontalDragCancel: () {
-
+          controller.reset();
         },
         onTapDown: (_) {
-
+          controller.forward();
         },
         onTapUp: (_) {
-
+          if (controller.status == AnimationStatus.forward) {
+            controller.reverse();
+            controller.value;
+          }
         },
         child: Stack(
           alignment: Alignment.center,
@@ -51,9 +78,9 @@ class CheckInCheckOutButton extends StatelessWidget {
                       offset: const Offset(0, 3),
                     )
                   ]),
-              child: const CircularProgressIndicator(
+              child:  CircularProgressIndicator(
                 strokeWidth: 5,
-                value: 0.5,
+                value: controller.value,
                 valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
               ),
             ),

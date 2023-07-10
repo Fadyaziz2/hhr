@@ -5,6 +5,7 @@ import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
+import 'animated_circular_button.dart';
 import 'check_in_check_out_button.dart';
 import 'check_in_check_out_time.dart';
 
@@ -54,9 +55,13 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                 if(homeData != null)
                   ShowCurrentTime(homeData: homeData),
 
-                /// Check In Check Out Button .......
+                // /// Check In Check Out Button .......
+                // if(homeData != null)
+                //   CheckInCheckOutButton(homeData: homeData),
                 if(homeData != null)
-                  CheckInCheckOutButton(homeData: homeData),
+                 AnimatedCircularButton(onComplete: (){
+                   context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
+                 },),
 
                 const SizedBox(
                   height: 35,
