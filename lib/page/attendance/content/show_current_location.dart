@@ -7,6 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ShowCurrentLocation extends StatelessWidget {
@@ -88,34 +89,39 @@ class ShowCurrentLocation extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        SizedBox(
-          height: 42.0,
-          child: ToggleSwitch(
-            minWidth: 110.0,
-            borderColor: const [
-              colorPrimary,
-            ],
-            borderWidth: 3,
-            cornerRadius: 30.0,
-            activeBgColors: const [
-              [Colors.white],
-              [Colors.white]
-            ],
-            activeFgColor: colorPrimary,
-            inactiveBgColor: colorPrimary,
-            inactiveFgColor: Colors.white,
-            initialLabelIndex: 0,
-            icons: const [FontAwesomeIcons.house, FontAwesomeIcons.building],
-            totalSwitches: 2,
-            labels: const ['home', 'office'],
-            radiusStyle: true,
-            onToggle: (index) {
-              /// RemoteModeType
-              /// 0 ==> Home
-              /// 1 ==> office
-              context.read<AttendanceBloc>().add(OnRemoteModeChanged(mode: index??0));
-            },
-          ),
+        FutureBuilder<int?>(
+          future: SharedUtil.getRemoteModeType(),
+          builder: (context, snapshot){
+            return SizedBox(
+              height: 42.0,
+              child: ToggleSwitch(
+                minWidth: 110.0,
+                borderColor: const [
+                  colorPrimary,
+                ],
+                borderWidth: 3,
+                cornerRadius: 30.0,
+                activeBgColors: const [
+                  [Colors.white],
+                  [Colors.white]
+                ],
+                activeFgColor: colorPrimary,
+                inactiveBgColor: colorPrimary,
+                inactiveFgColor: Colors.white,
+                initialLabelIndex: snapshot.data,
+                icons: const [FontAwesomeIcons.house, FontAwesomeIcons.building],
+                totalSwitches: 2,
+                labels: const ['home', 'office'],
+                radiusStyle: true,
+                onToggle: (index) {
+                  /// RemoteModeType
+                  /// 0 ==> Home
+                  /// 1 ==> office
+                  context.read<AttendanceBloc>().add(OnRemoteModeChanged(mode: index??0));
+                },
+              ),
+            );
+          },
         )
       ],
     );

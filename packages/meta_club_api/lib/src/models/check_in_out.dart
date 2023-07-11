@@ -11,7 +11,9 @@ class CheckData {
     return CheckData(
         result: json['result'],
         message: json['message'],
-        checkInOut: json['data'] != null ? CheckInOut.fromJson(json['data']) : null);
+        checkInOut: json['data'] != null
+            ? CheckInOut.fromJson(json['data'])
+            : null);
   }
 }
 
@@ -20,20 +22,27 @@ class CheckInOut extends Equatable {
   final int? remoteMode;
   final String? date;
   final String? checkIn;
+  final String? checkOut;
+  final String? inTime;
+  final String? outTime;
+  final String? stayTime;
   final String? checkInIp;
   final String? latitude;
   final String? longitude;
   final String? inStatus;
 
-  const CheckInOut(
-      {this.id,
-      this.remoteMode,
-      this.date,
-      this.checkIn,
-      this.checkInIp,
-      this.latitude,
-      this.longitude,
-      this.inStatus});
+  const CheckInOut({this.id,
+    this.remoteMode,
+    this.date,
+    this.checkIn,
+    this.checkOut,
+    this.inTime,
+    this.outTime,
+    this.stayTime,
+    this.checkInIp,
+    this.latitude,
+    this.longitude,
+    this.inStatus});
 
   factory CheckInOut.fromJson(Map<String, dynamic> json) {
     return CheckInOut(
@@ -41,13 +50,18 @@ class CheckInOut extends Equatable {
         remoteMode: json['remote_mode_in'],
         date: json['date'],
         checkIn: json['check_in'],
+        checkOut: json['check_out'],
+        stayTime: json['stay_time'],
+        inTime: json['in_time'],
+        outTime: json['out_time'],
         checkInIp: json['checkin_ip'],
         latitude: json['check_in_latitude'],
         longitude: json['check_in_longitude'],
         inStatus: json['in_status']);
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'id': id,
         'remote_mode_in': remoteMode,
         'date': date,

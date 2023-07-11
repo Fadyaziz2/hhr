@@ -6,10 +6,10 @@ class AttendanceState extends Equatable {
   final NetworkStatus status;
   final bool locationLoaded;
   final DashboardModel? dashboardModel;
-  final CheckData? checkInOut;
+  final CheckData? checkData;
   final String? location;
 
-  const AttendanceState({this.status = NetworkStatus.initial,this.locationLoaded = true, this.dashboardModel, this.checkInOut, this.location});
+  const AttendanceState({this.status = NetworkStatus.initial,this.locationLoaded = true, this.dashboardModel, this.checkData, this.location});
 
   AttendanceState copyWith(
       {NetworkStatus? status,
@@ -19,10 +19,10 @@ class AttendanceState extends Equatable {
     return AttendanceState(
         status: status ?? this.status,
         dashboardModel: dashboardModel ?? this.dashboardModel,
-        checkInOut: checkInOut ?? this.checkInOut,
+        checkData: checkInOut ?? checkData,
         location: location ?? this.location);
   }
 
   @override
-  List<Object?> get props => [status, dashboardModel, location, checkInOut];
+  List<Object?> get props => [status, dashboardModel, location, checkData];
 }

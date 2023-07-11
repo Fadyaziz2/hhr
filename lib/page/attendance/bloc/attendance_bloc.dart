@@ -1,9 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
+
+import '../../../res/const.dart';
+import '../../../res/const.dart';
+import '../../../res/const.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;
@@ -36,13 +42,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
        body.mode = event.mode;
+       SharedUtil.setRemoteModeType(event.mode);
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(status: NetworkStatus.loading));
     body.mode ??= 0;
-    body.attendanceId = '${event.homeData.data?.attendanceData?.id}';
+    body.attendanceId = globalState.get(attendanceId);
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
-    emit(AttendanceState(status: NetworkStatus.success,checkInOut: checkInOut));
+    globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
+    globalState.set(inTime, checkInOut?.checkInOut?.inTime);
+    globalState.set(outTime, checkInOut?.checkInOut?.outTime);
+    globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
+    emit(AttendanceState(status: NetworkStatus.success,checkData: checkInOut));
   }
 }

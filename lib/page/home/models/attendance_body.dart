@@ -4,7 +4,7 @@ class AttendanceBody {
   String? longitude;
   String? reason;
   int? mode;
-  String? attendanceId;
+  int? attendanceId;
 
   Map<String, dynamic> toJson() => {
         'latitude': latitude,

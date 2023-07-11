@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:math' as m;
 import 'package:onesthrm/res/const.dart';
 
+import '../../app/global_state.dart';
+
 class AnimatedCircularButton extends StatefulWidget {
   final VoidCallback? onComplete;
+  final bool isCheckedIn;
 
-  const AnimatedCircularButton({Key? key, this.onComplete}) : super(key: key);
+  const AnimatedCircularButton({Key? key, this.onComplete, this.isCheckedIn = false}) : super(key: key);
 
   @override
   State<AnimatedCircularButton> createState() => _AnimatedCircularButtonState();
@@ -48,6 +51,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
 
   @override
   Widget build(BuildContext context) {
+
     return AspectRatio(
       aspectRatio: 2.0,
       child: ClipRRect(
@@ -61,7 +65,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                   painter: ArcShapePainter(
                     progress: animation.value,
                     radius: MediaQuery.of(context).size.width,
-                    color: colorPrimary,
+                    color:  globalState.get(attendanceId) == null ? colorPrimary : colorDeepRed,
                     strokeWidth: 5.0,
                   ),
                   //Logo and text
@@ -80,11 +84,11 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                         ),
                       ),
                       //Text
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
+                       Padding(
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          "Check In",
-                          style: TextStyle(color: Colors.white),
+                          globalState.get(attendanceId) == null ? "Check In" : "Check Out",
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ],

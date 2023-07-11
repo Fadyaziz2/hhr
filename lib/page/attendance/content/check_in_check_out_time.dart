@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
+import '../../app/global_state.dart';
 
 class CheckInCheckOutTime extends StatelessWidget {
   final DashboardModel homeData;
@@ -22,7 +23,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5,
             ),
             Text(
-              homeData.data?.attendanceData?.inTime ?? "--:--",
+              globalState.get(inTime) ?? "--:--",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
@@ -47,7 +48,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5,
             ),
             Text(
-              homeData.data?.attendanceData?.outTime ?? "--:--",
+              globalState.get(outTime) ?? "--:--",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
@@ -72,7 +73,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5,
             ),
             Text(
-              homeData.data?.attendanceData?.stayTime ?? "--:--",
+              globalState.get(stayTime) ?? "--:--",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16),

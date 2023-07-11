@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
+import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import 'animated_circular_button.dart';
-import 'check_in_check_out_button.dart';
 import 'check_in_check_out_time.dart';
 
 class AttendanceView extends StatefulWidget {
@@ -38,12 +39,14 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
     final homeData = widget.homeBloc.state.dashboardModel;
 
     return BlocListener<AttendanceBloc,AttendanceState>(
-      listenWhen: (previous,current){
-        print(current.checkInOut?.message);
-        return current != previous;
-      },
+      listenWhen: (oldState,newState) => oldState != newState,
       listener: (context,state){
-        print(state.checkInOut?.message);
+        if(state.checkData?.message != null) {
+          showLoginDialog(context: context,message: '${user?.user?.name}',body: '${state.checkData?.message}',isSuccess: state.checkData?.checkInOut != null ? true : false);
+        }
+        if(state.status == NetworkStatus.success){
+          widget.homeBloc.add(LoadHomeData());
+        }
       },
       child: BlocBuilder<AttendanceBloc,AttendanceState>(
         builder: (context,state){
@@ -63,13 +66,10 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                   if(homeData != null)
                     ShowCurrentTime(homeData: homeData),
 
-                  // /// Check In Check Out Button .......
-                  // if(homeData != null)
-                  //   CheckInCheckOutButton(homeData: homeData),
                   if(homeData != null)
                    AnimatedCircularButton(onComplete: (){
                      context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
-                   },),
+                   },isCheckedIn: homeData.data?.attendanceData?.id != null,),
 
                   const SizedBox(
                     height: 35,
