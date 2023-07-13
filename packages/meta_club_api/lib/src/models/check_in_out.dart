@@ -55,8 +55,8 @@ class CheckInOut extends Equatable {
         inTime: json['in_time'],
         outTime: json['out_time'],
         checkInIp: json['checkin_ip'],
-        latitude: json['check_in_latitude'],
-        longitude: json['check_in_longitude'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
         inStatus: json['in_status']);
   }
 
@@ -67,8 +67,8 @@ class CheckInOut extends Equatable {
         'date': date,
         'check_in': checkIn,
         'checkin_ip': checkInIp,
-        'check_in_location': latitude,
-        'check_in_latitude': longitude,
+        'longitude': latitude,
+        'latitude': longitude,
         'in_status': inStatus,
       };
 

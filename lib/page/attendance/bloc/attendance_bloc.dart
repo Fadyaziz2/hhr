@@ -50,7 +50,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.mode ??= 0;
     body.attendanceId = globalState.get(attendanceId);
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
-    globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
+    globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut!.id : null);
     globalState.set(inTime, checkInOut?.checkInOut?.inTime);
     globalState.set(outTime, checkInOut?.checkInOut?.outTime);
     globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);

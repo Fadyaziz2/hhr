@@ -24,7 +24,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
     super.initState();
     //Init the animation and it's event handler
     controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     animation = Tween<double>(begin: 0, end: 1).animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -137,14 +137,13 @@ class ArcShapePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var progressAngle = m.pi * 2.2 * progress;
+    var progressAngle = m.pi * 2.0 * progress;
 
     //Define center of the available screen
     Offset center = Offset(size.width / 2, size.height / 2);
 
     //Draw the line arc
-    canvas.drawArc(Rect.fromCircle(center: center, radius: 85.0), -m.pi / 2,
-        progressAngle, false, _activePaint);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: 85.0), -m.pi / 2, progressAngle, false, _activePaint);
 
     canvas.drawCircle(center, 85.0, _inActivePaint);
 

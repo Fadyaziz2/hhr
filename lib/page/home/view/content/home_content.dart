@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:onesthrm/page/home/content/home_bottom.dart';
+import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/home_bloc.dart';
 import '../../content/breakCard.dart';
@@ -25,7 +26,7 @@ class HomeContent extends StatelessWidget {
         final user = context.read<AuthenticationBloc>().state.data;
         final homeData = context.read<HomeBloc>().state.dashboardModel;
 
-        return ListView(
+        return homeData != null ? ListView(
           children: [
             ///top-header
             HomeHeader(settings: settings, user: user,dashboardModel: homeData),
@@ -36,7 +37,7 @@ class HomeContent extends StatelessWidget {
             ///bottom-header
             HomeBottom(settings: settings, user: user,dashboardModel: homeData),
           ],
-        );
+        ) : const HomeContentShimmer();
       },
     );
   }
