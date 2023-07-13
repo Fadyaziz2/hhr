@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
@@ -34,9 +35,10 @@ class MockStorage extends Mock implements Storage{}
 
 late Storage hydratedStorage;
 
-void initHydratedStorage(){
+void initHydratedStorage() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   hydratedStorage = MockStorage();
   when(() => hydratedStorage.write(any(),any<dynamic>())).thenAnswer((_) async {});
   HydratedBloc.storage = hydratedStorage;
+  await EasyLocalization.ensureInitialized();
 }

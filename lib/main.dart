@@ -13,7 +13,6 @@ import 'package:path_provider/path_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
@@ -31,6 +30,8 @@ void main() async {
       Locale('ar', 'AR')
     ],
     path: 'assets/translations',
+    saveLocale: true,
+    fallbackLocale: const Locale('en', 'US'),
     child: App(
       authenticationRepository: authenticationRepository,
       userRepository: userRepository,
