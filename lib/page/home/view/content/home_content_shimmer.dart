@@ -22,7 +22,12 @@ class HomeContentShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
             SizedBox(height: 100.0,),
-            TileShimmer(titleHeight: 24.0,),
+            Row(
+              children: [
+                Expanded(child: TileShimmer(titleHeight: 12.0,)),
+                SizedBox(width: 120.0,)
+              ],
+            ),
             TileShimmer(isTrailing: true,isSubTitle: true,),
             SizedBox(height: 16.0,),
             HorizontalListShimmer(),

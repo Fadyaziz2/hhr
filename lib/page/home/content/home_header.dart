@@ -45,7 +45,7 @@ class HomeHeader extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 8),
                         child: Text(
-                          settings?.data?.timeWish?.wish?? "",
+                          settings?.data?.timeWish?.wish ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white,fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -68,7 +68,7 @@ class HomeHeader extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          settings?.data?.timeWish?.subTitle?? "",
+                          settings?.data?.timeWish?.subTitle ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
                           style: const TextStyle(
                               fontSize: 14,
                               fontWeight:
@@ -80,9 +80,9 @@ class HomeHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                if(settings?.data?.timeWish != null)
+                if(settings?.data?.timeWish != null || dashboardModel?.data?.config?.timeWish != null)
                 SvgPicture.network(
-                  settings!.data!.timeWish!.image ?? '',
+                  settings?.data?.timeWish?.image ?? dashboardModel?.data?.config?.timeWish?.image ?? '',
                   semanticsLabel: 'sun',
                   height: 60,
                   width: 60,

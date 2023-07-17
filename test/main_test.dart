@@ -9,8 +9,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 void main() {
 
-  initHydratedStorage();
-
   group('HRM App Initialization', () {
 
     late MetaClubApiClient apiClient;
@@ -24,6 +22,7 @@ void main() {
     });
 
     testWidgets('Render HRM AppView', (widgetTester) async {
+      initHydratedStorage();
       await widgetTester.pumpWidget(App(authenticationRepository: authenticationRepository, userRepository: userRepository));
       expect(find.byType(AppView), findsOneWidget);
     });
