@@ -312,6 +312,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  custom_timer:
+    dependency: "direct main"
+    description:
+      name: custom_timer
+      sha256: d83b9b22b9c8e44080ff3cd4b061b04ecb846aae64a1c6888b0a3acc1a61f697
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   dart_style:
     dependency: transitive
     description:

@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/break/view/break_page.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
+import '../bloc/home_bloc.dart';
 
 class BreakCard extends StatelessWidget {
 
@@ -22,7 +25,9 @@ class BreakCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-          onTap: () { },
+          onTap: () {
+            Navigator.of(context).push(BreakScreen.route(homeBloc: context.read<HomeBloc>()));
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Row(
