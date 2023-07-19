@@ -8,6 +8,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -63,6 +64,14 @@ void main() {
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.theme, isNotNull);
       expect(materialApp.darkTheme, null);
+    });
+
+    testWidgets('Renders SplashScreen', (tester) async {
+      await tester.pumpWidget(RepositoryProvider.value(
+        value: authenticationRepository,
+        child: buildSubject(),
+      ));
+      expect(find.byType(SplashScreen), findsOneWidget);
     });
   });
 }
