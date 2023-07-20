@@ -108,6 +108,19 @@ class MetaClubApiClient {
     }
   }
 
+  Future<Break?> backBreak() async {
+    const String api = 'user/attendance/break-back';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',{});
+      if (response.statusCode == 200) {
+        return Break.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<DashboardModel?> getDashboardData() async {
     const String api = 'dashboard/statistics';
 

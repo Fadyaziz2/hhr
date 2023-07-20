@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as m;
 import 'package:onesthrm/res/const.dart';
-
 import '../../app/global_state.dart';
 
 class AnimatedCircularButton extends StatefulWidget {
   final VoidCallback? onComplete;
   final bool isCheckedIn;
+  final String title;
+  final Color color;
 
-  const AnimatedCircularButton({Key? key, this.onComplete, this.isCheckedIn = false}) : super(key: key);
+  const AnimatedCircularButton({Key? key, required this.title, required this.color,this.onComplete, this.isCheckedIn = false}) : super(key: key);
 
   @override
   State<AnimatedCircularButton> createState() => _AnimatedCircularButtonState();
@@ -23,8 +24,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
   void initState() {
     super.initState();
     //Init the animation and it's event handler
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
     animation = Tween<double>(begin: 0, end: 1).animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -65,7 +65,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                   painter: ArcShapePainter(
                     progress: animation.value,
                     radius: MediaQuery.of(context).size.width,
-                    color:  globalState.get(attendanceId) == null ? colorPrimary : colorDeepRed,
+                    color:  widget.color,
                     strokeWidth: 5.0,
                   ),
                   //Logo and text
@@ -83,11 +83,10 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                           width: 45,
                         ),
                       ),
-                      //Text
                        Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          globalState.get(attendanceId) == null ? "Check In" : "Check Out",
+                          widget.title,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

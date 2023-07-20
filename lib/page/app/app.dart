@@ -69,9 +69,9 @@ class _AppViewState extends State<AppView> {
           primary: colorPrimary,
         ),
       ),
-      // localizationsDelegates: context.localizationDelegates,
-      // supportedLocales: context.supportedLocales,
-      // locale: context.locale,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       onGenerateRoute: (_) => SplashScreen.route(),
     );
   }

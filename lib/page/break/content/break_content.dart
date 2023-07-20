@@ -1,10 +1,14 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
 import '../../attendance/content/animated_circular_button.dart';
+import 'break_header.dart';
 
 class BreakContent extends StatefulWidget {
   final HomeBloc homeBloc;
@@ -63,65 +67,116 @@ class _BreakContentState extends State<BreakContent>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 20.0,
-          ),
-          const Center(
-            child: Text.rich(
-               TextSpan(
-                children: [
-                  TextSpan(
-                      text: 'You have already taken ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: Color(0xFF555555))),
-                  TextSpan(
-                      text: "00:08:15",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.redAccent)),
-                  TextSpan(
-                      text: ' break',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: Color(0xFF555555))),
-                ],
+    DashboardModel? dashboard = widget.homeBloc.state.dashboardModel;
+
+    return BlocListener<BreakBloc, BreakState>(
+      listenWhen: (oldState, newState) => oldState != newState,
+      listener: (context, state) {
+        if (state.isTimerStart) {
+          controllerBreakTimer.start();
+        } else {
+          controllerBreakTimer.reset();
+        }
+        if(state.breakBack?.data?.status == 'break_out'){
+          widget.homeBloc.add(LoadHomeData());
+        }
+      },
+      child: BlocBuilder<BreakBloc, BreakState>(builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20.0),
+              BreakHeader(
+                timerController: controllerBreakTimer,
+                dashboardModel: dashboard,
               ),
-            ),
-          ),
-          const Text(
-            "You have not taken a break",
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Color(0xFF555555)),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          CustomTimer(
-              controller: controllerBreakTimer,
-              begin: const Duration(hours: 06, minutes: 30, seconds: 10),
-              end: const Duration(days: 1),
-              builder: (remaining) {
-                return Text(
-                    "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
-                    style: GoogleFonts.cambay(
-                      fontSize: 50.0,
+              AnimatedCircularButton(
+                title: globalState.get(breakTime) != null ? 'Back' : 'Break',
+                color: globalState.get(breakTime) != null ? colorDeepRed : colorPrimary,
+                onComplete: () {
+                  context.read<BreakBloc>().add(OnBreakBackEvent());
+                },
+              ),
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+                const Text(
+                  "Last Breaks",
+                  style: TextStyle(
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ));
-              }),
-          const AnimatedCircularButton(),
-        ],
-      ),
+                      color: Colors.black),
+                ),
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                  null)
+                const SizedBox(
+                  height: 20.0,
+                ),
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                  null)
+                ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      TodayHistory? todayHistory = dashboard
+                          ?.data?.breakHistory?.breakHistory?.todayHistory!
+                          .elementAt(index);
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          SizedBox(
+                            width: 100,
+                            child: Text(
+                              todayHistory?.breakTimeDuration ?? "",
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            height: 40,
+                            width: 3,
+                            color:
+                                dashboard?.data?.config?.breakStatus?.status ==
+                                        "break_in"
+                                    ? const Color(0xFFE8356C)
+                                    : colorPrimary,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                todayHistory?.reason ?? "",
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(todayHistory?.breakBackTime ?? ""),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemCount: dashboard?.data?.breakHistory?.breakHistory
+                            ?.todayHistory!.length ??
+                        0)
+            ],
+          ),
+        );
+      }),
     );
   }
 }
