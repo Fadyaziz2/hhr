@@ -60,6 +60,5 @@ class BreakItem extends Equatable{
   );
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id];
+  List<Object?> get props => [id,status,date,breakTime,backTime,id];
 }

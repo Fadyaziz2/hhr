@@ -28,6 +28,7 @@ class BreakBloc extends Bloc<BreakEvent,BreakState>{
     Break? data = await _metaClubApiClient.backBreak();
     globalState.set(breakTime, data?.data?.breakTime);
     globalState.set(backTime, data?.data?.backTime);
+    globalState.set(breakStatus, data?.data?.status);
     add(OnCustomTimerStart(hour: 0, min: 0, sec: 0));
     emit(state.copyWith(status: NetworkStatus.success,breakBack: data));
   }

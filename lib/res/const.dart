@@ -18,6 +18,7 @@ const String inTime = 'in_time';
 const String outTime = 'out_time';
 const String breakTime = 'in_time';
 const String backTime = 'out_time';
+const String breakStatus = 'break_status';
 const String stayTime = 'stay_time';
 const String keyAuthToken = "key_Auth_token";
 const String keyIsAdmin = "key_Is_Admin";

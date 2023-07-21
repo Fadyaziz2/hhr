@@ -26,7 +26,7 @@ class BreakCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            Navigator.of(context).push(BreakScreen.route(homeBloc: context.read<HomeBloc>()));
+            Navigator.of(context).push(BreakScreen.route(homeBloc: context.read<HomeBloc>(),dashboardModel: dashboardModel));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),

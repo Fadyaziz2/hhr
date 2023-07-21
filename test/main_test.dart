@@ -12,40 +12,60 @@ import 'package:onesthrm/page/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-class MockAuthenticationBloc extends MockBloc<AuthenticationEvent,AuthenticationState> implements AuthenticationBloc{}
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
 void main() {
   late MetaClubApiClient apiClient;
   late AuthenticationRepository authenticationRepository;
   late UserRepository userRepository;
 
+  Widget buildLocalization({required Widget child}) {
+
+    return EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('bn', 'BN'),
+        Locale('ar', 'AR')
+      ],
+      path: 'assets/translations',
+      saveLocale: true,
+      fallbackLocale: const Locale('en', 'US'),
+      child: child,
+    );
+  }
+
   group('HRM App Initialization', () {
-    setUp(() {
+    setUp(() async {
       apiClient = MetaClubApiClient(token: '');
       authenticationRepository = AuthenticationRepository(apiClient: apiClient);
       userRepository = UserRepository(token: '');
+      initHydratedStorage();
     });
+
 
     testWidgets('Render HRM AppView', (widgetTester) async {
       initHydratedStorage();
-      await widgetTester.pumpWidget(App(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository));
-      expect(find.byType(AppView), findsOneWidget);
+       EasyLocalization.ensureInitialized().then((value) async {
+         await widgetTester.pumpWidget(buildLocalization(child:App(
+             authenticationRepository: authenticationRepository,
+             userRepository: userRepository)));
+         expect(find.byType(AppView), findsOneWidget);
+       });
     });
   });
 
   group('AppView', () {
-
     late AuthenticationBloc authBloc;
 
-    setUp((){
+    setUp(() {
       authBloc = MockAuthenticationBloc();
-      when(() => authBloc.state).thenReturn(const AuthenticationState.unknown());
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
     });
 
-
-    Widget buildSubject(){
+    Widget buildSubject() {
       return BlocProvider.value(
         value: authBloc,
         child: const AppView(),
@@ -53,10 +73,14 @@ void main() {
     }
 
     testWidgets('Render  material app with correct theme', (tester) async {
-      await tester.pumpWidget(RepositoryProvider.value(
-        value: authenticationRepository,
-        child: buildSubject(),
-      ));
+
+      initHydratedStorage();
+      EasyLocalization.ensureInitialized().then((value) async {
+        await tester.pumpWidget(buildLocalization(child: RepositoryProvider.value(
+          value: authenticationRepository,
+          child: buildSubject(),
+        )));
+      });
 
       expect(find.byType(MaterialApp), findsOneWidget);
 
@@ -86,5 +110,4 @@ void initHydratedStorage() async {
   when(() => hydratedStorage.write(any(), any<dynamic>()))
       .thenAnswer((_) async {});
   HydratedBloc.storage = hydratedStorage;
-  await EasyLocalization.ensureInitialized();
 }

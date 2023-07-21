@@ -43,6 +43,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
       globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
       globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
       emit(state.copy(dashboardModel: dashboardModel,status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));

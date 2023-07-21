@@ -5,15 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
+import '../../../res/dialogs/custom_dialogs.dart';
 import '../../app/global_state.dart';
 import '../../attendance/content/animated_circular_button.dart';
+import '../../authentication/bloc/authentication_bloc.dart';
 import 'break_header.dart';
 
 class BreakContent extends StatefulWidget {
   final HomeBloc homeBloc;
+  final DashboardModel? dashboard;
 
-  const BreakContent({Key? key, required this.homeBloc}) : super(key: key);
+  const BreakContent({Key? key, required this.homeBloc,required this.dashboard}) : super(key: key);
 
   @override
   State<BreakContent> createState() => _BreakContentState();
@@ -27,9 +31,13 @@ class _BreakContentState extends State<BreakContent>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
     WidgetsBinding.instance.addObserver(this);
+    if(globalState.get(breakStatus) == 'break_in'){
+      controllerBreakTimer.start();
+    }else{
+      controllerBreakTimer.reset();
+    }
   }
 
   @override
@@ -44,6 +52,9 @@ class _BreakContentState extends State<BreakContent>
       case AppLifecycleState.resumed:
         if (kDebugMode) {
           print("resumed");
+        }
+        if(globalState.get(breakStatus) == 'break_in'){
+          controllerBreakTimer.start();
         }
         break;
       case AppLifecycleState.inactive:
@@ -67,18 +78,28 @@ class _BreakContentState extends State<BreakContent>
 
   @override
   Widget build(BuildContext context) {
-    DashboardModel? dashboard = widget.homeBloc.state.dashboardModel;
+
+    final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocListener<BreakBloc, BreakState>(
-      listenWhen: (oldState, newState) => oldState != newState,
+      listenWhen: (oldState, newState) => oldState.isTimerStart != newState.isTimerStart,
       listener: (context, state) {
         if (state.isTimerStart) {
           controllerBreakTimer.start();
         } else {
           controllerBreakTimer.reset();
         }
-        if(state.breakBack?.data?.status == 'break_out'){
-          widget.homeBloc.add(LoadHomeData());
+
+        if (state.breakBack?.message != null) {
+          showLoginDialog(
+              context: context,
+              message: '${user?.user?.name}',
+              body: '${state.breakBack?.message}',
+              isSuccess: state.status == NetworkStatus.success);
+        }
+
+        if(state.status == NetworkStatus.success){
+         widget.homeBloc.add(LoadHomeData());
         }
       },
       child: BlocBuilder<BreakBloc, BreakState>(builder: (context, state) {
@@ -89,16 +110,16 @@ class _BreakContentState extends State<BreakContent>
               const SizedBox(height: 20.0),
               BreakHeader(
                 timerController: controllerBreakTimer,
-                dashboardModel: dashboard,
+                dashboardModel: widget.dashboard,
               ),
               AnimatedCircularButton(
-                title: globalState.get(breakTime) != null ? 'Back' : 'Break',
-                color: globalState.get(breakTime) != null ? colorDeepRed : colorPrimary,
+                title: globalState.get(breakStatus) == 'break_in' ? 'Back' : 'Break',
+                color: globalState.get(breakStatus) == 'break_in' ? colorDeepRed : colorPrimary,
                 onComplete: () {
                   context.read<BreakBloc>().add(OnBreakBackEvent());
                 },
               ),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+              if (widget.dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
                 const Text(
                   "Last Breaks",
                   style: TextStyle(
@@ -106,20 +127,18 @@ class _BreakContentState extends State<BreakContent>
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+              if (widget.dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
                   null)
                 const SizedBox(
                   height: 20.0,
                 ),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
-                  null)
+              if (widget.dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      TodayHistory? todayHistory = dashboard
-                          ?.data?.breakHistory?.breakHistory?.todayHistory!
-                          .elementAt(index);
+
+                      TodayHistory? todayHistory = widget.dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.elementAt(index);
 
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -140,11 +159,7 @@ class _BreakContentState extends State<BreakContent>
                           Container(
                             height: 40,
                             width: 3,
-                            color:
-                                dashboard?.data?.config?.breakStatus?.status ==
-                                        "break_in"
-                                    ? const Color(0xFFE8356C)
-                                    : colorPrimary,
+                            color: globalState.get(breakStatus) == 'break_in' ? const Color(0xFFE8356C) : colorPrimary,
                           ),
                           const SizedBox(
                             width: 20,
@@ -170,9 +185,7 @@ class _BreakContentState extends State<BreakContent>
                     separatorBuilder: (context, index) {
                       return const Divider();
                     },
-                    itemCount: dashboard?.data?.breakHistory?.breakHistory
-                            ?.todayHistory!.length ??
-                        0)
+                    itemCount: widget.dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.length ?? 0)
             ],
           ),
         );

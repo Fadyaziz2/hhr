@@ -10,11 +10,12 @@ import '../content/break_content.dart';
 
 class BreakScreen extends StatelessWidget {
   final HomeBloc homeBloc;
+  final DashboardModel? dashboardModel;
 
-  const BreakScreen({Key? key, required this.homeBloc}) : super(key: key);
+  const BreakScreen({Key? key, required this.homeBloc,required this.dashboardModel}) : super(key: key);
 
-  static Route route({required HomeBloc homeBloc}) {
-    return MaterialPageRoute(builder: (_) => BreakScreen(homeBloc: homeBloc));
+  static Route route({required HomeBloc homeBloc,required DashboardModel? dashboardModel}) {
+    return MaterialPageRoute(builder: (_) => BreakScreen(homeBloc: homeBloc,dashboardModel: dashboardModel,));
   }
 
   @override
@@ -63,7 +64,7 @@ class BreakScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: BreakContent(homeBloc: homeBloc,),
+        body: BreakContent(homeBloc: homeBloc,dashboard: dashboardModel,),
       ),
     );
   }
