@@ -64,7 +64,7 @@ class BreakScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: BreakContent(homeBloc: homeBloc,dashboard: dashboardModel,),
+        body: BreakContent(homeBloc: homeBloc),
       ),
     );
   }

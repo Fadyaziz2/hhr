@@ -29,6 +29,10 @@ class BreakBloc extends Bloc<BreakEvent,BreakState>{
     globalState.set(breakTime, data?.data?.breakTime);
     globalState.set(backTime, data?.data?.backTime);
     globalState.set(breakStatus, data?.data?.status);
+    print('status1 ${globalState.get(breakStatus)}');
+    globalState.set(hour, '0');
+    globalState.set(min, '0');
+    globalState.set(sec, '0');
     add(OnCustomTimerStart(hour: 0, min: 0, sec: 0));
     emit(state.copyWith(status: NetworkStatus.success,breakBack: data));
   }

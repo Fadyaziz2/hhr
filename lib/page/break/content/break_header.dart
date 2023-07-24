@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
+
 class BreakHeader extends StatelessWidget {
   final CustomTimerController timerController;
   final DashboardModel? dashboardModel;
 
   const BreakHeader(
-      {Key? key, required this.timerController, required this.dashboardModel})
+      {Key? key,
+      required this.timerController,
+      required this.dashboardModel})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TimeBreak? timeBreak;
-    if (dashboardModel != null) {
-      timeBreak = dashboardModel?.data?.config?.breakStatus?.timeBreak;
-    }
 
     return Column(
       children: [
@@ -31,8 +32,7 @@ class BreakHeader extends StatelessWidget {
                         fontSize: 16,
                         color: Color(0xFF555555))),
                 TextSpan(
-                    text:
-                        "${dashboardModel?.data?.breakHistory?.time}",
+                    text: "${dashboardModel?.data?.breakHistory?.time}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -59,13 +59,16 @@ class BreakHeader extends StatelessWidget {
         ),
         CustomTimer(
             controller: timerController,
-            begin: timeBreak != null
-                ? Duration(
-                    hours: timeBreak.hour,
-                    minutes: timeBreak.min,
-                    seconds: timeBreak.sec) : const Duration(hours: 0, minutes: 0, seconds: 0),
+            begin: Duration(
+              hours: int.parse(globalState.get(hour) ??'0'),
+              minutes: int.parse(globalState.get(min) ?? '0'),
+              seconds: int.parse(globalState.get(sec) ?? '0'),
+            ),
             end: const Duration(days: 1),
             builder: (remaining) {
+              globalState.set(hour, remaining.hours);
+              globalState.set(min, remaining.minutes);
+              globalState.set(sec, remaining.seconds);
               return Text(
                   "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
                   style: GoogleFonts.cambay(

@@ -61,8 +61,11 @@ void main() {
 
     setUp(() {
       authBloc = MockAuthenticationBloc();
-      when(() => authBloc.state)
-          .thenReturn(const AuthenticationState.unknown());
+      when(() => authBloc.state).thenReturn(const AuthenticationState.unknown());
+      apiClient = MetaClubApiClient(token: '');
+      authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+      userRepository = UserRepository(token: '');
+      initHydratedStorage();
     });
 
     Widget buildSubject() {
@@ -80,22 +83,25 @@ void main() {
           value: authenticationRepository,
           child: buildSubject(),
         )));
+
+        expect(find.byType(MaterialApp), findsOneWidget);
+
+        ///In future we will implement theme and also test case
+        final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+        expect(materialApp.theme, isNotNull);
+        expect(materialApp.darkTheme, null);
       });
-
-      expect(find.byType(MaterialApp), findsOneWidget);
-
-      ///In future we will implement theme and also test case
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      expect(materialApp.theme, isNotNull);
-      expect(materialApp.darkTheme, null);
     });
 
     testWidgets('Renders SplashScreen', (tester) async {
-      await tester.pumpWidget(RepositoryProvider.value(
-        value: authenticationRepository,
-        child: buildSubject(),
-      ));
-      expect(find.byType(SplashScreen), findsOneWidget);
+      EasyLocalization.ensureInitialized().then((value) async {
+        await tester.pumpWidget(RepositoryProvider.value(
+          value: authenticationRepository,
+          child: buildSubject(),
+        ));
+        expect(find.byType(SplashScreen), findsOneWidget);
+      });
     });
   });
 }

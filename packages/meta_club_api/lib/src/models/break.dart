@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../meta_club_api.dart';
+
 class Break extends Equatable{
   const Break({
     this.result,
@@ -33,6 +35,7 @@ class BreakItem extends Equatable{
     this.createdAt,
     this.id,
     this.status,
+    this.breakBackHistory
   });
 
   final int? companyId;
@@ -45,6 +48,7 @@ class BreakItem extends Equatable{
   final DateTime? createdAt;
   final int? id;
   final String? status;
+  final BreakBackHistory? breakBackHistory;
 
   factory BreakItem.fromJson(Map<String, dynamic> json) => BreakItem(
     companyId: int.parse(json["company_id"].toString()),
@@ -55,6 +59,7 @@ class BreakItem extends Equatable{
     reason: json["reason"],
     updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
     createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
+    breakBackHistory: json["break_history"] != null ? BreakBackHistory.fromJson(json['break_history']) : null,
     id: json["id"],
     status: json["status"],
   );
