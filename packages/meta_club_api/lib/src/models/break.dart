@@ -59,7 +59,7 @@ class BreakItem extends Equatable{
     reason: json["reason"],
     updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
     createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
-    breakBackHistory: json["break_history"] != null ? BreakBackHistory.fromJson(json['break_history']) : null,
+    breakBackHistory: json["histroy"] != null ? BreakBackHistory.fromJson(json['histroy']) : null,
     id: json["id"],
     status: json["status"],
   );

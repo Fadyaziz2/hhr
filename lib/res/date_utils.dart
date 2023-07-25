@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
+
+import 'const.dart';
 
 String getDateAsString({required DateTime dateTime,String format = 'MM-dd-yyyy'}) {
   return DateFormat(format)
@@ -37,4 +40,24 @@ String? getDDMMYYYYAsString({required String date, String outputFormat = 'yyyy-m
 
 String getTimeAmPm(DateTime dateTime) {
   return DateFormat('hh:mm a',).format(dateTime).toString();
+}
+
+DateTime getDateTimeFromTimestamp(int timestamp) {
+  return DateTime.fromMillisecondsSinceEpoch(timestamp);
+}
+
+Future<Duration?> getSyncDuration() async {
+  final second =  await SharedUtil.getValue(breakTime);
+  print('second $second');
+  final duration = second != null ? getDuration(int.parse(second)) : null;
+  debugPrint('duration ${duration?.inSeconds}');
+  return duration;
+}
+
+///return duration from current date time(by difference)
+///we get how many days hours minutes seconds spanned from now
+Duration getDuration(int timestamp) {
+  var now = DateTime.now();
+  var date = getDateTimeFromTimestamp(timestamp);
+  return now.difference(date);
 }

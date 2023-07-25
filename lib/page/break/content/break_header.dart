@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 import '../../../res/const.dart';
+import '../../../res/date_utils.dart';
 import '../../app/global_state.dart';
 
 class BreakHeader extends StatelessWidget {
@@ -59,18 +62,13 @@ class BreakHeader extends StatelessWidget {
         ),
         CustomTimer(
             controller: timerController,
-            begin: Duration(
-              hours: int.parse(globalState.get(hour) ??'0'),
-              minutes: int.parse(globalState.get(min) ?? '0'),
-              seconds: int.parse(globalState.get(sec) ?? '0'),
-            ),
-            end: const Duration(days: 1),
-            builder: (remaining) {
+            builder: (CustomTimerState state,CustomTimerRemainingTime remaining) {
               globalState.set(hour, remaining.hours);
               globalState.set(min, remaining.minutes);
               globalState.set(sec, remaining.seconds);
+
               return Text(
-                  "${remaining.hours}:${remaining.minutes}:${remaining.seconds}",
+                  state == CustomTimerState.counting ?  "${remaining.hours}:${remaining.minutes}:${remaining.seconds}" : "00:00:00",
                   style: GoogleFonts.cambay(
                     fontSize: 50.0,
                     fontWeight: FontWeight.bold,
@@ -79,5 +77,50 @@ class BreakHeader extends StatelessWidget {
             }),
       ],
     );
+  }
+}
+
+class HRMTimer extends StatefulWidget {
+  const HRMTimer({Key? key}) : super(key: key);
+
+  @override
+  State<HRMTimer> createState() => _HRMTimerState();
+}
+
+class _HRMTimerState extends State<HRMTimer> {
+
+  String timer = '00:00:00';
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 1), (_) {
+      getSyncDuration().then((duration){
+        if(duration != null){
+          final t = duration.toString().split('.');
+          t.removeLast();
+          timer = duration.inHours < 10 ? '0${t.join(':')}' : t.join(':');
+          if(mounted) {
+            setState(() {});
+          }
+        }else{
+          timer = '00:00:00';
+          if(mounted) {
+            setState(() {});
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Text(
+        timer,
+        style: GoogleFonts.cambay(
+          fontSize: 50.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ));
   }
 }

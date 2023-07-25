@@ -6,7 +6,7 @@ class SharedUtil{
 
   static setValue(String key,String? value) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, value!);
+    prefs.setString(key, value ?? '');
   }
 
   static setRemoteModeType(int value) async{
@@ -23,8 +23,6 @@ class SharedUtil{
       return 0;
     }
   }
-
-
 
   static setLanguageIntValue(String key,int? value) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -86,7 +84,7 @@ class SharedUtil{
     prefs.remove(key);
   }
 
-  static storeLocalData({@required String? key,@required String? value}) async {
+  static storeLocalData({required String? key,required String? value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key!, value!);
   }

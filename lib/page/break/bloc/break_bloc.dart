@@ -29,7 +29,6 @@ class BreakBloc extends Bloc<BreakEvent,BreakState>{
     globalState.set(breakTime, data?.data?.breakTime);
     globalState.set(backTime, data?.data?.backTime);
     globalState.set(breakStatus, data?.data?.status);
-    print('status1 ${globalState.get(breakStatus)}');
     globalState.set(hour, '0');
     globalState.set(min, '0');
     globalState.set(sec, '0');
