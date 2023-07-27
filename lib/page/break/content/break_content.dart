@@ -98,8 +98,7 @@ class BreakContentState extends State<BreakContent>
     final dashboard = widget.homeBloc.state.dashboardModel;
 
     return BlocListener<BreakBloc, BreakState>(
-      listenWhen: (oldState, newState) =>
-          oldState.isTimerStart != newState.isTimerStart,
+      listenWhen: (oldState, newState) => oldState.isTimerStart != newState.isTimerStart,
       listener: (context, state) {
         if (globalState.get(breakStatus) == 'break_in') {
           controllerBreakTimer.start();
@@ -116,7 +115,7 @@ class BreakContentState extends State<BreakContent>
               context: context,
               message: '${user?.user?.name}',
               body: '${state.breakBack?.message}',
-              isSuccess: state.status == NetworkStatus.success);
+              isSuccess: state.status == NetworkStatus.success && state.breakBack?.result == true);
         }
 
         if (state.status == NetworkStatus.success) {
@@ -144,8 +143,7 @@ class BreakContentState extends State<BreakContent>
                   context.read<BreakBloc>().add(OnBreakBackEvent());
                 },
               ),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
-                  null)
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
                 const Text(
                   "Last Breaks",
                   style: TextStyle(

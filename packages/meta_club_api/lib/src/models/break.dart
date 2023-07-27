@@ -16,7 +16,7 @@ class Break extends Equatable{
   factory Break.fromJson(Map<String, dynamic> json) => Break(
     result: json["result"],
     message: json["message"],
-    data: BreakItem.fromJson(json["data"]),
+    data: json["result"] != false ? BreakItem.fromJson(json["data"]) : null,
   );
 
   @override

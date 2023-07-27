@@ -26,9 +26,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$_rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<LoginData?> login(
       {required String email, required String password}) async {
@@ -37,8 +37,7 @@ class MetaClubApiClient {
     final body = {'email': email, 'password': password};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$login', body);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$login', body);
 
       print('response ${response.data}');
 
