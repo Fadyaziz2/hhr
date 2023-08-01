@@ -227,6 +227,29 @@ class MetaClubApiClient {
     }
   }
 
+  /// Live Location store API -----------------
+  Future<bool> storeLocationToServer({required List<Map<String, dynamic>> locations, String? date}) async {
+    try {
+      final data = {'locations': locations};
+      var response = await _httpServiceImpl.postRequest("${_baseUrl}user/attendance/live-location-store",data);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print("storeLocationToServer ${response.data}");
+        }
+        return true;
+      }
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        return false;
+      } else {
+        if (kDebugMode) {
+          print(e.message);
+        }
+      }
+    }
+    return false;
+  }
+
   Future<Notices?> notices() async {
     const String api = 'notices/get-list';
 

@@ -22,6 +22,7 @@ const String hour = 'hour';
 const String min = 'min';
 const String sec = 'sec';
 const String breakStatus = 'break_status';
+const String user = 'user';
 const String stayTime = 'stay_time';
 const String keyAuthToken = "key_Auth_token";
 const String keyIsAdmin = "key_Is_Admin";

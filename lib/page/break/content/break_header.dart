@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
 import '../../../res/const.dart';
 import '../../../res/date_utils.dart';
 import '../../app/global_state.dart';
