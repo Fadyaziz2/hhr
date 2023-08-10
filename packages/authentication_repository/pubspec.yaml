@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   meta_club_api:
     path: '../meta_club_api'
+  fpdart: ^1.0.0
 
 dev_dependencies:
   flutter_test:

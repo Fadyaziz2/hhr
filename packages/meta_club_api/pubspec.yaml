@@ -15,3 +15,4 @@ dependencies:
   user_repository:
     path: ../user_repository
   equatable: ^2.0.3
+  fpdart: ^1.0.0

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
@@ -30,8 +31,7 @@ class MetaClubApiClient {
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
-  Future<LoginData?> login(
-      {required String email, required String password}) async {
+  Future<Either<LoginFailure,LoginData?>> login({required String email, required String password}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password};
@@ -39,14 +39,12 @@ class MetaClubApiClient {
     try {
       final response = await _httpServiceImpl.postRequest('$_baseUrl$login', body);
 
-      print('response ${response.data}');
-
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
       }
-      return LoginData.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return right(LoginData.fromJson(response.data));
+    } catch (e) {
+      return Left(LoginFailure(error: e.toString()));
     }
   }
 

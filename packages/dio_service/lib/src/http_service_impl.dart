@@ -49,8 +49,7 @@ class HttpServiceImpl implements HttpService {
       throw FormatException(e.message);
     } on DioError catch (e) {
       debugPrint(e.message);
-      return e.response;
-      // throw Exception(e.message);
+      throw Exception(e.message);
     }
 
     return response;
@@ -93,13 +92,9 @@ class HttpServiceImpl implements HttpService {
     try {
       response =
           await _dio!.post(url, data: body, options: _buildCacheOptions());
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (e) {
-      throw FormatException(e.toString());
-    } on DioError catch (e) {
-      debugPrint(e.message);
-      throw Exception(e.message);
+    }on DioError catch (e) {
+      String error = DioExceptions.fromDioError(e).toString();
+      throw Exception(error);
     }
     return response;
   }
@@ -112,13 +107,54 @@ class HttpServiceImpl implements HttpService {
       response = await _dio!.delete(url,
           options: Options(headers: {"Authorization": "Bearer $token"}));
     } on SocketException catch (e) {
-      throw SocketException(e.toString());
+      throw SocketException('No internet connection');
     } on FormatException catch (e) {
       throw FormatException(e.message);
     } on DioError catch (e) {
-      debugPrint(e.message);
       throw Exception(e.message);
     }
     return response;
   }
+}
+
+class DioExceptions implements Exception {
+  DioExceptions.fromDioError(DioError dioError) {
+    switch (dioError.type) {
+      case DioErrorType.cancel:
+        message = "Request to API server was cancelled";
+        break;
+      case DioErrorType.connectTimeout:
+        message = "Connection timeout with API server";
+        break;
+      case DioErrorType.receiveTimeout:
+        message = "Receive timeout in connection with API server";
+        break;
+      case DioErrorType.response:
+        message = _handleError(dioError.response!.statusCode!, dioError.response!.data);
+        break;
+      case DioErrorType.sendTimeout:
+        message = "Send timeout in connection with API server";
+        break;
+      default:
+        message = "No internet connection";
+        break;
+    }
+  }
+
+  late String message;
+
+  String _handleError(int statusCode, dynamic error) {
+    switch (statusCode) {
+      case 400:
+      case 404:
+        return error["message"];
+      case 500:
+        return 'Internal server error';
+      default:
+        return 'Oops something went wrong';
+    }
+  }
+
+  @override
+  String toString() => message;
 }

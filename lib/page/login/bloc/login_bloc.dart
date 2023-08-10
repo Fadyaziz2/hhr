@@ -34,24 +34,21 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     emit(state.copyWith(password: password,isValid: Formz.validate([state.email,password]),status: FormzSubmissionStatus.initial));
   }
 
-  void _onLoginSubmitted(LoginSubmit event,Emitter<LoginState> emit) async {
-
-    if(state.isValid){
-
+  void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
+    if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
-      try{
+      final eitherOrUser = await _authenticationRepository.login(email: state.email.value, password: state.password.value);
 
-        final user = await _authenticationRepository.login(email: state.email.value, password: state.password.value);
-
-        if(user == null){
-          emit(state.copyWith(status: FormzSubmissionStatus.failure,user: user));
-        }else{
-          emit(state.copyWith(status: FormzSubmissionStatus.success,user: user));
-        }
-      }catch(_){
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }
+      eitherOrUser.fold(
+              (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l)),
+              (r){
+                if(r?.user != null) {
+                  emit(state.copyWith(status: FormzSubmissionStatus.success, user: r));
+                }else{
+                  emit(state.copyWith(status: FormzSubmissionStatus.canceled, user: r));
+                }
+              });
     }
   }
 

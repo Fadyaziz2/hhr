@@ -18,13 +18,13 @@ class LoginForm extends StatelessWidget {
         listenWhen: (oldState,newState) => oldState != newState,
         listener: (context, state) {
           if (state.status.isFailure) {
-             showLoginDialog(context: context,isSuccess: false,body: 'Authentication failed');
+             showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
           }
           if(state.status.isCanceled){
              showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
           }
           if(state.status.isSuccess){
-            showLoginDialog(context: context,isSuccess: true,message: 'Authentication Successful');
+            showLoginDialog(context: context,isSuccess: true,message: '${state.user?.user?.name}',body: 'Authentication Successful');
           }
         },
         child: Padding(
@@ -146,7 +146,7 @@ class _LoginButton extends StatelessWidget {
                   onPressed: () {
                     context.read<LoginBloc>().add(const LoginSubmit());
                   },
-                  style: ElevatedButton.styleFrom(primary: buttonColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                   child: const Text('Login'),
                 ),
               );
