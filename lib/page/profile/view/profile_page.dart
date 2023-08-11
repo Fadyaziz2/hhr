@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
-import '../../home/bloc/home_bloc.dart';
 import '../bloc/profile/profile_bloc.dart';
 import 'content/profile_content.dart';
 

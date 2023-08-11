@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/support/view/support_page.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
@@ -116,11 +118,71 @@ class MenuScreen extends StatelessWidget {
 
                       return menu != null ? MenuContentItem(
                           menu: menu,
-                          onPressed: () {}):const SizedBox.shrink();
+                          onPressed: () {
+                            getRoutSlag(context,menu.name);
+                          }):const SizedBox.shrink();
                     },
                   ),
                 ),
               ],
             )));
+  }
+  getRoutSlag(context, String? name) {
+    switch (name) {
+      case 'Support':
+        return NavUtil.navigateScreen(context, const SupportPage());
+      case 'attendance':
+        // return NavUtil.navigateScreen(
+        //     context,
+        //     const Attendance(
+        //       navigationMenu: true,
+        //     ));
+      case 'notice':
+        // return NavUtil.navigateScreen(context, const NoticeScreen());
+      case 'expense':
+        // return NavUtil.navigateScreen(context, const ExpenseList());
+      case 'leave':
+        // return NavUtil.navigateScreen(context, const LeaveSummary());
+      case 'approval':
+        // return NavUtil.navigateScreen(
+        //     context,
+        //     const ApprovalScreen());
+      case 'phonebook':
+        // return NavUtil.navigateScreen(context, const PhonebookScreen());
+      case 'conference':
+        // return NavUtil.navigateScreen(context, const ConferenceScreen());
+      case 'visit':
+        // return NavUtil.navigateScreen(context, const VisitScreen());
+      case 'meeting':
+        // return NavUtil.navigateScreen(context, const MeetingScreen());
+      case 'appointments':
+        // return NavUtil.navigateScreen(context, const AppointmentScreen());
+    // case 'face_attendance':
+    //   return NavUtil.navigateScreen(
+    //       context,
+    //       const WebViewScreen(
+    //           conferenceLink: "https://hrm.onesttech.com/faceattendance",appTitle: "Face Attendance",));
+      case 'break':
+        // return NavUtil.navigateScreen(
+        //     context,
+        //     NavUtil.navigateScreen(
+        //         context,
+        //         const BreakTime(
+        //           diffTimeHome: '',
+        //           hourHome: 0,
+        //           minutesHome: 0,
+        //           secondsHome: 0,
+        //         )));
+      case 'report':
+        // return NavUtil.navigateScreen(context, const ReportScreen());
+      case 'daily-leave':
+        // return NavUtil.navigateScreen(context, const DailyLeave());
+      case 'payroll':
+        // return NavUtil.navigateScreen(context, const PayrollListScreen());
+      case 'task':
+        // return NavUtil.navigateScreen(context, const TaskDashboardScreen());
+      default:
+        return debugPrint('default');
+    }
   }
 }
