@@ -91,13 +91,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Settings?> getSupport() async {
-    const String api = 'app/base-settings';
-
+  Future<SupportListModel?> getSupport() async {
+    const String api = 'support-ticket/list';
     try {
       final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
-        return Settings.fromJson(response?.data);
+        return SupportListModel.fromJson(response?.data);
       }
       return null;
     } catch (_) {
