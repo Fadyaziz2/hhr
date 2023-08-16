@@ -19,7 +19,9 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     emit(const SupportState(status: NetworkStatus.loading));
 
     try {
-     final response = _metaClubApiClient.getSupport();
+      final response = _metaClubApiClient.getSupport();
+     print(response);
+
 
     } catch (_) {
       return null;
