@@ -91,6 +91,20 @@ class MetaClubApiClient {
     }
   }
 
+  Future<Settings?> getSupport() async {
+    const String api = 'app/base-settings';
+
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return Settings.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<CheckData?> checkInOut({required Map<String,dynamic> body}) async {
     const String api = 'user/attendance';
 
