@@ -95,12 +95,16 @@ class MetaClubApiClient {
 
   Future<SupportListModel?> getSupport() async {
     const String api = 'support-ticket/list';
+
+    FormData formData = FormData.fromMap({"type": "12","month":"2023-08"});
+  //   {
+  //     "type": "12",
+  //   "month":"2023-08"
+  // }
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-      if (response?.statusCode == 200) {
-        return SupportListModel.fromJson(response?.data);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',formData);
+      if (response.statusCode == 200) {
+        return SupportListModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -108,12 +112,11 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
+  Future<CheckData?> checkInOut({required Map<String,dynamic> body}) async {
     const String api = 'user/attendance';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',body);
       if (response.statusCode == 200) {
         return CheckData.fromJson(response.data);
       }
@@ -126,7 +129,7 @@ class MetaClubApiClient {
   Future<Break?> backBreak() async {
     const String api = 'user/attendance/break-back';
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', {});
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',{});
       if (response.statusCode == 200) {
         return Break.fromJson(response.data);
       }
@@ -141,7 +144,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
