@@ -93,10 +93,16 @@ class MetaClubApiClient {
 
   Future<SupportListModel?> getSupport() async {
     const String api = 'support-ticket/list';
+
+    FormData formData = FormData.fromMap({"type": "12","month":"2023-08"});
+  //   {
+  //     "type": "12",
+  //   "month":"2023-08"
+  // }
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-      if (response?.statusCode == 200) {
-        return SupportListModel.fromJson(response?.data);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',formData);
+      if (response.statusCode == 200) {
+        return SupportListModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
