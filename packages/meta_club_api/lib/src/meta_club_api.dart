@@ -31,13 +31,15 @@ class MetaClubApiClient {
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
-  Future<Either<LoginFailure,LoginData?>> login({required String email, required String password}) async {
+  Future<Either<LoginFailure, LoginData?>> login(
+      {required String email, required String password}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password};
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$login', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
@@ -81,7 +83,8 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
       }
@@ -91,11 +94,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckData?> checkInOut({required Map<String,dynamic> body}) async {
+  Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
     const String api = 'user/attendance';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return CheckData.fromJson(response.data);
       }
@@ -108,7 +112,7 @@ class MetaClubApiClient {
   Future<Break?> backBreak() async {
     const String api = 'user/attendance/break-back';
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',{});
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', {});
       if (response.statusCode == 200) {
         return Break.fromJson(response.data);
       }
@@ -123,7 +127,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
@@ -153,12 +157,12 @@ class MetaClubApiClient {
     String api = 'user/profile/update/$slag';
 
     try {
-
       debugPrint('body: $data');
 
       FormData formData = FormData.fromMap(data);
 
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -173,12 +177,12 @@ class MetaClubApiClient {
     String api = 'user/profile-update';
 
     try {
+      debugPrint('body: ${{"avatar_id": avatarId}}');
 
-      debugPrint('body: ${{"avatar_id":avatarId}}');
+      FormData formData = FormData.fromMap({"avatar_id": avatarId});
 
-      FormData formData = FormData.fromMap({"avatar_id":avatarId});
-
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -193,12 +197,11 @@ class MetaClubApiClient {
     const String api = 'file-upload';
 
     try {
+      FormData formData =
+          FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
 
-      FormData formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(file.path)
-      });
-
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -226,10 +229,12 @@ class MetaClubApiClient {
   }
 
   /// Live Location store API -----------------
-  Future<bool> storeLocationToServer({required List<Map<String, dynamic>> locations, String? date}) async {
+  Future<bool> storeLocationToServer(
+      {required List<Map<String, dynamic>> locations, String? date}) async {
     try {
       final data = {'locations': locations};
-      var response = await _httpServiceImpl.postRequest("${_baseUrl}user/attendance/live-location-store",data);
+      var response = await _httpServiceImpl.postRequest(
+          "${_baseUrl}user/attendance/live-location-store", data);
       if (response.statusCode == 200) {
         if (kDebugMode) {
           print("storeLocationToServer ${response.data}");
@@ -583,6 +588,38 @@ class MetaClubApiClient {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
       return ActsRegulationModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Future getNotification(data) async {
+  //   const String api = 'notice/list';
+
+  //   try {
+  //     final response =
+  //         await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+  //     if (response.statusCode != 200) {
+  //       throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+  //     }
+  //     return response.data;
+  //   } catch (_) {
+  //     return null;
+  //   }
+  // }
+
+  Future<NotificationResponse?> getNotification() async {
+    const String api = 'user/notification';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return NotificationResponse.fromJson(response?.data);
     } catch (_) {
       return null;
     }
