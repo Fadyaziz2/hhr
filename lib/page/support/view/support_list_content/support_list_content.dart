@@ -6,6 +6,7 @@ import 'package:onesthrm/page/support/bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/bloc/support_event.dart';
 import 'package:onesthrm/page/support/bloc/support_state.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -30,6 +31,12 @@ class SupportListContent extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                showCustomYearPicker(
+                    context: context,
+                    onDatePicked: (DateTime dateTime) {
+                      // onDatePicked(dateTime);
+                      print("dateTime : - $dateTime");
+                    });
               },
               child: Container(
                 color: Colors.grey[100],
@@ -74,8 +81,23 @@ class SupportListContent extends StatelessWidget {
               child: Wrap(
                 spacing: 20,
                 children: List<Widget>.generate(
-                  supportTicketsButton.length,
-                      (int index) {
+                  supportTicketsButton.length, (int index) {
+                    print("index : $index");
+
+                    int selectedIndex = 0;
+
+                    switch(state.filter){
+                      case Filter.open:
+                        selectedIndex = 0;
+                        break;
+                      case Filter.close:
+                        selectedIndex = 1;
+                        break;
+                      case Filter.all:
+                        selectedIndex = 2;
+                        break;
+                    }
+
                     return ChoiceChip(
                       elevation: 3,
                       label: Padding(
@@ -84,15 +106,23 @@ class SupportListContent extends StatelessWidget {
                         child: Text(supportTicketsButton[index]),
                       ),
                       // selected: provider.value == index,
-                      selected: 0 == index,
+                      selected: selectedIndex == index,
                       backgroundColor: Colors.white,
                       selectedColor: const Color(0xFF5DB226),
                       labelStyle: TextStyle(
-                        color: 0 == index
+                        color: selectedIndex == index
                             ? Colors.white
                             : const Color(0xFF5DB226),
                       ),
                       onSelected: (bool selected) {
+                        print("selected index : $selected");
+                       if(index == 0){
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.open));
+                       }else if(index == 1){
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.close));
+                       }else{
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.all));
+                       }
                         // provider.onSelected(selected, index, 1);
                       },
                     );
@@ -282,41 +312,4 @@ class SupportListContent extends StatelessWidget {
 
   }
 
-  showCustomDatePicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
-    showModalBottomSheet(
-      context: context,
-      builder: (ctx) {
-        return Container(
-          padding: const EdgeInsets.only(
-            top: 15,
-            bottom: 15,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                ),
-                child: SfDateRangePicker(
-                  onSelectionChanged: (arg) {
-                    onDatePicked(arg.value);
-                    Navigator.of(context).pop();
-                  },
-                  onSubmit: (arg) {},
-                  maxDate: DateTime.now().add(const Duration(days: 365)),
-                  initialDisplayDate: initialDate ?? DateTime.now(),
-                  view: DateRangePickerView.month,
-                  selectionMode: DateRangePickerSelectionMode.single,
-                  allowViewNavigation: true,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }

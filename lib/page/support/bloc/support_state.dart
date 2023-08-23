@@ -5,13 +5,14 @@ import 'package:onesthrm/res/enum.dart';
 class SupportState extends Equatable {
   final NetworkStatus? status;
   final SupportListModel? supportListModel;
+  final Filter filter;
 
-  const SupportState({this.status,this.supportListModel});
+  const SupportState({this.status,this.supportListModel, this.filter = Filter.open});
 
-  SupportState copy({NetworkStatus? status,SupportListModel? supportListModel}) {
-    return SupportState(status: this.status,supportListModel: this.supportListModel);
+  SupportState copy({NetworkStatus? status,SupportListModel? supportListModel, Filter? filter}) {
+    return SupportState(status: status ?? this.status,supportListModel: supportListModel ?? this.supportListModel, filter: filter ?? this.filter);
   }
 
   @override
-  List<Object?> get props => [status,supportListModel];
+  List<Object?> get props => [status,supportListModel,filter];
 }

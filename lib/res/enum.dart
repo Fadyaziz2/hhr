@@ -7,3 +7,6 @@ extension on NetworkStatus{
    // // bool get issuccess => this == NetworkStatus.success;
    // // bool get isfailure => this == NetworkStatus.failure;
 }
+
+
+enum Filter {open, close, all}
