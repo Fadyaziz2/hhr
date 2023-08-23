@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:onesthrm/res/enum.dart';
 
 abstract class SupportEvent extends Equatable {
   @override
@@ -6,10 +7,13 @@ abstract class SupportEvent extends Equatable {
 }
 
 class GetSupportData extends SupportEvent {
-  GetSupportData();
+
+  final Filter filter;
+
+  GetSupportData({this.filter = Filter.open});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [filter];
 }
 
 class SelectDatePicker extends SupportEvent {
@@ -17,4 +21,12 @@ class SelectDatePicker extends SupportEvent {
 
   @override
   List<Object> get props => [];
+}
+
+class OnFilterUpdate extends SupportEvent {
+  final Filter filter;
+  OnFilterUpdate({this.filter = Filter.open});
+
+  @override
+  List<Object> get props => [filter];
 }
