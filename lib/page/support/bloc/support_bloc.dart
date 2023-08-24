@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/support/bloc/support_event.dart';
 import 'package:onesthrm/page/support/bloc/support_state.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   final MetaClubApiClient _metaClubApiClient;
@@ -34,26 +37,16 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<SupportState> emit) {
-    // showMonthPicker(
-    //   context: context,
-    //   firstDate: DateTime(DateTime.now().year - 1, 5),
-    //   lastDate: DateTime(DateTime.now().year + 1, 9),
-    //   initialDate: DateTime.now(),
-    //   locale: const Locale("en"),
-    // ).then((date) {
-    //   if (date != null) {
-    //     selectedDate = date;
-    //     currentMonth = DateFormat('y-MM').format(selectedDate!);
-    //     monthYear = DateFormat('MMMM,y').format(selectedDate!);
-    //     supportTicketApi();
-    //     if (kDebugMode) {
-    //       print(DateFormat('y-MM').format(selectedDate!));
-    //     }
-    //     notifyListeners();
-    //   }
-    // });
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<SupportState> emit) async {
+    final date = await showMonthPicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentMonth = DateFormat('y-MM').format(date!);
+    emit(SupportState(status: NetworkStatus.success,currentMonth: currentMonth));
   }
 
   FutureOr<void> _onFilterChange(
