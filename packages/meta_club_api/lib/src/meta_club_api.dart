@@ -91,10 +91,10 @@ class MetaClubApiClient {
     }
   }
 
-  Future<SupportListModel?> getSupport(String? type) async {
+  Future<SupportListModel?> getSupport(String type,String month) async {
     const String api = 'support-ticket/list';
 
-    FormData formData = FormData.fromMap({"type": type,"month":"2023-08"});
+    FormData formData = FormData.fromMap({"type": type,"month":month});
   //   {
   //     "type": "12",
   //   "month":"2023-08"

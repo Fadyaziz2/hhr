@@ -10,8 +10,9 @@ abstract class SupportEvent extends Equatable {
 class GetSupportData extends SupportEvent {
 
   final Filter filter;
+  final String? date;
 
-  GetSupportData({this.filter = Filter.open});
+  GetSupportData({this.filter = Filter.open,this.date});
 
   @override
   List<Object> get props => [filter];
