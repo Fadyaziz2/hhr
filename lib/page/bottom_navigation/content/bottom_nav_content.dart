@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:onesthrm/page/phonebook/view/content/phonebook_list_page.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
@@ -80,7 +81,7 @@ class BottomNavContent extends StatelessWidget {
               HomePage(),
               SizedBox(),
               MenuScreen(),
-              SizedBox(),
+              PhonebookListPage(),
               SizedBox(),
             ],
           ),

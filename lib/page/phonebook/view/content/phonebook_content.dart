@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/phonebook/view/content/phonebook_search.dart';
+import 'package:onesthrm/page/phonebook/view/content/phonebook_user_list.dart';
+import 'package:onesthrm/res/enum.dart';
+
+import '../../bloc/phonebook_bloc.dart';
+
+class PhonebookContent extends StatelessWidget {
+  const PhonebookContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PhonebookBloc, PhonebookState>(
+        builder: (context, state) {
+      if (state.status == NetworkStatus.loading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (state.status == NetworkStatus.success) {
+        if (state.phonebook != null) {
+          return const Column(
+            children: [PhonebookSearch(), PhonebookUserList()],
+          );
+        }
+      }
+      if (state.status == NetworkStatus.failure) {
+        return const Center(
+          child: Text('Failed to load profile'),
+        );
+      }
+      return const SizedBox();
+    });
+  }
+}

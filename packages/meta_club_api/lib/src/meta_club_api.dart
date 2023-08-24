@@ -11,6 +11,7 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
+import 'package:meta_club_api/src/models/phonebook.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -583,6 +584,23 @@ class MetaClubApiClient {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
       return ActsRegulationModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Phonebook ====================
+  Future<Phonebook?> getPhonebooks() async {
+    const String api = 'app/get-all-users/33?keywords=';
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return Phonebook.fromJson(response?.data);
     } catch (_) {
       return null;
     }
