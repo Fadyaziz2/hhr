@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:onesthrm/res/enum.dart';
 
 abstract class SupportEvent extends Equatable {
@@ -17,10 +18,11 @@ class GetSupportData extends SupportEvent {
 }
 
 class SelectDatePicker extends SupportEvent {
-  SelectDatePicker();
+ final  BuildContext context;
+  SelectDatePicker(this.context);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [context];
 }
 
 class OnFilterUpdate extends SupportEvent {

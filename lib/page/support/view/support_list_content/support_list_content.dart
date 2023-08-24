@@ -6,9 +6,7 @@ import 'package:onesthrm/page/support/bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/bloc/support_event.dart';
 import 'package:onesthrm/page/support/bloc/support_state.dart';
 import 'package:onesthrm/res/const.dart';
-import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class SupportListContent extends StatelessWidget {
 
@@ -31,12 +29,7 @@ class SupportListContent extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                showCustomYearPicker(
-                    context: context,
-                    onDatePicked: (DateTime dateTime) {
-                      // onDatePicked(dateTime);
-                      print("dateTime : - $dateTime");
-                    });
+                context.read<SupportBloc>().add(SelectDatePicker(context));
               },
               child: Container(
                 color: Colors.grey[100],
@@ -53,16 +46,17 @@ class SupportListContent extends StatelessWidget {
                           color: appColor,
                         )),
                     const Spacer(),
-                     // Center(
-                     //    child: Text(
-                     //      "23-07-2023",
-                     //      style: const TextStyle(
-                     //          fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),
-                     //    )),
+                     Center(
+                        child: Text(
+                          state.currentMonth ?? "Select Month",
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),
+                        )),
                     const Spacer(),
                     IconButton(
                         onPressed: () {
                           // provider.selectDate(context);
+
                         },
                         icon: const FaIcon(
                           FontAwesomeIcons.angleRight,
@@ -82,8 +76,6 @@ class SupportListContent extends StatelessWidget {
                 spacing: 20,
                 children: List<Widget>.generate(
                   supportTicketsButton.length, (int index) {
-                    print("index : $index");
-
                     int selectedIndex = 0;
 
                     switch(state.filter){
@@ -115,7 +107,6 @@ class SupportListContent extends StatelessWidget {
                             : const Color(0xFF5DB226),
                       ),
                       onSelected: (bool selected) {
-                        print("selected index : $selected");
                        if(index == 0){
                          context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.open));
                        }else if(index == 1){
