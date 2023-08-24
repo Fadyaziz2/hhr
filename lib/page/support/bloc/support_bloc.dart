@@ -10,7 +10,6 @@ import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dar
 
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   final MetaClubApiClient _metaClubApiClient;
-  String? selectedIndex;
 
   SupportBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
@@ -21,18 +20,38 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
   }
 
   FutureOr<void> _onSupportLoad(GetSupportData event, Emitter<SupportState> emit) async {
-    emit(SupportState(status: NetworkStatus.loading,filter: event.filter));
+
+    late String selectedIndex;
+
+    emit(SupportState(status: NetworkStatus.loading,filter: event.filter,currentMonth: event.date));
 
     try {
-      final success = await _metaClubApiClient.getSupport(selectedIndex);
+
+      print(state.filter);
+
+      switch(state.filter){
+        case Filter.open:
+          selectedIndex = '12';
+          break;
+        case Filter.close:
+          selectedIndex = '13';
+          break;
+        case Filter.all:
+          selectedIndex = '';
+          break;
+        default:
+          selectedIndex = '12';
+      }
+
+      final success = await _metaClubApiClient.getSupport(selectedIndex,state.currentMonth ?? '');
       if (success != null) {
         emit(SupportState(
-            status: NetworkStatus.success, supportListModel: success,filter: event.filter));
+            status: NetworkStatus.success, supportListModel: success,filter: event.filter,currentMonth: event.date));
       } else {
-        emit(SupportState(status: NetworkStatus.failure,filter: event.filter));
+        emit(SupportState(status: NetworkStatus.failure,filter: event.filter,currentMonth: event.date));
       }
     } catch (e) {
-      emit(SupportState(status: NetworkStatus.failure,filter: event.filter));
+      emit(SupportState(status: NetworkStatus.failure,filter: event.filter,currentMonth: event.date));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -46,24 +65,13 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
       locale: const Locale("en"),
     );
     String? currentMonth = DateFormat('y-MM').format(date!);
-    emit(SupportState(status: NetworkStatus.success,currentMonth: currentMonth));
+    add(GetSupportData(filter: state.filter,date: currentMonth));
+    // emit(SupportState(status: NetworkStatus.success,currentMonth: currentMonth));
   }
 
   FutureOr<void> _onFilterChange(
       OnFilterUpdate event, Emitter<SupportState> emit) {
     emit(state.copy(filter: event.filter));
-
-    switch (state.filter) {
-      case Filter.open:
-        selectedIndex = "12";
-        break;
-      case Filter.close:
-        selectedIndex = "13";
-        break;
-      case Filter.all:
-        selectedIndex = "";
-        break;
-    }
 
     add(GetSupportData(filter: event.filter));
   }
