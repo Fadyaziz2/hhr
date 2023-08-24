@@ -108,11 +108,11 @@ class SupportListContent extends StatelessWidget {
                       ),
                       onSelected: (bool selected) {
                        if(index == 0){
-                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.open));
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.open,date: state.currentMonth));
                        }else if(index == 1){
-                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.close));
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.close,date: state.currentMonth));
                        }else{
-                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.all));
+                         context.read<SupportBloc>().add(OnFilterUpdate(filter: Filter.all,date: state.currentMonth));
                        }
                         // provider.onSelected(selected, index, 1);
                       },

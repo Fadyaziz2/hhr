@@ -28,7 +28,8 @@ class SelectDatePicker extends SupportEvent {
 
 class OnFilterUpdate extends SupportEvent {
   final Filter filter;
-  OnFilterUpdate({this.filter = Filter.open});
+  final String? date;
+  OnFilterUpdate({this.filter = Filter.open,this.date});
 
   @override
   List<Object> get props => [filter];
