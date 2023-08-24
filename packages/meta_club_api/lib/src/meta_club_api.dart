@@ -594,22 +594,6 @@ class MetaClubApiClient {
     }
   }
 
-  // Future getNotification(data) async {
-  //   const String api = 'notice/list';
-
-  //   try {
-  //     final response =
-  //         await _httpServiceImpl.postRequest('$_baseUrl$api', data);
-
-  //     if (response.statusCode != 200) {
-  //       throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-  //     }
-  //     return response.data;
-  //   } catch (_) {
-  //     return null;
-  //   }
-  // }
-
   Future<NotificationResponse?> getNotification() async {
     const String api = 'user/notification';
 
@@ -654,6 +638,34 @@ class MetaClubApiClient {
       return NoticeListModel.fromJson(response.data);
     } catch (_) {
       return null;
+    }
+  }
+
+///// All Notification ///////////
+  Future<bool> clearAllNotificationApi() async {
+    const String clear = 'user/notification/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ///// All Notification ///////////
+  Future<bool> clearNoticeApi() async {
+    const String clear = 'notice/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

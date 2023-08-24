@@ -11,3 +11,5 @@ class LoadNotificationListData extends NoticeListEvent {
   @override
   List<Object?> get props => [slugName];
 }
+
+class ClearNoticeButton extends NoticeListEvent {}

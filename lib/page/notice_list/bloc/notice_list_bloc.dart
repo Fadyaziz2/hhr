@@ -18,6 +18,7 @@ class NotificationListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           status: NetworkStatus.initial,
         )) {
     on<LoadNotificationListData>(_onNoticeListDataLoad);
+    on<ClearNoticeButton>(_onClearData);
   }
 
   void _onNoticeListDataLoad(
@@ -32,5 +33,11 @@ class NotificationListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       emit(const NoticeListState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }
+
+  void _onClearData(
+      ClearNoticeButton event, Emitter<NoticeListState> emit) async {
+    final clearAllNotification =
+        await _metaClubApiClient.clearAllNotificationApi();
   }
 }

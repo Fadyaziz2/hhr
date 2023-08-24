@@ -40,20 +40,23 @@ class NoticeDetailsScreen extends StatelessWidget {
           // provider.noticeDetails?.data?.file != null
           //     ?
 
-          CachedNetworkImage(
-            width: double.infinity,
-            height: 240,
-            fit: BoxFit.contain,
-            imageUrl: image ??
-                // provider.noticeDetails?.data?.file ??
-                "assets/images/placeholder_image.png",
-            placeholder: (context, url) => Center(
-              child: Image.asset("assets/images/placeholder_image.png"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: CachedNetworkImage(
+                width: double.infinity,
+                height: 240,
+                fit: BoxFit.cover,
+                imageUrl: image ?? "assets/images/placeholder_image.png",
+                placeholder: (context, url) => Center(
+                  child: Image.asset("assets/images/placeholder_image.png"),
+                ),
+                errorWidget: (context, url, error) =>
+                    Image.asset("assets/images/placeholder_image.png"),
+              ),
             ),
-            errorWidget: (context, url, error) =>
-                Image.asset("assets/images/placeholder_image.png"),
           ),
-          // : const SizedBox(),
           const SizedBox(
             height: 16,
           ),

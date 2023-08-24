@@ -19,6 +19,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         )) {
     on<LoadNotificationData>(_onNotificationDataLoad);
     on<RouteSlug>(_onRoutSlag);
+    on<ClearNoticeButton>(_onClearData);
   }
 
   void _onNotificationDataLoad(
@@ -63,5 +64,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       default:
         return debugPrint('default');
     }
+  }
+
+  void _onClearData(
+      ClearNoticeButton event, Emitter<NotificationState> emit) async {
+    final clearAllNotification =
+        await _metaClubApiClient.clearAllNotificationApi();
   }
 }

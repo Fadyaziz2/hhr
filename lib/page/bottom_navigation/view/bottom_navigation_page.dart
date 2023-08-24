@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/page/natification/bloc/notification_bloc.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../content/bottom_nav_content.dart';
 
@@ -27,12 +27,6 @@ class BottomNavigationPage extends StatelessWidget {
                     MetaClubApiClient(token: '${user?.user?.token}'))
               ..add(LoadSettings())
               ..add(LoadHomeData())),
-        BlocProvider(
-          create: (_) => NotificationBloc(
-              metaClubApiClient:
-                  MetaClubApiClient(token: '${user?.user?.token}'))
-            ..add(LoadNotificationData()),
-        )
       ],
       child: const BottomNavContent(),
     );

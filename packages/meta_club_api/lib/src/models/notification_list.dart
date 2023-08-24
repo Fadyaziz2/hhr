@@ -30,7 +30,7 @@ class NotificationResponse extends Equatable {
 }
 
 class NotificationData {
-  List<Notification>? notifications;
+  List<NotificationModelData>? notifications;
 
   NotificationData({
     this.notifications,
@@ -40,8 +40,8 @@ class NotificationData {
       NotificationData(
         notifications: json["notifications"] == null
             ? []
-            : List<Notification>.from(
-                json["notifications"]!.map((x) => Notification.fromJson(x))),
+            : List<NotificationModelData>.from(json["notifications"]!
+                .map((x) => NotificationModelData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,7 +51,7 @@ class NotificationData {
       };
 }
 
-class Notification extends Equatable {
+class NotificationModelData extends Equatable {
   String? id;
   String? sender;
   int? senderId;
@@ -63,7 +63,7 @@ class Notification extends Equatable {
   DateTime? readAt;
   bool? isRead;
 
-  Notification({
+  NotificationModelData({
     this.id,
     this.sender,
     this.senderId,
@@ -76,7 +76,8 @@ class Notification extends Equatable {
     this.isRead,
   });
 
-  factory Notification.fromJson(Map<String, dynamic> json) => Notification(
+  factory NotificationModelData.fromJson(Map<String, dynamic> json) =>
+      NotificationModelData(
         id: json["id"],
         sender: json["sender"],
         senderId: json["sender_id"],
