@@ -45,8 +45,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
 
       final success = await _metaClubApiClient.getSupport(selectedIndex,state.currentMonth ?? '');
       if (success != null) {
-        emit(SupportState(
-            status: NetworkStatus.success, supportListModel: success,filter: event.filter,currentMonth: event.date));
+        emit(SupportState(status: NetworkStatus.success, supportListModel: success,filter: event.filter,currentMonth: event.date));
       } else {
         emit(SupportState(status: NetworkStatus.failure,filter: event.filter,currentMonth: event.date));
       }
