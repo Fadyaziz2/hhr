@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -90,6 +89,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                               return InkWell(
                                 onTap: () {
+                                  context.read<NotificationBloc>().add(
+                                      RouteSlug(
+                                          context: context,
+                                          slugName: state
+                                              .notificationResponse
+                                              ?.data
+                                              ?.notifications?[index]
+                                              .slag,
+                                          data: state.notificationResponse));
                                   // provider.getReadNotification(
                                   //     provider
                                   //         .notificationsList?[index]
@@ -143,7 +151,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Text("${data?.body}"),
+                                              Text(
+                                                "${data?.body}",
+                                                maxLines: 3,
+                                              ),
                                             ],
                                           ),
                                           const SizedBox(
