@@ -8,6 +8,8 @@ import 'package:onesthrm/page/support/bloc/support_state.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
+import '../../../res/date_utils.dart';
+
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   final MetaClubApiClient _metaClubApiClient;
 
@@ -22,12 +24,11 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
   FutureOr<void> _onSupportLoad(GetSupportData event, Emitter<SupportState> emit) async {
 
     late String selectedIndex;
+    final currentDate = DateFormat('y-MM').format(DateTime.now());
 
     emit(SupportState(status: NetworkStatus.loading,filter: event.filter,currentMonth: event.date));
 
     try {
-
-      print(state.filter);
 
       switch(state.filter){
         case Filter.open:
@@ -43,7 +44,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
           selectedIndex = '12';
       }
 
-      final success = await _metaClubApiClient.getSupport(selectedIndex,state.currentMonth ?? '');
+      final success = await _metaClubApiClient.getSupport(selectedIndex,state.currentMonth ?? currentDate);
       if (success != null) {
         emit(SupportState(status: NetworkStatus.success, supportListModel: success,filter: event.filter,currentMonth: event.date));
       } else {
@@ -63,15 +64,13 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = DateFormat('y-MM').format(date!);
+    String? currentMonth = getDateAsString(format: 'y-MM',dateTime: date!);
     add(GetSupportData(filter: state.filter,date: currentMonth));
-    // emit(SupportState(status: NetworkStatus.success,currentMonth: currentMonth));
   }
 
-  FutureOr<void> _onFilterChange(
-      OnFilterUpdate event, Emitter<SupportState> emit) {
+  FutureOr<void> _onFilterChange(OnFilterUpdate event, Emitter<SupportState> emit) {
     emit(state.copy(filter: event.filter));
 
-    add(GetSupportData(filter: event.filter));
+    add(GetSupportData(filter: event.filter,date: event.date));
   }
 }
