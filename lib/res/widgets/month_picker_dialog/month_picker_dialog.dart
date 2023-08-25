@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
@@ -20,9 +19,7 @@ Future<DateTime?> showMonthPicker({
   DateTime? lastDate,
   Locale? locale,
 }) async {
-  final localizations = locale == null
-      ? MaterialLocalizations.of(context)
-      : await GlobalMaterialLocalizations.delegate.load(locale);
+  final localizations = locale == null ? MaterialLocalizations.of(context) : await GlobalMaterialLocalizations.delegate.load(locale);
   return await showDialog<DateTime>(
     context: context,
     builder: (context) => _MonthPickerDialog(

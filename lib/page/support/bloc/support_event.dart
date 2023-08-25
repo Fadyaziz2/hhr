@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:onesthrm/res/enum.dart';
+part of 'support_bloc.dart';
 
 abstract class SupportEvent extends Equatable {
   @override

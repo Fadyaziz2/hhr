@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/support/bloc/support_bloc.dart';
-import 'package:onesthrm/page/support/bloc/support_event.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -23,7 +21,7 @@ class SupportPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: colorPrimary,
           onPressed: () {
-            // NavUtil.replaceScreen(context, const CreateSupportTicket());
+
           },
           child: const Icon(
             Icons.add,
