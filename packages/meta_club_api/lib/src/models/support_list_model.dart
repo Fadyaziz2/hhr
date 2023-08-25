@@ -24,7 +24,7 @@ class SupportListModel extends Equatable{
 }
 
 class SupportData {
-  List<SupportList>? data;
+  List<SupportModel>? data;
 
   SupportData({
     this.data,
@@ -33,7 +33,7 @@ class SupportData {
   factory SupportData.fromJson(Map<String, dynamic> json) => SupportData(
         data: json["data"] == null
             ? []
-            : List<SupportList>.from(json["data"]!.map((x) => SupportList.fromJson(x))),
+            : List<SupportModel>.from(json["data"]!.map((x) => SupportModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,7 +43,7 @@ class SupportData {
       };
 }
 
-class SupportList {
+class SupportModel {
   int? id;
   String? subject;
   String? file;
@@ -53,7 +53,7 @@ class SupportList {
   String? priorityColor;
   String? date;
 
-  SupportList({
+  SupportModel({
     this.id,
     this.subject,
     this.file,
@@ -64,7 +64,7 @@ class SupportList {
     this.date,
   });
 
-  factory SupportList.fromJson(Map<String, dynamic> json) => SupportList(
+  factory SupportModel.fromJson(Map<String, dynamic> json) => SupportModel(
         id: json["id"],
         subject: json["subject"],
         file: json["file"],
