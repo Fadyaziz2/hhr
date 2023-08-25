@@ -18,9 +18,9 @@ class NoticeListState extends Equatable {
     return NoticeListState(
         noticeListModel: noticeListModel,
         status: status ?? this.status,
-        slugName: slugName);
+        slugName: slugName ?? this.slugName);
   }
 
   @override
-  List<Object?> get props => [noticeListModel, slugName];
+  List<Object?> get props => [noticeListModel, slugName, status];
 }

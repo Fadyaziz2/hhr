@@ -68,7 +68,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   void _onClearData(
       ClearNoticeButton event, Emitter<NotificationState> emit) async {
-    final clearAllNotification =
-        await _metaClubApiClient.clearAllNotificationApi();
+    await _metaClubApiClient.clearAllNotificationApi();
   }
 }

@@ -17,10 +17,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
-    on<RouteSlug>(_onRouteSlug);
+    on<RouteSlug>(onRouteSlug);
   }
 
-  void _onRouteSlug(RouteSlug event, Emitter<MenuState> emit) async {
+  void onRouteSlug(RouteSlug event, Emitter<MenuState> emit) {
     switch (event.slugName) {
       case 'support':
         break;
@@ -33,7 +33,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       //       navigationMenu: true,
       //     ));
       case 'notice':
-        return NavUtil.navigateScreen(event.context, const NoticeListScreen());
+        NavUtil.navigateScreen(event.context, const NoticeListScreen());
+        break;
       case 'expense':
         break;
       // return NavUtil.navigateScreen(context, const ExpenseList());

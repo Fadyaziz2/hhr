@@ -11,9 +11,10 @@ class MenuState extends Equatable {
       NotificationResponse? notificationResponse,
       String? slugName,
       NetworkStatus? status}) {
-    return MenuState(status: status ?? this.status, slugName: slugName);
+    return MenuState(
+        status: status ?? this.status, slugName: slugName ?? this.slugName);
   }
 
   @override
-  List<Object?> get props => [slugName];
+  List<Object?> get props => [slugName, status];
 }
