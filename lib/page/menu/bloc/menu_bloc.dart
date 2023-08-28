@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
+import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
@@ -23,8 +24,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   void onRouteSlug(RouteSlug event, Emitter<MenuState> emit) {
     switch (event.slugName) {
       case 'support':
-        break;
-      // return NavUtil.navigateScreen(context, const SupportScreen());
+
+      return NavUtil.navigateScreen(event.context,  SupportPage());
       case 'attendance':
         break;
       // return NavUtil.navigateScreen(
