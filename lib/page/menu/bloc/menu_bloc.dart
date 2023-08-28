@@ -6,7 +6,10 @@ import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
+import '../../phonebook/view/content/phonebook_list_page.dart';
+
 part 'menu_event.dart';
+
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
@@ -43,7 +46,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'approval':
       // return NavUtil.navigateScreen(context, const ApprovalScreen());
       case 'phonebook':
-      // return NavUtil.navigateScreen(context, const PhonebookScreen());
+        NavUtil.navigateScreen(event.context, const PhonebookListPage());
+        break;
       case 'conference':
       // return NavUtil.navigateScreen(context, const ConferenceScreen());
       case 'visit':

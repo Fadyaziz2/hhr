@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../res/enum.dart';
 
@@ -10,13 +11,18 @@ part 'phonebook_event.dart';
 
 part 'phonebook_state.dart';
 
+enum PullStatus { idle ,loading, loaded }
+
 class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
   final MetaClubApiClient metaClubApiClient;
+
 
   PhonebookBloc({required this.metaClubApiClient})
       : super(const PhonebookState(status: NetworkStatus.initial)) {
     on<PhonebookLoadRequest>(_onPhonebookDataRequest);
     on<PhonebookSearchData>(_onPhonebookSearch);
+    on<PhonebookLoadRefresh>(_onPhonebookLoadRefresh);
+    on<PhonebookLoadMore>(_onPhonebookLoadMore);
     // on<>
   }
 
@@ -24,7 +30,7 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
       PhonebookLoadRequest event, Emitter<PhonebookState> emit) async {
     emit(const PhonebookState(status: NetworkStatus.loading));
     try {
-      final phonebook = await metaClubApiClient.getPhonebooks();
+      final phonebook = await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
       emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
@@ -34,8 +40,30 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
 
   FutureOr<void> _onPhonebookSearch(PhonebookSearchData event, Emitter<PhonebookState> emit) async{
     try {
-      final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText);
+      final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText, pageCount: state.pageCount);
       emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook));
+    } on Exception catch (e) {
+      emit(const PhonebookState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onPhonebookLoadRefresh(PhonebookLoadRefresh event, Emitter<PhonebookState> emit) async{
+    try {
+      final phonebook = await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
+      emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook, pageCount: 1,refreshStatus: PullStatus.loaded));
+    } on Exception catch (e) {
+      emit(const PhonebookState(status: NetworkStatus.failure,refreshStatus: PullStatus.idle));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onPhonebookLoadMore(PhonebookLoadMore event, Emitter<PhonebookState> emit) async{
+    try {
+      int page = state.pageCount;
+      Phonebook? morePhonebook = state.phonebook;
+      final phonebook = await metaClubApiClient.getPhonebooks(pageCount: ++page);
+      emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook,pageCount: page));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

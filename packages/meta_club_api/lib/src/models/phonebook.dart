@@ -29,7 +29,7 @@ class Phonebook extends Equatable {
 }
 
 class PhonebookData extends Equatable {
-  final List<User>? users;
+  final List<PhonebookUser>? users;
 
   const PhonebookData({
     this.users,
@@ -37,7 +37,7 @@ class PhonebookData extends Equatable {
 
   factory PhonebookData.fromJson(Map<String, dynamic> json) => PhonebookData(
         users: json["users"] != null
-            ? List<User>.from(json["users"].map((x) => User.fromJson(x)))
+            ? List<PhonebookUser>.from(json["users"].map((x) => PhonebookUser.fromJson(x)))
             : null,
       );
 
@@ -49,8 +49,8 @@ class PhonebookData extends Equatable {
   List<Object?> get props => [users];
 }
 
-class User extends Equatable{
-  const User({
+class PhonebookUser extends Equatable{
+  const PhonebookUser({
     this.id,
     this.name,
     this.phone,
@@ -64,7 +64,7 @@ class User extends Equatable{
   final String? designation;
   final String? avatar;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory PhonebookUser.fromJson(Map<String, dynamic> json) => PhonebookUser(
         id: json["id"],
         name: json["name"],
         phone: json["phone"],

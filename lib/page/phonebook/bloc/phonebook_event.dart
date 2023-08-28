@@ -12,10 +12,27 @@ class PhonebookLoadRequest extends PhonebookEvent {
   List<Object?> get props => [];
 }
 
-class PhonebookSearchData extends PhonebookEvent{
+class PhonebookSearchData extends PhonebookEvent {
   final String? searchText;
+
   PhonebookSearchData({this.searchText});
 
   @override
   List<Object?> get props => [searchText];
+}
+
+class PhonebookLoadRefresh extends PhonebookEvent {
+
+  PhonebookLoadRefresh();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PhonebookLoadMore extends PhonebookEvent {
+
+  PhonebookLoadMore();
+
+  @override
+  List<Object?> get props => [];
 }
