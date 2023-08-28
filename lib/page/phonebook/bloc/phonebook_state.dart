@@ -7,8 +7,8 @@ class PhonebookState extends Equatable {
   final int pageCount;
   final PullStatus refreshStatus;
 
-  const PhonebookState(
-      {this.phonebook,
+  const PhonebookState({
+      this.phonebook,
       this.status = NetworkStatus.initial,
       this.refreshStatus = PullStatus.idle,
       this.searchKey,
@@ -29,6 +29,5 @@ class PhonebookState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [phonebook, status, searchKey, pageCount, refreshStatus];
+  List<Object?> get props => [phonebook, status, searchKey, refreshStatus];
 }

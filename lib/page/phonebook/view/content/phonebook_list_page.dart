@@ -5,7 +5,6 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_content.dart';
 import 'package:onesthrm/res/const.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PhonebookListPage extends StatelessWidget {
   const PhonebookListPage({Key? key}) : super(key: key);
@@ -18,9 +17,7 @@ class PhonebookListPage extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-        create: (_) => PhonebookBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(PhonebookLoadRequest()),
+        create: (_) => PhonebookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(PhonebookLoadRequest()),
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Phonebook'),

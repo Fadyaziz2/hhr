@@ -11,7 +11,17 @@ class PhonebookContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        PhonebookSearch(
+          bloc: context.read<PhonebookBloc>(),
+        ),
+        const Expanded(child: PhonebookUserList())
+      ],
+      // children: [PhonebookUserList()],
+    );
     return BlocBuilder<PhonebookBloc, PhonebookState>(
+      buildWhen: (cState,oState) => cState != oState,
         builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
         return const Center(
@@ -25,7 +35,7 @@ class PhonebookContent extends StatelessWidget {
               PhonebookSearch(
                 bloc: context.read<PhonebookBloc>(),
               ),
-              const PhonebookUserList()
+              const Expanded(child: PhonebookUserList())
             ],
             // children: [PhonebookUserList()],
           );

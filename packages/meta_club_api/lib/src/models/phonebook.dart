@@ -41,9 +41,7 @@ class PhonebookData extends Equatable {
             : null,
       );
 
-  Map<String, dynamic> toJson() => {
-        "users": List<dynamic>.from(users!.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {"users": List<dynamic>.from(users!.map((x) => x.toJson())),};
 
   @override
   List<Object?> get props => [users];

@@ -1,10 +1,7 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../../res/enum.dart';
 
 part 'phonebook_event.dart';
@@ -48,8 +45,9 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     }
   }
 
-  FutureOr<void> _onPhonebookLoadRefresh(PhonebookLoadRefresh event, Emitter<PhonebookState> emit) async{
+  FutureOr<void> _onPhonebookLoadRefresh(PhonebookLoadRefresh event, Emitter<PhonebookState> emit) async {
     try {
+      emit(const PhonebookState(pageCount: 1,refreshStatus: PullStatus.loading));
       final phonebook = await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
       emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook, pageCount: 1,refreshStatus: PullStatus.loaded));
     } on Exception catch (e) {
