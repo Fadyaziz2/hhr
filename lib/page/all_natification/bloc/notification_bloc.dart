@@ -1,0 +1,73 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/notice_details/view/notice_details_screen.dart';
+import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
+
+part 'notification_event.dart';
+part 'notification_state.dart';
+
+class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
+  final MetaClubApiClient _metaClubApiClient;
+
+  NotificationBloc({required MetaClubApiClient metaClubApiClient})
+      : _metaClubApiClient = metaClubApiClient,
+        super(const NotificationState(
+          status: NetworkStatus.initial,
+        )) {
+    on<LoadNotificationData>(_onNotificationDataLoad);
+    on<RouteSlug>(_onRoutSlag);
+    on<ClearNoticeButton>(_onClearData);
+  }
+
+  void _onNotificationDataLoad(
+      LoadNotificationData event, Emitter<NotificationState> emit) async {
+    emit(const NotificationState(status: NetworkStatus.loading));
+    try {
+      NotificationResponse? notificationResponse =
+          await _metaClubApiClient.getNotification();
+      emit(state.copy(
+          notificationResponse: notificationResponse,
+          status: NetworkStatus.success));
+    } catch (e) {
+      emit(const NotificationState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  void _onRoutSlag(RouteSlug event, Emitter<NotificationState> emit) async {
+    switch (event.slugName) {
+      case 'notice':
+        // ignore: void_checks
+        return NavUtil.navigateScreen(
+            event.context,
+            NoticeDetailsScreen(
+              notificationResponse: event.data,
+              image: event.data?.data?.notifications?[0].image,
+              date: event.data?.data?.notifications?[0].date,
+              body: event.data?.data?.notifications?[0].body,
+              title: event.data?.data?.notifications?[0].title,
+            ));
+
+      case 'daily_leave':
+        break;
+      // return NavUtil.navigateScreen(context, const DailyLeave());
+      case 'leave_request':
+        break;
+      // return NavUtil.navigateScreen(context, const LeaveSummary());
+      case 'appointment_request':
+        break;
+
+      // return NavUtil.navigateScreen(context, const AppointmentScreen());
+      default:
+        return debugPrint('default');
+    }
+  }
+
+  void _onClearData(
+      ClearNoticeButton event, Emitter<NotificationState> emit) async {
+    await _metaClubApiClient.clearAllNotificationApi();
+  }
+}
