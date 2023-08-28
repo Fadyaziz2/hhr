@@ -16,6 +16,8 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
   PhonebookBloc({required this.metaClubApiClient})
       : super(const PhonebookState(status: NetworkStatus.initial)) {
     on<PhonebookLoadRequest>(_onPhonebookDataRequest);
+    on<PhonebookSearchData>(_onPhonebookSearch);
+    // on<>
   }
 
   FutureOr<void> _onPhonebookDataRequest(
@@ -23,6 +25,16 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     emit(const PhonebookState(status: NetworkStatus.loading));
     try {
       final phonebook = await metaClubApiClient.getPhonebooks();
+      emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook));
+    } on Exception catch (e) {
+      emit(const PhonebookState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onPhonebookSearch(PhonebookSearchData event, Emitter<PhonebookState> emit) async{
+    try {
+      final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText);
       emit(PhonebookState(status: NetworkStatus.success, phonebook: phonebook));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));

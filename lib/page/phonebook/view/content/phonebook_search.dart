@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/phonebook/phonebook.dart';
+
+import '../../../../res/common/debouncer.dart';
 
 class PhonebookSearch extends StatelessWidget {
-  const PhonebookSearch({Key? key}) : super(key: key);
+  const PhonebookSearch({Key? key, this.bloc}) : super(key: key);
+  final Bloc? bloc;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       child: TextField(
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           prefixIcon: Icon(Icons.search),
-          hintText: "search",
+          hintText: "Search",
           filled: true,
           contentPadding: EdgeInsets.all(0),
           border: OutlineInputBorder(
@@ -20,7 +25,12 @@ class PhonebookSearch extends StatelessWidget {
           ),
         ),
         // controller: allUserProvider.searchUserData,
-        // onChanged: allUserProvider.textChanged,
+        onChanged: (value) {
+          final _debouncer = Debouncer(milliseconds: 2000);
+
+          _debouncer.run(() =>
+              bloc?.add(PhonebookSearchData(searchText: value.toString())));
+        },
       ),
     );
   }

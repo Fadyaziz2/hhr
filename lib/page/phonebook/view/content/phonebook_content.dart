@@ -20,14 +20,20 @@ class PhonebookContent extends StatelessWidget {
       }
       if (state.status == NetworkStatus.success) {
         if (state.phonebook != null) {
-          return const Column(
-            children: [PhonebookSearch(), PhonebookUserList()],
+          return Column(
+            children: [
+              PhonebookSearch(
+                bloc: context.read<PhonebookBloc>(),
+              ),
+              const PhonebookUserList()
+            ],
+            // children: [PhonebookUserList()],
           );
         }
       }
       if (state.status == NetworkStatus.failure) {
         return const Center(
-          child: Text('Failed to load profile'),
+          child: Text('Failed to load phonebook'),
         );
       }
       return const SizedBox();

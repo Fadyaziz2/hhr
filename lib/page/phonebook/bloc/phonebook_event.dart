@@ -11,3 +11,11 @@ class PhonebookLoadRequest extends PhonebookEvent {
   @override
   List<Object?> get props => [];
 }
+
+class PhonebookSearchData extends PhonebookEvent{
+  final String? searchText;
+  PhonebookSearchData({this.searchText});
+
+  @override
+  List<Object?> get props => [searchText];
+}
