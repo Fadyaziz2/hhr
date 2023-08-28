@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_list_page.dart';
+import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
@@ -52,11 +53,27 @@ class BottomNavContent extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    BottomNavItem(icon: 'assets/home_icon/home.svg', isSelected: selectedTab  == BottomNavTab.home, tab: BottomNavTab.home,),
-                    BottomNavItem(icon: 'assets/home_icon/attendance.svg', isSelected: selectedTab  == BottomNavTab.attendance, tab: BottomNavTab.attendance,),
+                    BottomNavItem(
+                      icon: 'assets/home_icon/home.svg',
+                      isSelected: selectedTab == BottomNavTab.home,
+                      tab: BottomNavTab.home,
+                    ),
+                    BottomNavItem(
+                      icon: 'assets/home_icon/attendance.svg',
+                      isSelected: selectedTab == BottomNavTab.attendance,
+                      tab: BottomNavTab.attendance,
+                    ),
                     const SizedBox(width: 8.0),
-                    BottomNavItem(icon: 'assets/home_icon/leave.svg', isSelected: selectedTab  == BottomNavTab.leave, tab: BottomNavTab.leave,),
-                    BottomNavItem(icon: 'assets/home_icon/notifications.svg', isSelected: selectedTab  == BottomNavTab.notification, tab: BottomNavTab.notification,),
+                    BottomNavItem(
+                      icon: 'assets/home_icon/leave.svg',
+                      isSelected: selectedTab == BottomNavTab.leave,
+                      tab: BottomNavTab.leave,
+                    ),
+                    BottomNavItem(
+                      icon: 'assets/home_icon/notifications.svg',
+                      isSelected: selectedTab == BottomNavTab.notification,
+                      tab: BottomNavTab.notification,
+                    ),
                   ],
                 )),
           ),
@@ -82,7 +99,7 @@ class BottomNavContent extends StatelessWidget {
               SizedBox(),
               MenuScreen(),
               PhonebookListPage(),
-              SizedBox(),
+              NotificationScreen(),
             ],
           ),
         ),

@@ -12,6 +12,7 @@ import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/phonebook.dart';
+import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -586,6 +587,81 @@ class MetaClubApiClient {
       return ActsRegulationModel.fromJson(response?.data);
     } catch (_) {
       return null;
+    }
+  }
+
+  Future<NotificationResponse?> getNotification() async {
+    const String api = 'user/notification';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return NotificationResponse.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ResponseNoticeDetails?> getNotificationDetaisl(int noticeId) async {
+    const String api = 'notice/show';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api/$noticeId');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ResponseNoticeDetails.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<NoticeListModel?> getNoticeList() async {
+    const String api = 'notice/list';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return NoticeListModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+///// All Notification ///////////
+  Future<bool> clearAllNotificationApi() async {
+    const String clear = 'user/notification/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ///// All Notification ///////////
+  Future<bool> clearNoticeApi() async {
+    const String clear = 'notice/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 
