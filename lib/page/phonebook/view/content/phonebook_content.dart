@@ -20,33 +20,33 @@ class PhonebookContent extends StatelessWidget {
       ],
       // children: [PhonebookUserList()],
     );
-    return BlocBuilder<PhonebookBloc, PhonebookState>(
-      buildWhen: (cState,oState) => cState != oState,
-        builder: (context, state) {
-      if (state.status == NetworkStatus.loading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-      if (state.status == NetworkStatus.success) {
-        if (state.phonebook != null) {
-          return Column(
-            children: [
-              PhonebookSearch(
-                bloc: context.read<PhonebookBloc>(),
-              ),
-              const Expanded(child: PhonebookUserList())
-            ],
-            // children: [PhonebookUserList()],
-          );
-        }
-      }
-      if (state.status == NetworkStatus.failure) {
-        return const Center(
-          child: Text('Failed to load phonebook'),
-        );
-      }
-      return const SizedBox();
-    });
+    // return BlocBuilder<PhonebookBloc, PhonebookState>(
+    //   buildWhen: (cState,oState) => cState != oState,
+    //     builder: (context, state) {
+    //   if (state.status == NetworkStatus.loading) {
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   }
+    //   if (state.status == NetworkStatus.success) {
+    //     if (state.phonebook != null) {
+    //       return Column(
+    //         children: [
+    //           PhonebookSearch(
+    //             bloc: context.read<PhonebookBloc>(),
+    //           ),
+    //           const Expanded(child: PhonebookUserList())
+    //         ],
+    //         // children: [PhonebookUserList()],
+    //       );
+    //     }
+    //   }
+    //   if (state.status == NetworkStatus.failure) {
+    //     return const Center(
+    //       child: Text('Failed to load phonebook'),
+    //     );
+    //   }
+    //   return const SizedBox();
+    // });
   }
 }

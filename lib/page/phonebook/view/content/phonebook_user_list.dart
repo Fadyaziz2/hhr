@@ -48,12 +48,13 @@ class PhonebookUserList extends StatelessWidget {
             controller: refreshController,
             onLoading: (){
               context.read<PhonebookBloc>().add(PhonebookLoadMore());
+              refreshController.loadComplete();
             },
             onRefresh: (){
               context.read<PhonebookBloc>().add(PhonebookLoadRefresh());
             },
             child: ListView.builder(
-              itemCount: state.phonebook?.data?.users?.length ?? 0,
+              itemCount: state.phonebookUsers?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () async {
@@ -67,9 +68,9 @@ class PhonebookUserList extends StatelessWidget {
                     ),
                     child: ListTile(
                       title:
-                          Text(state.phonebook?.data?.users?[index].name ?? ""),
+                          Text(state.phonebookUsers?[index].name ?? ""),
                       subtitle: Text(
-                          state.phonebook?.data?.users?[index].designation ??
+                          state.phonebookUsers?[index].designation ??
                               ""),
                       leading: ClipOval(
                         child: CachedNetworkImage(
@@ -77,7 +78,7 @@ class PhonebookUserList extends StatelessWidget {
                           width: 40,
                           fit: BoxFit.cover,
                           imageUrl:
-                              "${state.phonebook?.data?.users?[index].avatar}",
+                              "${state.phonebookUsers?[index].avatar}",
                           placeholder: (context, url) => Center(
                             child: Image.asset(
                                 "assets/images/placeholder_image.png"),
