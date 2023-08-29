@@ -36,3 +36,11 @@ class PhonebookLoadMore extends PhonebookEvent {
   @override
   List<Object?> get props => [];
 }
+
+class DepartmentDataRequest extends PhonebookEvent {
+
+  DepartmentDataRequest();
+
+  @override
+  List<Object?> get props => [];
+}

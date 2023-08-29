@@ -682,4 +682,19 @@ class MetaClubApiClient {
       return null;
     }
   }
+  Future<DepartmentsModel?>  getAllDepartment() async {
+    String api = 'app/get-department';
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return DepartmentsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
 }

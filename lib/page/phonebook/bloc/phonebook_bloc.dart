@@ -20,6 +20,7 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     on<PhonebookSearchData>(_onPhonebookSearch);
     on<PhonebookLoadRefresh>(_onPhonebookLoadRefresh);
     on<PhonebookLoadMore>(_onPhonebookLoadMore);
+    on<DepartmentDataRequest>(_onDepartmentDataRequest);
     // on<>
   }
 
@@ -32,8 +33,8 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
           await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
       loadPhonebookUsers = phonebook?.data?.users;
       emit(PhonebookState(
-          status: NetworkStatus.success,
-          phonebookUsers: loadPhonebookUsers));
+          status: NetworkStatus.success, phonebookUsers: loadPhonebookUsers));
+      add(DepartmentDataRequest());
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -82,14 +83,29 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
       // Phonebook? morePhonebook = state.phonebook;
       final phonebook =
           await metaClubApiClient.getPhonebooks(pageCount: ++page);
-      if(phonebook?.data?.users?.isNotEmpty == true){
+      if (phonebook?.data?.users?.isNotEmpty == true) {
         var loadedList = [...?loadPhonebookUsers, ...?phonebook?.data?.users];
         emit(PhonebookState(
             status: NetworkStatus.success,
             phonebookUsers: loadedList,
             pageCount: page));
       }
+    } on Exception catch (e) {
+      emit(const PhonebookState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
 
+  FutureOr<void> _onDepartmentDataRequest(
+      DepartmentDataRequest event, Emitter<PhonebookState> emit) async {
+    emit(const PhonebookState(status: NetworkStatus.loading));
+    try {
+      final departments = await metaClubApiClient.getAllDepartment();
+      print(departments?.data?.departments?.length);
+      emit(PhonebookState(
+          status: NetworkStatus.success,
+          phonebookUsers: loadPhonebookUsers,
+          listOfDepartments: departments?.data?.departments));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
