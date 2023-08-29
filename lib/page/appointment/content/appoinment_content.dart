@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:onesthrm/page/appoinment_details/appointment_details_screen.dart';
 import 'package:onesthrm/page/appointment/bloc/appoinment_bloc.dart';
 import 'package:onesthrm/page/appointment/content/upcoming_event_widgetg.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -38,8 +39,11 @@ class AppointmentContent extends StatelessWidget {
                           .add(SelectDatePicker(context));
                       // provider.selectDate(context);
                     },
-                    icon: const FaIcon(FontAwesomeIcons.angleLeft,
-                        size: 30, color: Colors.black),
+                    icon: const FaIcon(
+                      FontAwesomeIcons.angleLeft,
+                      size: 30,
+                      color: Colors.blue,
+                    ),
                   ),
                   const Spacer(),
                   Center(
@@ -59,38 +63,32 @@ class AppointmentContent extends StatelessWidget {
                     icon: const FaIcon(
                       FontAwesomeIcons.angleRight,
                       size: 30,
-                      // color: AppColors.colorPrimary,
+                      color: Colors.blue,
                     ),
                   ),
                 ],
               ),
             ),
-            // provider.isLoading == true
-            //     ? provider.appointmentListModel!.data!.items!.isNotEmpty
-            // ?
             state.meetingsListData!.data!.items!.isNotEmpty
                 ? Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount:
-                          // provider.appointmentListModel?.data
-                          // ?.items?.length ??
                           state.meetingsListData?.data?.items?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         final data =
                             state.meetingsListData?.data?.items?[index];
-                        // final data = provider.appointmentListModel
-                        // ?.data?.items![index];
                         return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: InkWell(
-                              onTap: () {},
-                              // NavUtil.navigateScreen(
-                              //     context,
-                              //     AppointmentDetailsScreen(
-                              //       appointmentId: data?.id,
-                              //     )),
+                              onTap: () {
+                                NavUtil.navigateScreen(
+                                    context,
+                                    AppointmentDetailsScreen(
+                                      data: data,
+                                    ));
+                              },
                               child: EventWidgets(
                                   isAppointment: true, data: data!),
                             ));

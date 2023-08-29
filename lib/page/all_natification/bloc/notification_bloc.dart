@@ -2,7 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/appointment/view/appointment_screen.dart';
 import 'package:onesthrm/page/notice_details/view/notice_details_screen.dart';
+import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
@@ -39,17 +41,17 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   void _onRoutSlag(RouteSlug event, Emitter<NotificationState> emit) async {
     switch (event.slugName) {
-      case 'notice':
-        // ignore: void_checks
-        return NavUtil.navigateScreen(
-            event.context,
-            NoticeDetailsScreen(
-              notificationResponse: event.data,
-              image: event.data?.data?.notifications?[0].image,
-              date: event.data?.data?.notifications?[0].date,
-              body: event.data?.data?.notifications?[0].body,
-              title: event.data?.data?.notifications?[0].title,
-            ));
+      // case 'notice':
+      //   // ignore: void_checks
+      //   return NavUtil.navigateScreen(event.context, const NoticeListScreen()
+      //       // NoticeDetailsScreen(
+      //       //   notificationResponse: event.data,
+      //       //   image: event.data?.data?.notifications?[0].image,
+      //       //   date: event.data?.data?.notifications?[0].date,
+      //       //   body: event.data?.data?.notifications?[0].body,
+      //       //   title: event.data?.data?.notifications?[0].title,
+      //       // )
+      //       );
 
       case 'daily_leave':
         break;
@@ -58,9 +60,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         break;
       // return NavUtil.navigateScreen(context, const LeaveSummary());
       case 'appointment_request':
+        NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
-
-      // return NavUtil.navigateScreen(context, const AppointmentScreen());
       default:
         return debugPrint('default');
     }
