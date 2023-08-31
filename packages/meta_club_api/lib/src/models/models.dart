@@ -15,4 +15,4 @@ export 'phonebook.dart';
 export 'notification_list.dart';
 export 'response_notice_details.dart';
 export 'notice_list_model.dart';
-export 'department.dart';
+export 'phonebook_details.dart';

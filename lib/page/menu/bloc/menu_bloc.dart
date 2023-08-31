@@ -14,9 +14,12 @@ part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final MetaClubApiClient _metaClubApiClient;
+  final Settings _settings;
 
-  MenuBloc({required MetaClubApiClient metaClubApiClient})
+  MenuBloc(
+      {required MetaClubApiClient metaClubApiClient, required Settings setting})
       : _metaClubApiClient = metaClubApiClient,
+        _settings = setting,
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
@@ -46,7 +49,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'approval':
       // return NavUtil.navigateScreen(context, const ApprovalScreen());
       case 'phonebook':
-        NavUtil.navigateScreen(event.context, const PhonebookListPage());
+        NavUtil.navigateScreen(event.context,  PhonebookListPage(settings: _settings,));
         break;
       case 'conference':
       // return NavUtil.navigateScreen(context, const ConferenceScreen());

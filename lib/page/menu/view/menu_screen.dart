@@ -23,7 +23,7 @@ class MenuScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => MenuBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'), setting: settings!)
         ..add(RouteSlug(context: context)),
       child: Scaffold(
           key: _scaffoldKey,

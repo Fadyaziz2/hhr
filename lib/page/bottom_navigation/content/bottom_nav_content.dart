@@ -98,7 +98,7 @@ class BottomNavContent extends StatelessWidget {
               HomePage(),
               SizedBox(),
               MenuScreen(),
-              PhonebookListPage(),
+              SizedBox(),
               NotificationScreen(),
             ],
           ),

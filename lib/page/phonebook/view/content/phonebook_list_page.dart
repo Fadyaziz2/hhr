@@ -7,10 +7,11 @@ import 'package:onesthrm/page/phonebook/view/content/phonebook_content.dart';
 import 'package:onesthrm/res/const.dart';
 
 class PhonebookListPage extends StatelessWidget {
-  const PhonebookListPage({Key? key}) : super(key: key);
+  final Settings? settings;
+  const PhonebookListPage({Key? key, this.settings}) : super(key: key);
 
   static Route route(int? userId, Settings? settings) =>
-      MaterialPageRoute(builder: (_) => const PhonebookListPage());
+      MaterialPageRoute(builder: (_) =>  PhonebookListPage(settings: settings!,));
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class PhonebookListPage extends StatelessWidget {
             title: const Text('Phonebook'),
             backgroundColor: mainColor,
           ),
-          body: const PhonebookContent(),
+          body:  PhonebookContent(settings: settings!,),
         ));
   }
 }

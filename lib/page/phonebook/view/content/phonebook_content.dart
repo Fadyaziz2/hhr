@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_search.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_user_list.dart';
 
 import '../../bloc/phonebook_bloc.dart';
+import 'department_dropdown.dart';
+import 'designation_dropdown.dart';
 
 class PhonebookContent extends StatelessWidget {
-  const PhonebookContent({Key? key}) : super(key: key);
+  final Settings settings;
+  const PhonebookContent({Key? key,required this.settings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-    String dropdownValue = list.first;
     return Column(
       children: [
         PhonebookSearch(
@@ -19,43 +21,11 @@ class PhonebookContent extends StatelessWidget {
         ),
         Row(
           children: [
-            Expanded(
-              child:
-                  DepartmentDropDown(dropdownValue: dropdownValue, list: list),
+             Expanded(
+              child: DepartmentDropDown(settings: settings,),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(right: 16, left: 8),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(25)),
-                child: DropdownButton<String>(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  isExpanded: true,
-                  value: dropdownValue,
-                  icon: const Icon(
-                    Icons.arrow_drop_down_outlined,
-                    size: 18,
-                  ),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 0,
-                  ),
-                  onChanged: (String? value) {
-                    // This is called when the user selects an item.
-                    // setState(() {
-                    // dropdownValue = value!;
-                    // });
-                  },
-                  items: list.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+              child: DesignationDropdown(settings: settings,),
             ),
           ],
         ),
@@ -91,52 +61,5 @@ class PhonebookContent extends StatelessWidget {
     //   }
     //   return const SizedBox();
     // });
-  }
-}
-
-class DepartmentDropDown extends StatelessWidget {
-  const DepartmentDropDown({
-    super.key,
-    required this.dropdownValue,
-    required this.list,
-  });
-
-  final String dropdownValue;
-  final List<String> list;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 16, right: 8),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(25)),
-      child: DropdownButton<String>(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        isExpanded: true,
-        value: dropdownValue,
-        icon: const Icon(
-          Icons.arrow_drop_down_outlined,
-          size: 18,
-        ),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 0,
-        ),
-        onChanged: (String? value) {
-          // This is called when the user selects an item.
-          // setState(() {
-          // dropdownValue = value!;
-          // });
-        },
-        items: list.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    );
   }
 }
