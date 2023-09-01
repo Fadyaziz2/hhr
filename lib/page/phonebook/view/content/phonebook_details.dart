@@ -58,65 +58,71 @@ class PhonebookDetailsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      profileMenu(
-                          iconData: Icons.call,
-                          onPressed: () {
-                            bloc.add(DirectPhoneCall(
-                                snapshot.data?.data?.phone ?? ''));
-                          }),
-                      profileMenu(
-                          iconData: Icons.message,
-                          onPressed: () {
-                            bloc.add(DirectMessage(
-                                snapshot.data?.data?.phone ?? ''));
-                          }),
-                      profileMenu(
-                          iconData: Icons.mail,
-                          onPressed: () {
-                            bloc.add(DirectMailTo(snapshot.data?.data?.email ?? '', snapshot.data?.data?.name ?? ''));
-                          }),
-                      profileMenu(
-                        iconData: Icons.calendar_today_outlined,
-                        // onPressed: () => NavUtil.navigateScreen(
-                        //   context,
-                        //   AppointmentCreateScreen(
-                        //     id: widget.phonebookDetails!.data!.id,
-                        //     navigation: "directory",
-                        //   ),
-                        // ),
-                      ),
-                    ],
+                  Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        profileMenu(
+                            iconData: Icons.call,
+                            bgColor: const Color(0xFF3171F9),
+                            onPressed: () {
+                              bloc.add(DirectPhoneCall(
+                                  snapshot.data?.data?.phone ?? ''));
+                            }),
+                        profileMenu(
+                            iconData: Icons.message_outlined,
+                            bgColor: const Color(0xFF00B180),
+                            onPressed: () {
+                              bloc.add(DirectMessage(
+                                  snapshot.data?.data?.phone ?? ''));
+                            }),
+                        profileMenu(
+                            iconData: Icons.mail,
+                            bgColor: const Color(0xFFD8DAE8),
+                            onPressed: () {
+                              bloc.add(DirectMailTo(snapshot.data?.data?.email ?? '', snapshot.data?.data?.name ?? ''));
+                            }),
+                        profileMenu(
+                          bgColor: const Color(0xFFFD5250),
+                          iconData: Icons.calendar_today_outlined,
+                          // onPressed: () => NavUtil.navigateScreen(
+                          //   context,
+                          //   AppointmentCreateScreen(
+                          //     id: widget.phonebookDetails!.data!.id,
+                          //     navigation: "directory",
+                          //   ),
+                          // ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   buildProfileDetails(
-                    title: "phone",
-                    description: snapshot.data?.data?.phone ?? "n/a",
+                    title: "Phone",
+                    description: snapshot.data?.data?.phone ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "email",
-                    description: snapshot.data?.data?.email ?? "n/a",
+                    title: "Email",
+                    description: snapshot.data?.data?.email ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "department",
-                    description: snapshot.data?.data?.designation ?? "n/a",
+                    title: "Department",
+                    description: snapshot.data?.data?.designation ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "date_of_birth",
-                    description: snapshot.data?.data?.birthDate ?? "n/a",
+                    title: "Date of Birth",
+                    description: snapshot.data?.data?.birthDate ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "blood_group",
-                    description: snapshot.data?.data?.bloodGroup ?? "n/a",
+                    title: "Blood Group",
+                    description: snapshot.data?.data?.bloodGroup ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "social_media",
-                    description: snapshot.data?.data?.facebookLink ?? "n/a",
+                    title: "Social Media",
+                    description: snapshot.data?.data?.facebookLink ?? "N/A",
                   ),
                 ],
               );
@@ -129,19 +135,24 @@ class PhonebookDetailsScreen extends StatelessWidget {
     );
   }
 
-  Container profileMenu({IconData? iconData, Function()? onPressed, Color? bgColor}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(8)
+  GestureDetector profileMenu({IconData? iconData, Function()? onPressed, Color? bgColor}) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(12.0)
+        ),
+        child: Icon(iconData, color: Colors.white,),
       ),
-      child: Icon(iconData, color: Colors.white,),
     );
   }
 
   Container buildProfileDetails({String? title, description}) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey.shade300))),
       child: Row(

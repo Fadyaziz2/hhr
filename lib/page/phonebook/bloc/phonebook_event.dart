@@ -14,11 +14,14 @@ class PhonebookLoadRequest extends PhonebookEvent {
 
 class PhonebookSearchData extends PhonebookEvent {
   final String? searchText;
+  final int? pageCount;
+  final int? departmentId;
+  final int? designationId;
 
-  PhonebookSearchData({this.searchText});
+  PhonebookSearchData({this.searchText, this.pageCount = 1, this.departmentId, this.designationId});
 
   @override
-  List<Object?> get props => [searchText];
+  List<Object?> get props => [searchText, pageCount, departmentId, designationId];
 }
 
 class PhonebookLoadRefresh extends PhonebookEvent {

@@ -49,9 +49,11 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
 
   FutureOr<void> _onPhonebookSearch(
       PhonebookSearchData event, Emitter<PhonebookState> emit) async {
+    loadPhonebookUsers = [];
     try {
-      final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText, pageCount: state.pageCount, departmentId: state.departments?.id, designationId: state.designations?.id);
-      emit(state.copyWith(phonebookUsers: phonebook?.data?.users));
+      final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText, pageCount: event.pageCount!, departmentId: event.departmentId, designationId: event.designationId);
+      loadPhonebookUsers = phonebook?.data?.users;
+      emit(state.copyWith(phonebookUsers: loadPhonebookUsers));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -79,7 +81,7 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
       PhonebookLoadMore event, Emitter<PhonebookState> emit) async {
     try {
       int page = state.pageCount;
-      final phonebook = await metaClubApiClient.getPhonebooks(pageCount: ++page);
+      final phonebook = await metaClubApiClient.getPhonebooks(pageCount: ++page, designationId: state.designations?.id, departmentId: state.departments?.id);
       if (phonebook?.data?.users?.isNotEmpty == true) {
         var loadedList = [...?loadPhonebookUsers, ...?phonebook?.data?.users];
         emit(state.copyWith(phonebookUsers: loadedList,departments: state.departments, designations: state.designations, pageCount: page));
@@ -91,13 +93,13 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
   }
 
   FutureOr<void> _onSelectDepartmentValue(SelectDepartmentValue event, Emitter<PhonebookState> emit) {
-    emit(state.copyWith(departments: event.departmentsData));
-    add(PhonebookSearchData());
+    emit(state.copyWith(departments: event.departmentsData, pageCount: 1, searchKey: state.searchKey));
+    add(PhonebookSearchData(departmentId: event.departmentsData.id));
   }
 
   FutureOr<void> _onSelectDesignationValue(SelectDesignationValue event, Emitter<PhonebookState> emit) {
-    emit(state.copyWith(designations: event.designationData));
-    add(PhonebookSearchData());
+    emit(state.copyWith(designations: event.designationData,departments: null, pageCount: 1, searchKey: state.searchKey));
+    add(PhonebookSearchData(designationId: event.designationData.id));
   }
 
   FutureOr<void> _onDirectPhoneCall(DirectPhoneCall event, Emitter<PhonebookState> emit) async{
