@@ -9,9 +9,13 @@ class PhonebookDetailsScreen extends StatelessWidget {
   final String userId;
   final PhonebookBloc bloc;
 
-
-  static Route route({required PhonebookBloc homeBloc, required String userId}) {
-    return MaterialPageRoute(builder: (_) => PhonebookDetailsScreen(bloc: homeBloc, userId: userId,));
+  static Route route(
+      {required PhonebookBloc homeBloc, required String userId}) {
+    return MaterialPageRoute(
+        builder: (_) => PhonebookDetailsScreen(
+              bloc: homeBloc,
+              userId: userId,
+            ));
   }
 
   @override
@@ -61,17 +65,20 @@ class PhonebookDetailsScreen extends StatelessWidget {
                       profileMenu(
                           iconData: Icons.call,
                           onPressed: () {
-                            // _makePhoneCall(
-                            //     "tel://${widget.phonebookDetails?.data?.phone}");
+                            bloc.add(DirectPhoneCall(
+                                snapshot.data?.data?.phone ?? ''));
                           }),
-                      profileMenu(iconData: Icons.message),
+                      profileMenu(
+                          iconData: Icons.message,
+                          onPressed: () {
+                            bloc.add(DirectMessage(
+                                snapshot.data?.data?.phone ?? ''));
+                          }),
                       profileMenu(
                           iconData: Icons.mail,
                           onPressed: () {
-                            // makeMail(
-                            //     "mailto:${widget.phonebookDetails!.data!.email}}");
+                            bloc.add(DirectMailTo(snapshot.data?.data?.email ?? '', snapshot.data?.data?.name ?? ''));
                           }),
-                      profileMenu(iconData: Icons.messenger_outline_outlined),
                       profileMenu(
                         iconData: Icons.calendar_today_outlined,
                         // onPressed: () => NavUtil.navigateScreen(
@@ -122,16 +129,13 @@ class PhonebookDetailsScreen extends StatelessWidget {
     );
   }
 
-  CircleAvatar profileMenu({IconData? iconData, Function()? onPressed}) {
-    return CircleAvatar(
-      // backgroundColor: AppColors.colorPrimary,
-      child: IconButton(
-        icon: Icon(
-          iconData,
-          color: Colors.white,
-        ),
-        onPressed: onPressed,
+  Container profileMenu({IconData? iconData, Function()? onPressed, Color? bgColor}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(8)
       ),
+      child: Icon(iconData, color: Colors.white,),
     );
   }
 

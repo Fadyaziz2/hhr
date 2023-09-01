@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -24,7 +25,8 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     on<SelectDepartmentValue>(_onSelectDepartmentValue);
     on<SelectDesignationValue>(_onSelectDesignationValue);
     on<DirectPhoneCall>(_onDirectPhoneCall);
-    // on<>
+    on<DirectMessage>(_onDirectMessage);
+    on<DirectMailTo>(_onDirectMailTo);
   }
 
   FutureOr<void> _onPhonebookDataRequest(
@@ -80,7 +82,7 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
       final phonebook = await metaClubApiClient.getPhonebooks(pageCount: ++page);
       if (phonebook?.data?.users?.isNotEmpty == true) {
         var loadedList = [...?loadPhonebookUsers, ...?phonebook?.data?.users];
-        emit(state.copyWith(phonebookUsers: loadedList,departments: state.designations, designations: state.designations, pageCount: page));
+        emit(state.copyWith(phonebookUsers: loadedList,departments: state.departments, designations: state.designations, pageCount: page));
       }
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
@@ -102,9 +104,34 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     if (!await launchUrl(Uri.parse("tel://${event.phoneNumber}"))) throw 'Could not launch ${Uri.parse("tel://${event.phoneNumber}")}';
   }
 
-
-
   Future<PhonebookDetailsModel?> onPhonebookDetails({required String userId}) async{
     return await metaClubApiClient.getPhonebooksUserDetails(userId: userId);
+  }
+
+  FutureOr<void> _onDirectMessage(DirectMessage event, Emitter<PhonebookState> emit)async {
+    try {
+      if (Platform.isAndroid) {
+        String uri = 'sms:${event.phoneNumber}?body=${Uri.encodeComponent("Hello there")}';
+        await launchUrl(Uri.parse(uri));
+      } else if (Platform.isIOS) {
+        String uri = 'sms:${event.phoneNumber}&body=${Uri.encodeComponent("Hello there")}';
+        await launchUrl(Uri.parse(uri));
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  FutureOr<void> _onDirectMailTo(DirectMailTo event, Emitter<PhonebookState> emit) {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      // path: 'our.email@gmail.com',
+      path: event.email,
+      queryParameters: {
+        'subject': 'CallOut user Profile',
+        'body': event.userName ?? ''
+      },
+    );
+    launchUrl(emailLaunchUri);
   }
 }

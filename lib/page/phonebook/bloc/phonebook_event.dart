@@ -62,6 +62,25 @@ class DirectPhoneCall extends PhonebookEvent {
   List<Object?> get props => [phoneNumber];
 }
 
+class DirectMessage extends PhonebookEvent {
+  final String phoneNumber;
+
+  DirectMessage(this.phoneNumber);
+
+  @override
+  List<Object?> get props => [phoneNumber];
+}
+
+class DirectMailTo extends PhonebookEvent {
+  final String email;
+  final String userName;
+
+  DirectMailTo(this.email, this.userName);
+
+  @override
+  List<Object?> get props => [email, userName];
+}
+
 class PhonebookDetails extends PhonebookEvent {
   final String userId;
 

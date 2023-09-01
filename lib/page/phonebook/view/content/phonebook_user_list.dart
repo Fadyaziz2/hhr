@@ -59,8 +59,6 @@ class PhonebookUserList extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () async {
-                        /// nevigate to details page
-                        // context.read<PhonebookBloc>().add(PhonebookDetails(state.phonebookUsers![index].id.toString()));
                         Navigator.push(context, PhonebookDetailsScreen.route(homeBloc: context.read<PhonebookBloc>(), userId: '${state.phonebookUsers![index].id}'));
                       },
                       child: Container(
@@ -90,9 +88,7 @@ class PhonebookUserList extends StatelessWidget {
                           trailing: InkWell(
                             onTap: () {
                               /// Dial
-                              // FlutterPhoneDirectCaller.callNumber(allUserProvider.responseAllUser?.data?.users?[index].phone ?? "");
-                              context.read<PhonebookBloc>().add(DirectPhoneCall(
-                                  state.phonebookUsers?[index].phone ?? ''));
+                              context.read<PhonebookBloc>().add(DirectPhoneCall(state.phonebookUsers?[index].phone ?? ''));
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(8.0),
