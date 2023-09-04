@@ -7,7 +7,8 @@ part 'profile_event.dart';
 
 part 'profile_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+class
+ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final MetaClubApiClient metaClubApiClient;
 
   ProfileBloc({required this.metaClubApiClient})

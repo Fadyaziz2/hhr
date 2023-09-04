@@ -8,17 +8,27 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/support/view/create_support/bloc/create_support_bloc.dart';
+import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
+import 'package:onesthrm/page/upload_file/view/upload_content.dart';
+import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/CustomButton.dart';
+
+import '../../../profile/view/content/custom_radio_title.dart';
+import '../../../upload_file/bloc/upload_file_bloc.dart';
+import '../../../upload_file/bloc/upload_file_event.dart';
+import 'bloc/create_support_event.dart';
 
 class CreateSupportPage extends StatelessWidget {
   const CreateSupportPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BodyCreateSupport createSupport = BodyCreateSupport();
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (context) => CreateSupportBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+      create: (context) => CreateSupportBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -45,49 +55,63 @@ class CreateSupportPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+
+                /// priority_id => [14 = high , 15 = medium , 16 = low' ]
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: CustomRadioTile(
-                        onChanged: (genderValue) {
+                      child: CustomRadioTitle(
+                        value: BodyPrioritySupport(
+                            priorityName: 'High', priorityId: 10),
+                        onChanged: (priorityValue) {
                           if (kDebugMode) {
-                            print("Radio $genderValue");
+                            print("Radio $priorityValue");
                           }
+                          context.read<CreateSupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
                           // personal.gender = genderValue;
                           // onPersonalUpdate(personal);
                           // bloc.add(OnGenderUpdate(gender: personal.gender!));
                         },
                         title: 'High',
-                        initialData: "male",
+                        initialData: "high",
                       ),
                     ),
                     Expanded(
-                      child: CustomRadioTile(
-                        onChanged: (genderValue) {
+                      child: CustomRadioTitle(
+                        value: BodyPrioritySupport(
+                            priorityName: 'Medium', priorityId: 20),
+                        onChanged: (priorityValue) {
                           if (kDebugMode) {
-                            print("Radio $genderValue");
+                            print("Radio $priorityValue");
                           }
-                          // personal.gender = genderValue;
+                          context.read<CreateSupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
+                          // personal.gender= genderValue;
                           // onPersonalUpdate(personal);
                           // bloc.add(OnGenderUpdate(gender: personal.gender!));
                         },
                         title: 'Medium',
-                        initialData: "female",
+                        initialData: "medium",
                       ),
                     ),
                     Expanded(
-                      child: CustomRadioTile(
-                        onChanged: (genderValue) {
+                      child: CustomRadioTitle(
+                        value: BodyPrioritySupport(
+                            priorityName: 'Low', priorityId: 30),
+                        onChanged: (priorityValue) {
                           if (kDebugMode) {
-                            print("Radio $genderValue");
+                            print("Radio $priorityValue");
                           }
+                          context.read<CreateSupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
                           // personal.gender = genderValue;
                           // onPersonalUpdate(personal);
                           // bloc.add(OnGenderUpdate(gender: personal.gender!));
                         },
                         title: 'Low',
-                        initialData: "unisex",
+                        initialData: "low",
                       ),
                     ),
                   ],
@@ -97,10 +121,13 @@ class CreateSupportPage extends StatelessWidget {
                 ),
 
                 CustomTextField(
-                  title: 'phone',
+                  title: 'Subject',
                   hints: "Write Subject",
                   onData: (data) {
-                    print(data);
+                    if (kDebugMode) {
+                      print(data);
+                    }
+                    createSupport.subject = data;
                     // personal.phone = data;
                     // widget.onPersonalUpdate(personal);
                   },
@@ -114,7 +141,10 @@ class CreateSupportPage extends StatelessWidget {
                   hints: "Write Description",
                   maxLine: 5,
                   onData: (data) {
-                    print(data);
+                    if (kDebugMode) {
+                      print(data);
+                    }
+                    createSupport.description = data;
                     // personal.phone = data;
                     // widget.onPersonalUpdate(personal);
                   },
@@ -122,51 +152,12 @@ class CreateSupportPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                InkWell(
-                  onTap: () {
-                    // provider.pickAttachmentImage(context);
-                  },
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.green,
-                        style: BorderStyle.solid,
-                        width: 0.0,
-                      ),
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(3.0),
-                    ),
-                    child: DottedBorder(
-                      color: const Color(0xffC7C7C7),
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(3),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 16),
-                      strokeWidth: 2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:  [
-                          const Icon(
-                            Icons.upload_file,
-                            color: Colors.grey,
-                            size: 16,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            tr("add_file"),
-                            style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 16,
                 ),
+                UploadDocContent(onFileUpload: (FileUpload? data) {
+
+                },),
                 const SizedBox(
                   height: 5,
                 ),
@@ -189,6 +180,8 @@ class CreateSupportPage extends StatelessWidget {
                   padding: 0,
                   clickButton: () {
                     // provider.supportCreateApi(context);
+                    print(
+                        "${createSupport.subject} description : ${createSupport.description} pority : ${createSupport.priority}");
                   },
                 ),
               ],

@@ -1,0 +1,109 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/upload_file/bloc/upload_file_bloc.dart';
+import 'package:onesthrm/page/upload_file/bloc/upload_file_event.dart';
+import 'package:onesthrm/page/upload_file/bloc/upload_file_state.dart';
+import 'package:onesthrm/res/enum.dart';
+
+class UploadDocContent extends StatelessWidget {
+  final Function(FileUpload? data) onFileUpload;
+  final String? initialAvatar;
+
+  const UploadDocContent(
+      {Key? key, required this.onFileUpload, this.initialAvatar})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
+    return BlocProvider<UploadFileBloc>(
+      create: (context) => UploadFileBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+      child: BlocListener<UploadFileBloc, UploadFileState>(
+        listener: (context, state) {
+          if (state.networkStatus == NetworkStatus.success) {
+            onFileUpload(state.fileUpload);
+          }
+        },
+        child: BlocBuilder<UploadFileBloc, UploadFileState>(
+            builder: (context, state) {
+          return Column(
+            children: [
+              ClipOval(
+                child: state.networkStatus != NetworkStatus.loading
+                    ? CachedNetworkImage(
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.cover,
+                        imageUrl:
+                            '${state.fileUpload?.previewUrl ?? initialAvatar}',
+                        placeholder: (context, url) => Center(
+                          child: Image.asset("assets/images/app_icon.png"),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      )
+                    : const CircularProgressIndicator(),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              InkWell(
+                onTap: () {
+                  context
+                      .read<UploadFileBloc>()
+                      .add(SelectFile(context: context));
+                },
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.green,
+                      style: BorderStyle.solid,
+                      width: 0.0,
+                    ),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(3.0),
+                  ),
+                  child: DottedBorder(
+                    color: const Color(0xffC7C7C7),
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(3),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 16),
+                    strokeWidth: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.upload_file,
+                          color: Colors.grey,
+                          size: 16,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          tr("add_file"),
+                          style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+}

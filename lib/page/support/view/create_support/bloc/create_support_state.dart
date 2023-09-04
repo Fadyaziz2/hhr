@@ -1,17 +1,20 @@
-
-
 import 'package:equatable/equatable.dart';
+import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class CreateSupportState extends Equatable {
   final NetworkStatus? status;
+  final BodyPrioritySupport? bodyPrioritySupport;
 
-  const CreateSupportState({this.status});
+  const CreateSupportState({this.status, this.bodyPrioritySupport});
 
-  CreateSupportState copy({NetworkStatus? status}) {
-    return CreateSupportState(status: status ?? this.status);
+  CreateSupportState copy(
+      {NetworkStatus? status, BodyPrioritySupport? bodyPrioritySupport}) {
+    return CreateSupportState(
+        status: status ?? this.status,
+        bodyPrioritySupport: bodyPrioritySupport ?? this.bodyPrioritySupport);
   }
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status,bodyPrioritySupport];
 }
