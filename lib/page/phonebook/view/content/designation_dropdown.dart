@@ -13,12 +13,13 @@ class DesignationDropdown extends StatelessWidget {
     return BlocBuilder<PhonebookBloc, PhonebookState>(
       builder: (BuildContext context, state) {
         return Container(
-          margin: const EdgeInsets.only(left: 16, right: 8),
+          margin: const EdgeInsets.only(left: 8, right: 16),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(25)),
           child: DropdownButton<Department>(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            isDense: true,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
             hint: const Text('Select Designation'),
             isExpanded: true,
             value: state.designations,

@@ -68,7 +68,7 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
       emit(state.copyWith(pageCount: 1, pullStatus: PullStatus.loading));
       final phonebook = await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
       loadPhonebookUsers = phonebook?.data?.users;
-      emit(state.copyWith(phonebookUsers: phonebook?.data?.users, pageCount: 1, pullStatus: PullStatus.loaded));
+      emit(PhonebookState(phonebookUsers: phonebook?.data?.users, pageCount: 1, refreshStatus: PullStatus.loaded));
 
     } on Exception catch (e) {
       emit(const PhonebookState(
