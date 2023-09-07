@@ -170,6 +170,26 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> createSupportApi({required data}) async {
+    String api = 'user/profile/update/';
+
+    try {
+      debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> updateProfile({required String slag, required data}) async {
     String api = 'user/profile/update/$slag';
 

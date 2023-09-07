@@ -70,6 +70,7 @@ class CreateSupportPage extends StatelessWidget {
                           }
                           context.read<CreateSupportBloc>().add(
                               GetPriority(bodyPrioritySupport: priorityValue!));
+                          createSupport.priorityId = priorityValue.priorityId;
                           // personal.gender = genderValue;
                           // onPersonalUpdate(personal);
                           // bloc.add(OnGenderUpdate(gender: personal.gender!));
@@ -155,9 +156,16 @@ class CreateSupportPage extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                UploadDocContent(onFileUpload: (FileUpload? data) {
-
-                },),
+                UploadDocContent(
+                  onFileUpload: (FileUpload? data) {
+                    if (kDebugMode) {
+                      print(data?.previewUrl);
+                    }
+                    createSupport.previewURL = data?.previewUrl;
+                  },
+                  initialAvatar:
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
+                ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -181,8 +189,10 @@ class CreateSupportPage extends StatelessWidget {
                   clickButton: () {
                     // provider.supportCreateApi(context);
                     print(
-                        "${createSupport.subject} description : ${createSupport.description} pority : ${createSupport.priority}");
-                  },
+                        "${createSupport.subject} description : ${createSupport.description} priorityId : ${createSupport.priorityId} Preview URL : ${createSupport.previewURL}");
+                  context.read<CreateSupportBloc>().add(SubmitButton(bodyCreateSupport: createSupport));
+
+                    },
                 ),
               ],
             ),

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,20 +11,23 @@ class CreateSupportBloc extends Bloc<CreateSupportEvent, CreateSupportState> {
   final MetaClubApiClient _metaClubApiClient;
 
   CreateSupportBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient, super(const CreateSupportState(status: NetworkStatus.initial)){
-
+      : _metaClubApiClient = metaClubApiClient,
+        super(const CreateSupportState(status: NetworkStatus.initial)) {
     on<GetPriority>(_onGetPriority);
-    on<AddFile>(_onAddFile);
+    on<SubmitButton>(onSubmitButton);
   }
 
-
-
-
-  FutureOr<void> _onGetPriority(GetPriority event, Emitter<CreateSupportState> emit) {
+  FutureOr<void> _onGetPriority(
+      GetPriority event, Emitter<CreateSupportState> emit) {
     emit(CreateSupportState(bodyPrioritySupport: event.bodyPrioritySupport));
   }
 
-  FutureOr<void> _onAddFile(AddFile event, Emitter<CreateSupportState> emit) {
+  FutureOr<void> onSubmitButton(
+      SubmitButton event, Emitter<CreateSupportState> emit) async {
+    emit(state.copy(status: NetworkStatus.loading));
+
+    emit(state.copy());
+
 
   }
 }

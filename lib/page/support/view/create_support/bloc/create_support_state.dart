@@ -5,14 +5,17 @@ import 'package:onesthrm/res/enum.dart';
 class CreateSupportState extends Equatable {
   final NetworkStatus? status;
   final BodyPrioritySupport? bodyPrioritySupport;
+  final String? message;
 
-  const CreateSupportState({this.status, this.bodyPrioritySupport});
+  const CreateSupportState({this.status, this.bodyPrioritySupport,this.message});
 
   CreateSupportState copy(
       {NetworkStatus? status, BodyPrioritySupport? bodyPrioritySupport}) {
     return CreateSupportState(
         status: status ?? this.status,
-        bodyPrioritySupport: bodyPrioritySupport ?? this.bodyPrioritySupport);
+        bodyPrioritySupport: bodyPrioritySupport ?? this.bodyPrioritySupport,
+      message: message ?? message
+    );
   }
 
   @override

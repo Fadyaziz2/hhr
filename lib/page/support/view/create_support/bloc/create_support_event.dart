@@ -17,13 +17,13 @@ class GetPriority extends CreateSupportEvent {
   List<Object> get props => [bodyPrioritySupport];
 }
 
-class AddFile extends CreateSupportEvent {
-  final BuildContext context;
+class SubmitButton extends CreateSupportEvent {
+  final BodyCreateSupport bodyCreateSupport;
 
-  AddFile(this.context);
+  SubmitButton({required this.bodyCreateSupport});
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [bodyCreateSupport];
 }
 
 

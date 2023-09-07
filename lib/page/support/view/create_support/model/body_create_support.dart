@@ -1,19 +1,23 @@
 class BodyCreateSupport {
   String? subject;
   String? description;
-  String? priority;
+  int? priorityId;
+  String? previewURL;
 
-  BodyCreateSupport({String? subject, String? description, String? priority}) {
+  BodyCreateSupport({String? subject, String? description, int? priority,String? previewUrl}) {
     subject = this.subject;
     description = this.description;
-    priority = this.priority;
+    priority = priorityId;
+    previewUrl = previewURL;
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["subject"] = subject;
     map["description"] = description;
-    map["priority_id"] = priority;
+    map["priority_id"] = priorityId;
+    map["preview_url"] = previewURL;
+
     return map;
   }
 }

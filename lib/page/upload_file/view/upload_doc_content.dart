@@ -34,11 +34,12 @@ class UploadDocContent extends StatelessWidget {
             builder: (context, state) {
           return Column(
             children: [
-              ClipOval(
+              ClipRRect(
+                borderRadius: BorderRadius.circular(5),
                 child: state.networkStatus != NetworkStatus.loading
                     ? CachedNetworkImage(
-                        height: 120,
-                        width: 120,
+                        height: 200,
+                        width: double.infinity,
                         fit: BoxFit.cover,
                         imageUrl:
                             '${state.fileUpload?.previewUrl ?? initialAvatar}',
