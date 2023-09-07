@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/filter_bottom_sheet_list.dart';
 
 enum PhonebookFilterType { designation, department }

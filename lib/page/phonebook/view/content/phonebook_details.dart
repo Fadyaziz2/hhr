@@ -86,13 +86,6 @@ class PhonebookDetailsScreen extends StatelessWidget {
                         profileMenu(
                           bgColor: const Color(0xFFFD5250),
                           iconData: Icons.calendar_today_outlined,
-                          // onPressed: () => NavUtil.navigateScreen(
-                          //   context,
-                          //   AppointmentCreateScreen(
-                          //     id: widget.phonebookDetails!.data!.id,
-                          //     navigation: "directory",
-                          //   ),
-                          // ),
                         ),
                       ],
                     ),
