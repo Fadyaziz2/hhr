@@ -1,7 +1,6 @@
 part of 'phonebook_bloc.dart';
 
 class PhonebookState extends Equatable {
-  // final Phonebook? phonebook;
   final List<PhonebookUser>? phonebookUsers;
   final String? searchKey;
   final NetworkStatus status;
