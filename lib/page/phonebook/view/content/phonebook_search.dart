@@ -10,7 +10,7 @@ class PhonebookSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _debouncer = Debouncer(milliseconds: 1000);
+    final deBouncer = Debouncer(milliseconds: 1000);
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
       child: TextField(
@@ -25,9 +25,8 @@ class PhonebookSearch extends StatelessWidget {
             ),
           ),
         ),
-        // controller: allUserProvider.searchUserData,
         onChanged: (value) {
-          _debouncer.run(() =>
+          deBouncer.run(() =>
               bloc?.add(PhonebookSearchData(searchText: value.toString())));
         },
       ),

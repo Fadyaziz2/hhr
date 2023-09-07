@@ -31,7 +31,6 @@ class PhonebookContent extends StatelessWidget {
         ),
         const Expanded(child: PhonebookUserList())
       ],
-      // children: [PhonebookUserList()],
     );
   }
 }
