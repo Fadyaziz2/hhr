@@ -76,4 +76,5 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
 
     add(GetSupportData(filter: event.filter,date: event.date));
   }
+
 }

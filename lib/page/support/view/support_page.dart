@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/support/bloc/support_bloc.dart';
+import 'package:onesthrm/page/support/view/create_support/bloc/create_support_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_page.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
 import 'package:onesthrm/res/const.dart';
@@ -23,7 +24,7 @@ class SupportPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: colorPrimary,
           onPressed: () {
-            NavUtil.navigateScreen(context, const CreateSupportPage());
+            NavUtil.navigateScreen(context, BlocProvider( create: (context) => CreateSupportBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),child: const CreateSupportPage()));
           },
           child: const Icon(
             Icons.add,
