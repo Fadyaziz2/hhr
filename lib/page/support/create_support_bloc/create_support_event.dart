@@ -1,6 +1,5 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 
 abstract class CreateSupportEvent extends Equatable{

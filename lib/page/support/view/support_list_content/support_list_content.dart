@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:onesthrm/page/support/bloc/support_bloc.dart';
+import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 

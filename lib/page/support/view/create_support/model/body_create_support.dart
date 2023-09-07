@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class BodyCreateSupport {
   String? subject;
   String? description;
@@ -22,7 +24,7 @@ class BodyCreateSupport {
   }
 }
 
-class BodyPrioritySupport {
+class BodyPrioritySupport extends Equatable{
   int? priorityId;
   String? priorityName;
 
@@ -37,4 +39,8 @@ class BodyPrioritySupport {
     map["priority_name"] = priorityName;
     return map;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [priorityId,priorityName];
 }

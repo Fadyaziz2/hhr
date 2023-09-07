@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/support/view/create_support/bloc/create_support_state.dart';
+import 'package:onesthrm/page/support/create_support_bloc/create_support_state.dart';
 import 'package:onesthrm/res/enum.dart';
 
 import 'create_support_event.dart';
@@ -24,10 +24,8 @@ class CreateSupportBloc extends Bloc<CreateSupportEvent, CreateSupportState> {
 
   FutureOr<void> onSubmitButton(
       SubmitButton event, Emitter<CreateSupportState> emit) async {
-    emit(state.copy(status: NetworkStatus.loading));
+    // emit(state.copy(status: NetworkStatus.loading));
 
-    emit(state.copy());
-
-
+    // emit(state.copy());
   }
 }
