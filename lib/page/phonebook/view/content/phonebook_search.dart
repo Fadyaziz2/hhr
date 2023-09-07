@@ -12,7 +12,7 @@ class PhonebookSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final _debouncer = Debouncer(milliseconds: 1000);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+      padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
       child: TextField(
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.search),
