@@ -11,6 +11,7 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
+import 'package:meta_club_api/src/models/phonebook.dart';
 import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
@@ -666,6 +667,45 @@ class MetaClubApiClient {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /// ================== Phonebook ====================
+  Future<Phonebook?> getPhonebooks(
+      {String? keywords,
+      int? designationId,
+      int? departmentId,
+      required int pageCount}) async {
+    // String api = 'app/get-all-users/33?keywords=$keywords';
+    String api =
+        'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return Phonebook.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Phonebook Details====================
+  Future<PhonebookDetailsModel?> getPhonebooksUserDetails({String? userId}) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'user/details/$userId';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return PhonebookDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
     }
   }
 }

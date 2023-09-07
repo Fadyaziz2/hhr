@@ -6,14 +6,20 @@ import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
+import '../../phonebook/view/content/phonebook_list_page.dart';
+
 part 'menu_event.dart';
+
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final MetaClubApiClient _metaClubApiClient;
+  final Settings _settings;
 
-  MenuBloc({required MetaClubApiClient metaClubApiClient})
+  MenuBloc(
+      {required MetaClubApiClient metaClubApiClient, required Settings setting})
       : _metaClubApiClient = metaClubApiClient,
+        _settings = setting,
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
@@ -43,7 +49,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'approval':
       // return NavUtil.navigateScreen(context, const ApprovalScreen());
       case 'phonebook':
-      // return NavUtil.navigateScreen(context, const PhonebookScreen());
+        NavUtil.navigateScreen(event.context,  PhonebookListPage(settings: _settings,));
+        break;
       case 'conference':
       // return NavUtil.navigateScreen(context, const ConferenceScreen());
       case 'visit':
