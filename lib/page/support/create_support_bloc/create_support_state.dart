@@ -9,12 +9,10 @@ class CreateSupportState extends Equatable {
 
   const CreateSupportState({this.status, this.bodyPrioritySupport,this.message});
 
-  CreateSupportState copy(
-      {NetworkStatus? status, BodyPrioritySupport? bodyPrioritySupport}) {
+  CreateSupportState copy({NetworkStatus? status, BodyPrioritySupport? bodyPrioritySupport}) {
     return CreateSupportState(
         status: status ?? this.status,
         bodyPrioritySupport: bodyPrioritySupport ?? this.bodyPrioritySupport,
-      message: message ?? message
     );
   }
 

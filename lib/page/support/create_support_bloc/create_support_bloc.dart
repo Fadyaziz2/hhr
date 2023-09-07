@@ -17,9 +17,8 @@ class CreateSupportBloc extends Bloc<CreateSupportEvent, CreateSupportState> {
     on<SubmitButton>(onSubmitButton);
   }
 
-  FutureOr<void> _onGetPriority(
-      GetPriority event, Emitter<CreateSupportState> emit) {
-    emit(CreateSupportState(bodyPrioritySupport: event.bodyPrioritySupport));
+  FutureOr<void> _onGetPriority(GetPriority event, Emitter<CreateSupportState> emit) {
+    emit(state.copy(bodyPrioritySupport: event.bodyPrioritySupport));
   }
 
   FutureOr<void> onSubmitButton(

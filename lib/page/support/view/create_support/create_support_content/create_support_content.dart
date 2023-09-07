@@ -43,9 +43,8 @@ class CreateSupportListContent extends StatelessWidget {
                   child: CustomRadioTitle(
                     value: BodyPrioritySupport(priorityName: 'High', priorityId: 10),
                     onChanged: (priorityValue) {
-                      // context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      // createSupport.priorityId = priorityValue.priorityId;
-                      print("redio : ${priorityValue?.priorityName}");
+                      context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
+                      createSupport.priorityId = 10;
                     },
                     title: 'High',
                   ),
@@ -54,9 +53,8 @@ class CreateSupportListContent extends StatelessWidget {
                   child: CustomRadioTitle(
                     value: BodyPrioritySupport(priorityName: 'Medium', priorityId: 20),
                     onChanged: (priorityValue) {
-                      // context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      // createSupport.priorityId = priorityValue.priorityId;
-                      print("redio : ${priorityValue?.priorityName}");
+                      context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
+                      createSupport.priorityId = 20;
                     },
                     title: 'Medium',
                   ),
@@ -66,8 +64,7 @@ class CreateSupportListContent extends StatelessWidget {
                     value: BodyPrioritySupport(priorityName: 'Low', priorityId: 30),
                     onChanged: (priorityValue) {
                       context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      createSupport.priorityId = priorityValue.priorityId;
-                      print("redio : ${priorityValue.priorityName}");
+                      createSupport.priorityId = 30;
                     },
                     title: 'Low',
                   ),

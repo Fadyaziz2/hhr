@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/support/create_support_bloc/create_support_bloc.dart';
+import 'package:onesthrm/page/support/create_support_bloc/create_support_state.dart';
 import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 
 class CustomRadioTitle extends StatelessWidget {
@@ -14,25 +17,22 @@ class CustomRadioTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Radio<BodyPrioritySupport?>(
-                  value: value,
-                  groupValue: BodyPrioritySupport(priorityName: 'Medium', priorityId: 20),
-                  onChanged: onChanged),
-              Text(
-                title,
-                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
-              )
-            ],
-          ),
-        ),
-      ],
+    return BlocBuilder<CreateSupportBloc,CreateSupportState>(
+      builder: (context,state){
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Radio<BodyPrioritySupport?>(
+                value: value,
+                groupValue: state.bodyPrioritySupport,
+                onChanged: onChanged),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
+            )
+          ],
+        );
+      },
     );
   }
 }

@@ -36,10 +36,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(const HomeState(status: NetworkStatus.loading));
     try {
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      ///Attendance related data
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
       globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
+      ///Break related data
       globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
       globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
       globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);

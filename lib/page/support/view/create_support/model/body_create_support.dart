@@ -24,7 +24,7 @@ class BodyCreateSupport {
   }
 }
 
-class BodyPrioritySupport extends Equatable{
+class BodyPrioritySupport{
   int? priorityId;
   String? priorityName;
 
@@ -39,8 +39,4 @@ class BodyPrioritySupport extends Equatable{
     map["priority_name"] = priorityName;
     return map;
   }
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [priorityId,priorityName];
 }
