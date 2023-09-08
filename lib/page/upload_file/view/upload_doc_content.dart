@@ -49,7 +49,10 @@ class UploadDocContent extends StatelessWidget {
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                       )
-                    : const CircularProgressIndicator(),
+                    : const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    ),
               ),
               const SizedBox(
                 height: 16,

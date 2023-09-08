@@ -8,6 +8,7 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 part 'menu_event.dart';
+
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
@@ -24,8 +25,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   void onRouteSlug(RouteSlug event, Emitter<MenuState> emit) {
     switch (event.slugName) {
       case 'support':
-
-      return NavUtil.navigateScreen(event.context,  SupportPage());
+        NavUtil.navigateScreen(event.context, const SupportPage());
+        break;
       case 'attendance':
         break;
       // return NavUtil.navigateScreen(

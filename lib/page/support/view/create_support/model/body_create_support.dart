@@ -1,16 +1,15 @@
-import 'package:equatable/equatable.dart';
 
 class BodyCreateSupport {
   String? subject;
   String? description;
   int? priorityId;
-  String? previewURL;
+  int? previewId;
 
-  BodyCreateSupport({String? subject, String? description, int? priority,String? previewUrl}) {
+  BodyCreateSupport({String? subject, String? description, int? priority,int? previewId}) {
     subject = this.subject;
     description = this.description;
     priority = priorityId;
-    previewUrl = previewURL;
+    previewId = this.previewId;
   }
 
   Map<String, dynamic> toJson() {
@@ -18,7 +17,7 @@ class BodyCreateSupport {
     map["subject"] = subject;
     map["description"] = description;
     map["priority_id"] = priorityId;
-    map["preview_url"] = previewURL;
+    map["file_id"] = previewId;
 
     return map;
   }

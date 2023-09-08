@@ -10,28 +10,26 @@ class CustomRadioTitle extends StatelessWidget {
   final BodyPrioritySupport? value;
 
   const CustomRadioTitle(
-      {Key? key,
-        required this.onChanged,
-        required this.title, this.value})
+      {Key? key, required this.onChanged, required this.title, this.value})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateSupportBloc,CreateSupportState>(
-      builder: (context,state){
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Radio<BodyPrioritySupport?>(
-                value: value,
-                groupValue: state.bodyPrioritySupport,
-                onChanged: onChanged),
-            Text(
+    return BlocBuilder<CreateSupportBloc, CreateSupportState>(
+      builder: (context, state) {
+        return RadioListTile<BodyPrioritySupport?>(
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            value: value,
+            title: Text(
               title,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black45),
-            )
-          ],
-        );
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black45,
+                  fontSize: 14),
+            ),
+            groupValue: state.bodyPrioritySupport,
+            onChanged: onChanged);
       },
     );
   }

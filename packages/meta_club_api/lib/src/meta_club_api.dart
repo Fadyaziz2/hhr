@@ -18,6 +18,7 @@ import 'models/content.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
+import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 
 class MetaClubApiClient {
   String token;
@@ -179,7 +180,7 @@ class MetaClubApiClient {
       FormData formData = FormData.fromMap(data);
 
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -197,6 +198,31 @@ class MetaClubApiClient {
       debugPrint('body: $data');
 
       FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+    String api = 'support-ticket/add';
+
+    try {
+      debugPrint('body: $bodyCreateSupport');
+
+      FormData formData = FormData.fromMap({
+        "subject": bodyCreateSupport?.subject,
+        "description": bodyCreateSupport?.description,
+        "file_id": bodyCreateSupport?.previewId,
+        "priority_id": bodyCreateSupport?.priorityId
+      });
 
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);

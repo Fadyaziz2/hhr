@@ -1,5 +1,6 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 
 abstract class CreateSupportEvent extends Equatable{
@@ -17,12 +18,13 @@ class GetPriority extends CreateSupportEvent {
 }
 
 class SubmitButton extends CreateSupportEvent {
+  final BuildContext context;
   final BodyCreateSupport bodyCreateSupport;
 
-  SubmitButton({required this.bodyCreateSupport});
+  SubmitButton({required this.bodyCreateSupport,required this.context});
 
   @override
-  List<Object> get props => [bodyCreateSupport];
+  List<Object> get props => [bodyCreateSupport,context];
 }
 
 

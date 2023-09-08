@@ -7,7 +7,6 @@ import 'package:onesthrm/page/profile/view/content/custom_radio_title.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/support/create_support_bloc/create_support_bloc.dart';
 import 'package:onesthrm/page/support/create_support_bloc/create_support_event.dart';
-import 'package:onesthrm/page/support/create_support_bloc/create_support_state.dart';
 import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 
@@ -25,7 +24,8 @@ class CreateSupportListContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(tr("priority"),
+            Text(
+              tr("priority"),
               style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -41,30 +41,36 @@ class CreateSupportListContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomRadioTitle(
-                    value: BodyPrioritySupport(priorityName: 'High', priorityId: 10),
+                    value: BodyPrioritySupport(
+                        priorityName: 'High', priorityId: 10),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      createSupport.priorityId = 10;
+                      context.read<CreateSupportBloc>().add(
+                          GetPriority(bodyPrioritySupport: priorityValue!));
+                      createSupport.priorityId = 14;
                     },
                     title: 'High',
                   ),
                 ),
                 Expanded(
                   child: CustomRadioTitle(
-                    value: BodyPrioritySupport(priorityName: 'Medium', priorityId: 20),
+                    value: BodyPrioritySupport(
+                        priorityName: 'Medium', priorityId: 20),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      createSupport.priorityId = 20;
+                      context.read<CreateSupportBloc>().add(
+                          GetPriority(bodyPrioritySupport: priorityValue!));
+                      createSupport.priorityId = 15;
                     },
                     title: 'Medium',
                   ),
                 ),
                 Expanded(
                   child: CustomRadioTitle(
-                    value: BodyPrioritySupport(priorityName: 'Low', priorityId: 30),
+                    value: BodyPrioritySupport(
+                        priorityName: 'Low', priorityId: 30),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
-                      createSupport.priorityId = 30;
+                      context.read<CreateSupportBloc>().add(
+                          GetPriority(bodyPrioritySupport: priorityValue!));
+                      createSupport.priorityId = 16;
                     },
                     title: 'Low',
                   ),
@@ -109,12 +115,12 @@ class CreateSupportListContent extends StatelessWidget {
             UploadDocContent(
               onFileUpload: (FileUpload? data) {
                 if (kDebugMode) {
-                  print(data?.previewUrl);
+                  print(data?.fileId);
                 }
-                createSupport.previewURL = data?.previewUrl;
+                createSupport.previewId = data?.fileId;
               },
               initialAvatar:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
             ),
             const SizedBox(
               height: 5,
@@ -127,11 +133,8 @@ class CreateSupportListContent extends StatelessWidget {
               title: tr("submit"),
               padding: 0,
               clickButton: () {
-                // provider.supportCreateApi(context);
-                print(
-                    "Subject : ${createSupport.subject} description : ${createSupport.description} priorityId : ${createSupport.priorityId} Preview URL : ${createSupport.previewURL}");
-                context.read<CreateSupportBloc>().add(SubmitButton(bodyCreateSupport: createSupport));
-
+                context.read<CreateSupportBloc>().add(SubmitButton(
+                    bodyCreateSupport: createSupport, context: context));
               },
             ),
           ],
