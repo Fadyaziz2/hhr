@@ -110,7 +110,10 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
           .createSupport(bodyCreateSupport: event.bodyCreateSupport)
           .then((success) {
         if (success) {
+          add(GetSupportData(filter: event.filter, date: event.date));
           Fluttertoast.showToast(msg: "Ticket created successfully");
+
+          Navigator.pop(event.context);
         } else {
           emit(state.copy(status: NetworkStatus.failure));
         }

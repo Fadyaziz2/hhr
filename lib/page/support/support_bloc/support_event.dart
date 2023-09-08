@@ -46,9 +46,11 @@ class GetPriority extends SupportEvent {
 class SubmitButton extends SupportEvent {
   final BuildContext context;
   final BodyCreateSupport bodyCreateSupport;
+  final Filter filter;
+  final String? date;
 
-  SubmitButton({required this.bodyCreateSupport, required this.context});
+  SubmitButton({required this.bodyCreateSupport, required this.context,this.filter = Filter.open, this.date});
 
   @override
-  List<Object> get props => [bodyCreateSupport, context];
+  List<Object> get props => [bodyCreateSupport, context,filter];
 }

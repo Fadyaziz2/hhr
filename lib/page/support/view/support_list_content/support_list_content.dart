@@ -122,14 +122,16 @@ class SupportListContent extends StatelessWidget {
                 ).toList(),
               ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.supportListModel?.data?.data?.length ??
-                  0,
-              itemBuilder: (BuildContext context, int index) {
-                var item = state.supportListModel?.data?.data?[index];
-                return item != null ? SupportTicketItem(supportModel: item) : const SizedBox.shrink();
-              },
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.supportListModel?.data?.data?.length ??
+                    0,
+                itemBuilder: (BuildContext context, int index) {
+                  var item = state.supportListModel?.data?.data?[index];
+                  return item != null ? SupportTicketItem(supportModel: item) : const SizedBox.shrink();
+                },
+              ),
             ),
           ],
         );
