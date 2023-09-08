@@ -10,7 +10,7 @@ class LocationService {
   LocationService() {
     location.hasPermission().then((value){
       if(value == PermissionStatus.granted){
-        if(platform.Platform.isAndroid) location.changeSettings(interval: 10000,distanceFilter: 5);
+        if(platform.Platform.isAndroid) location.changeSettings(interval: 10000,distanceFilter: 10);
         location.enableBackgroundMode(enable: true);
         location.onLocationChanged.listen((locationData) {
           _locationController.add(locationData);
