@@ -11,8 +11,6 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
-import 'package:meta_club_api/src/models/phonebook.dart';
-import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -695,7 +693,6 @@ class MetaClubApiClient {
 
   /// ================== Phonebook Details====================
   Future<PhonebookDetailsModel?> getPhonebooksUserDetails({String? userId}) async {
-    // String api = 'app/get-all-employees/$userId';
     String api = 'user/details/$userId';
     try {
       final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
@@ -704,6 +701,38 @@ class MetaClubApiClient {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
       return PhonebookDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Task Dashboard Data ========================
+  Future<TaskDashboardModel?> getTaskInitialData() async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'tasks';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDashboardModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Tasks List Of Data ========================
+  Future<TaskStatusListResponse?> getTaskListOfData(String statuesId) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'tasks/list?status=$statuesId';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskStatusListResponse.fromJson(response?.data);
     } catch (_) {
       return null;
     }
