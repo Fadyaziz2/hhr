@@ -7,14 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../res/enum.dart';
 
 part 'phonebook_event.dart';
-
 part 'phonebook_state.dart';
 
 enum PullStatus { idle, loading, loaded }
 
 class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
   final MetaClubApiClient metaClubApiClient;
-  List<PhonebookUser>? loadPhonebookUsers = [];
 
   PhonebookBloc({required this.metaClubApiClient})
       : super(const PhonebookState(status: NetworkStatus.initial)) {
@@ -29,16 +27,14 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     on<DirectMailTo>(_onDirectMailTo);
   }
 
-  FutureOr<void> _onPhonebookDataRequest(
-      PhonebookLoadRequest event, Emitter<PhonebookState> emit) async {
-    loadPhonebookUsers = [];
+  FutureOr<void> _onPhonebookDataRequest(PhonebookLoadRequest event, Emitter<PhonebookState> emit) async {
 
     try {
       final phonebook = await metaClubApiClient.getPhonebooks(
           designationId: state.designations?.id,
           departmentId: state.departments?.id,
           pageCount: state.pageCount);
-      loadPhonebookUsers = phonebook?.data?.users;
+      final loadPhonebookUsers = phonebook?.data?.users;
       emit(state.copyWith(
           status: NetworkStatus.success, phonebookUsers: loadPhonebookUsers));
     } on Exception catch (e) {
@@ -47,12 +43,10 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     }
   }
 
-  FutureOr<void> _onPhonebookSearch(
-      PhonebookSearchData event, Emitter<PhonebookState> emit) async {
-    loadPhonebookUsers = [];
+  FutureOr<void> _onPhonebookSearch(PhonebookSearchData event, Emitter<PhonebookState> emit) async {
     try {
       final phonebook = await metaClubApiClient.getPhonebooks(keywords: event.searchText, pageCount: event.pageCount!, departmentId: event.departmentId, designationId: event.designationId);
-      loadPhonebookUsers = phonebook?.data?.users;
+      final loadPhonebookUsers = phonebook?.data?.users;
       emit(state.copyWith(phonebookUsers: loadPhonebookUsers));
     } on Exception catch (e) {
       emit(const PhonebookState(status: NetworkStatus.failure));
@@ -60,14 +54,10 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     }
   }
 
-  FutureOr<void> _onPhonebookLoadRefresh(
-      PhonebookLoadRefresh event, Emitter<PhonebookState> emit) async {
-    loadPhonebookUsers = [];
+  FutureOr<void> _onPhonebookLoadRefresh(PhonebookLoadRefresh event, Emitter<PhonebookState> emit) async {
     try {
-
       emit(state.copyWith(pageCount: 1, pullStatus: PullStatus.loading));
       final phonebook = await metaClubApiClient.getPhonebooks(pageCount: state.pageCount);
-      loadPhonebookUsers = phonebook?.data?.users;
       emit(PhonebookState(phonebookUsers: phonebook?.data?.users, pageCount: 1, refreshStatus: PullStatus.loaded));
 
     } on Exception catch (e) {
@@ -77,13 +67,12 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
     }
   }
 
-  FutureOr<void> _onPhonebookLoadMore(
-      PhonebookLoadMore event, Emitter<PhonebookState> emit) async {
+  FutureOr<void> _onPhonebookLoadMore(PhonebookLoadMore event, Emitter<PhonebookState> emit) async {
     try {
       int page = state.pageCount;
       final phonebook = await metaClubApiClient.getPhonebooks(pageCount: ++page, designationId: state.designations?.id, departmentId: state.departments?.id);
       if (phonebook?.data?.users?.isNotEmpty == true) {
-        var loadedList = [...?loadPhonebookUsers, ...?phonebook?.data?.users];
+        final loadedList = [...?state.phonebookUsers, ...?phonebook?.data?.users];
         emit(state.copyWith(phonebookUsers: loadedList,departments: state.departments, designations: state.designations, pageCount: page));
       }
     } on Exception catch (e) {
@@ -127,11 +116,10 @@ class PhonebookBloc extends Bloc<PhonebookEvent, PhonebookState> {
   FutureOr<void> _onDirectMailTo(DirectMailTo event, Emitter<PhonebookState> emit) {
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
-      // path: 'our.email@gmail.com',
       path: event.email,
       queryParameters: {
         'subject': 'CallOut user Profile',
-        'body': event.userName ?? ''
+        'body': event.userName
       },
     );
     launchUrl(emailLaunchUri);

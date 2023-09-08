@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_search.dart';
-import 'package:onesthrm/page/phonebook/view/content/phonebook_user_list.dart';
+import 'package:onesthrm/page/phonebook/view/content/phonebook_employees.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_menus_filter_content.dart';
 
 import '../../bloc/phonebook_bloc.dart';
@@ -29,7 +29,7 @@ class PhonebookContent extends StatelessWidget {
             )
           ],
         ),
-        const Expanded(child: PhonebookUserList())
+        const Expanded(child: PhonebookEmployees())
       ],
     );
   }
