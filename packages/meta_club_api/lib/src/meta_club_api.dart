@@ -694,16 +694,35 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook Details====================
-  Future<PhonebookDetailsModel?> getPhonebooksUserDetails({String? userId}) async {
+  Future<PhonebookDetailsModel?> getPhonebooksUserDetails(
+      {String? userId}) async {
     // String api = 'app/get-all-employees/$userId';
     String api = 'user/details/$userId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
       return PhonebookDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<MeetingsListModel?> getMeetingsItem(String month) async {
+    const String api = 'appoinment/get-list';
+
+    final data = {"month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return MeetingsListModel.fromJson(response.data);
+      }
+      return null;
     } catch (_) {
       return null;
     }

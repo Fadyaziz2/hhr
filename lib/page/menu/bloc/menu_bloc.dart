@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/appointment/view/appointment_screen.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -45,21 +46,32 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         break;
       // return NavUtil.navigateScreen(context, const ExpenseList());
       case 'leave':
+        break;
       // return NavUtil.navigateScreen(context, const LeaveSummary());
       case 'approval':
+        break;
       // return NavUtil.navigateScreen(context, const ApprovalScreen());
       case 'phonebook':
-        NavUtil.navigateScreen(event.context,  PhonebookPage(settings: _settings,));
+        NavUtil.navigateScreen(
+            event.context,
+            PhonebookPage(
+              settings: _settings,
+            ));
         break;
+      // return NavUtil.navigateScreen(context, const PhonebookScreen());
       case 'conference':
-      // return NavUtil.navigateScreen(context, const ConferenceScreen());
+        // return NavUtil.navigateScreen(context, const ConferenceScreen());
+        break;
       case 'visit':
-      // return NavUtil.navigateScreen(context, const VisitScreen());
+        // return NavUtil.navigateScreen(context, const VisitScreen());
+        break;
       case 'meeting':
-      // return NavUtil.navigateScreen(context, const MeetingScreen());
+        // return NavUtil.navigateScreen(context, const MeetingScreen());
+        break;
       case 'appointments':
-      // return NavUtil.navigateScreen(context, const AppointmentScreen());
-      // case 'face_attendance':
+        NavUtil.navigateScreen(event.context, const AppointmentScreen());
+        break;
+      case 'face_attendance':
       //   return NavUtil.navigateScreen(
       //       context,
       //       const WebViewScreen(
@@ -76,15 +88,20 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       //           secondsHome: 0,
       //         )));
       case 'feedback':
-      // return Fluttertoast.showToast(msg: 'feedback');
+        // return Fluttertoast.showToast(msg: 'feedback');
+        break;
       case 'report':
-      // return NavUtil.navigateScreen(context, const ReportScreen());
+        // return NavUtil.navigateScreen(context, const ReportScreen());
+        break;
       case 'daily-leave':
-      // return NavUtil.navigateScreen(context, const DailyLeave());
+        // return NavUtil.navigateScreen(context, const DailyLeave());
+        break;
       case 'payroll':
-      // return NavUtil.navigateScreen(context, const PayrollListScreen());
+        // return NavUtil.navigateScreen(context, const PayrollListScreen());
+        break;
       case 'task':
-      // return NavUtil.navigateScreen(context, const TaskDashboardScreen());
+        // return NavUtil.navigateScreen(context, const TaskDashboardScreen());
+        break;
       default:
         return debugPrint('default');
     }

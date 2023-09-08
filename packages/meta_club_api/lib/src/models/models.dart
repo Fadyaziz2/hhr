@@ -16,3 +16,4 @@ export 'notification_list.dart';
 export 'response_notice_details.dart';
 export 'notice_list_model.dart';
 export 'phonebook_details.dart';
+export 'meetings_list_model.dart';
