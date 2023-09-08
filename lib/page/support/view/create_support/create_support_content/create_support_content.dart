@@ -5,15 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/custom_radio_title.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
-import 'package:onesthrm/page/support/create_support_bloc/create_support_bloc.dart';
-import 'package:onesthrm/page/support/create_support_bloc/create_support_event.dart';
+import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 
 import '../../../../../res/widgets/CustomButton.dart';
 
 class CreateSupportListContent extends StatelessWidget {
-  const CreateSupportListContent({Key? key}) : super(key: key);
+
+  final SupportBloc bloc;
+
+  const CreateSupportListContent({Key? key,required this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,11 @@ class CreateSupportListContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomRadioTitle(
+                    groupValue: bloc.state.bodyPrioritySupport,
                     value: BodyPrioritySupport(
                         priorityName: 'High', priorityId: 10),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(
-                          GetPriority(bodyPrioritySupport: priorityValue!));
+                      bloc.add(GetPriority(bodyPrioritySupport: priorityValue!));
                       createSupport.priorityId = 14;
                     },
                     title: 'High',
@@ -53,10 +55,11 @@ class CreateSupportListContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomRadioTitle(
+                    groupValue: bloc.state.bodyPrioritySupport,
                     value: BodyPrioritySupport(
                         priorityName: 'Medium', priorityId: 20),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(
+                      bloc.add(
                           GetPriority(bodyPrioritySupport: priorityValue!));
                       createSupport.priorityId = 15;
                     },
@@ -65,10 +68,11 @@ class CreateSupportListContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomRadioTitle(
+                    groupValue: bloc.state.bodyPrioritySupport,
                     value: BodyPrioritySupport(
                         priorityName: 'Low', priorityId: 30),
                     onChanged: (priorityValue) {
-                      context.read<CreateSupportBloc>().add(
+                      bloc.add(
                           GetPriority(bodyPrioritySupport: priorityValue!));
                       createSupport.priorityId = 16;
                     },
@@ -133,7 +137,7 @@ class CreateSupportListContent extends StatelessWidget {
               title: tr("submit"),
               padding: 0,
               clickButton: () {
-                context.read<CreateSupportBloc>().add(SubmitButton(
+                context.read<SupportBloc>().add(SubmitButton(
                     bodyCreateSupport: createSupport, context: context));
               },
             ),

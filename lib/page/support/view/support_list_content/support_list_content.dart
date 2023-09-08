@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 import '../../content/support_ticket_item.dart';
+import '../create_support/create_support_page.dart';
 
 class SupportListContent extends StatelessWidget {
 
@@ -120,7 +122,6 @@ class SupportListContent extends StatelessWidget {
                 ).toList(),
               ),
             ),
-
             ListView.builder(
               shrinkWrap: true,
               itemCount: state.supportListModel?.data?.data?.length ??
@@ -129,7 +130,7 @@ class SupportListContent extends StatelessWidget {
                 var item = state.supportListModel?.data?.data?[index];
                 return item != null ? SupportTicketItem(supportModel: item) : const SizedBox.shrink();
               },
-            )
+            ),
           ],
         );
       }

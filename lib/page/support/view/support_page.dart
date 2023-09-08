@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/page/support/create_support_bloc/create_support_bloc.dart';
 import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_page.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
@@ -20,40 +19,44 @@ class SupportPage extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => SupportBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(GetSupportData()),
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: colorPrimary,
-          onPressed: () {
-            NavUtil.navigateScreen(context, BlocProvider( create: (context) => CreateSupportBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),child: const CreateSupportPage()));
-          },
-          child: const Icon(
-            Icons.add,
-            size: 30,
-            color: Colors.white,
-          ),
-        ),
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF00CCFF),
-                    colorPrimary,
-                  ],
-                  begin: FractionalOffset(3.0, 0.0),
-                  end: FractionalOffset(0.0, 1.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
+      child: BlocBuilder<SupportBloc,SupportState>(
+        builder: (context,state){
+          return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: colorPrimary,
+              onPressed: () {
+                NavUtil.navigateScreen(context,  CreateSupportPage(bloc: context.read<SupportBloc>()));
+              },
+              child: const Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
-          ),
-          title: Text(
-            tr("all_support_tickets"),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: appBarColor),
-          ),
-        ),
-        body: const SupportListContent(),
+            appBar: AppBar(
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF00CCFF),
+                        colorPrimary,
+                      ],
+                      begin: FractionalOffset(3.0, 0.0),
+                      end: FractionalOffset(0.0, 1.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+              ),
+              title: Text(
+                tr("all_support_tickets"),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor),
+              ),
+            ),
+            body: const SupportListContent(),
+          );
+        },
       ),
     );
   }

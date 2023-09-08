@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_content/create_support_content.dart';
 import 'package:onesthrm/res/const.dart';
 
 class CreateSupportPage extends StatelessWidget {
-  const CreateSupportPage({Key? key}) : super(key: key);
+
+  final SupportBloc bloc;
+
+  const CreateSupportPage({Key? key,required this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class CreateSupportPage extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
         ),
       ),
-      body: const CreateSupportListContent(),
+      body:  CreateSupportListContent(bloc: bloc,),
     );
   }
 }
