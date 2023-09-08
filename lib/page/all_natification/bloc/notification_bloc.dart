@@ -44,13 +44,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       // case 'notice':
       //   // ignore: void_checks
       //   return NavUtil.navigateScreen(event.context, const NoticeListScreen()
-      //       // NoticeDetailsScreen(
-      //       //   notificationResponse: event.data,
-      //       //   image: event.data?.data?.notifications?[0].image,
-      //       //   date: event.data?.data?.notifications?[0].date,
-      //       //   body: event.data?.data?.notifications?[0].body,
-      //       //   title: event.data?.data?.notifications?[0].title,
-      //       // )
       //       );
 
       case 'daily_leave':

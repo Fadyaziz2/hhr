@@ -727,4 +727,25 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  ///////// Appoinment Create///////////////
+  Future<bool> appoinmentCreate({required data}) async {
+    String api = 'appoinment/create';
+
+    try {
+      debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
 }
