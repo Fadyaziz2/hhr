@@ -18,7 +18,6 @@ import 'models/content.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
-import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 
 class MetaClubApiClient {
   String token;

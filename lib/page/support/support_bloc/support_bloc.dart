@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 import '../../../res/date_utils.dart';
@@ -100,12 +99,10 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
   }
 
   FutureOr<void> _onGetPriority(GetPriority event, Emitter<SupportState> emit) {
-    print('GetPriority ${event.bodyPrioritySupport.priorityId}');
     emit(state.copy(bodyPrioritySupport: event.bodyPrioritySupport));
   }
 
-  FutureOr<void> _onSubmitButton(
-      SubmitButton event, Emitter<SupportState> emit) async {
+  FutureOr<void> _onSubmitButton(SubmitButton event, Emitter<SupportState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
 
     try {

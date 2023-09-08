@@ -1,4 +1,6 @@
 
+import 'package:equatable/equatable.dart';
+
 class BodyCreateSupport {
   String? subject;
   String? description;
@@ -23,14 +25,11 @@ class BodyCreateSupport {
   }
 }
 
-class BodyPrioritySupport{
-  int? priorityId;
-  String? priorityName;
+class BodyPrioritySupport extends Equatable{
+  final int? priorityId;
+  final String? priorityName;
 
-  BodyPrioritySupport({String? priorityName, int? priorityId}) {
-    priorityId = this.priorityId;
-    priorityName = this.priorityName;
-  }
+  BodyPrioritySupport({this.priorityName, this.priorityId});
 
   Map<String, dynamic> toJson(){
     var map = <String, dynamic>{};
@@ -38,4 +37,7 @@ class BodyPrioritySupport{
     map["priority_name"] = priorityName;
     return map;
   }
+
+  @override
+  List<Object?> get props => [priorityId,priorityName];
 }

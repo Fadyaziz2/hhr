@@ -6,9 +6,7 @@ import 'package:onesthrm/res/const.dart';
 
 class CreateSupportPage extends StatelessWidget {
 
-  final SupportBloc bloc;
-
-  const CreateSupportPage({Key? key,required this.bloc}) : super(key: key);
+  const CreateSupportPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class CreateSupportPage extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
         ),
       ),
-      body:  CreateSupportListContent(bloc: bloc,),
+      body: const CreateSupportListContent(),
     );
   }
 }

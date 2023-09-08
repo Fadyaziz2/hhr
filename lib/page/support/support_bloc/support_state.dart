@@ -25,7 +25,7 @@ class SupportState extends Equatable {
         supportListModel: supportListModel ?? this.supportListModel,
         filter: filter ?? this.filter,
     currentMonth: currentMonth ?? this.currentMonth,
-    bodyPrioritySupport: this.bodyPrioritySupport);
+    bodyPrioritySupport: bodyPrioritySupport ?? this.bodyPrioritySupport);
   }
 
   @override

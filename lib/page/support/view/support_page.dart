@@ -25,7 +25,10 @@ class SupportPage extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               backgroundColor: colorPrimary,
               onPressed: () {
-                NavUtil.navigateScreen(context,  CreateSupportPage(bloc: context.read<SupportBloc>()));
+                NavUtil.navigateScreen(context, BlocProvider.value(
+                  value: context.read<SupportBloc>(),
+                  child: const CreateSupportPage(),
+                ));
               },
               child: const Icon(
                 Icons.add,

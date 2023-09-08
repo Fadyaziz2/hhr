@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onesthrm/page/support/view/create_support/model/body_create_support.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 
 class CustomRadioTitle extends StatelessWidget {
   final Function(BodyPrioritySupport?) onChanged;
