@@ -6,15 +6,15 @@ import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_content.dart';
 import 'package:onesthrm/res/const.dart';
 
-class PhonebookListPage extends StatelessWidget {
+class PhonebookPage extends StatelessWidget {
   final Settings? settings;
-  const PhonebookListPage({Key? key, this.settings}) : super(key: key);
+  const PhonebookPage({Key? key, this.settings}) : super(key: key);
 
-  static Route route(int? userId, Settings? settings) =>
-      MaterialPageRoute(builder: (_) =>  PhonebookListPage(settings: settings!,));
+  static Route route(int? userId, Settings? settings) => MaterialPageRoute(builder: (_) =>  PhonebookPage(settings: settings!));
 
   @override
   Widget build(BuildContext context) {
+
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:onesthrm/page/phonebook/view/content/phonebook_list_page.dart';
+import 'package:onesthrm/page/phonebook/view/phonebook_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
