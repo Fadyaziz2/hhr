@@ -9,9 +9,9 @@ class UserRepository {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://hrm.onestweb.com';
+  static const _rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$_rootUrl/api/V11/';
+  static const _baseUrl = '$_rootUrl/api/2.0/';
 
   Future<LoginData?> getUser(
       {required String email, required String password}) async {
