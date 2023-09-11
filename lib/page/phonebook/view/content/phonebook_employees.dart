@@ -7,8 +7,8 @@ import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_details.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class PhonebookUserList extends StatelessWidget {
-  const PhonebookUserList({Key? key}) : super(key: key);
+class PhonebookEmployees extends StatelessWidget {
+  const PhonebookEmployees({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
