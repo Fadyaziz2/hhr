@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
+import 'content.dart';
+
 class TaskListCard extends StatelessWidget {
-  const TaskListCard({
-    Key? key,
-    this.tapButtonColor,
-    this.taskEndDate,
-    this.taskName,
-    this.userCount,
-    required this.onTap,
-    this.taskStartDate,
-    this.taskListData})
+  const TaskListCard(
+      {Key? key,
+      this.tapButtonColor,
+      this.taskEndDate,
+      this.taskName,
+      this.userCount,
+      required this.onTap,
+      this.taskStartDate,
+      this.taskListData})
       : super(key: key);
 
-  final String? taskName,
-      taskStartDate,
-      taskEndDate;
+  final String? taskName, taskStartDate, taskEndDate;
   final int? userCount;
   final Color? tapButtonColor;
   final Function()? onTap;
   final TaskCollection? taskListData;
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +47,11 @@ class TaskListCard extends StatelessWidget {
                         children: [
                           data.elementAt(i).designation != null
                               ? Text(
-                              "Designation : ${data.elementAt(i).designation ?? ""}")
+                                  "Designation : ${data.elementAt(i).designation ?? ""}")
                               : const SizedBox(),
                           data.elementAt(i).department != null
                               ? Text(
-                              "Department : ${data.elementAt(i).department ?? ""}")
+                                  "Department : ${data.elementAt(i).department ?? ""}")
                               : const SizedBox(),
                           data.elementAt(i).phone != null
                               ? Text("Phone : ${data.elementAt(i).phone ?? ""}")
@@ -90,70 +89,68 @@ class TaskListCard extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 2.0),
-        child: Card(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0), color: Colors.white),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        taskName ?? "",
-                        maxLines: 3,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                const Text(
-                  "Assignee",
-                  style: TextStyle(
-                      color: Color(0xff8A8A8A),
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w400),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 25.0 * assigns.length,
-                      height: 40.0,
-                      child: Stack(children: assigns),
-                    ),
-                    userCount == 0
-                        ? const SizedBox()
-                        : Text(
-                      '${userCount ?? 0}+',
-                      textAlign: TextAlign.justify,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0), color: Colors.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      taskName ?? "",
+                      maxLines: 3,
                       style: const TextStyle(
-                          color: Color(0xff8A8A8A),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0),
                     ),
-                    const Spacer(),
-                    // CustomTapBarButtonWithDate(
-                    //   buttonColor: tapButtonColor,
-                    //   firstDate: taskStartDate ?? "",
-                    //   endData: taskEndDate ?? "",
-                    //   verticalPadding: 6,
-                    // )
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              const Text(
+                "Assignee",
+                style: TextStyle(
+                    color: Color(0xff8A8A8A),
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 25.0 * assigns.length,
+                    height: 40.0,
+                    child: Stack(children: assigns),
+                  ),
+                  userCount == 0
+                      ? const SizedBox()
+                      : Text(
+                          '${userCount ?? 0}+',
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                              color: Color(0xff8A8A8A),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
+                        ),
+                  const Spacer(),
+                  TaskListButtonWithDate(
+                    buttonColor: tapButtonColor,
+                    firstDate: taskStartDate ?? "",
+                    endData: taskEndDate ?? "",
+                    verticalPadding: 6,
+                  )
+                ],
+              )
+            ],
           ),
         ),
       ),

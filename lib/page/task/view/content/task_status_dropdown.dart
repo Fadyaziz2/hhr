@@ -16,10 +16,10 @@ class TaskStatusDropdown extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           width: 150,
-          height: 20,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
+            border: Border.all(color: Colors.grey.shade300)
             // boxShadow: const [
             //   BoxShadow(color: Colors.grey, spreadRadius: 1),
             // ],
