@@ -36,6 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(const HomeState(status: NetworkStatus.loading));
     try {
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
       globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
@@ -43,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
       globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
       globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      ///initialize custom timer data [HOUR, MIN, SEC]
+      ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
       globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}' );
       globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');

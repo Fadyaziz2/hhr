@@ -11,6 +11,10 @@ class OnLocationRefreshEvent extends AttendanceEvent{
 }
 
 class OnLocationInitEvent extends AttendanceEvent{
+  final DashboardModel? dashboardModel;
+
+  OnLocationInitEvent({this.dashboardModel});
+
   @override
   List<Object?> get props => [];
 }
