@@ -29,9 +29,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
-    emit(AttendanceState(locationLoaded: true, location: _locationServices.place));
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
+    ///Initialize attendance data at global state
+    AttendanceData? attendanceData = event.dashboardModel?.data?.attendanceData;
+    globalState.set(inTime, attendanceData?.inTime);
+    globalState.set(outTime, attendanceData?.outTime);
+    globalState.set(stayTime, attendanceData?.stayTime);
+
+    emit(AttendanceState(locationLoaded: true, location: _locationServices.place));
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
