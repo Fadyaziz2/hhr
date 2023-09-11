@@ -1,13 +1,13 @@
-class StatusModel {
+class TaskStatusModel {
   int? id;
   String? title;
 
-  StatusModel({this.id, this.title});
+  TaskStatusModel({this.id, this.title});
 }
 
-List<StatusModel> statusList = [
-  StatusModel(id: 24, title: 'Not Started'),
-  StatusModel(id: 25, title: 'On Hold'),
-  StatusModel(id: 26, title: 'In Progress'),
-  StatusModel(id: 28, title: 'Cancelled'),
+List<TaskStatusModel> statusList = [
+  TaskStatusModel(id: 24, title: 'Not Started'),
+  TaskStatusModel(id: 25, title: 'On Hold'),
+  TaskStatusModel(id: 26, title: 'In Progress'),
+  TaskStatusModel(id: 28, title: 'Cancelled'),
 ];

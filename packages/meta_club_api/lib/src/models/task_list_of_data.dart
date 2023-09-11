@@ -91,7 +91,7 @@ class Priority extends Equatable {
 }
 
 class TaskListCollection extends Equatable {
-  final List<Task>? tasks;
+  final List<TaskCollection>? tasks;
   final Pagination? pagination;
 
   const TaskListCollection({
@@ -103,7 +103,7 @@ class TaskListCollection extends Equatable {
       TaskListCollection(
         tasks: json["tasks"] == null
             ? []
-            : List<Task>.from(json["tasks"]!.map((x) => Task.fromJson(x))),
+            : List<TaskCollection>.from(json["tasks"]!.map((x) => TaskCollection.fromJson(x))),
         pagination: json["pagination"] == null
             ? null
             : Pagination.fromJson(json["pagination"]),
@@ -155,7 +155,7 @@ class Pagination extends Equatable {
   List<Object?> get props => [total, count, perPage, currentPage, totalPages];
 }
 
-class Task extends Equatable {
+class TaskCollection extends Equatable {
   final int? id;
   final String? title;
   final String? dateRange;
@@ -169,7 +169,7 @@ class Task extends Equatable {
   final List<Member>? members;
   final String? color;
 
-  const Task({
+  const TaskCollection({
     this.id,
     this.title,
     this.dateRange,
@@ -184,7 +184,7 @@ class Task extends Equatable {
     this.color,
   });
 
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
+  factory TaskCollection.fromJson(Map<String, dynamic> json) => TaskCollection(
         id: json["id"],
         title: json["title"],
         dateRange: json["date_range"],

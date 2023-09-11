@@ -13,10 +13,18 @@ class TaskInitialDataRequest extends TaskEvent {
 }
 
 class TaskListOfDataRequest extends TaskEvent {
-  final String? statusId;
 
-  TaskListOfDataRequest({this.statusId});
+  TaskListOfDataRequest();
 
   @override
-  List<Object?> get props => [statusId];
+  List<Object?> get props => [];
+}
+
+class TaskSetDropdownValue extends TaskEvent {
+  final TaskStatusModel taskStatusSetValue;
+
+  TaskSetDropdownValue({required this.taskStatusSetValue});
+
+  @override
+  List<Object?> get props => [taskStatusSetValue];
 }
