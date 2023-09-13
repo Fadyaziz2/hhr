@@ -45,7 +45,7 @@ class TaskDashboardData extends Equatable {
 }
 
 class TaskCompletionCollection extends Equatable{
-  TaskCompletionCollection({
+  const TaskCompletionCollection({
     this.id,
     this.title,
     this.dateRange,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/page/task/task.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class TaskScreenContent extends StatelessWidget {
   const TaskScreenContent({Key? key}) : super(key: key);
@@ -26,7 +28,8 @@ class TaskScreenContent extends StatelessWidget {
                 TaskDashboardCardList(staticsData: staticsData),
 
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.white),
@@ -67,12 +70,18 @@ class TaskScreenContent extends StatelessWidget {
                           final data = state.taskStatusListResponse?.data
                               ?.taskListCollection?.tasks?[index];
                           return TaskListCard(
-
                             onTap: () {
-                              // NavUtil.navigateScreen(
-                              //   context,
-                              //   TaskDetailsScreen(taskId: data!.id!),
-                              // );
+                              // context.read<TaskBloc>().add(
+                              //     TaskDetailsDataRequest(
+                              //         id: data!.id.toString()));
+
+                              NavUtil.navigateScreen(
+                                context,
+                                TaskScreenDetails(
+                                  bloc: context.read<TaskBloc>(),
+                                  taskId: data!.id.toString(),
+                                ),
+                              );
                             },
                             userCount: data?.usersCount,
                             taskListData: data,
@@ -143,29 +152,44 @@ class TaskScreenContent extends StatelessWidget {
                           )
                         ],
                       ),
-
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: completeTaskList?.length ?? 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          final data = state.taskStatusListResponse?.data
-                              ?.taskListCollection?.tasks?[index];
-                          return TaskListCard(
-                            onTap: () {
-                              // NavUtil.navigateScreen(
-                              //   context,
-                              //   TaskDetailsScreen(taskId: data!.id!),
-                              // );
-                            },
-                            userCount: data?.usersCount,
-                            taskListData: data,
-                            taskName: data?.title,
-                            // tapButtonColor: AppColors.colorPrimary,
-                            taskStartDate: data?.dateRange,
-                          );
-                        },
-                      ),
+                      completeTaskList?.isNotEmpty == true
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: completeTaskList?.length ?? 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                final data = completeTaskList?[index];
+                                return TaskListCard(
+                                  onTap: () {
+                                    // NavUtil.navigateScreen(
+                                    //   context,
+                                    //   TaskDetailsScreen(taskId: data!.id!),
+                                    // );
+                                  },
+                                  userCount: data?.usersCount,
+                                  taskCompletionCollection: data,
+                                  taskName: data?.title,
+                                  tapButtonColor: const Color(0xFF00a8e6),
+                                  taskStartDate: data?.dateRange,
+                                );
+                              },
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 60.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.white),
+                              child: const Center(
+                                  child: Text(
+                                "No Task Available",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                            ),
                     ],
                   ),
                 ),

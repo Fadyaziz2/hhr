@@ -674,7 +674,6 @@ class MetaClubApiClient {
       int? designationId,
       int? departmentId,
       required int pageCount}) async {
-    // String api = 'app/get-all-users/33?keywords=$keywords';
     String api =
         'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
 
@@ -692,10 +691,12 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook Details====================
-  Future<PhonebookDetailsModel?> getPhonebooksUserDetails({String? userId}) async {
+  Future<PhonebookDetailsModel?> getPhonebooksUserDetails(
+      {String? userId}) async {
     String api = 'user/details/$userId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -708,10 +709,10 @@ class MetaClubApiClient {
 
   /// ===================== Task Dashboard Data ========================
   Future<TaskDashboardModel?> getTaskInitialData() async {
-    // String api = 'app/get-all-employees/$userId';
     String api = 'tasks';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -724,10 +725,10 @@ class MetaClubApiClient {
 
   /// ===================== Tasks List Of Data ========================
   Future<TaskStatusListResponse?> getTaskListOfData(String statuesId) async {
-    // String api = 'app/get-all-employees/$userId';
     String api = 'tasks/list?status=$statuesId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -735,6 +736,41 @@ class MetaClubApiClient {
       return TaskStatusListResponse.fromJson(response?.data);
     } catch (_) {
       return null;
+    }
+  }
+
+  /// ===================== Tasks Details ========================
+  Future<TaskDetailsModel?> getTaskDetails(String taskId) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'tasks/$taskId';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> updateTaskStatusAndSlider({data}) async {
+    const String api = 'tasks/update';
+
+    try {
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 }

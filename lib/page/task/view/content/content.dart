@@ -6,3 +6,4 @@ export 'task_list_card.dart';
 export 'task_dashboard_card_list.dart';
 export 'task_status_dropdown.dart';
 export 'task_list_button_with_date.dart';
+export 'task_details_content/details_content.dart';
