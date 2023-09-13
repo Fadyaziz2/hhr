@@ -110,8 +110,7 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         const Text(
           'Employee Id',
-          style: TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
@@ -138,8 +137,7 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(
-                slug: 'official', data: official.toJson()));
+            widget.bloc.add(ProfileUpdate(slug: 'official', data: official.toJson()));
           },
           text: 'save',
           radius: 8.0,
