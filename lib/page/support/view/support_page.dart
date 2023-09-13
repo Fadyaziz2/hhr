@@ -14,21 +14,24 @@ class SupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-      create: (context) => SupportBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(GetSupportData()),
-      child: BlocBuilder<SupportBloc,SupportState>(
-        builder: (context,state){
+      create: (context) => SupportBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+        ..add(GetSupportData()),
+      child: BlocBuilder<SupportBloc, SupportState>(
+        builder: (context, state) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               backgroundColor: colorPrimary,
               onPressed: () {
-                NavUtil.navigateScreen(context, BlocProvider.value(
-                  value: context.read<SupportBloc>(),
-                  child: const CreateSupportPage(),
-                ));
+                NavUtil.navigateScreen(
+                    context,
+                    BlocProvider.value(
+                      value: context.read<SupportBloc>(),
+                      child: const CreateSupportPage(),
+                    ));
               },
               child: const Icon(
                 Icons.add,
@@ -52,10 +55,18 @@ class SupportPage extends StatelessWidget {
               ),
               title: Text(
                 tr("all_support_tickets"),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
               ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context.read<SupportBloc>().add(SelectDatePicker(context));
+                    },
+                    icon: const Icon(Icons.calendar_month_outlined))
+              ],
             ),
             body: const SupportListContent(),
           );

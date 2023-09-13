@@ -11,15 +11,14 @@ import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 import '../../../../../res/widgets/CustomButton.dart';
 
 class CreateSupportListContent extends StatelessWidget {
-
   const CreateSupportListContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     BodyCreateSupport createSupport = BodyCreateSupport();
 
-    return BlocBuilder<SupportBloc,SupportState>(
-      builder: (context,state){
+    return BlocBuilder<SupportBloc, SupportState>(
+      builder: (context, state) {
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -36,6 +35,7 @@ class CreateSupportListContent extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+
                 /// priority_id => [14 = high , 15 = medium , 16 = low' ]
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,8 @@ class CreateSupportListContent extends StatelessWidget {
                         value: BodyPrioritySupport(
                             priorityName: 'High', priorityId: 14),
                         onChanged: (priorityValue) {
-                          context.read<SupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
+                          context.read<SupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
                           createSupport.priorityId = 14;
                         },
                         title: 'High',
@@ -55,9 +56,11 @@ class CreateSupportListContent extends StatelessWidget {
                     Expanded(
                       child: CustomRadioTitle(
                         groupValue: state.bodyPrioritySupport,
-                        value: BodyPrioritySupport(priorityName: 'Medium', priorityId: 15),
+                        value: BodyPrioritySupport(
+                            priorityName: 'Medium', priorityId: 15),
                         onChanged: (priorityValue) {
-                          context.read<SupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
+                          context.read<SupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
                           createSupport.priorityId = 15;
                         },
                         title: 'Medium',
@@ -66,9 +69,11 @@ class CreateSupportListContent extends StatelessWidget {
                     Expanded(
                       child: CustomRadioTitle(
                         groupValue: state.bodyPrioritySupport,
-                        value: BodyPrioritySupport(priorityName: 'Low', priorityId: 16),
+                        value: BodyPrioritySupport(
+                            priorityName: 'Low', priorityId: 16),
                         onChanged: (priorityValue) {
-                          context.read<SupportBloc>().add(GetPriority(bodyPrioritySupport: priorityValue!));
+                          context.read<SupportBloc>().add(
+                              GetPriority(bodyPrioritySupport: priorityValue!));
                           createSupport.priorityId = 16;
                         },
                         title: 'Low',
@@ -119,7 +124,7 @@ class CreateSupportListContent extends StatelessWidget {
                     createSupport.previewId = data?.fileId;
                   },
                   initialAvatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
                 ),
                 const SizedBox(
                   height: 5,
@@ -132,7 +137,8 @@ class CreateSupportListContent extends StatelessWidget {
                   title: tr("submit"),
                   padding: 0,
                   clickButton: () {
-                    context.read<SupportBloc>().add(SubmitButton(bodyCreateSupport: createSupport, context: context));
+                    context.read<SupportBloc>().add(SubmitButton(
+                        bodyCreateSupport: createSupport, context: context));
                   },
                 ),
               ],

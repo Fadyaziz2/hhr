@@ -10,7 +10,6 @@ import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dar
 import '../../../res/date_utils.dart';
 
 part 'support_event.dart';
-
 part 'support_state.dart';
 
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
