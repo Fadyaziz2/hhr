@@ -12,6 +12,10 @@ on:
     branches: [ "develop" ]
 
 workflows:
+  my-workflow:
+    environment:
+      flutter: beta
+
 jobs:
   build:
     runs-on: ubuntu-latest
