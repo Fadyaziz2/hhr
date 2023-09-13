@@ -27,9 +27,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -727,6 +727,45 @@ class MetaClubApiClient {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /// ================== Phonebook ====================
+  Future<Phonebook?> getPhonebooks(
+      {String? keywords,
+      int? designationId,
+      int? departmentId,
+      required int pageCount}) async {
+    // String api = 'app/get-all-users/33?keywords=$keywords';
+    String api =
+        'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return Phonebook.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Phonebook Details====================
+  Future<PhonebookDetailsModel?> getPhonebooksUserDetails({String? userId}) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'user/details/$userId';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return PhonebookDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
     }
   }
 }

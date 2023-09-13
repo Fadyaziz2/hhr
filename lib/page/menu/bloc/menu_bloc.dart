@@ -7,15 +7,20 @@ import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
+import '../../phonebook/view/phonebook_page.dart';
+
 part 'menu_event.dart';
 
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final MetaClubApiClient _metaClubApiClient;
+  final Settings _settings;
 
-  MenuBloc({required MetaClubApiClient metaClubApiClient})
+  MenuBloc(
+      {required MetaClubApiClient metaClubApiClient, required Settings setting})
       : _metaClubApiClient = metaClubApiClient,
+        _settings = setting,
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
@@ -29,57 +34,26 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         break;
       case 'attendance':
         break;
-      // return NavUtil.navigateScreen(
-      //     context,
-      //     const Attendance(
-      //       navigationMenu: true,
-      //     ));
       case 'notice':
         NavUtil.navigateScreen(event.context, const NoticeListScreen());
         break;
       case 'expense':
         break;
-      // return NavUtil.navigateScreen(context, const ExpenseList());
       case 'leave':
-      // return NavUtil.navigateScreen(context, const LeaveSummary());
       case 'approval':
-      // return NavUtil.navigateScreen(context, const ApprovalScreen());
       case 'phonebook':
-      // return NavUtil.navigateScreen(context, const PhonebookScreen());
+        NavUtil.navigateScreen(event.context,  PhonebookPage(settings: _settings,));
+        break;
       case 'conference':
-      // return NavUtil.navigateScreen(context, const ConferenceScreen());
       case 'visit':
-      // return NavUtil.navigateScreen(context, const VisitScreen());
       case 'meeting':
-      // return NavUtil.navigateScreen(context, const MeetingScreen());
       case 'appointments':
-      // return NavUtil.navigateScreen(context, const AppointmentScreen());
-      // case 'face_attendance':
-      //   return NavUtil.navigateScreen(
-      //       context,
-      //       const WebViewScreen(
-      //           conferenceLink: "https://hrm.onesttech.com/faceattendance",appTitle: "Face Attendance",));
       case 'break':
-      // return NavUtil.navigateScreen(
-      //     context,
-      //     NavUtil.navigateScreen(
-      //         context,
-      //         const BreakTime(
-      //           diffTimeHome: '',
-      //           hourHome: 0,
-      //           minutesHome: 0,
-      //           secondsHome: 0,
-      //         )));
       case 'feedback':
-      // return Fluttertoast.showToast(msg: 'feedback');
       case 'report':
-      // return NavUtil.navigateScreen(context, const ReportScreen());
       case 'daily-leave':
-      // return NavUtil.navigateScreen(context, const DailyLeave());
       case 'payroll':
-      // return NavUtil.navigateScreen(context, const PayrollListScreen());
       case 'task':
-      // return NavUtil.navigateScreen(context, const TaskDashboardScreen());
       default:
         return debugPrint('default');
     }

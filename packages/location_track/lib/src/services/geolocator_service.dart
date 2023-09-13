@@ -8,7 +8,7 @@ class GeoLocatorService {
   ///get current position as stream
   Stream<Position> getCoordinates() {
 
-    LocationSettings settings = const LocationSettings(accuracy: LocationAccuracy.high,);
+    LocationSettings settings = const LocationSettings(accuracy: LocationAccuracy.high,distanceFilter: 5);
 
     return Geolocator.getPositionStream(locationSettings: settings);
   }

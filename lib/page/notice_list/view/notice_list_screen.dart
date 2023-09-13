@@ -7,27 +7,16 @@ import 'package:onesthrm/page/notice_list/bloc/notice_list_bloc.dart';
 import 'package:onesthrm/page/notice_list/content/notice_list_content.dart';
 import 'package:onesthrm/res/enum.dart';
 
-class NoticeListScreen extends StatefulWidget {
+class NoticeListScreen extends StatelessWidget {
+
   const NoticeListScreen({Key? key}) : super(key: key);
-
-  @override
-  State<NoticeListScreen> createState() => _NoticeListScreenState();
-}
-
-class _NoticeListScreenState extends State<NoticeListScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-      create: (context) => NotificationListBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(LoadNotificationListData()),
+      create: (context) => NotificationListBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(LoadNotificationListData()),
       child: BlocBuilder<NotificationListBloc, NoticeListState>(
           builder: (context, state) {
         if (state.status == NetworkStatus.loading) {
@@ -48,11 +37,7 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                 body: SafeArea(
                     child: Column(
                   children: [
-                    // provider.isLoading
-                    //     ? provider.notificationsList!.isNotEmpty
-                    //         ?
-                    state.noticeListModel?.data?.notices?.data?.isNotEmpty ==
-                            true
+                    state.noticeListModel?.data?.notices?.data?.isNotEmpty == true
                         ? Expanded(
                             child: ListView.separated(
                               itemCount: state.noticeListModel?.data?.notices
@@ -72,8 +57,7 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                             ),
                           )
                         : Expanded(
-                            child: Center(
-                                child: Text(
+                            child: Center(child: Text(
                               tr("no_notification_found"),
                               style: const TextStyle(
                                   color: Color(0x65555555),
@@ -87,11 +71,9 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
           }
         }
         if (state.status == NetworkStatus.failure) {
-          return const Center(
-            child: Text('Failed to load Notification'),
-          );
+          return const Center(child: Text('Failed to load Notification'));
         }
-        return const SizedBox();
+        return const SizedBox.shrink();
       }),
     );
   }

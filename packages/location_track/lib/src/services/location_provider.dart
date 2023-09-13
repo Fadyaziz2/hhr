@@ -74,24 +74,26 @@ class LocationServiceProvider {
           timestamp: DateTime.now(),
           speedAccuracy: event.speedAccuracy!);
 
-      ///getting address from current position
-      addLocationDataToLocal(position: position,uid: uid);
-
-      ///store data to server from hive
-      deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
-
+      ///when locationSubscription is enable only then
+      ///location data can be processed to manipulate
+      if(!locationSubscription.isPaused){
+        ///getting address from current position
+        addLocationDataToLocal(position: position,uid: uid);
+        ///store data to server from hive
+        deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+      }
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
-
+      ///Inactive all listener to listen location data for a while
       locationSubscription.pause();
     });
 
+    ///set timer to toggle location subscription
     Timer.periodic(const Duration(minutes: 2), (timer) async {
-      print('isPaused ${locationSubscription.isPaused}');
       if(locationSubscription.isPaused){
         locationSubscription.resume();
-        print('isPaused ${locationSubscription.isPaused}');
       }
+      debugPrint('isPaused ${locationSubscription.isPaused}');
     });
   }
 
@@ -117,6 +119,8 @@ class LocationServiceProvider {
     placeMark = places?.first;
 
     place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+
+
 
     Timer.periodic(const Duration(minutes: 2), (timer) async {
 
@@ -146,18 +150,20 @@ class LocationServiceProvider {
   }
 
 
-  ///data will be delete after data store ro server
+  ///data will be delete after data store to server
   deleteDataAndSendToServer({String? currentDateData, required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
     Timer.periodic(const Duration(minutes: 4), (timer) async {
-      if (kDebugMode) {
-        print('data that u have to sent server ${locationProvider.toMapList()}');
-      }
+      if(locationProvider.toMapList().length > 2){
+        if (kDebugMode) {
+          print('data that u have to sent server ${locationProvider.toMapList()}');
+        }
         metaClubApiClient.storeLocationToServer(locations: locationProvider.toMapList(),date: DateTime.now().toString()).then((isStored) async {
           if(isStored){
             await locationProvider.deleteAllLocation();
           }
         });
+      }
     });
   }
 
