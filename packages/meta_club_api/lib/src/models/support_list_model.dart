@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class SupportListModel extends Equatable{
+class SupportListModel extends Equatable {
   final bool? result;
   final String? message;
   final SupportData? data;
@@ -20,7 +20,7 @@ class SupportListModel extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object?> get props => [result,message,data];
+  List<Object?> get props => [result, message, data];
 }
 
 class SupportData {
@@ -33,7 +33,8 @@ class SupportData {
   factory SupportData.fromJson(Map<String, dynamic> json) => SupportData(
         data: json["data"] == null
             ? []
-            : List<SupportModel>.from(json["data"]!.map((x) => SupportModel.fromJson(x))),
+            : List<SupportModel>.from(
+                json["data"]!.map((x) => SupportModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,28 +53,29 @@ class SupportModel {
   String? priorityName;
   String? priorityColor;
   String? date;
+  String? description;
 
-  SupportModel({
-    this.id,
-    this.subject,
-    this.file,
-    this.typeName,
-    this.typeColor,
-    this.priorityName,
-    this.priorityColor,
-    this.date,
-  });
+  SupportModel(
+      {this.id,
+      this.subject,
+      this.file,
+      this.typeName,
+      this.typeColor,
+      this.priorityName,
+      this.priorityColor,
+      this.date,
+      this.description});
 
   factory SupportModel.fromJson(Map<String, dynamic> json) => SupportModel(
-        id: json["id"],
-        subject: json["subject"],
-        file: json["file"],
-        typeName: json["type_name"],
-        typeColor: json["type_color"],
-        priorityName: json["priority_name"],
-        priorityColor: json["priority_color"],
-        date: json["date"],
-      );
+      id: json["id"],
+      subject: json["subject"],
+      file: json["file"],
+      typeName: json["type_name"],
+      typeColor: json["type_color"],
+      priorityName: json["priority_name"],
+      priorityColor: json["priority_color"],
+      date: json["date"],
+      description: json["description"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -84,5 +86,6 @@ class SupportModel {
         "priority_name": priorityName,
         "priority_color": priorityColor,
         "date": date,
+        "description": description
       };
 }
