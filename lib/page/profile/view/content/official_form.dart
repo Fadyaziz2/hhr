@@ -116,10 +116,14 @@ class _OfficialFormState extends State<OfficialForm> {
         const SizedBox(
           height: 10,
         ),
-        const TextField(
-          style: TextStyle(fontSize: 14),
+         TextField(
+          style: const TextStyle(fontSize: 14),
           keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
+          onChanged: (data) {
+            official.employeeId = data;
+            widget.onOfficialUpdate(official);
+          },
+          decoration: const InputDecoration(
             fillColor: Colors.red,
             contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
             hintText: 'Enter Employee Id',

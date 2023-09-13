@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
-import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
 import '../../../../res/const.dart';
 import '../../../../res/date_utils.dart';
 import '../../../../res/enum.dart';
