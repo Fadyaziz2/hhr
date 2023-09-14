@@ -20,9 +20,6 @@ class TaskStatusDropdown extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(color: Colors.grey.shade300)
-            // boxShadow: const [
-            //   BoxShadow(color: Colors.grey, spreadRadius: 1),
-            // ],
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<TaskStatusModel>(

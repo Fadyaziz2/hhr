@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/page/task/task.dart';
+import 'package:onesthrm/page/task/view/content/all_task_list_complete_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 class TaskScreenContent extends StatelessWidget {
@@ -90,22 +91,7 @@ class TaskScreenContent extends StatelessWidget {
                           );
                         },
                       )
-                    : Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.white),
-                        child: const Center(
-                            child: Text(
-                          "No Task Available",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold),
-                        )),
-                      ),
+                    : buildListDataNotFound(context),
 
                 const SizedBox(
                   height: 12.0,
@@ -120,7 +106,6 @@ class TaskScreenContent extends StatelessWidget {
                       color: Colors.white),
                   child: Column(
                     children: [
-                      //title and see all
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -133,8 +118,12 @@ class TaskScreenContent extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              // NavUtil.navigateScreen(context,
-                              //     const CompleteTaskListScreen());
+                              NavUtil.navigateScreen(
+                                  context,
+                                  AllTaskListCompleteScreen(
+                                    bloc: context.read<TaskBloc>(),
+                                    taskCompleteList: completeTaskList,
+                                  ));
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -160,10 +149,13 @@ class TaskScreenContent extends StatelessWidget {
                                 final data = completeTaskList?[index];
                                 return TaskListCard(
                                   onTap: () {
-                                    // NavUtil.navigateScreen(
-                                    //   context,
-                                    //   TaskDetailsScreen(taskId: data!.id!),
-                                    // );
+                                    NavUtil.navigateScreen(
+                                      context,
+                                      TaskScreenDetails(
+                                        bloc: context.read<TaskBloc>(),
+                                        taskId: data!.id.toString(),
+                                      ),
+                                    );
                                   },
                                   userCount: data?.usersCount,
                                   taskCompletionCollection: data,
@@ -173,22 +165,7 @@ class TaskScreenContent extends StatelessWidget {
                                 );
                               },
                             )
-                          : Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 60.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Colors.white),
-                              child: const Center(
-                                  child: Text(
-                                "No Task Available",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                            ),
+                          : buildListDataNotFound(context),
                     ],
                   ),
                 ),
@@ -197,6 +174,22 @@ class TaskScreenContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Container buildListDataNotFound(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 60.0,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0), color: Colors.white),
+      child: const Center(
+          child: Text(
+        "No Task Available",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+      )),
     );
   }
 }
