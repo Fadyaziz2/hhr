@@ -94,6 +94,23 @@ class MetaClubApiClient {
     }
   }
 
+  Future<SupportListModel?> getSupport(String type, String month) async {
+    const String api = 'support-ticket/list';
+
+    final data = {"type": type, "month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return SupportListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
     const String api = 'user/attendance';
 
@@ -153,6 +170,26 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> createSupportApi({required data}) async {
+    String api = 'user/profile/update/';
+
+    try {
+      debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> updateProfile({required String slag, required data}) async {
     String api = 'user/profile/update/$slag';
 
@@ -160,6 +197,31 @@ class MetaClubApiClient {
       debugPrint('body: $data');
 
       FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+    String api = 'support-ticket/add';
+
+    try {
+      debugPrint('body: $bodyCreateSupport');
+
+      FormData formData = FormData.fromMap({
+        "subject": bodyCreateSupport?.subject,
+        "description": bodyCreateSupport?.description,
+        "file_id": bodyCreateSupport?.previewId,
+        "priority_id": bodyCreateSupport?.priorityId
+      });
 
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);

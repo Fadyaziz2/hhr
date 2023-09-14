@@ -36,7 +36,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
   @override
   Widget build(BuildContext context) {
 
-    UpdateProfileBloc  bloc = context.read<UpdateProfileBloc>();
+    UpdateProfileBloc  bloc = context.watch<UpdateProfileBloc>();
 
     return SingleChildScrollView(
       child: Padding(
@@ -47,22 +47,18 @@ class _EditProfileContentState extends State<EditProfileContent> {
             if(widget.pageName == 'official')
               OfficialForm(profile: widget.profile, bloc: bloc, onOfficialUpdate: (data) {
                 official = data;
-                print(official.toJson());
               }, settings: widget.settings,),
             if(widget.pageName == 'personal')
               PersonalForm(profile: widget.profile, bloc: bloc, onPersonalUpdate: (data) {
                 personal = data;
-                print(personal.toJson());
               }, settings: widget.settings,),
             if(widget.pageName == 'financial')
               FinancialForm(profile: widget.profile, bloc: bloc, onFinancialUpdate: (data) {
                 financial = data;
-                print(personal.toJson());
               }, settings: widget.settings,),
             if(widget.pageName == 'emergency')
               EmergencyForm(profile: widget.profile, bloc: bloc, onEmergencyUpdate: (data) {
                 emergency = data;
-                print(emergency.toJson());
               }, settings: widget.settings,),
           ],
         ),

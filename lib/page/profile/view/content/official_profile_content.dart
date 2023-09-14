@@ -41,7 +41,7 @@ class OfficialProfileContent extends StatelessWidget {
               description:profile.official?.designation ??
                   "N/A"),
           buildProfileDetails(
-              title: "Date of joinig",
+              title: "Date of joining",
               description:profile.official?.joiningDate ??
                   "N/A"),
           buildProfileDetails(

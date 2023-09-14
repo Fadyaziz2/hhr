@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-
 import 'const.dart';
 
 String getDateAsString({required DateTime dateTime,String format = 'MM-dd-yyyy'}) {
@@ -48,9 +47,7 @@ DateTime getDateTimeFromTimestamp(int timestamp) {
 
 Future<Duration?> getSyncDuration() async {
   final second =  await SharedUtil.getValue(breakTime);
-  print('second $second');
   final duration = second != null ? getDuration(int.parse(second)) : null;
-  debugPrint('duration ${duration?.inSeconds}');
   return duration;
 }
 
