@@ -12,6 +12,8 @@ import '../../../res/date_utils.dart';
 part 'support_event.dart';
 part 'support_state.dart';
 
+var dateTime =  DateTime.now();
+
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   final MetaClubApiClient _metaClubApiClient;
 
@@ -79,14 +81,19 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
 
   FutureOr<void> _onSelectDatePicker(
       SelectDatePicker event, Emitter<SupportState> emit) async {
-    final date = await showMonthPicker(
+
+
+    var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
       lastDate: DateTime(DateTime.now().year + 1, 9),
-      initialDate: DateTime.now(),
+      // initialDate: date == null ? DateTime.now() :date! ,
+      initialDate: dateTime,
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date!);
+
+    dateTime = date!;
+    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
     add(GetSupportData(filter: state.filter, date: currentMonth));
   }
 
