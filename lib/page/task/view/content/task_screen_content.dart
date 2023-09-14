@@ -4,6 +4,7 @@ import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/task/view/content/all_task_list_complete_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class TaskScreenContent extends StatelessWidget {
   const TaskScreenContent({Key? key}) : super(key: key);
@@ -91,7 +92,7 @@ class TaskScreenContent extends StatelessWidget {
                           );
                         },
                       )
-                    : buildListDataNotFound(context),
+                    : const NoDataFoundWidget(),
 
                 const SizedBox(
                   height: 12.0,
@@ -165,7 +166,7 @@ class TaskScreenContent extends StatelessWidget {
                                 );
                               },
                             )
-                          : buildListDataNotFound(context),
+                          : const NoDataFoundWidget(),
                     ],
                   ),
                 ),
@@ -174,22 +175,6 @@ class TaskScreenContent extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Container buildListDataNotFound(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 60.0,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0), color: Colors.white),
-      child: const Center(
-          child: Text(
-        "No Task Available",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
-      )),
     );
   }
 }
