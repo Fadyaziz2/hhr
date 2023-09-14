@@ -13,7 +13,7 @@ const Color gradiantColorTwo        = Color(0xDA0DC21E);
 
 List<String> supportTicketsButton = [tr("open"), tr('close'), tr('all')];
 
-final bloodGroup = ['A+', 'A-', 'B+', 'B+','AB+','AB-','O+','O-'];
+final bloodGroup = ['A+', 'A-', 'B+', 'B-','AB+','AB-','O+','O-'];
 
 const String attendanceId = 'attendance_id';
 const String inTime = 'in_time';
