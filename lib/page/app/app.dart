@@ -65,6 +65,8 @@ class _AppViewState extends State<AppView> {
           }, child: child,);
       },
       theme: Theme.of(context).copyWith(
+        useMaterial3: true,
+        primaryColor: colorPrimary,
         colorScheme: Theme.of(context).colorScheme.copyWith(
           primary: colorPrimary,
         ),

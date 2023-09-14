@@ -89,6 +89,65 @@ void showLoginDialog(
       });
 }
 
+showCustomYearPicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
+  showModalBottomSheet(
+    context: context,
+    builder: (ctx) {
+      return Container(
+        padding: const EdgeInsets.only(
+          top: 15,
+          bottom: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+              ),
+              child: SfDateRangePicker(
+                onSelectionChanged: (arg) {
+                  onDatePicked(arg.value);
+                  Navigator.of(context).pop();
+                },
+                onSubmit: (arg) {},
+                maxDate: DateTime.now().add(const Duration(days: 365)),
+                initialDisplayDate: initialDate ?? DateTime.now(),
+                view: DateRangePickerView.year,
+                selectionMode: DateRangePickerSelectionMode.single,
+                  monthViewSettings:
+                  DateRangePickerMonthViewSettings(enableSwipeSelection: false),
+                allowViewNavigation: true,
+                  toggleDaySelection: false,
+                  yearCellStyle: DateRangePickerYearCellStyle(
+                    disabledDatesDecoration:BoxDecoration(
+                        color: const Color(0xFFDFDFDF),
+                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        shape: BoxShape.circle),
+                    disabledDatesTextStyle: const TextStyle(color: Colors.black),
+                    leadingDatesDecoration:BoxDecoration(
+                        color: const Color(0xFFDFDFDF),
+                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        shape: BoxShape.circle),
+                    leadingDatesTextStyle: const TextStyle(color: Colors.black),
+                    textStyle: const TextStyle(color: Colors.blue),
+                    todayCellDecoration: BoxDecoration(
+                        color: const Color(0xFFDFDFDF),
+                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        shape: BoxShape.circle),
+                    todayTextStyle: const TextStyle(color: Colors.green),
+                  )
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 showCustomDatePicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
   showModalBottomSheet(
     context: context,

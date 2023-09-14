@@ -91,9 +91,11 @@ class ProfileContent extends StatelessWidget {
                           ],
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red,shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      )),
                       child: const Text('Delete Account',
-                          style: TextStyle(fontSize: 16)),
+                          style: TextStyle(fontSize: 16,color: Colors.white)),
                     ),
                   ),
                 );
