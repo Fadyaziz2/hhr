@@ -5,10 +5,10 @@ import 'package:meta_club_api/meta_club_api.dart';
 class TypeNameWidget extends StatelessWidget {
   const TypeNameWidget({
     super.key,
-    required this.supportModel,
+     this.supportModel,
   });
 
-  final SupportModel supportModel;
+  final SupportModel? supportModel;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,12 @@ class TypeNameWidget extends StatelessWidget {
       BoxDecoration(
         border: Border.all(
           color: Color(int
-              .parse(supportModel.typeColor ?? "0xFF000000")),
+              .parse(supportModel?.typeColor ?? "0xFF000000")),
           style: BorderStyle
               .solid,
           width: 3.0,
         ),
-        color: Color(int.parse(supportModel.typeColor ?? "0xFF000000")),
+        color: Color(int.parse(supportModel?.typeColor ?? "0xFF000000")),
         borderRadius:
         BorderRadius
             .circular(
@@ -42,7 +42,7 @@ class TypeNameWidget extends StatelessWidget {
             vertical: 3),
         strokeWidth: 1,
         child: Text(
-          supportModel.typeName ?? "",
+          supportModel?.typeName ?? "",
           style: const TextStyle(
               color: Colors.white,
               fontSize: 10, fontWeight: FontWeight.w600),

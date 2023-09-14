@@ -5,21 +5,21 @@ import 'package:meta_club_api/meta_club_api.dart';
 class PriorityType extends StatelessWidget {
   const PriorityType({
     super.key,
-    required this.supportModel,
+    this.supportModel,
   });
 
-  final SupportModel supportModel;
+  final SupportModel? supportModel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(int.parse(supportModel.priorityColor ?? "0xFF000000")),
+          color: Color(int.parse(supportModel?.priorityColor ?? "0xFF000000")),
           style: BorderStyle.solid,
           width: 3.0,
         ),
-        color: Color(int.parse(supportModel.priorityColor ?? "0xFF000000")),
+        color: Color(int.parse(supportModel?.priorityColor ?? "0xFF000000")),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DottedBorder(
@@ -29,7 +29,7 @@ class PriorityType extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         strokeWidth: 1,
         child: Text(
-          supportModel.priorityName ?? "",
+          supportModel?.priorityName ?? "",
           style: const TextStyle(
               color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
         ),

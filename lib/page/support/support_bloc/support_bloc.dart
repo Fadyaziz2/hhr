@@ -92,7 +92,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
 
   FutureOr<void> _onFilterChange(
       OnFilterUpdate event, Emitter<SupportState> emit) {
-    emit(state.copy(filter: event.filter, bodyPrioritySupport: null));
+    emit(state.copy(filter: event.filter));
 
     add(GetSupportData(filter: event.filter, date: event.date));
   }
