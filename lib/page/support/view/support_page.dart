@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_page.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import '../bloc/bloc.dart';
 
 class SupportPage extends StatelessWidget {
   const SupportPage({Key? key}) : super(key: key);

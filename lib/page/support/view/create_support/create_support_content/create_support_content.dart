@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/support/content/priority_id_widget.dart';
-import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
-
 import '../../../../../res/widgets/CustomButton.dart';
+import '../../../bloc/bloc.dart';
 
 class CreateSupportListContent extends StatelessWidget {
   const CreateSupportListContent({Key? key}) : super(key: key);

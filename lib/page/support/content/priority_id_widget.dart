@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/custom_radio_title.dart';
-import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
+import '../bloc/support_bloc.dart';
 
 class PriorityIdWidget extends StatelessWidget {
   const PriorityIdWidget({

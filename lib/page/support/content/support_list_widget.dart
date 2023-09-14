@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/support/content/support_ticket_item.dart';
-import 'package:onesthrm/page/support/support_bloc/support_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/no_list_found_widget.dart';
+import '../bloc/bloc.dart';
 
 class SupportListWidget extends StatelessWidget {
   const SupportListWidget({
