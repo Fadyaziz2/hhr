@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../const.dart';
+
 class CustomButton1 extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
@@ -28,11 +30,10 @@ class CustomButton1 extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: asyncCall ? null : onTap,
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius),
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorPrimary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius),
           ),
         ),
         child: asyncCall

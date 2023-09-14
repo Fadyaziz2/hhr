@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/support/content/support_ticket_item.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/widgets/no_list_found_widget.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../bloc/bloc.dart';
 
 class SupportListWidget extends StatelessWidget {
@@ -22,7 +22,7 @@ class SupportListWidget extends StatelessWidget {
       } else if (state.status == NetworkStatus.success) {
         return state.supportListModel?.data?.data?.isEmpty == true
             ? const Expanded(
-                child: NoListFoundWidget(),
+                child: NoDataFoundWidget(),
               )
             : Expanded(
                 child: ListView.builder(

@@ -10,9 +10,7 @@ class SupportListContent extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10.0),
         BarStatusWidget(),
         SupportListWidget()
       ],

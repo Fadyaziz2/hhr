@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/res/const.dart';
 
-class NoListFoundWidget extends StatelessWidget {
-  const NoListFoundWidget({
+class NoDataFoundWidget extends StatelessWidget {
+
+  final String title;
+  final String assetImage;
+
+  const NoDataFoundWidget({
     super.key,
+    this.title = 'No Data Found',
+    this.assetImage = 'assets/images/no_data_found.json'
   });
 
   @override
@@ -14,10 +20,10 @@ class NoListFoundWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset('assets/images/no_data_found.json',
+            Lottie.asset(assetImage,
                 repeat: false, height: 200),
             Text(
-              'No List Found',
+              title,
               style: TextStyle(
                   color: colorPrimary.withOpacity(0.4),
                   fontSize: 18,
