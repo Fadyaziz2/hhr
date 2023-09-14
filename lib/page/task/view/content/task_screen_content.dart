@@ -39,8 +39,12 @@ class TaskScreenContent extends StatelessWidget {
                       const TaskStatusDropdown(),
                       InkWell(
                         onTap: () {
-                          // NavUtil.navigateScreen(context,
-                          //     const CompleteTaskListScreen());
+                          NavUtil.navigateScreen(
+                              context,
+                              AllTaskListScreen(
+                                bloc: context.read<TaskBloc>(),
+                                taskCollection: taskListCollection,
+                              ));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -67,14 +71,9 @@ class TaskScreenContent extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: taskListCollection?.length ?? 0,
                         itemBuilder: (BuildContext context, int index) {
-                          final data = state.taskStatusListResponse?.data
-                              ?.taskListCollection?.tasks?[index];
+                          final data = taskListCollection?[index];
                           return TaskListCard(
                             onTap: () {
-                              // context.read<TaskBloc>().add(
-                              //     TaskDetailsDataRequest(
-                              //         id: data!.id.toString()));
-
                               NavUtil.navigateScreen(
                                 context,
                                 TaskScreenDetails(

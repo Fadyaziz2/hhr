@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/task/task.dart';
 
@@ -329,20 +328,6 @@ class TaskScreenDetails extends StatelessWidget {
             ),
           ),
         ),
-
-        // Container(
-        //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        //   decoration: BoxDecoration(
-        //       color: AppColors.colorPrimary,
-        //       borderRadius: BorderRadius.circular(8)),
-        //   child: InkWell(
-        //     onTap: () => Navigator.pop(context, 'No'),
-        //     child: const Text(
-        //       'No',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }
