@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,28 +26,34 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskDetailsStatusUpdateRequest>(_onTaskDetailsStatusUpdateRequest);
   }
 
-  FutureOr<void> _onTaskInitialDataRequest(TaskInitialDataRequest event, Emitter<TaskState> emit) async {
+  FutureOr<void> _onTaskInitialDataRequest(
+      TaskInitialDataRequest event, Emitter<TaskState> emit) async {
     try {
-      final task = await metaClubApiClient.getTaskDashStatusData('26');
-      emit(TaskState(status: NetworkStatus.success, taskDashboardData: task?.taskDashboardModel,taskStatusListResponse: task?.taskStatusListResponse));
-      // add(TaskListOfDataRequest());
+      final taskDashboard = await metaClubApiClient.getTaskInitialData();
+      emit(TaskState(status: NetworkStatus.success, taskDashboardData: taskDashboard));
+      add(TaskListOfDataRequest());
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onTaskListOfDataRequest(TaskListOfDataRequest event, Emitter<TaskState> emit) async {
+  FutureOr<void> _onTaskListOfDataRequest(
+      TaskListOfDataRequest event, Emitter<TaskState> emit) async {
     try {
-      final taskDashboard = await metaClubApiClient.getTaskListOfData(state.taskSelectedDropdownValue?.id.toString() ?? '26');
-      emit(state.copyWith(status: NetworkStatus.success, taskStatusListResponse: taskDashboard));
+      final taskDashboard = await metaClubApiClient.getTaskListOfData(
+          state.taskSelectedDropdownValue?.id.toString() ?? '26');
+      emit(state.copyWith(
+          status: NetworkStatus.success,
+          taskStatusListResponse: taskDashboard));
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onTaskSetDropdownValue(TaskSetDropdownValue event, Emitter<TaskState> emit) {
+  FutureOr<void> _onTaskSetDropdownValue(
+      TaskSetDropdownValue event, Emitter<TaskState> emit) {
     emit(state.copyWith(taskSelectedDropdownValue: event.taskStatusSetValue));
     add(TaskListOfDataRequest());
   }
@@ -74,8 +81,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       'progress': state.currentSliderValue
     };
     try {
-      await metaClubApiClient.updateTaskStatusAndSlider(data: data).then((value) {
+      await metaClubApiClient
+          .updateTaskStatusAndSlider(data: data)
+          .then((value) {
         add(TaskInitialDataRequest());
+        add(TaskListOfDataRequest());
         NavUtil.replaceScreen(
             event.context!,
             TaskScreenDetails(

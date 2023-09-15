@@ -803,29 +803,6 @@ class MetaClubApiClient {
     }
   }
 
-  /// ===================== Tasks List Of Data ========================
-  Future<TaskDashboardStatusData?> getTaskDashStatusData(
-      String statuesId) async {
-    String apiStatus = 'tasks/list?status=$statuesId';
-    String apiTask = 'tasks';
-    try {
-
-      final responseStatus = await _httpServiceImpl.getRequestWithToken('$_baseUrl$apiStatus');
-      final responseTask = await _httpServiceImpl.getRequestWithToken('$_baseUrl$apiTask');
-
-      if (responseTask?.statusCode != 200) {
-        throw NetworkRequestFailure(
-            responseTask?.statusMessage ?? 'server error');
-      }
-      return TaskDashboardStatusData(
-        taskStatusListResponse: TaskStatusListResponse.fromJson(responseStatus?.data),
-        taskDashboardModel: TaskDashboardModel.fromJson(responseTask?.data),
-      );
-    } catch (_) {
-      return null;
-    }
-  }
-
   /// ===================== Tasks Details ========================
   Future<TaskDetailsModel?> getTaskDetails(String taskId) async {
     // String api = 'app/get-all-employees/$userId';
