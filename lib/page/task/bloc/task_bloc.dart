@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/page/task/model/status_model.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -33,6 +32,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       final taskDashboard = await metaClubApiClient.getTaskInitialData();
       emit(TaskState(
           status: NetworkStatus.success, taskDashboardData: taskDashboard));
+      add(TaskListOfDataRequest());
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -75,7 +75,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   FutureOr<void> _onTaskDetailsStatusUpdateRequest(
       TaskDetailsStatusUpdateRequest event, Emitter<TaskState> emit) async {
-    var ctx = event.context;
     final data = {
       'id': event.id,
       'priority': event.priority,
@@ -94,8 +93,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               taskId: event.id,
               bloc: event.bloccc,
             ));
-
-        // Navigator.pop(event.context!);
       });
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));

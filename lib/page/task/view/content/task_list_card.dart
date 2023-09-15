@@ -91,12 +91,12 @@ class TaskListCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 2.0),
+      child: Card(
+        margin:  const EdgeInsets.only(bottom: 8.0),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0), color: Colors.white),
+              borderRadius: BorderRadius.circular(8.0)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

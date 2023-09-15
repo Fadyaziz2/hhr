@@ -49,11 +49,6 @@ class TaskDashboardCardList extends StatelessWidget {
               width: 13,
             ),
             TaskDashboardCard(
-              // ontap: () => NavUtil.navigateScreen(
-              //     context,
-              //     TaskListScreen(
-              //       taskId: statistics?[3].status,
-              //     )),
               customPainter: TotalTaskInReviewCustomPainter(),
               title: staticsData?[3].text ?? '',
               count: '${staticsData?[3].count ?? ''}',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import '../../task.dart';
 
@@ -44,16 +44,8 @@ class AllTaskListCompleteScreen extends StatelessWidget {
                 );
               },
             )
-          : Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset('assets/images/no_data_found.json',
-                      repeat: false, height: 200),
-                  const Text('No Results'),
-                ],
-              ),
+          : const Center(
+              child: NoDataFoundWidget(),
             ),
     );
   }
