@@ -42,6 +42,7 @@ class TaskScreenContent extends StatelessWidget {
                 const SizedBox(
                   height: 12.0,
                 ),
+
                 taskListCollection?.isNotEmpty == true
                     ? ListView.builder(
                         shrinkWrap: true,

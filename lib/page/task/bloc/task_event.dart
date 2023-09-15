@@ -50,11 +50,11 @@ class TaskDetailsStatusUpdateRequest extends TaskEvent {
   final String id;
   final String priority;
   final BuildContext? context;
-  final TaskBloc bloccc;
+  final TaskBloc bloc;
 
   TaskDetailsStatusUpdateRequest(
-      {required this.id, required this.priority, required this.context, required this.bloccc});
+      {required this.id, required this.priority, required this.context, required this.bloc});
 
   @override
-  List<Object?> get props => [id, priority, context, bloccc];
+  List<Object?> get props => [id, priority, context, bloc];
 }

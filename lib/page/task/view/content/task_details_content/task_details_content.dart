@@ -318,7 +318,7 @@ class TaskScreenDetails extends StatelessWidget {
                   id: data!.id.toString(),
                   priority: data.priorityId.toString(),
                   context: context,
-                  bloccc: bloc));
+                  bloc: bloc));
 
               Navigator.pop(context);
             },
