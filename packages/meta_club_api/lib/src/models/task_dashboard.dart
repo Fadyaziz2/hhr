@@ -31,20 +31,17 @@ class TaskDashboardData extends Equatable {
   final List<Statistics>? statistics;
   final List<TaskCompletionCollection>? completeTasksCollection;
 
-  factory TaskDashboardData.fromJson(Map<String, dynamic> json) =>
-      TaskDashboardData(
-        statistics: List<Statistics>.from(
-            json["staticstics"].map((x) => Statistics.fromJson(x))),
+  factory TaskDashboardData.fromJson(Map<String, dynamic> json) => TaskDashboardData(
+        statistics: List<Statistics>.from(json["staticstics"].map((x) => Statistics.fromJson(x))),
         completeTasksCollection: List<TaskCompletionCollection>.from(
-            json["complete_tasks_collection"]
-                .map((x) => TaskCompletionCollection.fromJson(x))),
+            json["complete_tasks_collection"].map((x) => TaskCompletionCollection.fromJson(x))),
       );
 
   @override
   List<Object?> get props => [statistics];
 }
 
-class TaskCompletionCollection extends Equatable{
+class TaskCompletionCollection extends Equatable {
   const TaskCompletionCollection({
     this.id,
     this.title,
@@ -78,7 +75,6 @@ class TaskCompletionCollection extends Equatable{
 
   @override
   List<Object?> get props => [id,title,dateRange, startDate, endDate, usersCount, members, color];
-
 
 }
 

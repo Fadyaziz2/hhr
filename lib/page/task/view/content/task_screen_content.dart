@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/task/view/content/all_task_list_complete_screen.dart';
+import 'package:onesthrm/page/task/view/content/title_with_see_all_content.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
@@ -13,10 +14,8 @@ class TaskScreenContent extends StatelessWidget {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         final staticsData = state.taskDashboardData?.data?.statistics;
-        final taskListCollection =
-            state.taskStatusListResponse?.data?.taskListCollection?.tasks;
-        final completeTaskList =
-            state.taskDashboardData?.data?.completeTasksCollection;
+        final taskListCollection = state.taskStatusListResponse?.data?.taskListCollection?.tasks;
+        final completeTaskList = state.taskDashboardData?.data?.completeTasksCollection;
 
         return SingleChildScrollView(
           child: Padding(
@@ -28,9 +27,8 @@ class TaskScreenContent extends StatelessWidget {
                 ),
                 TaskDashboardCardList(staticsData: staticsData),
 
-                buildTitleWithSeeAll(
+                TitleWithSeeAll(
                     context: context,
-                    widget: const TaskStatusDropdown(),
                     onTap: () {
                       NavUtil.navigateScreen(
                           context,
@@ -38,7 +36,8 @@ class TaskScreenContent extends StatelessWidget {
                             bloc: context.read<TaskBloc>(),
                             taskCollection: taskListCollection,
                           ));
-                    }),
+                    }, title: '',
+                    child: const TaskStatusDropdown(),),
 
                 const SizedBox(
                   height: 12.0,
@@ -75,7 +74,7 @@ class TaskScreenContent extends StatelessWidget {
                 ),
 
                 ///complete task title
-                buildTitleWithSeeAll(
+                TitleWithSeeAll(
                     context: context,
                     title: 'Completed Task',
                     onTap: () {
@@ -121,45 +120,6 @@ class TaskScreenContent extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Container buildTitleWithSeeAll(
-      {required BuildContext context,
-      Function()? onTap,
-      Widget? widget,
-      String? title}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0), color: Colors.white),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          widget ??
-              Text(
-                title ?? '',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16.0),
-              ),
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: const Text(
-                "See All",
-                style: TextStyle(fontSize: 14.0),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
