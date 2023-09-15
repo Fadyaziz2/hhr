@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
+import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -54,6 +55,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'daily-leave':
       case 'payroll':
       case 'task':
+       NavUtil.navigateScreen(event.context, const TaskScreen());
+      break;
       default:
         return debugPrint('default');
     }

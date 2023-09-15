@@ -17,4 +17,8 @@ export 'notification_list.dart';
 export 'response_notice_details.dart';
 export 'notice_list_model.dart';
 export 'phonebook_details.dart';
+export 'task_dashboard.dart';
+export 'task_list_of_data.dart';
+export 'task_details.dart';
+
 export 'body_create_support.dart';
