@@ -68,7 +68,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           .updateTaskStatusAndSlider(data: data)
           .then((value) {
         add(TaskInitialDataRequest());
-        add(TaskListOfDataRequest());
         NavUtil.replaceScreen(
             event.context!,
             TaskScreenDetails(
