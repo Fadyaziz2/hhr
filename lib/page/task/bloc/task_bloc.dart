@@ -16,10 +16,8 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final MetaClubApiClient metaClubApiClient;
 
-  TaskBloc({required this.metaClubApiClient})
-      : super(const TaskState(status: NetworkStatus.initial)) {
+  TaskBloc({required this.metaClubApiClient}) : super(const TaskState(status: NetworkStatus.initial)) {
     on<TaskInitialDataRequest>(_onTaskInitialDataRequest);
-    on<TaskListOfDataRequest>(_onTaskListOfDataRequest);
     on<TaskSetDropdownValue>(_onTaskSetDropdownValue);
     on<TaskDetailsStatusRadioValueSet>(_onTaskDetailsStatusRadioValueSet);
     on<TaskDetailsSliderValueSet>(_onTaskDetailsSliderValueSet);
@@ -29,33 +27,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   FutureOr<void> _onTaskInitialDataRequest(
       TaskInitialDataRequest event, Emitter<TaskState> emit) async {
     try {
-      final taskDashboard = await metaClubApiClient.getTaskInitialData();
+      final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: state.taskSelectedDropdownValue?.id.toString() ?? '26');
+
       emit(TaskState(status: NetworkStatus.success, taskDashboardData: taskDashboard));
-      add(TaskListOfDataRequest());
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onTaskListOfDataRequest(
-      TaskListOfDataRequest event, Emitter<TaskState> emit) async {
-    try {
-      final taskDashboard = await metaClubApiClient.getTaskListOfData(
-          state.taskSelectedDropdownValue?.id.toString() ?? '26');
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          taskStatusListResponse: taskDashboard));
-    } on Exception catch (e) {
-      emit(const TaskState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
-  }
-
-  FutureOr<void> _onTaskSetDropdownValue(
-      TaskSetDropdownValue event, Emitter<TaskState> emit) {
+  FutureOr<void> _onTaskSetDropdownValue(TaskSetDropdownValue event, Emitter<TaskState> emit) {
     emit(state.copyWith(taskSelectedDropdownValue: event.taskStatusSetValue));
-    add(TaskListOfDataRequest());
+    add(TaskInitialDataRequest());
   }
 
   Future<TaskDetailsModel?> onTaskDetailsDataRequest(taskId) async {

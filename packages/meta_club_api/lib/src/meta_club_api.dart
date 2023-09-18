@@ -772,32 +772,15 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData() async {
-    String api = 'tasks';
+  Future<TaskDashboardModel?> getTaskInitialData({String statuesId = '26'}) async {
+    String api = 'tasks?status=$statuesId';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
       return TaskDashboardModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  /// ===================== Tasks List Of Data ========================
-  Future<TaskStatusListResponse?> getTaskListOfData(String statuesId) async {
-    String api = 'tasks/list?status=$statuesId';
-    try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return TaskStatusListResponse.fromJson(response?.data);
     } catch (_) {
       return null;
     }

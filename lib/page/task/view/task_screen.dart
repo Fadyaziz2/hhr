@@ -12,8 +12,7 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-        create: (_) => TaskBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(TaskInitialDataRequest()),
+        create: (_) => TaskBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(TaskInitialDataRequest()),
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Task'),

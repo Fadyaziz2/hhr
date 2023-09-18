@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../meta_club_api.dart';
+
 class TaskDashboardModel extends Equatable {
   const TaskDashboardModel({
     this.result,
@@ -9,13 +11,13 @@ class TaskDashboardModel extends Equatable {
 
   final bool? result;
   final String? message;
-  final TaskDashboardData? data;
+  final TaskListCollection? data;
 
   factory TaskDashboardModel.fromJson(Map<String, dynamic> json) =>
       TaskDashboardModel(
         result: json["result"],
         message: json["message"],
-        data: TaskDashboardData.fromJson(json["data"]),
+        data: TaskListCollection.fromJson(json["data"]),
       );
 
   @override
@@ -33,8 +35,7 @@ class TaskDashboardData extends Equatable {
 
   factory TaskDashboardData.fromJson(Map<String, dynamic> json) => TaskDashboardData(
         statistics: List<Statistics>.from(json["staticstics"].map((x) => Statistics.fromJson(x))),
-        completeTasksCollection: List<TaskCompletionCollection>.from(
-            json["complete_tasks_collection"].map((x) => TaskCompletionCollection.fromJson(x))),
+        completeTasksCollection: List<TaskCompletionCollection>.from(json["complete_tasks_collection"].map((x) => TaskCompletionCollection.fromJson(x))),
       );
 
   @override

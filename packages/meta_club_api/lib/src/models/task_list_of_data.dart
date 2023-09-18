@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../meta_club_api.dart';
+
 class TaskStatusListResponse extends Equatable {
   final bool? result;
   final String? message;
@@ -93,26 +95,23 @@ class Priority extends Equatable {
 class TaskListCollection extends Equatable {
   final List<TaskCollection>? tasks;
   final Pagination? pagination;
+  final List<Statistics> statistics;
 
   const TaskListCollection({
     this.tasks,
     this.pagination,
+    this.statistics = const []
   });
 
   factory TaskListCollection.fromJson(Map<String, dynamic> json) =>
       TaskListCollection(
-        tasks: json["tasks"] == null
-            ? []
-            : List<TaskCollection>.from(json["tasks"]!.map((x) => TaskCollection.fromJson(x))),
-        pagination: json["pagination"] == null
-            ? null
-            : Pagination.fromJson(json["pagination"]),
+        tasks: json["all_tasks_collection"]["tasks"] == null ? [] : List<TaskCollection>.from(json["all_tasks_collection"]["tasks"]!.map((x) => TaskCollection.fromJson(x))),
+        statistics: List<Statistics>.from(json["statistics"].map((x) => Statistics.fromJson(x))),
+        pagination: json["all_tasks_collection"]["pagination"] == null ? null : Pagination.fromJson(json["all_tasks_collection"]["pagination"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "tasks": tasks == null
-            ? []
-            : List<dynamic>.from(tasks!.map((x) => x.toJson())),
+        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x.toJson())),
         "pagination": pagination?.toJson(),
       };
 
