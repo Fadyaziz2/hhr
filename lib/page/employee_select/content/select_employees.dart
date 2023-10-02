@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
-import 'package:onesthrm/page/phonebook/view/content/phonebook_details.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class PhonebookEmployees extends StatelessWidget {
-  const PhonebookEmployees({Key? key}) : super(key: key);
+class SelectEployees extends StatelessWidget {
+  const SelectEployees({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class PhonebookEmployees extends StatelessWidget {
         if (state.refreshStatus == PullStatus.loaded) {
           refreshController.refreshCompleted();
         }
-      }, 
+      },
       child: BlocBuilder<PhonebookBloc, PhonebookState>(
           buildWhen: (oldState, newState) => oldState != newState,
           builder: (context, state) {

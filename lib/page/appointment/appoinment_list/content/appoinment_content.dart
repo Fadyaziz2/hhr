@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:onesthrm/page/appoinment_details/appointment_details_screen.dart';
-import 'package:onesthrm/page/appointment/bloc/appoinment_bloc.dart';
-import 'package:onesthrm/page/appointment/content/upcoming_event_widgetg.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/bloc/appoinment_bloc.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_details_content.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/content/upcoming_event_widgetg.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 

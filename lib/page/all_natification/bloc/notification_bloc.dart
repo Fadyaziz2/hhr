@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/appointment/view/appointment_screen.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/notice_details/view/notice_details_screen.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/res/enum.dart';
