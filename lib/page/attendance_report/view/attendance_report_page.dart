@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
+import 'package:onesthrm/page/attendance_report/view/content/attendance_daily_report_content.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
 
 class AttendanceReportPage extends StatelessWidget {
@@ -22,8 +23,9 @@ class AttendanceReportPage extends StatelessWidget {
         title: const Text('Attendance Report'),
       ),
       body: ListView(
-        children: [
-          const AttendanceReportContent(),
+        children: const [
+          AttendanceReportContent(),
+          AttendanceDailyReportContent(),
         ],
       ),
     );
