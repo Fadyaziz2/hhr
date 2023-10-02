@@ -21,7 +21,11 @@ class AttendanceReportPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Attendance Report'),
       ),
-      body: const AttendanceReportContent(),
+      body: ListView(
+        children: [
+          const AttendanceReportContent(),
+        ],
+      ),
     );
   }
 }
