@@ -8,19 +8,19 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'attendance_report_event.dart';
-part 'attendance_report_state.dart';
 
-var dateTime = DateTime.now();
+part 'attendance_report_state.dart';
 
 class AttendanceReportBloc
     extends Bloc<AttendanceReportEvent, AttendanceReportState> {
-  final MetaClubApiClient _metaClubApiClient;
+  final MetaClubApiClient metaClubApiClient;
+  final LoginData user;
 
-  AttendanceReportBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const AttendanceReportState(status: NetworkStatus.initial)) {
+  AttendanceReportBloc({required this.metaClubApiClient, required this.user})
+      : super(const AttendanceReportState(status: NetworkStatus.initial)) {
     on<GetAttendanceReportData>(_onAttendanceLoad);
   }
 
@@ -28,35 +28,21 @@ class AttendanceReportBloc
       Emitter<AttendanceReportState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
 
-    emit(state.copy(status: NetworkStatus.loading, currentMonth: event.date));
-
-    // try {
-    //   final success = await _metaClubApiClient.getSupport(
-    //       getSelectedIndex(filter: state.filter),
-    //       state.currentMonth ?? currentDate);
-    //   if (success != null) {
-    //     emit(state.copy(
-    //         status: NetworkStatus.success,
-    //         supportListModel: success,
-    //         filter: event.filter,
-    //         currentMonth: event.date));
-    //   } else {
-    //     emit(state.copy(
-    //         status: NetworkStatus.failure,
-    //         filter: event.filter,
-    //         currentMonth: event.date));
-    //   }
-    // } catch (e) {
-    //   emit(state.copy(
-    //       status: NetworkStatus.failure,
-    //       filter: event.filter,
-    //       currentMonth: event.date));
-    //   throw NetworkRequestFailure(e.toString());
-    // }
+    final data = {'month': state.currentMonth ?? currentDate};
+    try {
+      final report =
+          await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceReport: report));
+    } on Exception catch (e) {
+      emit(const AttendanceReportState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _onSelectDatePicker(
       SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
+    var dateTime = DateTime.now();
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -68,6 +54,7 @@ class AttendanceReportBloc
 
     dateTime = date!;
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+    emit(state.copyWith(currentMonth: currentMonth));
     // add(GetSupportData(date: currentMonth));
   }
 }

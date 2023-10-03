@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
-import 'package:onesthrm/page/attendance_report/view/content/attendance_daily_report_content.dart';
+import 'package:onesthrm/page/attendance_report/bloc/bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 
 class AttendanceReportPage extends StatelessWidget {
   final AttendanceBloc attendanceBloc;
@@ -18,16 +21,29 @@ class AttendanceReportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Attendance Report'),
+    final user = context.read<AuthenticationBloc>().state.data;
+    return user != null ? BlocProvider(
+      create: (context) => AttendanceReportBloc(
+          user: user,
+          metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}'))
+        ..add(GetAttendanceReportData()),
+      child: BlocBuilder<AttendanceReportBloc, AttendanceReportState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Attendance Report'),
+            ),
+            body: ListView(
+              children: [
+                AttendanceReportContent(
+                  bloc: context.watch<AttendanceReportBloc>(),
+                ),
+                const AttendanceDailyReportContent(),
+              ],
+            ),
+          );
+        },
       ),
-      body: ListView(
-        children: const [
-          AttendanceReportContent(),
-          AttendanceDailyReportContent(),
-        ],
-      ),
-    );
+    ) : const SizedBox.shrink();
   }
 }
