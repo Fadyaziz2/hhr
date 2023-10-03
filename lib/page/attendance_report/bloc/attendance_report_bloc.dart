@@ -22,6 +22,7 @@ class AttendanceReportBloc
   AttendanceReportBloc({required this.metaClubApiClient, required this.user})
       : super(const AttendanceReportState(status: NetworkStatus.initial)) {
     on<GetAttendanceReportData>(_onAttendanceLoad);
+    on<SelectDatePicker>(_onSelectDatePicker);
   }
 
   FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event,
@@ -55,6 +56,6 @@ class AttendanceReportBloc
     dateTime = date!;
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
     emit(state.copyWith(currentMonth: currentMonth));
-    // add(GetSupportData(date: currentMonth));
+    add(GetAttendanceReportData(date: currentMonth));
   }
 }

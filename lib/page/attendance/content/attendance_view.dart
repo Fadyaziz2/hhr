@@ -39,6 +39,7 @@ class _AttendanceState extends State<AttendanceView>
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final homeData = widget.homeBloc.state.dashboardModel;
+    final settings = widget.homeBloc.state.settings;
 
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
@@ -65,7 +66,9 @@ class _AttendanceState extends State<AttendanceView>
                     onPressed: () {
                       Navigator.push(
                           context,
-                          AttendanceReportPage.route(attendanceBloc: context.read<AttendanceBloc>()));
+                          AttendanceReportPage.route(
+                              attendanceBloc: context.read<AttendanceBloc>(),
+                              settings: settings!));
                     },
                     icon: const Icon(Icons.bug_report_outlined))
               ],
