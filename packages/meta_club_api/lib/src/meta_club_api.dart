@@ -729,22 +729,30 @@ class MetaClubApiClient {
   }
 
   ///////// Appoinment Create///////////////
-  Future<bool> appoinmentCreate({required data}) async {
+  Future<bool> appoinmentCreate({AppoinmentBody? appoinmentBody}) async {
     String api = 'appoinment/create';
 
     try {
-      debugPrint('body: $data');
+      // debugPrint('body: $data');
 
-      FormData formData = FormData.fromMap(data);
+      FormData formData = FormData.fromMap({
+        "title": appoinmentBody?.title,
+        "description": appoinmentBody?.description,
+        "appoinment_with": appoinmentBody?.appoinmentWith,
+        "date": appoinmentBody?.date,
+        "location": appoinmentBody?.location,
+        "appoinment_start_at": appoinmentBody?.appoinmentStartDate,
+        "appoinment_end_at": appoinmentBody?.appoinmentEndDate,
+        "file_id": appoinmentBody?.previewId,
+      });
 
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
       }
       return false;
-    } catch (_) {
+    } catch (e) {
       return false;
     }
   }

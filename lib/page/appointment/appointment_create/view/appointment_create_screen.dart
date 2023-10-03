@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appoinment_create_bloc.dart';
-import 'package:onesthrm/page/appointment/appointment_create/model/appoinment_body_model.dart';
+import 'package:meta_club_api/src/models/appoinment_body_model.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -271,53 +271,12 @@ class AppointmentCreateScreen extends StatelessWidget {
                             if (kDebugMode) {
                               print(data?.previewUrl);
                             }
-                            appoinmentBody.attachmentFile = data?.previewUrl;
+                            appoinmentBody.previewId = data?.fileId;
                           },
                           initialAvatar:
                               "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
                         ),
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //     border: Border.all(
-                        //       color: Colors.green,
-                        //       style: BorderStyle.solid,
-                        //       width: 0.0,
-                        //     ),
-                        //     color: Colors.grey[200],
-                        //     borderRadius: BorderRadius.circular(3.0),
-                        //   ),
-                        //   child: InkWell(
-                        //     onTap: () {},
-                        //     // provider.pickAttachmentImage(context),
-                        //     child: DottedBorder(
-                        //       color: const Color(0xffC7C7C7),
-                        //       borderType: BorderType.RRect,
-                        //       radius: const Radius.circular(3),
-                        //       padding: const EdgeInsets.symmetric(
-                        //           horizontal: 10, vertical: 16),
-                        //       strokeWidth: 2,
-                        //       child: Row(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           const Icon(
-                        //             Icons.upload_file,
-                        //             color: Colors.grey,
-                        //           ),
-                        //           const SizedBox(
-                        //             width: 8,
-                        //           ),
-                        //           Text(
-                        //             tr("upload_your_file"),
-                        //             style: const TextStyle(
-                        //                 color: Colors.grey,
-                        //                 fontSize: 16,
-                        //                 fontWeight: FontWeight.w600),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+
                         const SizedBox(
                           height: 6,
                         ),
@@ -346,8 +305,6 @@ class AppointmentCreateScreen extends StatelessWidget {
                                 appoinmentBody.appoinmentEndDate =
                                     state.endTime;
                                 appoinmentBody.appoinmentWith = 3;
-                                appoinmentBody.attachmentFile =
-                                    "https://s3.envato.com/files/447658025/8mayEnvato_Banner-sm.png";
                                 context
                                     .read<AppoinmentCreateBloc>()
                                     .add(CreateButton(context, appoinmentBody));

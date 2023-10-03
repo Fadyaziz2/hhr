@@ -6,8 +6,18 @@ class AppoinmentBody {
   String? appoinmentStartDate;
   String? appoinmentEndDate;
   int? appoinmentWith;
-  String? attachmentFile;
+  int? previewId;
 
+  AppoinmentBody() {
+    title = this.title;
+    description = this.description;
+    location = this.location;
+    date = this.date;
+    appoinmentStartDate = this.appoinmentStartDate;
+    appoinmentEndDate = this.appoinmentEndDate;
+    appoinmentWith = this.appoinmentWith;
+    previewId = previewId;
+  }
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map['title'] = title;
@@ -17,7 +27,7 @@ class AppoinmentBody {
     map['appoinment_with'] = appoinmentWith;
     map['appoinment_start_at'] = appoinmentStartDate;
     map['appoinment_end_at'] = appoinmentEndDate;
-    map['attachment_file'] = attachmentFile;
+    map["file_id"] = previewId;
     return map;
   }
 }

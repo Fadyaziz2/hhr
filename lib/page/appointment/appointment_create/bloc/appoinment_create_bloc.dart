@@ -4,8 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/appointment/appointment_create/model/appoinment_body_model.dart';
+import 'package:meta_club_api/src/models/appoinment_body_model.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 
@@ -48,7 +49,7 @@ class AppoinmentCreateBloc
       locale: const Locale("en"),
     );
     String? currentMonth =
-        getDateAsString(format: 'dd-MM-yyyy', dateTime: date!);
+        getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
     // add(LoadAppoinmentCreateData(date: currentMonth));
@@ -86,11 +87,16 @@ class AppoinmentCreateBloc
       CreateButton event, Emitter<AppoinmentCreatState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      final response =
-          await _metaClubApiClient.appoinmentCreate(data: event.appoinmentBody);
+      await _metaClubApiClient
+          .appoinmentCreate(appoinmentBody: event.appoinmentBody)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "Ticket created successfully");
+          Navigator.pop(event.context);
+        }
+      });
       emit(state.copyWith(status: NetworkStatus.success));
       // ignore: use_build_context_synchronously
-      Navigator.pop(event.context);
     } catch (e) {
       emit(const AppoinmentCreatState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
