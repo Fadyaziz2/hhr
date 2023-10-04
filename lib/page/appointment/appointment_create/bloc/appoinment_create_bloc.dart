@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/appoinment_body_model.dart';
+import 'package:onesthrm/page/employee_select/content/select_employees.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 
@@ -27,6 +28,7 @@ class AppoinmentCreateBloc
     on<SelectStartTime>(_showTime);
     on<SelectEndTime>(_showEndTime);
     on<CreateButton>(_onCreateButton);
+    on<SelectEmployee>(_selectEmployee);
   }
   void _onAppoinmentDataLoad(LoadAppoinmentCreateData event,
       Emitter<AppoinmentCreatState> emit) async {
@@ -69,6 +71,12 @@ class AppoinmentCreateBloc
     ));
   }
 
+  FutureOr<void> _selectEmployee(
+      SelectEmployee event, Emitter<AppoinmentCreatState> emit) async {
+    print("employee id ${event.selectEmployee?.id}");
+    emit(state.copyWith(selectedEmployee: event.selectEmployee));
+  }
+
   FutureOr<void> _showEndTime(
       SelectEndTime event, Emitter<AppoinmentCreatState> emit) async {
     final TimeOfDay? result = await showTimePicker(
@@ -91,7 +99,7 @@ class AppoinmentCreateBloc
           .appoinmentCreate(appoinmentBody: event.appoinmentBody)
           .then((success) {
         if (success) {
-          Fluttertoast.showToast(msg: "Ticket created successfully");
+          Fluttertoast.showToast(msg: "Appoinment created successfully");
           Navigator.pop(event.context);
         }
       });

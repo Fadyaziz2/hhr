@@ -9,7 +9,9 @@ class LoadAppoinmentCreateData extends AppoinmentCreateEvent {
   final String? date;
   final String? startTime;
   final String? endTime;
-  LoadAppoinmentCreateData({this.date, this.startTime, this.endTime});
+  final String? employeeName;
+  LoadAppoinmentCreateData(
+      {this.date, this.startTime, this.endTime, this.employeeName});
   @override
   List<Object> get props => [];
 }
@@ -30,6 +32,16 @@ class SelectStartTime extends AppoinmentCreateEvent {
   );
   @override
   List<Object> get props => [context];
+}
+
+class SelectEmployee extends AppoinmentCreateEvent {
+  final BuildContext context;
+  final PhonebookUser? selectEmployee;
+  SelectEmployee(this.context, this.selectEmployee);
+  @override
+  List<Object> get props => [
+        context,
+      ];
 }
 
 class SelectEndTime extends AppoinmentCreateEvent {

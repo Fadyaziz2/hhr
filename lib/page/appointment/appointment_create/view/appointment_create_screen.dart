@@ -1,16 +1,20 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appoinment_create_bloc.dart';
-import 'package:meta_club_api/src/models/appoinment_body_model.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/appoinment_create_button.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/appoinment_create_content.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/appoinment_time_cart.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/appoinment_with_cart.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/attachment_content.dart';
+import 'package:onesthrm/page/appointment/get_employee/view/get_employee.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 import 'package:onesthrm/res/enum.dart';
 
-class AppointmentCreateScreen extends StatelessWidget {
+class AppointmentCreateScreen extends StatefulWidget {
   final String? navigation;
 
   const AppointmentCreateScreen({Key? key, this.id, this.navigation})
@@ -19,6 +23,12 @@ class AppointmentCreateScreen extends StatelessWidget {
   ///user Id
   final int? id;
 
+  @override
+  State<AppointmentCreateScreen> createState() =>
+      _AppointmentCreateScreenState();
+}
+
+class _AppointmentCreateScreenState extends State<AppointmentCreateScreen> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -48,247 +58,16 @@ class AppointmentCreateScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        buildTextTitle(tr("title*")),
-
-                        ///title field:-------------------------
-                        buildTextFormField(
-                          onchanged: (data) {
-                            appoinmentBody.title = data;
-                          },
-                          labelTitle: tr("enter_title"),
-                          // controller: provider.titleController
-                        ),
+                        AppoinmentCreateContent(
+                            state: state, appoinmentBody: appoinmentBody),
+                        AppoinmentWithCart(state: state),
                         const SizedBox(
                           height: 25,
                         ),
-
-                        ///Description field:-------------------------
-                        buildTextTitle(tr("description")),
-                        TextFormField(
-                          onChanged: (data) {
-                            appoinmentBody.description = data;
-                          },
-                          // controller: provider.descriptionController,
-                          maxLines: 3,
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                            hintText: "Enter Description",
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-
-                        ///Date picker field:-------------------------
-                        buildTextTitle(tr("date_schedule")),
-                        Card(
-                          child: InkWell(
-                            onTap: () {
-                              context
-                                  .read<AppoinmentCreateBloc>()
-                                  .add(SelectDatePicker(context));
-                            },
-                            // provider.selectDate(context),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12.0, horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(state.currentMonth ?? 'Select Date'),
-                                  // provider.monthYear ?? tr
-                                  const Icon(
-                                    Icons.arrow_drop_down_sharp,
-                                    color: Colors.grey,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-
-                        ///Time picker field:-------------------------
-                        ///Start and End time
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    tr("start_time"),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                    child: InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<AppoinmentCreateBloc>()
-                                            .add(SelectStartTime(
-                                              context,
-                                            ));
-                                      },
-
-                                      // provider.showTime(context, 0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12.0, horizontal: 16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(state.startTime ??
-                                                tr("start_time")),
-                                            // provider.startTime ??
-                                            // tr("start_time")),
-                                            const Icon(
-                                              Icons.arrow_drop_down_sharp,
-                                              color: Colors.grey,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    tr("end_time"),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                    child: InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<AppoinmentCreateBloc>()
-                                            .add(SelectEndTime(
-                                              context,
-                                            ));
-                                      },
-                                      // provider.showTime(context, 1),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12.0, horizontal: 16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(state.endTime ??
-                                                // provider.endTime ??
-                                                tr("end_time")),
-                                            const Icon(
-                                              Icons.arrow_drop_down_sharp,
-                                              color: Colors.grey,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        buildTextTitle(tr("Location*")),
-                        buildTextFormField(
-                          onchanged: (data) {
-                            appoinmentBody.location = data;
-                          },
-                          labelTitle: tr("enter_location"),
-                          // controller: provider.locationController
-                        ),
-
-                        ///if user come from appointment List page
-                        ///then id will be null
-                        id == null
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  buildTextTitle(tr("appointment_with")),
-                                  Card(
-                                    child: ListTile(
-                                      onTap: () {},
-                                      // provider.getAllUserData(context),
-                                      title: Text(
-                                          // provider.allUserData?.name! ??
-                                          tr("add_a_Substitute")),
-                                      subtitle: Text(
-                                          // provider.allUserData?.designation! ??
-                                          tr("add_a_Designation")),
-                                      leading: const CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-                                      ),
-                                      trailing: const Icon(Icons.edit),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : const SizedBox(),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Text(
-                          tr("attachment"),
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        UploadDocContent(
-                          onFileUpload: (FileUpload? data) {
-                            if (kDebugMode) {
-                              print(data?.previewUrl);
-                            }
-                            appoinmentBody.previewId = data?.fileId;
-                          },
-                          initialAvatar:
-                              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
-                        ),
-
+                        AttachmentContent(appoinmentBody: appoinmentBody),
                         const SizedBox(
                           height: 6,
                         ),
-                        // provider.attachmentPath != null
-                        // ?
-                        // Image.file(
-                        //     provider.attachmentPath!,
-                        //     height: 60,
-                        //     width: 60,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // : const SizedBox(),
                         const SizedBox(
                           height: 20,
                         ),
@@ -304,14 +83,11 @@ class AppointmentCreateScreen extends StatelessWidget {
                                     state.startTime;
                                 appoinmentBody.appoinmentEndDate =
                                     state.endTime;
-                                appoinmentBody.appoinmentWith = 3;
+                                appoinmentBody.appoinmentWith =
+                                    state.selectedEmployee?.id;
                                 context
                                     .read<AppoinmentCreateBloc>()
                                     .add(CreateButton(context, appoinmentBody));
-                                print('data......${appoinmentBody.toJson()}');
-
-                                ///id is for user id
-                                // await provider.setCreateAppointment(context, id);
                               }
                             },
                             style: ButtonStyle(
@@ -329,7 +105,7 @@ class AppointmentCreateScreen extends StatelessWidget {
                                   fontSize: 16.0,
                                 )),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
