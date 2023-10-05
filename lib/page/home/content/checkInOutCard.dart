@@ -55,7 +55,7 @@ class CheckInOutCard extends StatelessWidget {
                         .start,
                     children: [
                       Text(
-                          dashboardModel?.data?.attendanceData?.checkIn == false
+                          dashboardModel?.data?.attendanceData?.id == null
                               ? "Start time"
                               : "Done for today",
                           style: const TextStyle(
@@ -69,7 +69,7 @@ class CheckInOutCard extends StatelessWidget {
                       const SizedBox(
                           height: 10),
                        Text(
-                         dashboardModel?.data?.attendanceData?.checkIn == false ? "Check In": "Check Out",
+                         dashboardModel?.data?.attendanceData?.id == null ? "Check In": "Check Out",
                         style: const TextStyle(
                             color: colorPrimary,
                             fontSize: 16,

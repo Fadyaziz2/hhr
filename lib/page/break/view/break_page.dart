@@ -15,7 +15,7 @@ class BreakScreen extends StatelessWidget {
   const BreakScreen({Key? key, required this.homeBloc,required this.dashboardModel}) : super(key: key);
 
   static Route route({required HomeBloc homeBloc,required DashboardModel? dashboardModel}) {
-    return MaterialPageRoute(builder: (_) => BreakScreen(homeBloc: homeBloc,dashboardModel: dashboardModel,));
+    return MaterialPageRoute(builder: (_) => BreakScreen(homeBloc: homeBloc,dashboardModel: dashboardModel));
   }
 
   @override

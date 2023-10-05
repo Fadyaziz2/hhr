@@ -22,7 +22,7 @@ class AttendancePage extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => AttendanceBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
-          locationServices: locationServiceProvider)..add(OnLocationInitEvent()),
+          locationServices: locationServiceProvider)..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
       child: Scaffold(
         body: AttendanceView(homeBloc: homeBloc),
       ),

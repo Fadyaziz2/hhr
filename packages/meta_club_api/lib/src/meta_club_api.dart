@@ -29,9 +29,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -89,6 +89,23 @@ class MetaClubApiClient {
           await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<SupportListModel?> getSupport(String type, String month) async {
+    const String api = 'support-ticket/list';
+
+    final data = {"type": type, "month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return SupportListModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -155,6 +172,26 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> createSupportApi({required data}) async {
+    String api = 'user/profile/update/';
+
+    try {
+      debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> updateProfile({required String slag, required data}) async {
     String api = 'user/profile/update/$slag';
 
@@ -162,6 +199,31 @@ class MetaClubApiClient {
       debugPrint('body: $data');
 
       FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+    String api = 'support-ticket/add';
+
+    try {
+      debugPrint('body: $bodyCreateSupport');
+
+      FormData formData = FormData.fromMap({
+        "subject": bodyCreateSupport?.subject,
+        "description": bodyCreateSupport?.description,
+        "file_id": bodyCreateSupport?.previewId,
+        "priority_id": bodyCreateSupport?.priorityId
+      });
 
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
@@ -696,7 +758,6 @@ class MetaClubApiClient {
   /// ================== Phonebook Details====================
   Future<PhonebookDetailsModel?> getPhonebooksUserDetails(
       {String? userId}) async {
-    // String api = 'app/get-all-employees/$userId';
     String api = 'user/details/$userId';
     try {
       final response =
@@ -708,6 +769,56 @@ class MetaClubApiClient {
       return PhonebookDetailsModel.fromJson(response?.data);
     } catch (_) {
       return null;
+    }
+  }
+
+  /// ===================== Task Dashboard Data ========================
+  Future<TaskDashboardModel?> getTaskInitialData({String statuesId = '26'}) async {
+    String api = 'tasks?status=$statuesId';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDashboardModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Tasks Details ========================
+  Future<TaskDetailsModel?> getTaskDetails(String taskId) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'tasks/$taskId';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> updateTaskStatusAndSlider({data}) async {
+    const String api = 'tasks/update';
+
+    try {
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 

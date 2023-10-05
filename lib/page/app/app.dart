@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
@@ -65,6 +66,16 @@ class _AppViewState extends State<AppView> {
           }, child: child,);
       },
       theme: Theme.of(context).copyWith(
+        useMaterial3: true,
+        primaryColor: colorPrimary,
+        appBarTheme:  AppBarTheme(
+          backgroundColor: colorPrimary,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: colorPrimary
+          ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white)
+        ),
         colorScheme: Theme.of(context).colorScheme.copyWith(
           primary: colorPrimary,
         ),

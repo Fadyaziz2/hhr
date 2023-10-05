@@ -18,7 +18,7 @@ class CustomButton extends StatelessWidget {
             onPressed: () {
               context.read<RegistrationBloc>().add(SubmitButton(items: bodyRegistration));
             },
-            style: ElevatedButton.styleFrom(primary: buttonColor),
+            style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
             child: const Text('Register', style: TextStyle(fontSize: 16)),
           ),
         );
