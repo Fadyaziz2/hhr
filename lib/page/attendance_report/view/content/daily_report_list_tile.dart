@@ -1,10 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance_report/view/content/present_content.dart';
 import 'package:onesthrm/page/attendance_report/view/content/weekendContent.dart';
-import '../../../../res/common/toast.dart';
 import 'absent_content.dart';
 import 'holidayContent.dart';
 

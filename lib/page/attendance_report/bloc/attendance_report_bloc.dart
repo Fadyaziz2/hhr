@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dar
 import 'package:user_repository/user_repository.dart';
 
 part 'attendance_report_event.dart';
-
 part 'attendance_report_state.dart';
 
 class AttendanceReportBloc
@@ -48,7 +46,6 @@ class AttendanceReportBloc
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
       lastDate: DateTime(DateTime.now().year + 1, 9),
-      // initialDate: date == null ? DateTime.now() :date! ,
       initialDate: dateTime,
       locale: const Locale("en"),
     );

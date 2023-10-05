@@ -211,7 +211,6 @@ class DailyReportTile extends StatelessWidget {
                                   true,
                               child: InkWell(
                                 onTap: () {
-                                  // getLocationOut(dailyReport.checkOutLocation);
                                   getReasonIn(dailyReport.checkOutLocation);
                                 },
                                 child: Padding(
@@ -240,7 +239,6 @@ class DailyReportTile extends StatelessWidget {
                                   true,
                               child: InkWell(
                                 onTap: () {
-                                  // getReasonOut(dailyReport);
                                   getReasonIn(dailyReport.checkOutReason);
                                 },
                                 child: const Padding(

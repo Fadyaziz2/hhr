@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
 import 'package:onesthrm/res/const.dart';
 import '../../bloc/bloc.dart';
 
@@ -16,44 +17,36 @@ class AttendanceReportContent extends StatelessWidget {
       child: Card(
         child: Column(
           children: [
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.workingDays ?? '',
-                context: context,
                 title: 'Working Days',
                 color: colorPrimary),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalOnTimeIn ?? '',
-                context: context,
                 title: 'On Time',
                 color: Colors.green),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalLateIn ?? '',
-                context: context,
                 title: 'Late',
                 color: Colors.red),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalLeftTimely ?? '',
-                context: context,
                 title: 'Left Timely',
                 color: Colors.green),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalLeftEarly ?? '',
-                context: context,
                 title: 'Left Early',
                 color: Colors.red),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalLeave ?? '',
-                context: context,
                 title: 'On Leave',
                 color: Colors.grey[400]!),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.absent ?? '',
-                context: context,
                 title: 'Absent',
                 color: Colors.black87),
-            buildSummeryTile(
+            SummeryTile(
                 titleValue: attendanceSummery?.totalLeftLater ?? '',
-                context: context,
                 title: 'Left Later',
                 color: Colors.amber),
             const SizedBox(
@@ -62,37 +55,6 @@ class AttendanceReportContent extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-  Column buildSummeryTile(
-      {required BuildContext context,
-      required String title,
-      required String titleValue,
-      required Color color}) {
-    return Column(
-      children: [
-        ListTile(
-          dense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-          leading: Container(
-            width: 16,
-            height: 16,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: color,
-            ),
-          ),
-          title: Text(title),
-          trailing: Text(
-            titleValue ?? '',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ),
-        const Divider(
-          height: 0.0,
-          thickness: 1,
-        )
-      ],
     );
   }
 }
