@@ -19,8 +19,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/task_dashboard_status_data.dart';
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -121,6 +119,22 @@ class MetaClubApiClient {
           await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return CheckData.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// attendance report get data ------------------
+  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
+     String api = 'report/attendance/particular-month/$userId';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return AttendanceReport.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -772,10 +786,12 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData({String statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData(
+      {String statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
