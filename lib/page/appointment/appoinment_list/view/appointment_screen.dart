@@ -2,11 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/appointment/appoinment_list/bloc/appoinment_bloc.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
-import 'package:onesthrm/page/appointment/appoinment_list/content/appoinment_content.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+
+AppointmentBloc? bloc;
 
 class AppointmentScreen extends StatelessWidget {
   const AppointmentScreen({Key? key}) : super(key: key);
@@ -19,19 +21,23 @@ class AppointmentScreen extends StatelessWidget {
         // provider.getAppointmentList();
       },
       child: BlocProvider(
-        create: (context) => AppoinmentBloc(
+        create: (context) => AppointmentBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(GetAppoinmentData()),
+          ..add(GetAppointmentData()),
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
             // backgroundColor: AppColors.colorPrimary,
             onPressed: () {
-              NavUtil.replaceScreen(context, const AppointmentCreateScreen());
+              NavUtil.navigateScreen(
+                  context,
+                  AppointmentCreateScreen(
+                    appointmentBloc: bloc,
+                  ));
             },
             child: const Icon(Icons.add),
           ),
           appBar: AppBar(
-            title: Text(tr("appointment_list")),
+            title: Text(tr("appointments")),
           ),
           body: const AppointmentContent(),
         ),

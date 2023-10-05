@@ -47,11 +47,11 @@ class AppointmentDetailsScreen extends StatelessWidget {
                   buildContainer(
                       title: tr("appointment_start_at"),
                       titleValue:
-                          data?.participants?[0].appoinmentStartedAt ?? ''),
+                          data?.participants?[0].appointmentStartedAt ?? ''),
                   buildContainer(
                       title: tr("appointment_end_at"),
                       titleValue:
-                          data?.participants?[0].appoinmentEndedAt ?? ''),
+                          data?.participants?[0].appointmentEndedAt ?? ''),
                 ],
               ),
             ),

@@ -7,10 +7,10 @@ import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 class AttachmentContent extends StatelessWidget {
   const AttachmentContent({
     super.key,
-    required this.appoinmentBody,
+    required this.appointmentBody,
   });
 
-  final AppoinmentBody appoinmentBody;
+  final AppointmentBody appointmentBody;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AttachmentContent extends StatelessWidget {
             if (kDebugMode) {
               print(data?.previewUrl);
             }
-            appoinmentBody.previewId = data?.fileId;
+            appointmentBody.previewId = data?.fileId;
           },
           initialAvatar:
               "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",

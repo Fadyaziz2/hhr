@@ -773,10 +773,12 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData({String statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData(
+      {String statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -840,24 +842,25 @@ class MetaClubApiClient {
   }
 
   ///////// Appoinment Create///////////////
-  Future<bool> appoinmentCreate({AppoinmentBody? appoinmentBody}) async {
+  Future<bool> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
       // debugPrint('body: $data');
 
       FormData formData = FormData.fromMap({
-        "title": appoinmentBody?.title,
-        "description": appoinmentBody?.description,
-        "appoinment_with": appoinmentBody?.appoinmentWith,
-        "date": appoinmentBody?.date,
-        "location": appoinmentBody?.location,
-        "appoinment_start_at": appoinmentBody?.appoinmentStartDate,
-        "appoinment_end_at": appoinmentBody?.appoinmentEndDate,
-        "file_id": appoinmentBody?.previewId,
+        "title": appointmentBody?.title,
+        "description": appointmentBody?.description,
+        "appoinment_with": appointmentBody?.appointmentWith,
+        "date": appointmentBody?.date,
+        "location": appointmentBody?.location,
+        "appoinment_start_at": appointmentBody?.appointmentStartDate,
+        "appoinment_end_at": appointmentBody?.appointmentEndDate,
+        "file_id": appointmentBody?.previewId,
       });
 
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;

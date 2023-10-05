@@ -1,7 +1,7 @@
 part of 'phonebook_bloc.dart';
 
 class PhonebookState extends Equatable {
-  final List<PhonebookUser>? phonebookUsers;
+  final List<PhoneBookUser>? phonebookUsers;
   final String? searchKey;
   final NetworkStatus status;
   final int pageCount;
@@ -21,14 +21,14 @@ class PhonebookState extends Equatable {
       this.phonebookDetails});
 
   PhonebookState copyWith(
-      {List<PhonebookUser>? phonebookUsers,
+      {List<PhoneBookUser>? phonebookUsers,
       String? searchKey,
       NetworkStatus? status,
       PullStatus? pullStatus,
       int? pageCount,
       Department? departments,
       Department? designations,
-        PhonebookDetailsModel? phonebookDetails}) {
+      PhonebookDetailsModel? phonebookDetails}) {
     return PhonebookState(
         phonebookUsers: phonebookUsers ?? this.phonebookUsers,
         searchKey: searchKey ?? this.searchKey,

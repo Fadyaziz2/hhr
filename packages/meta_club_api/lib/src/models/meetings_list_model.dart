@@ -121,8 +121,8 @@ class MeetingsParticipant extends Equatable {
     this.isAgree,
     this.isPresent,
     this.presentAt,
-    this.appoinmentStartedAt,
-    this.appoinmentEndedAt,
+    this.appointmentStartedAt,
+    this.appointmentEndedAt,
     this.appoinmentDuration,
   });
 
@@ -130,8 +130,8 @@ class MeetingsParticipant extends Equatable {
   final String? isAgree;
   final String? isPresent;
   final String? presentAt;
-  final dynamic appoinmentStartedAt;
-  final dynamic appoinmentEndedAt;
+  final dynamic appointmentStartedAt;
+  final dynamic appointmentEndedAt;
   final dynamic appoinmentDuration;
 
   factory MeetingsParticipant.fromJson(Map<String, dynamic> json) =>
@@ -140,8 +140,8 @@ class MeetingsParticipant extends Equatable {
         isAgree: json["is_agree"],
         isPresent: json["is_present"],
         presentAt: json["present_at"],
-        appoinmentStartedAt: json["appoinment_started_at"],
-        appoinmentEndedAt: json["appoinment_ended_at"],
+        appointmentStartedAt: json["appoinment_started_at"],
+        appointmentEndedAt: json["appoinment_ended_at"],
         appoinmentDuration: json["appoinment_duration"],
       );
 
@@ -150,8 +150,8 @@ class MeetingsParticipant extends Equatable {
         "is_agree": isAgree,
         "is_present": isPresent,
         "present_at": presentAt,
-        "appoinment_started_at": appoinmentStartedAt,
-        "appoinment_ended_at": appoinmentEndedAt,
+        "appoinment_started_at": appointmentStartedAt,
+        "appoinment_ended_at": appointmentEndedAt,
         "appoinment_duration": appoinmentDuration,
       };
   List<Object?> get props => [name, isAgree, isPresent, presentAt];
