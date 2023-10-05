@@ -5,8 +5,7 @@ class AttendanceReportState extends Equatable {
   final String? currentMonth;
   final AttendanceReport? attendanceReport;
 
-  const AttendanceReportState(
-      {this.status, this.currentMonth, this.attendanceReport});
+  const AttendanceReportState({this.status, this.currentMonth, this.attendanceReport});
 
   AttendanceReportState copyWith(
       {NetworkStatus? status,

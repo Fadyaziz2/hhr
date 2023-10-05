@@ -10,17 +10,10 @@ class AttendanceReportPage extends StatelessWidget {
   final AttendanceBloc attendanceBloc;
   final Settings settings;
 
-  const AttendanceReportPage(
-      {Key? key, required this.attendanceBloc, required this.settings})
-      : super(key: key);
+  const AttendanceReportPage({Key? key, required this.attendanceBloc, required this.settings}) : super(key: key);
 
-  static Route route(
-      {required AttendanceBloc attendanceBloc, required Settings settings}) {
-    return MaterialPageRoute(
-        builder: (_) => AttendanceReportPage(
-              attendanceBloc: attendanceBloc,
-              settings: settings,
-            ));
+  static Route route({required AttendanceBloc attendanceBloc, required Settings settings}) {
+    return MaterialPageRoute(builder: (_) => AttendanceReportPage(attendanceBloc: attendanceBloc, settings: settings));
   }
 
   @override
@@ -30,9 +23,7 @@ class AttendanceReportPage extends StatelessWidget {
         ? BlocProvider(
             create: (context) => AttendanceReportBloc(
                 user: user,
-                metaClubApiClient:
-                    MetaClubApiClient(token: '${user.user?.token}'))
-              ..add(GetAttendanceReportData()),
+                metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}'))..add(GetAttendanceReportData()),
             child: BlocBuilder<AttendanceReportBloc, AttendanceReportState>(
               builder: (context, state) {
                 return Scaffold(
@@ -41,7 +32,9 @@ class AttendanceReportPage extends StatelessWidget {
                     actions: [
                       IconButton(
                           onPressed: () {
-                            context.read<AttendanceReportBloc>().add(SelectDatePicker(context));
+                            context
+                                .read<AttendanceReportBloc>()
+                                .add(SelectDatePicker(context));
                           },
                           icon: const Icon(Icons.calendar_month))
                     ],

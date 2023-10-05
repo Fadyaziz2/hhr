@@ -24,24 +24,20 @@ class AttendanceReportBloc
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event,
-      Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event, Emitter<AttendanceReportState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
 
     final data = {'month': event.date ?? currentDate};
     try {
-      final report =
-          await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
-      emit(state.copyWith(
-          status: NetworkStatus.success, attendanceReport: report));
+      final report = await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
+      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: report));
     } on Exception catch (e) {
       emit(const AttendanceReportState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
 
     var date = await showMonthPicker(
       context: event.context,
