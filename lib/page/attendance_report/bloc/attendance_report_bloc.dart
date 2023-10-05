@@ -16,6 +16,7 @@ class AttendanceReportBloc
     extends Bloc<AttendanceReportEvent, AttendanceReportState> {
   final MetaClubApiClient metaClubApiClient;
   final LoginData user;
+  var dateTime = DateTime.now();
 
   AttendanceReportBloc({required this.metaClubApiClient, required this.user})
       : super(const AttendanceReportState(status: NetworkStatus.initial)) {
@@ -27,7 +28,7 @@ class AttendanceReportBloc
       Emitter<AttendanceReportState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
 
-    final data = {'month': state.currentMonth ?? currentDate};
+    final data = {'month': event.date ?? currentDate};
     try {
       final report =
           await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
@@ -41,7 +42,7 @@ class AttendanceReportBloc
 
   FutureOr<void> _onSelectDatePicker(
       SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
-    var dateTime = DateTime.now();
+
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -52,7 +53,6 @@ class AttendanceReportBloc
 
     dateTime = date!;
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    emit(state.copyWith(currentMonth: currentMonth));
     add(GetAttendanceReportData(date: currentMonth));
   }
 }
