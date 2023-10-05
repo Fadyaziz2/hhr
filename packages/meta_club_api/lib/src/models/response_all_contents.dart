@@ -7,9 +7,9 @@ class ResponseAllContents extends Equatable {
     this.data,
   });
 
-  bool? result;
-  String? message;
-  ContentData? data;
+  final bool? result;
+  final String? message;
+  final ContentData? data;
 
   factory ResponseAllContents.fromJson(Map<String, dynamic> json) =>
       ResponseAllContents(
@@ -37,11 +37,11 @@ class ContentData extends Equatable {
     this.contents,
   });
 
-  final List<Content>? contents;
+  final List<ContentDatum>? contents;
 
   factory ContentData.fromJson(Map<String, dynamic> json) => ContentData(
-        contents: List<Content>.from(
-            json["contents"].map((x) => Content.fromJson(x))),
+        contents: List<ContentDatum>.from(
+            json["contents"].map((x) => ContentDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,17 +67,17 @@ class ContentDatum extends Equatable {
     this.metaImage,
   });
 
-  int? id;
-  int? companyId;
-  int? userId;
-  String? type;
-  String? title;
-  String? slug;
-  String? content;
-  String? metaTitle;
-  dynamic metaDescription;
-  String? keywords;
-  String? metaImage;
+  final int? id;
+  final int? companyId;
+  final int? userId;
+  final String? type;
+  final String? title;
+  final String? slug;
+  final String? content;
+  final String? metaTitle;
+  final dynamic metaDescription;
+  final String? keywords;
+  final String? metaImage;
 
   factory ContentDatum.fromJson(Map<String, dynamic> json) => ContentDatum(
         id: json["id"],
