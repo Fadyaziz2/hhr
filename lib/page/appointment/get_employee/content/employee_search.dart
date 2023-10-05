@@ -9,7 +9,7 @@ class EmployeeSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deBouncer = Debouncer(milliseconds: 1000);
+    final deBouncer = Debounce(milliseconds: 1000);
 
     return Padding(
       padding:

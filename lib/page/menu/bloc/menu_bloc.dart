@@ -50,6 +50,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'visit':
       case 'meeting':
       case 'appointments':
+      NavUtil.navigateScreen(event.context, const AppointmentScreen());
+      break;
       case 'break':
       case 'feedback':
       case 'report':
