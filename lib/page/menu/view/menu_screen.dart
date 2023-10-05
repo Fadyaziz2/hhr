@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
+import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
@@ -23,10 +24,12 @@ class MenuScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => MenuBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'), setting: settings!)
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+          setting: settings!)
         ..add(RouteSlug(context: context)),
       child: Scaffold(
           key: _scaffoldKey,
+          endDrawer: const MenuDrawer(),
           extendBody: true,
           body: Container(
               decoration: const BoxDecoration(

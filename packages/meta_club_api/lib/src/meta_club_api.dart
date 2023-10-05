@@ -704,6 +704,21 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ResponseAllContents?> getPolicyData() async {
+    const String api = 'notice/list';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return ResponseAllContents.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
 ///// All Notification ///////////
   Future<bool> clearAllNotificationApi() async {
     const String clear = 'user/notification/clear';
@@ -772,10 +787,12 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData({String statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData(
+      {String statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
