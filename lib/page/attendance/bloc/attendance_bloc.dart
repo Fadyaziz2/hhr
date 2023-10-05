@@ -8,8 +8,6 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 
 import '../../../res/const.dart';
-import '../../../res/const.dart';
-import '../../../res/const.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;

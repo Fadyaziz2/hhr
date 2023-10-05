@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
+import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
@@ -38,6 +39,7 @@ class _AttendanceState extends State<AttendanceView>
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final homeData = widget.homeBloc.state.dashboardModel;
+    final settings = widget.homeBloc.state.settings;
 
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
@@ -59,6 +61,17 @@ class _AttendanceState extends State<AttendanceView>
             backgroundColor: Colors.white,
             appBar: AppBar(
               title: const Text('Attendance'),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          AttendanceReportPage.route(
+                              attendanceBloc: context.read<AttendanceBloc>(),
+                              settings: settings!));
+                    },
+                    icon: const Icon(Icons.bug_report_outlined))
+              ],
             ),
             body: Center(
               child: ListView(
@@ -83,7 +96,9 @@ class _AttendanceState extends State<AttendanceView>
                       title: globalState.get(attendanceId) == null
                           ? "Check In"
                           : "Check Out",
-                      color: globalState.get(attendanceId) == null ? colorPrimary : colorDeepRed,
+                      color: globalState.get(attendanceId) == null
+                          ? colorPrimary
+                          : colorDeepRed,
                     ),
 
                   const SizedBox(
