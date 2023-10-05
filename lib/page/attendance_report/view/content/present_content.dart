@@ -9,29 +9,20 @@ class DailyReportTile extends StatelessWidget {
   final DailyReport dailyReport;
   final Settings settings;
 
-  const DailyReportTile({Key? key, required this.dailyReport, required this.settings}) : super(key: key);
+  const DailyReportTile(
+      {Key? key, required this.dailyReport, required this.settings})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String? remoteModeIn;
     String? remoteModeOut;
 
-    /// remote mode In-> Home or Office
-    int remoteIn = int.parse(dailyReport.remoteModeIn ?? "1");
-    if (remoteIn == 0) {
-      remoteModeIn = "H";
-    } else {
-      remoteModeIn = "V";
-    }
+    // remote mode In -> Home or Office
+    remoteModeIn = (int.tryParse(dailyReport.remoteModeIn ?? "1") == 0) ? "H" : "V";
 
-    /// remote mode Out-> Home or Office
-    int? remoteOut = int.tryParse(dailyReport.remoteModeOut ?? "0");
-    if (remoteOut == 0) {
-      remoteModeOut = "H";
-    } else {
-      remoteModeOut = "V";
-    }
-
+// remote mode Out -> Home or Office
+    remoteModeOut = (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
@@ -43,13 +34,11 @@ class DailyReportTile extends StatelessWidget {
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style:
-                  const TextStyle(color: Colors.black54, fontSize: 12),
+                  style: const TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style:
-                  const TextStyle(color: Colors.black54, fontSize: 20),
+                  style: const TextStyle(color: Colors.black54, fontSize: 20),
                 ),
               ],
             ),
@@ -64,7 +53,8 @@ class DailyReportTile extends StatelessWidget {
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text("IN",
+                        child: Text(
+                          "IN",
                           style: TextStyle(
                             fontSize: 10,
                           ),
@@ -78,11 +68,13 @@ class DailyReportTile extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Color(int.parse(getInOutColor(status:dailyReport.checkInStatus))),
+                                  color: Color(int.parse(getInOutColor(
+                                      status: dailyReport.checkInStatus))),
                                   style: BorderStyle.solid,
                                   width: 3.0,
                                 ),
-                                color: Color(int.parse(getInOutColor(status:dailyReport.checkInStatus))),
+                                color: Color(int.parse(getInOutColor(
+                                    status: dailyReport.checkInStatus))),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: DottedBorder(
@@ -119,19 +111,18 @@ class DailyReportTile extends StatelessWidget {
                                       color: Colors.blueAccent),
                                   child: Center(
                                       child: Text(
-                                        remoteModeIn,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                        remoteModeIn ,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                                 ),
                               ),
                             ),
                             Visibility(
                               visible:
-                              dailyReport.checkInReason?.isNotEmpty ==
-                                  true,
+                                  dailyReport.checkInReason?.isNotEmpty == true,
                               child: InkWell(
                                 onTap: () {
                                   getReasonIn(dailyReport.checkInReason);
@@ -179,11 +170,13 @@ class DailyReportTile extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Color(int.parse(getInOutColor(status:dailyReport.checkOutStatus))),
+                                  color: Color(int.parse(getInOutColor(
+                                      status: dailyReport.checkOutStatus))),
                                   style: BorderStyle.solid,
                                   width: 3.0,
                                 ),
-                                color: Color(int.parse(getInOutColor(status:dailyReport.checkOutStatus))),
+                                color: Color(int.parse(getInOutColor(
+                                    status: dailyReport.checkOutStatus))),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: DottedBorder(
@@ -207,8 +200,7 @@ class DailyReportTile extends StatelessWidget {
                             ),
                             Visibility(
                               visible:
-                              dailyReport.remoteModeOut?.isNotEmpty ==
-                                  true,
+                                  dailyReport.remoteModeOut?.isNotEmpty == true,
                               child: InkWell(
                                 onTap: () {
                                   getReasonIn(dailyReport.checkOutLocation);
@@ -224,18 +216,17 @@ class DailyReportTile extends StatelessWidget {
                                     child: Center(
                                         child: Text(
                                           remoteModeOut,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold),
-                                        )),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    )),
                                   ),
                                 ),
                               ),
                             ),
                             Visibility(
-                              visible:
-                              dailyReport.checkOutReason?.isNotEmpty ==
+                              visible: dailyReport.checkOutReason?.isNotEmpty ==
                                   true,
                               child: InkWell(
                                 onTap: () {
@@ -270,6 +261,7 @@ class DailyReportTile extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     String? date = dailyReport.fullDate;
+
                     ///Todo: when multiple check in enable
                     // attendanceDailyReportApi(date, context);
                   },
