@@ -12,7 +12,7 @@ class GetEmployeeContent extends StatelessWidget {
     return Column(
       children: [
         EmployeeSearch(
-          bloc: context.read<PhonebookBloc>(),
+          bloc: context.read<PhoneBookBloc>(),
         ),
         const Expanded(child: EmployeeList()),
       ],

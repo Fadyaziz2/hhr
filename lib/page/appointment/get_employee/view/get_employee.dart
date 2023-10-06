@@ -14,9 +14,9 @@ class GetEmployeePage extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-      create: (_) => PhonebookBloc(
+      create: (_) => PhoneBookBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(PhonebookLoadRequest()),
+        ..add(PhoneBookLoadRequest()),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Select Employee'),

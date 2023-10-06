@@ -28,7 +28,7 @@ class EmployeeSearch extends StatelessWidget {
         ),
         onChanged: (value) {
           deBouncer.run(() =>
-              bloc?.add(PhonebookSearchData(searchText: value.toString())));
+              bloc?.add(PhoneBookSearchData(searchText: value.toString())));
         },
       ),
     );

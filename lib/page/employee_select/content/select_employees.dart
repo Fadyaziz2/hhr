@@ -14,17 +14,17 @@ class SelectEployees extends StatelessWidget {
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
 
-    return BlocListener<PhonebookBloc, PhonebookState>(
+    return BlocListener<PhoneBookBloc, PhoneBookState>(
       listenWhen: (oldState, newState) => oldState != newState,
       listener: (context, state) {
         if (state.refreshStatus == PullStatus.loaded) {
           refreshController.refreshCompleted();
         }
       },
-      child: BlocBuilder<PhonebookBloc, PhonebookState>(
+      child: BlocBuilder<PhoneBookBloc, PhoneBookState>(
           buildWhen: (oldState, newState) => oldState != newState,
           builder: (context, state) {
-            return state.phonebookUsers?.isEmpty == true
+            return state.phoneBookUsers?.isEmpty == true
                 ? Center(
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,23 +59,23 @@ class SelectEployees extends StatelessWidget {
                     }),
                     controller: refreshController,
                     onLoading: () {
-                      context.read<PhonebookBloc>().add(PhonebookLoadMore());
+                      context.read<PhoneBookBloc>().add(PhoneBookLoadMore());
                       refreshController.loadComplete();
                     },
                     onRefresh: () {
-                      context.read<PhonebookBloc>().add(PhonebookLoadRefresh());
+                      context.read<PhoneBookBloc>().add(PhoneBookLoadRefresh());
                     },
                     child: ListView.builder(
-                      itemCount: state.phonebookUsers?.length ?? 0,
+                      itemCount: state.phoneBookUsers?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () async {
                             Navigator.push(
                                 context,
-                                PhonebookDetailsScreen.route(
-                                    homeBloc: context.read<PhonebookBloc>(),
+                                PhoneBookDetailsScreen.route(
+                                    homeBloc: context.read<PhoneBookBloc>(),
                                     userId:
-                                        '${state.phonebookUsers![index].id}'));
+                                        '${state.phoneBookUsers![index].id}'));
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -85,9 +85,9 @@ class SelectEployees extends StatelessWidget {
                             ),
                             child: ListTile(
                               title:
-                                  Text(state.phonebookUsers?[index].name ?? ""),
+                                  Text(state.phoneBookUsers?[index].name ?? ""),
                               subtitle: Text(
-                                  state.phonebookUsers?[index].designation ??
+                                  state.phoneBookUsers?[index].designation ??
                                       ""),
                               leading: ClipOval(
                                 child: CachedNetworkImage(
@@ -95,7 +95,7 @@ class SelectEployees extends StatelessWidget {
                                   width: 40,
                                   fit: BoxFit.cover,
                                   imageUrl:
-                                      "${state.phonebookUsers?[index].avatar}",
+                                      "${state.phoneBookUsers?[index].avatar}",
                                   placeholder: (context, url) => Center(
                                     child: Image.asset(
                                         "assets/images/placeholder_image.png"),
@@ -107,9 +107,9 @@ class SelectEployees extends StatelessWidget {
                               trailing: InkWell(
                                 onTap: () {
                                   /// Dial
-                                  context.read<PhonebookBloc>().add(
+                                  context.read<PhoneBookBloc>().add(
                                       DirectPhoneCall(
-                                          state.phonebookUsers?[index].phone ??
+                                          state.phoneBookUsers?[index].phone ??
                                               ''));
                                 },
                                 child: const Padding(

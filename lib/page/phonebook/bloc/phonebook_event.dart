@@ -1,44 +1,49 @@
 part of 'phonebook_bloc.dart';
 
-abstract class PhonebookEvent extends Equatable {
+abstract class PhoneBookEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class PhonebookLoadRequest extends PhonebookEvent {
-  PhonebookLoadRequest();
+class PhoneBookLoadRequest extends PhoneBookEvent {
+  PhoneBookLoadRequest();
 
   @override
   List<Object?> get props => [];
 }
 
-class PhonebookSearchData extends PhonebookEvent {
+class PhoneBookSearchData extends PhoneBookEvent {
   final String? searchText;
   final int? pageCount;
   final int? departmentId;
   final int? designationId;
 
-  PhonebookSearchData({this.searchText, this.pageCount = 1, this.departmentId, this.designationId});
+  PhoneBookSearchData(
+      {this.searchText,
+      this.pageCount = 1,
+      this.departmentId,
+      this.designationId});
 
   @override
-  List<Object?> get props => [searchText, pageCount, departmentId, designationId];
+  List<Object?> get props =>
+      [searchText, pageCount, departmentId, designationId];
 }
 
-class PhonebookLoadRefresh extends PhonebookEvent {
-  PhonebookLoadRefresh();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class PhonebookLoadMore extends PhonebookEvent {
-  PhonebookLoadMore();
+class PhoneBookLoadRefresh extends PhoneBookEvent {
+  PhoneBookLoadRefresh();
 
   @override
   List<Object?> get props => [];
 }
 
-class SelectDepartmentValue extends PhonebookEvent {
+class PhoneBookLoadMore extends PhoneBookEvent {
+  PhoneBookLoadMore();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SelectDepartmentValue extends PhoneBookEvent {
   final Department departmentsData;
 
   SelectDepartmentValue(this.departmentsData);
@@ -47,7 +52,7 @@ class SelectDepartmentValue extends PhonebookEvent {
   List<Object?> get props => [departmentsData];
 }
 
-class SelectDesignationValue extends PhonebookEvent {
+class SelectDesignationValue extends PhoneBookEvent {
   final Department designationData;
 
   SelectDesignationValue(this.designationData);
@@ -56,7 +61,7 @@ class SelectDesignationValue extends PhonebookEvent {
   List<Object?> get props => [designationData];
 }
 
-class DirectPhoneCall extends PhonebookEvent {
+class DirectPhoneCall extends PhoneBookEvent {
   final String phoneNumber;
 
   DirectPhoneCall(this.phoneNumber);
@@ -65,7 +70,7 @@ class DirectPhoneCall extends PhonebookEvent {
   List<Object?> get props => [phoneNumber];
 }
 
-class DirectMessage extends PhonebookEvent {
+class DirectMessage extends PhoneBookEvent {
   final String phoneNumber;
 
   DirectMessage(this.phoneNumber);
@@ -74,7 +79,7 @@ class DirectMessage extends PhonebookEvent {
   List<Object?> get props => [phoneNumber];
 }
 
-class DirectMailTo extends PhonebookEvent {
+class DirectMailTo extends PhoneBookEvent {
   final String email;
   final String userName;
 
@@ -84,10 +89,10 @@ class DirectMailTo extends PhonebookEvent {
   List<Object?> get props => [email, userName];
 }
 
-class PhonebookDetails extends PhonebookEvent {
+class PhoneBookDetails extends PhoneBookEvent {
   final String userId;
 
-  PhonebookDetails(this.userId);
+  PhoneBookDetails(this.userId);
 
   @override
   List<Object?> get props => [userId];

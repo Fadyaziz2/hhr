@@ -44,22 +44,26 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'leave':
       case 'approval':
       case 'phonebook':
-        NavUtil.navigateScreen(event.context,  PhonebookPage(settings: _settings,));
+        NavUtil.navigateScreen(
+            event.context,
+            PhoneBookPage(
+              settings: _settings,
+            ));
         break;
       case 'conference':
       case 'visit':
       case 'meeting':
       case 'appointments':
-      NavUtil.navigateScreen(event.context, const AppointmentScreen());
-      break;
+        NavUtil.navigateScreen(event.context, const AppointmentScreen());
+        break;
       case 'break':
       case 'feedback':
       case 'report':
       case 'daily-leave':
       case 'payroll':
       case 'task':
-       NavUtil.navigateScreen(event.context, const TaskScreen());
-      break;
+        NavUtil.navigateScreen(event.context, const TaskScreen());
+        break;
       default:
         return debugPrint('default');
     }

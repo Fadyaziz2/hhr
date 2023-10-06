@@ -18,13 +18,13 @@ class EmployeeContent extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: PhonebookSearch(
-                bloc: context.read<PhonebookBloc>(),
+              child: PhoneBookSearch(
+                bloc: context.read<PhoneBookBloc>(),
               ),
             ),
             PopupMenusFilerContent(
               settings: settings,
-              bloc: context.read<PhonebookBloc>(),
+              bloc: context.read<PhoneBookBloc>(),
             )
           ],
         ),

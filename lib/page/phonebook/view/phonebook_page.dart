@@ -6,25 +6,29 @@ import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_content.dart';
 import 'package:onesthrm/res/const.dart';
 
-class PhonebookPage extends StatelessWidget {
+class PhoneBookPage extends StatelessWidget {
   final Settings? settings;
-  const PhonebookPage({Key? key, this.settings}) : super(key: key);
+  const PhoneBookPage({Key? key, this.settings}) : super(key: key);
 
-  static Route route(int? userId, Settings? settings) => MaterialPageRoute(builder: (_) =>  PhonebookPage(settings: settings!));
+  static Route route(int? userId, Settings? settings) =>
+      MaterialPageRoute(builder: (_) => PhoneBookPage(settings: settings!));
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-        create: (_) => PhonebookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(PhonebookLoadRequest()),
+        create: (_) => PhoneBookBloc(
+            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          ..add(PhoneBookLoadRequest()),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Phonebook'),
+            title: const Text('PhoneBook'),
             backgroundColor: mainColor,
           ),
-          body:  PhonebookContent(settings: settings!,),
+          body: PhoneBookContent(
+            settings: settings!,
+          ),
         ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class PhonebookDetailsModel extends Equatable {
-  const PhonebookDetailsModel({
+class PhoneBookDetailsModel extends Equatable {
+  const PhoneBookDetailsModel({
     this.result,
     this.message,
     this.data,
@@ -11,8 +11,8 @@ class PhonebookDetailsModel extends Equatable {
   final String? message;
   final PhonebookDetailsData? data;
 
-  factory PhonebookDetailsModel.fromJson(Map<String, dynamic> json) =>
-      PhonebookDetailsModel(
+  factory PhoneBookDetailsModel.fromJson(Map<String, dynamic> json) =>
+      PhoneBookDetailsModel(
         result: json["result"],
         message: json["message"],
         data: PhonebookDetailsData.fromJson(json["data"]),

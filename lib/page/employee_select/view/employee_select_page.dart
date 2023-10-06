@@ -11,17 +11,17 @@ class EmployeeSelectPage extends StatelessWidget {
   final Settings? settings;
   const EmployeeSelectPage({Key? key, this.settings}) : super(key: key);
 
-  static Route route(int? userId, Settings? settings) =>
-      MaterialPageRoute(builder: (_) => EmployeeSelectPage(settings: settings!));
+  static Route route(int? userId, Settings? settings) => MaterialPageRoute(
+      builder: (_) => EmployeeSelectPage(settings: settings!));
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-        create: (_) => PhonebookBloc(
+        create: (_) => PhoneBookBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(PhonebookLoadRequest()),
+          ..add(PhoneBookLoadRequest()),
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Employee Select'),

@@ -733,7 +733,7 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook ====================
-  Future<Phonebook?> getPhonebooks(
+  Future<Phonebook?> getPhoneBooks(
       {String? keywords,
       int? designationId,
       int? departmentId,
@@ -756,7 +756,7 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook Details====================
-  Future<PhonebookDetailsModel?> getPhonebooksUserDetails(
+  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails(
       {String? userId}) async {
     String api = 'user/details/$userId';
     try {
@@ -766,7 +766,7 @@ class MetaClubApiClient {
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
-      return PhonebookDetailsModel.fromJson(response?.data);
+      return PhoneBookDetailsModel.fromJson(response?.data);
     } catch (_) {
       return null;
     }
