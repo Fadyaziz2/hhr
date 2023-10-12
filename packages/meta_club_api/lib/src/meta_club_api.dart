@@ -127,8 +127,9 @@ class MetaClubApiClient {
   }
 
   /// attendance report get data ------------------
-  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
-     String api = 'report/attendance/particular-month/$userId';
+  Future<AttendanceReport?> getAttendanceReport(
+      {required Map<String, dynamic> body, int? userId}) async {
+    String api = 'report/attendance/particular-month/$userId';
 
     try {
       final response =
@@ -718,11 +719,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ResponseAllContents?> getPolicyData() async {
-    const String api = 'notice/list';
+  Future<ResponseAllContents?> getPolicyData(String? slug) async {
+    const String api = '/app/all-contents/';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api$slug', "");
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');

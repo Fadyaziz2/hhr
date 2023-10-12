@@ -6,12 +6,9 @@ abstract class MenuDrawerEvent extends Equatable {
 }
 
 class MenuDrawerLoadData extends MenuDrawerEvent {
+  final BuildContext context;
   final String? slug;
-  MenuDrawerLoadData({
-    this.slug,
-  });
+  MenuDrawerLoadData({this.slug, required this.context});
   @override
-  List<Object?> get props => [
-        slug,
-      ];
+  List<Object?> get props => [slug, context];
 }

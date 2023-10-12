@@ -7,10 +7,10 @@ import 'package:onesthrm/res/enum.dart';
 part 'menu_drawer_state.dart';
 part 'menu_drawer_event.dart';
 
-class NotificationListBloc extends Bloc<MenuDrawerEvent, MenuDrawerState> {
+class MenuDrawerBloc extends Bloc<MenuDrawerEvent, MenuDrawerState> {
   final MetaClubApiClient _metaClubApiClient;
 
-  NotificationListBloc({required MetaClubApiClient metaClubApiClient})
+  MenuDrawerBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
         super(const MenuDrawerState(
           status: NetworkStatus.initial,
@@ -23,8 +23,10 @@ class NotificationListBloc extends Bloc<MenuDrawerEvent, MenuDrawerState> {
     emit(const MenuDrawerState(status: NetworkStatus.loading));
     try {
       ResponseAllContents? responseAllContents =
-          await _metaClubApiClient.getPolicyData();
-      emit(state.copyWith(status: NetworkStatus.success));
+          await _metaClubApiClient.getPolicyData(event.slug);
+      emit(state.copyWith(
+          status: NetworkStatus.success,
+          responseAllContents: responseAllContents));
     } catch (e) {
       emit(const MenuDrawerState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
