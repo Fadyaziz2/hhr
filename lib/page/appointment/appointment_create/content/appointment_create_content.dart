@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/content/appointment_time_cart.dart';
-import 'package:onesthrm/page/appointment/appointment_create/content/common_text_widget.dart';
+import 'package:onesthrm/res/common_text_widget.dart';
 
 class AppointmentCreateContent extends StatelessWidget {
   final AppointmentCreateState? state;
@@ -18,43 +18,33 @@ class AppointmentCreateContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTextTitle(tr("title*")),
-
-        ///title field:-------------------------
-        buildTextFormField(
+        CommonTextFiledWithTitle(
+          title: "Title",
+          labelText: 'enter_title'.tr(),
           onChanged: (data) {
             appointmentBody.title = data;
           },
-          labelTitle: tr("enter_title"),
         ),
         const SizedBox(
           height: 25,
         ),
-
-        ///Description field:-------------------------
-        buildTextTitle(tr("description")),
-        TextFormField(
+        CommonTextFiledWithTitle(
+          title: "description",
+          labelText: "Enter Text",
           onChanged: (data) {
             appointmentBody.description = data;
           },
-          maxLines: 3,
-          keyboardType: TextInputType.name,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color(0xffF3F9FE).withOpacity(1),
-            hintText: "Enter Description",
-            border: const OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            ),
-          ),
         ),
         const SizedBox(
           height: 25,
         ),
-
-        ///Date picker field:-------------------------
-        buildTextTitle(tr("date_schedule")),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            "date_schedule",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
         Card(
           child: InkWell(
             onTap: () {
@@ -81,21 +71,18 @@ class AppointmentCreateContent extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-
-        ///Time picker field:-------------------------
-        ///Start and End time
         AppointmentTimeCart(
           state: state,
         ),
         const SizedBox(
           height: 16,
         ),
-        buildTextTitle(tr("Location*")),
-        buildTextFormField(
+        CommonTextFiledWithTitle(
+          title: "Location".tr(),
+          labelText: 'enter_location'.tr(),
           onChanged: (data) {
             appointmentBody.location = data;
           },
-          labelTitle: tr("enter_location"),
         ),
       ],
     );

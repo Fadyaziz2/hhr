@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
-import 'package:onesthrm/page/appointment/appointment_create/content/common_text_widget.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 
 class AppointmentWithCart extends StatelessWidget {
@@ -18,7 +17,13 @@ class AppointmentWithCart extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-        buildTextTitle(tr("appointment_with")),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            "appointment_with",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
         Card(
           child: ListTile(
             onTap: () async {

@@ -98,11 +98,11 @@ class AppointmentCreateBloc
       await _metaClubApiClient
           .appointmentCreate(appointmentBody: event.appointmentBody)
           .then((success) {
-        if (success) {
-          Fluttertoast.showToast(msg: "Appointment created successfully");
-          _bloc?.add(GetAppointmentData());
-          Navigator.pop(event.context);
-        }
+        Fluttertoast.showToast(
+          msg: success.toString(),
+        );
+        _bloc?.add(GetAppointmentData());
+        Navigator.pop(event.context);
       });
       emit(state.copyWith(status: NetworkStatus.success));
       // ignore: use_build_context_synchronously

@@ -842,7 +842,7 @@ class MetaClubApiClient {
   }
 
   ///////// Appoinment Create///////////////
-  Future<bool> appointmentCreate({AppointmentBody? appointmentBody}) async {
+  Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
@@ -862,12 +862,12 @@ class MetaClubApiClient {
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
-      if (response.statusCode == 200) {
-        return true;
+      if (response.data['result'] == true) {
+        return response.data['message'];
       }
-      return false;
+      return response.data['message'];
     } catch (e) {
-      return false;
+      return 'Something went wrong';
     }
   }
 }
