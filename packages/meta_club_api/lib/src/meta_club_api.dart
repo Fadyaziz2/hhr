@@ -720,7 +720,7 @@ class MetaClubApiClient {
   }
 
   Future<ResponseAllContents?> getPolicyData(String? slug) async {
-    const String api = '/app/all-contents/';
+    const String api = 'app/all-contents/';
 
     try {
       final response =
