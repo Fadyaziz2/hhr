@@ -27,7 +27,7 @@ class AppointmentContent extends StatelessWidget {
 
         return Column(
           children: [
-            state.meetingsListData!.data!.items!.isNotEmpty
+            state.meetingsListData?.data?.items?.isNotEmpty == true
                 ? Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,

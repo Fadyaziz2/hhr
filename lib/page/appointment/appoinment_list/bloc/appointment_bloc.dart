@@ -55,7 +55,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date!);
+    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
     add(GetAppointmentData(date: currentMonth));
   }
 }

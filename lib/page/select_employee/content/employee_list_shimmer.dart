@@ -11,51 +11,53 @@ class EmployeeListShimmer extends StatelessWidget {
     return const Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            RectangularCardShimmer(
-              height: 80.0,
-              width: double.infinity,
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RectangularCardShimmer(
+                height: 80.0,
+                width: double.infinity,
+              )
+            ],
+          ),
         ),
       ),
     );

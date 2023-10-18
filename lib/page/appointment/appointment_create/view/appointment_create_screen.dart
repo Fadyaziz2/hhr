@@ -13,13 +13,12 @@ import 'package:onesthrm/res/enum.dart';
 
 class AppointmentCreateScreen extends StatefulWidget {
   final AppointmentBloc? appointmentBloc;
-  final String? navigation;
+
 
   const AppointmentCreateScreen(
-      {Key? key, this.id, this.navigation, this.appointmentBloc})
+      {Key? key, this.appointmentBloc})
       : super(key: key);
 
-  final int? id;
 
   @override
   State<AppointmentCreateScreen> createState() =>
