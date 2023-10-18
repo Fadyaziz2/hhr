@@ -128,6 +128,22 @@ class MetaClubApiClient {
     }
   }
 
+  /// attendance report get data ------------------
+  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
+     String api = 'report/attendance/particular-month/$userId';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return AttendanceReport.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<Break?> backBreak() async {
     const String api = 'user/attendance/break-back';
     try {
