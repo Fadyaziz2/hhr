@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
-import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
-import 'package:onesthrm/page/appointment/get_employee/view/get_employee.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/common_text_widget.dart';
+import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 
 class AppointmentWithCart extends StatelessWidget {
   final AppointmentCreateState? state;
@@ -25,7 +25,7 @@ class AppointmentWithCart extends StatelessWidget {
               PhoneBookUser employee = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const GetEmployeePage(),
+                    builder: (context) => const SelectEmployeePage(),
                   ));
               // ignore: use_build_context_synchronously
               context

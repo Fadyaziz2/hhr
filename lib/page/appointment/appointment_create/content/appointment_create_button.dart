@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
 
-class AppoinmentCreateButton extends StatelessWidget {
+class AppointmentCreateButton extends StatelessWidget {
   final AppointmentCreateState? state;
-  const AppoinmentCreateButton({
+  const AppointmentCreateButton({
     super.key,
     required this.formKey,
     required this.appointmentBody,

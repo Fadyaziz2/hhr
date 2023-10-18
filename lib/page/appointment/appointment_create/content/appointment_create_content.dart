@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/content/appointment_time_cart.dart';
-import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
+import 'package:onesthrm/page/appointment/appointment_create/content/common_text_widget.dart';
 
 class AppointmentCreateContent extends StatelessWidget {
   final AppointmentCreateState? state;
@@ -37,7 +37,6 @@ class AppointmentCreateContent extends StatelessWidget {
           onChanged: (data) {
             appointmentBody.description = data;
           },
-          // controller: provider.descriptionController,
           maxLines: 3,
           keyboardType: TextInputType.name,
           decoration: InputDecoration(
@@ -63,7 +62,6 @@ class AppointmentCreateContent extends StatelessWidget {
                   .read<AppointmentCreateBloc>()
                   .add(SelectDatePicker(context));
             },
-            // provider.selectDate(context),
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
@@ -71,7 +69,6 @@ class AppointmentCreateContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(state?.currentMonth ?? 'Select Date'),
-                  // provider.monthYear ?? tr
                   const Icon(
                     Icons.arrow_drop_down_sharp,
                     color: Colors.grey,
@@ -99,7 +96,6 @@ class AppointmentCreateContent extends StatelessWidget {
             appointmentBody.location = data;
           },
           labelTitle: tr("enter_location"),
-          // controller: provider.locationController
         ),
       ],
     );

@@ -299,7 +299,7 @@ class __MultiSelectChipFieldViewState<V>
                           _showSearch
                               ? Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: TextField(
                                       style: widget.searchTextStyle,
                                       decoration: InputDecoration(
@@ -337,7 +337,7 @@ class __MultiSelectChipFieldViewState<V>
                                                           18
                                                       : 18),
                                         )
-                                      : Text(
+                                      : const Text(
                                           "Select",
                                           style: TextStyle(fontSize: 18),
                                         ),
@@ -346,12 +346,12 @@ class __MultiSelectChipFieldViewState<V>
                               ? IconButton(
                                   icon: _showSearch
                                       ? widget.closeSearchIcon ??
-                                          Icon(
+                                          const Icon(
                                             Icons.close,
                                             size: 22,
                                           )
                                       : widget.searchIcon ??
-                                          Icon(
+                                          const Icon(
                                             Icons.search,
                                             size: 22,
                                           ),
@@ -362,7 +362,7 @@ class __MultiSelectChipFieldViewState<V>
                                     });
                                   },
                                 )
-                              : Padding(
+                              : const Padding(
                                   padding: EdgeInsets.all(18),
                                 ),
                         ],
@@ -372,14 +372,14 @@ class __MultiSelectChipFieldViewState<V>
               widget.scroll
                   ? Container(
                       padding: widget.itemBuilder == null
-                          ? EdgeInsets.symmetric(horizontal: 5)
+                          ? const EdgeInsets.symmetric(horizontal: 5)
                           : null,
                       width: MediaQuery.of(context).size.width,
                       height: widget.height ??
                           MediaQuery.of(context).size.height * 0.08,
                       child: widget.scrollBar != null
                           ? Scrollbar(
-                              isAlwaysShown: widget.scrollBar!.isAlwaysShown,
+                              thumbVisibility: widget.scrollBar!.isAlwaysShown,
                               controller: _scrollController,
                               child: ListView.builder(
                                 controller: _scrollController,
@@ -412,7 +412,7 @@ class __MultiSelectChipFieldViewState<V>
                   : Container(
                       height: widget.height,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Wrap(
                         children: widget.itemBuilder != null
                             ? _items
@@ -450,7 +450,7 @@ class __MultiSelectChipFieldViewState<V>
 
   Widget _buildItem(MultiSelectItem<V?> item) {
     return Container(
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
         shape: widget.chipShape as OutlinedBorder? ??
@@ -462,7 +462,7 @@ class __MultiSelectChipFieldViewState<V>
                       ? widget.colorator!(item.value)!
                       : widget.selectedChipColor ??
                           Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.vertical(
+              borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(15.0),
                 bottom: Radius.circular(15.0),
               ),
@@ -480,7 +480,7 @@ class __MultiSelectChipFieldViewState<V>
                   )
                 : null
             : null,
-        label: Container(
+        label: SizedBox(
           width: widget.chipWidth,
           child: Text(
             item.label ?? "",
@@ -508,9 +508,8 @@ class __MultiSelectChipFieldViewState<V>
         selectedColor:
             widget.colorator != null && widget.colorator!(item.value) != null
                 ? widget.colorator!(item.value)
-                : widget.selectedChipColor != null
-                    ? widget.selectedChipColor
-                    : Theme.of(context).primaryColor.withOpacity(0.33),
+                : widget.selectedChipColor ??
+                    Theme.of(context).primaryColor.withOpacity(0.33),
         onSelected: (_) {
           if (_) {
             _selectedValues.add(item.value);

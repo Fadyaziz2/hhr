@@ -30,8 +30,6 @@ class AppointmentTimeCart extends StatelessWidget {
                           context,
                         ));
                   },
-
-                  // provider.showTime(context, 0),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 16),
@@ -39,8 +37,6 @@ class AppointmentTimeCart extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(state?.startTime ?? tr("start_time")),
-                        // provider.startTime ??
-                        // tr("start_time")),
                         const Icon(
                           Icons.arrow_drop_down_sharp,
                           color: Colors.grey,
@@ -72,16 +68,13 @@ class AppointmentTimeCart extends StatelessWidget {
                           context,
                         ));
                   },
-                  // provider.showTime(context, 1),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(state?.endTime ??
-                            // provider.endTime ??
-                            tr("end_time")),
+                        Text(state?.endTime ?? tr("end_time")),
                         const Icon(
                           Icons.arrow_drop_down_sharp,
                           color: Colors.grey,

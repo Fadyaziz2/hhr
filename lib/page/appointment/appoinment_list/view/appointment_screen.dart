@@ -16,31 +16,38 @@ class AppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    return RefreshIndicator(
-      onRefresh: () async {
-        // provider.getAppointmentList();
-      },
-      child: BlocProvider(
-        create: (context) => AppointmentBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(GetAppointmentData()),
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            // backgroundColor: AppColors.colorPrimary,
-            onPressed: () {
-              NavUtil.navigateScreen(
-                  context,
-                  AppointmentCreateScreen(
-                    appointmentBloc: bloc,
-                  ));
-            },
-            child: const Icon(Icons.add),
-          ),
-          appBar: AppBar(
-            title: Text(tr("appointments")),
-          ),
-          body: const AppointmentContent(),
-        ),
+    return BlocProvider(
+      create: (context) => AppointmentBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+        ..add(GetAppointmentData()),
+      child: BlocBuilder<AppointmentBloc, AppointmentState>(
+        builder: (context, state) {
+          return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                NavUtil.navigateScreen(
+                    context,
+                    AppointmentCreateScreen(
+                      appointmentBloc: bloc,
+                    ));
+              },
+              child: const Icon(Icons.add),
+            ),
+            appBar: AppBar(
+              title: Text(tr("appointments")),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context
+                          .read<AppointmentBloc>()
+                          .add(SelectDatePicker(context));
+                    },
+                    icon: const Icon(Icons.calendar_month_outlined))
+              ],
+            ),
+            body: const AppointmentContent(),
+          );
+        },
       ),
     );
   }

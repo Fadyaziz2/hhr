@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:onesthrm/page/phonebook/view/phonebook_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
@@ -16,9 +15,9 @@ class BottomNavContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     DateTime timeBackPressed = DateTime.now();
-    final selectedTab = context.select((BottomNavCubit cubit) => cubit.state.tab);
+    final selectedTab =
+        context.select((BottomNavCubit cubit) => cubit.state.tab);
 
     return UpgradeAlert(
       upgrader: Upgrader(
@@ -78,23 +77,27 @@ class BottomNavContent extends StatelessWidget {
                 )),
           ),
           floatingActionButton: FloatingActionButton(
-              backgroundColor: selectedTab == BottomNavTab.menu ?  colorPrimary : Colors.white,
-              child:
-              Padding(
+              backgroundColor: selectedTab == BottomNavTab.menu
+                  ? colorPrimary
+                  : Colors.white,
+              child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(
                   'assets/home_icon/FavLogo.png',
-                  color:  selectedTab == BottomNavTab.menu ? Colors.white : colorPrimary,
+                  color: selectedTab == BottomNavTab.menu
+                      ? Colors.white
+                      : colorPrimary,
                 ),
               ),
               onPressed: () {
                 context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
                 // myPage.jumpToPage(2);
               }),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           body: IndexedStack(
-           index: selectedTab.index,
-            children:  const [
+            index: selectedTab.index,
+            children: const [
               HomePage(),
               SizedBox(),
               MenuScreen(),

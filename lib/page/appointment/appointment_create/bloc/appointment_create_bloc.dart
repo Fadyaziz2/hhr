@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +33,6 @@ class AppointmentCreateBloc
   }
   void _onAppointmentDataLoad(LoadAppointmentCreateData event,
       Emitter<AppointmentCreateState> emit) async {
-    final currentDate = DateFormat('y-MM').format(DateTime.now());
     emit(AppointmentCreateState(
       status: NetworkStatus.success,
       currentMonth: event.date,
@@ -64,6 +61,7 @@ class AppointmentCreateBloc
       SelectStartTime event, Emitter<AppointmentCreateState> emit) async {
     final TimeOfDay? result = await showTimePicker(
       context: event.context,
+      orientation: Orientation.portrait,
       initialTime: TimeOfDay.now(),
     );
     emit(state.copyWith(

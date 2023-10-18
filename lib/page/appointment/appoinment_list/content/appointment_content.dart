@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_details_content.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/upcoming_event_widgetg.dart';
@@ -24,55 +23,10 @@ class AppointmentContent extends StatelessWidget {
         );
       }
       if (state.status == NetworkStatus.success) {
-
         bloc = context.read<AppointmentBloc>();
 
         return Column(
           children: [
-            InkWell(
-              onTap: () {
-                context.read<AppointmentBloc>().add(SelectDatePicker(context));
-                // provider.selectDate(context);
-              },
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      context
-                          .read<AppointmentBloc>()
-                          .add(SelectDatePicker(context));
-                      // provider.selectDate(context);
-                    },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.angleLeft,
-                      size: 30,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const Spacer(),
-                  Center(
-                      child: Text(
-                    state.currentMonth ?? "Select Month",
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  )),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      context
-                          .read<AppointmentBloc>()
-                          .add(SelectDatePicker(context));
-                      // provider.selectDate(context);
-                    },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      size: 30,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             state.meetingsListData!.data!.items!.isNotEmpty
                 ? Expanded(
                     child: ListView.builder(
@@ -109,7 +63,6 @@ class AppointmentContent extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     )),
                   )
-            // : const SizedBox()
           ],
         );
       }

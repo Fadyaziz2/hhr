@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/appointment/get_employee/content/employee_list.dart';
-import 'package:onesthrm/page/appointment/get_employee/content/employee_search.dart';
+import 'package:onesthrm/page/select_employee/content/employee_list.dart';
+import 'package:onesthrm/page/select_employee/content/employee_search.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 
 class GetEmployeeContent extends StatelessWidget {
