@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
@@ -41,6 +42,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'expense':
         break;
       case 'leave':
+        NavUtil.navigateScreen(event.context, const LeavePage());
+        break;
       case 'approval':
       case 'phonebook':
         NavUtil.navigateScreen(event.context,  PhonebookPage(settings: _settings,));
