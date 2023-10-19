@@ -27,9 +27,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -723,13 +723,14 @@ class MetaClubApiClient {
     const String api = 'app/all-contents/';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api$slug', "");
+      final response = await _httpServiceImpl.getRequestWithToken(
+        '$_baseUrl$api$slug',
+      );
 
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
-      return ResponseAllContents.fromJson(response.data);
+      return ResponseAllContents.fromJson(response?.data);
     } catch (_) {
       return null;
     }

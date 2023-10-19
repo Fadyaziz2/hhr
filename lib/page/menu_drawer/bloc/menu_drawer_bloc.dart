@@ -20,10 +20,12 @@ class MenuDrawerBloc extends Bloc<MenuDrawerEvent, MenuDrawerState> {
 
   void _onMenuDrawerData(
       MenuDrawerLoadData event, Emitter<MenuDrawerState> emit) async {
-    emit(const MenuDrawerState(status: NetworkStatus.loading));
+    emit(const MenuDrawerState(
+      status: NetworkStatus.loading,
+    ));
     try {
       ResponseAllContents? responseAllContents =
-          await _metaClubApiClient.getPolicyData("support-24-7");
+          await _metaClubApiClient.getPolicyData(event.slug);
       emit(state.copyWith(
           status: NetworkStatus.success,
           responseAllContents: responseAllContents));

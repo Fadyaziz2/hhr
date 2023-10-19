@@ -8,7 +8,10 @@ abstract class MenuDrawerEvent extends Equatable {
 class MenuDrawerLoadData extends MenuDrawerEvent {
   final BuildContext context;
   final String? slug;
-  MenuDrawerLoadData({this.slug, required this.context});
+  final ResponseAllContents? responseAllContents;
+
+  MenuDrawerLoadData(
+      {this.slug, required this.context, this.responseAllContents});
   @override
-  List<Object?> get props => [slug, context];
+  List<Object?> get props => [slug, context, responseAllContents];
 }

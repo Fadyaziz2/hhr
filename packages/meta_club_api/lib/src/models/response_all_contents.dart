@@ -1,58 +1,74 @@
 import 'package:equatable/equatable.dart';
 
 class ResponseAllContents extends Equatable {
+  bool? result;
+  String? message;
+  ContentData? data;
+
   ResponseAllContents({
     this.result,
     this.message,
     this.data,
   });
 
-  final bool? result;
-  final String? message;
-  final ContentData? data;
-
   factory ResponseAllContents.fromJson(Map<String, dynamic> json) =>
       ResponseAllContents(
         result: json["result"],
         message: json["message"],
-        data: ContentData.fromJson(json["data"]),
+        data: json["data"] == null ? null : ContentData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "result": result,
         "message": message,
-        "data": data!.toJson(),
+        "data": data?.toJson(),
       };
-
   @override
-  List<Object?> get props => [
-        result,
-        message,
-        data,
-      ];
+  List<Object?> get props => [result, message, data];
 }
 
 class ContentData extends Equatable {
+  List<ContentDatum>? contents;
+
   ContentData({
     this.contents,
   });
 
-  final List<ContentDatum>? contents;
-
   factory ContentData.fromJson(Map<String, dynamic> json) => ContentData(
-        contents: List<ContentDatum>.from(
-            json["contents"].map((x) => ContentDatum.fromJson(x))),
+        contents: json["contents"] == null
+            ? []
+            : List<ContentDatum>.from(
+                json["contents"]!.map((x) => ContentDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "contents": List<dynamic>.from(contents!.map((x) => x.toJson())),
+        "contents": contents == null
+            ? []
+            : List<dynamic>.from(contents!.map((x) => x.toJson())),
       };
-
   @override
   List<Object?> get props => [contents];
 }
 
 class ContentDatum extends Equatable {
+  int? id;
+  int? companyId;
+  int? userId;
+  String? type;
+  String? title;
+  String? slug;
+  String? content;
+  String? metaTitle;
+  String? metaDescription;
+  String? keywords;
+  String? metaImage;
+  int? createdBy;
+  int? updatedBy;
+  int? statusId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? branchId;
+
   ContentDatum({
     this.id,
     this.companyId,
@@ -65,19 +81,13 @@ class ContentDatum extends Equatable {
     this.metaDescription,
     this.keywords,
     this.metaImage,
+    this.createdBy,
+    this.updatedBy,
+    this.statusId,
+    this.createdAt,
+    this.updatedAt,
+    this.branchId,
   });
-
-  final int? id;
-  final int? companyId;
-  final int? userId;
-  final String? type;
-  final String? title;
-  final String? slug;
-  final String? content;
-  final String? metaTitle;
-  final dynamic metaDescription;
-  final String? keywords;
-  final String? metaImage;
 
   factory ContentDatum.fromJson(Map<String, dynamic> json) => ContentDatum(
         id: json["id"],
@@ -91,6 +101,16 @@ class ContentDatum extends Equatable {
         metaDescription: json["meta_description"],
         keywords: json["keywords"],
         metaImage: json["meta_image"],
+        createdBy: json["created_by"],
+        updatedBy: json["updated_by"],
+        statusId: json["status_id"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        branchId: json["branch_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -105,8 +125,13 @@ class ContentDatum extends Equatable {
         "meta_description": metaDescription,
         "keywords": keywords,
         "meta_image": metaImage,
+        "created_by": createdBy,
+        "updated_by": updatedBy,
+        "status_id": statusId,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "branch_id": branchId,
       };
-
   @override
   List<Object?> get props => [
         id,
@@ -119,6 +144,12 @@ class ContentDatum extends Equatable {
         metaTitle,
         metaDescription,
         keywords,
-        metaImage
+        metaImage,
+        createdBy,
+        updatedBy,
+        statusId,
+        createdAt,
+        updatedAt,
+        branchId
       ];
 }

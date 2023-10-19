@@ -18,9 +18,9 @@ class MenuDrawerState extends Equatable {
     return MenuDrawerState(
         status: status ?? this.status,
         slugName: slugName ?? this.slugName,
-        responseAllContents: this.responseAllContents);
+        responseAllContents: responseAllContents ?? this.responseAllContents);
   }
 
   @override
-  List<Object?> get props => [slugName, status];
+  List<Object?> get props => [slugName, status, responseAllContents];
 }
