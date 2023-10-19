@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onesthrm/page/language/language_screen.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class MenuSettingsContent extends StatelessWidget {
   const MenuSettingsContent({
@@ -33,7 +35,9 @@ class MenuSettingsContent extends StatelessWidget {
           title: Text('Face Register'),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            NavUtil.navigateScreen(context, const LanguageScreen());
+          },
           dense: true,
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: 8,
