@@ -7,7 +7,14 @@ class TileShimmer extends StatelessWidget {
   final bool isTitle;
   final bool isSubTitle;
   final double titleHeight;
-  const TileShimmer({Key? key,this.isLeading = false,this.isTrailing = false,this.isTitle = true,this.isSubTitle = false,this.titleHeight = 12.0}) : super(key: key);
+  const TileShimmer(
+      {Key? key,
+      this.isLeading = false,
+      this.isTrailing = false,
+      this.isTitle = true,
+      this.isSubTitle = false,
+      this.titleHeight = 12.0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,81 +22,97 @@ class TileShimmer extends StatelessWidget {
       dense: true,
       visualDensity: VisualDensity.compact,
       horizontalTitleGap: 0.0,
-      title: isTitle ? Shimmer.fromColors(
-        baseColor: const Color(0xFFE8E8E8),
-        highlightColor: Colors.white,
-        child: Container(
-            height: titleHeight,
-            margin: const EdgeInsets.only(bottom: 16.0),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8E8E8),
-              borderRadius: BorderRadius.circular(100), // radius of 10// green as background color
-            )),
-      ): const SizedBox.shrink(),
-      subtitle: isSubTitle ? Shimmer.fromColors(
-        baseColor: const Color(0xFFE8E8E8),
-        highlightColor: Colors.white,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 8.0,
-                padding: const EdgeInsets.only(right: 24.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8E8E8),
-                  borderRadius: BorderRadius.circular(100), // radius of 10// green as background color
-                )),
-            ),
-            const SizedBox(width: 16.0,),
-            isTrailing ? Shimmer.fromColors(
+      title: isTitle
+          ? Shimmer.fromColors(
               baseColor: const Color(0xFFE8E8E8),
               highlightColor: Colors.white,
               child: Container(
-                  width: 36.0,
-                  height: 36.0,
+                  height: titleHeight,
+                  margin: const EdgeInsets.only(bottom: 16.0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE8E8E8),
+                    borderRadius: BorderRadius.circular(
+                        100), // radius of 10// green as background color
+                  )),
+            )
+          : const SizedBox.shrink(),
+      subtitle: isSubTitle
+          ? Shimmer.fromColors(
+              baseColor: const Color(0xFFE8E8E8),
+              highlightColor: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        height: 8.0,
+                        padding: const EdgeInsets.only(right: 24.0),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE8E8E8),
+                          borderRadius: BorderRadius.circular(
+                              100), // radius of 10// green as background color
+                        )),
+                  ),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  isTrailing
+                      ? Shimmer.fromColors(
+                          baseColor: const Color(0xFFE8E8E8),
+                          highlightColor: Colors.white,
+                          child: Container(
+                              width: 36.0,
+                              height: 36.0,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFE8E8E8),
+                                shape: BoxShape
+                                    .circle, // radius of 10// green as background color
+                              )),
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            )
+          : const SizedBox.shrink(),
+      leading: isLeading
+          ? Shimmer.fromColors(
+              baseColor: const Color(0xFFE8E8E8),
+              highlightColor: Colors.white,
+              child: Container(
+                  width: 24.0,
+                  height: 24.0,
+                  padding: const EdgeInsets.only(right: 24.0),
                   decoration: const BoxDecoration(
                     color: Color(0xFFE8E8E8),
-                    shape: BoxShape.circle, // radius of 10// green as background color
+                    shape: BoxShape
+                        .circle, // radius of 10// green as background color
                   )),
-            )  : const SizedBox.shrink(),
-          ],
-        ),
-      ) : const SizedBox.shrink(),
-      leading: isLeading ? Shimmer.fromColors(
-        baseColor: const Color(0xFFE8E8E8),
-        highlightColor: Colors.white,
-        child: Container(
-            width: 24.0,
-            height: 24.0,
-            padding: const EdgeInsets.only(right: 24.0),
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8E8E8),
-              shape: BoxShape.circle, // radius of 10// green as background color
-            )),
-      ) : const SizedBox.shrink(),
+            )
+          : const SizedBox.shrink(),
     );
   }
 }
 
 class RectangularCardShimmer extends StatelessWidget {
-
   final double width;
   final double height;
 
-  const RectangularCardShimmer({Key? key,this.height = 100.0, this.width = 100.0}) : super(key: key);
+  const RectangularCardShimmer(
+      {Key? key, this.height = 100.0, this.width = 100.0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: const Color(0xFFE8E8E8),
+      baseColor: const Color(0xffF3F9FE),
       highlightColor: Colors.white,
       child: Container(
           height: height,
           width: width,
           margin: const EdgeInsets.only(right: 8.0),
           decoration: BoxDecoration(
-            color: const Color(0xFFE8E8E8),
-            borderRadius: BorderRadius.circular(8.0), // radius of 10// green as background color
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(
+                8.0), // radius of 10// green as background color
           )),
     );
   }
@@ -106,17 +129,11 @@ class HorizontalListShimmer extends StatelessWidget {
         padding: const EdgeInsets.only(left: 8.0),
         child: Row(
           children: List.generate(
-            6, (index) => const RectangularCardShimmer(),
+            6,
+            (index) => const RectangularCardShimmer(),
           ),
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-

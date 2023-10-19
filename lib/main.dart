@@ -18,24 +18,27 @@ void main() async {
 
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
+
   ///local notification initial method call
   await FirebaseMessaging.instance.subscribeToTopic('onesthrm');
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
-  final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+  final authenticationRepository =
+      AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
   ///openBox for location hive
   openLocationBox();
 
-  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getTemporaryDirectory());
   Bloc.observer = AppBlocObserver();
 
   runApp(EasyLocalization(
     supportedLocales: const [
       Locale('en', 'US'),
       Locale('bn', 'BN'),
-      Locale('ar', 'AR')
+      Locale('ar', 'AR'),
     ],
     path: 'assets/translations',
     saveLocale: true,
