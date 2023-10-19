@@ -14,7 +14,11 @@ class PolicyContentScreen extends StatelessWidget {
       : super(
           key: key,
         );
-
+  static Route route(String? appBarName, String? apiSlug) => MaterialPageRoute(
+      builder: (_) => PolicyContentScreen(
+            apiSlug: apiSlug,
+            appBarName: appBarName,
+          ));
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
