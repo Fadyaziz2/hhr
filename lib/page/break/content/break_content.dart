@@ -6,10 +6,8 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
-import '../../../res/date_utils.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../../app/global_state.dart';
 import '../../attendance/content/animated_circular_button.dart';
@@ -37,7 +35,8 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
@@ -98,14 +97,17 @@ class BreakContentState extends State<BreakContent>
     final dashboard = widget.homeBloc.state.dashboardModel;
 
     return BlocListener<BreakBloc, BreakState>(
-      listenWhen: (oldState, newState) => oldState.isTimerStart != newState.isTimerStart,
+      listenWhen: (oldState, newState) =>
+          oldState.isTimerStart != newState.isTimerStart,
       listener: (context, state) {
         if (globalState.get(breakStatus) == 'break_in') {
           controllerBreakTimer.start();
+
           ///current time of milliseconds
           SharedUtil.setValue(breakTime, '${now.millisecondsSinceEpoch}');
         } else {
           controllerBreakTimer.reset();
+
           ///current time of milliseconds
           SharedUtil.deleteKey(breakTime);
         }
@@ -115,7 +117,8 @@ class BreakContentState extends State<BreakContent>
               context: context,
               message: '${user?.user?.name}',
               body: '${state.breakBack?.message}',
-              isSuccess: state.status == NetworkStatus.success && state.breakBack?.result == true);
+              isSuccess: state.status == NetworkStatus.success &&
+                  state.breakBack?.result == true);
         }
 
         if (state.status == NetworkStatus.success) {
@@ -143,7 +146,8 @@ class BreakContentState extends State<BreakContent>
                   context.read<BreakBloc>().add(OnBreakBackEvent());
                 },
               ),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                  null)
                 const Text(
                   "Last Breaks",
                   style: TextStyle(
@@ -158,7 +162,9 @@ class BreakContentState extends State<BreakContent>
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      TodayHistory? todayHistory = state.breakBack?.data?.breakBackHistory?.todayHistory?.elementAt(index);
+                      TodayHistory? todayHistory = state
+                          .breakBack?.data?.breakBackHistory?.todayHistory
+                          ?.elementAt(index);
 
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -208,11 +214,14 @@ class BreakContentState extends State<BreakContent>
                       return const Divider();
                     },
                     itemCount: dashboard?.data?.breakHistory?.breakHistory
-                        ?.todayHistory!.length ??
+                            ?.todayHistory!.length ??
                         0),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                  null)
                 const SizedBox(height: 20.0),
-              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null && state.breakBack?.data?.breakBackHistory?.todayHistory == null)
+              if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                      null &&
+                  state.breakBack?.data?.breakBackHistory?.todayHistory == null)
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

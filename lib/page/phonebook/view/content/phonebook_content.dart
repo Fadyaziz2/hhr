@@ -7,10 +7,10 @@ import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_men
 
 import '../../bloc/phonebook_bloc.dart';
 
-class PhonebookContent extends StatelessWidget {
+class PhoneBookContent extends StatelessWidget {
   final Settings settings;
 
-  const PhonebookContent({Key? key, required this.settings}) : super(key: key);
+  const PhoneBookContent({Key? key, required this.settings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +19,17 @@ class PhonebookContent extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: PhonebookSearch(
-                bloc: context.read<PhonebookBloc>(),
+              child: PhoneBookSearch(
+                bloc: context.read<PhoneBookBloc>(),
               ),
             ),
             PopupMenusFilerContent(
               settings: settings,
-              bloc: context.read<PhonebookBloc>(),
+              bloc: context.read<PhoneBookBloc>(),
             )
           ],
         ),
-        const Expanded(child: PhonebookEmployees())
+        const Expanded(child: PhoneBookEmployees())
       ],
     );
   }

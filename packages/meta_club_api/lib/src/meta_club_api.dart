@@ -11,6 +11,8 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
+import 'package:meta_club_api/src/models/phonebook.dart';
+import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -747,11 +749,12 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook ====================
-  Future<Phonebook?> getPhonebooks(
+  Future<Phonebook?> getPhoneBooks(
       {String? keywords,
       int? designationId,
       int? departmentId,
       required int pageCount}) async {
+    // String api = 'app/get-all-users/33?keywords=$keywords';
     String api =
         'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
 
@@ -769,7 +772,7 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook Details====================
-  Future<PhonebookDetailsModel?> getPhonebooksUserDetails(
+  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails(
       {String? userId}) async {
     String api = 'user/details/$userId';
     try {
@@ -779,7 +782,7 @@ class MetaClubApiClient {
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
-      return PhonebookDetailsModel.fromJson(response?.data);
+      return PhoneBookDetailsModel.fromJson(response?.data);
     } catch (_) {
       return null;
     }
@@ -834,6 +837,53 @@ class MetaClubApiClient {
       return true;
     } catch (_) {
       return false;
+    }
+  }
+
+  Future<MeetingsListModel?> getMeetingsItem(String month) async {
+    const String api = 'appoinment/get-list';
+
+    final data = {"month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return MeetingsListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  ///////// Appoinment Create///////////////
+  Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
+    String api = 'appoinment/create';
+
+    try {
+      // debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap({
+        "title": appointmentBody?.title,
+        "description": appointmentBody?.description,
+        "appoinment_with": appointmentBody?.appointmentWith,
+        "date": appointmentBody?.date,
+        "location": appointmentBody?.location,
+        "appoinment_start_at": appointmentBody?.appointmentStartDate,
+        "appoinment_end_at": appointmentBody?.appointmentEndDate,
+        "file_id": appointmentBody?.previewId,
+      });
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.data['result'] == true) {
+        return response.data['message'];
+      }
+      return response.data['message'];
+    } catch (e) {
+      return 'Something went wrong';
     }
   }
 }

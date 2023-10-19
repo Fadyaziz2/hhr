@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../bloc/phonebook_bloc.dart';
 
-class PhonebookDetailsScreen extends StatelessWidget {
-  const PhonebookDetailsScreen(
+class PhoneBookDetailsScreen extends StatelessWidget {
+  const PhoneBookDetailsScreen(
       {Key? key, required this.userId, required this.bloc})
       : super(key: key);
   final String userId;
-  final PhonebookBloc bloc;
+  final PhoneBookBloc bloc;
 
   static Route route(
-      {required PhonebookBloc homeBloc, required String userId}) {
+      {required PhoneBookBloc homeBloc, required String userId}) {
     return MaterialPageRoute(
-        builder: (_) => PhonebookDetailsScreen(
+        builder: (_) => PhoneBookDetailsScreen(
               bloc: homeBloc,
               userId: userId,
             ));
@@ -26,7 +26,7 @@ class PhonebookDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
-          future: bloc.onPhonebookDetails(userId: userId.toString()),
+          future: bloc.onPhoneBookDetails(userId: userId.toString()),
           builder: (context, snapshot) {
             if (snapshot.hasData == true) {
               return Column(
@@ -81,7 +81,9 @@ class PhonebookDetailsScreen extends StatelessWidget {
                             iconData: Icons.mail,
                             bgColor: const Color(0xFFD8DAE8),
                             onPressed: () {
-                              bloc.add(DirectMailTo(snapshot.data?.data?.email ?? '', snapshot.data?.data?.name ?? ''));
+                              bloc.add(DirectMailTo(
+                                  snapshot.data?.data?.email ?? '',
+                                  snapshot.data?.data?.name ?? ''));
                             }),
                         profileMenu(
                           bgColor: const Color(0xFFFD5250),
@@ -128,17 +130,19 @@ class PhonebookDetailsScreen extends StatelessWidget {
     );
   }
 
-  GestureDetector profileMenu({IconData? iconData, Function()? onPressed, Color? bgColor}) {
+  GestureDetector profileMenu(
+      {IconData? iconData, Function()? onPressed, Color? bgColor}) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(12.0)
+            color: bgColor, borderRadius: BorderRadius.circular(12.0)),
+        child: Icon(
+          iconData,
+          color: Colors.white,
         ),
-        child: Icon(iconData, color: Colors.white,),
       ),
     );
   }

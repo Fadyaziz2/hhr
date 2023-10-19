@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as m;
-import 'package:onesthrm/res/const.dart';
-import '../../app/global_state.dart';
 
 class AnimatedCircularButton extends StatefulWidget {
   final VoidCallback? onComplete;
@@ -9,7 +7,13 @@ class AnimatedCircularButton extends StatefulWidget {
   final String title;
   final Color color;
 
-  const AnimatedCircularButton({Key? key, required this.title, required this.color,this.onComplete, this.isCheckedIn = false}) : super(key: key);
+  const AnimatedCircularButton(
+      {Key? key,
+      required this.title,
+      required this.color,
+      this.onComplete,
+      this.isCheckedIn = false})
+      : super(key: key);
 
   @override
   State<AnimatedCircularButton> createState() => _AnimatedCircularButtonState();
@@ -24,7 +28,8 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
   void initState() {
     super.initState();
     //Init the animation and it's event handler
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     animation = Tween<double>(begin: 0, end: 1).animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -51,7 +56,6 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
 
   @override
   Widget build(BuildContext context) {
-
     return AspectRatio(
       aspectRatio: 2.0,
       child: ClipRRect(
@@ -65,7 +69,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                   painter: ArcShapePainter(
                     progress: animation.value,
                     radius: MediaQuery.of(context).size.width,
-                    color:  widget.color,
+                    color: widget.color,
                     strokeWidth: 5.0,
                   ),
                   //Logo and text
@@ -83,7 +87,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                           width: 45,
                         ),
                       ),
-                       Padding(
+                      Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           widget.title,
@@ -142,7 +146,8 @@ class ArcShapePainter extends CustomPainter {
     Offset center = Offset(size.width / 2, size.height / 2);
 
     //Draw the line arc
-    canvas.drawArc(Rect.fromCircle(center: center, radius: 85.0), -m.pi / 2, progressAngle, false, _activePaint);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: 85.0), -m.pi / 2,
+        progressAngle, false, _activePaint);
 
     canvas.drawCircle(center, 85.0, _inActivePaint);
 

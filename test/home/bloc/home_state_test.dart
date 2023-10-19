@@ -7,7 +7,7 @@ main() {
   group('Home State Status', () {
     HomeState initialState = const HomeState();
     Settings settings = Settings(result: true);
-    DashboardModel dashboardModel = DashboardModel(result: true);
+    DashboardModel dashboardModel = const DashboardModel(result: true);
 
     HomeState createSubject(
         {NetworkStatus status = NetworkStatus.initial,
@@ -47,10 +47,11 @@ main() {
     test('Props are correct', () {
       expect(
           createSubject(
-              status: NetworkStatus.success,
-              settings: settings,
-              dashboardModel: dashboardModel).props,
-          equals(<Object>[settings, dashboardModel,NetworkStatus.success]));
+                  status: NetworkStatus.success,
+                  settings: settings,
+                  dashboardModel: dashboardModel)
+              .props,
+          equals(<Object>[settings, dashboardModel, NetworkStatus.success]));
     });
   });
 }

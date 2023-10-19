@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-StaticsModel staticsModelFromJson(String str) => StaticsModel.fromJson(json.decode(str));
+StaticsModel staticsModelFromJson(String str) =>
+    StaticsModel.fromJson(json.decode(str));
 
 String staticsModelToJson(StaticsModel data) => json.encode(data.toJson());
 
@@ -52,13 +53,13 @@ class Statics {
       };
 }
 
-class CurrentMonth extends Equatable{
-  CurrentMonth({this.image, this.title, this.number, this.slug});
+class CurrentMonth extends Equatable {
+  const CurrentMonth({this.image, this.title, this.number, this.slug});
 
-  String? image;
-  String? title;
-  dynamic number;
-  String? slug;
+  final String? image;
+  final String? title;
+  final dynamic number;
+  final String? slug;
 
   factory CurrentMonth.fromJson(Map<String, dynamic> json) => CurrentMonth(
       image: json["image"],
@@ -66,24 +67,20 @@ class CurrentMonth extends Equatable{
       number: json["number"],
       slug: json["slug"]);
 
-  Map<String, dynamic> toJson() => {
-        "image": image,
-        "title": title,
-        "number": number,
-        "slug": slug
-      };
+  Map<String, dynamic> toJson() =>
+      {"image": image, "title": title, "number": number, "slug": slug};
 
   @override
   List<Object?> get props => [image, title, number, slug];
 }
 
-class Today extends Equatable{
-  Today({this.image, this.title, this.number, this.slug});
+class Today extends Equatable {
+  const Today({this.image, this.title, this.number, this.slug});
 
-  String? image;
-  String? title;
-  dynamic number;
-  String? slug;
+  final String? image;
+  final String? title;
+  final dynamic number;
+  final String? slug;
 
   factory Today.fromJson(Map<String, dynamic> json) => Today(
       image: json["image"],

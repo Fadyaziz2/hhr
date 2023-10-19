@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'const.dart';
 
-String getDateAsString({required DateTime dateTime,String format = 'MM-dd-yyyy'}) {
+String getDateAsString({ DateTime ? dateTime,String format = 'MM-dd-yyyy'}) {
   return DateFormat(format)
-      .format(dateTime)
+      .format(dateTime!)
       .toString();
 }
 

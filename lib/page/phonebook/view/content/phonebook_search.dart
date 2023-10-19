@@ -4,15 +4,16 @@ import 'package:onesthrm/page/phonebook/phonebook.dart';
 
 import '../../../../res/common/debouncer.dart';
 
-class PhonebookSearch extends StatelessWidget {
-  const PhonebookSearch({Key? key, this.bloc}) : super(key: key);
+class PhoneBookSearch extends StatelessWidget {
+  const PhoneBookSearch({Key? key, this.bloc}) : super(key: key);
   final Bloc? bloc;
 
   @override
   Widget build(BuildContext context) {
     final deBouncer = Debounce(milliseconds: 1000);
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
+      padding:
+          const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
       child: TextField(
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.search),
@@ -27,7 +28,7 @@ class PhonebookSearch extends StatelessWidget {
         ),
         onChanged: (value) {
           deBouncer.run(() =>
-              bloc?.add(PhonebookSearchData(searchText: value.toString())));
+              bloc?.add(PhoneBookSearchData(searchText: value.toString())));
         },
       ),
     );

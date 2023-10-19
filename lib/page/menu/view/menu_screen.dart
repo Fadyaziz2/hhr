@@ -130,7 +130,7 @@ class MenuScreen extends StatelessWidget {
                             : const SizedBox.shrink();
                       },
                     ),
-                  ),
+                  )
                 ],
               ))),
     );

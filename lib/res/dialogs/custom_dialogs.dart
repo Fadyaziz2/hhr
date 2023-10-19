@@ -198,8 +198,9 @@ class CustomDialogImagePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: SizedBox(
-        height: 210,
+      child: Container(
+        color: Colors.white,
+        height: 215,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
