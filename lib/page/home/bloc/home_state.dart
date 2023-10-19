@@ -5,12 +5,12 @@ class HomeState extends Equatable{
   final NetworkStatus status;
   final DashboardModel? dashboardModel;
 
-  const HomeState({this.settings,this.dashboardModel,this.status = NetworkStatus.initial});
+  const HomeState({this.status = NetworkStatus.initial,this.settings,this.dashboardModel});
 
   HomeState copy({BuildContext? context, Settings? settings, DashboardModel? dashboardModel,NetworkStatus? status}) {
     return HomeState(settings: settings ?? this.settings,status: status ?? this.status,dashboardModel: dashboardModel ?? this.dashboardModel);
   }
 
   @override
-  List<Object?> get props => [settings,dashboardModel];
+  List<Object?> get props => [settings,dashboardModel,status];
 }

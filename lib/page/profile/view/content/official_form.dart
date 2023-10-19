@@ -110,16 +110,19 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         const Text(
           'Employee Id',
-          style: TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
         ),
-        const TextField(
-          style: TextStyle(fontSize: 14),
+         TextField(
+          style: const TextStyle(fontSize: 14),
           keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
+          onChanged: (data) {
+            official.employeeId = data;
+            widget.onOfficialUpdate(official);
+          },
+          decoration: const InputDecoration(
             fillColor: Colors.red,
             contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
             hintText: 'Enter Employee Id',
@@ -134,8 +137,7 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(
-                slug: 'official', data: official.toJson()));
+            widget.bloc.add(ProfileUpdate(slug: 'official', data: official.toJson()));
           },
           text: 'save',
           radius: 8.0,

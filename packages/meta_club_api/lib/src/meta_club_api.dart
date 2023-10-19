@@ -4,12 +4,15 @@ import 'dart:io';
 
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
+import 'package:meta_club_api/src/models/phonebook.dart';
+import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -19,18 +22,18 @@ import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
-  final String token;
+  String token;
   late final HttpServiceImpl _httpServiceImpl;
 
   MetaClubApiClient({required this.token}) {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$_rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
-  Future<LoginData?> login(
+  Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
     const String login = 'login';
 
@@ -40,14 +43,12 @@ class MetaClubApiClient {
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$login', body);
 
-      print('response ${response.data}');
-
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
       }
-      return LoginData.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return right(LoginData.fromJson(response.data));
+    } catch (e) {
+      return Left(LoginFailure(error: e.toString()));
     }
   }
 
@@ -86,9 +87,69 @@ class MetaClubApiClient {
     try {
       final response =
           await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<SupportListModel?> getSupport(String type, String month) async {
+    const String api = 'support-ticket/list';
+
+    final data = {"type": type, "month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return SupportListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
+    const String api = 'user/attendance';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return CheckData.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// attendance report get data ------------------
+  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
+     String api = 'report/attendance/particular-month/$userId';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return AttendanceReport.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<Break?> backBreak() async {
+    const String api = 'user/attendance/break-back';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', {});
+      if (response.statusCode == 200) {
+        return Break.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -101,7 +162,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
@@ -127,16 +188,61 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> updateProfile({required String slag, required data}) async {
-    String api = 'user/profile/update/$slag';
+  Future<bool> createSupportApi({required data}) async {
+    String api = 'user/profile/update/';
 
     try {
-
       debugPrint('body: $data');
 
       FormData formData = FormData.fromMap(data);
 
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> updateProfile({required String slag, required data}) async {
+    String api = 'user/profile/update/$slag';
+
+    try {
+      debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+    String api = 'support-ticket/add';
+
+    try {
+      debugPrint('body: $bodyCreateSupport');
+
+      FormData formData = FormData.fromMap({
+        "subject": bodyCreateSupport?.subject,
+        "description": bodyCreateSupport?.description,
+        "file_id": bodyCreateSupport?.previewId,
+        "priority_id": bodyCreateSupport?.priorityId
+      });
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -151,12 +257,12 @@ class MetaClubApiClient {
     String api = 'user/profile-update';
 
     try {
+      debugPrint('body: ${{"avatar_id": avatarId}}');
 
-      debugPrint('body: ${{"avatar_id":avatarId}}');
+      FormData formData = FormData.fromMap({"avatar_id": avatarId});
 
-      FormData formData = FormData.fromMap({"avatar_id":avatarId});
-
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -171,12 +277,11 @@ class MetaClubApiClient {
     const String api = 'file-upload';
 
     try {
+      FormData formData =
+          FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
 
-      FormData formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(file.path)
-      });
-
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api',formData);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -201,6 +306,31 @@ class MetaClubApiClient {
     } catch (_) {
       return null;
     }
+  }
+
+  /// Live Location store API -----------------
+  Future<bool> storeLocationToServer(
+      {required List<Map<String, dynamic>> locations, String? date}) async {
+    try {
+      final data = {'locations': locations};
+      var response = await _httpServiceImpl.postRequest(
+          "${_baseUrl}user/attendance/live-location-store", data);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print("storeLocationToServer ${response.data}");
+        }
+        return true;
+      }
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.response) {
+        return false;
+      } else {
+        if (kDebugMode) {
+          print(e.message);
+        }
+      }
+    }
+    return false;
   }
 
   Future<Notices?> notices() async {
@@ -540,6 +670,220 @@ class MetaClubApiClient {
       return ActsRegulationModel.fromJson(response?.data);
     } catch (_) {
       return null;
+    }
+  }
+
+  Future<NotificationResponse?> getNotification() async {
+    const String api = 'user/notification';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return NotificationResponse.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ResponseNoticeDetails?> getNotificationDetaisl(int noticeId) async {
+    const String api = 'notice/show';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api/$noticeId');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ResponseNoticeDetails.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<NoticeListModel?> getNoticeList() async {
+    const String api = 'notice/list';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return NoticeListModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+///// All Notification ///////////
+  Future<bool> clearAllNotificationApi() async {
+    const String clear = 'user/notification/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ///// All Notification ///////////
+  Future<bool> clearNoticeApi() async {
+    const String clear = 'notice/clear';
+
+    final response =
+        await _httpServiceImpl.getRequestWithToken('$_baseUrl$clear');
+
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /// ================== Phonebook ====================
+  Future<Phonebook?> getPhoneBooks(
+      {String? keywords,
+      int? designationId,
+      int? departmentId,
+      required int pageCount}) async {
+    // String api = 'app/get-all-users/33?keywords=$keywords';
+    String api =
+        'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return Phonebook.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Phonebook Details====================
+  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails(
+      {String? userId}) async {
+    String api = 'user/details/$userId';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return PhoneBookDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Task Dashboard Data ========================
+  Future<TaskDashboardModel?> getTaskInitialData(
+      {String statuesId = '26'}) async {
+    String api = 'tasks?status=$statuesId';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDashboardModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Tasks Details ========================
+  Future<TaskDetailsModel?> getTaskDetails(String taskId) async {
+    // String api = 'app/get-all-employees/$userId';
+    String api = 'tasks/$taskId';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return TaskDetailsModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> updateTaskStatusAndSlider({data}) async {
+    const String api = 'tasks/update';
+
+    try {
+      FormData formData = FormData.fromMap(data);
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<MeetingsListModel?> getMeetingsItem(String month) async {
+    const String api = 'appoinment/get-list';
+
+    final data = {"month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return MeetingsListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  ///////// Appoinment Create///////////////
+  Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
+    String api = 'appoinment/create';
+
+    try {
+      // debugPrint('body: $data');
+
+      FormData formData = FormData.fromMap({
+        "title": appointmentBody?.title,
+        "description": appointmentBody?.description,
+        "appoinment_with": appointmentBody?.appointmentWith,
+        "date": appointmentBody?.date,
+        "location": appointmentBody?.location,
+        "appoinment_start_at": appointmentBody?.appointmentStartDate,
+        "appoinment_end_at": appointmentBody?.appointmentEndDate,
+        "file_id": appointmentBody?.previewId,
+      });
+
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.data['result'] == true) {
+        return response.data['message'];
+      }
+      return response.data['message'];
+    } catch (e) {
+      return 'Something went wrong';
     }
   }
 }

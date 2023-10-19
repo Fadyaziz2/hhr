@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 
@@ -22,7 +25,9 @@ class CheckInOutCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-          onTap: () { },
+          onTap: () {
+            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Row(
@@ -50,7 +55,7 @@ class CheckInOutCard extends StatelessWidget {
                         .start,
                     children: [
                       Text(
-                          dashboardModel?.data?.attendanceData?.checkIn == false
+                          dashboardModel?.data?.attendanceData?.id == null
                               ? "Start time"
                               : "Done for today",
                           style: const TextStyle(
@@ -64,7 +69,7 @@ class CheckInOutCard extends StatelessWidget {
                       const SizedBox(
                           height: 10),
                        Text(
-                         dashboardModel?.data?.attendanceData?.checkIn == false ? "Check In": "Check Out",
+                         dashboardModel?.data?.attendanceData?.id == null ? "Check In": "Check Out",
                         style: const TextStyle(
                             color: colorPrimary,
                             fontSize: 16,

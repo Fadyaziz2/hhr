@@ -79,6 +79,15 @@ class User extends Equatable {
       ];
 }
 
+class LoginFailure extends Equatable{
+  final String error;
+
+  LoginFailure({this.error = ''});
+
+  @override
+  List<Object?> get props => [error];
+}
+
 class RegistrationData {
   final bool? result;
   final String? error;

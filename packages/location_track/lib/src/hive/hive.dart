@@ -1,0 +1,1 @@
+export 'hive_location_provider.dart';

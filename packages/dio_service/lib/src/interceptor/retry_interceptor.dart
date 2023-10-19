@@ -21,6 +21,7 @@ class RetryOnConnectionInterceptor implements InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     handler.next(options);
+    debugPrint('Body ${options.data}');
     debugPrint('Path ${options.path}');
     debugPrint('Method ${options.method}');
   }

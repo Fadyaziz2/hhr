@@ -37,10 +37,13 @@ class MenuContentItem extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-               Text(
-                menu.name ?? '',
-                style: const TextStyle(fontSize: 12),
+               Expanded(
+                 child: Text(
+                  menu.name ?? '',
+                  maxLines: 2,
+                  style: const TextStyle(fontSize: 12),
               ),
+               ),
             ],
           ),
         ),

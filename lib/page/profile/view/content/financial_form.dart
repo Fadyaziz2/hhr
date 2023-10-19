@@ -1,18 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
-import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
-import '../../../../res/const.dart';
-import '../../../../res/date_utils.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
-import '../../../../res/widgets/date_picker_widget.dart';
 import '../../bloc/update/update_profile_bloc.dart';
 import '../../model/UpdateOfficialData.dart';
 import 'custom_text_field_with_title.dart';
-import 'gender_content.dart';
 
 class FinancialForm extends StatefulWidget {
   final Profile? profile;

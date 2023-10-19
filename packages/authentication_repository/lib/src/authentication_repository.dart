@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated}
+enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
-class AuthenticationRepository{
-
+class AuthenticationRepository {
   final MetaClubApiClient apiClient;
   AuthenticationStatus initialStatus = AuthenticationStatus.unauthenticated;
 
@@ -14,15 +14,15 @@ class AuthenticationRepository{
   final _controller = StreamController<AuthenticationStatus>();
   final _userController = StreamController<LoginData>();
 
-  void updateAuthenticationStatus(AuthenticationStatus status){
+  void updateAuthenticationStatus(AuthenticationStatus status) {
     initialStatus = status;
   }
 
-  void updateUserData(LoginData data){
+  void updateUserData(LoginData data) {
     _userController.add(data);
   }
 
-  void clearUserData(LoginData data){
+  void clearUserData(LoginData data) {
     _userController.add(data);
   }
 
@@ -35,24 +35,20 @@ class AuthenticationRepository{
     yield* _userController.stream;
   }
 
-  Future<LoginData?> login({required String email,required String password}) async {
+  Future<Either<LoginFailure, LoginData?>> login({required String email, required String password}) async {
+    final userEither = await apiClient.login(email: email, password: password);
 
-    final user = await apiClient.login(email: email, password: password);
-
-    if(user != null){
+    userEither.fold((l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
       _controller.add(AuthenticationStatus.authenticated);
-      _userController.add(user);
-    }else{
-      _controller.add(AuthenticationStatus.unauthenticated);
-    }
-    return user;
+      _userController.add(r!);
+    });
+
+    return userEither;
   }
 
-  void logout(){
+  void logout() {
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 
   void dispose() => _controller.close();
-
 }
-

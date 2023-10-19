@@ -7,7 +7,6 @@ import '../../authentication/bloc/authentication_bloc.dart';
 import '../content/bottom_nav_content.dart';
 
 class BottomNavigationPage extends StatelessWidget {
-
   const BottomNavigationPage({super.key});
 
   static Route route() {
@@ -16,15 +15,17 @@ class BottomNavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.read<AuthenticationBloc>().state.data;
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => BottomNavCubit()),
-        BlocProvider(create: (_) => HomeBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(LoadSettings())
-          ..add(LoadHomeData()))
+        BlocProvider(
+            create: (_) => HomeBloc(
+                metaClubApiClient:
+                    MetaClubApiClient(token: '${user?.user?.token}'))
+              ..add(LoadSettings())
+              ..add(LoadHomeData())),
       ],
       child: const BottomNavContent(),
     );

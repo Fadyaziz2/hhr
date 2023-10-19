@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
-import '../models/event_model.dart';
 import 'event_card.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -46,7 +45,7 @@ class HomeHeader extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 8),
                         child: Text(
-                          settings?.data?.timeWish?.wish?? "",
+                          settings?.data?.timeWish?.wish ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white,fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -69,7 +68,7 @@ class HomeHeader extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          settings?.data?.timeWish?.subTitle?? "",
+                          settings?.data?.timeWish?.subTitle ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
                           style: const TextStyle(
                               fontSize: 14,
                               fontWeight:
@@ -81,8 +80,9 @@ class HomeHeader extends StatelessWidget {
                     ],
                   ),
                 ),
+                if(settings?.data?.timeWish != null || dashboardModel?.data?.config?.timeWish != null)
                 SvgPicture.network(
-                  settings?.data?.timeWish?.image ?? "",
+                  settings?.data?.timeWish?.image ?? dashboardModel?.data?.config?.timeWish?.image ?? '',
                   semanticsLabel: 'sun',
                   height: 60,
                   width: 60,
@@ -120,96 +120,6 @@ class HomeHeader extends StatelessWidget {
                   ),
                   )),
             ),
-            // SizedBox(
-            //   height: 95.0,
-            //   child: InkWell(
-            //     onTap: null,
-            //     child: Container(
-            //       margin:
-            //       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-            //       padding: const EdgeInsets.all(8.0),
-            //       decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         shape: BoxShape.rectangle,
-            //         boxShadow: [
-            //           BoxShadow(
-            //             color: mainColor.withOpacity(0.2),
-            //             blurRadius: 4.0,
-            //             spreadRadius: 1.0,
-            //           )
-            //         ],
-            //       ),
-            //       child: Row(
-            //         children: [
-            //           Center(
-            //             child: Image.network(
-            //               'https://upload.wikimedia.org/wikipedia/en/5/5a/Shaheen_College_Logo_Dhaka.png',
-            //               scale: 3,
-            //             ),
-            //           ),
-            //           const SizedBox(
-            //             width: 16,
-            //           ),
-            //           Expanded(
-            //             child: Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               children: [
-            //                 Text('${user?.user?.name}',
-            //                     maxLines: 1,
-            //                     overflow: TextOverflow.ellipsis,
-            //                     style: const TextStyle(
-            //                         fontWeight: FontWeight.bold, fontSize: 16)),
-            //                 InkWell(
-            //                   onTap: () {
-            //                     Navigator.of(context).push(ProfileScreen.route(
-            //                         context
-            //                             .read<AuthenticationBloc>()
-            //                             .state
-            //                             .data
-            //                             ?.user
-            //                             ?.id,settings));
-            //                   },
-            //                   child: Padding(
-            //                     padding:
-            //                     const EdgeInsets.symmetric(vertical: 5.0),
-            //                     child: Text(
-            //                       "VIEW PROFILE",
-            //                       style:
-            //                       TextStyle(fontSize: 14, color: mainColor),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           IconButton(
-            //               onPressed: () => showDialog(
-            //                 context: context,
-            //                 builder: (context) => AlertDialog(
-            //                   content: const Text(
-            //                       'Are you sure, you want to logout'),
-            //                   actions: [
-            //                     TextButton(
-            //                         onPressed: () =>
-            //                             Navigator.of(context).pop(),
-            //                         child: const Text('No')),
-            //                     TextButton(
-            //                         onPressed: () {
-            //                           context
-            //                               .read<AuthenticationBloc>()
-            //                               .add(AuthenticationLogoutRequest());
-            //                         },
-            //                         child: const Text('Yes')),
-            //                   ],
-            //                 ),
-            //               ),
-            //               icon: const Icon(Icons.logout)),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ],

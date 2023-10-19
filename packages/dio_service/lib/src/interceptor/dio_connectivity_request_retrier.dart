@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 
 class DioConnectivityRequestRetrier {
   final Dio? dio;
   final Connectivity? connectivity;
 
-  DioConnectivityRequestRetrier({required this.dio, required this.connectivity});
+  DioConnectivityRequestRetrier(
+      {required this.dio, required this.connectivity});
 
   Future<Response> scheduleRequestRetry(RequestOptions requestOptions) async {
     StreamSubscription? streamSubscription;
     final responseCompleter = Completer<Response>();
-    streamSubscription = connectivity!.onConnectivityChanged.listen((connectivityResult) {
+    streamSubscription =
+        connectivity!.onConnectivityChanged.listen((connectivityResult) {
       streamSubscription!.cancel();
       if (connectivityResult != ConnectivityResult.none) {
         responseCompleter.complete(dio?.request(requestOptions.path,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_track/location_track.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
-import '../../registration/view/registration_page.dart';
 import '../bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
@@ -12,17 +12,19 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Center(
       child: BlocListener<LoginBloc, LoginState>(
+        listenWhen: (oldState,newState) => oldState != newState,
         listener: (context, state) {
           if (state.status.isFailure) {
-             showLoginDialog(context: context,isSuccess: false,body: 'Authentication failed');
+             showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
           }
           if(state.status.isCanceled){
              showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
           }
           if(state.status.isSuccess){
-            showLoginDialog(context: context,isSuccess: true,message: 'Authentication Successful');
+            showLoginDialog(context: context,isSuccess: true,message: '${state.user?.user?.name}',body: 'Authentication Successful');
           }
         },
         child: Padding(
@@ -68,7 +70,6 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return TextField(
           key: const Key('email_text_field'),
@@ -83,7 +84,7 @@ class _EmailInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.phone_android_rounded),
             prefixIconColor: mainColor,
-            errorText: state.email.isValid ? 'Invalid email' : null,
+            errorText: state.email.displayError != null ? 'Invalid email' : null,
           ),
         );
       },
@@ -97,7 +98,6 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
           key: const Key('password_text_field'),
@@ -122,7 +122,7 @@ class _PasswordInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.password),
             prefixIconColor: mainColor,
-            errorText: state.password.isValid ? 'Invalid password' : null,
+            errorText:  state.password.displayError != null ? 'Invalid password' : null,
           ),
         );
       },
@@ -146,7 +146,7 @@ class _LoginButton extends StatelessWidget {
                   onPressed: () {
                     context.read<LoginBloc>().add(const LoginSubmit());
                   },
-                  style: ElevatedButton.styleFrom(primary: buttonColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                   child: const Text('Login'),
                 ),
               );
