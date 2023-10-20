@@ -29,9 +29,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -129,8 +129,9 @@ class MetaClubApiClient {
   }
 
   /// attendance report get data ------------------
-  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
-     String api = 'report/attendance/particular-month/$userId';
+  Future<AttendanceReport?> getAttendanceReport(
+      {required Map<String, dynamic> body, int? userId}) async {
+    String api = 'report/attendance/particular-month/$userId';
 
     try {
       final response =
@@ -715,6 +716,23 @@ class MetaClubApiClient {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
       }
       return NoticeListModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ResponseAllContents?> getPolicyData(String? slug) async {
+    const String api = 'app/all-contents/';
+
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken(
+        '$_baseUrl$api$slug',
+      );
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ResponseAllContents.fromJson(response?.data);
     } catch (_) {
       return null;
     }
