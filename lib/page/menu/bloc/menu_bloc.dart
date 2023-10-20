@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
@@ -50,6 +51,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const NoticeListScreen());
         break;
       case 'expense':
+        NavUtil.navigateScreen(event.context, const ExpansePage());
         break;
       case 'leave':
       case 'approval':
