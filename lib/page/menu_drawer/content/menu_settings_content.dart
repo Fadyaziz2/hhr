@@ -23,8 +23,6 @@ class MenuSettingsContent extends StatelessWidget {
         ),
         const Divider(),
         const ListTile(
-          // onTap: () =>
-          //     NavUtil.navigateScreen(context, const SignUp()),
           dense: true,
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: 8,
