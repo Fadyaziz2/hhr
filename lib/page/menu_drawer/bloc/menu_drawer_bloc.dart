@@ -18,25 +18,14 @@ class MenuDrawerBloc extends Bloc<MenuDrawerEvent, MenuDrawerState> {
     on<MenuDrawerLoadData>(_onMenuDrawerData);
   }
 
-  void _onMenuDrawerData(
-      MenuDrawerLoadData event, Emitter<MenuDrawerState> emit) async {
-    emit(const MenuDrawerState(
-      status: NetworkStatus.loading,
-    ));
+  void _onMenuDrawerData(MenuDrawerLoadData event, Emitter<MenuDrawerState> emit) async {
+    emit(const MenuDrawerState(status: NetworkStatus.loading));
     try {
-      ResponseAllContents? responseAllContents =
-          await _metaClubApiClient.getPolicyData(event.slug);
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          responseAllContents: responseAllContents));
+      ResponseAllContents? responseAllContents = await _metaClubApiClient.getPolicyData(event.slug);
+      emit(state.copyWith(status: NetworkStatus.success, responseAllContents: responseAllContents));
     } catch (e) {
       emit(const MenuDrawerState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
-
-  // void _onClearData(
-  //     ClearNoticeButton event, Emitter<NoticeListState> emit) async {
-  //   await _metaClubApiClient.clearAllNotificationApi();
-  // }
 }

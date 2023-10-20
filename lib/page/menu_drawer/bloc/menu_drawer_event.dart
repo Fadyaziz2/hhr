@@ -10,8 +10,8 @@ class MenuDrawerLoadData extends MenuDrawerEvent {
   final String? slug;
   final ResponseAllContents? responseAllContents;
 
-  MenuDrawerLoadData(
-      {this.slug, required this.context, this.responseAllContents});
+  MenuDrawerLoadData({this.slug, required this.context, this.responseAllContents});
+
   @override
   List<Object?> get props => [slug, context, responseAllContents];
 }
