@@ -7,7 +7,6 @@ import 'package:onesthrm/page/bottom_navigation/view/bottom_navigation_page.dart
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({Key? key}) : super(key: key);
-
   @override
   State<LanguageScreen> createState() => _LanguageScreenState();
 }
@@ -33,45 +32,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
     }
   ];
 
-  // @override
-  // initState() {
-  //   getSelectedLanguage();
-  //   super.initState();
-  // }
-
-  // getSelectedLanguage() async {
-  //   var selectedLanguage =
-  //       await SPUtill.getSelectLanguage(SPUtill.keySelectLanguage);
-  //   if (kDebugMode) {
-  //     print("selectedLanguage Local: $selectedLanguage");
-  //   }
-  //   if (selectedLanguage != null) {
-  //     setState(() {
-  //       selectedIndex = selectedLanguage;
-  //       if (kDebugMode) {
-  //         print("selectedIndex sssss: $selectedLanguage");
-  //       }
-  //     });
-  //   } else {
-  //     setState(() {
-  //       selectedIndex = 0;
-  //       if (kDebugMode) {
-  //         print("selectedIndex deflt: $selectedIndex");
-  //       }
-  //     });
-  //   }
-  //   setState(() {});
-  // }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             const BottomNavigationPage(bottomNavigationIndex: 0)),
-        // (Route<dynamic> route) => true);
         return true;
       },
       child: Scaffold(
@@ -79,13 +43,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
           child: Stack(
             children: [
               InkWell(
-                onTap: () {
-                  // Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //         const CustomBottomNavigationBar(bottomNavigationIndex: 0)),
-                  //         (Route<dynamic> route) => true);
-                },
+                onTap: () {},
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                   child: Icon(Icons.arrow_back),
@@ -130,24 +88,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                             const Divider(),
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () {
-                              // setState(() {
-                              //   selectedIndex = index;
-                              //   SPUtill.setLanguageIntValue(
-                              //       SPUtill.keySelectLanguage, selectedIndex);
-                              //   if (kDebugMode) {
-                              //     print(selectedIndex);
-                              //   }
-                              //   if (selectedIndex == 0) {
-                              //     context.setLocale(const Locale('en', 'US'));
-                              //   } else if (selectedIndex == 1) {
-                              //     context.setLocale(const Locale('bn', 'BN'));
-                              //   } else if (selectedIndex == 2) {
-                              //     context.setLocale(const Locale('ar', 'AR'));
-                              //   }
-                              //   getSelectedLanguage();
-                              // });
-                            },
+                            onTap: () {},
                             child: Row(
                               children: [
                                 ClipOval(
