@@ -138,17 +138,20 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
   Widget buildButtonBar(
     BuildContext context,
   ) {
-    return ButtonBar(
-      children: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, null),
-          child: Text(widget.localizations.cancelButtonLabel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, selectedDate),
-          child: Text(widget.localizations.okButtonLabel),
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ButtonBar(
+        children: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, null),
+            child: Text(widget.localizations.cancelButtonLabel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, selectedDate),
+            child: Text(widget.localizations.okButtonLabel),
+          )
+        ],
+      ),
     );
   }
 
@@ -240,7 +243,8 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
   }
 
   Widget buildPager(ThemeData theme, String locale) {
-    return SizedBox(
+    return Container(
+      color: Colors.white,
       height: 230.0,
       width: 300.0,
       child: Theme(
