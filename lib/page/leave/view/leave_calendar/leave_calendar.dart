@@ -6,8 +6,8 @@ import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class LeaveCalender extends StatelessWidget {
-  const LeaveCalender({Key? key}) : super(key: key);
+class LeaveCalendar extends StatelessWidget {
+  const LeaveCalendar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:onesthrm/page/leave/view/leave_calender/leave_calender.dart';
+import 'package:onesthrm/page/leave/view/leave_calendar/leave_calendar.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../../../res/widgets/custom_button.dart';
 
@@ -58,7 +58,7 @@ class LeaveRequestType extends StatelessWidget {
               title: "Next",
               padding: 16,
                clickButton: (){
-                NavUtil.navigateScreen(context, const LeaveCalender());
+                NavUtil.navigateScreen(context, const LeaveCalendar());
                },
 
             )
