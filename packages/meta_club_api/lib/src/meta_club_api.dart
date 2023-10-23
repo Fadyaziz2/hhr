@@ -1,7 +1,6 @@
 library meta_club_api;
 
 import 'dart:io';
-
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
