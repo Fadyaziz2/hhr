@@ -1,7 +1,6 @@
 library meta_club_api;
 
 import 'dart:io';
-
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
@@ -11,8 +10,6 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
-import 'package:meta_club_api/src/models/phonebook.dart';
-import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
