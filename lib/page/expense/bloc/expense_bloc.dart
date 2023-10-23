@@ -18,27 +18,45 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   ExpenseBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
         super(const ExpenseState(status: NetworkStatus.initial)) {
-    on<GetExpenseData>(_onAppointmentLoad);
+    on<GetExpenseData>(_onExpenseDataLoad);
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onAppointmentLoad(
+  FutureOr<void> _onExpenseDataLoad(
       GetExpenseData event, Emitter<ExpenseState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
-    emit(ExpenseState(status: NetworkStatus.loading, currentMonth: event.date));
+    emit(ExpenseState(
+        status: NetworkStatus.loading,
+        currentMonth: event.date,
+        paymentType: event.paymentType,
+        statusType: event.status));
     try {
-      final MeetingsListModel? success = await _metaClubApiClient
-          .getMeetingsItem(state.currentMonth ?? currentDate);
-      if (success != null) {
+      final ResponseExpenseList? responseExpenseList =
+          await _metaClubApiClient.getExpenseItem(
+              state.currentMonth ?? currentDate,
+              event.paymentType,
+              event.status);
+      if (responseExpenseList != null) {
         emit(ExpenseState(
-            status: NetworkStatus.success, currentMonth: event.date));
+            status: NetworkStatus.success,
+            responseExpenseList: responseExpenseList,
+            currentMonth: event.date,
+            paymentType: event.paymentType,
+            statusType: event.status));
       } else {
         emit(ExpenseState(
-            status: NetworkStatus.failure, currentMonth: event.date));
+            status: NetworkStatus.failure,
+            currentMonth: event.date,
+            paymentType: event.paymentType,
+            responseExpenseList: responseExpenseList,
+            statusType: event.status));
       }
     } catch (e) {
       emit(ExpenseState(
-          status: NetworkStatus.failure, currentMonth: event.date));
+          status: NetworkStatus.failure,
+          currentMonth: event.date,
+          paymentType: event.paymentType,
+          statusType: event.status));
       throw NetworkRequestFailure(e.toString());
     }
   }

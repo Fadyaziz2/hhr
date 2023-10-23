@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 
 class ExpenseDropDownContent extends StatelessWidget {
-  const ExpenseDropDownContent({
-    super.key,
-  });
+  final ExpenseState? state;
+  const ExpenseDropDownContent({super.key, this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                   tr("Select Payment"),
                   style: const TextStyle(fontSize: 14),
                 ),
+                value: state?.paymentType,
                 // value: provider.paymentTypeValue,
                 icon: const Icon(
                   Icons.arrow_downward,

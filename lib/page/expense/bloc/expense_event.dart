@@ -7,8 +7,10 @@ abstract class ExpenseEvent extends Equatable {
 
 class GetExpenseData extends ExpenseEvent {
   final String? date;
+  final String? paymentType;
+  final String? status;
 
-  GetExpenseData({this.date});
+  GetExpenseData({this.date, this.paymentType, this.status});
 
   @override
   List<Object> get props => [];

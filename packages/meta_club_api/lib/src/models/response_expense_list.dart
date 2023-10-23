@@ -114,7 +114,7 @@ class ExpenseItem extends Equatable {
       ];
 }
 
-class ExpanseStatus {
+class ExpanseStatus extends Equatable {
   ExpanseStatus({
     this.id,
     this.name,
@@ -132,4 +132,9 @@ class ExpanseStatus {
         "id": id,
         "name": name,
       };
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+      ];
 }

@@ -875,6 +875,24 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ResponseExpenseList?> getExpenseItem(
+      String month, String? paymentType, String? status) async {
+    const String api = 'accounts/expense/list';
+
+    final data = {"month": month, "payment": paymentType, "status": status};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return ResponseExpenseList.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   ///////// Appoinment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
