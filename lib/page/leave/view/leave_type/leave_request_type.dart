@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/page/leave/view/leave_calender/leave_calender.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class LeaveRequestType extends StatelessWidget {
   const LeaveRequestType({Key? key}) : super(key: key);
@@ -15,8 +17,10 @@ class LeaveRequestType extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 5,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              return InkWell(
+                onTap: () {
+                  NavUtil.navigateScreen(context, const LeaveCalender());
+                },
                 child: Card(
                   elevation: 4,
                   child: RadioListTile<int?>(
@@ -24,11 +28,6 @@ class LeaveRequestType extends StatelessWidget {
                     title: Row(
                       children: [
                         const Text(
-                          // provider
-                          //     .leaveTypeList
-                          //     ?.data
-                          //     ?.availableLeave?[index]
-                          //     .type ??
                           "Sick Leave",
                           style: TextStyle(
                               fontSize: 14,
@@ -37,7 +36,6 @@ class LeaveRequestType extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          // '${provider.leaveTypeList?.data?.availableLeave?[index].leftDays} ${tr("days_left")}',
                           '19 ${tr("days_left")}',
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500),
@@ -45,9 +43,7 @@ class LeaveRequestType extends StatelessWidget {
                       ],
                     ),
                     groupValue: 0,
-                    onChanged: (int? value) {
-                      // provider.leaveTypeSelected(value!);
-                    },
+                    onChanged: (int? value) {},
                   ),
                 ),
               );
