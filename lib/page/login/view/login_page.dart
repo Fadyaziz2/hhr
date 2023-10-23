@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import '../../internet_connectivity/view/no_internet_screen.dart';
 import '../bloc/login_bloc.dart';
 import 'login_form.dart';
 
@@ -14,13 +15,14 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: BlocProvider(
-          create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),
-          child: const LoginForm(),
+    return NoInternetScreen(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: BlocProvider(
+            create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),
+            child: const LoginForm(),
+          ),
         ),
       ),
     );

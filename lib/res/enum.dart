@@ -3,3 +3,5 @@ enum NetworkStatus { initial , loading , success, failure,successDialog, errorDi
 
 enum Filter {open, close, all}
 
+enum InternetStatus{initial ,online, offline}
+

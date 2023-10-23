@@ -38,7 +38,8 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Response?> getRequestWithToken(String url, {contentType = 'application/json'}) async {
+  Future<Response?> getRequestWithToken(String url,
+      {contentType = 'application/json'}) async {
     Response response;
 
     try {
@@ -65,9 +66,8 @@ class HttpServiceImpl implements HttpService {
   }
 
   DioCacheManager _getCacheManager() {
-    _manager = DioCacheManager(CacheConfig(
-        baseUrl: 'https://hrm.onestweb.com/api/V11/',
-        defaultRequestMethod: "POST"));
+    _manager = DioCacheManager(
+        CacheConfig(baseUrl: 'https://hrm.onestweb.com/api/V11/'));
     return _manager;
   }
 
@@ -92,7 +92,7 @@ class HttpServiceImpl implements HttpService {
     try {
       response =
           await _dio!.post(url, data: body, options: _buildCacheOptions());
-    }on DioError catch (e) {
+    } on DioError catch (e) {
       String error = DioExceptions.fromDioError(e).toString();
       throw Exception(error);
     }
@@ -130,7 +130,8 @@ class DioExceptions implements Exception {
         message = "Receive timeout in connection with API server";
         break;
       case DioErrorType.response:
-        message = _handleError(dioError.response!.statusCode!, dioError.response!.data);
+        message = _handleError(
+            dioError.response!.statusCode!, dioError.response!.data);
         break;
       case DioErrorType.sendTimeout:
         message = "Send timeout in connection with API server";

@@ -55,8 +55,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(currentSliderValue: event.sliderValue));
   }
 
-  FutureOr<void> _onTaskDetailsStatusUpdateRequest(
-      TaskDetailsStatusUpdateRequest event, Emitter<TaskState> emit) async {
+  FutureOr<void> _onTaskDetailsStatusUpdateRequest(TaskDetailsStatusUpdateRequest event, Emitter<TaskState> emit) async {
     final data = {
       'id': event.id,
       'priority': event.priority,
