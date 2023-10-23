@@ -36,7 +36,6 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
           IconButton(
               onPressed: () {
                 // context.read<SupportBloc>().add(SelectDatePicker(context));
-
               },
               icon: const Icon(Icons.calendar_month_outlined))
         ],
@@ -81,12 +80,18 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
           const SizedBox(
             height: 25,
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return buildLeaveTitle();
-              })
+          ListView.separated(
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return buildLeaveTitle();
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(
+              thickness: 1,
+              color: Colors.black12,
+            ),
+          )
         ],
       ),
     );

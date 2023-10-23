@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onesthrm/res/const.dart';
 
 class CustomButton extends StatelessWidget {
   final String? title;
@@ -12,19 +13,17 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin:  EdgeInsets.symmetric(horizontal: padding),
-      height: 45,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
           if (clickButton != null) clickButton!();
         },
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+        style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
             ),
-          ),
-        ),
+            minimumSize: const Size.fromHeight(50),
+            backgroundColor: colorPrimary),
         child: Text("$title",
             style: const TextStyle(
               color: Colors.white,

@@ -7,7 +7,7 @@ import '../../../../res/dialogs/custom_dialogs.dart';
 import '../../../../res/enum.dart';
 import '../../bloc/registration_bloc.dart';
 import 'country_code_widget.dart';
-import 'customButton.dart';
+import 'custom_button.dart';
 import 'custom_input_field.dart';
 
 BodyRegistration bodyRegistration = BodyRegistration(qualifications: []);
