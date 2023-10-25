@@ -20,43 +20,44 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
         super(const ExpenseState(status: NetworkStatus.initial)) {
     on<GetExpenseData>(_onExpenseDataLoad);
     on<SelectDatePicker>(_onSelectDatePicker);
+    on<SelectPaymentType>(_onSelectedPaymentType);
+    on<SelectStatus>(_onSelectedStatus);
   }
 
   FutureOr<void> _onExpenseDataLoad(
       GetExpenseData event, Emitter<ExpenseState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
-    emit(ExpenseState(
+    emit(state.copy(
         status: NetworkStatus.loading,
         currentMonth: event.date,
-        paymentType: event.paymentType,
-        statusType: event.status));
+        statusType: event.statusTypeId));
     try {
       final ResponseExpenseList? responseExpenseList =
           await _metaClubApiClient.getExpenseItem(
               state.currentMonth ?? currentDate,
-              event.paymentType,
-              event.status);
+              event.paymentId ?? state.paymentId,
+              event.statusTypeId ?? state.statusType);
       if (responseExpenseList != null) {
-        emit(ExpenseState(
+        emit(state.copy(
             status: NetworkStatus.success,
             responseExpenseList: responseExpenseList,
             currentMonth: event.date,
-            paymentType: event.paymentType,
-            statusType: event.status));
+            paymentId: event.paymentId,
+            statusType: event.statusTypeId));
       } else {
-        emit(ExpenseState(
+        emit(state.copy(
             status: NetworkStatus.failure,
             currentMonth: event.date,
-            paymentType: event.paymentType,
+            paymentId: event.paymentId,
             responseExpenseList: responseExpenseList,
-            statusType: event.status));
+            statusType: event.statusTypeId));
       }
     } catch (e) {
-      emit(ExpenseState(
+      emit(state.copy(
           status: NetworkStatus.failure,
           currentMonth: event.date,
-          paymentType: event.paymentType,
-          statusType: event.status));
+          paymentId: event.paymentId,
+          statusType: event.statusTypeId));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -72,5 +73,37 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     );
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
     add(GetExpenseData(date: currentMonth));
+  }
+
+  FutureOr<void> _onSelectedPaymentType(
+      SelectPaymentType event, Emitter<ExpenseState> emit) {
+    emit(state.copy(paymentTypeName: event.paymentType));
+    int paymentTypeId;
+
+    if (event.paymentType == 'Paid') {
+      paymentTypeId = 8;
+    } else {
+      paymentTypeId = 9;
+    }
+
+    add(GetExpenseData(paymentId: paymentTypeId.toString()));
+  }
+
+  FutureOr<void> _onSelectedStatus(
+      SelectStatus event, Emitter<ExpenseState> emit) {
+    emit(state.copy(
+      statusTypeName: event.statusType,
+    ));
+    int status;
+    if (event.statusType == 'Pending') {
+      status = 2;
+    } else if (event.statusType == 'Approved') {
+      status = 5;
+    } else {
+      status = 6;
+    }
+    add(GetExpenseData(
+      statusTypeId: status.toString(),
+    ));
   }
 }

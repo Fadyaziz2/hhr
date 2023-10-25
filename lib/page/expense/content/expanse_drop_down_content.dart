@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 
 class ExpenseDropDownContent extends StatelessWidget {
@@ -8,6 +9,7 @@ class ExpenseDropDownContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? theTeam = null;
     return Row(
       children: [
         Expanded(
@@ -28,8 +30,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                   tr("Select Payment"),
                   style: const TextStyle(fontSize: 14),
                 ),
-                value: state?.paymentType,
-                // value: provider.paymentTypeValue,
+                value: state?.paymentTypeName,
                 icon: const Icon(
                   Icons.arrow_downward,
                   size: 20,
@@ -37,7 +38,9 @@ class ExpenseDropDownContent extends StatelessWidget {
                 iconSize: 24,
                 elevation: 16,
                 onChanged: (String? newValue) {
-                  // provider.paymentTypeMenu(newValue, context);
+                  context
+                      .read<ExpenseBloc>()
+                      .add(SelectPaymentType(context, newValue));
                 },
                 items: ["Paid", "Unpaid"]
                     .map<DropdownMenuItem<String>>((String value) {
@@ -74,6 +77,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                   tr("Expanse Status"),
                   style: const TextStyle(fontSize: 14),
                 ),
+                value: state?.statusTypeName,
                 // value: provider.expenseStatus,
                 icon: const Icon(
                   Icons.arrow_downward,
@@ -82,6 +86,9 @@ class ExpenseDropDownContent extends StatelessWidget {
                 iconSize: 24,
                 elevation: 16,
                 onChanged: (String? newValue) {
+                  context
+                      .read<ExpenseBloc>()
+                      .add(SelectStatus(context, newValue));
                   // provider.expenseStatusMenu(newValue, context);
                 },
                 items: ["Pending", "Approved", "Rejected"]

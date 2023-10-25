@@ -38,7 +38,7 @@ class ExpansePage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const ExpenseDropDownContent(),
+                  ExpenseDropDownContent(state: state),
                   ExpenseListContent(state: state),
                 ],
               ),
