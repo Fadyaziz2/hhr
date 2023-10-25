@@ -18,6 +18,8 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
+import 'models/leave_summary_model.dart';
+
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -171,15 +173,18 @@ class MetaClubApiClient {
     }
   }
 
-  Future<DashboardModel?> leaveSummaryApi() async {
+  Future<LeaveSummaryModel?> leaveSummaryApi(int? userId) async {
     const String api = 'user/leave/summary';
 
     try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+      });
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
-      if (response?.statusCode == 200) {
-        return DashboardModel.fromJson(response?.data);
+      if (response.statusCode == 200) {
+        return LeaveSummaryModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
