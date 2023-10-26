@@ -18,7 +18,8 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/leave_summary_model.dart';
+import 'models/leave_request_model.dart';
+
 
 class MetaClubApiClient {
   String token;
@@ -75,7 +76,9 @@ class MetaClubApiClient {
       }
       return RegistrationData.fromJson(response.data);
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return null;
     }
   }
@@ -185,6 +188,26 @@ class MetaClubApiClient {
 
       if (response.statusCode == 200) {
         return LeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId) async {
+    const String api = 'user/leave/list/view';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+        "month" : "2023-10"
+      });
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveRequestModel.fromJson(response.data);
       }
       return null;
     } catch (_) {

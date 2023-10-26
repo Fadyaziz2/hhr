@@ -32,7 +32,8 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
     return BlocProvider(
       create: (context) => LeaveBloc(
           metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-        ..add(LeaveSummaryApi(context)),
+        ..add(LeaveSummaryApi(context))
+        ..add(LeaveRequest(context)),
       child: BlocBuilder<LeaveBloc, LeaveState>(
         builder: (context, state) {
           return Scaffold(
