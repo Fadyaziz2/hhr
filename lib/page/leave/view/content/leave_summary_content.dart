@@ -8,12 +8,12 @@ import 'package:onesthrm/page/leave/view/content/build_leave_title.dart';
 import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
 import 'package:onesthrm/res/const.dart';
-import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 class LeaveSummaryContent extends StatelessWidget {
   final LeaveState? state;
-  const LeaveSummaryContent({Key? key,this.state}) : super(key: key);
+
+  const LeaveSummaryContent({Key? key, this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,6 @@ class LeaveSummaryContent extends StatelessWidget {
         ),
         AnimatedCircularButton(
           onComplete: () {
-            // context
-            //     .read<AttendanceBloc>()
-            //     .add(OnAttendance(homeData: homeData!));
             NavUtil.replaceScreen(context, const LeaveRequestType());
           },
           title: "Apply Leave",
@@ -45,7 +42,7 @@ class LeaveSummaryContent extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-         TotalLeaveCount(state: state),
+        TotalLeaveCount(state: state),
         const Center(
             child: Text(
           "Leave Request",
@@ -57,9 +54,12 @@ class LeaveSummaryContent extends StatelessWidget {
         ),
         ListView.separated(
           shrinkWrap: true,
-          itemCount: 3,
+          itemCount: state?.leaveRequestModel?.leaveRequestData?.leaveRequests
+                  ?.length ??
+              0,
           itemBuilder: (context, index) {
-            return buildLeaveTitle();
+            return Text("data");
+            // return buildLeaveTitle();
           },
           separatorBuilder: (BuildContext context, int index) => const Divider(
             thickness: 1,

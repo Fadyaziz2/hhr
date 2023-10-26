@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_event.dart';
@@ -14,6 +13,26 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       : _metaClubApiClient = metaClubApiClient,
         super(const LeaveState(status: NetworkStatus.initial)) {
     on<LeaveSummaryApi>(_leaveSummaryApi);
+    on<LeaveRequest>(_leaveRequest);
+  }
+
+  FutureOr<void> _leaveRequest(
+      LeaveRequest event, Emitter<LeaveState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      final user = event.context.read<AuthenticationBloc>().state.data;
+      LeaveRequestModel? leaveRequestResponse =
+          await _metaClubApiClient.leaveRequestApi(user?.user?.id);
+
+      emit(state.copyWith(
+          leaveRequestModel: leaveRequestResponse,
+          status: NetworkStatus.success));
+
+      return null;
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _leaveSummaryApi(
@@ -24,8 +43,6 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       LeaveSummaryModel? leaveSummaryResponse =
           await _metaClubApiClient.leaveSummaryApi(user?.user?.id);
 
-      print(
-          "result leaveSummaryData: ${leaveSummaryResponse?.leaveSummaryData?.availableLeave}");
       emit(state.copyWith(
           leaveSummaryModel: leaveSummaryResponse,
           status: NetworkStatus.success));
