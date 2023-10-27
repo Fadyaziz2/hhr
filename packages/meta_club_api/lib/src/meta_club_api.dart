@@ -18,7 +18,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/leave_request_model.dart';
 
 
 class MetaClubApiClient {
@@ -208,6 +207,25 @@ class MetaClubApiClient {
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
+    const String api = 'user/leave/available';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId
+      });
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveRequestTypeModel.fromJson(response.data);
       }
       return null;
     } catch (_) {

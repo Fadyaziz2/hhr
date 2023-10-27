@@ -9,6 +9,7 @@ import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class LeaveSummaryContent extends StatelessWidget {
   final LeaveState? state;
@@ -52,20 +53,23 @@ class LeaveSummaryContent extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: state?.leaveRequestModel?.leaveRequestData?.leaveRequests
-                  ?.length ??
-              0,
-          itemBuilder: (context, index) {
-            return Text("data");
-            // return buildLeaveTitle();
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(
-            thickness: 1,
-            color: Colors.black12,
-          ),
-        )
+        state?.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty ==
+                true
+            ? ListView.separated(
+                shrinkWrap: true,
+                itemCount: state?.leaveRequestModel?.leaveRequestData
+                        ?.leaveRequests?.length ??
+                    0,
+                itemBuilder: (context, index) {
+                  return buildLeaveTitle();
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                  thickness: 1,
+                  color: Colors.black12,
+                ),
+              )
+            : const NoDataFoundWidget()
       ],
     );
   }
