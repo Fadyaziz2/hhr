@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Settings extends Equatable {
-  Settings({
+  const Settings({
     this.result,
     this.message,
     this.data,
