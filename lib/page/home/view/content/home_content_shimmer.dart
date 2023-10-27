@@ -21,7 +21,7 @@ class HomeContentShimmer extends StatelessWidget {
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
-            SizedBox(height: 100.0,),
+            SizedBox(height: 80.0,),
             Row(
               children: [
                 Expanded(child: TileShimmer(titleHeight: 12.0,)),
