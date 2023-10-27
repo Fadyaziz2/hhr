@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 
 class CreateLeaveRequest extends StatelessWidget {
-  const CreateLeaveRequest({Key? key}) : super(key: key);
+  final String? starDate;
+  final int? leaveTypeId;
+  const CreateLeaveRequest({Key? key,this.starDate,this.leaveTypeId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

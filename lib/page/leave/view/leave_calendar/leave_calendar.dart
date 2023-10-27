@@ -7,7 +7,8 @@ import 'package:onesthrm/res/widgets/custom_button.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class LeaveCalendar extends StatelessWidget {
-  const LeaveCalendar({Key? key}) : super(key: key);
+  final int? leaveRequestTypeId;
+  const LeaveCalendar({Key? key,this.leaveRequestTypeId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class LeaveCalendar extends StatelessWidget {
               title: "Next",
               padding: 16,
               clickButton: () {
-                NavUtil.navigateScreen(context, const CreateLeaveRequest());
+                NavUtil.navigateScreen(context,  CreateLeaveRequest());
               })
         ],
       ),

@@ -14,6 +14,24 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
         super(const LeaveState(status: NetworkStatus.initial)) {
     on<LeaveSummaryApi>(_leaveSummaryApi);
     on<LeaveRequest>(_leaveRequest);
+    on<LeaveRequestTypeEven>(_leaveRequestTypeApi);
+  }
+
+  FutureOr<void> _leaveRequestTypeApi(LeaveRequestTypeEven? event, Emitter<LeaveState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      final user = event?.context.read<AuthenticationBloc>().state.data;
+      LeaveRequestTypeModel? leaveRequestTypeResponse = await _metaClubApiClient.leaveRequestTypeApi(user?.user?.id);
+
+      emit(state.copyWith(
+          leaveRequestType: leaveRequestTypeResponse,
+          status: NetworkStatus.success));
+
+      return null;
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _leaveRequest(
