@@ -4,7 +4,9 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expanse_drop_down_content.dart';
+import 'package:onesthrm/page/expense/content/expense_category.dart';
 import 'package:onesthrm/page/expense/content/expense_list_content.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class ExpansePage extends StatelessWidget {
   const ExpansePage({Key? key}) : super(key: key);
@@ -16,7 +18,8 @@ class ExpansePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExpenseBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(GetExpenseData()),
+        ..add(GetExpenseData())
+        ..add(ExpenseCategory()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
         builder: (context, state) {
           return Scaffold(
@@ -44,7 +47,13 @@ class ExpansePage extends StatelessWidget {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                NavUtil.navigateScreen(
+                    context,
+                    ExpenseCategoryPage(
+                      state: state,
+                    ));
+              },
               child: const Icon(Icons.add),
             ),
           );

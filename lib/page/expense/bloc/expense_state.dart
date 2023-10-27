@@ -7,7 +7,9 @@ class ExpenseState extends Equatable {
   final String? statusType;
   final String? statusTypeName;
   final String? paymentTypeName;
+  final Category? selectedCategoryId;
   final ResponseExpenseList? responseExpenseList;
+  final ExpenseCategoryModel? expenseCategoryData;
 
   const ExpenseState(
       {this.status,
@@ -16,6 +18,8 @@ class ExpenseState extends Equatable {
       this.paymentId,
       this.paymentTypeName,
       this.statusTypeName,
+      this.expenseCategoryData,
+      this.selectedCategoryId,
       this.statusType});
 
   ExpenseState copy({
@@ -27,6 +31,8 @@ class ExpenseState extends Equatable {
     String? paymentType,
     String? statusTypeName,
     String? statusType,
+    Category? selectedCategoryId,
+    ExpenseCategoryModel? expenseCategoryData,
   }) {
     return ExpenseState(
         status: status ?? this.status,
@@ -35,6 +41,8 @@ class ExpenseState extends Equatable {
         paymentId: paymentId ?? this.paymentId,
         paymentTypeName: paymentTypeName ?? this.paymentTypeName,
         statusTypeName: statusTypeName ?? this.statusTypeName,
+        expenseCategoryData: expenseCategoryData ?? this.expenseCategoryData,
+        selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         statusType: statusType ?? this.statusType);
   }
 
@@ -46,6 +54,8 @@ class ExpenseState extends Equatable {
         statusType,
         paymentId,
         paymentTypeName,
-        statusTypeName
+        statusTypeName,
+        expenseCategoryData,
+        selectedCategoryId,
       ];
 }

@@ -22,6 +22,8 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     on<SelectDatePicker>(_onSelectDatePicker);
     on<SelectPaymentType>(_onSelectedPaymentType);
     on<SelectStatus>(_onSelectedStatus);
+    on<ExpenseCategory>(_onExpenseCategoryLoad);
+    on<SelectedCategory>(_onSelectedCategory);
   }
 
   FutureOr<void> _onExpenseDataLoad(
@@ -105,5 +107,35 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     add(GetExpenseData(
       statusTypeId: status.toString(),
     ));
+  }
+
+  FutureOr<void> _onExpenseCategoryLoad(
+      ExpenseCategory event, Emitter<ExpenseState> emit) async {
+    emit(state.copy(
+      status: NetworkStatus.loading,
+    ));
+    try {
+      final ExpenseCategoryModel? expenseCategoryData =
+          await _metaClubApiClient.getExpenseCategory();
+      if (expenseCategoryData != null) {
+        emit(state.copy(
+            status: NetworkStatus.success,
+            expenseCategoryData: expenseCategoryData));
+      } else {
+        emit(state.copy(
+            status: NetworkStatus.failure,
+            expenseCategoryData: expenseCategoryData));
+      }
+    } catch (e) {
+      emit(state.copy(
+        status: NetworkStatus.failure,
+      ));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onSelectedCategory(
+      SelectedCategory event, Emitter<ExpenseState> emit) {
+    emit(state.copy(selectedCategoryId: event.selectedCategory));
   }
 }

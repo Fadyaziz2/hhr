@@ -890,6 +890,21 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ExpenseCategoryModel?> getExpenseCategory() async {
+    String api = 'accounts/expense/category-list';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ExpenseCategoryModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
   ///////// Appoinment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';

@@ -50,3 +50,21 @@ class SelectStatus extends ExpenseEvent {
   @override
   List<Object> get props => [context];
 }
+
+class ExpenseCategory extends ExpenseEvent {
+  // final String? selectedCategory;
+  ExpenseCategory();
+
+  @override
+  List<Object> get props => [];
+}
+
+class SelectedCategory extends ExpenseEvent {
+  final BuildContext context;
+  final Category? selectedCategory;
+
+  SelectedCategory(this.context, this.selectedCategory);
+
+  @override
+  List<Object> get props => [context];
+}

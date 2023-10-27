@@ -26,3 +26,4 @@ export 'body_create_support.dart';
 export 'response_all_contents.dart';
 export 'attendance_report.dart';
 export 'response_expense_list.dart';
+export 'expense_category_model.dart';

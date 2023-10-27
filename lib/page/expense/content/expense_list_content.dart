@@ -26,12 +26,13 @@ class ExpenseListContent extends StatelessWidget {
                             context, ExpenseDetails(data: data));
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.only(top: 16),
                         child: Card(
                           elevation: 4,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 5),
+                              vertical: 10,
+                            ),
                             child: ListTile(
                               title: Text(
                                 data?.category ?? "",
@@ -39,7 +40,7 @@ class ExpenseListContent extends StatelessWidget {
                                     fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                               subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 0),
+                                padding: const EdgeInsets.only(top: 8),
                                 child: Row(
                                   children: [
                                     Container(
@@ -47,10 +48,6 @@ class ExpenseListContent extends StatelessWidget {
                                         border: Border.all(
                                           color: Color(int.parse(
                                               data?.statusColor ?? '')),
-                                          // color: Color(int.parse(provider
-                                          //         .expenseList?[i]
-                                          //         .statusColor ??
-                                          //     '')),
                                           style: BorderStyle.solid,
                                           width: 3.0,
                                         ),
@@ -68,8 +65,6 @@ class ExpenseListContent extends StatelessWidget {
                                         strokeWidth: 1,
                                         child: Text(
                                           data?.status ?? '',
-                                          // provider.expenseList?[i].status ??
-                                          // '',
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 10,
