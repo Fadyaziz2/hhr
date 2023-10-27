@@ -1,63 +1,22 @@
-part of 'leave_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/enum.dart';
 
 class LeaveState extends Equatable {
   final NetworkStatus status;
   final LeaveSummaryModel? leaveSummaryModel;
   final LeaveRequestModel? leaveRequestModel;
   final LeaveRequestTypeModel? leaveRequestType;
-  final AvailableLeaveType? selectedRequestType;
-  final String? startDate;
-  final String? endDate;
-  final String? currentMonth;
-  final PhoneBookUser? selectedEmployee;
-  final LeaveDetailsModel? leaveDetailsModel;
 
   const LeaveState(
-      {this.status = NetworkStatus.initial,
-      this.leaveSummaryModel,
-      this.leaveRequestModel,
-      this.leaveRequestType,
-      this.selectedRequestType,
-      this.startDate,
-      this.selectedEmployee,
-      this.endDate,
-      this.currentMonth,
-      this.leaveDetailsModel});
+      {this.status = NetworkStatus.initial, this.leaveSummaryModel,this.leaveRequestModel,this.leaveRequestType});
 
   LeaveState copyWith(
-      {LeaveSummaryModel? leaveSummaryModel,
-      NetworkStatus? status,
-      LeaveRequestModel? leaveRequestModel,
-      LeaveRequestTypeModel? leaveRequestType,
-      AvailableLeaveType? selectedRequestType,
-      String? startDate,
-      String? currentMonth,
-      final PhoneBookUser? selectedEmployee,
-      String? endDate,
-      LeaveDetailsModel? leaveDetailsModel}) {
+      {LeaveSummaryModel? leaveSummaryModel, NetworkStatus? status,LeaveRequestModel? leaveRequestModel,LeaveRequestTypeModel? leaveRequestType}) {
     return LeaveState(
-        leaveSummaryModel: leaveSummaryModel ?? this.leaveSummaryModel,
-        leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
-        leaveRequestType: leaveRequestType ?? this.leaveRequestType,
-        selectedRequestType: selectedRequestType ?? this.selectedRequestType,
-        startDate: startDate ?? this.startDate,
-        selectedEmployee: selectedEmployee ?? this.selectedEmployee,
-        endDate: endDate ?? this.endDate,
-        currentMonth: currentMonth ?? this.currentMonth,
-        leaveDetailsModel: leaveDetailsModel ?? this.leaveDetailsModel);
+        leaveSummaryModel: leaveSummaryModel ?? this.leaveSummaryModel,leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,leaveRequestType: leaveRequestType ?? this.leaveRequestType);
   }
 
   @override
-  List<Object?> get props => [
-        status,
-        leaveSummaryModel,
-        leaveRequestModel,
-        leaveRequestType,
-        selectedRequestType,
-        startDate,
-        endDate,
-        selectedEmployee,
-        currentMonth,
-        leaveDetailsModel
-      ];
+  List<Object?> get props => [status, leaveSummaryModel,leaveRequestModel,leaveRequestType];
 }

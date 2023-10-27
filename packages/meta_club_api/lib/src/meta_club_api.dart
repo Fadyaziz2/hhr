@@ -9,7 +9,6 @@ import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
-import 'package:meta_club_api/src/models/leave_details_model.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
@@ -19,6 +18,8 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
+
+
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -27,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -193,13 +194,16 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId) async {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+        "month" : "2023-10"
+      });
       final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
@@ -210,68 +214,15 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveDetailsModel?> leaveDetailsApi(
-      int? userId, int? requestId) async {
-    String api = "user/leave/details/$requestId";
-
-    try {
-      FormData formData = FormData.fromMap({"user_id": userId});
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
-
-      if (response.statusCode == 200) {
-        return LeaveDetailsModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<bool> cancelLeaveRequest(int? requestId) async {
-     String api = 'user/leave/request/cancel/$requestId';
-
-    try {
-      final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-
-      if (response?.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<bool> submitLeaveRequestApi(
-      {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
-    const String api = 'user/leave/request';
-
-    if (kDebugMode) {
-      print(bodyCreateLeaveModel?.toJson());
-    }
-    try {
-      FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
-    }
-  }
-
   Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
     const String api = 'user/leave/available';
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId});
+      FormData formData = FormData.fromMap({
+        "user_id": userId
+      });
       final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestTypeModel.fromJson(response.data);
