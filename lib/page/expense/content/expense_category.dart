@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
+import 'package:onesthrm/page/expense/content/expense_create.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseCategoryPage extends StatefulWidget {
@@ -62,15 +64,15 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                           padding: const EdgeInsets.symmetric(vertical: 3.0),
                           child: Card(
                             elevation: 4,
-                            child: RadioListTile<String?>(
+                            child: RadioListTile<Category?>(
                               title: Text(data?.name ?? ''),
-                              value: data?.id.toString(),
-                              groupValue: state.selectedCategoryId,
-                              onChanged: (String? newValue) {
-                                print("saiful..$newValue");
-                                context
-                                    .read<ExpenseBloc>()
-                                    .add(SelectedCategory(context, newValue!));
+                              value: data,
+                              groupValue: state.selectedCategory,
+                              onChanged: (Category? newValue) {
+                                setState(() {
+                                  context.read<ExpenseBloc>().add(
+                                      SelectedCategory(context, newValue!));
+                                });
                               },
                             ),
                           ),
@@ -87,35 +89,42 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // if (provider.selectCategoryData?.id != null) {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (_) => ExpenseCreate(
-                        //                 categoryId:
-                        //                     provider.selectCategoryData?.id,
-                        //                 categoryName:
-                        //                     provider.selectCategoryData?.name,
-                        //               )));
-                        //   widget.fromEditPage == 1
-                        //       ? Navigator.pop(context)
-                        //       : Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (_) => const ExpenseLogExpense()));
-                        // } else {
+                        if (state.selectedCategory?.id != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ExpenseCreate(
+                                        categoryId: state.selectedCategory?.id,
+                                        categoryName:
+                                            state.selectedCategory?.name,
+                                        // categoryId:
+                                        //     provider.selectCategoryData?.id,
+                                        // categoryName:
+                                        //     provider.selectCategoryData?.name,
+                                      )));
+                          // widget.fromEditPage == 1
+                          //     ? Navigator.pop(context)
+                          //     : Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => const ExpenseLogExpense()));
+                        }
+                        //  else {
                         //   showDialog(
                         //       context: context,
                         //       builder: (BuildContext context) {
-                        //         return CustomDialogError(
-                        //           title: tr("select_category"),
-                        //           subTitle:
-                        //               tr("you_must_be_select_a_category"),
-                        //         );
+                        //         return Fluttertoast.showToast(msg: '')
+                        //         // CustomDialogError(
+                        //         //   title: tr("select_category"),
+                        //         //   subTitle:
+                        //         //       tr("you_must_be_select_a_category"),
+                        //         // );
                         //       });
                         // }
                       },
                       style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(colorPrimary),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(

@@ -52,7 +52,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const NoticeListScreen());
         break;
       case 'expense':
-        NavUtil.navigateScreen(event.context, const ExpansePage());
+        NavUtil.navigateScreen(event.context, const ExpensePage());
         break;
       case 'leave':
         NavUtil.navigateScreen(event.context, const LeavePage());

@@ -20,7 +20,6 @@ import 'package:dio/dio.dart';
 
 import 'models/leave_request_model.dart';
 
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -199,12 +198,10 @@ class MetaClubApiClient {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData = FormData.fromMap({
-        "user_id": userId,
-        "month" : "2023-10"
-      });
+      FormData formData =
+          FormData.fromMap({"user_id": userId, "month": "2023-10"});
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
@@ -969,6 +966,33 @@ class MetaClubApiClient {
 
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.data['result'] == true) {
+        return response.data['message'];
+      }
+      return response.data['message'];
+    } catch (e) {
+      return 'Something went wrong';
+    }
+  }
+
+  Future<String> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+    String api = 'expense/add';
+
+    try {
+      // debugPrint('body: $data');
+
+      // FormData formData = FormData.fromMap({
+      //   "expense_category_id": expenseCreateBody?.categoryId,
+      //   "date": expenseCreateBody?.date,
+      //   "amount": expenseCreateBody?.amount,
+      //   "attachment_file": expenseCreateBody?.attachment,
+      //   "description": expenseCreateBody?.description,
+      //   "reference": expenseCreateBody?.reference,
+      // });
+
+      final response = await _httpServiceImpl.postRequest(
+          '$_baseUrl$api', expenseCreateBody);
 
       if (response.data['result'] == true) {
         return response.data['message'];

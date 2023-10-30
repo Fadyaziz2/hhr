@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/content/expense_details_item_cart.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseDetails extends StatelessWidget {
   final ExpenseItem? data;

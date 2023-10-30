@@ -4,9 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/expense/view/expense_page.dart';
+import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'expense_event.dart';
@@ -19,12 +23,18 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       : _metaClubApiClient = metaClubApiClient,
         super(const ExpenseState(status: NetworkStatus.initial)) {
     on<GetExpenseData>(_onExpenseDataLoad);
-    on<SelectDatePicker>(_onSelectDatePicker);
+    on<SelectMonthPicker>(_onSelectMonthPicker);
     on<SelectPaymentType>(_onSelectedPaymentType);
     on<SelectStatus>(_onSelectedStatus);
     on<ExpenseCategory>(_onExpenseCategoryLoad);
     on<SelectedCategory>(_onSelectedCategory);
+    on<SelectDatePicker>(_onSelectDatePicker);
+    on<ExpenseCreateButton>(_onCreateButton);
   }
+
+  TextEditingController amountController = TextEditingController();
+  TextEditingController referenceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   FutureOr<void> _onExpenseDataLoad(
       GetExpenseData event, Emitter<ExpenseState> emit) async {
@@ -64,8 +74,8 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<ExpenseState> emit) async {
+  FutureOr<void> _onSelectMonthPicker(
+      SelectMonthPicker event, Emitter<ExpenseState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -136,6 +146,41 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   FutureOr<void> _onSelectedCategory(
       SelectedCategory event, Emitter<ExpenseState> emit) {
-    emit(state.copy(selectedCategoryId: event.selectedCategory));
+    emit(state.copy(selectedCategory: event.selectedCategory));
+  }
+
+  FutureOr<void> _onSelectDatePicker(
+      SelectDatePicker event, Emitter<ExpenseState> emit) async {
+    final date = await showDatePicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentDate = getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
+    emit(state.copy(status: NetworkStatus.success, selectDate: currentDate));
+  }
+
+  FutureOr<void> _onCreateButton(
+      ExpenseCreateButton event, Emitter<ExpenseState> emit) async {
+    emit(state.copy(
+      status: NetworkStatus.loading,
+    ));
+    try {
+      await _metaClubApiClient
+          .expenseCreate(expenseCreateBody: event.expenseCreateBody)
+          .then((success) {
+        Fluttertoast.showToast(
+          msg: success.toString(),
+        );
+        NavUtil.replaceScreen(event.context, const MenuScreen());
+      });
+      emit(state.copy(status: NetworkStatus.success));
+      // ignore: use_build_context_synchronously
+    } catch (e) {
+      emit(const ExpenseState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 }

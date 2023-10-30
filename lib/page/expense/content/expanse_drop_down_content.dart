@@ -9,7 +9,6 @@ class ExpenseDropDownContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? theTeam = null;
     return Row(
       children: [
         Expanded(

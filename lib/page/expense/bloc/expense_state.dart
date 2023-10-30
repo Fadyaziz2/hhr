@@ -3,11 +3,12 @@ part of 'expense_bloc.dart';
 class ExpenseState extends Equatable {
   final NetworkStatus? status;
   final String? currentMonth;
+  final String? selectDate;
   final String? paymentId;
   final String? statusType;
   final String? statusTypeName;
   final String? paymentTypeName;
-  final String? selectedCategoryId;
+  final Category? selectedCategory;
   final ResponseExpenseList? responseExpenseList;
   final ExpenseCategoryModel? expenseCategoryData;
 
@@ -19,7 +20,8 @@ class ExpenseState extends Equatable {
       this.paymentTypeName,
       this.statusTypeName,
       this.expenseCategoryData,
-      this.selectedCategoryId,
+      this.selectDate,
+      this.selectedCategory,
       this.statusType});
 
   ExpenseState copy({
@@ -30,8 +32,9 @@ class ExpenseState extends Equatable {
     String? paymentTypeName,
     String? paymentType,
     String? statusTypeName,
+    String? selectDate,
     String? statusType,
-    String? selectedCategoryId,
+    Category? selectedCategory,
     ExpenseCategoryModel? expenseCategoryData,
   }) {
     return ExpenseState(
@@ -39,10 +42,11 @@ class ExpenseState extends Equatable {
         currentMonth: currentMonth ?? this.currentMonth,
         responseExpenseList: responseExpenseList ?? this.responseExpenseList,
         paymentId: paymentId ?? this.paymentId,
+        selectDate: selectDate ?? this.selectDate,
         paymentTypeName: paymentTypeName ?? this.paymentTypeName,
         statusTypeName: statusTypeName ?? this.statusTypeName,
         expenseCategoryData: expenseCategoryData ?? this.expenseCategoryData,
-        selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
+        selectedCategory: selectedCategory ?? this.selectedCategory,
         statusType: statusType ?? this.statusType);
   }
 
@@ -56,6 +60,7 @@ class ExpenseState extends Equatable {
         paymentTypeName,
         statusTypeName,
         expenseCategoryData,
-        selectedCategoryId,
+        selectedCategory,
+        selectDate,
       ];
 }

@@ -8,8 +8,8 @@ import 'package:onesthrm/page/expense/content/expense_category.dart';
 import 'package:onesthrm/page/expense/content/expense_list_content.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
-class ExpansePage extends StatelessWidget {
-  const ExpansePage({Key? key}) : super(key: key);
+class ExpensePage extends StatelessWidget {
+  const ExpensePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class ExpansePage extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    context.read<ExpenseBloc>().add(SelectDatePicker(context));
+                    context.read<ExpenseBloc>().add(SelectMonthPicker(context));
                   },
                 )
               ],
