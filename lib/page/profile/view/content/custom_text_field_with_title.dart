@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        TextField(
+        TextFormField(
           maxLines: maxLine,
           style: const TextStyle(fontSize: 14),
           keyboardType: TextInputType.name,
@@ -36,9 +36,19 @@ class CustomTextField extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
             hintText: hints,
             hintStyle: const TextStyle(fontSize: 12),
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.blue,width: 2
+              ),
+            ),
             border: const OutlineInputBorder(
+              borderSide: BorderSide(width:2,color: Colors.blue),
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 2,color: Colors.black12),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            )
           ),
         ),
       ],

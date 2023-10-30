@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/content/animated_circular_button.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_state.dart';
@@ -18,59 +19,66 @@ class LeaveSummaryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 30,
-        ),
-        AnimatedCircularButton(
-          onComplete: () {
-            NavUtil.replaceScreen(context, const LeaveRequestType());
-          },
-          title: "Apply Leave",
-          color: colorPrimary,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Center(
-          child: const Text(
-            "tab_to_apply_for_leave",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
-          ).tr(),
-        ),
-        const SizedBox(
-          height: 25,
-        ),
-        TotalLeaveCount(state: state),
-        const Center(
-            child: Text(
-          "Leave Request",
-          style: TextStyle(
-              color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 20),
-        )),
-        const SizedBox(
-          height: 25,
-        ),
-        state?.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty ==
-                true
-            ? ListView.separated(
-                shrinkWrap: true,
-                itemCount: state?.leaveRequestModel?.leaveRequestData
-                        ?.leaveRequests?.length ??
-                    0,
-                itemBuilder: (context, index) {
-                  return buildLeaveTitle();
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  thickness: 1,
-                  color: Colors.black12,
-                ),
-              )
-            : const NoDataFoundWidget()
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          AnimatedCircularButton(
+            onComplete: () {
+              NavUtil.navigateScreen(context, const LeaveRequestType());
+            },
+            title: "Apply Leave",
+            color: colorPrimary,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Center(
+            child: const Text(
+              "tab_to_apply_for_leave",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ).tr(),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          TotalLeaveCount(state: state),
+          const Center(
+              child: Text(
+            "Leave Request",
+            style: TextStyle(
+                color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 20),
+          )),
+          const SizedBox(
+            height: 25,
+          ),
+          state?.leaveRequestModel?.leaveRequestData?.leaveRequests != null ? state?.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty ==
+                  true
+              ? ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state?.leaveRequestModel?.leaveRequestData
+                          ?.leaveRequests?.length ??
+                      0,
+                  itemBuilder: (context, index) {
+                    LeaveRequestValue? leaveRequest = state?.leaveRequestModel
+                        ?.leaveRequestData?.leaveRequests?[index];
+                    return BuildLeaveTitle(
+                      leaveRequestValue: leaveRequest,
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                    thickness: 1,
+                    color: Colors.black12,
+                  ),
+                )
+              : const NoDataFoundWidget() : const SizedBox()
+        ],
+      ),
     );
   }
 }

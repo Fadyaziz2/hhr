@@ -1,144 +1,132 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:onesthrm/res/widgets/custom_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
+import 'package:onesthrm/page/leave/bloc/leave_event.dart';
+import 'package:onesthrm/page/leave/bloc/leave_state.dart';
+import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
+import 'package:onesthrm/page/select_employee/view/select_employee.dart';
+import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
+
+import '../../../../res/widgets/custom_button.dart';
 
 class CreateLeaveRequest extends StatelessWidget {
   final String? starDate;
+  final String? endDate;
   final int? leaveTypeId;
-  const CreateLeaveRequest({Key? key,this.starDate,this.leaveTypeId}) : super(key: key);
+
+  const CreateLeaveRequest(
+      {Key? key, this.starDate, this.leaveTypeId, this.endDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(tr("request_leave")),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Note",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    BodyCreateLeaveModel bodyCreateLeave = BodyCreateLeaveModel();
+    final user = context.read<AuthenticationBloc>().state.data;
+    return BlocProvider(
+        create: (context) => LeaveBloc(
+            metaClubApiClient:
+                MetaClubApiClient(token: "${user?.user?.token}")),
+        child: BlocBuilder<LeaveBloc, LeaveState>(builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(tr("request_leave")),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Form(
-              key: formKey,
-              child: TextFormField(
-                // controller: starDate != null
-                //     ? provider.noteTextController
-                //     : providerUpdate.updateNoteController,
-                maxLines: 5,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: "Write Reason",
-                  hintStyle: TextStyle(fontSize: 14),
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black26,
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              tr("attachment"),
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-              child: DottedBorder(
-                color: const Color(0xffC7C7C7),
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(3),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
-                strokeWidth: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.upload_file,
-                      color: Colors.grey,
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomTextField(
+                        title: "Note",
+                        hints: "Write Reason",
+                        maxLine: 7,
+                        onData: (data) {
+                          bodyCreateLeave.reason = data;
+                        }),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    UploadDocContent(
+                      onFileUpload: (FileUpload? data) {
+                        if (kDebugMode) {
+                          print(data?.fileId);
+                        }
+                        bodyCreateLeave.fileId = data?.fileId;
+                      },
+                      initialAvatar:
+                          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
                     ),
                     const SizedBox(
-                      width: 8,
+                      height: 25,
                     ),
                     Text(
-                      tr("upload_your_file"),
+                      tr("substitute"),
                       style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Card(
+                      child: ListTile(
+                        onTap: () async {
+                          PhoneBookUser employee = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SelectEmployeePage(),
+                              ));
+                          // ignore: use_build_context_synchronously
+                          context
+                              .read<LeaveBloc>()
+                              // ignore: use_build_context_synchronously
+                              .add(SelectEmployee(context, employee));
+                        },
+                        title: Text(state.selectedEmployee?.name! ??
+                            tr("add_a_Substitute")),
+                        subtitle: Text(state.selectedEmployee?.designation! ??
+                            tr("add_a_Designation")),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(state
+                                  .selectedEmployee?.avatar ??
+                              'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                        ),
+                        trailing: const Icon(Icons.edit),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomButton(
+                      title: "Next",
+                      padding: 0,
+                      clickButton: () {
+                        final user =
+                            context.read<AuthenticationBloc>().state.data;
+                        bodyCreateLeave.userId = user?.user?.id;
+                        bodyCreateLeave.assignLeaveId = leaveTypeId;
+                        bodyCreateLeave.substituteId = state.selectedEmployee?.id;
+                        bodyCreateLeave.applyDate = starDate;
+                        bodyCreateLeave.leaveTo = starDate;
+                        bodyCreateLeave.leaveFrom = endDate;
+                        context.read<LeaveBloc>().add(SubmitLeaveRequest(
+                            bodyCreateLeaveModel: bodyCreateLeave,pickedDate: state.currentMonth ?? DateTime.now().toString(),
+                            context: context));
+                      },
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              height: 25,
-            ),
-            Text(
-              tr("substitute"),
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: ListTile(
-                title: Text(
-                  tr("add_a_Substitute"),
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                subtitle: Text(tr("add_a_Designation")),
-                leading: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-                ),
-                trailing: const Icon(Icons.edit),
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            CustomButton(
-              title: "Next",
-              padding: 0,
-              clickButton: () {
-                // NavUtil.navigateScreen(context, const LeaveCalender());
-              },
-            )
-          ],
-        ),
-      ),
-    );
+          );
+        }));
   }
 }
