@@ -7,7 +7,7 @@ class ExpenseState extends Equatable {
   final String? statusType;
   final String? statusTypeName;
   final String? paymentTypeName;
-  final Category? selectedCategoryId;
+  final String? selectedCategoryId;
   final ResponseExpenseList? responseExpenseList;
   final ExpenseCategoryModel? expenseCategoryData;
 
@@ -31,7 +31,7 @@ class ExpenseState extends Equatable {
     String? paymentType,
     String? statusTypeName,
     String? statusType,
-    Category? selectedCategoryId,
+    String? selectedCategoryId,
     ExpenseCategoryModel? expenseCategoryData,
   }) {
     return ExpenseState(

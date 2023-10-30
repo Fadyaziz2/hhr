@@ -18,8 +18,7 @@ class ExpansePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExpenseBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(GetExpenseData())
-        ..add(ExpenseCategory()),
+        ..add(GetExpenseData()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
         builder: (context, state) {
           return Scaffold(
@@ -48,11 +47,7 @@ class ExpansePage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavUtil.navigateScreen(
-                    context,
-                    ExpenseCategoryPage(
-                      state: state,
-                    ));
+                NavUtil.navigateScreen(context, const ExpenseCategoryPage());
               },
               child: const Icon(Icons.add),
             ),
