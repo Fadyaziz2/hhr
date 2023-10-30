@@ -57,6 +57,8 @@ dependencies:
     path: packages/user_repository
   location_track:
     path: packages/location_track
+  face:
+    path: packages/face
   lottie: ^2.4.0
   flutter_lints: ^2.0.1
   photo_view: ^0.14.0
