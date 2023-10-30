@@ -9,7 +9,6 @@ import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
-import 'package:meta_club_api/src/models/leave_details_model.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
@@ -193,11 +192,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId,String? date) async {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      FormData formData =
+          FormData.fromMap({"user_id": userId, "month": date});
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
@@ -207,40 +207,6 @@ class MetaClubApiClient {
       return null;
     } catch (_) {
       return null;
-    }
-  }
-
-  Future<LeaveDetailsModel?> leaveDetailsApi(
-      int? userId, int? requestId) async {
-    String api = "user/leave/details/$requestId";
-
-    try {
-      FormData formData = FormData.fromMap({"user_id": userId});
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
-
-      if (response.statusCode == 200) {
-        return LeaveDetailsModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<bool> cancelLeaveRequest(int? requestId) async {
-     String api = 'user/leave/request/cancel/$requestId';
-
-    try {
-      final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
-
-      if (response?.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
+import 'package:onesthrm/page/leave/bloc/leave_event.dart';
+import 'package:onesthrm/page/leave/bloc/leave_state.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
+
 import '../../../../res/widgets/custom_button.dart';
 
 class CreateLeaveRequest extends StatelessWidget {
@@ -15,7 +19,9 @@ class CreateLeaveRequest extends StatelessWidget {
   final String? endDate;
   final int? leaveTypeId;
 
-  const CreateLeaveRequest({Key? key, this.starDate, this.leaveTypeId, this.endDate}) : super(key: key);
+  const CreateLeaveRequest(
+      {Key? key, this.starDate, this.leaveTypeId, this.endDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,8 @@ class CreateLeaveRequest extends StatelessWidget {
         create: (context) => LeaveBloc(
             metaClubApiClient:
                 MetaClubApiClient(token: "${user?.user?.token}")),
-        child: Scaffold(
+        child: BlocBuilder<LeaveBloc, LeaveState>(builder: (context, state) {
+          return Scaffold(
             appBar: AppBar(
               title: Text(tr("request_leave")),
             ),
@@ -61,75 +68,65 @@ class CreateLeaveRequest extends StatelessWidget {
                     const SizedBox(
                       height: 25,
                     ),
-                    BlocBuilder<LeaveBloc,LeaveState>(
-                      builder: (context,state){
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tr("substitute"),
-                              style: const TextStyle(
-                                  color: Colors.black, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Card(
-                              child: ListTile(
-                                onTap: () async {
-                                  PhoneBookUser employee = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const SelectEmployeePage(),
-                                      ));
-                                  // ignore: use_build_context_synchronously
-                                  context
-                                      .read<LeaveBloc>()
-                                  // ignore: use_build_context_synchronously
-                                      .add(SelectEmployee(context, employee));
-                                },
-                                title: Text(state.selectedEmployee?.name! ??
-                                    tr("add_a_Substitute")),
-                                subtitle: Text(state.selectedEmployee?.designation! ??
-                                    tr("add_a_Designation")),
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(state
-                                      .selectedEmployee?.avatar ??
-                                      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-                                ),
-                                trailing: const Icon(Icons.edit),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CustomButton(
-                              title: "Next",
-                              padding: 0,
-                              clickButton: () {
-                                final user =
-                                    context.read<AuthenticationBloc>().state.data;
-                                bodyCreateLeave.userId = user?.user?.id;
-                                bodyCreateLeave.assignLeaveId = leaveTypeId;
-                                bodyCreateLeave.substituteId = state.selectedEmployee?.id;
-                                bodyCreateLeave.applyDate = starDate;
-                                bodyCreateLeave.leaveTo = starDate;
-                                bodyCreateLeave.leaveFrom = endDate;
-                                context.read<LeaveBloc>().add(SubmitLeaveRequest(
-                                    bodyCreateLeaveModel: bodyCreateLeave,pickedDate: state.currentMonth ?? DateTime.now().toString(),
-                                    context: context));
-                              },
-                            ),
-                          ],
-                        );
-                      },
+                    Text(
+                      tr("substitute"),
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
-
-
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Card(
+                      child: ListTile(
+                        onTap: () async {
+                          PhoneBookUser employee = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SelectEmployeePage(),
+                              ));
+                          // ignore: use_build_context_synchronously
+                          context
+                              .read<LeaveBloc>()
+                              // ignore: use_build_context_synchronously
+                              .add(SelectEmployee(context, employee));
+                        },
+                        title: Text(state.selectedEmployee?.name! ??
+                            tr("add_a_Substitute")),
+                        subtitle: Text(state.selectedEmployee?.designation! ??
+                            tr("add_a_Designation")),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(state
+                                  .selectedEmployee?.avatar ??
+                              'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                        ),
+                        trailing: const Icon(Icons.edit),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomButton(
+                      title: "Next",
+                      padding: 0,
+                      clickButton: () {
+                        final user =
+                            context.read<AuthenticationBloc>().state.data;
+                        bodyCreateLeave.userId = user?.user?.id;
+                        bodyCreateLeave.assignLeaveId = leaveTypeId;
+                        bodyCreateLeave.substituteId = state.selectedEmployee?.id;
+                        bodyCreateLeave.applyDate = starDate;
+                        bodyCreateLeave.leaveTo = starDate;
+                        bodyCreateLeave.leaveFrom = endDate;
+                        context.read<LeaveBloc>().add(SubmitLeaveRequest(
+                            bodyCreateLeaveModel: bodyCreateLeave,pickedDate: state.currentMonth ?? DateTime.now().toString(),
+                            context: context));
+                      },
+                    )
                   ],
                 ),
               ),
             ),
-          ));
+          );
+        }));
   }
 }

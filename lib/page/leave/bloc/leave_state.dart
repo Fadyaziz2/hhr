@@ -1,4 +1,6 @@
-part of 'leave_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/enum.dart';
 
 class LeaveState extends Equatable {
   final NetworkStatus status;
@@ -10,7 +12,6 @@ class LeaveState extends Equatable {
   final String? endDate;
   final String? currentMonth;
   final PhoneBookUser? selectedEmployee;
-  final LeaveDetailsModel? leaveDetailsModel;
 
   const LeaveState(
       {this.status = NetworkStatus.initial,
@@ -21,8 +22,7 @@ class LeaveState extends Equatable {
       this.startDate,
       this.selectedEmployee,
       this.endDate,
-      this.currentMonth,
-      this.leaveDetailsModel});
+      this.currentMonth});
 
   LeaveState copyWith(
       {LeaveSummaryModel? leaveSummaryModel,
@@ -33,8 +33,7 @@ class LeaveState extends Equatable {
       String? startDate,
       String? currentMonth,
       final PhoneBookUser? selectedEmployee,
-      String? endDate,
-      LeaveDetailsModel? leaveDetailsModel}) {
+      String? endDate}) {
     return LeaveState(
         leaveSummaryModel: leaveSummaryModel ?? this.leaveSummaryModel,
         leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
@@ -43,8 +42,7 @@ class LeaveState extends Equatable {
         startDate: startDate ?? this.startDate,
         selectedEmployee: selectedEmployee ?? this.selectedEmployee,
         endDate: endDate ?? this.endDate,
-        currentMonth: currentMonth ?? this.currentMonth,
-        leaveDetailsModel: leaveDetailsModel ?? this.leaveDetailsModel);
+        currentMonth: currentMonth ?? this.currentMonth);
   }
 
   @override
@@ -57,7 +55,6 @@ class LeaveState extends Equatable {
         startDate,
         endDate,
         selectedEmployee,
-        currentMonth,
-        leaveDetailsModel
+        currentMonth
       ];
 }

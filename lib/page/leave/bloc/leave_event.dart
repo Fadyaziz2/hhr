@@ -1,4 +1,6 @@
-part of 'leave_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 
 abstract class LeaveEvent extends Equatable {
   @override
@@ -6,7 +8,7 @@ abstract class LeaveEvent extends Equatable {
 }
 
 class LeaveSummaryApi extends LeaveEvent {
-  final BuildContext context;
+  BuildContext context;
 
   LeaveSummaryApi(this.context);
 
@@ -15,36 +17,37 @@ class LeaveSummaryApi extends LeaveEvent {
 }
 
 class LeaveRequest extends LeaveEvent {
-  final int userId;
+  BuildContext context;
+  String pickedDate;
 
-  LeaveRequest(this.userId);
+  LeaveRequest(this.context,this.pickedDate);
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [context,pickedDate];
 }
 
 class LeaveRequestTypeEven extends LeaveEvent {
-  final BuildContext context;
+  BuildContext context;
 
   LeaveRequestTypeEven(this.context);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [context];
 }
 
 class SelectedRequestType extends LeaveEvent {
-  final BuildContext context;
-  final AvailableLeaveType availableLeaveType;
+  BuildContext context;
+  AvailableLeaveType availableLeaveType;
 
   SelectedRequestType(this.context, this.availableLeaveType);
 
   @override
-  List<Object> get props => [availableLeaveType];
+  List<Object> get props => [context, availableLeaveType];
 }
 
 class SelectedCalendar extends LeaveEvent {
-  final String startDate;
-  final String endDate;
+  String startDate;
+  String endDate;
 
   SelectedCalendar(this.startDate, this.endDate);
 
@@ -55,11 +58,11 @@ class SelectedCalendar extends LeaveEvent {
 class SelectEmployee extends LeaveEvent {
   final BuildContext context;
   final PhoneBookUser? selectEmployee;
-
   SelectEmployee(this.context, this.selectEmployee);
-
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+    context,
+  ];
 }
 
 class SubmitLeaveRequest extends LeaveEvent {
@@ -67,13 +70,10 @@ class SubmitLeaveRequest extends LeaveEvent {
   final BodyCreateLeaveModel bodyCreateLeaveModel;
   final String pickedDate;
 
-  SubmitLeaveRequest(
-      {required this.bodyCreateLeaveModel,
-      required this.context,
-      required this.pickedDate});
+  SubmitLeaveRequest({required this.bodyCreateLeaveModel,required this.context,required this.pickedDate});
 
   @override
-  List<Object> get props => [bodyCreateLeaveModel, pickedDate];
+  List<Object> get props => [bodyCreateLeaveModel, context,pickedDate];
 }
 
 class SelectDatePicker extends LeaveEvent {
@@ -82,23 +82,5 @@ class SelectDatePicker extends LeaveEvent {
   SelectDatePicker(this.context);
 
   @override
-  List<Object> get props => [];
-}
-
-class LeaveDetailsEven extends LeaveEvent {
-  final int requestId;
-  final int userId;
-
-  LeaveDetailsEven(this.requestId, this.userId);
-
-  @override
-  List<Object> get props => [requestId, userId];
-}
-class CancelLeaveRequest extends LeaveEvent {
-  final int requestID;
-  final BuildContext context;
-  CancelLeaveRequest(this.requestID,this.context);
-  @override
-  List<Object> get props => [requestID];
-
+  List<Object> get props => [context];
 }
