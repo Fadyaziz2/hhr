@@ -1,3 +1,4 @@
+import 'package:face/face.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
@@ -6,6 +7,7 @@ import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -25,13 +27,35 @@ class AttendanceView extends StatefulWidget {
 class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
+  FaceService faceService = FaceService();
 
   @override
   void initState() {
-    controller = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 3),
-        animationBehavior: AnimationBehavior.preserve);
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
+    ///fetch face date from local cache
+    SharedUtil.getValue(userFaceData).then((registeredFaceData){
+      debugPrint('registeredFaceData $registeredFaceData');
+      faceService.captureFromFaceApi(
+          isRegistered: registeredFaceData != null,
+          regImage: registeredFaceData,
+          metaClubApiClient: widget.homeBloc.metaClubApiClient,
+          onCaptured: (faceData) {
+            debugPrint('faceData $faceData');
+            if(faceData.length > 20){
+              SharedUtil.setValue(userFaceData, faceData);
+            }
+          },
+          isSimilar: (isSimilar) {
+            debugPrint('isSimilar $isSimilar');
+            if(isSimilar){
+              if(widget.homeBloc.state.dashboardModel != null) {
+                context.read<AttendanceBloc>().add(OnAttendance(homeData: widget.homeBloc.state.dashboardModel!));
+              }else{
+                debugPrint('dashboardModel is null\n you have to check api');
+              }
+            }
+          });
+    });
     super.initState();
   }
 
