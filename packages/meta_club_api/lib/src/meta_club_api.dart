@@ -18,8 +18,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -194,16 +192,14 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveRequestModel?> leaveRequestApi(int? userId) async {
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId,String? date) async {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData = FormData.fromMap({
-        "user_id": userId,
-        "month" : "2023-10"
-      });
+      FormData formData =
+          FormData.fromMap({"user_id": userId, "month": date});
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
@@ -214,15 +210,34 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> submitLeaveRequestApi(
+      {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
+    const String api = 'user/leave/request';
+
+    if (kDebugMode) {
+      print(bodyCreateLeaveModel?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
     const String api = 'user/leave/available';
 
     try {
-      FormData formData = FormData.fromMap({
-        "user_id": userId
-      });
+      FormData formData = FormData.fromMap({"user_id": userId});
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestTypeModel.fromJson(response.data);
