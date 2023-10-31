@@ -83,9 +83,7 @@ class LeaveRequestType extends StatelessWidget {
                       ),
                       groupValue: state.selectedRequestType,
                       onChanged: (AvailableLeaveType? value) {
-                        context
-                            .read<LeaveBloc>()
-                            .add(SelectedRequestType(context, value!));
+                        context.read<LeaveBloc>().add(SelectedRequestType(context, value!));
                         if (kDebugMode) {
                           print(value.type);
                         }
@@ -93,11 +91,7 @@ class LeaveRequestType extends StatelessWidget {
                     ),
                   );
                 },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(
-                  height: 5,
-                ),
-              ));
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 5)));
         },
       ),
     );
