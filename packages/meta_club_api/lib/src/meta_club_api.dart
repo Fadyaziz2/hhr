@@ -28,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -976,30 +976,16 @@ class MetaClubApiClient {
     }
   }
 
-  Future<String> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+  Future<ExpenseCreateResponse> expenseCreate(
+      {ExpenseCreateBody? expenseCreateBody}) async {
     String api = 'expense/add';
-
     try {
-      // debugPrint('body: $data');
-
-      // FormData formData = FormData.fromMap({
-      //   "expense_category_id": expenseCreateBody?.categoryId,
-      //   "date": expenseCreateBody?.date,
-      //   "amount": expenseCreateBody?.amount,
-      //   "attachment_file": expenseCreateBody?.attachment,
-      //   "description": expenseCreateBody?.description,
-      //   "reference": expenseCreateBody?.reference,
-      // });
-
       final response = await _httpServiceImpl.postRequest(
           '$_baseUrl$api', expenseCreateBody);
-
-      if (response.data['result'] == true) {
-        return response.data['message'];
-      }
-      return response.data['message'];
+      return ExpenseCreateResponse.fromJson(response.data);
     } catch (e) {
-      return 'Something went wrong';
+      return ExpenseCreateResponse(
+          message: 'Something went wrong', success: false);
     }
   }
 }

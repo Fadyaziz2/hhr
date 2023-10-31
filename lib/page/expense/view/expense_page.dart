@@ -40,13 +40,13 @@ class ExpensePage extends StatelessWidget {
               child: Column(
                 children: [
                   ExpenseDropDownContent(state: state),
-                  ExpenseListContent(state: state),
+                  const ExpenseListContent(),
                 ],
               ),
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavUtil.replaceScreen(context, const ExpenseCategoryPage());
+                NavUtil.navigateScreen(context, const ExpenseCategoryPage());
               },
               child: const Icon(Icons.add),
             ),

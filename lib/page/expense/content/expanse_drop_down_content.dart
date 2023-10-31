@@ -24,6 +24,7 @@ class ExpenseDropDownContent extends StatelessWidget {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
+                dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
                   tr("Select Payment"),
@@ -71,6 +72,7 @@ class ExpenseDropDownContent extends StatelessWidget {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
+                dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
                   tr("Expanse Status"),

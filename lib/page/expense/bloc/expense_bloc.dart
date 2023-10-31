@@ -6,11 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/expense/expense.dart';
-import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'expense_event.dart';
@@ -160,20 +157,13 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   FutureOr<void> _onCreateButton(
       ExpenseCreateButton event, Emitter<ExpenseState> emit) async {
-    emit(state.copy(
-      status: NetworkStatus.loading,
-    ));
     try {
-      await _metaClubApiClient
-          .expenseCreate(expenseCreateBody: event.expenseCreateBody)
-          .then((success) {
-        Fluttertoast.showToast(
-          msg: success.toString(),
-        );
+      final expenseResponse = await _metaClubApiClient.expenseCreate(
+          expenseCreateBody: event.expenseCreateBody);
+      Fluttertoast.showToast(msg: expenseResponse.message);
+      if (expenseResponse.success) {
         add(GetExpenseData());
-        Navigator.pop(event.context);
-      });
-      emit(state.copy(status: NetworkStatus.success));
+      }
     } catch (e) {
       emit(const ExpenseState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

@@ -30,14 +30,10 @@ class ExpenseCreate extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
-          body: ListView(
-            children: [
-              ExpenseCreateBodyContent(
-                  categoryName: categoryName,
-                  categoryId: categoryId,
-                  expenseCreateBody: expenseCreateBody),
-            ],
-          ),
+          body: ExpenseCreateBodyContent(
+              categoryName: categoryName,
+              categoryId: categoryId,
+              expenseCreateBody: expenseCreateBody),
         ));
   }
 }

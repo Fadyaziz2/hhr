@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_details.dart';
 import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
@@ -7,18 +8,19 @@ import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class ExpenseListContent extends StatelessWidget {
-  final ExpenseState? state;
-  const ExpenseListContent({super.key, this.state});
+  const ExpenseListContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return state?.responseExpenseList?.data != null
-        ? state?.responseExpenseList?.data?.isNotEmpty == true
+    final bloc = context.watch<ExpenseBloc>();
+
+    return context.read<ExpenseBloc>().state.responseExpenseList?.data != null
+        ? bloc.state.responseExpenseList?.data?.isNotEmpty == true
             ? Expanded(
                 child: ListView.builder(
-                  itemCount: state?.responseExpenseList?.data?.length ?? 0,
+                  itemCount: bloc.state.responseExpenseList?.data?.length ?? 0,
                   itemBuilder: (context, i) {
-                    final data = state?.responseExpenseList?.data?[i];
+                    final data = bloc.state.responseExpenseList?.data?[i];
                     return InkWell(
                       onTap: () {
                         NavUtil.navigateScreen(

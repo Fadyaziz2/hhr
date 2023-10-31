@@ -26,129 +26,141 @@ class ExpenseCreateBodyContent extends StatelessWidget {
       builder: (context, state) {
         return Form(
           key: formKey,
-          child: Column(
+          child: Stack(
             children: [
-              Container(
-                color: Colors.blue[50],
-                child: ListTile(
-                  onTap: () => Navigator.pop(context),
-                  leading: const Icon(Icons.list_alt),
-                  trailing: Text(
-                    tr("change"),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue),
-                  ),
-                  title: Center(child: Text(categoryName ?? '')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CommonTextFiledWithTitle(
-                      onChanged: (value) {
-                        expenseCreateBody.amount = value;
-                      },
-                      title: "Amount",
-                      labelText: 'Enter Amount',
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    CommonTextFiledWithTitle(
-                      title: "Reference",
-                      labelText: 'Enter reference',
-                      onChanged: (value) {
-                        expenseCreateBody.reference = value;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const Text(
-                      "date_schedule",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: () {
-                          context
-                              .read<ExpenseBloc>()
-                              .add(SelectDatePicker(context));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(state.selectDate ?? 'Select Date'),
-                              const Icon(
-                                Icons.arrow_drop_down_sharp,
-                                color: Colors.grey,
-                              )
-                            ],
-                          ),
+                    Container(
+                      color: Colors.blue[50],
+                      child: ListTile(
+                        onTap: () => Navigator.pop(context),
+                        leading: const Icon(Icons.list_alt),
+                        trailing: Text(
+                          tr("change"),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue),
                         ),
+                        title: Center(child: Text(categoryName ?? '')),
                       ),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    CommonTextFiledWithTitle(
-                      title: "Description",
-                      labelText: 'Enter description',
-                      onChanged: (value) {
-                        expenseCreateBody.description = value;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    ExpenseAttachmentContent(
-                      expenseCreateBody: expenseCreateBody,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 55,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            expenseCreateBody.date = state.selectDate;
-                            expenseCreateBody.categoryId = categoryId;
-                            context.read<ExpenseBloc>().add(ExpenseCreateButton(
-                                context, expenseCreateBody));
-                          }
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(colorPrimary),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CommonTextFiledWithTitle(
+                            onChanged: (value) {
+                              expenseCreateBody.amount = value;
+                            },
+                            title: "Amount",
+                            labelText: 'Enter Amount',
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          CommonTextFiledWithTitle(
+                            title: "Reference",
+                            labelText: 'Enter reference',
+                            onChanged: (value) {
+                              expenseCreateBody.reference = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          const Text(
+                            "date_schedule",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Card(
+                            child: InkWell(
+                              onTap: () {
+                                context
+                                    .read<ExpenseBloc>()
+                                    .add(SelectDatePicker(context));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0, horizontal: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(state.selectDate ?? 'Select Date'),
+                                    const Icon(
+                                      Icons.arrow_drop_down_sharp,
+                                      color: Colors.grey,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        child: Text(tr("next"),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            )),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          CommonTextFiledWithTitle(
+                            title: "Description",
+                            labelText: 'Enter description',
+                            onChanged: (value) {
+                              expenseCreateBody.description = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          ExpenseAttachmentContent(
+                            expenseCreateBody: expenseCreateBody,
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 55,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        expenseCreateBody.date = state.selectDate;
+                        expenseCreateBody.categoryId = categoryId;
+                        context.read<ExpenseBloc>().add(
+                            ExpenseCreateButton(context, expenseCreateBody));
+                      }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(colorPrimary),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    child: Text(tr("next"),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        )),
+                  ),
+                ),
+              )
             ],
           ),
         );
