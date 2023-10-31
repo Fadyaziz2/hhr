@@ -113,9 +113,7 @@ class BuildLeaveTitle extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: colorPrimary.withOpacity(0.1)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: colorPrimary.withOpacity(0.1)),
             child: const Icon(
               Icons.arrow_forward_ios,
               size: 18,

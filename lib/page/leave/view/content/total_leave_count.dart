@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/page/leave/bloc/leave_state.dart';
 import 'package:onesthrm/res/const.dart';
-
-import '../../bloc/leave_bloc.dart';
 
 class TotalLeaveCount extends StatelessWidget {
   final LeaveState? state;
