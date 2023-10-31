@@ -8,7 +8,7 @@ abstract class LeaveEvent extends Equatable {
 }
 
 class LeaveSummaryApi extends LeaveEvent {
-  BuildContext context;
+  final BuildContext context;
 
   LeaveSummaryApi(this.context);
 
@@ -17,8 +17,8 @@ class LeaveSummaryApi extends LeaveEvent {
 }
 
 class LeaveRequest extends LeaveEvent {
-  BuildContext context;
-  String pickedDate;
+  final BuildContext context;
+  final String pickedDate;
 
   LeaveRequest(this.context,this.pickedDate);
 
@@ -27,7 +27,7 @@ class LeaveRequest extends LeaveEvent {
 }
 
 class LeaveRequestTypeEven extends LeaveEvent {
-  BuildContext context;
+  final BuildContext context;
 
   LeaveRequestTypeEven(this.context);
 
@@ -36,8 +36,8 @@ class LeaveRequestTypeEven extends LeaveEvent {
 }
 
 class SelectedRequestType extends LeaveEvent {
-  BuildContext context;
-  AvailableLeaveType availableLeaveType;
+  final BuildContext context;
+  final AvailableLeaveType availableLeaveType;
 
   SelectedRequestType(this.context, this.availableLeaveType);
 
@@ -46,8 +46,8 @@ class SelectedRequestType extends LeaveEvent {
 }
 
 class SelectedCalendar extends LeaveEvent {
-  String startDate;
-  String endDate;
+  final String startDate;
+  final String endDate;
 
   SelectedCalendar(this.startDate, this.endDate);
 
@@ -60,9 +60,7 @@ class SelectEmployee extends LeaveEvent {
   final PhoneBookUser? selectEmployee;
   SelectEmployee(this.context, this.selectEmployee);
   @override
-  List<Object> get props => [
-    context,
-  ];
+  List<Object> get props => [context];
 }
 
 class SubmitLeaveRequest extends LeaveEvent {
