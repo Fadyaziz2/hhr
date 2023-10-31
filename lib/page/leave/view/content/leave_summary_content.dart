@@ -50,36 +50,43 @@ class LeaveSummaryContent extends StatelessWidget {
               child: Text(
             "Leave Request",
             style: TextStyle(
-                color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 20),
+                color: Colors.black54,
+                fontWeight: FontWeight.w500,
+                fontSize: 20),
           )),
           const SizedBox(
             height: 25,
           ),
-          state?.leaveRequestModel?.leaveRequestData?.leaveRequests != null ? state?.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty ==
-                  true
-              ? ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: state?.leaveRequestModel?.leaveRequestData
-                          ?.leaveRequests?.length ??
-                      0,
-                  itemBuilder: (context, index) {
-                    LeaveRequestValue? leaveRequest = state?.leaveRequestModel
-                        ?.leaveRequestData?.leaveRequests?[index];
-                    return BuildLeaveTitle(
-                      leaveRequestValue: leaveRequest,
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(
-                    thickness: 1,
-                    color: Colors.black12,
-                  ),
+          state?.leaveRequestModel?.leaveRequestData?.leaveRequests != null
+              ? state?.leaveRequestModel?.leaveRequestData?.leaveRequests
+                          ?.isNotEmpty ==
+                      true
+                  ? ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: state?.leaveRequestModel?.leaveRequestData
+                              ?.leaveRequests?.length ??
+                          0,
+                      itemBuilder: (context, index) {
+                        LeaveRequestValue? leaveRequest = state
+                            ?.leaveRequestModel
+                            ?.leaveRequestData
+                            ?.leaveRequests?[index];
+                        return BuildLeaveTitle(
+                          leaveRequestValue: leaveRequest,
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(
+                        thickness: 1,
+                        color: Colors.black12,
+                      ),
+                    )
+                  : const NoDataFoundWidget()
+              : const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: LeaveListShimmer(),
                 )
-              : const NoDataFoundWidget() : const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
-              )
         ],
       ),
     );
