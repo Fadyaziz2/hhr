@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/page/leave/bloc/leave_event.dart';
-import 'package:onesthrm/page/leave/bloc/leave_state.dart';
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
+part 'leave_event.dart';
+part 'leave_state.dart';
 
 class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   final MetaClubApiClient _metaClubApiClient;

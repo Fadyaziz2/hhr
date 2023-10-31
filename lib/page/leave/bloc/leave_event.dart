@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:meta_club_api/meta_club_api.dart';
+part of 'leave_bloc.dart';
 
 abstract class LeaveEvent extends Equatable {
   @override
