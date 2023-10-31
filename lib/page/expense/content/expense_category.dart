@@ -6,7 +6,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_create.dart';
 import 'package:onesthrm/res/const.dart';
-import 'package:provider/provider.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class ExpenseCategoryPage extends StatefulWidget {
   const ExpenseCategoryPage({
@@ -51,7 +51,6 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  // provider.isLoading == false
                   Expanded(
                     child: ListView.builder(
                       itemCount:
@@ -80,7 +79,6 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                       },
                     ),
                   ),
-                  //     : const Spacer(),
                   const SizedBox(
                     height: 16,
                   ),
@@ -90,37 +88,13 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (state.selectedCategory?.id != null) {
-                          Navigator.push(
+                          NavUtil.replaceScreen(
                               context,
-                              MaterialPageRoute(
-                                  builder: (_) => ExpenseCreate(
-                                        categoryId: state.selectedCategory?.id,
-                                        categoryName:
-                                            state.selectedCategory?.name,
-                                        // categoryId:
-                                        //     provider.selectCategoryData?.id,
-                                        // categoryName:
-                                        //     provider.selectCategoryData?.name,
-                                      )));
-                          // widget.fromEditPage == 1
-                          //     ? Navigator.pop(context)
-                          //     : Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (_) => const ExpenseLogExpense()));
+                              ExpenseCreate(
+                                categoryId: state.selectedCategory?.id,
+                                categoryName: state.selectedCategory?.name,
+                              ));
                         }
-                        //  else {
-                        //   showDialog(
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return Fluttertoast.showToast(msg: '')
-                        //         // CustomDialogError(
-                        //         //   title: tr("select_category"),
-                        //         //   subTitle:
-                        //         //       tr("you_must_be_select_a_category"),
-                        //         // );
-                        //       });
-                        // }
                       },
                       style: ButtonStyle(
                         backgroundColor:

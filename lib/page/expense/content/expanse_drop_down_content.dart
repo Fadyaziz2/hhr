@@ -77,7 +77,6 @@ class ExpenseDropDownContent extends StatelessWidget {
                   style: const TextStyle(fontSize: 14),
                 ),
                 value: state?.statusTypeName,
-                // value: provider.expenseStatus,
                 icon: const Icon(
                   Icons.arrow_downward,
                   size: 20,
@@ -88,7 +87,6 @@ class ExpenseDropDownContent extends StatelessWidget {
                   context
                       .read<ExpenseBloc>()
                       .add(SelectStatus(context, newValue));
-                  // provider.expenseStatusMenu(newValue, context);
                 },
                 items: ["Pending", "Approved", "Rejected"]
                     .map<DropdownMenuItem<String>>((String value) {

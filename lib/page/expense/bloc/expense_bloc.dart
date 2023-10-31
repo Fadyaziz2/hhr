@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/expense/view/expense_page.dart';
+import 'package:onesthrm/page/expense/expense.dart';
 import 'package:onesthrm/page/menu/view/menu_screen.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -31,10 +31,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     on<SelectDatePicker>(_onSelectDatePicker);
     on<ExpenseCreateButton>(_onCreateButton);
   }
-
-  TextEditingController amountController = TextEditingController();
-  TextEditingController referenceController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
 
   FutureOr<void> _onExpenseDataLoad(
       GetExpenseData event, Emitter<ExpenseState> emit) async {
@@ -174,10 +170,10 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
         Fluttertoast.showToast(
           msg: success.toString(),
         );
-        NavUtil.replaceScreen(event.context, const MenuScreen());
+        add(GetExpenseData());
+        Navigator.pop(event.context);
       });
       emit(state.copy(status: NetworkStatus.success));
-      // ignore: use_build_context_synchronously
     } catch (e) {
       emit(const ExpenseState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

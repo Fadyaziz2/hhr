@@ -49,7 +49,6 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CommonTextFiledWithTitle(
-                      // controller: context.read<ExpenseBloc>().amountController,
                       onChanged: (value) {
                         expenseCreateBody.amount = value;
                       },
@@ -110,14 +109,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                     const SizedBox(
                       height: 25,
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
                     ExpenseAttachmentContent(
                       expenseCreateBody: expenseCreateBody,
-                    ),
-                    const SizedBox(
-                      height: 6,
                     ),
                     const SizedBox(
                       height: 20,
@@ -133,7 +126,6 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                             expenseCreateBody.categoryId = categoryId;
                             context.read<ExpenseBloc>().add(ExpenseCreateButton(
                                 context, expenseCreateBody));
-                            print('expense${expenseCreateBody.toJson()}');
                           }
                         },
                         style: ButtonStyle(

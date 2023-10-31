@@ -14,7 +14,6 @@ class ExpensePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-
     return BlocProvider(
       create: (context) => ExpenseBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
@@ -47,7 +46,7 @@ class ExpensePage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavUtil.navigateScreen(context, const ExpenseCategoryPage());
+                NavUtil.replaceScreen(context, const ExpenseCategoryPage());
               },
               child: const Icon(Icons.add),
             ),

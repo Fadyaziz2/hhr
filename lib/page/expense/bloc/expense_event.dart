@@ -50,7 +50,6 @@ class SelectStatus extends ExpenseEvent {
 }
 
 class ExpenseCategory extends ExpenseEvent {
-  // final String? selectedCategory;
   ExpenseCategory();
 
   @override
