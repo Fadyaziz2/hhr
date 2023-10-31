@@ -2,13 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/content/animated_circular_button.dart';
-import 'package:onesthrm/page/leave/bloc/leave_state.dart';
 import 'package:onesthrm/page/leave/view/content/build_leave_title.dart';
+import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
+
+import '../../bloc/leave_bloc.dart';
 
 class LeaveSummaryContent extends StatelessWidget {
   final LeaveState? state;
@@ -74,7 +76,10 @@ class LeaveSummaryContent extends StatelessWidget {
                     color: Colors.black12,
                   ),
                 )
-              : const NoDataFoundWidget() : const SizedBox()
+              : const NoDataFoundWidget() : const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: LeaveListShimmer(),
+              )
         ],
       ),
     );
