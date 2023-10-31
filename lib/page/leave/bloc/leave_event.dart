@@ -95,3 +95,11 @@ class LeaveDetailsEven extends LeaveEvent {
   @override
   List<Object> get props => [requestId, userId];
 }
+class CancelLeaveRequest extends LeaveEvent {
+  final int requestID;
+  final BuildContext context;
+  CancelLeaveRequest(this.requestID,this.context);
+  @override
+  List<Object> get props => [requestID, context];
+
+}

@@ -49,7 +49,8 @@ class LeaveRequestType extends StatelessWidget {
               ),
               body: state.leaveRequestType?.leaveRequestType?.availableLeave !=
                       null
-                  ? state.leaveRequestType?.leaveRequestType?.availableLeave?.isNotEmpty ==
+                  ? state.leaveRequestType?.leaveRequestType?.availableLeave
+                              ?.isNotEmpty ==
                           true
                       ? ListView.separated(
                           padding: const EdgeInsets.all(12),

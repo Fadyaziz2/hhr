@@ -32,6 +32,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
     on<SubmitLeaveRequest>(_submitLeaveRequest);
     on<SelectDatePicker>(_onSelectDatePicker);
     on<LeaveDetailsEven>(_leaveDetails);
+    on<CancelLeaveRequest>(_cancelLeaveRequest);
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -125,6 +126,27 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
           leaveDetailsModel: leaveDetailsResponse,
           status: NetworkStatus.success));
 
+      return null;
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _cancelLeaveRequest(
+      CancelLeaveRequest event, Emitter<LeaveState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .cancelLeaveRequest(event.requestID)
+          .then((success) {
+        if (success == true) {
+          Fluttertoast.showToast(msg: "Leave request cancelled");
+          NavUtil.replaceScreen(event.context, const LeavePage());
+        } else {
+          Fluttertoast.showToast(msg: "Something went wrong!");
+        }
+      });
       return null;
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
