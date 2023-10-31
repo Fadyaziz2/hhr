@@ -228,6 +228,22 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> cancelLeaveRequest(int? requestId) async {
+     String api = 'user/leave/request/cancel/$requestId';
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> submitLeaveRequestApi(
       {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
     const String api = 'user/leave/request';
