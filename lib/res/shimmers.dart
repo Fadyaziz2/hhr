@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TileShimmer extends StatelessWidget {
@@ -105,10 +104,11 @@ class RectangularCardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: const Color(0xffF3F9FE),
-      highlightColor: colorPrimary.withOpacity(0.4),
+      highlightColor: Colors.white,
       child: Container(
           height: height,
           width: width,
+          margin: const EdgeInsets.only(right: 8.0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(
