@@ -2,41 +2,38 @@ import 'package:equatable/equatable.dart';
 
 class ResponseExpenseList extends Equatable {
   ResponseExpenseList({
-    this.data,
+    this.data = const [],
     this.result,
     this.message,
-    this.paymentType,
-    this.expanseStatus,
+    this.paymentType = const [],
+    this.expanseStatus = const [],
     this.status,
   });
 
-  List<ExpenseItem>? data;
-  bool? result;
-  String? message;
-  List<ExpanseStatus>? paymentType;
-  List<ExpanseStatus>? expanseStatus;
-  int? status;
+  final List<ExpenseItem> data;
+  final bool? result;
+  final String? message;
+  final List<ExpanseStatus> paymentType;
+  final List<ExpanseStatus> expanseStatus;
+  final int? status;
 
   factory ResponseExpenseList.fromJson(Map<String, dynamic> json) =>
       ResponseExpenseList(
-        data: List<ExpenseItem>.from(
-            json["data"].map((x) => ExpenseItem.fromJson(x))),
+        data: List<ExpenseItem>.from(json["data"].map((x) => ExpenseItem.fromJson(x))),
         result: json["result"],
         message: json["message"],
-        paymentType: List<ExpanseStatus>.from(
-            json["payment_type"].map((x) => ExpanseStatus.fromJson(x))),
-        expanseStatus: List<ExpanseStatus>.from(
-            json["expanse_status"].map((x) => ExpanseStatus.fromJson(x))),
+        paymentType: List<ExpanseStatus>.from(json["payment_type"].map((x) => ExpanseStatus.fromJson(x))),
+        expanseStatus: List<ExpanseStatus>.from(json["expanse_status"].map((x) => ExpanseStatus.fromJson(x))),
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "result": result,
         "message": message,
-        "payment_type": List<dynamic>.from(paymentType!.map((x) => x.toJson())),
+        "payment_type": List<dynamic>.from(paymentType.map((x) => x.toJson())),
         "expanse_status":
-            List<dynamic>.from(expanseStatus!.map((x) => x.toJson())),
+            List<dynamic>.from(expanseStatus.map((x) => x.toJson())),
         "status": status,
       };
   @override
@@ -59,17 +56,17 @@ class ExpenseItem extends Equatable {
     this.reason,
   });
 
-  int? id;
-  String? category;
-  String? requestedAmount;
-  String? approvedAmount;
-  String? dateShow;
-  String? dateDb;
-  String? payment;
-  String? paymentColor;
-  String? status;
-  String? statusColor;
-  String? reason;
+  final int? id;
+  final String? category;
+  final String? requestedAmount;
+  final String? approvedAmount;
+  final String? dateShow;
+  final String? dateDb;
+  final String? payment;
+  final String? paymentColor;
+  final String? status;
+  final String? statusColor;
+  final String? reason;
 
   factory ExpenseItem.fromJson(Map<String, dynamic> json) => ExpenseItem(
         id: json["id"],
@@ -120,8 +117,8 @@ class ExpanseStatus extends Equatable {
     this.name,
   });
 
-  int? id;
-  String? name;
+  final int? id;
+  final String? name;
 
   factory ExpanseStatus.fromJson(Map<String, dynamic> json) => ExpanseStatus(
         id: json["id"],

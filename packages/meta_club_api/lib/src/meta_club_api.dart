@@ -30,7 +30,7 @@ class MetaClubApiClient {
 
   static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -976,16 +976,13 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ExpenseCreateResponse> expenseCreate(
-      {ExpenseCreateBody? expenseCreateBody}) async {
+  Future<ExpenseCreateResponse> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
     String api = 'expense/add';
     try {
-      final response = await _httpServiceImpl.postRequest(
-          '$_baseUrl$api', expenseCreateBody);
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', expenseCreateBody?.toJson());
       return ExpenseCreateResponse.fromJson(response.data);
     } catch (e) {
-      return ExpenseCreateResponse(
-          message: 'Something went wrong', success: false);
+      return ExpenseCreateResponse(message: 'Something went wrong', success: false);
     }
   }
 }

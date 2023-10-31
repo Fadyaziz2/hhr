@@ -6,6 +6,7 @@ import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/attachment_content.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/enum.dart';
 
 class ExpenseCreateBodyContent extends StatelessWidget {
   final int? categoryId;
@@ -136,7 +137,7 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate() &&  state.status != NetworkStatus.loading) {
                         expenseCreateBody.date = state.selectDate;
                         expenseCreateBody.categoryId = categoryId;
                         context.read<ExpenseBloc>().add(
@@ -152,7 +153,9 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Text(tr("next"),
+                    child: state.status == NetworkStatus.loading
+                        ? const CircularProgressIndicator(backgroundColor: Colors.white,)
+                        :  Text(tr("submit"),
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

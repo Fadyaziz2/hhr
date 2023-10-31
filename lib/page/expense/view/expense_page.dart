@@ -15,9 +15,7 @@ class ExpensePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (context) => ExpenseBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(GetExpenseData()),
+      create: (context) => ExpenseBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(GetExpenseData())..add(ExpenseCategory()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
         builder: (context, state) {
           return Scaffold(
@@ -46,7 +44,7 @@ class ExpensePage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavUtil.navigateScreen(context, const ExpenseCategoryPage());
+                NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<ExpenseBloc>(),child: const ExpenseCategoryPage()));
               },
               child: const Icon(Icons.add),
             ),

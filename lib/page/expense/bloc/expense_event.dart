@@ -28,7 +28,7 @@ class SelectMonthPicker extends ExpenseEvent {
   SelectMonthPicker(this.context);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 
 class SelectPaymentType extends ExpenseEvent {
@@ -37,7 +37,7 @@ class SelectPaymentType extends ExpenseEvent {
   SelectPaymentType(this.context, this.paymentType);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 
 class SelectStatus extends ExpenseEvent {
@@ -46,7 +46,7 @@ class SelectStatus extends ExpenseEvent {
   SelectStatus(this.context, this.statusType);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 
 class ExpenseCategory extends ExpenseEvent {
@@ -71,7 +71,7 @@ class SelectDatePicker extends ExpenseEvent {
   SelectDatePicker(this.context);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 
 class ExpenseCreateButton extends ExpenseEvent {
@@ -79,5 +79,5 @@ class ExpenseCreateButton extends ExpenseEvent {
   final BuildContext context;
   ExpenseCreateButton(this.context, this.expenseCreateBody);
   @override
-  List<Object> get props => [context, expenseCreateBody];
+  List<Object> get props => [expenseCreateBody];
 }

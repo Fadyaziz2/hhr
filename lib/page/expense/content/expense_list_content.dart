@@ -13,14 +13,13 @@ class ExpenseListContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<ExpenseBloc>();
-
     return context.read<ExpenseBloc>().state.responseExpenseList?.data != null
-        ? bloc.state.responseExpenseList?.data?.isNotEmpty == true
+        ? bloc.state.responseExpenseList?.data.isNotEmpty == true
             ? Expanded(
                 child: ListView.builder(
-                  itemCount: bloc.state.responseExpenseList?.data?.length ?? 0,
+                  itemCount: bloc.state.responseExpenseList?.data.length ?? 0,
                   itemBuilder: (context, i) {
-                    final data = bloc.state.responseExpenseList?.data?[i];
+                    final data = bloc.state.responseExpenseList?.data[i];
                     return InkWell(
                       onTap: () {
                         NavUtil.navigateScreen(
