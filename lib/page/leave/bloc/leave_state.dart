@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/res/enum.dart';
+part of 'leave_bloc.dart';
 
 class LeaveState extends Equatable {
   final NetworkStatus status;
