@@ -12,7 +12,7 @@ class TaskListCard extends StatelessWidget {
       this.userCount,
       required this.onTap,
       this.taskStartDate,
-      this.taskListData, this.taskCompletionCollection})
+      this.taskListData})
       : super(key: key);
 
   final String? taskName, taskStartDate, taskEndDate;
@@ -20,16 +20,13 @@ class TaskListCard extends StatelessWidget {
   final Color? tapButtonColor;
   final Function()? onTap;
   final TaskCollection? taskListData;
-  final TaskCompletionCollection? taskCompletionCollection;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> assigns = [];
 
     if (taskListData?.members != null) {
-
-    }else{
-      final data = taskCompletionCollection?.members;
+      final data = taskListData?.members;
       for (int i = 0; i < data!.length; i++) {
         assigns.add(Positioned(
           left: i * 15,
