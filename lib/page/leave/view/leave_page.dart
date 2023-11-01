@@ -29,29 +29,11 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (context) => LeaveBloc(
-          metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-        ..add(LeaveSummaryApi(context))
-        ..add(LeaveRequest(DateFormat('y-MM').format(DateTime.now()),user!.user!.id!)),
-      child: BlocBuilder<LeaveBloc, LeaveState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Leave Summary"),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      context.read<LeaveBloc>().add(SelectDatePicker(context));
-                    },
-                    icon: const Icon(Icons.calendar_month_outlined))
-              ],
-            ),
-            body: LeaveSummaryContent(
-              state: state,
-            ),
-          );
-        },
-      ),
-    );
+        create: (context) => LeaveBloc(
+            metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
+          ..add(LeaveSummaryApi(context))
+          ..add(LeaveRequest(
+              DateFormat('y-MM').format(DateTime.now()), user!.user!.id!)),
+        child: const LeaveSummaryContent());
   }
 }

@@ -9,7 +9,6 @@ import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
-import 'package:meta_club_api/src/models/leave_details_model.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
@@ -27,9 +26,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -229,11 +228,11 @@ class MetaClubApiClient {
   }
 
   Future<bool> cancelLeaveRequest(int? requestId) async {
-     String api = 'user/leave/request/cancel/$requestId';
+    String api = 'user/leave/request/cancel/$requestId';
 
     try {
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.statusCode == 200) {
         return true;
