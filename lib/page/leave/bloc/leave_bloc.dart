@@ -18,7 +18,6 @@ part 'leave_state.dart';
 
 class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   final MetaClubApiClient _metaClubApiClient;
-  var dateTime = DateTime.now();
 
   LeaveBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
@@ -42,13 +41,12 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
       lastDate: DateTime(DateTime.now().year + 1, 9),
-      initialDate: dateTime,
+      initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
 
-    dateTime = date!;
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(LeaveRequest(currentMonth, user!.user!.id!));
+    add(LeaveRequest(user!.user!.id!));
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
   }
@@ -64,8 +62,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
           .then((success) {
         if (success) {
           Fluttertoast.showToast(msg: "Leave Request create successfully");
-          add(LeaveRequest(
-              DateFormat('y-MM').format(DateTime.now()), user!.user!.id!));
+          add(LeaveRequest(user!.user!.id!));
           NavUtil.replaceScreen(event!.context, const LeavePage());
         } else {
           Fluttertoast.showToast(msg: "Something went wrong!");
@@ -102,7 +99,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       LeaveRequestModel? leaveRequestResponse = await _metaClubApiClient
-          .leaveRequestApi(event.userId, event.pickedDate);
+          .leaveRequestApi(event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
 
       emit(state.copyWith(
           leaveRequestModel: leaveRequestResponse,
