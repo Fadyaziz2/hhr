@@ -985,4 +985,22 @@ class MetaClubApiClient {
       return ExpenseCreateResponse(message: 'Something went wrong', success: false);
     }
   }
+
+  /// ===================== Payroll Data List ========================
+  Future<PayrollModel?> getPayrollData({required String year}) async {
+    const String api = 'report/payslip/list';
+
+    final data = {"year": year.toString()};
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return PayrollModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }
