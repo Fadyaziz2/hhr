@@ -18,6 +18,8 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
+import 'models/leave_request_model.dart';
+
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -982,6 +984,39 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ResponseExpenseList?> getExpenseItem(
+      String month, String? paymentType, String? status) async {
+    const String api = 'accounts/expense/list';
+
+    final data = {"month": month, "payment": paymentType, "status": status};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return ResponseExpenseList.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ExpenseCategoryModel?> getExpenseCategory() async {
+    String api = 'accounts/expense/category-list';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ExpenseCategoryModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
   ///////// Appoinment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
@@ -1009,6 +1044,16 @@ class MetaClubApiClient {
       return response.data['message'];
     } catch (e) {
       return 'Something went wrong';
+    }
+  }
+
+  Future<ExpenseCreateResponse> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+    String api = 'expense/add';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', expenseCreateBody?.toJson());
+      return ExpenseCreateResponse.fromJson(response.data);
+    } catch (e) {
+      return ExpenseCreateResponse(message: 'Something went wrong', success: false);
     }
   }
 }

@@ -35,7 +35,7 @@ class UploadDocContent extends StatelessWidget {
           return Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10.0),
                 child: state.networkStatus != NetworkStatus.loading
                     ? CachedNetworkImage(
                         height: 200,
@@ -72,12 +72,12 @@ class UploadDocContent extends StatelessWidget {
                       width: 0.0,
                     ),
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(3.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: DottedBorder(
                     color: const Color(0xffC7C7C7),
                     borderType: BorderType.RRect,
-                    radius: const Radius.circular(3),
+                    radius: const Radius.circular(10.0),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 16),
                     strokeWidth: 2,
