@@ -13,7 +13,8 @@ class ExpenseListContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<ExpenseBloc>();
-    return context.read<ExpenseBloc>().state.responseExpenseList?.data != null
+    return context.read<ExpenseBloc>().state.responseExpenseList?.data.length !=
+            null
         ? bloc.state.responseExpenseList?.data.isNotEmpty == true
             ? Expanded(
                 child: ListView.builder(
