@@ -29,7 +29,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: state.taskSelectedDropdownValue?.id.toString() ?? '26');
 
-      emit(TaskState(status: NetworkStatus.success, taskDashboardData: taskDashboard));
+      emit(state.copyWith(status: NetworkStatus.success, taskDashboardData: taskDashboard));
     } on Exception catch (e) {
       emit(const TaskState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -55,8 +55,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(currentSliderValue: event.sliderValue));
   }
 
-  FutureOr<void> _onTaskDetailsStatusUpdateRequest(
-      TaskDetailsStatusUpdateRequest event, Emitter<TaskState> emit) async {
+  FutureOr<void> _onTaskDetailsStatusUpdateRequest(TaskDetailsStatusUpdateRequest event, Emitter<TaskState> emit) async {
     final data = {
       'id': event.id,
       'priority': event.priority,

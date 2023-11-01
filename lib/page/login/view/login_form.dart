@@ -147,7 +147,7 @@ class _LoginButton extends StatelessWidget {
                     context.read<LoginBloc>().add(const LoginSubmit());
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
-                  child: const Text('Login'),
+                  child: const Text('Login',style: TextStyle(color: Colors.white),),
                 ),
               );
       },

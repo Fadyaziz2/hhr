@@ -6,7 +6,6 @@ import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'authentication_event.dart';
-
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
@@ -68,8 +67,8 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
       _authenticationRepository.updateUserData(user);
       if(user.user != null) {
         ///verify token at startup
-        _userRepository.tokenVerification(token: '${user.user?.token}' ?? '').then((isVerified) {
-          if(isVerified){
+        _userRepository.tokenVerification(token: '${user.user?.token}' ?? '').then((data) {
+          if(data.status || data.code == -1){
             return AuthenticationState.authenticated(user);
           }
           _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);

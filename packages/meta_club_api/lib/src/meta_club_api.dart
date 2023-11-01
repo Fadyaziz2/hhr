@@ -1,7 +1,6 @@
 library meta_club_api;
 
 import 'dart:io';
-
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
@@ -11,8 +10,6 @@ import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
-import 'package:meta_club_api/src/models/phonebook.dart';
-import 'package:meta_club_api/src/models/response_notice_details.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
@@ -20,6 +17,8 @@ import 'models/content.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
+
+import 'models/leave_request_model.dart';
 
 class MetaClubApiClient {
   String token;
@@ -29,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onestweb.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -76,7 +75,9 @@ class MetaClubApiClient {
       }
       return RegistrationData.fromJson(response.data);
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return null;
     }
   }
@@ -129,8 +130,9 @@ class MetaClubApiClient {
   }
 
   /// attendance report get data ------------------
-  Future<AttendanceReport?> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
-     String api = 'report/attendance/particular-month/$userId';
+  Future<AttendanceReport?> getAttendanceReport(
+      {required Map<String, dynamic> body, int? userId}) async {
+    String api = 'report/attendance/particular-month/$userId';
 
     try {
       final response =
@@ -166,6 +168,114 @@ class MetaClubApiClient {
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveSummaryModel?> leaveSummaryApi(int? userId) async {
+    const String api = 'user/leave/summary';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+      });
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
+    const String api = 'user/leave/list/view';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveRequestModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveDetailsModel?> leaveDetailsApi(
+      int? userId, int? requestId) async {
+    String api = "user/leave/details/$requestId";
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveDetailsModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> cancelLeaveRequest(int? requestId) async {
+    String api = 'user/leave/request/cancel/$requestId';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> submitLeaveRequestApi(
+      {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
+    const String api = 'user/leave/request';
+
+    if (kDebugMode) {
+      print(bodyCreateLeaveModel?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
+    const String api = 'user/leave/available';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveRequestTypeModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -720,6 +830,23 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ResponseAllContents?> getPolicyData(String? slug) async {
+    const String api = 'app/all-contents/';
+
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken(
+        '$_baseUrl$api$slug',
+      );
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ResponseAllContents.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
 ///// All Notification ///////////
   Future<bool> clearAllNotificationApi() async {
     const String clear = 'user/notification/clear';
@@ -857,6 +984,39 @@ class MetaClubApiClient {
     }
   }
 
+  Future<ResponseExpenseList?> getExpenseItem(
+      String month, String? paymentType, String? status) async {
+    const String api = 'accounts/expense/list';
+
+    final data = {"month": month, "payment": paymentType, "status": status};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return ResponseExpenseList.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ExpenseCategoryModel?> getExpenseCategory() async {
+    String api = 'accounts/expense/category-list';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
+      }
+      return ExpenseCategoryModel.fromJson(response?.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
   ///////// Appoinment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
@@ -884,6 +1044,16 @@ class MetaClubApiClient {
       return response.data['message'];
     } catch (e) {
       return 'Something went wrong';
+    }
+  }
+
+  Future<ExpenseCreateResponse> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+    String api = 'expense/add';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', expenseCreateBody?.toJson());
+      return ExpenseCreateResponse.fromJson(response.data);
+    } catch (e) {
+      return ExpenseCreateResponse(message: 'Something went wrong', success: false);
     }
   }
 }

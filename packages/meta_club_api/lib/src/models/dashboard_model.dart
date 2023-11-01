@@ -57,7 +57,7 @@ class DashboardData extends Equatable {
             json["current_month"].map((x) => CurrentMonthData.fromJson(x))),
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
         attendanceData: AttendanceData.fromJson(json['attendance_status']),
-        breakHistory: BreakHistory.fromJson(json['break_history_data']),
+        breakHistory: json['break_history_data'] != null ? BreakHistory.fromJson(json['break_history_data']) : null,
         config: Config.fromJson(json['config']),
       );
 

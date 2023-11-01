@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
+import '../internet_connectivity/bloc/internet_bloc.dart';
 import '../login/view/login_page.dart';
 import '../splash/view/splash.dart';
 
@@ -14,8 +16,7 @@ class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
 
-  const App(
-      {Key? key,
+  const App({Key? key,
       required this.authenticationRepository,
       required this.userRepository})
       : super(key: key);
@@ -24,10 +25,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-            authenticationRepository: authenticationRepository,
-            userRepository: userRepository),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
+          BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus())
+        ],
         child: const AppView(),
       ),
     );
@@ -47,6 +49,13 @@ class _AppViewState extends State<AppView> {
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
+  void initState() {
+    ///channel wise notification setup
+    FirebaseMessaging.instance.subscribeToTopic('onesthrm');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -56,14 +65,11 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil(
-                  BottomNavigationPage.route(),
-                  (route) => false,
+                _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false,
                 );
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil(
-                    LoginPage.route(), (route) => false);
+                _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
                 break;
               default:
                 break;
@@ -73,6 +79,9 @@ class _AppViewState extends State<AppView> {
         );
       },
       theme: ThemeData(
+        dialogTheme: const DialogTheme(
+          backgroundColor: Colors.white
+        ),
         scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
         primaryColor: colorPrimary,
@@ -87,6 +96,7 @@ class _AppViewState extends State<AppView> {
                 ?.copyWith(color: Colors.white)),
         colorScheme: Theme.of(context).colorScheme.copyWith(
               primary: colorPrimary,
+          background: Colors.white
             ),
       ),
       localizationsDelegates: context.localizationDelegates,

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:dio_service/dio_service.dart';
 import 'package:user_repository/user_repository.dart';
+
+import 'models/token_status.dart';
 
 class UserRepository {
   final String token;
@@ -18,7 +22,8 @@ class UserRepository {
     const String userEndpoint = 'login';
     final body = {'email': email, 'password': password};
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$userEndpoint', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$userEndpoint', body);
       if (response.statusCode == 200) {
         return LoginData.fromJson(response.data);
       } else {
@@ -47,17 +52,16 @@ class UserRepository {
     }
   }
 
-  Future<bool> tokenVerification({required String token}) async {
+  Future<TokenStatus> tokenVerification({required String token}) async {
     String api = 'user/token-alive/$token';
-
     try {
       final response = await _httpServiceImpl.getRequest('$_baseUrl$api');
       if (response.statusCode != 200) {
-        return false;
+        return TokenStatus(status: false, code: response.statusCode ?? 400);
       }
-      return true;
-    } catch (e) {
-      return false;
+      return TokenStatus(status: true, code: response.statusCode ?? 200);
+    } on SocketException catch (_) {
+      return TokenStatus(status: false, code: -1);
     }
   }
 }
