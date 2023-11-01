@@ -6,8 +6,19 @@ abstract class PayrollEvent extends Equatable {
 }
 
 class PayrollInitialDataRequest extends PayrollEvent {
-  PayrollInitialDataRequest();
+  final String? setDate;
+  PayrollInitialDataRequest({this.setDate});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [setDate];
 }
+
+class SelectDatePicker extends PayrollEvent {
+  final BuildContext context;
+
+  SelectDatePicker(this.context);
+
+  @override
+  List<Object> get props => [context];
+}
+

@@ -16,12 +16,7 @@ class PayrollScreen extends StatelessWidget {
       create: (_) => PayrollBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
         ..add(PayrollInitialDataRequest()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Payroll'),
-        ),
-        body: const PayrollScreenContent(),
-      ),
-    );
+      child: const PayrollScreenContent(),
+      );
   }
 }
