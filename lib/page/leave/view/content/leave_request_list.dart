@@ -10,9 +10,8 @@ import 'build_leave_title.dart';
 import 'leave_list_shimmer.dart';
 
 class LeaveRequestList extends StatelessWidget {
-  const LeaveRequestList({
-    super.key,
-  });
+  final int userId;
+  const LeaveRequestList({super.key,required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +22,16 @@ class LeaveRequestList extends StatelessWidget {
           child: LeaveListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
-        return state.leaveRequestModel?.leaveRequestData?.leaveRequests
-                    ?.isNotEmpty ==
-                true
+        return state.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty == true
             ? ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: state.leaveRequestModel?.leaveRequestData
-                        ?.leaveRequests?.length ??
-                    0,
+                itemCount: state.leaveRequestModel?.leaveRequestData?.leaveRequests?.length ?? 0,
                 itemBuilder: (context, index) {
-                  LeaveRequestValue? leaveRequest = state.leaveRequestModel
-                      ?.leaveRequestData?.leaveRequests?[index];
+                  LeaveRequestValue? leaveRequest = state.leaveRequestModel?.leaveRequestData?.leaveRequests?[index];
                   return BuildLeaveTitle(
                     leaveRequestValue: leaveRequest,
+                    userId: userId,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>

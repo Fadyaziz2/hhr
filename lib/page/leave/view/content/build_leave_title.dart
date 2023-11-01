@@ -1,30 +1,32 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/leave_details/leave_details.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 class BuildLeaveTitle extends StatelessWidget {
   final LeaveRequestValue? leaveRequestValue;
+  final int userId;
 
-  const BuildLeaveTitle({Key? key, this.leaveRequestValue}) : super(key: key);
+  const BuildLeaveTitle({Key? key, required this.leaveRequestValue,required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        NavUtil.navigateScreen(context, LeaveDetails(requestId: leaveRequestValue?.id,));
+        NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<LeaveBloc>(),child: LeaveDetails(requestId: leaveRequestValue!.id!,userId: userId)));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: Row(
           children: [
             Card(
-              elevation: 2,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              elevation: 2.0,
+              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               child: Column(
                 children: [
                   Container(
@@ -55,9 +57,7 @@ class BuildLeaveTitle extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              width: 8,
-            ),
+            const SizedBox(width: 8.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

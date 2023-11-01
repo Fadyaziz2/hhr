@@ -8,7 +8,6 @@ import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-
 import '../../bloc/leave_bloc.dart';
 
 class LeaveSummaryContent extends StatelessWidget {
@@ -25,9 +24,7 @@ class LeaveSummaryContent extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                context
-                    .read<LeaveBloc>()
-                    .add(SelectDatePicker(user!.user!.id!, context));
+                context.read<LeaveBloc>().add(SelectDatePicker(user!.user!.id!, context));
               },
               icon: const Icon(Icons.calendar_month_outlined))
         ],
@@ -41,7 +38,7 @@ class LeaveSummaryContent extends StatelessWidget {
             ),
             AnimatedCircularButton(
               onComplete: () {
-                NavUtil.navigateScreen(context, const LeaveRequestType());
+                NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<LeaveBloc>(),child: const LeaveRequestType()));
               },
               title: "Apply Leave",
               color: colorPrimary,
@@ -49,28 +46,12 @@ class LeaveSummaryContent extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Center(
-              child: const Text(
-                "tab_to_apply_for_leave",
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ).tr(),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
+            Center(child: const Text("tab_to_apply_for_leave", style: TextStyle(fontSize: 12, color: Colors.grey),).tr()),
+            const SizedBox(height: 25.0,),
             const TotalLeaveCount(),
-            const Center(
-                child: Text(
-              "Leave Request",
-              style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20),
-            )),
-            const SizedBox(
-              height: 25,
-            ),
-            const LeaveRequestList()
+            const Center(child: Text("Leave Request", style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 20.0))),
+            const SizedBox(height: 25.0,),
+            LeaveRequestList(userId: user!.user!.id!)
           ],
         ),
       ),

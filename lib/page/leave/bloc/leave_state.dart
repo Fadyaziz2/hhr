@@ -9,6 +9,7 @@ class LeaveState extends Equatable {
   final String? startDate;
   final String? endDate;
   final String? currentMonth;
+  final bool isCancelled;
   final PhoneBookUser? selectedEmployee;
   final LeaveDetailsModel? leaveDetailsModel;
 
@@ -21,12 +22,14 @@ class LeaveState extends Equatable {
       this.startDate,
       this.selectedEmployee,
       this.endDate,
+      this.isCancelled = false,
       this.currentMonth,
       this.leaveDetailsModel});
 
   LeaveState copyWith(
       {LeaveSummaryModel? leaveSummaryModel,
       NetworkStatus? status,
+      bool? isCancelled,
       LeaveRequestModel? leaveRequestModel,
       LeaveRequestTypeModel? leaveRequestType,
       AvailableLeaveType? selectedRequestType,
@@ -37,6 +40,7 @@ class LeaveState extends Equatable {
       LeaveDetailsModel? leaveDetailsModel}) {
     return LeaveState(
         status: status ?? this.status,
+        isCancelled: isCancelled ?? this.isCancelled,
         leaveSummaryModel: leaveSummaryModel ?? this.leaveSummaryModel,
         leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
         leaveRequestType: leaveRequestType ?? this.leaveRequestType,
@@ -59,6 +63,7 @@ class LeaveState extends Equatable {
         endDate,
         selectedEmployee,
         currentMonth,
+        isCancelled,
         leaveDetailsModel
       ];
 }

@@ -5,6 +5,7 @@ class CustomButton extends StatelessWidget {
   final String? title;
   final Function? clickButton;
   final double padding;
+  final bool isLoading;
   final Color? backgroundColor;
 
   const CustomButton(
@@ -12,6 +13,7 @@ class CustomButton extends StatelessWidget {
       this.title,
       this.clickButton,
       this.padding = 10,
+      this.isLoading = false,
       this.backgroundColor = colorPrimary})
       : super(key: key);
 
@@ -30,7 +32,9 @@ class CustomButton extends StatelessWidget {
             ),
             minimumSize: const Size.fromHeight(50),
             backgroundColor: backgroundColor),
-        child: Text("$title",
+        child: isLoading
+            ? const CircularProgressIndicator(backgroundColor: Colors.white,)
+            : Text("$title",
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

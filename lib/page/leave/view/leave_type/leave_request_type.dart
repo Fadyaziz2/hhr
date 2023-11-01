@@ -16,98 +16,88 @@ class LeaveRequestType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    return BlocProvider(
-      create: (context) => LeaveBloc(
-          metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-        ..add(LeaveRequestTypeEven(user!.user!.id!)),
-      child: BlocBuilder<LeaveBloc, LeaveState>(
-        builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(
-                title: const Text("Leave Request Type"),
-              ),
-              bottomNavigationBar: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(0)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomButton(
-                    title: "Next",
-                    padding: 16,
-                    clickButton: () {
-                      NavUtil.replaceScreen(
-                          context,
-                          LeaveCalendar(
-                            leaveRequestTypeId: state.selectedRequestType?.id,
-                          ));
-                    },
-                  ),
+    return BlocBuilder<LeaveBloc, LeaveState>(
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              title: const Text("Leave Request Type"),
+            ),
+            bottomNavigationBar: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomButton(
+                  title: "Next",
+                  padding: 16,
+                  clickButton: () {
+                    NavUtil.replaceScreen(
+                        context, BlocProvider.value(
+                          value: context.read<LeaveBloc>(),
+                          child: LeaveCalendar(leaveRequestTypeId: state.selectedRequestType?.id)));
+                  },
                 ),
               ),
-              body: state.leaveRequestType?.leaveRequestType?.availableLeave !=
-                      null
-                  ? state.leaveRequestType?.leaveRequestType?.availableLeave
-                              ?.isNotEmpty ==
-                          true
-                      ? ListView.separated(
-                          padding: const EdgeInsets.all(12),
-                          shrinkWrap: true,
-                          itemCount: state.leaveRequestType?.leaveRequestType
-                                  ?.availableLeave?.length ??
-                              0,
-                          itemBuilder: (context, index) {
-                            AvailableLeaveType? availableLeave = state
-                                .leaveRequestType
-                                ?.leaveRequestType
-                                ?.availableLeave?[index];
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
+            ),
+            body: state.leaveRequestType?.leaveRequestType?.availableLeave != null
+                ? state.leaveRequestType?.leaveRequestType?.availableLeave?.isNotEmpty == true
+                    ? ListView.separated(
+                        padding: const EdgeInsets.all(12),
+                        shrinkWrap: true,
+                        itemCount: state.leaveRequestType?.leaveRequestType
+                                ?.availableLeave?.length ??
+                            0,
+                        itemBuilder: (context, index) {
+                          AvailableLeaveType? availableLeave = state
+                              .leaveRequestType
+                              ?.leaveRequestType
+                              ?.availableLeave?[index];
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            elevation: 4,
+                            child: RadioListTile<AvailableLeaveType>(
+                              value: availableLeave!,
+                              title: Row(
+                                children: [
+                                  Text(
+                                    "${availableLeave.type}",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    '${availableLeave.leftDays} ${tr("days_left")}',
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ).tr(),
+                                ],
                               ),
-                              elevation: 4,
-                              child: RadioListTile<AvailableLeaveType>(
-                                value: availableLeave!,
-                                title: Row(
-                                  children: [
-                                    Text(
-                                      "${availableLeave.type}",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '${availableLeave.leftDays} ${tr("days_left")}',
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
-                                    ).tr(),
-                                  ],
-                                ),
-                                groupValue: state.selectedRequestType,
-                                onChanged: (AvailableLeaveType? value) {
-                                  context.read<LeaveBloc>().add(
-                                      SelectedRequestType(value!));
-                                  if (kDebugMode) {
-                                    print(value.type);
-                                  }
-                                },
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const SizedBox(height: 5))
-                      : const NoDataFoundWidget()
-                  : const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: LeaveListShimmer(),
-                    ));
-        },
-      ),
+                              groupValue: state.selectedRequestType,
+                              onChanged: (AvailableLeaveType? value) {
+                                context.read<LeaveBloc>().add(
+                                    SelectedRequestType(value!));
+                                if (kDebugMode) {
+                                  print(value.type);
+                                }
+                              },
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const SizedBox(height: 5))
+                    : const NoDataFoundWidget()
+                : const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: LeaveListShimmer(),
+                  ));
+      },
     );
   }
 }
