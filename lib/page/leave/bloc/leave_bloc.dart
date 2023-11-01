@@ -12,8 +12,6 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
-import '../../../res/const.dart';
-
 part 'leave_event.dart';
 
 part 'leave_state.dart';
@@ -66,7 +64,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
           Fluttertoast.showToast(msg: "Leave Request create successfully");
           add(LeaveRequest(
               user!.user!.id!));
-          NavUtil.replaceScreen(event!.context, const LeavePage());
+          Navigator.pop(event!.context);
         } else {
           Fluttertoast.showToast(msg: "Something went wrong!");
         }

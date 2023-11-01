@@ -49,7 +49,7 @@ class LeaveRequestList extends StatelessWidget {
       } else if (state.status == NetworkStatus.failure) {
         return Center(
           child: Text(
-            "Failed to load support list",
+            "Failed to load Leave list",
             style: TextStyle(
                 color: colorPrimary.withOpacity(0.4),
                 fontSize: 18,

@@ -8,6 +8,7 @@ import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
 
 class CreateLeaveRequest extends StatelessWidget {
@@ -116,7 +117,7 @@ class CreateLeaveRequest extends StatelessWidget {
                               title: "Next",
                               padding: 0,
                               clickButton: () {
-                                if(formKey.currentState!.validate()){
+                                if(formKey.currentState!.validate() && state.status != NetworkStatus.loading){
                                   final user =
                                       context.read<AuthenticationBloc>().state.data;
                                   bodyCreateLeave.userId = user?.user?.id;

@@ -5,14 +5,20 @@ class CustomButton extends StatelessWidget {
   final String? title;
   final Function? clickButton;
   final double padding;
+  final Color? backgroundColor;
 
-  const CustomButton({Key? key, this.title, this.clickButton,this.padding = 10})
+  const CustomButton(
+      {Key? key,
+      this.title,
+      this.clickButton,
+      this.padding = 10,
+      this.backgroundColor = colorPrimary})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.symmetric(horizontal: padding),
+      margin: EdgeInsets.symmetric(horizontal: padding),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
@@ -23,7 +29,7 @@ class CustomButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             minimumSize: const Size.fromHeight(50),
-            backgroundColor: colorPrimary),
+            backgroundColor: backgroundColor),
         child: Text("$title",
             style: const TextStyle(
               color: Colors.white,
@@ -32,6 +38,5 @@ class CustomButton extends StatelessWidget {
             )),
       ),
     );
-
   }
 }
