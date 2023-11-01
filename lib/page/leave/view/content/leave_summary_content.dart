@@ -1,15 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/content/animated_circular_button.dart';
-import 'package:onesthrm/page/leave/view/content/build_leave_title.dart';
-import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/leave/view/content/leave_request_list.dart';
 import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import '../../bloc/leave_bloc.dart';
 
@@ -20,13 +18,16 @@ class LeaveSummaryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Leave Summary"),
         actions: [
           IconButton(
               onPressed: () {
-                context.read<LeaveBloc>().add(SelectDatePicker(context));
+                context
+                    .read<LeaveBloc>()
+                    .add(SelectDatePicker(user!.user!.id!, context));
               },
               icon: const Icon(Icons.calendar_month_outlined))
         ],
@@ -69,39 +70,7 @@ class LeaveSummaryContent extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            BlocBuilder<LeaveBloc, LeaveState>(builder: (context, state) {
-              return state.leaveRequestModel?.leaveRequestData?.leaveRequests !=
-                      null
-                  ? state.leaveRequestModel?.leaveRequestData?.leaveRequests
-                              ?.isNotEmpty ==
-                          true
-                      ? ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: state.leaveRequestModel?.leaveRequestData
-                                  ?.leaveRequests?.length ??
-                              0,
-                          itemBuilder: (context, index) {
-                            LeaveRequestValue? leaveRequest = state
-                                .leaveRequestModel
-                                ?.leaveRequestData
-                                ?.leaveRequests?[index];
-                            return BuildLeaveTitle(
-                              leaveRequestValue: leaveRequest,
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(
-                            thickness: 1,
-                            color: Colors.black12,
-                          ),
-                        )
-                      : const NoDataFoundWidget()
-                  : const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: LeaveListShimmer(),
-                    );
-            })
+            const LeaveRequestList()
           ],
         ),
       ),

@@ -6,41 +6,39 @@ abstract class LeaveEvent extends Equatable {
 }
 
 class LeaveSummaryApi extends LeaveEvent {
-  final BuildContext context;
+  final int userId;
 
-  LeaveSummaryApi(this.context);
+  LeaveSummaryApi(this.userId);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 
 class LeaveRequest extends LeaveEvent {
   final int userId;
-  final String pickedDate;
 
-  LeaveRequest(this.pickedDate, this.userId);
+  LeaveRequest(this.userId);
 
   @override
-  List<Object> get props => [pickedDate, userId];
+  List<Object> get props => [userId];
 }
 
 class LeaveRequestTypeEven extends LeaveEvent {
-  final BuildContext context;
+  final int userId;
 
-  LeaveRequestTypeEven(this.context);
+  LeaveRequestTypeEven(this.userId);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [userId];
 }
 
 class SelectedRequestType extends LeaveEvent {
-  final BuildContext context;
   final AvailableLeaveType availableLeaveType;
 
-  SelectedRequestType(this.context, this.availableLeaveType);
+  SelectedRequestType(this.availableLeaveType);
 
   @override
-  List<Object> get props => [context, availableLeaveType];
+  List<Object> get props => [availableLeaveType];
 }
 
 class SelectedCalendar extends LeaveEvent {
@@ -54,13 +52,12 @@ class SelectedCalendar extends LeaveEvent {
 }
 
 class SelectEmployee extends LeaveEvent {
-  final BuildContext context;
-  final PhoneBookUser? selectEmployee;
+  final PhoneBookUser selectEmployee;
 
-  SelectEmployee(this.context, this.selectEmployee);
+  SelectEmployee( this.selectEmployee);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [selectEmployee];
 }
 
 class SubmitLeaveRequest extends LeaveEvent {
@@ -74,16 +71,16 @@ class SubmitLeaveRequest extends LeaveEvent {
       required this.pickedDate});
 
   @override
-  List<Object> get props => [bodyCreateLeaveModel, context, pickedDate];
+  List<Object> get props => [bodyCreateLeaveModel, pickedDate];
 }
 
 class SelectDatePicker extends LeaveEvent {
+  final int userId;
   final BuildContext context;
-
-  SelectDatePicker(this.context);
+  SelectDatePicker(this.userId,this.context);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [userId];
 }
 
 class LeaveDetailsEven extends LeaveEvent {

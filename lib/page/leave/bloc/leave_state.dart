@@ -1,7 +1,7 @@
 part of 'leave_bloc.dart';
 
 class LeaveState extends Equatable {
-  final NetworkStatus status;
+  final NetworkStatus? status;
   final LeaveSummaryModel? leaveSummaryModel;
   final LeaveRequestModel? leaveRequestModel;
   final LeaveRequestTypeModel? leaveRequestType;
@@ -13,7 +13,7 @@ class LeaveState extends Equatable {
   final LeaveDetailsModel? leaveDetailsModel;
 
   const LeaveState(
-      {this.status = NetworkStatus.initial,
+      {this.status,
       this.leaveSummaryModel,
       this.leaveRequestModel,
       this.leaveRequestType,
@@ -36,6 +36,7 @@ class LeaveState extends Equatable {
       String? endDate,
       LeaveDetailsModel? leaveDetailsModel}) {
     return LeaveState(
+        status: status ?? this.status,
         leaveSummaryModel: leaveSummaryModel ?? this.leaveSummaryModel,
         leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
         leaveRequestType: leaveRequestType ?? this.leaveRequestType,

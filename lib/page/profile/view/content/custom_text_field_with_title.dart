@@ -7,8 +7,9 @@ class CustomTextField extends StatelessWidget {
   final String? value;
   final int? maxLine;
   final Function(String?) onData;
+  final String? errorMsg;
 
-  const CustomTextField({Key? key,required this.title, this.value,required this.onData,this.hints,this.maxLine}) : super(key: key);
+  const CustomTextField({Key? key,required this.title, this.value,required this.onData,this.hints,this.maxLine,this.errorMsg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
           keyboardType: TextInputType.name,
           onChanged: onData,
+          validator: (val) => val!.isEmpty ? errorMsg : null,
           controller: TextEditingController(text: value),
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,

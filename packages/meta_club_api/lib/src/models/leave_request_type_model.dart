@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class LeaveRequestTypeModel extends Equatable {
-  bool? result;
-  String? message;
-  LeaveRequestTypeAvailableLeave? leaveRequestType;
+  final bool? result;
+  final String? message;
+  final LeaveRequestTypeAvailableLeave? leaveRequestType;
 
-  LeaveRequestTypeModel({
+  const LeaveRequestTypeModel({
     this.result,
     this.message,
     this.leaveRequestType,
@@ -25,9 +25,9 @@ class LeaveRequestTypeModel extends Equatable {
 }
 
 class LeaveRequestTypeAvailableLeave extends Equatable {
-  List<AvailableLeaveType>? availableLeave;
+  final List<AvailableLeaveType>? availableLeave;
 
-  LeaveRequestTypeAvailableLeave({
+  const LeaveRequestTypeAvailableLeave({
     this.availableLeave,
   });
 
@@ -44,19 +44,20 @@ class LeaveRequestTypeAvailableLeave extends Equatable {
 }
 
 class AvailableLeaveType extends Equatable {
-  int? id;
-  String? type;
-  int? totalLeave;
-  int? leftDays;
+  final int? id;
+  final String? type;
+  final int? totalLeave;
+  final int? leftDays;
 
-  AvailableLeaveType({
+  const AvailableLeaveType({
     this.id,
     this.type,
     this.totalLeave,
     this.leftDays,
   });
 
-  factory AvailableLeaveType.fromJson(Map<String, dynamic> json) => AvailableLeaveType(
+  factory AvailableLeaveType.fromJson(Map<String, dynamic> json) =>
+      AvailableLeaveType(
         id: json["id"],
         type: json["type"],
         totalLeave: json["total_leave"],

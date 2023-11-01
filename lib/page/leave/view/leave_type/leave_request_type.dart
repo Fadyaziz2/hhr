@@ -20,7 +20,7 @@ class LeaveRequestType extends StatelessWidget {
     return BlocProvider(
       create: (context) => LeaveBloc(
           metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-        ..add(LeaveRequestTypeEven(context)),
+        ..add(LeaveRequestTypeEven(user!.user!.id!)),
       child: BlocBuilder<LeaveBloc, LeaveState>(
         builder: (context, state) {
           return Scaffold(
@@ -91,7 +91,7 @@ class LeaveRequestType extends StatelessWidget {
                                 groupValue: state.selectedRequestType,
                                 onChanged: (AvailableLeaveType? value) {
                                   context.read<LeaveBloc>().add(
-                                      SelectedRequestType(context, value!));
+                                      SelectedRequestType(value!));
                                   if (kDebugMode) {
                                     print(value.type);
                                   }

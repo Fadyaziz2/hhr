@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -31,9 +30,8 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
     return BlocProvider(
         create: (context) => LeaveBloc(
             metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-          ..add(LeaveSummaryApi(context))
-          ..add(LeaveRequest(
-              DateFormat('y-MM').format(DateTime.now()), user!.user!.id!)),
+          ..add(LeaveSummaryApi(user!.user!.id!))
+          ..add(LeaveRequest(user.user!.id!)),
         child: const LeaveSummaryContent());
   }
 }

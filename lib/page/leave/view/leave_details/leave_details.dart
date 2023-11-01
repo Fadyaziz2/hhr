@@ -60,20 +60,20 @@ class LeaveDetails extends StatelessWidget {
                         ),
                         BuildContainer(
                             title: tr("requested_on"),
-                            titleValue: '${leaveDetailsData.requestedOn}'),
+                            titleValue: leaveDetailsData.requestedOn ?? ""),
                         BuildContainer(
                             title: tr("type"),
-                            titleValue: '${leaveDetailsData.type}'),
+                            titleValue: leaveDetailsData.type ?? ""),
                         BuildContainer(
                             title: tr("period"),
-                            titleValue: '${leaveDetailsData.period}'),
+                            titleValue: leaveDetailsData.period ?? ""),
                         BuildContainer(
                             title: tr("total_days"),
                             titleValue:
-                                '${leaveDetailsData.totalDays} ${tr("days")}'),
+                                '${leaveDetailsData.totalDays ?? ""} ${tr("days")}'),
                         BuildContainer(
                           title: tr("note"),
-                          titleValue: '${leaveDetailsData.note}',
+                          titleValue: leaveDetailsData.note ?? "",
                         ),
                         BuildContainer(
                           title: tr("substitute"),
