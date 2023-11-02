@@ -88,6 +88,22 @@ class PayrollScreenContent extends StatelessWidget {
                                         decoration: TextDecoration.underline),
                                   ),
                           ),
+                          Center(
+                            child: data?.isCalculated == true ? InkWell(
+                              onTap: () => context.read<PayrollBloc>().sharePaySlip(data!.payslipLink!),
+                              child: const Text('Share',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      decoration:
+                                      TextDecoration.underline)),
+                            )
+                                : const Text(
+                              '',
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
                         ],
                       );
                     })

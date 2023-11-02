@@ -8,6 +8,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'payroll_event.dart';
@@ -40,6 +41,13 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
         return false;
       },
     );
+  }
+
+  sharePaySlip(String link) async {
+    final result = await Share.shareWithResult(link);
+    if (result.status == ShareResultStatus.success) {
+      debugPrint('Thank you for sharing');
+    }
   }
 
   FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
