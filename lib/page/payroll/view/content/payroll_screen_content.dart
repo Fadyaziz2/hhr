@@ -37,6 +37,7 @@ class PayrollScreenContent extends StatelessWidget {
                     0: FlexColumnWidth(),
                     1: FlexColumnWidth(),
                     2: FlexColumnWidth(),
+                    3: FlexColumnWidth(),
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: <TableRow>[
@@ -44,9 +45,8 @@ class PayrollScreenContent extends StatelessWidget {
                       children: [
                         HeaderTableRow(title: 'Month'),
                         Center(child: HeaderTableRow(title: 'Salary')),
-                        Center(
-                          child: HeaderTableRow(title: 'Payslip'),
-                        ),
+                        Center(child: HeaderTableRow(title: 'Payslip')),
+                        Center(child: HeaderTableRow(title: 'Share'),),
                       ],
                     ),
                     ...List.generate(
