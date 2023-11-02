@@ -17,14 +17,12 @@ part 'payroll_state.dart';
 class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   final MetaClubApiClient metaClubApiClient;
 
-  PayrollBloc({required this.metaClubApiClient})
-      : super(const PayrollState(status: NetworkStatus.initial)) {
+  PayrollBloc({required this.metaClubApiClient}) : super(const PayrollState(status: NetworkStatus.initial)) {
     on<PayrollInitialDataRequest>(_onPayrollDataInitialDataRequest);
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onPayrollDataInitialDataRequest(
-      PayrollInitialDataRequest event, Emitter<PayrollState> emit) async {
+  FutureOr<void> _onPayrollDataInitialDataRequest(PayrollInitialDataRequest event, Emitter<PayrollState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     try {
       final payrollData = await metaClubApiClient.getPayrollData(
@@ -49,8 +47,7 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
     );
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<PayrollState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
