@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +43,7 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   }
 
   sharePaySlip(String link) async {
-    final result = await Share.shareWithResult(link);
-    if (result.status == ShareResultStatus.success) {
-      debugPrint('Thank you for sharing');
-    }
+   await Share.share(link);
   }
 
   FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
