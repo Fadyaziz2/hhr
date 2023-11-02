@@ -5,14 +5,22 @@ class CustomButton extends StatelessWidget {
   final String? title;
   final Function? clickButton;
   final double padding;
+  final bool isLoading;
+  final Color? backgroundColor;
 
-  const CustomButton({Key? key, this.title, this.clickButton,this.padding = 10})
+  const CustomButton(
+      {Key? key,
+      this.title,
+      this.clickButton,
+      this.padding = 10,
+      this.isLoading = false,
+      this.backgroundColor = colorPrimary})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.symmetric(horizontal: padding),
+      margin: EdgeInsets.symmetric(horizontal: padding),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
@@ -23,8 +31,10 @@ class CustomButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             minimumSize: const Size.fromHeight(50),
-            backgroundColor: colorPrimary),
-        child: Text("$title",
+            backgroundColor: backgroundColor),
+        child: isLoading
+            ? const CircularProgressIndicator(backgroundColor: Colors.white,)
+            : Text("$title",
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -32,6 +42,5 @@ class CustomButton extends StatelessWidget {
             )),
       ),
     );
-
   }
 }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class MeetingsListModel extends Equatable {
-  MeetingsListModel({
+  const MeetingsListModel({
     this.result,
     this.message,
     this.data,
