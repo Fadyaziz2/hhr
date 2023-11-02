@@ -194,17 +194,88 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveRequestModel?> leaveRequestApi(int? userId) async {
+  Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData =
-          FormData.fromMap({"user_id": userId, "month": "2023-10"});
+      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveDetailsModel?> leaveDetailsApi(
+      int? userId, int? requestId) async {
+    String api = "user/leave/details/$requestId";
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveDetailsModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> cancelLeaveRequest(int? requestId) async {
+    String api = 'user/leave/request/cancel/$requestId';
+
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> submitLeaveRequestApi(
+      {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
+    const String api = 'user/leave/request';
+
+    if (kDebugMode) {
+      print(bodyCreateLeaveModel?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
+    const String api = 'user/leave/available';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveRequestTypeModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -976,13 +1047,48 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ExpenseCreateResponse> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+  Future<ExpenseCreateResponse> expenseCreate(
+      {ExpenseCreateBody? expenseCreateBody}) async {
     String api = 'expense/add';
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', expenseCreateBody?.toJson());
+      final response = await _httpServiceImpl.postRequest(
+          '$_baseUrl$api', expenseCreateBody?.toJson());
       return ExpenseCreateResponse.fromJson(response.data);
     } catch (e) {
-      return ExpenseCreateResponse(message: 'Something went wrong', success: false);
+      return ExpenseCreateResponse(
+          message: 'Something went wrong', success: false);
+    }
+  }
+
+  /// ===================== Payroll Data List ========================
+  Future<PayrollModel?> getPayrollData({required String year}) async {
+    const String api = 'report/payslip/list';
+
+    final data = {"year": year.toString()};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return PayrollModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Payroll Data List ========================
+  Future<ApprovalModel?> getApprovalData() async {
+    const String api = 'user/leave/approval/list/view';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+      if (response.statusCode == 200) {
+        return ApprovalModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
     }
   }
 }
