@@ -25,13 +25,8 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   FutureOr<void> _onPayrollDataInitialDataRequest(PayrollInitialDataRequest event, Emitter<PayrollState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     try {
-      final payrollData = await metaClubApiClient.getPayrollData(
-          year: event.setDate ?? currentDate);
-
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          payroll: payrollData,
-          isLoading: false));
+      final payrollData = await metaClubApiClient.getPayrollData(year: event.setDate ?? currentDate);
+      emit(state.copyWith(status: NetworkStatus.success, payroll: payrollData, isLoading: false));
     } on Exception catch (e) {
       emit(const PayrollState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
