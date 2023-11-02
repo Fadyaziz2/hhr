@@ -37,6 +37,7 @@ class PayrollScreenContent extends StatelessWidget {
                     0: FlexColumnWidth(),
                     1: FlexColumnWidth(),
                     2: FlexColumnWidth(),
+                    3: FlexColumnWidth(),
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: <TableRow>[
@@ -44,9 +45,8 @@ class PayrollScreenContent extends StatelessWidget {
                       children: [
                         HeaderTableRow(title: 'Month'),
                         Center(child: HeaderTableRow(title: 'Salary')),
-                        Center(
-                          child: HeaderTableRow(title: 'Payslip'),
-                        ),
+                        Center(child: HeaderTableRow(title: 'Payslip')),
+                        Center(child: HeaderTableRow(title: 'Share'),),
                       ],
                     ),
                     ...List.generate(
@@ -87,6 +87,22 @@ class PayrollScreenContent extends StatelessWidget {
                                         fontStyle: FontStyle.italic,
                                         decoration: TextDecoration.underline),
                                   ),
+                          ),
+                          Center(
+                            child: data?.isCalculated == true ? InkWell(
+                              onTap: () => context.read<PayrollBloc>().sharePaySlip(data!.payslipLink!),
+                              child: const Text('Share',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      decoration:
+                                      TextDecoration.underline)),
+                            )
+                                : const Text(
+                              '',
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  decoration: TextDecoration.underline),
+                            ),
                           ),
                         ],
                       );

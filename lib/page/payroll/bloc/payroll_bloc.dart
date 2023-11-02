@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'payroll_event.dart';
@@ -40,6 +40,10 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
         return false;
       },
     );
+  }
+
+  sharePaySlip(String link) async {
+   await Share.share(link);
   }
 
   FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
