@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'const.dart';
 
-class SharedUtil{
+class SharedUtil {
+  // static String keySelectLanguage = "key_select_language";
 
-  static setValue(String key,String? value) async{
+  static setValue(String key, String? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value ?? '');
   }
 
-  static setRemoteModeType(int value) async{
+  static setRemoteModeType(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(keyRemoteModeType, value);
   }
@@ -24,7 +25,7 @@ class SharedUtil{
     }
   }
 
-  static setLanguageIntValue(String key,int? value) async{
+  static setLanguageIntValue(String key, int? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(key, value!);
   }
@@ -49,12 +50,12 @@ class SharedUtil{
     }
   }
 
-  static setIntValue(String key,int? value) async{
+  static setIntValue(String key, int? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(key, value!);
   }
 
-  static setBoolValue(String key,bool? value) async{
+  static setBoolValue(String key, bool? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool(key, value!);
   }
@@ -84,7 +85,7 @@ class SharedUtil{
     prefs.remove(key);
   }
 
-  static storeLocalData({required String? key,required String? value}) async {
+  static storeLocalData({required String? key, required String? value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key!, value!);
   }
@@ -93,5 +94,4 @@ class SharedUtil{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key!);
   }
-
 }

@@ -34,7 +34,7 @@ class MenuSettingsContent extends StatelessWidget {
         ),
         ListTile(
           onTap: () {
-            NavUtil.navigateScreen(context, const LanguageScreen());
+            NavUtil.replaceScreen(context, const LanguageScreen());
           },
           dense: true,
           contentPadding: EdgeInsets.zero,

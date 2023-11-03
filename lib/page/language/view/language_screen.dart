@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/bottom_navigation/view/bottom_navigation_page.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
+import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -14,26 +15,6 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  bool isChecked = false;
-  int selectedIndex = 0;
-  List languages = [
-    {
-      'name': 'English',
-      'image':
-          'https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQVhwOar0FyOb_mmItcTAQFv1O4k8S_ZUEAI45O7dYC2rXRUWD-nWJwOQWJS2va8krELcDtY0JEVdQabkDkEdo',
-    },
-    {
-      'name': 'Bangla',
-      'image':
-          'https://cdn.britannica.com/67/6267-004-10A21DF0/Flag-Bangladesh.jpg',
-    },
-    {
-      'name': 'Arabic',
-      'image':
-          'https://cdn.britannica.com/79/5779-004-DC479508/Flag-Saudi-Arabia.jpg',
-    }
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -127,21 +108,26 @@ class _LanguageScreenState extends State<LanguageScreen> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   const Spacer(),
-                                  SizedBox(
-                                    height:
-                                        state.selectedIndex == index ? 30 : 0,
-                                    width:
-                                        state.selectedIndex == index ? 30 : 0,
-                                    child: Icon(
-                                      Icons.check,
-                                      size:
-                                          state.selectedIndex == index ? 24 : 0,
-                                      color: Colors.blue.withOpacity(
-                                          state.selectedIndex == index
-                                              ? 0.85
-                                              : 0),
-                                    ),
-                                  ),
+                                  FutureBuilder(
+                                      future: SharedUtil.getSelectLanguage(
+                                          keySelectLanguage),
+                                      builder: (context, snapShot) {
+                                        return SizedBox(
+                                          height:
+                                              snapShot.data == index ? 30 : 0,
+                                          width:
+                                              snapShot.data == index ? 30 : 0,
+                                          child: Icon(
+                                            Icons.check,
+                                            size:
+                                                snapShot.data == index ? 24 : 0,
+                                            color: Colors.blue.withOpacity(
+                                                snapShot.data == index
+                                                    ? 0.85
+                                                    : 0),
+                                          ),
+                                        );
+                                      }),
                                 ],
                               ),
                             );
