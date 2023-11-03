@@ -1091,4 +1091,22 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// ================== Approval Details====================
+  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+    String api = 'user/leave/details/$approvalId';
+    final data = {
+      "user_id" : approvalUserId
+    };
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return ApprovalDetailsModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
 }

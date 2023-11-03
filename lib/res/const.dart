@@ -7,6 +7,7 @@ const Color colorPrimary            = Color(0xFF00a8e6);
 const Color colorPrimaryGradient    = Color(0xff00a7ab);
 const Color colorDeepRed            = Color(0xFFBE5258);
 const Color appBarColor             = Colors.white;
+const Color appColorRed             = Colors.red;
 const Color appColor                = Color(0xFF00a8e6);
 const Color gradiantColorOne        = Color(0xFF00a8e6);
 const Color gradiantColorTwo        = Color(0xDA0DC21E);

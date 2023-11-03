@@ -19,6 +19,7 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
 
   FutureOr<void> _onApprovalInitialDataRequest(
       ApprovalInitialDataRequest event, Emitter<ApprovalState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final approval = await metaClubApiClient.getApprovalData();
       emit(state.copyWith(
@@ -27,5 +28,11 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
       emit(const ApprovalState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }
+
+
+  Future<ApprovalDetailsModel?> onApprovalDetails(
+      {required String approvalId, required String approvalUserId}) async {
+    return await metaClubApiClient.getApprovalListDetails(approvalId: approvalId, approvalUserId: approvalUserId);
   }
 }
