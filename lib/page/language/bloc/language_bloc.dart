@@ -17,16 +17,18 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
 
   FutureOr<void> _onSelectLanguage(
       SelectLanguage event, Emitter<LanguageState> emit) async {
-    if (event.selectIndex == 0) {
-      event.context.setLocale(const Locale('en', 'US'));
-    } else if (event.selectIndex == 1) {
-      event.context.setLocale(const Locale('bn', 'BN'));
-    } else if (event.selectIndex == 2) {
-      event.context.setLocale(const Locale('ar', 'AR'));
+    switch (event.selectIndex) {
+      case 0:
+        event.context.setLocale(const Locale('en', 'US'));
+        break;
+      case 1:
+        event.context.setLocale(const Locale('bn', 'BN'));
+        break;
+      case 2:
+        event.context.setLocale(const Locale('ar', 'AR'));
+        break;
     }
     await SharedUtil.setLanguageIntValue(keySelectLanguage, event.selectIndex);
-    // event.context.setLocale(const Locale('en', 'US'));
-
     emit(state.copy(selectedIndex: event.selectIndex));
   }
 }
