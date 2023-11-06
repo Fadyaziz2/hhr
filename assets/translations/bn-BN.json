@@ -359,7 +359,7 @@
   "no_data_found": "কোন ডেটা পাওয়া যায়নি",
   "appointment_create": "নির্ধারিত সময় নির্ধারণ করা হয়েছে",
   "failed_to_load_support_list": "সাপোর্ট তালিকা লোড করতে ব্যর্থ",
-  "High": "উচ্চ",
+  "high": "উচ্চ",
   "this_data_is_static_caz_there_is_no_API_yet": "এই ডেটা স্থির কারণ এখনও কোন API নেই",
   "ticket_created_successfully": "টিকেট সফলভাবে তৈরি হয়েছে",
   "Expense": "ভুল",

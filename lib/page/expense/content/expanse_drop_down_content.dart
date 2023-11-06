@@ -42,7 +42,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                       .read<ExpenseBloc>()
                       .add(SelectPaymentType(context, newValue));
                 },
-                items: ["paid".tr(), "unpaid".tr()]
+                items: ["Paid", "Unpaid"]
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -90,7 +90,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                       .read<ExpenseBloc>()
                       .add(SelectStatus(context, newValue));
                 },
-                items: ["pending".tr(), "approved".tr(), "rejected".tr()]
+                items: ["Pending", "Approved", "Rejected"]
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
