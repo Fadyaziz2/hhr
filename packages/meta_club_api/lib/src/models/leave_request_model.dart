@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class LeaveRequestModel extends Equatable{
-  bool? result;
-  String? message;
-  LeaveRequestData? leaveRequestData;
+  final bool? result;
+  final String? message;
+  final LeaveRequestData? leaveRequestData;
 
-  LeaveRequestModel({
+  const LeaveRequestModel({
     this.result,
     this.message,
     this.leaveRequestData,
@@ -18,15 +18,14 @@ class LeaveRequestModel extends Equatable{
   );
 
   @override
-  // TODO: implement props
   List<Object?> get props => [result,message,leaveRequestData];
 
 }
 
 class LeaveRequestData extends Equatable{
-  List<LeaveRequestValue>? leaveRequests;
+  final List<LeaveRequestValue>? leaveRequests;
 
-  LeaveRequestData({
+  const LeaveRequestData({
     this.leaveRequests,
   });
 
@@ -39,14 +38,14 @@ class LeaveRequestData extends Equatable{
 }
 
 class LeaveRequestValue extends Equatable{
-  int? id;
-  String? type;
-  int? days;
-  String? applyDate;
-  String? status;
-  String? colorCode;
+  final int? id;
+  final String? type;
+  final int? days;
+  final String? applyDate;
+  final String? status;
+  final String? colorCode;
 
-  LeaveRequestValue({
+  const LeaveRequestValue({
     this.id,
     this.type,
     this.days,

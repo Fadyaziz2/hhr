@@ -21,7 +21,7 @@ class PriorityIdWidget extends StatelessWidget {
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value: BodyPrioritySupport(priorityName: 'High', priorityId: 14),
+              value: const BodyPrioritySupport(priorityName: 'High', priorityId: 14),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
@@ -35,7 +35,7 @@ class PriorityIdWidget extends StatelessWidget {
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
               value:
-                  BodyPrioritySupport(priorityName: 'Medium', priorityId: 15),
+                  const BodyPrioritySupport(priorityName: 'Medium', priorityId: 15),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
@@ -48,7 +48,7 @@ class PriorityIdWidget extends StatelessWidget {
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value: BodyPrioritySupport(priorityName: 'Low', priorityId: 16),
+              value: const BodyPrioritySupport(priorityName: 'Low', priorityId: 16),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
