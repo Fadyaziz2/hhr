@@ -146,7 +146,7 @@ class _AttendanceState extends State<AttendanceView>
   }
   @override
   void dispose() {
-    faceService.deInit();
+    // faceService.deInit();
     super.dispose();
   }
 }
