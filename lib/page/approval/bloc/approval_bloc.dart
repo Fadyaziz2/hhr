@@ -46,17 +46,6 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
         return true;
     }
   }
-
-  // Future actionApproveOrReject({required String approvalId, required int type, required BuildContext context}) async {
-  //   emit(state.copyWith(status: NetworkStatus.loading));
-  //   await metaClubApiClient.approvalApprovedOrReject(approvalId: approvalId, type: type).then((value) {
-  //     if(value == true){
-  //       add(ApprovalInitialDataRequest());
-  //       Navigator.of(context).pop();
-  //     }
-  //   });
-  // }
-
   FutureOr<void> _onApproveOrRejectAction(ApproveOrRejectAction event, Emitter<ApprovalState> emit)async {
     emit(state.copyWith(status: NetworkStatus.loading));
     await metaClubApiClient.approvalApprovedOrReject(approvalId: event.approvalId, type: event.type).then((value) {
