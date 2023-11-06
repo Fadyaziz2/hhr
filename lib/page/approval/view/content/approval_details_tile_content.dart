@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ApprovalDetailsContentTile extends StatelessWidget {
-  const ApprovalDetailsContentTile({
+class ApprovalDetailsTileContent extends StatelessWidget {
+  const ApprovalDetailsTileContent({
     super.key,
     required this.title,
     required this.value,

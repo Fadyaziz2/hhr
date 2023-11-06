@@ -1109,4 +1109,19 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// ================== Action Approval Approved or Reject ====================
+  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
+    String api = 'user/leave/approval/status-change/$approvalId/$type';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.data['result'] != true) {
+        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
+      }
+      return response?.data['result'];
+    } catch (_) {
+      return null;
+    }
+  }
 }

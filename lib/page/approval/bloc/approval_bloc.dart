@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -22,17 +23,36 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final approval = await metaClubApiClient.getApprovalData();
-      emit(state.copyWith(
-          status: NetworkStatus.success, approval: approval, isLoading: false));
+      emit(state.copyWith(status: NetworkStatus.success, approval: approval));
     } on Exception catch (e) {
       emit(const ApprovalState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-
   Future<ApprovalDetailsModel?> onApprovalDetails(
       {required String approvalId, required String approvalUserId}) async {
-    return await metaClubApiClient.getApprovalListDetails(approvalId: approvalId, approvalUserId: approvalUserId);
+    return await metaClubApiClient.getApprovalListDetails(
+        approvalId: approvalId, approvalUserId: approvalUserId);
+  }
+
+  bool getApprovalStatus(status) {
+    switch (status) {
+      case 'Active':
+        return false;
+      case 'Reject':
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  Future actionApproveOrReject({required String approvalId, required int type, required BuildContext context}) async {
+    await metaClubApiClient.approvalApprovedOrReject(approvalId: approvalId, type: type).then((value) {
+      if(value == true){
+        add(ApprovalInitialDataRequest());
+        Navigator.of(context).pop();
+      }
+    });
   }
 }
