@@ -50,8 +50,8 @@ class PriorityIdWidget extends StatelessWidget {
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value: const BodyPrioritySupport(
-                  priorityName: 'Low', priorityId: 16),
+              value:
+                  BodyPrioritySupport(priorityName: 'low'.tr(), priorityId: 16),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
