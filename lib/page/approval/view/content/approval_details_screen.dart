@@ -3,6 +3,7 @@ import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/approval/view/content/approval_details_tile_content.dart';
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/enum.dart';
 
 import 'leave_type_content.dart';
 
@@ -80,9 +81,13 @@ class ApprovalDetailsScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: ElevatedButton(
-                            onPressed: () async{
+                            onPressed: (){
                               /// approved == 1
-                              bloc.actionApproveOrReject(approvalId: approvalId, type: 1, context: context);
+                              if(bloc.state.status == NetworkStatus.success){
+                                bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 1, context: context));
+                              }else{
+                                return;
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: colorPrimary,
@@ -102,7 +107,11 @@ class ApprovalDetailsScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               /// reject == 6
-                              bloc.actionApproveOrReject(approvalId: approvalId, type: 6, context: context);
+                              if(bloc.state.status == NetworkStatus.success){
+                                bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 6, context: context));
+                              }else{
+                                return;
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: appColorRed,

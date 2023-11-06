@@ -16,10 +16,10 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
   ApprovalBloc({required this.metaClubApiClient})
       : super(const ApprovalState(status: NetworkStatus.initial)) {
     on<ApprovalInitialDataRequest>(_onApprovalInitialDataRequest);
+    on<ApproveOrRejectAction>(_onApproveOrRejectAction);
   }
 
-  FutureOr<void> _onApprovalInitialDataRequest(
-      ApprovalInitialDataRequest event, Emitter<ApprovalState> emit) async {
+  FutureOr<void> _onApprovalInitialDataRequest(ApprovalInitialDataRequest event, Emitter<ApprovalState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final approval = await metaClubApiClient.getApprovalData();
@@ -47,11 +47,22 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
     }
   }
 
-  Future actionApproveOrReject({required String approvalId, required int type, required BuildContext context}) async {
-    await metaClubApiClient.approvalApprovedOrReject(approvalId: approvalId, type: type).then((value) {
+  // Future actionApproveOrReject({required String approvalId, required int type, required BuildContext context}) async {
+  //   emit(state.copyWith(status: NetworkStatus.loading));
+  //   await metaClubApiClient.approvalApprovedOrReject(approvalId: approvalId, type: type).then((value) {
+  //     if(value == true){
+  //       add(ApprovalInitialDataRequest());
+  //       Navigator.of(context).pop();
+  //     }
+  //   });
+  // }
+
+  FutureOr<void> _onApproveOrRejectAction(ApproveOrRejectAction event, Emitter<ApprovalState> emit)async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    await metaClubApiClient.approvalApprovedOrReject(approvalId: event.approvalId, type: event.type).then((value) {
       if(value == true){
         add(ApprovalInitialDataRequest());
-        Navigator.of(context).pop();
+        Navigator.of(event.context).pop();
       }
     });
   }
