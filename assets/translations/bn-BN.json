@@ -376,5 +376,6 @@
   "approved_amount": "অনুমোদিত পরিমাণ",
   "date_show": "তারিখ প্রদর্শন",
   "payment": "পেমেন্ট",
-  "no_reason_available": "কোন কারণ উপলব্ধ নেই"
+  "no_reason_available": "কোন কারণ উপলব্ধ নেই",
+  "failed_to_load_notification": "বিজ্ঞপ্তি লোড করতে ব্যর্থ হয়েছে৷"
 }
