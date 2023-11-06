@@ -27,11 +27,14 @@ class AttendanceView extends StatefulWidget {
 class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
+  ///set condition here weather face checking enable or disable
+  ///if enabled then we have to create faceSDK service instance
   FaceServiceImpl faceService = FaceServiceImpl();
 
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
+    ///set condition here weather face checking enable or disable
     ///fetch face date from local cache
     SharedUtil.getValue(userFaceData).then((registeredFaceData){
       faceService.captureFromFaceApi(
