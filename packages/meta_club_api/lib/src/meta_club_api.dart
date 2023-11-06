@@ -8,6 +8,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
+import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
@@ -18,7 +19,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/leave_request_model.dart';
 
 class MetaClubApiClient {
   String token;
@@ -283,7 +283,7 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveSummaryModel?> dailyLeaveSummary(int? userId) async {
+  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(int? userId) async {
     const String api = 'user/leave/summary';
 
     try {
@@ -294,7 +294,7 @@ class MetaClubApiClient {
       await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
-        return LeaveSummaryModel.fromJson(response.data);
+        return DailyLeaveSummaryModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
