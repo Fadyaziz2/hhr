@@ -7,7 +7,6 @@ import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
 
 import '../../../res/enum.dart';
 
-
 class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
   final MetaClubApiClient _metaClubApiClient;
 
@@ -17,12 +16,16 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     on<DailyLeaveSummary>(_dailyLeaveSummary);
   }
 
-  FutureOr<void> _dailyLeaveSummary(DailyLeaveSummary event, Emitter<DailyLeaveState> emit) async {
+  FutureOr<void> _dailyLeaveSummary(
+      DailyLeaveSummary event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      DailyLeaveSummaryModel? dailyLeaveSummaryModel =   await _metaClubApiClient.dailyLeaveSummary(event.userId);
-      emit(state.copyWith());
-    } catch(e){
+      DailyLeaveSummaryModel? dailyLeaveSummaryModel =
+          await _metaClubApiClient.dailyLeaveSummary(event.userId);
+      emit(state.copyWith(
+          dailyLeaveSummaryModel: dailyLeaveSummaryModel,
+          status: NetworkStatus.success));
+    } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
     }
   }

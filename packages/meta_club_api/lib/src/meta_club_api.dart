@@ -284,11 +284,12 @@ class MetaClubApiClient {
   }
 
   Future<DailyLeaveSummaryModel?> dailyLeaveSummary(int? userId) async {
-    const String api = 'user/leave/summary';
+    const String api = 'daily-leave/leave-list';
 
     try {
       FormData formData = FormData.fromMap({
         "user_id": userId,
+        "date" : "2023-11-06"
       });
       final response =
       await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
