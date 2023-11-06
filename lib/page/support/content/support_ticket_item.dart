@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/support/content/priority_type.dart';
@@ -47,7 +48,7 @@ class SupportTicketItem extends StatelessWidget {
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w600),
-                    ),
+                    ).tr(),
                     Row(
                       children: [
                         Text(

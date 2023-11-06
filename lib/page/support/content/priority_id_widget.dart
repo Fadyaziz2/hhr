@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -21,41 +22,43 @@ class PriorityIdWidget extends StatelessWidget {
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value: const BodyPrioritySupport(priorityName: 'High', priorityId: 14),
+              value: BodyPrioritySupport(
+                  priorityName: 'high'.tr(), priorityId: 14),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
                     .add(GetPriority(bodyPrioritySupport: priorityValue!));
                 createSupport.priorityId = 14;
               },
-              title: 'High',
+              title: 'high'.tr(),
             ),
           ),
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value:
-                  const BodyPrioritySupport(priorityName: 'Medium', priorityId: 15),
+              value: BodyPrioritySupport(
+                  priorityName: 'medium'.tr(), priorityId: 15),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
                     .add(GetPriority(bodyPrioritySupport: priorityValue!));
                 createSupport.priorityId = 15;
               },
-              title: 'Medium',
+              title: 'medium'.tr(),
             ),
           ),
           Expanded(
             child: CustomRadioTitle(
               groupValue: state.bodyPrioritySupport,
-              value: const BodyPrioritySupport(priorityName: 'Low', priorityId: 16),
+              value: const BodyPrioritySupport(
+                  priorityName: 'Low', priorityId: 16),
               onChanged: (priorityValue) {
                 context
                     .read<SupportBloc>()
                     .add(GetPriority(bodyPrioritySupport: priorityValue!));
                 createSupport.priorityId = 16;
               },
-              title: 'Low',
+              title: 'low'.tr(),
             ),
           ),
         ],
