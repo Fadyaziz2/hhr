@@ -78,7 +78,7 @@ class SupportDetails extends StatelessWidget {
             ),
             Text(
               supportModel?.description ??
-                  "This data is static caz there is no API yet",
+                  "this_data_is_static_caz_there_is_no_API_yet".tr(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(

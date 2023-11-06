@@ -12,7 +12,7 @@ import '../../../res/date_utils.dart';
 part 'support_event.dart';
 part 'support_state.dart';
 
-var dateTime =  DateTime.now();
+var dateTime = DateTime.now();
 
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   final MetaClubApiClient _metaClubApiClient;
@@ -81,8 +81,6 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
 
   FutureOr<void> _onSelectDatePicker(
       SelectDatePicker event, Emitter<SupportState> emit) async {
-
-
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -108,7 +106,8 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     emit(state.copy(bodyPrioritySupport: event.bodyPrioritySupport));
   }
 
-  FutureOr<void> _onSubmitButton(SubmitButton event, Emitter<SupportState> emit) async {
+  FutureOr<void> _onSubmitButton(
+      SubmitButton event, Emitter<SupportState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
 
     try {
@@ -117,7 +116,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
           .then((success) {
         if (success) {
           add(GetSupportData(filter: event.filter, date: event.date));
-          Fluttertoast.showToast(msg: "Ticket created successfully");
+          Fluttertoast.showToast(msg: "ticket_created_successfully".tr());
 
           Navigator.pop(event.context);
         } else {

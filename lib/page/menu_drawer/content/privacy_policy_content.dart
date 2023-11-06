@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
 import 'package:onesthrm/page/menu_drawer/bloc/menu_drawer_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 
@@ -33,25 +34,17 @@ class PolicyContentScreen extends StatelessWidget {
         ),
         body: BlocBuilder<MenuDrawerBloc, MenuDrawerState>(
           builder: (context, state) {
-            if (state.status == NetworkStatus.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state.status == NetworkStatus.success) {
-              if (state.responseAllContents != null) {
-                return SingleChildScrollView(
+            return state.responseAllContents?.data?.contents?.isNotEmpty == true
+                ? SingleChildScrollView(
                     child: Html(
-                  data:
-                      state.responseAllContents?.data?.contents?.first.content,
-                  shrinkWrap: true,
-                ));
-              }
-            }
-            if (state.status == NetworkStatus.failure) {
-              return const Center(child: Text('Failed to load support Data'));
-            }
-            return const SizedBox();
+                    data: state
+                        .responseAllContents?.data?.contents?.first.content,
+                    shrinkWrap: true,
+                  ))
+                : const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: ExpenseListShimmer(),
+                  );
           },
         ),
       ),
