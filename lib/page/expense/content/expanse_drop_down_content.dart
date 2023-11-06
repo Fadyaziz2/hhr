@@ -27,7 +27,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
-                  tr("Select Payment"),
+                  tr("select_payment"),
                   style: const TextStyle(fontSize: 14),
                 ),
                 value: state?.paymentTypeName,
@@ -42,7 +42,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                       .read<ExpenseBloc>()
                       .add(SelectPaymentType(context, newValue));
                 },
-                items: ["Paid", "Unpaid"]
+                items: ["paid".tr(), "unpaid".tr()]
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -75,7 +75,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
-                  tr("Expanse Status"),
+                  tr("expanse_status"),
                   style: const TextStyle(fontSize: 14),
                 ),
                 value: state?.statusTypeName,
@@ -90,7 +90,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                       .read<ExpenseBloc>()
                       .add(SelectStatus(context, newValue));
                 },
-                items: ["Pending", "Approved", "Rejected"]
+                items: ["pending".tr(), "approved".tr(), "rejected".tr()]
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
