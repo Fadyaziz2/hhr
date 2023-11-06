@@ -1,4 +1,4 @@
-import 'package:face/face.dart';
+import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
@@ -27,18 +27,16 @@ class AttendanceView extends StatefulWidget {
 class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
-  FaceService faceService = FaceService();
+  FaceServiceImpl faceService = FaceServiceImpl();
 
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
     ///fetch face date from local cache
     SharedUtil.getValue(userFaceData).then((registeredFaceData){
-      debugPrint('registeredFaceData $registeredFaceData');
       faceService.captureFromFaceApi(
           isRegistered: registeredFaceData != null,
           regImage: registeredFaceData,
-          metaClubApiClient: widget.homeBloc.metaClubApiClient,
           onCaptured: (faceData) {
             debugPrint('faceData $faceData');
             if(faceData.length > 20){
@@ -142,5 +140,10 @@ class _AttendanceState extends State<AttendanceView>
         },
       ),
     );
+  }
+  @override
+  void dispose() {
+    faceService.deInit();
+    super.dispose();
   }
 }

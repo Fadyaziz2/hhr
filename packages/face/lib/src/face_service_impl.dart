@@ -2,15 +2,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_face_api/face_api.dart' as regula;
 import 'package:flutter_face_api/face_api.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 
-class FaceService {
+class FaceServiceImpl {
 
-  FaceService(){
+  FaceServiceImpl(){
     _initPlatformState();
   }
 
-  void captureFromFaceApi({required bool isRegistered,String? regImage, required MetaClubApiClient metaClubApiClient,required Function(String) onCaptured,required Function(bool) isSimilar}){
+  void captureFromFaceApi({required bool isRegistered,String? regImage,required Function(String) onCaptured,required Function(bool) isSimilar}){
     regula.FaceSDK.presentFaceCaptureActivity().then((result) {
       var response = regula.FaceCaptureResponse.fromJson(json.decode(result))!;
       if (response.image != null && response.image!.bitmap != null){
@@ -33,6 +32,8 @@ class FaceService {
 
   void _matchFaces({required regula.MatchFacesImage registeredImage,required regula.MatchFacesImage currentFace, required Function(bool) isSimilar}) {
     var request =  regula.MatchFacesRequest();
+    print('registeredImage ${registeredImage.bitmap}');
+    print('currentFace ${currentFace.bitmap}');
     request.images = [registeredImage, currentFace];
     regula.FaceSDK.matchFaces(jsonEncode(request)).then((value) {
       var response = regula.MatchFacesResponse.fromJson(json.decode(value));
@@ -84,5 +85,10 @@ class FaceService {
         debugPrint("face initialization success $json");
       }
     });
+  }
+
+  Future<void> deInit() async {
+    debugPrint('deInitialize faceSDK to remove SDK from memory');
+    regula.FaceSDK.deinit();
   }
 }

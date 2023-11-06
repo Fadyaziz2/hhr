@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
+import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/phonebook/view/phonebook_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:upgrader/upgrader.dart';
@@ -100,12 +101,12 @@ class BottomNavContent extends StatelessWidget {
               FloatingActionButtonLocation.centerDocked,
           body: IndexedStack(
             index: selectedTab.index,
-            children: [
-              const HomePage(),
-              AttendancePage(homeBloc: context.read<HomeBloc>()),
-              const MenuScreen(),
+            children: const [
+              HomePage(),
+              LeavePage(),
+              MenuScreen(),
               SizedBox(),
-              const NotificationScreen(),
+              NotificationScreen(),
             ],
           ),
         ),

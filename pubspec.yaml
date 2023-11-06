@@ -84,6 +84,7 @@ dependencies:
   month_year_picker: ^0.3.0+1
   flutter_html:
   connectivity_plus: ^2.3.6+1
+  flutter_face_core: 5.2.0
 
 
 dev_dependencies:
