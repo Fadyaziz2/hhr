@@ -283,6 +283,25 @@ class MetaClubApiClient {
     }
   }
 
+  Future<LeaveSummaryModel?> dailyLeaveSummary(int? userId) async {
+    const String api = 'user/leave/summary';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+      });
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<Profile?> getProfile() async {
     const String api = 'user/profile-info';
 

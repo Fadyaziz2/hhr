@@ -82,6 +82,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       NavUtil.navigateScreen(event.context, const DailyLeavePage());
       break;
       case 'daily-leave':
+        NavUtil.navigateScreen(event.context, const DailyLeavePage());
+        break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
