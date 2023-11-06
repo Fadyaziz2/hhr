@@ -114,7 +114,7 @@ class ApprovalDetailsScreen extends StatelessWidget {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: appColorRed,
+                              backgroundColor: Colors.red,
                               minimumSize: const Size.fromHeight(40),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4.0),
