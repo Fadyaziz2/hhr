@@ -43,93 +43,78 @@ class ApprovalDetailsScreen extends StatelessWidget {
             approvalId: approvalId, approvalUserId: approvalUserId),
         builder: (_, snapshot) {
           final data = snapshot.data?.approvalDetailsData;
-          final isStatus = bloc.getApprovalStatus(data?.status);
+          final isStatus = bloc.isApproved(data?.status);
           if (snapshot.hasData) {
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  ApprovalDetailsTileContent(
-                    title: 'Employee Name',
-                    value: data?.name ?? '',
-                  ),
-                  ApprovalDetailsTileContent(
-                    title: 'Designation',
-                    value: data?.designation ?? '',
-                  ),
-                  ApprovalDetailsTileContent(
-                    title: 'Department',
-                    value: data?.department ?? '',
-                  ),
-                  ApprovalDetailsTileContent(
-                    title: 'Request Leave',
-                    value: data?.requestedOn ?? '',
-                  ),
-                  LeaveTypeContent(data: data),
-                  SubstituteContent(data: data),
-                  ApprovalDetailsTileContent(
-                    title: 'Employee Note',
-                    value: data?.note ?? '',
-                  ),
-                  ApprovalDetailsTileContent(
-                    title: 'Approves',
-                    value: data?.apporover ?? 'N/A',
-                  ),
-                  Visibility(
-                    visible: isStatus,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ElevatedButton(
-                            onPressed: (){
-                              /// approved == 1
-                              if(bloc.state.status == NetworkStatus.success){
-                                bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 1, context: context));
-                              }else{
-                                return;
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: colorPrimary,
-                              minimumSize: const Size.fromHeight(40),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    ApprovalDetailsTileContent(title: 'Employee Name', value: data?.name ?? ''),
+                    ApprovalDetailsTileContent(title: 'Department', value: data?.department ?? ''),
+                    ApprovalDetailsTileContent(title: 'Designation', value: data?.designation ?? ''),
+                    ApprovalDetailsTileContent(title: 'Request Leave On', value: data?.requestedOn ?? ''),
+                    LeaveTypeContent(data: data),
+                    SubstituteContent(data: data),
+                    ApprovalDetailsTileContent(title: 'Employee Note', value: data?.note ?? ''),
+                    ApprovalDetailsTileContent(title: 'Approves', value: data?.apporover ?? 'N/A'),
+                    Visibility(
+                      visible: isStatus,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                /// approved == 1
+                                if(bloc.state.status == NetworkStatus.success){
+                                  bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 1, context: context));
+                                }else{
+                                  return;
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: colorPrimary,
+                                minimumSize: const Size.fromHeight(40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                              ),
+                              child: const Text(
+                                'Approved',
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            child: const Text(
-                              'Approved',
-                              style: TextStyle(color: Colors.white),
-                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              /// reject == 6
-                              if(bloc.state.status == NetworkStatus.success){
-                                bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 6, context: context));
-                              }else{
-                                return;
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              minimumSize: const Size.fromHeight(40),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                /// reject == 6
+                                if(bloc.state.status == NetworkStatus.success){
+                                  bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 6, context: context));
+                                }else{
+                                  return;
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                minimumSize: const Size.fromHeight(40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                              ),
+                              child: const Text(
+                                'Reject',
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            child: const Text(
-                              'Reject',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           }

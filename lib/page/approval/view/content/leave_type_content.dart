@@ -13,7 +13,6 @@ class LeaveTypeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle? textStyle = Theme.of(context).textTheme.labelSmall;
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

@@ -36,7 +36,7 @@ class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {
         approvalId: approvalId, approvalUserId: approvalUserId);
   }
 
-  bool getApprovalStatus(status) {
+  bool isApproved(status) {
     switch (status) {
       case 'Active':
         return false;
