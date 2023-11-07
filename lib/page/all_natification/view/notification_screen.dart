@@ -5,7 +5,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/all_natification/content/notification_cart_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/res/enum.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -24,122 +23,106 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (context) => NotificationBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(LoadNotificationData()),
-      child: BlocBuilder<NotificationBloc, NotificationState>(
-          builder: (context, state) {
-        if (state.status == NetworkStatus.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state.status == NetworkStatus.success) {
-          if (state.notificationResponse != null) {
-            return Scaffold(
-                backgroundColor: Colors.transparent,
-                appBar: AppBar(
-                  title: Text(tr("notifications")),
-                  actions: [
-                    Visibility(
-                      visible: state.notificationResponse?.data?.notifications
-                              ?.isNotEmpty ??
-                          false,
-                      // visible: true,
-                      child: InkWell(
-                        onTap: () {
-                          context
-                              .read<NotificationBloc>()
-                              .add(ClearNoticeButton());
-                          context
-                              .read<NotificationBloc>()
-                              .add(LoadNotificationData());
-                          // provider.clearNotificationApi();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                tr("clear_all"),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                            ],
-                          ),
+        create: (context) => NotificationBloc(
+            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          ..add(LoadNotificationData()),
+        child: BlocBuilder<NotificationBloc, NotificationState>(
+            builder: (context, state) {
+          return Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                title: Text(tr("notifications")),
+                actions: [
+                  Visibility(
+                    visible: state.notificationResponse?.data?.notifications
+                            ?.isNotEmpty ??
+                        false,
+                    // visible: true,
+                    child: InkWell(
+                      onTap: () {
+                        context
+                            .read<NotificationBloc>()
+                            .add(ClearNoticeButton());
+                        context
+                            .read<NotificationBloc>()
+                            .add(LoadNotificationData());
+                        // provider.clearNotificationApi();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              tr("clear_all"),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-                body: SafeArea(
-                    child: Column(
-                  children: [
-                    // provider.isLoading
-                    //     ? provider.notificationsList!.isNotEmpty
-                    //         ?
-                    state.notificationResponse?.data?.notifications
-                                ?.isNotEmpty ==
-                            true
-                        ? Expanded(
-                            child: ListView.separated(
-                              itemCount: state.notificationResponse?.data
-                                      ?.notifications?.length ??
-                                  0,
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const Divider(
-                                height: 1,
-                                color: Colors.grey,
-                              ),
-                              itemBuilder: (BuildContext context, int index) {
-                                final data = state.notificationResponse?.data
-                                    ?.notifications?[index];
-
-                                return InkWell(
-                                  onTap: () {
-                                    context.read<NotificationBloc>().add(
-                                        RouteSlug(
-                                            context: context,
-                                            slugName: state
-                                                .notificationResponse
-                                                ?.data
-                                                ?.notifications?[index]
-                                                .slag,
-                                            data: state.notificationResponse));
-                                  },
-                                  child: NotificationCartContent(data: data),
-                                );
-                              },
+                  ),
+                ],
+              ),
+              body: SafeArea(
+                  child: Column(
+                children: [
+                  // provider.isLoading
+                  //     ? provider.notificationsList!.isNotEmpty
+                  //         ?
+                  state.notificationResponse?.data?.notifications?.isNotEmpty ==
+                          true
+                      ? Expanded(
+                          child: ListView.separated(
+                            itemCount: state.notificationResponse?.data
+                                    ?.notifications?.length ??
+                                0,
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(
+                              height: 1,
+                              color: Colors.grey,
                             ),
-                          )
-                        : Expanded(
-                            child: Center(
-                                child: Text(
-                              tr("no_notification_found"),
-                              style: const TextStyle(
-                                  color: Color(0x65555555),
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                          )
-                    // : const SizedBox(),
-                  ],
-                )));
-          }
-        }
-        if (state.status == NetworkStatus.failure) {
-          return const Center(
-            child: Text('Failed to load Notification'),
-          );
-        }
-        return const SizedBox();
-      }),
-    );
+                            itemBuilder: (BuildContext context, int index) {
+                              final data = state.notificationResponse?.data
+                                  ?.notifications?[index];
+
+                              return InkWell(
+                                onTap: () {
+                                  context.read<NotificationBloc>().add(
+                                      RouteSlug(
+                                          context: context,
+                                          slugName: state
+                                              .notificationResponse
+                                              ?.data
+                                              ?.notifications?[index]
+                                              .slag,
+                                          data: state.notificationResponse));
+                                },
+                                child: NotificationCartContent(data: data),
+                              );
+                            },
+                          ),
+                        )
+                      : Expanded(
+                          child: Center(
+                              child: Text(
+                            tr("no_notification_found"),
+                            style: const TextStyle(
+                                color: Color(0x65555555),
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500),
+                          )),
+                        )
+                  // : const SizedBox(),
+                ],
+              )));
+        }));
   }
 }
