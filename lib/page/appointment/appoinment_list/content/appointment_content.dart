@@ -67,7 +67,7 @@ class AppointmentContent extends StatelessWidget {
         );
       }
       if (state.status == NetworkStatus.failure) {
-        return const Center(child: Text('Failed to load Appointment list'));
+        return Center(child: Text('failed_to_load_appointment_list'.tr()));
       }
       return const SizedBox();
     });
