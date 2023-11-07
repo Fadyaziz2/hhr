@@ -19,35 +19,35 @@ class AttendanceReportContent extends StatelessWidget {
           children: [
             SummeryTile(
                 titleValue: attendanceSummery?.workingDays ?? '',
-                title: 'Working Days',
+                title: 'working_days',
                 color: colorPrimary),
             SummeryTile(
                 titleValue: attendanceSummery?.totalOnTimeIn ?? '',
-                title: 'On Time',
+                title: 'on_time',
                 color: Colors.green),
             SummeryTile(
                 titleValue: attendanceSummery?.totalLateIn ?? '',
-                title: 'Late',
+                title: 'late',
                 color: Colors.red),
             SummeryTile(
                 titleValue: attendanceSummery?.totalLeftTimely ?? '',
-                title: 'Left Timely',
+                title: 'left_timely',
                 color: Colors.green),
             SummeryTile(
                 titleValue: attendanceSummery?.totalLeftEarly ?? '',
-                title: 'Left Early',
+                title: 'left_early',
                 color: Colors.red),
             SummeryTile(
                 titleValue: attendanceSummery?.totalLeave ?? '',
-                title: 'On Leave',
+                title: 'on_leave',
                 color: Colors.grey[400]!),
             SummeryTile(
                 titleValue: attendanceSummery?.absent ?? '',
-                title: 'Absent',
+                title: 'absent',
                 color: Colors.black87),
             SummeryTile(
                 titleValue: attendanceSummery?.totalLeftLater ?? '',
-                title: 'Left Later',
+                title: 'left_later',
                 color: Colors.amber),
             const SizedBox(
               height: 10,
