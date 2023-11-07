@@ -7,7 +7,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
 
 part 'approval_event.dart';
-
 part 'approval_state.dart';
 
 class ApprovalBloc extends Bloc<ApprovalEvent, ApprovalState> {

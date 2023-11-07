@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/approval/view/content/approval_details_tile_content.dart';
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/commo_elevated_button.dart';
 
