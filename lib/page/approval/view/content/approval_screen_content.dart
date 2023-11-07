@@ -4,6 +4,7 @@ import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/approval/view/content/approval_list_widget.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class ApprovalScreenContent extends StatelessWidget {
   const ApprovalScreenContent({Key? key}) : super(key: key);
@@ -28,19 +29,23 @@ class ApprovalScreenContent extends StatelessWidget {
                       ),
                     );
                   })
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  itemCount:
-                      state.approval?.approvalData?.leaveRequests?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    final data =
-                        state.approval?.approvalData?.leaveRequests?[index];
-                    return Card(
-                      child: ApprovalListWidget(approvalLeaveRequestData: data),
-                    );
-                  },
-                ),
+              : state.approval?.approvalData?.leaveRequests?.isNotEmpty == true
+                  ? ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      itemCount:
+                          state.approval?.approvalData?.leaveRequests?.length ??
+                              0,
+                      itemBuilder: (BuildContext context, int index) {
+                        final data =
+                            state.approval?.approvalData?.leaveRequests?[index];
+                        return Card(
+                          child: ApprovalListWidget(
+                              approvalLeaveRequestData: data),
+                        );
+                      },
+                    )
+                  : const NoDataFoundWidget(),
         );
       },
     );
