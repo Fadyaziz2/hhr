@@ -359,7 +359,7 @@
   "appointment_create": "নির্ধারিত সময় নির্ধারণ করা হয়েছে",
   "failed_to_load_support_list": "সাপোর্ট তালিকা লোড করতে ব্যর্থ",
   "high": "উচ্চ",
-  "this_data_is_static_caz_there_is_no_API_yet": "এই ডেটা স্থির কারণ এখনও কোন API নেই",
+  "this_data_is_static_cause_there_is_no_API_yet": "এই ডেটা স্থির কারণ এখনও কোন API নেই",
   "ticket_created_successfully": "টিকেট সফলভাবে তৈরি হয়েছে",
   "Expense": "ব্যয়",
   "select_payment": "পেমেন্ট নির্বাচন",
