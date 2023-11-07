@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/payroll/payroll.dart';
@@ -13,7 +14,7 @@ class PayrollScreenContent extends StatelessWidget {
     return BlocBuilder<PayrollBloc, PayrollState>(builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Payroll'),
+          title: Text('Payroll'.tr()),
           actions: [
             IconButton(
                 onPressed: () {
@@ -24,10 +25,11 @@ class PayrollScreenContent extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            if (state.isLoading == true) const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: GeneratePayrollShimmer(),
-            ),
+            if (state.isLoading == true)
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: GeneratePayrollShimmer(),
+              ),
             if (state.isLoading == false)
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -41,12 +43,14 @@ class PayrollScreenContent extends StatelessWidget {
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: <TableRow>[
-                    const TableRow(
+                    TableRow(
                       children: [
-                        HeaderTableRow(title: 'Month'),
-                        Center(child: HeaderTableRow(title: 'Salary')),
-                        Center(child: HeaderTableRow(title: 'Payslip')),
-                        Center(child: HeaderTableRow(title: 'Share'),),
+                        HeaderTableRow(title: 'month'.tr()),
+                        Center(child: HeaderTableRow(title: 'salary'.tr())),
+                        Center(child: HeaderTableRow(title: 'payslip'.tr())),
+                        Center(
+                          child: HeaderTableRow(title: 'share'.tr()),
+                        ),
                       ],
                     ),
                     ...List.generate(
@@ -60,7 +64,7 @@ class PayrollScreenContent extends StatelessWidget {
                               data?.month ?? '',
                               style:
                                   const TextStyle(fontStyle: FontStyle.italic),
-                            ),
+                            ).tr(),
                           ),
                           Center(
                             child: Text(
@@ -75,8 +79,8 @@ class PayrollScreenContent extends StatelessWidget {
                                     onTap: () => context
                                         .read<PayrollBloc>()
                                         .getPaySlip(data!.payslipLink!),
-                                    child: const Text('Download',
-                                        style: TextStyle(
+                                    child: Text('download'.tr(),
+                                        style: const TextStyle(
                                             fontStyle: FontStyle.italic,
                                             decoration:
                                                 TextDecoration.underline)),
@@ -89,20 +93,23 @@ class PayrollScreenContent extends StatelessWidget {
                                   ),
                           ),
                           Center(
-                            child: data?.isCalculated == true ? InkWell(
-                              onTap: () => context.read<PayrollBloc>().sharePaySlip(data!.payslipLink!),
-                              child: const Text('Share',
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      decoration:
-                                      TextDecoration.underline)),
-                            )
+                            child: data?.isCalculated == true
+                                ? InkWell(
+                                    onTap: () => context
+                                        .read<PayrollBloc>()
+                                        .sharePaySlip(data!.payslipLink!),
+                                    child: Text('share'.tr(),
+                                        style: const TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            decoration:
+                                                TextDecoration.underline)),
+                                  )
                                 : const Text(
-                              '',
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  decoration: TextDecoration.underline),
-                            ),
+                                    '',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        decoration: TextDecoration.underline),
+                                  ),
                           ),
                         ],
                       );
