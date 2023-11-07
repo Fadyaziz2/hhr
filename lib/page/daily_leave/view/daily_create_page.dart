@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 
 import '../../../res/widgets/custom_button.dart';
 import '../../profile/view/content/custom_text_field_with_title.dart';
@@ -9,6 +10,7 @@ class DailyCreatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BodyCreateDailyLeaveModel bodyCreateDailyLeaveModel = BodyCreateDailyLeaveModel();
     return Scaffold(
       appBar: AppBar(
         title: Text(tr("daily_leave")),
