@@ -4,6 +4,7 @@ import 'package:onesthrm/page/approval/view/content/approval_details_tile_conten
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/commo_elevated_button.dart';
 
 import 'leave_type_content.dart';
 
@@ -50,66 +51,56 @@ class ApprovalDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    ApprovalDetailsTileContent(title: 'Employee Name', value: data?.name ?? ''),
-                    ApprovalDetailsTileContent(title: 'Department', value: data?.department ?? ''),
-                    ApprovalDetailsTileContent(title: 'Designation', value: data?.designation ?? ''),
-                    ApprovalDetailsTileContent(title: 'Request Leave On', value: data?.requestedOn ?? ''),
+                    ApprovalDetailsTileContent(
+                        title: 'Employee Name', value: data?.name ?? ''),
+                    ApprovalDetailsTileContent(
+                        title: 'Department', value: data?.department ?? ''),
+                    ApprovalDetailsTileContent(
+                        title: 'Designation', value: data?.designation ?? ''),
+                    ApprovalDetailsTileContent(
+                        title: 'Request Leave On',
+                        value: data?.requestedOn ?? ''),
                     LeaveTypeContent(data: data),
                     SubstituteContent(data: data),
-                    ApprovalDetailsTileContent(title: 'Employee Note', value: data?.note ?? ''),
-                    ApprovalDetailsTileContent(title: 'Approves', value: data?.apporover ?? 'N/A'),
+                    ApprovalDetailsTileContent(
+                        title: 'Employee Note', value: data?.note ?? ''),
+                    ApprovalDetailsTileContent(
+                        title: 'Approves', value: data?.apporover ?? 'N/A'),
                     Visibility(
                       visible: isStatus,
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ElevatedButton(
-                              onPressed: (){
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CustomElevatedButton(
+                              onTap: () {
                                 /// approved == 1
-                                if(bloc.state.status == NetworkStatus.success){
+                                if (bloc.state.status == NetworkStatus.success) {
                                   bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 1, context: context));
-                                }else{
+                                } else {
                                   return;
                                 }
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: colorPrimary,
-                                minimumSize: const Size.fromHeight(40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                              ),
-                              child: const Text(
-                                'Approved',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                              title: 'Approved',
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ElevatedButton(
-                              onPressed: () {
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CustomElevatedButton(
+                              onTap: () {
                                 /// reject == 6
-                                if(bloc.state.status == NetworkStatus.success){
+                                if (bloc.state.status == NetworkStatus.success) {
                                   bloc.add(ApproveOrRejectAction(approvalId: approvalId, type: 6, context: context));
-                                }else{
+                                } else {
                                   return;
                                 }
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                minimumSize: const Size.fromHeight(40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                              ),
-                              child: const Text(
-                                'Reject',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                              title: 'Reject',
+                              bgColor: Colors.red,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     )
