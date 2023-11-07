@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/content/expense_details_item_cart.dart';
@@ -10,7 +11,7 @@ class ExpenseDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 4, title: const Text('Expense Details')),
+      appBar: AppBar(elevation: 4, title: Text('expense_details'.tr())),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -22,28 +23,28 @@ class ExpenseDetails extends StatelessWidget {
         child: Column(
           children: [
             ExpenseDetailsItemCart(
-              title: "Requested Amount",
+              title: "requested_amount".tr(),
               value: data?.requestedAmount,
             ),
             ExpenseDetailsItemCart(
-              title: "Approved Amount",
+              title: "approved_amount".tr(),
               value: data?.approvedAmount,
             ),
             ExpenseDetailsItemCart(
-              title: "Date Show",
+              title: "date_show".tr(),
               value: data?.dateShow,
             ),
             ExpenseDetailsItemCart(
-              title: "Payment",
+              title: "payment".tr(),
               value: data?.payment,
             ),
             ExpenseDetailsItemCart(
-              title: "Status",
+              title: "status".tr(),
               value: data?.status,
             ),
             ExpenseDetailsItemCart(
-              title: "Reason",
-              value: data?.reason ?? 'No Reason Available',
+              title: "reason".tr(),
+              value: data?.reason ?? 'no_reason_available'.tr(),
             ),
           ],
         ),

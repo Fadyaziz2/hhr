@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
@@ -36,7 +37,7 @@ class ExpenseListContent extends StatelessWidget {
                             ),
                             child: ListTile(
                               title: Text(
-                                data?.category ?? "",
+                                data?.category ?? "".tr(),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w500),
                               ),
@@ -48,7 +49,7 @@ class ExpenseListContent extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Color(int.parse(
-                                              data?.statusColor ?? '')),
+                                              data?.statusColor ?? ''.tr())),
                                           style: BorderStyle.solid,
                                           width: 3.0,
                                         ),
@@ -65,7 +66,7 @@ class ExpenseListContent extends StatelessWidget {
                                             horizontal: 10, vertical: 3),
                                         strokeWidth: 1,
                                         child: Text(
-                                          data?.status ?? '',
+                                          data?.status ?? ''.tr(),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 10,
@@ -97,7 +98,7 @@ class ExpenseListContent extends StatelessWidget {
                                             horizontal: 10, vertical: 3),
                                         strokeWidth: 1,
                                         child: Text(
-                                          data?.payment ?? '',
+                                          data?.payment ?? ''.tr(),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 10,
@@ -108,7 +109,7 @@ class ExpenseListContent extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              trailing: Text(data?.dateShow ?? ""),
+                              trailing: Text(data?.dateShow ?? "".tr()),
                             ),
                           ),
                         ),

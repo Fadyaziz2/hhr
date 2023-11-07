@@ -9,6 +9,7 @@ import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
 import '../internet_connectivity/bloc/internet_bloc.dart';
+import '../language/bloc/language_bloc.dart';
 import '../login/view/login_page.dart';
 import '../splash/view/splash.dart';
 
@@ -28,7 +29,8 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
-          BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus())
+          BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
+          BlocProvider(create: (context) => LanguageBloc())
         ],
         child: const AppView(),
       ),
