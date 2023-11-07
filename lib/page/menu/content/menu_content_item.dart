@@ -15,7 +15,7 @@ class MenuContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animation,
+      animation: animationController,
       builder: (_,__){
         return FadeTransition(
           opacity: kAlwaysCompleteAnimation,

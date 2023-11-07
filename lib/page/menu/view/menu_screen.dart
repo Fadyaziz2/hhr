@@ -11,7 +11,8 @@ import '../../profile/view/profile_page.dart';
 import '../content/menu_content_item.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+
+  const MenuScreen({super.key});
 
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
@@ -26,7 +27,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     animationController = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 2000));
     super.initState();
   }
 
