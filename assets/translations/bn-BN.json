@@ -361,7 +361,7 @@
   "high": "উচ্চ",
   "this_data_is_static_cause_there_is_no_API_yet": "এই ডেটা স্থির কারণ এখনও কোন API নেই",
   "ticket_created_successfully": "টিকেট সফলভাবে তৈরি হয়েছে",
-  "Expense": "ব্যয়",
+  "Expense": "এক্সপেন্স",
   "select_payment": "পেমেন্ট নির্বাচন",
   "paid": "পরিশোধ করা",
   "unpaid": "আনপেড",
@@ -378,5 +378,9 @@
   "no_reason_available": "কোন কারণ নেই",
   "failed_to_load_notification": "বিজ্ঞপ্তি লোড করতে ব্যর্থ হয়েছে৷",
   "failed_to_load_appointment_list": "অ্যাপয়েন্টমেন্ট তালিকা লোড করা যায়নি",
+  "Attendance": "অ্যাটেনডেন্স",
+  "Support": "সাপোর্ট",
+  "Appointments": "এপয়েন্টমেন্টস",
+  "Notice": "নোটিশ",
   "enter_text": "এখানে লিখুন"
 }
