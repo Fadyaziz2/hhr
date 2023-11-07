@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onesthrm/page/language/view/language_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+
+import '../../language/bloc/language_bloc.dart';
 
 class MenuSettingsContent extends StatelessWidget {
   const MenuSettingsContent({
@@ -11,39 +14,37 @@ class MenuSettingsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          'Setting',
-          style: TextStyle(color: Colors.grey),
-        ),
-        const Divider(),
-        const ListTile(
-          dense: true,
-          contentPadding: EdgeInsets.zero,
-          horizontalTitleGap: 8,
-          leading: Icon(
-            Icons.face_retouching_natural,
-            color: Colors.black,
-          ),
-          title: Text('Face Register'),
-        ),
-        ListTile(
-          onTap: () {
-            NavUtil.replaceScreen(context, const LanguageScreen());
-          },
-          dense: true,
-          contentPadding: EdgeInsets.zero,
-          horizontalTitleGap: 8,
-          leading:
-              SvgPicture.asset('assets/menu_drawer_icons/language-change.svg'),
-          title: const Text("language_change").tr(),
-        ),
-      ],
+    return BlocBuilder<LanguageBloc, LanguageState>(
+      builder: (_,__){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10.0,),
+            const Text('Setting', style: TextStyle(color: Colors.grey),),
+            const Divider(),
+            const ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              horizontalTitleGap: 8,
+              leading: Icon(
+                Icons.face_retouching_natural,
+                color: Colors.black,
+              ),
+              title: Text('Face Register'),
+            ),
+            ListTile(
+              onTap: () {
+                NavUtil.navigateScreen(context, const LanguageScreen());
+              },
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              horizontalTitleGap: 8,
+              leading: SvgPicture.asset('assets/menu_drawer_icons/language-change.svg'),
+              title: const Text("language_change").tr(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

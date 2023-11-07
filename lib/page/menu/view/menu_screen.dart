@@ -10,11 +10,32 @@ import '../../home/bloc/home_bloc.dart';
 import '../../profile/view/profile_page.dart';
 import '../content/menu_content_item.dart';
 
-class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+class MenuScreen extends StatefulWidget {
+
+  const MenuScreen({super.key});
 
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2000));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +49,7 @@ class MenuScreen extends StatelessWidget {
           setting: settings!)
         ..add(RouteSlug(context: context)),
       child: Scaffold(
-          key: _scaffoldKey,
+          key: MenuScreen._scaffoldKey,
           endDrawer: const MenuDrawer(),
           extendBody: true,
           body: Container(
@@ -97,11 +118,13 @@ class MenuScreen extends StatelessWidget {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  if (_scaffoldKey
-                                      .currentState!.isEndDrawerOpen) {
-                                    _scaffoldKey.currentState?.openEndDrawer();
+                                  if (MenuScreen._scaffoldKey.currentState!
+                                      .isEndDrawerOpen) {
+                                    MenuScreen._scaffoldKey.currentState
+                                        ?.openEndDrawer();
                                   } else {
-                                    _scaffoldKey.currentState?.openEndDrawer();
+                                    MenuScreen._scaffoldKey.currentState
+                                        ?.openEndDrawer();
                                   }
                                 },
                                 icon: const Icon(
@@ -121,11 +144,20 @@ class MenuScreen extends StatelessWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, childAspectRatio: 2),
                       itemBuilder: (BuildContext context, int index) {
+                        ///List length
+                        int length = homeData?.data?.menus?.length ?? 0;
+                        ///Animation instance
+                        final animation = Tween(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval((1 / length) * index, 1.0, curve: Curves.fastOutSlowIn)));
+                        animationController.forward();
                         final menu = homeData?.data?.menus?[index];
-
                         return menu != null
                             ? MenuContentItem(
                                 menu: menu,
+                                animation: animation,
+                                animationController: animationController,
                                 onPressed: () {
                                   context.read<MenuBloc>().add(RouteSlug(
                                       context: context, slugName: menu.slug));
