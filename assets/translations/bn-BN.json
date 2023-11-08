@@ -382,7 +382,7 @@
   "Support": "সাপোর্ট",
   "Appointments": "এপয়েন্টমেন্টস",
   "Notice": "নোটিশ",
-  "Payroll": "পেরোল",
+  "Payroll": "পে-রোল",
   "salary": "স্যালারি",
   "payslip": "পেস্লিপ",
   "share": "শেয়ার",
@@ -399,5 +399,13 @@
   "October": "অক্টোবর",
   "November": "নভেম্বর",
   "December": "ডিসেম্বর",
+  "leave_request_create_successfully": "লিভের অনুরোধ সফলভাবে তৈরি করুন",
+  "failed_to_load_leave_list": "ছুটির তালিকা লোড করতে ব্যর্থ হয়েছে৷",
+  "response_can't_be_empty": "রেসপন্স খালি হতে পারে না",
+  "leave_request_cancelled": "ছুটির অনুরোধ বাতিল",
+  "cancel_leave_request": "ছুটির অনুরোধ বাতিল",
+  "leave_request_type": "লিভ রিকোয়েস্ট টাইপ",
+  "leave_request": "লিভ রিকোয়েস্ট",
+  "Leave": "লিভ",
   "enter_text": "এখানে লিখুন"
 }

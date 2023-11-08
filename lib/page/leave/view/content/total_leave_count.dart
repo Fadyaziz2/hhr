@@ -30,8 +30,8 @@ class TotalLeaveCount extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
-                      "total_leaves",
+                    Text(
+                      "total_leaves".tr(),
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ).tr()
                   ],
@@ -64,8 +64,8 @@ class TotalLeaveCount extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
-                      "leaves_used",
+                    Text(
+                      "leaves_used".tr(),
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ).tr()
                   ],

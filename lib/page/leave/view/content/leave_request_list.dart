@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -11,7 +12,7 @@ import 'leave_list_shimmer.dart';
 
 class LeaveRequestList extends StatelessWidget {
   final int userId;
-  const LeaveRequestList({super.key,required this.userId});
+  const LeaveRequestList({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +23,18 @@ class LeaveRequestList extends StatelessWidget {
           child: LeaveListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
-        return state.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty == true
+        return state.leaveRequestModel?.leaveRequestData?.leaveRequests
+                    ?.isNotEmpty ==
+                true
             ? ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: state.leaveRequestModel?.leaveRequestData?.leaveRequests?.length ?? 0,
+                itemCount: state.leaveRequestModel?.leaveRequestData
+                        ?.leaveRequests?.length ??
+                    0,
                 itemBuilder: (context, index) {
-                  LeaveRequestValue? leaveRequest = state.leaveRequestModel?.leaveRequestData?.leaveRequests?[index];
+                  LeaveRequestValue? leaveRequest = state.leaveRequestModel
+                      ?.leaveRequestData?.leaveRequests?[index];
                   return BuildLeaveTitle(
                     leaveRequestValue: leaveRequest,
                     userId: userId,
@@ -44,7 +50,7 @@ class LeaveRequestList extends StatelessWidget {
       } else if (state.status == NetworkStatus.failure) {
         return Center(
           child: Text(
-            "Failed to load Leave list",
+            "failed_to_load_leave_list".tr(),
             style: TextStyle(
                 color: colorPrimary.withOpacity(0.4),
                 fontSize: 18,

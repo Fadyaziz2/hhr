@@ -16,7 +16,9 @@ class CreateLeaveRequest extends StatelessWidget {
   final String? endDate;
   final int? leaveTypeId;
 
-  const CreateLeaveRequest({Key? key, this.starDate, this.leaveTypeId, this.endDate}) : super(key: key);
+  const CreateLeaveRequest(
+      {Key? key, this.starDate, this.leaveTypeId, this.endDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,9 @@ class CreateLeaveRequest extends StatelessWidget {
                   height: 8,
                 ),
                 CustomTextField(
-                    title: "Note",
-                    hints: "Write Reason",
-                    errorMsg: "Response can't be empty",
+                    title: "note".tr(),
+                    hints: "write_reason".tr(),
+                    errorMsg: "response_can't_be_empty".tr(),
                     maxLine: 7,
                     onData: (data) {
                       bodyCreateLeave.reason = data;
@@ -57,7 +59,7 @@ class CreateLeaveRequest extends StatelessWidget {
                     bodyCreateLeave.fileId = data?.fileId;
                   },
                   initialAvatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
                 ),
                 const SizedBox(
                   height: 25,
@@ -70,8 +72,7 @@ class CreateLeaveRequest extends StatelessWidget {
                         Text(
                           tr("substitute"),
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 8,
@@ -83,12 +84,12 @@ class CreateLeaveRequest extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                    const SelectEmployeePage(),
+                                        const SelectEmployeePage(),
                                   ));
                               // ignore: use_build_context_synchronously
                               context
                                   .read<LeaveBloc>()
-                              // ignore: use_build_context_synchronously
+                                  // ignore: use_build_context_synchronously
                                   .add(SelectEmployee(employee));
                             },
                             title: Text(state.selectedEmployee?.name! ??
@@ -98,7 +99,7 @@ class CreateLeaveRequest extends StatelessWidget {
                                     tr("add_a_Designation")),
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(state
-                                  .selectedEmployee?.avatar ??
+                                      .selectedEmployee?.avatar ??
                                   'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
                             ),
                             trailing: const Icon(Icons.edit),
@@ -108,19 +109,25 @@ class CreateLeaveRequest extends StatelessWidget {
                           height: 12,
                         ),
                         CustomButton(
-                          title: "Next",
+                          title: "next".tr(),
                           padding: 0,
                           isLoading: state.status == NetworkStatus.loading,
                           clickButton: () {
-                            if(formKey.currentState!.validate() && state.status != NetworkStatus.loading){
-                              final user = context.read<AuthenticationBloc>().state.data;
+                            if (formKey.currentState!.validate() &&
+                                state.status != NetworkStatus.loading) {
+                              final user =
+                                  context.read<AuthenticationBloc>().state.data;
                               bodyCreateLeave.userId = user?.user?.id;
                               bodyCreateLeave.assignLeaveId = leaveTypeId;
-                              bodyCreateLeave.substituteId = state.selectedEmployee?.id;
+                              bodyCreateLeave.substituteId =
+                                  state.selectedEmployee?.id;
                               bodyCreateLeave.applyDate = starDate;
                               bodyCreateLeave.leaveTo = starDate;
                               bodyCreateLeave.leaveFrom = endDate;
-                              context.read<LeaveBloc>().add(SubmitLeaveRequest(bodyCreateLeaveModel: bodyCreateLeave, uid: user!.user!.id!,context: context));
+                              context.read<LeaveBloc>().add(SubmitLeaveRequest(
+                                  bodyCreateLeaveModel: bodyCreateLeave,
+                                  uid: user!.user!.id!,
+                                  context: context));
                             }
                           },
                         ),
