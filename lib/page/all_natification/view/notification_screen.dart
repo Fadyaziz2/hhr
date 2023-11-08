@@ -70,8 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ],
               ),
-              body: SafeArea(
-                  child: Column(
+              body: Column(
                 children: [
                   // provider.isLoading
                   //     ? provider.notificationsList!.isNotEmpty
@@ -79,16 +78,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   state.notificationResponse?.data?.notifications?.isNotEmpty ==
                           true
                       ? Expanded(
-                          child: ListView.separated(
+                          child: ListView.builder(
                             itemCount: state.notificationResponse?.data
                                     ?.notifications?.length ??
                                 0,
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const Divider(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
                             itemBuilder: (BuildContext context, int index) {
                               final data = state.notificationResponse?.data
                                   ?.notifications?[index];
@@ -122,7 +115,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         )
                   // : const SizedBox(),
                 ],
-              )));
+              ));
         }));
   }
 }
