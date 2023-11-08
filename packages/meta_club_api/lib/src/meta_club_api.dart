@@ -28,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -289,7 +289,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap({
         "user_id": userId,
-        "date" : date
+        "month" : date
       });
       final response =
       await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
@@ -298,6 +298,22 @@ class MetaClubApiClient {
         return DailyLeaveSummaryModel.fromJson(response.data);
       }
       return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future postApplyLeave(data) async {
+    const String api = 'daily-leave/store';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
     } catch (_) {
       return null;
     }

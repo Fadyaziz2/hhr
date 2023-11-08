@@ -12,7 +12,7 @@ import '../daily_create_page.dart';
 import 'daily_leave_status_content.dart';
 
 class DailyLeaveContent extends StatelessWidget {
-  const DailyLeaveContent({Key? key}) : super(key: key);
+  const DailyLeaveContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,8 @@ class DailyLeaveContent extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                context
-                    .read<DailyLeaveBloc>()
-                    .add(SelectDatePickerDailyLeave(user!.user!.id!, context));
+                context.read<DailyLeaveBloc>().add(
+                    SelectDatePickerDailyLeave(user!.user!.id!, context));
               },
               icon: const Icon(Icons.calendar_month_outlined))
         ],
@@ -35,7 +34,16 @@ class DailyLeaveContent extends StatelessWidget {
           const SizedBox(height: 20),
           AnimatedCircularButton(
             onComplete: () {
-              NavUtil.navigateScreen(context, const DailyCreatePage());
+              // Navigator.push(
+              //     context,
+              //     DailyCreatePage.route(
+              //         dailyLeaveBloc: context.read<DailyLeaveBloc>()));
+              NavUtil.navigateScreen(
+                  context,
+                  BlocProvider.value(
+                    value: context.read<DailyLeaveBloc>(),
+                    child: const DailyCreatePage(),
+                  ));
             },
             title: "Apply Daily Leave",
             color: colorPrimary,
