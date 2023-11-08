@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,31 +28,37 @@ class AttendanceView extends StatefulWidget {
 class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
+
   ///set condition here weather face checking enable or disable
   ///if enabled then we have to create faceSDK service instance
   FaceServiceImpl faceService = FaceServiceImpl();
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
+    controller = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 3),
+        animationBehavior: AnimationBehavior.preserve);
+
     ///set condition here weather face checking enable or disable
     ///fetch face date from local cache
-    SharedUtil.getValue(userFaceData).then((registeredFaceData){
+    SharedUtil.getValue(userFaceData).then((registeredFaceData) {
       faceService.captureFromFaceApi(
           isRegistered: registeredFaceData != null,
           regImage: registeredFaceData,
           onCaptured: (faceData) {
             debugPrint('faceData $faceData');
-            if(faceData.length > 20){
+            if (faceData.length > 20) {
               SharedUtil.setValue(userFaceData, faceData);
             }
           },
           isSimilar: (isSimilar) {
             debugPrint('isSimilar $isSimilar');
-            if(isSimilar){
-              if(widget.homeBloc.state.dashboardModel != null) {
-                context.read<AttendanceBloc>().add(OnAttendance(homeData: widget.homeBloc.state.dashboardModel!));
-              }else{
+            if (isSimilar) {
+              if (widget.homeBloc.state.dashboardModel != null) {
+                context.read<AttendanceBloc>().add(OnAttendance(
+                    homeData: widget.homeBloc.state.dashboardModel!));
+              } else {
                 debugPrint('dashboardModel is null\n you have to check api');
               }
             }
@@ -85,7 +92,7 @@ class _AttendanceState extends State<AttendanceView>
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              title: const Text('Attendance'),
+              title: Text('attendance'.tr()),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -119,8 +126,8 @@ class _AttendanceState extends State<AttendanceView>
                       },
                       isCheckedIn: homeData.data?.attendanceData?.id != null,
                       title: globalState.get(attendanceId) == null
-                          ? "Check In"
-                          : "Check Out",
+                          ? "check_in".tr()
+                          : "check_out".tr(),
                       color: globalState.get(attendanceId) == null
                           ? colorPrimary
                           : colorDeepRed,
@@ -144,6 +151,7 @@ class _AttendanceState extends State<AttendanceView>
       ),
     );
   }
+
   @override
   void dispose() {
     // faceService.deInit();

@@ -17,11 +17,12 @@ class AppointmentWithCart extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 16.0),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
-            "appointment_with",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            "appointment_with".tr(),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         Card(
