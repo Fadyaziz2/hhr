@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../res/shimmers.dart';
@@ -17,35 +18,38 @@ class GeneratePayrollShimmer extends StatelessWidget {
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
-         const TableRow(
+        TableRow(
           children: [
-            HeaderTableRow(title: 'Month'),
-            Center(child: HeaderTableRow(title: 'Salary')),
-            Center(child: HeaderTableRow(title: 'Payslip'),),
+            HeaderTableRow(title: 'month'.tr()),
+            Center(child: HeaderTableRow(title: 'salary'.tr())),
+            Center(
+              child: HeaderTableRow(title: 'payslip'.tr()),
+            ),
           ],
         ),
         ...List.generate(
-            3, (index) => TableRow(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: buildRectangularCardShimmer(),
-                ),
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Center(
-                    child: buildRectangularCardShimmer(),
-                  ),
-                ),
-                Center(
-                  child: buildRectangularCardShimmer(),
-                ),
-              ],
-            ))
-
+            3,
+            (index) => TableRow(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildRectangularCardShimmer(),
+                    ),
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Center(
+                        child: buildRectangularCardShimmer(),
+                      ),
+                    ),
+                    Center(
+                      child: buildRectangularCardShimmer(),
+                    ),
+                  ],
+                ))
       ],
     );
   }
+
   RectangularCardShimmer buildRectangularCardShimmer() {
     return const RectangularCardShimmer(
       width: 80,
