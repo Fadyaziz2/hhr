@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -10,10 +11,15 @@ class AttendanceReportPage extends StatelessWidget {
   final AttendanceBloc attendanceBloc;
   final Settings settings;
 
-  const AttendanceReportPage({Key? key, required this.attendanceBloc, required this.settings}) : super(key: key);
+  const AttendanceReportPage(
+      {Key? key, required this.attendanceBloc, required this.settings})
+      : super(key: key);
 
-  static Route route({required AttendanceBloc attendanceBloc, required Settings settings}) {
-    return MaterialPageRoute(builder: (_) => AttendanceReportPage(attendanceBloc: attendanceBloc, settings: settings));
+  static Route route(
+      {required AttendanceBloc attendanceBloc, required Settings settings}) {
+    return MaterialPageRoute(
+        builder: (_) => AttendanceReportPage(
+            attendanceBloc: attendanceBloc, settings: settings));
   }
 
   @override
@@ -23,12 +29,14 @@ class AttendanceReportPage extends StatelessWidget {
         ? BlocProvider(
             create: (context) => AttendanceReportBloc(
                 user: user,
-                metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}'))..add(GetAttendanceReportData()),
+                metaClubApiClient:
+                    MetaClubApiClient(token: '${user.user?.token}'))
+              ..add(GetAttendanceReportData()),
             child: BlocBuilder<AttendanceReportBloc, AttendanceReportState>(
               builder: (context, state) {
                 return Scaffold(
                   appBar: AppBar(
-                    title: const Text('Attendance Report'),
+                    title: Text('attendance_report'.tr()),
                     actions: [
                       IconButton(
                           onPressed: () {

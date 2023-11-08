@@ -19,7 +19,7 @@ class AppointmentCreateContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CommonTextFiledWithTitle(
-          title: "Title",
+          title: "title".tr(),
           labelText: 'enter_title'.tr(),
           onChanged: (data) {
             appointmentBody.title = data;
@@ -29,8 +29,8 @@ class AppointmentCreateContent extends StatelessWidget {
           height: 25,
         ),
         CommonTextFiledWithTitle(
-          title: "description",
-          labelText: "Enter Text",
+          title: "description".tr(),
+          labelText: "enter_text".tr(),
           onChanged: (data) {
             appointmentBody.description = data;
           },
@@ -38,11 +38,12 @@ class AppointmentCreateContent extends StatelessWidget {
         const SizedBox(
           height: 25,
         ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 16.0),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
-            "date_schedule",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            "date_schedule".tr(),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         Card(
@@ -58,7 +59,7 @@ class AppointmentCreateContent extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(state?.currentMonth ?? 'Select Date'),
+                  Text(state?.currentMonth ?? 'select_date'.tr()),
                   const Icon(
                     Icons.arrow_drop_down_sharp,
                     color: Colors.grey,
@@ -78,7 +79,7 @@ class AppointmentCreateContent extends StatelessWidget {
           height: 16,
         ),
         CommonTextFiledWithTitle(
-          title: "Location".tr(),
+          title: "location".tr(),
           labelText: 'enter_location'.tr(),
           onChanged: (data) {
             appointmentBody.location = data;
