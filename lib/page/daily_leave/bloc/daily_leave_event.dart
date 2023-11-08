@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/model/leave_type_model.dart';
 
 abstract class DailyLeaveEvent extends Equatable {
@@ -51,4 +52,13 @@ class ApplyLeave extends DailyLeaveEvent{
 
   @override
   List<Object?> get props => [userId, context];
+}
+
+class SelectEmployee extends DailyLeaveEvent {
+  final PhoneBookUser selectEmployee;
+
+  SelectEmployee( this.selectEmployee);
+
+  @override
+  List<Object> get props => [selectEmployee];
 }

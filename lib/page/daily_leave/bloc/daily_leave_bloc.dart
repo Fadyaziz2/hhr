@@ -27,6 +27,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     on<SelectApproxTime>(_onSelectTimePicker);
     on<SelectLeaveType>(_onSelectLeaveType);
     on<ApplyLeave>(_onApplyLeave);
+    on<SelectEmployee>(_selectEmployee);
   }
 
   ///leave type defined
@@ -55,7 +56,8 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       DailyLeaveSummaryModel? dailyLeaveSummaryModel =
-          await _metaClubApiClient.dailyLeaveSummary(event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
+          await _metaClubApiClient.dailyLeaveSummary(event.userId,
+              state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
       emit(state.copyWith(
           dailyLeaveSummaryModel: dailyLeaveSummaryModel,
           status: NetworkStatus.success));
@@ -75,22 +77,32 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
   }
 
   FutureOr<void> _onApplyLeave(
-      ApplyLeave event, Emitter<DailyLeaveState> emit) async {emit(state.copyWith(status: NetworkStatus.loading));
-    final data = {
-      'approx_time': state.approxTime,
-      'reason': reasonTextController.text,
-      'leave_type': state.leaveTypeModel!.value
-    };
-    try {
-      await _metaClubApiClient.postApplyLeave(data).then((value) {
-        if (value['result'] == true) {
-          Fluttertoast.showToast(msg: value['message']);
-          add(DailyLeaveSummary(event.userId));
-          Navigator.of(event.context).pop();
-        }
-      });
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
+      ApplyLeave event, Emitter<DailyLeaveState> emit) async {
+    if (state.approxTime != null && state.leaveTypeModel != null) {
+      emit(state.copyWith(status: NetworkStatus.loading));
+      final data = {
+        'approx_time': state.approxTime,
+        'reason': reasonTextController.text,
+        'leave_type': state.leaveTypeModel!.value
+      };
+      try {
+        await _metaClubApiClient.postApplyLeave(data).then((value) {
+          if (value['result'] == true) {
+            Fluttertoast.showToast(msg: value['message']);
+            add(DailyLeaveSummary(event.userId));
+            Navigator.of(event.context).pop();
+          }
+        });
+      } catch (e) {
+        emit(state.copyWith(status: NetworkStatus.failure));
+      }
+    } else {
+      Fluttertoast.showToast(msg: 'Select leave type and time');
     }
+  }
+
+  FutureOr<void> _selectEmployee(
+      SelectEmployee event, Emitter<DailyLeaveState> emit) async {
+    emit(state.copyWith(selectEmployee: event.selectEmployee));
   }
 }

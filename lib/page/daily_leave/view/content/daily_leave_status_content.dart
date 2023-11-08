@@ -1,9 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
+import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_tile.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
+import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/res/enum.dart';
 
 import '../../../../res/const.dart';
@@ -26,6 +30,32 @@ class DailyLeaveStatusContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Card(
+                child: ListTile(
+                  onTap: () async {
+                    PhoneBookUser employee = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SelectEmployeePage(),
+                        ));
+                    // ignore: use_build_context_synchronously
+                    context
+                        .read<DailyLeaveBloc>()
+                        // ignore: use_build_context_synchronously
+                        .add(SelectEmployee(employee));
+                  },
+                  title: Text(
+                      state.selectEmployee?.name! ?? tr("add_a_Substitute")),
+                  subtitle: Text(state.selectEmployee?.designation! ??
+                      tr("add_a_Designation")),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(state
+                            .selectEmployee?.avatar ??
+                        'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                  ),
+                  trailing: const Icon(Icons.edit),
+                ),
+              ),
               const Text(
                 "Approved Leave",
                 style: TextStyle(
