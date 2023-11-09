@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/const.dart';
@@ -43,9 +44,9 @@ class EventCard extends StatelessWidget {
                             letterSpacing: 0.5),
                       ),
                       if (days == true)
-                        const Text(
-                          'days',
-                          style: TextStyle(
+                        Text(
+                          'days'.tr(),
+                          style: const TextStyle(
                               color: Color(0xFF777777),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -62,7 +63,7 @@ class EventCard extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 6,
                   )
@@ -116,9 +117,9 @@ class EventCard2 extends StatelessWidget {
                             letterSpacing: 0.5),
                       ),
                       if (days == true)
-                        const Text(
-                          'days',
-                          style: TextStyle(
+                        Text(
+                          'days'.tr(),
+                          style: const TextStyle(
                               color: Color(0xFF777777),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -135,7 +136,7 @@ class EventCard2 extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 6,
                   )
@@ -178,14 +179,14 @@ class UpcomingEventCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Upcoming events',
-                    style: TextStyle(
+                Text('upcoming_events'.tr(),
+                    style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         height: 1.5,
                         letterSpacing: 0.5)),
-                const Text('Public holiday and even',
-                    style: TextStyle(
+                Text('public_holiday_and_even'.tr(),
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         height: 1.5,
