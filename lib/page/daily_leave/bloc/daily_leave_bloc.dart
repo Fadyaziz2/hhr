@@ -28,6 +28,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     on<SelectLeaveType>(_onSelectLeaveType);
     on<ApplyLeave>(_onApplyLeave);
     on<SelectEmployee>(_selectEmployee);
+    on<LeaveTypeList>(_onLeaveTypeList);
   }
 
   ///leave type defined
@@ -104,5 +105,30 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
   FutureOr<void> _selectEmployee(
       SelectEmployee event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
+  }
+
+  FutureOr<void> _onLeaveTypeList(
+      LeaveTypeList event, Emitter<DailyLeaveState> emit) async {
+    emit(state.copyWith(
+      status: NetworkStatus.loading,
+    ));
+    try {
+      final LeaveTypeListModel? leaveTypeListData =
+          await _metaClubApiClient.dailyLeaveSummaryStaffView(
+              userId: event.userId,
+              month: event.date,
+              leaveStatus: event.leaveStatus,
+              leaveType: event.leaveType);
+      if (leaveTypeListData != null) {
+        emit(state.copyWith(
+            status: NetworkStatus.success,
+            leaveTypeListData: leaveTypeListData));
+      } else {
+        emit(state.copyWith(status: NetworkStatus.failure));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 }

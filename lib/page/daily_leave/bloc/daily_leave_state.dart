@@ -10,6 +10,7 @@ class DailyLeaveState extends Equatable {
   final String? approxTime;
   final LeaveTypeModel? leaveTypeModel;
   final PhoneBookUser? selectEmployee;
+  final LeaveTypeListModel? leaveTypeListData;
 
   const DailyLeaveState(
       {this.status,
@@ -17,6 +18,7 @@ class DailyLeaveState extends Equatable {
       this.currentMonth,
       this.approxTime,
       this.leaveTypeModel,
+      this.leaveTypeListData,
       this.selectEmployee});
 
   DailyLeaveState copyWith(
@@ -25,6 +27,7 @@ class DailyLeaveState extends Equatable {
       String? currentMonth,
       String? approxTime,
       LeaveTypeModel? leaveTypeModel,
+      LeaveTypeListModel? leaveTypeListData,
       PhoneBookUser? selectEmployee}) {
     return DailyLeaveState(
         status: status ?? this.status,
@@ -33,6 +36,7 @@ class DailyLeaveState extends Equatable {
         currentMonth: currentMonth ?? this.currentMonth,
         approxTime: approxTime ?? this.approxTime,
         leaveTypeModel: leaveTypeModel ?? this.leaveTypeModel,
+        leaveTypeListData: leaveTypeListData ?? this.leaveTypeListData,
         selectEmployee: selectEmployee ?? this.selectEmployee);
   }
 

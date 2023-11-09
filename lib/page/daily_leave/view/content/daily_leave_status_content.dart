@@ -2,13 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_tile.dart';
+import 'package:onesthrm/page/daily_leave/view/content/leave_type_screen.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 import '../../../../res/const.dart';
 
@@ -17,6 +20,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
     return BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
         builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
@@ -117,6 +121,22 @@ class DailyLeaveStatusContent extends StatelessWidget {
                 height: 8,
               ),
               DailyLeaveTile(
+                  onTap: () {
+                    context.read<DailyLeaveBloc>().add(LeaveTypeList(
+                          state.currentMonth,
+                          "early_leave",
+                          state.selectEmployee?.id.toString() ??
+                              user?.user?.id.toString(),
+                          'pending',
+                        ));
+                    NavUtil.navigateScreen(
+                        context,
+                        BlocProvider.value(
+                            value: context.read<DailyLeaveBloc>(),
+                            child: const LeaveTypeScreen(
+                              appBarName: "Early Leave",
+                            )));
+                  },
                   title: 'Early Leave',
                   value: state.dailyLeaveSummaryModel?.dailyLeaveSummaryData
                           ?.pending?.earlyLeave

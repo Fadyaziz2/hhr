@@ -19,7 +19,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -283,19 +282,43 @@ class MetaClubApiClient {
     }
   }
 
-  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(int? userId,String? date) async {
+  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(
+      int? userId, String? date) async {
     const String api = 'daily-leave/leave-list';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return DailyLeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveTypeListModel?> dailyLeaveSummaryStaffView(
+      {String? userId,
+      String? month,
+      String? leaveType,
+      String? leaveStatus}) async {
+    const String api = 'daily-leave/staff-list-view';
 
     try {
       FormData formData = FormData.fromMap({
         "user_id": userId,
-        "month" : date
+        "month": month,
+        "leave_type": leaveType,
+        "leave_status": leaveStatus
       });
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
-        return DailyLeaveSummaryModel.fromJson(response.data);
+        return LeaveTypeListModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -308,7 +331,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
