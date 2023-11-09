@@ -6,7 +6,8 @@ import 'package:onesthrm/page/approval/view/content/approval_screen_content.dart
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 
 class ApprovalScreen extends StatelessWidget {
-  const ApprovalScreen({Key? key}) : super(key: key);
+
+  const ApprovalScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
