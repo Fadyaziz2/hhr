@@ -9,7 +9,7 @@ class CustomElevatedButton extends StatelessWidget {
   });
 
   final Function() onTap;
-  final String title;
+  final Widget title;
   final Color bgColor;
 
   @override
@@ -23,10 +23,7 @@ class CustomElevatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.0),
         ),
       ),
-      child: Text(
-        title,
-        style: const TextStyle(color: Colors.white),
-      ),
+      child: title,
     );
   }
 }

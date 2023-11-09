@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/approval/view/content/approval_details_screen.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class ApprovalListWidget extends StatelessWidget {
   const ApprovalListWidget({
@@ -16,12 +17,14 @@ class ApprovalListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.push(
+        NavUtil.navigateScreen(
             context,
-            ApprovalDetailsScreen.route(
-                approvalUserId: '${approvalLeaveRequestData?.userId}',
-                approvalBloc: context.read<ApprovalBloc>(),
-                approvalId: "${approvalLeaveRequestData!.id}"));
+            BlocProvider.value(
+                value: context.read<ApprovalBloc>(),
+                child: ApprovalDetailsScreen(
+                    approvalUserId: '${approvalLeaveRequestData?.userId}',
+                    bloc: context.read<ApprovalBloc>(),
+                    approvalId: "${approvalLeaveRequestData!.id}")));
       },
       title: Wrap(
           spacing: 6,
