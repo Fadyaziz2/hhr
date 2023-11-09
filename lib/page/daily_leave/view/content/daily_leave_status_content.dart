@@ -48,24 +48,26 @@ class DailyLeaveStatusContent extends StatelessWidget {
                         // ignore: use_build_context_synchronously
                         .add(SelectEmployee(employee));
                   },
-                  title: Text(
-                      state.selectEmployee?.name! ?? tr("add_a_Substitute")),
-                  subtitle: Text(state.selectEmployee?.designation! ??
-                      tr("add_a_Designation")),
+                  title: Text(state.selectEmployee?.name! ?? 'Select Employee'),
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(state
                             .selectEmployee?.avatar ??
                         'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
                   ),
-                  trailing: const Icon(Icons.edit),
                 ),
               ),
-              const Text(
-                "Approved Leave",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              const SizedBox(
+                height: 12,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
+                child: Text(
+                  "Approved Leave",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
               ),
               const SizedBox(
                 height: 8,
@@ -85,12 +87,15 @@ class DailyLeaveStatusContent extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Rejected Leave",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
+                child: Text(
+                  "Rejected Leave",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
               ),
               const SizedBox(
                 height: 8,
@@ -110,12 +115,15 @@ class DailyLeaveStatusContent extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Pending Leave",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
+                child: Text(
+                  "Pending Leave",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
               ),
               const SizedBox(
                 height: 8,

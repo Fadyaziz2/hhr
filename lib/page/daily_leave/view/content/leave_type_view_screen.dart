@@ -1,11 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
+import 'package:onesthrm/res/widgets/card_tile_with_content.dart';
 
 class LeaveTypeViewScreen extends StatelessWidget {
   final LeaveListDatum? data;
   final DailyLeaveState? state;
+
   const LeaveTypeViewScreen({super.key, this.data, this.state});
 
   @override
@@ -14,12 +15,70 @@ class LeaveTypeViewScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(data?.leaveType ?? ''),
       ),
-      body: Column(
-        children: [
-          // Expanded(
-          //   child: ,
-          // )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  CardTileWithContent(
+                    title: 'Name',
+                    value: data?.staff ?? '',
+                  ),
+                  CardTileWithContent(
+                    title: 'Designation',
+                    value: data?.designation ?? '',
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CardTileWithContent(
+                          title: 'Leave Type',
+                          value: data?.leaveType ?? '',
+                        ),
+                      ),
+                      Expanded(
+                        child: CardTileWithContent(
+                          title: 'Status',
+                          value: data?.status ?? '',
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CardTileWithContent(
+                          title: 'Leave Data On',
+                          value: data?.date ?? '',
+                        ),
+                      ),
+                      Expanded(
+                        child: CardTileWithContent(
+                          title: 'Time',
+                          value: data?.time ?? '',
+                        ),
+                      ),
+                    ],
+                  ),
+                  CardTileWithContent(
+                    title: 'Reason',
+                    value: data?.reason ?? '',
+                  ),
+                  CardTileWithContent(
+                    title: 'Manager Approval',
+                    value: data?.approvalDetails?.managerApproval ?? 'N/A',
+                  ),
+                  CardTileWithContent(
+                    title: 'HR Approval',
+                    value: data?.approvalDetails?.hrApproval ?? 'N/A',
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
