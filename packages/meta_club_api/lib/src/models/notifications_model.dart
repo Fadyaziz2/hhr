@@ -29,7 +29,7 @@ class NotificationResponse extends Equatable {
   List<Object?> get props => [result, message, data];
 }
 
-class NotificationData {
+class NotificationData extends Equatable {
   List<NotificationModelData>? notifications;
 
   NotificationData({
@@ -49,10 +49,12 @@ class NotificationData {
             ? []
             : List<dynamic>.from(notifications!.map((x) => x.toJson())),
       };
+  @override
+  List<Object?> get props => [notifications];
 }
 
 class NotificationModelData extends Equatable {
-  String? id;
+  int? id;
   String? sender;
   int? senderId;
   String? title;
@@ -60,7 +62,7 @@ class NotificationModelData extends Equatable {
   String? image;
   String? date;
   String? slag;
-  DateTime? readAt;
+  dynamic readAt;
   bool? isRead;
 
   NotificationModelData({
@@ -86,8 +88,7 @@ class NotificationModelData extends Equatable {
         image: json["image"],
         date: json["date"],
         slag: json["slag"],
-        readAt:
-            json["read_at"] == null ? null : DateTime.parse(json["read_at"]),
+        readAt: json["read_at"],
         isRead: json["is_read"],
       );
 
@@ -100,7 +101,7 @@ class NotificationModelData extends Equatable {
         "image": image,
         "date": date,
         "slag": slag,
-        "read_at": readAt?.toIso8601String(),
+        "read_at": readAt,
         "is_read": isRead,
       };
   @override

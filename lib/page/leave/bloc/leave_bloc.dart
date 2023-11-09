@@ -55,7 +55,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
               bodyCreateLeaveModel: event.bodyCreateLeaveModel)
           .then((success) {
         if (success) {
-          Fluttertoast.showToast(msg: "Leave Request create successfully");
+          Fluttertoast.showToast(msg: "leave_request_create_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(LeaveRequest(event.uid));
           Navigator.pop(event.context);

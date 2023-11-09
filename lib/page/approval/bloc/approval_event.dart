@@ -11,3 +11,14 @@ class ApprovalInitialDataRequest extends ApprovalEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ApproveOrRejectAction extends ApprovalEvent {
+  final String approvalId;
+  final int type;
+  final BuildContext context;
+
+  ApproveOrRejectAction({required this.approvalId,required this.type,required this.context});
+
+  @override
+  List<Object?> get props => [approvalId, type, context];
+}

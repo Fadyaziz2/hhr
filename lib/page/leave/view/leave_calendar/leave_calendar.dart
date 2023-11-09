@@ -32,8 +32,7 @@ class LeaveCalendar extends StatelessWidget {
                 toggleDaySelection: false,
                 enablePastDates: false,
                 selectionMode: DateRangePickerSelectionMode.range,
-                onSelectionChanged:
-                    (DateRangePickerSelectionChangedArgs args) {
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                   String? startDate = DateFormat('yyyy-MM-dd', 'en')
                       .format(args.value.startDate)
                       .toString();
@@ -47,7 +46,7 @@ class LeaveCalendar extends StatelessWidget {
                 },
               ),
               CustomButton(
-                  title: "Next",
+                  title: "next".tr(),
                   padding: 16,
                   clickButton: () {
                     NavUtil.replaceScreen(

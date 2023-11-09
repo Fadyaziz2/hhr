@@ -13,7 +13,7 @@ export 'break.dart';
 export 'break_history.dart';
 export 'phonebook.dart';
 export 'support_list_model.dart';
-export 'notification_list.dart';
+export 'notifications_model.dart';
 export 'response_notice_details.dart';
 export 'notice_list_model.dart';
 export 'phonebook_details.dart';
@@ -40,3 +40,5 @@ export 'approval_model.dart';
 export 'daily_leave_summary_model.dart';
 export 'body_create_daily_leave.dart';
 export 'leave_type_list_model.dart';
+
+export 'approval_details_model.dart';

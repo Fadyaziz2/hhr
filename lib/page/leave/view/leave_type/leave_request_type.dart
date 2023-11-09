@@ -11,7 +11,7 @@ import '../../../../res/widgets/custom_button.dart';
 import '../leave_calendar/leave_calendar.dart';
 
 class LeaveRequestType extends StatelessWidget {
-  const LeaveRequestType({Key? key}) : super(key: key);
+  const LeaveRequestType({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class LeaveRequestType extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text("Leave Request Type"),
+              title: Text("leave_request_type".tr()),
             ),
             bottomNavigationBar: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -29,19 +29,25 @@ class LeaveRequestType extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(
-                  title: "Next",
+                  title: "next".tr(),
                   padding: 16,
                   clickButton: () {
                     NavUtil.replaceScreen(
-                        context, BlocProvider.value(
-                          value: context.read<LeaveBloc>(),
-                          child: LeaveCalendar(leaveRequestTypeId: state.selectedRequestType?.id)));
+                        context,
+                        BlocProvider.value(
+                            value: context.read<LeaveBloc>(),
+                            child: LeaveCalendar(
+                                leaveRequestTypeId:
+                                    state.selectedRequestType?.id)));
                   },
                 ),
               ),
             ),
-            body: state.leaveRequestType?.leaveRequestType?.availableLeave != null
-                ? state.leaveRequestType?.leaveRequestType?.availableLeave?.isNotEmpty == true
+            body: state.leaveRequestType?.leaveRequestType?.availableLeave !=
+                    null
+                ? state.leaveRequestType?.leaveRequestType?.availableLeave
+                            ?.isNotEmpty ==
+                        true
                     ? ListView.separated(
                         padding: const EdgeInsets.all(12),
                         shrinkWrap: true,
@@ -80,8 +86,9 @@ class LeaveRequestType extends StatelessWidget {
                               ),
                               groupValue: state.selectedRequestType,
                               onChanged: (AvailableLeaveType? value) {
-                                context.read<LeaveBloc>().add(
-                                    SelectedRequestType(value!));
+                                context
+                                    .read<LeaveBloc>()
+                                    .add(SelectedRequestType(value!));
                                 if (kDebugMode) {
                                   print(value.type);
                                 }
