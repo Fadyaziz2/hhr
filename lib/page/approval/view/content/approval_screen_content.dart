@@ -7,7 +7,7 @@ import 'package:onesthrm/res/shimmers.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class ApprovalScreenContent extends StatelessWidget {
-  const ApprovalScreenContent({Key? key}) : super(key: key);
+  const ApprovalScreenContent({super.key});
 
   @override
   Widget build(BuildContext context) {

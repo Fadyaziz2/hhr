@@ -5,7 +5,6 @@ import 'package:onesthrm/page/approval/view/content/approval_details_tile_conten
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/common_elevated_button.dart';
-
 import 'leave_type_content.dart';
 
 class ApprovalDetailsScreen extends StatelessWidget {
@@ -30,8 +29,7 @@ class ApprovalDetailsScreen extends StatelessWidget {
         body: Stack(
           children: [
             FutureBuilder(
-              future: bloc.onApprovalDetails(
-                  approvalId: approvalId, approvalUserId: approvalUserId),
+              future: bloc.onApprovalDetails(approvalId: approvalId, approvalUserId: approvalUserId),
               builder: (_, snapshot) {
                 final data = snapshot.data?.approvalDetailsData;
                 final isStatus = bloc.isApproved(data?.status);
