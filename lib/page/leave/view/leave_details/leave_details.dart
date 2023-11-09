@@ -16,8 +16,7 @@ class LeaveDetails extends StatefulWidget {
   final int requestId;
   final int userId;
 
-  const LeaveDetails({Key? key, required this.requestId, required this.userId})
-      : super(key: key);
+  const LeaveDetails({super.key, required this.requestId, required this.userId});
 
   @override
   State<LeaveDetails> createState() => _LeaveDetailsState();
@@ -129,10 +128,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        height: 20,
+                        height: 40.0,
                       ),
                     ],
                   ),
