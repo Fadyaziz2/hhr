@@ -1,19 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 
 class CheckInCheckOutButton extends StatefulWidget {
-
   final DashboardModel homeData;
 
-  const CheckInCheckOutButton({Key? key,required this.homeData}) : super(key: key);
+  const CheckInCheckOutButton({Key? key, required this.homeData})
+      : super(key: key);
 
   @override
   State<CheckInCheckOutButton> createState() => _CheckInCheckOutButtonState();
 }
 
-class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton> with TickerProviderStateMixin{
-
+class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton>
+    with TickerProviderStateMixin {
   late AnimationController controller;
 
   @override
@@ -25,9 +26,7 @@ class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton> with Tick
 
     controller.addStatusListener((AnimationStatus status) {
       print('AnimationStatus ${status.name}');
-      setState(() {
-
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -78,7 +77,7 @@ class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton> with Tick
                       offset: const Offset(0, 3),
                     )
                   ]),
-              child:  CircularProgressIndicator(
+              child: CircularProgressIndicator(
                 strokeWidth: 5,
                 value: controller.value,
                 valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
@@ -87,49 +86,46 @@ class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton> with Tick
             ClipOval(
               child: Material(
                   child: Container(
-                    height: 170,
-                    width: 170,
-                    decoration:  const BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            colorPrimary,
-                            Color(0xFF00CCFF)
-                          ],
-                          begin: FractionalOffset(1.0, 0.0),
-                          end: FractionalOffset(0.0, 3.0),
-                          stops: [0.0, 1.0],
-                          tileMode: TileMode.clamp),
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Image.asset(
-                              "assets/images/tap_figer.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text(
-                              "check In",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
+                height: 170,
+                width: 170,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [colorPrimary, Color(0xFF00CCFF)],
+                      begin: FractionalOffset(1.0, 0.0),
+                      end: FractionalOffset(0.0, 3.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Image.asset(
+                          "assets/images/tap_figer.png",
+                          height: 50,
+                          width: 50,
+                        ),
                       ),
-                    ),
-                  )),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(
+                          "check_in".tr(),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
             )
           ],
         ),

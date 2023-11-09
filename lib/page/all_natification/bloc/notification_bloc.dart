@@ -24,7 +24,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   void _onNotificationDataLoad(
       LoadNotificationData event, Emitter<NotificationState> emit) async {
-    emit(const NotificationState(status: NetworkStatus.loading));
+    emit(state.copy(status: NetworkStatus.loading));
     try {
       NotificationResponse? notificationResponse =
           await _metaClubApiClient.getNotification();
