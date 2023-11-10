@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -37,7 +38,8 @@ class _PersonalFormState extends State<PersonalForm> {
   void initState() {
     personal.gender = widget.profile?.personal?.gender?.toLowerCase() ?? 'male';
     personal.phone = widget.profile?.personal?.phone;
-    personal.birthDate = getDDMMYYYYAsString(date:widget.profile?.personal?.birthDate ?? '');
+    personal.birthDate =
+        getDDMMYYYYAsString(date: widget.profile?.personal?.birthDate ?? '');
     personal.address = widget.profile?.personal?.address;
     personal.nationality = widget.profile?.personal?.nationality;
     personal.nidCardNumber = widget.profile?.personal?.nid;
@@ -50,19 +52,21 @@ class _PersonalFormState extends State<PersonalForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GenderRadioContent(personal: personal, bloc: widget.bloc, onPersonalUpdate: (personalData){
-          personal.gender = personalData.gender;
-          widget.onPersonalUpdate(personalData);
-        }),
+        GenderRadioContent(
+            personal: personal,
+            bloc: widget.bloc,
+            onPersonalUpdate: (personalData) {
+              personal.gender = personalData.gender;
+              widget.onPersonalUpdate(personalData);
+            }),
         const SizedBox(
           height: 16.0,
         ),
         CustomTextField(
-          title: 'phone',
+          title: 'phone'.tr(),
           value: '${widget.profile?.personal?.phone}',
           onData: (data) {
             personal.phone = data;
@@ -72,15 +76,18 @@ class _PersonalFormState extends State<PersonalForm> {
         const SizedBox(
           height: 16.0,
         ),
-        const Text(
-          'Date Of Birth',
-          style: TextStyle(
+        Text(
+          'date_of_birth'.tr(),
+          style: const TextStyle(
               color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         CustomDatePicker(
-          label: getDateddMMMyyyyString(dateTime: widget.bloc.state.dateTime) ?? personal.birthDate ?? 'Select Birth Date',
+          label: getDateddMMMyyyyString(dateTime: widget.bloc.state.dateTime) ??
+              personal.birthDate ??
+              'Select Birth Date',
           onDatePicked: (DateTime date) {
-            personal.birthDate = getDateAsString(dateTime: date, format: 'yyyy-MM-dd');
+            personal.birthDate =
+                getDateAsString(dateTime: date, format: 'yyyy-MM-dd');
             widget.onPersonalUpdate(personal);
             widget.bloc.add(OnJoiningDateUpdate(date: date));
           },
@@ -89,7 +96,7 @@ class _PersonalFormState extends State<PersonalForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Address',
+          title: 'address'.tr(),
           value: widget.profile?.personal?.address ?? '',
           onData: (data) {
             personal.address = data;
@@ -100,7 +107,7 @@ class _PersonalFormState extends State<PersonalForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Nationality',
+          title: 'nationality'.tr(),
           value: widget.profile?.personal?.nationality ?? '',
           onData: (data) {
             personal.nationality = data;
@@ -111,7 +118,7 @@ class _PersonalFormState extends State<PersonalForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'NID',
+          title: 'nid'.tr(),
           value: widget.profile?.personal?.nid ?? '',
           onData: (data) {
             personal.nidCardNumber = data;
@@ -122,7 +129,7 @@ class _PersonalFormState extends State<PersonalForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Passport Number',
+          title: 'passport_number'.tr(),
           value: widget.profile?.personal?.nid ?? '',
           onData: (data) {
             personal.passportNumber = data;
@@ -132,13 +139,18 @@ class _PersonalFormState extends State<PersonalForm> {
         const SizedBox(
           height: 16.0,
         ),
-        BlocBuilder<UpdateProfileBloc,UpdateProfileState>(
-          builder: (context,state){
-            return SimpleDropDown(items: bloodGroup, title: 'Blood', onChanged: (bloodGroup) {
-              personal.bloodGroup = bloodGroup;
-              widget.onPersonalUpdate(personal);
-              widget.bloc.add(OnBloodUpdate(bloodGroup: bloodGroup!));
-            }, initialData: widget.bloc.state.bloodGroup ?? personal.bloodGroup);
+        BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
+          builder: (context, state) {
+            return SimpleDropDown(
+                items: bloodGroup,
+                title: 'blood'.tr(),
+                onChanged: (bloodGroup) {
+                  personal.bloodGroup = bloodGroup;
+                  widget.onPersonalUpdate(personal);
+                  widget.bloc.add(OnBloodUpdate(bloodGroup: bloodGroup!));
+                },
+                initialData:
+                    widget.bloc.state.bloodGroup ?? personal.bloodGroup);
           },
         ),
         const SizedBox(
@@ -146,9 +158,10 @@ class _PersonalFormState extends State<PersonalForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(slug: 'personal', data: personal.toJson()));
+            widget.bloc
+                .add(ProfileUpdate(slug: 'personal', data: personal.toJson()));
           },
-          text: 'save',
+          text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
         ),
