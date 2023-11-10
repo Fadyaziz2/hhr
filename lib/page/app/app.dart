@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
@@ -17,7 +18,8 @@ class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
 
-  const App({Key? key,
+  const App(
+      {Key? key,
       required this.authenticationRepository,
       required this.userRepository})
       : super(key: key);
@@ -28,7 +30,10 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
+          BlocProvider(
+              create: (_) => AuthenticationBloc(
+                  authenticationRepository: authenticationRepository,
+                  userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc())
         ],
@@ -59,52 +64,59 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: _navigatorKey,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
       builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
-                break;
-              default:
-                break;
-            }
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          navigatorKey: _navigatorKey,
+          builder: (context, child) {
+            return BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case AuthenticationStatus.authenticated:
+                    _navigator.pushAndRemoveUntil(
+                      BottomNavigationPage.route(),
+                      (route) => false,
+                    );
+                    break;
+                  case AuthenticationStatus.unauthenticated:
+                    _navigator.pushAndRemoveUntil(
+                        LoginPage.route(), (route) => false);
+                    break;
+                  default:
+                    break;
+                }
+              },
+              child: child,
+            );
           },
-          child: child,
+          theme: ThemeData(
+            dialogTheme: const DialogTheme(backgroundColor: Colors.white),
+            scaffoldBackgroundColor: Colors.white,
+            useMaterial3: true,
+            primaryColor: colorPrimary,
+            appBarTheme: AppBarTheme(
+                backgroundColor: colorPrimary,
+                systemOverlayStyle:
+                    const SystemUiOverlayStyle(statusBarColor: colorPrimary),
+                iconTheme: const IconThemeData(color: Colors.white),
+                titleTextStyle: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: Colors.white)),
+            colorScheme: Theme.of(context)
+                .colorScheme
+                .copyWith(primary: colorPrimary, background: Colors.white),
+          ),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          onGenerateRoute: (_) => SplashScreen.route(),
         );
       },
-      theme: ThemeData(
-        dialogTheme: const DialogTheme(
-          backgroundColor: Colors.white
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        useMaterial3: true,
-        primaryColor: colorPrimary,
-        appBarTheme: AppBarTheme(
-            backgroundColor: colorPrimary,
-            systemOverlayStyle:
-                const SystemUiOverlayStyle(statusBarColor: colorPrimary),
-            iconTheme: const IconThemeData(color: Colors.white),
-            titleTextStyle: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Colors.white)),
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: colorPrimary,
-          background: Colors.white
-            ),
-      ),
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      onGenerateRoute: (_) => SplashScreen.route(),
     );
   }
 }

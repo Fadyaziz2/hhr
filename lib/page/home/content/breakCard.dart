@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';
@@ -33,14 +34,14 @@ class BreakCard extends StatelessWidget {
                 dashboardModel: dashboardModel));
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(vertical: 20.h),
             child: Row(
               children: [
                 Expanded(
                   child: Lottie.asset(
                     'assets/images/tea_time.json',
-                    height: 65.0,
-                    width: 65.0,
+                    height: 65.0.h,
+                    width: 65.0.w,
                   ),
                 ),
                 Expanded(
@@ -52,20 +53,20 @@ class BreakCard extends StatelessWidget {
                                   'break_out'
                               ? "You're in break"
                               : "take_coffee".tr(),
-                          style: const TextStyle(
-                              fontSize: 16,
+                          style: TextStyle(
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               height: 1.5,
                               letterSpacing: 0.5)),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Text(
                         dashboardModel?.data?.config?.breakStatus?.status !=
                                 'break_out'
                             ? '${dashboardModel?.data?.config?.breakStatus?.breakTime}'
                             : 'break'.tr(),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: colorPrimary,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),

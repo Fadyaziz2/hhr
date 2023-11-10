@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
@@ -133,8 +134,8 @@ class _AttendanceState extends State<AttendanceView>
                           : colorDeepRed,
                     ),
 
-                  const SizedBox(
-                    height: 35,
+                  SizedBox(
+                    height: 35.h,
                   ),
 
                   /// Show Check In Check Out time
@@ -142,7 +143,7 @@ class _AttendanceState extends State<AttendanceView>
                     CheckInCheckOutTime(
                       homeData: homeData,
                     ),
-                  const SizedBox(height: 70.0)
+                  SizedBox(height: 70.0.h)
                 ],
               ),
             ),

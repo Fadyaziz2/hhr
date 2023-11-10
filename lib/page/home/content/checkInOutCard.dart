@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
@@ -32,7 +33,7 @@ class CheckInOutCard extends StatelessWidget {
                 AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(vertical: 20.h),
             child: Row(
               children: [
                 Expanded(
@@ -40,8 +41,8 @@ class CheckInOutCard extends StatelessWidget {
                     dashboardModel?.data?.attendanceData?.checkIn == false
                         ? 'assets/home_icon/in.svg'
                         : 'assets/home_icon/out.svg',
-                    height: 40,
-                    width: 40,
+                    height: 40.h,
+                    width: 40.w,
                     placeholderBuilder: (BuildContext context) => Container(
                         padding: const EdgeInsets.all(30.0),
                         child: const CircularProgressIndicator()),

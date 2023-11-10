@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
@@ -19,8 +20,8 @@ class ShowCurrentTime extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: 20.h,
           ),
           Directionality(
             textDirection: direction,
@@ -30,23 +31,24 @@ class ShowCurrentTime extends StatelessWidget {
               areaDecoration: BoxDecoration(
                 border: Border.all(color: Colors.transparent),
               ),
-              hourMinuteDigitTextStyle: const TextStyle(
-                color: Color(0xFF404A58),
-                fontSize: 50,
+              hourMinuteDigitTextStyle: TextStyle(
+                color: const Color(0xFF404A58),
+                fontSize: 50.sp,
               ),
               amPmDigitTextStyle: const TextStyle(
                   color: Color(0xFF404A58), fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
-          Text(DateFormat('yMMMMEEEEd', 'en').format(DateTime.now()),
+          Text(
+            DateFormat('yMMMMEEEEd', 'en').format(DateTime.now()),
             style: GoogleFonts.nunitoSans(
                 fontSize: 20, color: const Color(0xFF404A58)),
           ),
-          const SizedBox(
-            height: 20.0,
+          SizedBox(
+            height: 20.0.h,
           ),
         ],
       ),

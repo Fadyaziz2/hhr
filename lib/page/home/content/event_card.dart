@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/const.dart';
 import 'event_card_item.dart';
@@ -24,12 +25,12 @@ class EventCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14.0),
             child: SizedBox(
-              width: 125,
+              width: 125.w,
               child: Column(
                 children: [
                   Image.network(
                     '${data?.image}',
-                    height: 25,
+                    height: 25.h,
                     color: mainColor,
                   ),
                   Wrap(
@@ -37,8 +38,8 @@ class EventCard extends StatelessWidget {
                     children: [
                       Text(
                         '${data?.number}',
-                        style: const TextStyle(
-                            fontSize: 30,
+                        style: TextStyle(
+                            fontSize: 30.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
@@ -97,12 +98,12 @@ class EventCard2 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14.0),
             child: SizedBox(
-              width: 125,
+              width: 125.w,
               child: Column(
                 children: [
                   Image.network(
                     '${data?.image}',
-                    height: 25,
+                    height: 25.h,
                     color: mainColor,
                   ),
                   Wrap(
@@ -131,8 +132,8 @@ class EventCard2 extends StatelessWidget {
                   Text(
                     data?.title ?? '',
                     maxLines: 1,
-                    style: const TextStyle(
-                        fontSize: 14,
+                    style: TextStyle(
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
@@ -170,7 +171,7 @@ class UpcomingEventCard extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/new_Upcoming_Event.png',
-            height: 185,
+            height: 185.h,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
