@@ -48,6 +48,7 @@ class SelectLeaveType extends DailyLeaveEvent {
 class ApplyLeave extends DailyLeaveEvent {
   final int userId;
   final BuildContext context;
+
   ApplyLeave({required this.userId, required this.context});
 
   @override
@@ -64,21 +65,16 @@ class SelectEmployee extends DailyLeaveEvent {
 }
 
 class LeaveTypeList extends DailyLeaveEvent {
-  final String? date;
   final String leaveType;
-  final String? userId;
+  final String userId;
   final String leaveStatus;
 
   LeaveTypeList(
-    this.date,
     this.leaveType,
     this.userId,
     this.leaveStatus,
   );
 
   @override
-  List<Object> get props => [
-        leaveType,
-        leaveStatus,
-      ];
+  List<Object> get props => [leaveType, leaveStatus, userId];
 }

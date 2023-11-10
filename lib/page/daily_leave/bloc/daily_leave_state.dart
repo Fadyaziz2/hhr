@@ -47,6 +47,7 @@ class DailyLeaveState extends Equatable {
         currentMonth,
         leaveTypeModel,
         approxTime,
-        selectEmployee
+        selectEmployee,
+        leaveTypeListData
       ];
 }
