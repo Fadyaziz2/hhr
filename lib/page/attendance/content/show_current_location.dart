@@ -15,8 +15,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 class ShowCurrentLocation extends StatelessWidget {
   final DashboardModel homeData;
 
-  const ShowCurrentLocation({Key? key, required this.homeData})
-      : super(key: key);
+  const ShowCurrentLocation({super.key, required this.homeData});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +24,11 @@ class ShowCurrentLocation extends StatelessWidget {
         Container(
           color: const Color(0xffB7E3E8),
           child: Padding(
-            padding: EdgeInsets.all(16.0.sp),
+            padding: EdgeInsets.all(8.0.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/images/map_marker_icon.json',
-                    height: 35.h, width: 35.w),
+                Lottie.asset('assets/images/map_marker_icon.json', height: 30.h, width: 30.w),
                 Expanded(
                   child: SizedBox(
                     child: Text(
@@ -63,8 +61,8 @@ class ShowCurrentLocation extends StatelessWidget {
                               child: Center(
                                 child: Lottie.asset(
                                   'assets/images/Refresh.json',
-                                  height: 24,
-                                  width: 24,
+                                  height: 24.h,
+                                  width: 24.w,
                                 ),
                               ),
                             ),
@@ -86,23 +84,23 @@ class ShowCurrentLocation extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 20.h,
+          height: 16.h,
         ),
         Text("choose_your_remote_mode".tr(),
             style: GoogleFonts.nunitoSans(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
                 color: Colors.black87,
                 fontWeight: FontWeight.bold)),
         SizedBox(
-          height: 15.h,
+          height: 8.h,
         ),
         FutureBuilder<int?>(
           future: SharedUtil.getRemoteModeType(),
           builder: (context, snapshot) {
             return SizedBox(
-              height: 45.0.h,
+              height: 40.0.h,
               child: ToggleSwitch(
-                minWidth: 110.0,
+                minWidth: 110.0.w,
                 borderColor: const [
                   colorPrimary,
                 ],

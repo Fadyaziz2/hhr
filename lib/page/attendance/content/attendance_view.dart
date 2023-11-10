@@ -20,7 +20,7 @@ import 'check_in_check_out_time.dart';
 class AttendanceView extends StatefulWidget {
   final HomeBloc homeBloc;
 
-  const AttendanceView({Key? key, required this.homeBloc}) : super(key: key);
+  const AttendanceView({super.key, required this.homeBloc});
 
   @override
   State<AttendanceView> createState() => _AttendanceState();
