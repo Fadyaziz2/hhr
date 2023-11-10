@@ -24,7 +24,7 @@ class HomeHeader extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          bottom: 10,
+          bottom: 16.h,
           right: 0,
           left: 0,
           child: Image.asset(

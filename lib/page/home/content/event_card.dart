@@ -90,20 +90,20 @@ class EventCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.only(left: 12.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: TextButton(
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: SizedBox(
-              width: 125.w,
+              width: 100.w,
               child: Column(
                 children: [
                   Image.network(
                     '${data?.image}',
-                    height: 25.h,
+                    height: 20.h,
                     color: mainColor,
                   ),
                   Wrap(
@@ -111,8 +111,8 @@ class EventCard2 extends StatelessWidget {
                     children: [
                       Text(
                         '${data?.number}',
-                        style: const TextStyle(
-                            fontSize: 30,
+                        style: TextStyle(
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
@@ -120,9 +120,9 @@ class EventCard2 extends StatelessWidget {
                       if (days == true)
                         Text(
                           'days'.tr(),
-                          style: const TextStyle(
-                              color: Color(0xFF777777),
-                              fontSize: 12,
+                          style: TextStyle(
+                              color: const Color(0xFF777777),
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500,
                               height: 4,
                               letterSpacing: 0.5),
@@ -158,53 +158,56 @@ class UpcomingEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 5,
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            'assets/images/new_Upcoming_Event.png',
-            height: 185.h,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('upcoming_events'.tr(),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        height: 1.5,
-                        letterSpacing: 0.5)),
-                Text('public_holiday_and_even'.tr(),
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                        color: Color(0xFF555555),
-                        letterSpacing: 0.5)),
-                const SizedBox(
-                  height: 6,
-                ),
-                Column(
-                  children: events
-                      .map((e) => EventCardItem(upcomingItems: e))
-                      .toList(),
-                )
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Card(
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 5,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/new_Upcoming_Event.png',
+              height: 120.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('upcoming_events'.tr(),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.5)),
+                  Text('public_holiday_and_even'.tr(),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                          color: Color(0xFF555555),
+                          letterSpacing: 0.5)),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Column(
+                    children: events
+                        .map((e) => EventCardItem(upcomingItems: e))
+                        .toList(),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
