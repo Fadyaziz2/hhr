@@ -33,49 +33,46 @@ class BreakCard extends StatelessWidget {
                 homeBloc: context.read<HomeBloc>(),
                 dashboardModel: dashboardModel));
           },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Lottie.asset(
-                    'assets/images/tea_time.json',
-                    height: 65.0.h,
-                    width: 65.0.w,
-                  ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Lottie.asset(
+                  'assets/images/tea_time.json',
+                  height: 60.0.h,
+                  width: 60.0.w,
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          dashboardModel?.data?.config?.breakStatus?.status !=
-                                  'break_out'
-                              ? "You're in break"
-                              : "take_coffee".tr(),
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                              letterSpacing: 0.5)),
-                      SizedBox(height: 10.h),
-                      Text(
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                         dashboardModel?.data?.config?.breakStatus?.status !=
                                 'break_out'
-                            ? '${dashboardModel?.data?.config?.breakStatus?.breakTime}'
-                            : 'break'.tr(),
+                            ? "You're in break"
+                            : "take_coffee".tr(),
                         style: TextStyle(
-                            color: colorPrimary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
-                            letterSpacing: 0.5),
-                      ),
-                    ],
-                  ),
+                            letterSpacing: 0.5)),
+                    // SizedBox(height: 10.h),
+                    Text(
+                      dashboardModel?.data?.config?.breakStatus?.status !=
+                              'break_out'
+                          ? '${dashboardModel?.data?.config?.breakStatus?.breakTime}'
+                          : 'break'.tr(),
+                      style: TextStyle(
+                          color: colorPrimary,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5,
+                          letterSpacing: 0.5),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           )),
     );
   }

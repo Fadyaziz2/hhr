@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -23,6 +24,7 @@ class HomeHeader extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
+          bottom: 10,
           right: 0,
           left: 0,
           child: Image.asset(
@@ -34,8 +36,8 @@ class HomeHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 40.0,
+            SizedBox(
+              height: 10.0.h,
             ),
             Row(
               children: [
@@ -50,26 +52,20 @@ class HomeHeader extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Text(
-                          settings?.data?.timeWish?.wish ??
-                              dashboardModel?.data?.config?.timeWish?.wish ??
-                              '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
+                            settings?.data?.timeWish?.wish ??
+                                dashboardModel?.data?.config?.timeWish?.wish ??
+                                '',
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
                           '${user?.user?.name}',
-                          style: const TextStyle(
-                              fontSize: 15,
+                          style: TextStyle(
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
                               height: 1.5,
                               color: Colors.white),
@@ -109,22 +105,22 @@ class HomeHeader extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 16.0,
+              height: 10.0,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 'today_summary'.tr(),
-                style: const TextStyle(
-                    fontSize: 16,
+                style: TextStyle(
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
                     color: Colors.white,
                     letterSpacing: 0.5),
               ),
             ),
-            const SizedBox(
-              height: 8.0,
+            SizedBox(
+              height: 20.0.h,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,

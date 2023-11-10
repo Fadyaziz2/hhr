@@ -17,15 +17,15 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.only(left: 10.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: TextButton(
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            padding: EdgeInsets.symmetric(vertical: 5.0.h),
             child: SizedBox(
-              width: 125.w,
+              width: 100.w,
               child: Column(
                 children: [
                   Image.network(
@@ -39,7 +39,7 @@ class EventCard extends StatelessWidget {
                       Text(
                         '${data?.number}',
                         style: TextStyle(
-                            fontSize: 30.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
@@ -59,8 +59,8 @@ class EventCard extends StatelessWidget {
                   Text(
                     data?.title ?? '',
                     maxLines: 1,
-                    style: const TextStyle(
-                        fontSize: 14,
+                    style: TextStyle(
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),

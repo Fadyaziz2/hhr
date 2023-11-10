@@ -25,7 +25,7 @@ class CheckInOutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 18.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
@@ -33,7 +33,7 @@ class CheckInOutCard extends StatelessWidget {
                 AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             child: Row(
               children: [
                 Expanded(
@@ -56,19 +56,18 @@ class CheckInOutCard extends StatelessWidget {
                           dashboardModel?.data?.attendanceData?.id == null
                               ? "start_time".tr()
                               : "done_for_today".tr(),
-                          style: const TextStyle(
-                              fontSize: 16,
+                          style: TextStyle(
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               height: 1.5,
                               letterSpacing: 0.5)),
-                      const SizedBox(height: 10),
                       Text(
                         dashboardModel?.data?.attendanceData?.id == null
                             ? "check_in".tr()
                             : "check_out".tr(),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: colorPrimary,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
