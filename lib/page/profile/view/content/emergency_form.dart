@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -26,7 +27,6 @@ class EmergencyForm extends StatefulWidget {
 }
 
 class _EmergencyFormState extends State<EmergencyForm> {
-
   BodyEmergencyInfo emergency = BodyEmergencyInfo();
 
   @override
@@ -39,7 +39,6 @@ class _EmergencyFormState extends State<EmergencyForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,7 +46,7 @@ class _EmergencyFormState extends State<EmergencyForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Name',
+          title: 'name'.tr(),
           value: widget.profile?.emergency?.name,
           hints: widget.profile?.emergency?.name,
           onData: (data) {
@@ -59,7 +58,7 @@ class _EmergencyFormState extends State<EmergencyForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Mobile',
+          title: 'mobile'.tr(),
           value: widget.profile?.emergency?.mobile,
           hints: widget.profile?.emergency?.mobile,
           onData: (data) {
@@ -71,7 +70,7 @@ class _EmergencyFormState extends State<EmergencyForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Relationship',
+          title: 'relationship'.tr(),
           value: widget.profile?.emergency?.relationship,
           hints: widget.profile?.emergency?.relationship,
           onData: (data) {
@@ -84,9 +83,10 @@ class _EmergencyFormState extends State<EmergencyForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(slug: 'emergency', data: emergency.toJson()));
+            widget.bloc.add(
+                ProfileUpdate(slug: 'emergency', data: emergency.toJson()));
           },
-          text: 'save',
+          text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
         ),

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
@@ -21,19 +22,19 @@ class CheckInCheckOutTime extends StatelessWidget {
               Icons.watch_later_outlined,
               color: colorPrimary,
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 5.h,
             ),
             Text(
               globalState.get(inTime) ?? "--:--",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 5.h,
             ),
             Text(
               "check_in".tr(),
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
             ),
           ],
         ),
@@ -43,19 +44,19 @@ class CheckInCheckOutTime extends StatelessWidget {
               Icons.watch_later_outlined,
               color: colorPrimary,
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 5.h,
             ),
             Text(
               globalState.get(outTime) ?? "--:--",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
               "check_out".tr(),
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
             ),
           ],
         ),
@@ -65,19 +66,19 @@ class CheckInCheckOutTime extends StatelessWidget {
               Icons.history,
               color: colorPrimary,
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 5.h,
             ),
             Text(
               globalState.get(stayTime) ?? "--:--",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
               "working_hr".tr(),
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
             )
           ],
         ),

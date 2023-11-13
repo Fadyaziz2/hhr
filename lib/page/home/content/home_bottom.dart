@@ -21,9 +21,6 @@ class HomeBottom extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 16.0,
-        ),
         UpcomingEventCard(
           events: dashboardModel?.data?.upcomingEvents ?? [],
         ),

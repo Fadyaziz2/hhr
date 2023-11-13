@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -26,7 +27,6 @@ class FinancialForm extends StatefulWidget {
 }
 
 class _FinancialFormState extends State<FinancialForm> {
-
   BodyFinancialInfo financial = BodyFinancialInfo();
 
   @override
@@ -40,7 +40,6 @@ class _FinancialFormState extends State<FinancialForm> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -60,7 +59,7 @@ class _FinancialFormState extends State<FinancialForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Bank Account',
+          title: 'bank_account'.tr(),
           value: widget.profile?.financial?.bankAccount,
           hints: widget.profile?.financial?.bankAccount,
           onData: (data) {
@@ -72,7 +71,7 @@ class _FinancialFormState extends State<FinancialForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Bank Name',
+          title: 'bank_name'.tr(),
           value: widget.profile?.financial?.bankName,
           hints: widget.profile?.financial?.bankName,
           onData: (data) {
@@ -85,9 +84,10 @@ class _FinancialFormState extends State<FinancialForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(slug: 'financial', data: financial.toJson()));
+            widget.bloc.add(
+                ProfileUpdate(slug: 'financial', data: financial.toJson()));
           },
-          text: 'save',
+          text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
         ),
