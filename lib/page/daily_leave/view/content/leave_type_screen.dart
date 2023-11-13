@@ -2,36 +2,37 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
-import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
+import 'package:onesthrm/page/daily_leave/model/leave_list_model.dart';
 import 'package:onesthrm/page/daily_leave/view/content/leave_type_view_screen.dart';
-import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class LeaveTypeScreen extends StatelessWidget {
   final String? appBarName;
+  final LeaveListModel leaveListData;
 
-  const LeaveTypeScreen({super.key, this.appBarName});
+  const LeaveTypeScreen(
+      {super.key, this.appBarName, required this.leaveListData});
 
   @override
   Widget build(BuildContext context) {
+    final dailyLeaveBloc = context.read<DailyLeaveBloc>();
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarName ?? ''),
       ),
-      body: BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
-        builder: (context, state) {
-          if (state.leaveTypeListData != null || state.status != NetworkStatus.loading) {
+      body: FutureBuilder(
+        future: dailyLeaveBloc.onLeaveTypeList(leaveListData),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
             return Column(
               children: [
-                state.leaveTypeListData?.data?.data?.isNotEmpty == true
+                snapshot.data?.data?.data?.isNotEmpty == true
                     ? ListView.builder(
                         shrinkWrap: true,
-                        itemCount:
-                            state.leaveTypeListData?.data?.data?.length ?? 0,
+                        itemCount: snapshot.data?.data?.data?.length ?? 0,
                         itemBuilder: (BuildContext context, int index) {
-                          final data =
-                              state.leaveTypeListData?.data?.data?[index];
+                          final data = snapshot.data?.data?.data?[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
@@ -117,7 +118,7 @@ class LeaveTypeScreen extends StatelessWidget {
               ],
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

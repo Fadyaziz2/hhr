@@ -64,7 +64,7 @@ class SelectEmployee extends DailyLeaveEvent {
   List<Object> get props => [selectEmployee];
 }
 
-class LeaveTypeList extends DailyLeaveEvent {
+/*class LeaveTypeList extends DailyLeaveEvent {
   final String leaveType;
   final String userId;
   final String leaveStatus;
@@ -77,4 +77,4 @@ class LeaveTypeList extends DailyLeaveEvent {
 
   @override
   List<Object> get props => [leaveType, leaveStatus, userId];
-}
+}*/

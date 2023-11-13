@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
-import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
+import 'package:onesthrm/page/daily_leave/model/leave_list_model.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_tile.dart';
 import 'package:onesthrm/page/daily_leave/view/content/leave_type_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -37,17 +38,22 @@ class DailyLeaveApproved extends StatelessWidget {
         ),
         DailyLeaveTile(
             onTap: () {
-              dailyLeaveBloc.add(LeaveTypeList(
-                "early_leave",
-                user!.user!.id!.toString(),
-                'approved',
-              ));
+              // dailyLeaveBloc.add(LeaveTypeList(
+              //   "early_leave",
+              //   user!.user!.id!.toString(),
+              //   'approved',
+              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
                     value: context.read<DailyLeaveBloc>(),
-                    child: const LeaveTypeScreen(
+                    child: LeaveTypeScreen(
                       appBarName: "Early Leave",
+                      leaveListData: LeaveListModel(
+                          userId: user!.user!.id!.toString(),
+                          month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now()),
+                          leaveStatus: 'approved',
+                          leaveType:  "early_leave"),
                     )),
               );
             },
@@ -55,13 +61,22 @@ class DailyLeaveApproved extends StatelessWidget {
             value: approved?.earlyLeave.toString() ?? ''),
         DailyLeaveTile(
             onTap: () {
-              dailyLeaveBloc.add(LeaveTypeList("late_arrive", user!.user!.id!.toString(), 'approved',));
+              // dailyLeaveBloc.add(LeaveTypeList(
+              //   "late_arrive",
+              //   user!.user!.id!.toString(),
+              //   'approved',
+              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
                     value: context.read<DailyLeaveBloc>(),
-                    child: const LeaveTypeScreen(
+                    child: LeaveTypeScreen(
                       appBarName: "Early Leave",
+                      leaveListData: LeaveListModel(
+                          userId: user!.user!.id!.toString(),
+                          month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now()),
+                          leaveStatus: 'approved',
+                          leaveType:  "late_arrive"),
                     )),
               );
             },

@@ -25,22 +25,22 @@ class DailyLeaveStatusContent extends StatelessWidget {
           child: LeaveListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        return const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Approved Leave =============
-              ApplyDailySelectEmployee(bloc: bloc),
+              /// Select Employee =============
+              ApplyDailySelectEmployee(),
 
               /// Approved Leave ===============
-              const DailyLeaveApproved(),
+              DailyLeaveApproved(),
 
               /// pending Leave ===============
-              const DailyLeavePending(),
+              DailyLeavePending(),
 
               /// Rejected Leave ===============
-              const DailyLeaveReject(),
+              DailyLeaveReject(),
             ],
           ),
         );

@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
+import 'package:onesthrm/page/daily_leave/model/leave_list_model.dart';
 import 'package:onesthrm/page/daily_leave/model/leave_type_model.dart';
 
 import '../../../res/date_utils.dart';
@@ -27,7 +28,6 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     on<SelectLeaveType>(_onSelectLeaveType);
     on<ApplyLeave>(_onApplyLeave);
     on<SelectEmployee>(_selectEmployee);
-    on<LeaveTypeList>(_onLeaveTypeList);
   }
 
   ///leave type defined
@@ -53,10 +53,16 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
 
   FutureOr<void> _dailyLeaveSummary(
       DailyLeaveSummary event, Emitter<DailyLeaveState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading, currentMonth: state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now())));
+    emit(state.copyWith(
+        status: NetworkStatus.loading,
+        currentMonth:
+            state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now())));
     try {
-      DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient.dailyLeaveSummary(event.userId, state.currentMonth);
-      emit(state.copyWith(dailyLeaveSummaryModel: dailyLeaveSummaryModel, status: NetworkStatus.success));
+      DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient
+          .dailyLeaveSummary(event.userId, state.currentMonth);
+      emit(state.copyWith(
+          dailyLeaveSummaryModel: dailyLeaveSummaryModel,
+          status: NetworkStatus.success));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
     }
@@ -102,7 +108,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
   }
 
-  FutureOr<void> _onLeaveTypeList(LeaveTypeList event, Emitter<DailyLeaveState> emit) async {
+/*  FutureOr<void> _onLeaveTypeList(LeaveTypeList event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final LeaveTypeListModel? leaveTypeListData = await _metaClubApiClient.dailyLeaveSummaryStaffView(userId: state.selectEmployee?.id.toString() ??  event.userId, month: state.currentMonth, leaveStatus: event.leaveStatus, leaveType: event.leaveType);
@@ -115,5 +121,22 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }*/
+
+  Future<LeaveTypeListModel?> onLeaveTypeList(LeaveListModel leaveListModel) async {
+    try {
+      final leaveTypeListData =
+          await _metaClubApiClient.dailyLeaveSummaryStaffView(
+              userId:
+                  state.selectEmployee?.id.toString() ?? leaveListModel.userId,
+              // month: state.currentMonth,
+              month: leaveListModel.month,
+              leaveStatus: leaveListModel.leaveStatus,
+              leaveType: leaveListModel.leaveType);
+      return leaveTypeListData;
+    } catch (e) {
+      throw NetworkRequestFailure(e.toString());
+    }
+    return null;
   }
 }
