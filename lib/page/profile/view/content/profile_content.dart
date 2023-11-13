@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -30,10 +31,15 @@ class ProfileContent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-               Center(
-                child: UploadContent(onFileUploaded: (FileUpload? data) {
-                  context.read<ProfileBloc>().add(ProfileAvatarUpdate(avatarId: data?.fileId));
-                },initialAvatar: state.profile?.personal?.avatar,),
+              Center(
+                child: UploadContent(
+                  onFileUploaded: (FileUpload? data) {
+                    context
+                        .read<ProfileBloc>()
+                        .add(ProfileAvatarUpdate(avatarId: data?.fileId));
+                  },
+                  initialAvatar: state.profile?.personal?.avatar,
+                ),
               ),
               Expanded(
                 child: TabBarView(
@@ -46,15 +52,21 @@ class ProfileContent extends StatelessWidget {
                         : const SizedBox.shrink(),
                     state.profile?.personal != null
                         ? PersonalProfileContent(
-                            profile: state.profile!,settings: settings,)
+                            profile: state.profile!,
+                            settings: settings,
+                          )
                         : const SizedBox.shrink(),
                     state.profile?.financial != null
                         ? FinancialProfileContent(
-                            profile: state.profile!, settings: settings,)
+                            profile: state.profile!,
+                            settings: settings,
+                          )
                         : const SizedBox.shrink(),
                     state.profile?.emergency != null
                         ? EmergencyProfileContent(
-                            profile: state.profile!,settings: settings,)
+                            profile: state.profile!,
+                            settings: settings,
+                          )
                         : const SizedBox.shrink(),
                   ],
                 ),
@@ -73,8 +85,9 @@ class ProfileContent extends StatelessWidget {
                       onPressed: () => showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          content: const Text(
-                              'Are you sure, you want to delete the account'),
+                          content: Text(
+                              'Are_you_sure_,_you_want_to_delete_the_account'
+                                  .tr()),
                           actions: [
                             TextButton(
                                 onPressed: () => Navigator.of(context).pop(),
@@ -91,11 +104,14 @@ class ProfileContent extends StatelessWidget {
                           ],
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red,shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      )),
-                      child: const Text('Delete Account',
-                          style: TextStyle(fontSize: 16,color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          )),
+                      child: Text('delete_account'.tr(),
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.white)),
                     ),
                   ),
                 );
@@ -105,8 +121,8 @@ class ProfileContent extends StatelessWidget {
         }
       }
       if (state.status == NetworkStatus.failure) {
-        return const Center(
-          child: Text('Failed to load profile'),
+        return Center(
+          child: Text('failed_to_load_profile'.tr()),
         );
       }
       return const SizedBox();

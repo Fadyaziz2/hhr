@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -7,11 +8,12 @@ import '../../bloc/profile/profile_bloc.dart';
 import 'edit_profile_info.dart';
 
 class FinancialProfileContent extends StatelessWidget {
-
   final Profile profile;
   final Settings? settings;
 
-  const FinancialProfileContent({Key? key,required this.profile,required this.settings}) : super(key: key);
+  const FinancialProfileContent(
+      {Key? key, required this.profile, required this.settings})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +24,26 @@ class FinancialProfileContent extends StatelessWidget {
             height: 20,
           ),
           buildProfileDetails(
-              title: "TIN",
-              description: profile.financial?.tin  ?? "N/A"),
+              title: "tin".tr(), description: profile.financial?.tin ?? "N/A"),
           buildProfileDetails(
-              title: "Bank Name",
-              description: profile.financial?.bankName  ?? "N/A"),
+              title: "bank_name".tr(),
+              description: profile.financial?.bankName ?? "N/A"),
           buildProfileDetails(
-              title: "Bank Account No",
-              description: profile.financial?.bankAccount  ?? "N/A"),
+              title: "bank_account_no".tr(),
+              description: profile.financial?.bankAccount ?? "N/A"),
           const SizedBox(
             height: 16.0,
           ),
-          CustomButton1(onTap: () {
-            Navigator.of(context).push(
-                EditOfficialInfo.route(
-                    bloc: context.read<ProfileBloc>(),
-                    pageName: 'financial',
-                    settings: settings,
-                    profile: profile));
-          }, text: 'Edit Financial Info',),
+          CustomButton1(
+            onTap: () {
+              Navigator.of(context).push(EditOfficialInfo.route(
+                  bloc: context.read<ProfileBloc>(),
+                  pageName: 'financial'.tr(),
+                  settings: settings,
+                  profile: profile));
+            },
+            text: 'editFinancial_info'.tr(),
+          ),
           const SizedBox(
             height: 24.0,
           ),
