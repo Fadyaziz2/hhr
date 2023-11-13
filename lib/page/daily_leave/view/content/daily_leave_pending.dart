@@ -54,7 +54,7 @@ class DailyLeavePending extends StatelessWidget {
               );
             },
             title: 'Early Leave',
-            value: pending?.earlyLeave.toString() ?? ''),
+            value: pending?.earlyLeave.toString() ?? '', color: Colors.yellow,),
         DailyLeaveTile(
             onTap: () {
               NavUtil.navigateScreen(
@@ -72,7 +72,7 @@ class DailyLeavePending extends StatelessWidget {
               );
             },
             title: 'Late Leave',
-            value: pending?.lateArrive.toString() ?? ''),
+            value: pending?.lateArrive.toString() ?? '', color: Colors.yellow,),
       ],
     );
   }

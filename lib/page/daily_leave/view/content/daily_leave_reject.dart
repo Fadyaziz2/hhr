@@ -50,7 +50,7 @@ class DailyLeaveReject extends StatelessWidget {
               );
             },
             title: 'Early Leave',
-            value: rejected?.earlyLeave.toString() ?? ''),
+            value: rejected?.earlyLeave.toString() ?? '', color: Colors.red,),
         DailyLeaveTile(
             onTap: () {
               NavUtil.navigateScreen(
@@ -68,7 +68,7 @@ class DailyLeaveReject extends StatelessWidget {
               );
             },
             title: 'Late Leave',
-            value: rejected?.lateArrive.toString() ?? ''),
+            value: rejected?.lateArrive.toString() ?? '', color: Colors.red,),
       ],
     );
   }

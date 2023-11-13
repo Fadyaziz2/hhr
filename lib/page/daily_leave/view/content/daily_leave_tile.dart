@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 class DailyLeaveTile extends StatelessWidget {
   const DailyLeaveTile(
-      {super.key, required this.title, required this.value, this.onTap});
+      {super.key,
+      required this.title,
+      required this.value,
+      this.onTap,
+      required this.color});
 
   final String title;
   final String value;
+  final Color color;
   final Function()? onTap;
 
   @override
@@ -17,7 +22,7 @@ class DailyLeaveTile extends StatelessWidget {
           height: 20,
           width: 20,
           decoration: BoxDecoration(
-              color: Colors.green, borderRadius: BorderRadius.circular(100)),
+              color: color, borderRadius: BorderRadius.circular(100)),
         ),
         title: Text(
           title,
