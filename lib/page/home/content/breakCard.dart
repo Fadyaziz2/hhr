@@ -34,14 +34,14 @@ class BreakCard extends StatelessWidget {
                 dashboardModel: dashboardModel));
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h),
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
               children: [
                 Expanded(
                   child: Lottie.asset(
                     'assets/images/tea_time.json',
-                    height: 65.0.h,
-                    width: 65.0.w,
+                    height: 55.0.h,
+                    width: 55.0.w,
                   ),
                 ),
                 Expanded(
@@ -58,7 +58,7 @@ class BreakCard extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               height: 1.5,
                               letterSpacing: 0.5)),
-                      SizedBox(height: 10.h),
+                      // SizedBox(height: 10.h),
                       Text(
                         dashboardModel?.data?.config?.breakStatus?.status !=
                                 'break_out'
