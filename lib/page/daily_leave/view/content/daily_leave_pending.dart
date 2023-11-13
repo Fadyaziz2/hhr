@@ -39,11 +39,6 @@ class DailyLeavePending extends StatelessWidget {
         ),
         DailyLeaveTile(
             onTap: () {
-              // dailyLeaveBloc.add(LeaveTypeList(
-              //   "early_leave",
-              //   user!.user!.id!.toString(),
-              //   'pending',
-              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
@@ -62,11 +57,6 @@ class DailyLeavePending extends StatelessWidget {
             value: pending?.earlyLeave.toString() ?? ''),
         DailyLeaveTile(
             onTap: () {
-              // dailyLeaveBloc.add(LeaveTypeList(
-              //   "late_arrive",
-              //   user!.user!.id!.toString(),
-              //   'pending',
-              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(

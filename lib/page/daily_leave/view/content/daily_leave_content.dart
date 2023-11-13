@@ -34,10 +34,6 @@ class DailyLeaveContent extends StatelessWidget {
           const SizedBox(height: 20),
           AnimatedCircularButton(
             onComplete: () {
-              // Navigator.push(
-              //     context,
-              //     DailyCreatePage.route(
-              //         dailyLeaveBloc: context.read<DailyLeaveBloc>()));
               NavUtil.navigateScreen(
                   context,
                   BlocProvider.value(

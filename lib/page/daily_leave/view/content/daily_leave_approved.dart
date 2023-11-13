@@ -38,11 +38,6 @@ class DailyLeaveApproved extends StatelessWidget {
         ),
         DailyLeaveTile(
             onTap: () {
-              // dailyLeaveBloc.add(LeaveTypeList(
-              //   "early_leave",
-              //   user!.user!.id!.toString(),
-              //   'approved',
-              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
@@ -61,11 +56,6 @@ class DailyLeaveApproved extends StatelessWidget {
             value: approved?.earlyLeave.toString() ?? ''),
         DailyLeaveTile(
             onTap: () {
-              // dailyLeaveBloc.add(LeaveTypeList(
-              //   "late_arrive",
-              //   user!.user!.id!.toString(),
-              //   'approved',
-              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(

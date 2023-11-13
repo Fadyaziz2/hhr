@@ -35,11 +35,6 @@ class DailyLeaveReject extends StatelessWidget {
         ),
         DailyLeaveTile(
             onTap: () {
-              // dailyLeaveBloc.add(LeaveTypeList(
-              //   "early_leave",
-              //   user!.user!.id!.toString(),
-              //   'rejected',
-              // ));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
@@ -58,7 +53,6 @@ class DailyLeaveReject extends StatelessWidget {
             value: rejected?.earlyLeave.toString() ?? ''),
         DailyLeaveTile(
             onTap: () {
-              // context.read<DailyLeaveBloc>().add(LeaveTypeList("late_arrive", user!.user!.id!.toString(), 'rejected'));
               NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(

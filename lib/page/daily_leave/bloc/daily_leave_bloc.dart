@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -106,6 +104,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
   FutureOr<void> _selectEmployee(
       SelectEmployee event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
+    add(DailyLeaveSummary(event.selectEmployee.id!));
   }
 
 /*  FutureOr<void> _onLeaveTypeList(LeaveTypeList event, Emitter<DailyLeaveState> emit) async {
@@ -123,7 +122,8 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     }
   }*/
 
-  Future<LeaveTypeListModel?> onLeaveTypeList(LeaveListModel leaveListModel) async {
+  Future<LeaveTypeListModel?> onLeaveTypeList(
+      LeaveListModel leaveListModel) async {
     try {
       final leaveTypeListData =
           await _metaClubApiClient.dailyLeaveSummaryStaffView(
