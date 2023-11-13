@@ -57,7 +57,6 @@ class LeaveTypeScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  // Text('${data.designation} \n${data.tlApprovalMsg}'),
                                   trailing: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -65,10 +64,13 @@ class LeaveTypeScreen extends StatelessWidget {
                                       // if (!leaveStatus!.contains('approved') &&
                                       //     !leaveStatus!.contains('rejected'))
                                       InkWell(
-                                        onTap: () => NavUtil.navigateScreen(
+                                        onTap: () => NavUtil.replaceScreen(
                                           context,
-                                          LeaveTypeViewScreen(
-                                            data: data,
+                                          BlocProvider.value(
+                                            value: context.read<DailyLeaveBloc>(),
+                                            child: LeaveTypeViewScreen(
+                                              data: data,
+                                            ),
                                           ),
                                         ),
                                         child: Container(

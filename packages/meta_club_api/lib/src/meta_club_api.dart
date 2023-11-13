@@ -342,6 +342,22 @@ class MetaClubApiClient {
     }
   }
 
+  Future dailyLeaveApprovalAction(data)async{
+    const String api = 'daily-leave/approve-reject';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<Profile?> getProfile() async {
     const String api = 'user/profile-info';
 

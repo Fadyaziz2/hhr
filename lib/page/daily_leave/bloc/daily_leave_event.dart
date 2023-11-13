@@ -64,17 +64,18 @@ class SelectEmployee extends DailyLeaveEvent {
   List<Object> get props => [selectEmployee];
 }
 
-/*class LeaveTypeList extends DailyLeaveEvent {
-  final String leaveType;
-  final String userId;
+class LeaveAction extends DailyLeaveEvent {
+  final int userId;
+  final int leaveId;
   final String leaveStatus;
+  final BuildContext context;
 
-  LeaveTypeList(
-    this.leaveType,
-    this.userId,
-    this.leaveStatus,
-  );
+  LeaveAction(
+      {required this.leaveId,
+      required this.leaveStatus,
+      required this.context,
+      required this.userId});
 
   @override
-  List<Object> get props => [leaveType, leaveStatus, userId];
-}*/
+  List<Object> get props => [leaveId, leaveStatus, context, userId];
+}
