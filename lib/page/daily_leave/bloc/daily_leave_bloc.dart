@@ -45,7 +45,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       locale: const Locale("en"),
     );
     String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    add(DailyLeaveSummary(event.userId));
+    add(DailyLeaveSummary(state.selectEmployee?.id ?? event.userId));
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
   }

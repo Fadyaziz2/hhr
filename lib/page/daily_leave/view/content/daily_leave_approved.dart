@@ -61,7 +61,7 @@ class DailyLeaveApproved extends StatelessWidget {
                 BlocProvider.value(
                     value: context.read<DailyLeaveBloc>(),
                     child: LeaveTypeScreen(
-                      appBarName: "Early Leave",
+                      appBarName: "Late Leave",
                       leaveListData: LeaveListModel(
                           userId: user!.user!.id!.toString(),
                           month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now()),

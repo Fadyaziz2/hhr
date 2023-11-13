@@ -25,74 +25,89 @@ class DailyCreatePage extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
-                builder: (BuildContext context, state) {
-              return Column(
-                children: [
-                  ...List.generate(
-                      bloc.leave?.length ?? 0,
-                      (index) => Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4),
-                            child: RadioListTile(
-                                title: Text(bloc.leave?[index].title ?? ''),
-                                value: bloc.leave?[index],
-                                groupValue: state.leaveTypeModel,
-                                onChanged: (value) {
-                                  context.read<DailyLeaveBloc>().add(
-                                      SelectLeaveType(leaveTypeModel: value!));
-                                }),
-                          )),
-                  Card(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    child: ListTile(
-                      onTap: () {
-                        showTimePicker(
-                                context: context, initialTime: TimeOfDay.now())
-                            .then((value) {
-                          if (value != null) {
-                            var selectedTime = value.format(context);
-                            context
-                                .read<DailyLeaveBloc>()
-                                .add(SelectApproxTime(selectedTime));
-                          }
-                        });
-                      },
-                      leading: const Icon(Icons.access_time_outlined),
-                      title: Text(state.approxTime ?? 'Time'),
-                      trailing: const Icon(Icons.keyboard_arrow_down_sharp),
-                    ),
-                  ),
-                ],
-              );
-            }),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextFormField(
-                  controller: bloc.reasonTextController,
-                  maxLines: 6,
-                  validator: (val) =>
-                      val!.isEmpty ? "Reason can't be empty" : null,
-                  style: const TextStyle(fontSize: 14),
-                  decoration: const InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-                      hintText: 'Write Reason',
-                      hintStyle: TextStyle(fontSize: 12),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 2),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
+                        builder: (BuildContext context, state) {
+                      return Column(
+                        children: [
+                          ...List.generate(
+                              bloc.leave?.length ?? 0,
+                              (index) => Card(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 4),
+                                    child: RadioListTile(
+                                        title: Text(
+                                            bloc.leave?[index].title ?? ''),
+                                        value: bloc.leave?[index],
+                                        groupValue: state.leaveTypeModel,
+                                        onChanged: (value) {
+                                          context.read<DailyLeaveBloc>().add(
+                                              SelectLeaveType(
+                                                  leaveTypeModel: value!));
+                                        }),
+                                  )),
+                          Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            child: ListTile(
+                              onTap: () {
+                                showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now())
+                                    .then((value) {
+                                  if (value != null) {
+                                    var selectedTime = value.format(context);
+                                    context
+                                        .read<DailyLeaveBloc>()
+                                        .add(SelectApproxTime(selectedTime));
+                                  }
+                                });
+                              },
+                              leading: const Icon(Icons.access_time_outlined),
+                              title: Text(state.approxTime ?? 'Time'),
+                              trailing:
+                                  const Icon(Icons.keyboard_arrow_down_sharp),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: TextFormField(
+                        controller: bloc.reasonTextController,
+                        maxLines: 6,
+                        validator: (val) =>
+                            val!.isEmpty ? "Reason can't be empty" : null,
+                        style: const TextStyle(fontSize: 14),
+                        decoration: const InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 16),
+                            hintText: 'Write Reason',
+                            hintStyle: TextStyle(fontSize: 12),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 2),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 2, color: Colors.blue),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 2, color: Colors.black12),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            )),
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2, color: Colors.blue),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2, color: Colors.black12),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      )),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -108,7 +123,8 @@ class DailyCreatePage extends StatelessWidget {
                   padding: 16,
                   isLoading: bloc.state.status == NetworkStatus.loading,
                   clickButton: () {
-                    if (formKey.currentState!.validate() && bloc.state.status == NetworkStatus.success) {
+                    if (formKey.currentState!.validate() &&
+                        bloc.state.status == NetworkStatus.success) {
                       context.read<DailyLeaveBloc>().add(ApplyLeave(
                           userId: user!.user!.id!, context: context));
                     }

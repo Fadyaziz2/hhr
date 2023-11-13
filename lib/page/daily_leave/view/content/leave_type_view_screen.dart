@@ -82,8 +82,8 @@ class LeaveTypeViewScreen extends StatelessWidget {
                             ),
                             CardTileWithContent(
                               title: 'Manager Approval',
-                              value:
-                              data?.approvalDetails?.managerApproval ?? 'N/A',
+                              value: data?.approvalDetails?.managerApproval ??
+                                  'N/A',
                             ),
                             CardTileWithContent(
                               title: 'HR Approval',
@@ -93,49 +93,56 @@ class LeaveTypeViewScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CustomElevatedButton(
-                        onTap: () {
-                          bloc.add(LeaveAction(
-                            userId: user!.user!.id!,
-                            leaveId: data!.id!,
-                            leaveStatus: 'approved',
-                            context: context,
-                          ));
-                        },
-                        title: const Text(
-                          'Approved',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        bgColor: colorPrimary,
+                    Visibility(
+                      visible: data?.status != 'Approved',
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CustomElevatedButton(
+                              onTap: () {
+                                bloc.add(LeaveAction(
+                                  userId: user!.user!.id!,
+                                  leaveId: data!.id!,
+                                  leaveStatus: 'approved',
+                                  context: context,
+                                ));
+                              },
+                              title: const Text(
+                                'Approved',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              bgColor: colorPrimary,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CustomElevatedButton(
+                              onTap: () {
+                                bloc.add(LeaveAction(
+                                  userId: user!.user!.id!,
+                                  leaveId: data!.id!,
+                                  leaveStatus: 'rejected',
+                                  context: context,
+                                ));
+                              },
+                              title: const Text(
+                                'Reject',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              bgColor: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CustomElevatedButton(
-                        onTap: () {
-                          bloc.add(LeaveAction(
-                            userId: user!.user!.id!,
-                            leaveId: data!.id!,
-                            leaveStatus: 'rejected',
-                            context: context,
-                          ));
-                        },
-                        title: const Text(
-                          'Reject',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        bgColor: Colors.red,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               ),
               NetworkStatus.loading == bloc.state.status
                   ? const Center(
-                child: CircularProgressIndicator(),
-              )
+                      child: CircularProgressIndicator(),
+                    )
                   : const SizedBox()
             ],
           );
