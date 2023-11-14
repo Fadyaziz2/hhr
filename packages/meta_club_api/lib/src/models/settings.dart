@@ -22,7 +22,7 @@ class Settings extends Equatable {
 }
 
 class Setting extends Equatable {
-  Setting(
+  const Setting(
       {this.isIpEnabled,
       this.timeWish,
       this.timeZone,
@@ -39,7 +39,8 @@ class Setting extends Equatable {
       this.attendanceMethod,
       this.departments = const [],
       this.designations = const [],
-      this.employeeTypes = const []});
+      this.employeeTypes = const [],
+      this.appTheme});
 
   final bool? isIpEnabled;
   final bool? isHr;
@@ -58,6 +59,7 @@ class Setting extends Equatable {
   final List<Department> departments;
   final List<Department> designations;
   final List<String> employeeTypes;
+  final int? appTheme;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
       isHr: json["is_hr"],
@@ -84,11 +86,12 @@ class Setting extends Equatable {
           ? List<Department>.from(
               (json["designations"] as List).map((e) => Department.fromJson(e)))
           : [],
-      employeeTypes: List<String>.from(json["employee_types"]));
+      employeeTypes: List<String>.from(json["employee_types"]),
+      appTheme: json['app_theme']);
 
   @override
   List<Object?> get props =>
-      [isIpEnabled, currencyCode, attendanceMethod, isAdmin, isFaceRegistered];
+      [isIpEnabled, currencyCode, attendanceMethod, isAdmin, isFaceRegistered, appTheme];
 }
 
 class DutySchedule {
@@ -227,7 +230,7 @@ class BarikoiAPI {
       };
 }
 
-class Department extends Equatable{
+class Department extends Equatable {
   final int? id;
   final String? title;
 
@@ -238,5 +241,5 @@ class Department extends Equatable{
   }
 
   @override
-  List<Object?> get props => [id,title];
+  List<Object?> get props => [id, title];
 }
