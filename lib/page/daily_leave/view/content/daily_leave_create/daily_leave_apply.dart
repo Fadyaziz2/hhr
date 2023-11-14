@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_reason.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_select_time.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_create/daily_leave_reason.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_create/daily_leave_select_time.dart';
 
-import '../../bloc/daily_leave_bloc.dart';
-import '../../bloc/daily_leave_state.dart';
+import '../../../bloc/daily_leave_bloc.dart';
+import '../../../bloc/daily_leave_state.dart';
 
 class DailyLeaveApply extends StatelessWidget {
   const DailyLeaveApply({
@@ -42,6 +42,8 @@ class DailyLeaveApply extends StatelessWidget {
                           }),
                     ),
                   ),
+
+                  /// leave time select
                   const DailyLeaveSelectTime(),
                 ],
               );

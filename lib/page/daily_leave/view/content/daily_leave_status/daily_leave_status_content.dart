@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_approved.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_pending.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_reject.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_select_employee.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_approved.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_pending.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_reject.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_select_employee.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/res/enum.dart';
 
-import '../../../../res/const.dart';
+import '../../../../../res/const.dart';
 
 class DailyLeaveStatusContent extends StatelessWidget {
   const DailyLeaveStatusContent({super.key});
@@ -34,7 +34,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
               /// Select Employee =============
               Visibility(
                 visible: user?.user?.isHr == true,
-                  child: ApplyDailySelectEmployee(bloc: context.read<DailyLeaveBloc>())),
+                  child: const ApplyDailySelectEmployee()),
 
               /// Approved Leave ===============
               const DailyLeaveApproved(),

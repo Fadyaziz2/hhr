@@ -9,7 +9,7 @@ import '../../../attendance/content/animated_circular_button.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/daily_leave_event.dart';
 import '../daily_create_page.dart';
-import 'daily_leave_status_content.dart';
+import 'daily_leave_status/daily_leave_status_content.dart';
 
 class DailyLeaveContent extends StatelessWidget {
   const DailyLeaveContent({super.key});

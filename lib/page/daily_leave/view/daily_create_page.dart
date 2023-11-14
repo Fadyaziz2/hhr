@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
-import 'package:onesthrm/page/daily_leave/view/content/daily_leave_apply.dart';
+import 'package:onesthrm/page/daily_leave/view/content/daily_leave_create/daily_leave_apply.dart';
 import 'package:onesthrm/res/enum.dart';
 
 import '../../../res/widgets/custom_button.dart';
