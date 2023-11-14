@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../models/message.dart';
 import '../models/user_model.dart';
 
-class FirebaseService {
+class ChatService {
   ///create new user
   void createAndUpdateUserInfo(map, uid) {
     FirebaseFirestore.instance.collection('users').doc(uid).set(map);

@@ -40,7 +40,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseService database = FirebaseService();
+    ChatService database = ChatService();
     final chatUser = widget.friend.id;
 
     return Scaffold(

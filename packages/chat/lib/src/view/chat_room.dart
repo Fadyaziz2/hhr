@@ -14,7 +14,7 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
 
-  final FirebaseService _database = FirebaseService();
+  final ChatService _database = ChatService();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                   String? lastMessage = snapshot.data?.elementAt(index).message;
 
-                  FirebaseService().getUserData(chatUser ?? '');
+                  ChatService().getUserData(chatUser ?? '');
 
                   ///after retrieve chat uid
                   ///then we can access user profile
