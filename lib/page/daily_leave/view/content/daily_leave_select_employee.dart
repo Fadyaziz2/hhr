@@ -17,12 +17,14 @@ class ApplyDailySelectEmployee extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () async {
-          PhoneBookUser employee = await Navigator.push(
+          PhoneBookUser? employee = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const SelectEmployeePage(),
               ));
-          bloc.add(SelectEmployee(employee));
+          if(employee != null){
+            bloc.add(SelectEmployee(employee));
+          }
         },
         title: Text(bloc.state.selectEmployee?.name! ?? 'Select Employee'),
         leading: CircleAvatar(

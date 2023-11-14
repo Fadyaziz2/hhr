@@ -77,5 +77,5 @@ class LeaveAction extends DailyLeaveEvent {
       required this.userId});
 
   @override
-  List<Object> get props => [leaveId, leaveStatus, context, userId];
+  List<Object> get props => [leaveId, leaveStatus, userId];
 }

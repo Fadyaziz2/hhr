@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_approved.dart';
@@ -16,9 +17,9 @@ class DailyLeaveStatusContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
     return BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
         builder: (context, state) {
-      final bloc = context.read<DailyLeaveBloc>();
       if (state.status == NetworkStatus.loading) {
         return const Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0),
@@ -31,7 +32,9 @@ class DailyLeaveStatusContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// Select Employee =============
-              ApplyDailySelectEmployee(bloc: bloc,),
+              Visibility(
+                visible: user?.user?.isHr == true,
+                  child: ApplyDailySelectEmployee(bloc: context.read<DailyLeaveBloc>())),
 
               /// Approved Leave ===============
               const DailyLeaveApproved(),

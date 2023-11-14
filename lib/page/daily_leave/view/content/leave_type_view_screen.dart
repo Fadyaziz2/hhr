@@ -94,11 +94,12 @@ class LeaveTypeViewScreen extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: data?.status != 'Approved',
+                      visible: data?.status != 'Approved' && user?.user?.isHr == true,
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: CustomElevatedButton(
                               onTap: () {
                                 bloc.add(LeaveAction(
@@ -116,7 +117,8 @@ class LeaveTypeViewScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: CustomElevatedButton(
                               onTap: () {
                                 bloc.add(LeaveAction(
