@@ -50,7 +50,7 @@ class PersonalProfileContent extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(EditOfficialInfo.route(
                   bloc: context.read<ProfileBloc>(),
-                  pageName: 'personal'.tr(),
+                  pageName: 'personal',
                   settings: settings,
                   profile: profile));
             },

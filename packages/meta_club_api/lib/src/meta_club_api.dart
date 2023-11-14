@@ -18,7 +18,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/leave_request_model.dart';
 
 class MetaClubApiClient {
   String token;
@@ -1085,6 +1084,20 @@ class MetaClubApiClient {
       final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
       if (response.statusCode == 200) {
         return ApprovalModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Visit List ========================
+  Future<VisitListModel?> getVisitList() async {
+    const String api = 'visit/list';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return VisitListModel.fromJson(response?.data);
       }
       return null;
     } catch (_) {
