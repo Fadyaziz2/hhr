@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -6,18 +8,23 @@ import '../../../res/const.dart';
 import 'event_card.dart';
 
 class HomeHeader extends StatelessWidget {
-
   final Settings? settings;
   final LoginData? user;
   final DashboardModel? dashboardModel;
 
-  const HomeHeader({Key? key,required this.settings,required this.user,required this.dashboardModel}) : super(key: key);
+  const HomeHeader(
+      {Key? key,
+      required this.settings,
+      required this.user,
+      required this.dashboardModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned(
+          bottom: 16.h,
           right: 0,
           left: 0,
           child: Image.asset(
@@ -28,8 +35,10 @@ class HomeHeader extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-            const SizedBox(height: 40.0,),
+          children: [
+            SizedBox(
+              height: 10.0.h,
+            ),
             Row(
               children: [
                 const SizedBox(
@@ -38,41 +47,39 @@ class HomeHeader extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                        const EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 8),
                         child: Text(
-                          settings?.data?.timeWish?.wish ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white,fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
+                            settings?.data?.timeWish?.wish ??
+                                dashboardModel?.data?.config?.timeWish?.wish ??
+                                '',
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child:Text(
+                        child: Text(
                           '${user?.user?.name}',
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight:
-                              FontWeight.bold,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
                               height: 1.5,
                               color: Colors.white),
                         ),
                       ),
                       Padding(
-                        padding:
-                        const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          settings?.data?.timeWish?.subTitle ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
+                          settings?.data?.timeWish?.subTitle ??
+                              dashboardModel?.data?.config?.timeWish?.wish ??
+                              '',
                           style: const TextStyle(
                               fontSize: 14,
-                              fontWeight:
-                              FontWeight.w400,
+                              fontWeight: FontWeight.w400,
                               height: 1.5,
                               color: Colors.white),
                         ),
@@ -80,45 +87,52 @@ class HomeHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                if(settings?.data?.timeWish != null || dashboardModel?.data?.config?.timeWish != null)
-                SvgPicture.network(
-                  settings?.data?.timeWish?.image ?? dashboardModel?.data?.config?.timeWish?.image ?? '',
-                  semanticsLabel: 'sun',
-                  height: 60,
-                  width: 60,
-                  placeholderBuilder:
-                      (BuildContext context) =>
-                  const SizedBox(),
-                ),
+                if (settings?.data?.timeWish != null ||
+                    dashboardModel?.data?.config?.timeWish != null)
+                  SvgPicture.network(
+                    settings?.data?.timeWish?.image ??
+                        dashboardModel?.data?.config?.timeWish?.image ??
+                        '',
+                    semanticsLabel: 'sun',
+                    height: 60,
+                    width: 60,
+                    placeholderBuilder: (BuildContext context) =>
+                        const SizedBox(),
+                  ),
                 const SizedBox(
                   width: 10,
                 )
               ],
             ),
-            const SizedBox(height: 16.0,),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Today summary',
+                'today_summary'.tr(),
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
                     color: Colors.white,
                     letterSpacing: 0.5),
               ),
             ),
-            const SizedBox(height: 8.0,),
+            SizedBox(
+              height: 20.0.h,
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               child: Row(
                   children: List.generate(
-                    dashboardModel?.data?.today?.length ?? 0, (index) => EventCard(
-                    data: dashboardModel?.data?.today![index],
-                    onPressed: () => null,
-                  ),
-                  )),
+                dashboardModel?.data?.today?.length ?? 0,
+                (index) => EventCard(
+                  data: dashboardModel?.data?.today![index],
+                  onPressed: () => null,
+                ),
+              )),
             ),
           ],
         ),

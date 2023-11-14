@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -16,11 +17,12 @@ class OfficialForm extends StatefulWidget {
   final Settings? settings;
   final Function(BodyOfficialInfo) onOfficialUpdate;
 
-  const OfficialForm({Key? key,
-    required this.profile,
-    required this.bloc,
-    required this.onOfficialUpdate,
-    required this.settings})
+  const OfficialForm(
+      {Key? key,
+      required this.profile,
+      required this.bloc,
+      required this.onOfficialUpdate,
+      required this.settings})
       : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _OfficialFormState extends State<OfficialForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextField(
-          title: 'Name',
+          title: 'name'.tr(),
           value: '${widget.profile?.official?.name}',
           onData: (data) {
             official.name = data;
@@ -58,7 +60,7 @@ class _OfficialFormState extends State<OfficialForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'email*',
+          title: 'email*'.tr(),
           value: '${widget.profile?.official?.email}',
           onData: (data) {
             official.email = data;
@@ -68,11 +70,11 @@ class _OfficialFormState extends State<OfficialForm> {
         const SizedBox(
           height: 16.0,
         ),
-        BlocBuilder<UpdateProfileBloc,UpdateProfileState>(
-          builder: (context,state){
+        BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
+          builder: (context, state) {
             return ProfileDropDown(
               items: widget.settings?.data?.departments ?? [],
-              title: 'Department',
+              title: 'department'.tr(),
               item: widget.bloc.state.department ??
                   Department(
                       id: widget.profile?.official?.departmentId,
@@ -88,19 +90,21 @@ class _OfficialFormState extends State<OfficialForm> {
         const SizedBox(
           height: 16.0,
         ),
-        const Text(
-          'Date Of Joining',
-          style: TextStyle(
+        Text(
+          'date_of_joining'.tr(),
+          style: const TextStyle(
               color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
         ),
         CustomDatePicker(
-          label: getDateddMMMyyyyString(dateTime: widget.bloc.state.dateTime) ?? official.joiningDate ?? 'Select Joining Date',
+          label: getDateddMMMyyyyString(dateTime: widget.bloc.state.dateTime) ??
+              official.joiningDate ??
+              'date_of_joining'.tr(),
           onDatePicked: (DateTime date) {
-
-            official.joiningDate = getDateAsString(dateTime: date, format: 'yyyy-MM-dd');
+            official.joiningDate =
+                getDateAsString(dateTime: date, format: 'yyyy-MM-dd');
             widget.onOfficialUpdate(official);
             widget.bloc.add(OnJoiningDateUpdate(date: date));
           },
@@ -108,26 +112,28 @@ class _OfficialFormState extends State<OfficialForm> {
         const SizedBox(
           height: 16.0,
         ),
-        const Text(
-          'Employee Id',
-          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+        Text(
+          'employee_id'.tr(),
+          style: TextStyle(
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
         ),
-         TextField(
+        TextField(
           style: const TextStyle(fontSize: 14),
           keyboardType: TextInputType.emailAddress,
           onChanged: (data) {
             official.employeeId = data;
             widget.onOfficialUpdate(official);
           },
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             fillColor: Colors.red,
-            contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
-            hintText: 'Enter Employee Id',
-            hintStyle: TextStyle(fontSize: 12),
-            border: OutlineInputBorder(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
+            hintText: 'enter_employee_id'.tr(),
+            hintStyle: const TextStyle(fontSize: 12),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
           ),
@@ -137,9 +143,10 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         CustomButton1(
           onTap: () {
-            widget.bloc.add(ProfileUpdate(slug: 'official', data: official.toJson()));
+            widget.bloc
+                .add(ProfileUpdate(slug: 'official', data: official.toJson()));
           },
-          text: 'save',
+          text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
         ),

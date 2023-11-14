@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,24 +11,23 @@ class GenderRadioContent extends StatelessWidget {
   final Bloc bloc;
   final Function(BodyPersonalInfo) onPersonalUpdate;
 
-  const GenderRadioContent(
-      {Key? key,
-        required this.personal,
-        required this.bloc,
-        required this.onPersonalUpdate,})
-      : super(key: key);
+  const GenderRadioContent({
+    Key? key,
+    required this.personal,
+    required this.bloc,
+    required this.onPersonalUpdate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     personal.gender ??= bloc.state.gender;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "gender*",
-          style: TextStyle(
+        Text(
+          "gender*".tr(),
+          style: const TextStyle(
               color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
@@ -46,7 +46,7 @@ class GenderRadioContent extends StatelessWidget {
                   onPersonalUpdate(personal);
                   bloc.add(OnGenderUpdate(gender: personal.gender!));
                 },
-                title: 'male',
+                title: 'male'.tr(),
                 initialData: personal.gender,
               ),
             ),
@@ -60,7 +60,7 @@ class GenderRadioContent extends StatelessWidget {
                   onPersonalUpdate(personal);
                   bloc.add(OnGenderUpdate(gender: personal.gender!));
                 },
-                title: 'female',
+                title: 'female'.tr(),
                 initialData: personal.gender,
               ),
             ),
@@ -74,7 +74,7 @@ class GenderRadioContent extends StatelessWidget {
                   onPersonalUpdate(personal);
                   bloc.add(OnGenderUpdate(gender: personal.gender!));
                 },
-                title: 'unisex',
+                title: 'unisex'.tr(),
                 initialData: personal.gender,
               ),
             ),

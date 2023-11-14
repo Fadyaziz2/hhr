@@ -17,7 +17,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             buildContainer(
-                title: 'Appointment with',
+                title: 'appointment_with'.tr(),
                 titleValue: data?.appointmentWith ?? ''),
             buildContainer(
                 title: tr("description"), titleValue: data?.title ?? ''),

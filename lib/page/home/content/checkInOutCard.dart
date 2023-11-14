@@ -1,6 +1,7 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
@@ -9,72 +10,65 @@ import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 
 class CheckInOutCard extends StatelessWidget {
-
   final Settings? settings;
   final LoginData? user;
   final DashboardModel? dashboardModel;
 
-  const CheckInOutCard({Key? key,required this.settings,required this.user,required this.dashboardModel}) : super(key: key);
-
+  const CheckInOutCard(
+      {Key? key,
+      required this.settings,
+      required this.user,
+      required this.dashboardModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 18.0),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0)),
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            Navigator.push(context,
+                AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             child: Row(
               children: [
                 Expanded(
                   child: SvgPicture.asset(
-                    dashboardModel?.data?.attendanceData?.checkIn == false ? 'assets/home_icon/in.svg'
+                    dashboardModel?.data?.attendanceData?.checkIn == false
+                        ? 'assets/home_icon/in.svg'
                         : 'assets/home_icon/out.svg',
-                    height: 40,
-                    width: 40,
-                    placeholderBuilder: (BuildContext
-                    context) =>
-                        Container(
-                            padding:
-                            const EdgeInsets
-                                .all(30.0),
-                            child:
-                            const CircularProgressIndicator()),
+                    height: 40.h,
+                    width: 40.w,
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: const CircularProgressIndicator()),
                   ),
                 ),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                           dashboardModel?.data?.attendanceData?.id == null
-                              ? "Start time"
-                              : "Done for today",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight:
-                              FontWeight
-                                  .w500,
+                              ? "start_time".tr()
+                              : "done_for_today".tr(),
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                               height: 1.5,
-                              letterSpacing:
-                              0.5)),
-                      const SizedBox(
-                          height: 10),
-                       Text(
-                         dashboardModel?.data?.attendanceData?.id == null ? "Check In": "Check Out",
-                        style: const TextStyle(
+                              letterSpacing: 0.5)),
+                      Text(
+                        dashboardModel?.data?.attendanceData?.id == null
+                            ? "check_in".tr()
+                            : "check_out".tr(),
+                        style: TextStyle(
                             color: colorPrimary,
-                            fontSize: 16,
-                            fontWeight:
-                            FontWeight.w500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
                       ),

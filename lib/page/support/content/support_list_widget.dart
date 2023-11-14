@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/support/content/support_ticket_item.dart';
@@ -37,8 +38,8 @@ class SupportListWidget extends StatelessWidget {
                 ),
               );
       } else if (state.status == NetworkStatus.failure) {
-        return const Center(
-          child: Text("Failed to load support list"),
+        return Center(
+          child: const Text("failed_to_load_support_list").tr(),
         );
       } else {
         return const SizedBox();

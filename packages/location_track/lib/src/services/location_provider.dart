@@ -17,10 +17,10 @@ Future openLocationBox() async {
 }
 
 class LocationServiceProvider {
-
   late LocationService locationServiceProvider;
   HiveLocationProvider locationProvider = HiveLocationProvider();
-  FirebaseLocationStoreProvider locationStoreProvider = FirebaseLocationStoreProvider();
+  FirebaseLocationStoreProvider locationStoreProvider =
+      FirebaseLocationStoreProvider();
 
   GeoLocatorService geoService = GeoLocatorService();
   LocationData userLocation = LocationData.fromMap({});
@@ -29,37 +29,35 @@ class LocationServiceProvider {
   late StreamSubscription locationSubscription;
   LatLng initialCameraPosition = const LatLng(23.256555, 90.157965);
 
-
-
   ///return future location
   Future<Position?> getUserPositionFuture() async {
     return await geoService.getCordFuture();
   }
 
   Future<String?> onLocationRefresh() async {
-   Position? position = await getUserPositionFuture();
-   if(position != null) {
-     final places = await getAddressByPosition(position: position);
-     placeMark = places?.first;
-     place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
-   }
-   return place;
+    Position? position = await getUserPositionFuture();
+    if (position != null) {
+      final places = await getAddressByPosition(position: position);
+      placeMark = places?.first;
+      place =
+          '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+    }
+    return place;
   }
 
   ///return driver current location stream
   ///for this we use another package called {Location:any}
   ///to get location more better way
-  void getCurrentLocationStream({required int uid,required MetaClubApiClient metaClubApiClient}) async {
-
+  void getCurrentLocationStream(
+      {required int uid, required MetaClubApiClient metaClubApiClient}) async {
     ///location permission check
     await askForLocationAlwaysPermission();
 
     locationServiceProvider = LocationService();
 
-
     ///listening data from location service
-    locationSubscription = locationServiceProvider.locationStream.listen((event) async {
-
+    locationSubscription =
+        locationServiceProvider.locationStream.listen((event) async {
       ///initialize userLocation data
       userLocation = event;
 
@@ -72,32 +70,38 @@ class LocationServiceProvider {
           altitude: event.altitude!,
           accuracy: event.accuracy!,
           timestamp: DateTime.now(),
-          speedAccuracy: event.speedAccuracy!);
+          speedAccuracy: event.speedAccuracy!,
+          altitudeAccuracy: 0,
+          headingAccuracy: 0);
 
       ///when locationSubscription is enable only then
       ///location data can be processed to manipulate
-      if(!locationSubscription.isPaused){
+      if (!locationSubscription.isPaused) {
         ///getting address from current position
-        addLocationDataToLocal(position: position,uid: uid);
+        addLocationDataToLocal(position: position, uid: uid);
+
         ///store data to server from hive
         deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
       }
+
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
+
       ///Inactive all listener to listen location data for a while
       locationSubscription.pause();
     });
 
     ///set timer to toggle location subscription
     Timer.periodic(const Duration(minutes: 2), (timer) async {
-      if(locationSubscription.isPaused){
+      if (locationSubscription.isPaused) {
         locationSubscription.resume();
       }
       debugPrint('isPaused ${locationSubscription.isPaused}');
     });
   }
 
-  Future<List<geocoding.Placemark>?> getAddressByPosition({required Position position}) async {
+  Future<List<geocoding.Placemark>?> getAddressByPosition(
+      {required Position position}) async {
     return await geoService.getAddress(position);
   }
 
@@ -112,18 +116,18 @@ class LocationServiceProvider {
   }
 
   ///store data to local
-  addLocationDataToLocal({String? currentDateData,required Position position,required int uid}) async {
-
+  addLocationDataToLocal(
+      {String? currentDateData,
+      required Position position,
+      required int uid}) async {
     final places = await getAddressByPosition(position: position);
 
     placeMark = places?.first;
 
-    place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
-
-
+    place =
+        '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
 
     Timer.periodic(const Duration(minutes: 2), (timer) async {
-
       if (kDebugMode) {
         print('local from position ${position.toString()}');
       }
@@ -137,7 +141,8 @@ class LocationServiceProvider {
           city: placeMark?.locality,
           country: placeMark?.country,
           countryCode: placeMark?.isoCountryCode,
-          address: '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
+          address:
+              '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
           heading: position.heading,
           distance: distance,
           datetime: DateTime.now().toString());
@@ -145,21 +150,28 @@ class LocationServiceProvider {
       ///add data to local database
       locationProvider.add(locationModel);
 
-      FirebaseLocationStoreProvider.sendLocationToFirebase(uid, locationModel.toJson());
+      FirebaseLocationStoreProvider.sendLocationToFirebase(
+          uid, locationModel.toJson());
     });
   }
 
-
   ///data will be delete after data store to server
-  deleteDataAndSendToServer({String? currentDateData, required MetaClubApiClient metaClubApiClient}) async {
+  deleteDataAndSendToServer(
+      {String? currentDateData,
+      required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
     Timer.periodic(const Duration(minutes: 4), (timer) async {
-      if(locationProvider.toMapList().length > 2){
+      if (locationProvider.toMapList().length > 2) {
         if (kDebugMode) {
-          print('data that u have to sent server ${locationProvider.toMapList()}');
+          print(
+              'data that u have to sent server ${locationProvider.toMapList()}');
         }
-        metaClubApiClient.storeLocationToServer(locations: locationProvider.toMapList(),date: DateTime.now().toString()).then((isStored) async {
-          if(isStored){
+        metaClubApiClient
+            .storeLocationToServer(
+                locations: locationProvider.toMapList(),
+                date: DateTime.now().toString())
+            .then((isStored) async {
+          if (isStored) {
             await locationProvider.deleteAllLocation();
           }
         });

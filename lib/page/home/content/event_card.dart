@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/const.dart';
 import 'event_card_item.dart';
@@ -15,20 +17,20 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.only(left: 10.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: TextButton(
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            padding: EdgeInsets.symmetric(vertical: 5.0.h),
             child: SizedBox(
-              width: 125,
+              width: 100.w,
               child: Column(
                 children: [
                   Image.network(
                     '${data?.image}',
-                    height: 25,
+                    height: 25.h,
                     color: mainColor,
                   ),
                   Wrap(
@@ -36,16 +38,16 @@ class EventCard extends StatelessWidget {
                     children: [
                       Text(
                         '${data?.number}',
-                        style: const TextStyle(
-                            fontSize: 30,
+                        style: TextStyle(
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
                       ),
                       if (days == true)
-                        const Text(
-                          'days',
-                          style: TextStyle(
+                        Text(
+                          'days'.tr(),
+                          style: const TextStyle(
                               color: Color(0xFF777777),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -57,12 +59,12 @@ class EventCard extends StatelessWidget {
                   Text(
                     data?.title ?? '',
                     maxLines: 1,
-                    style: const TextStyle(
-                        fontSize: 14,
+                    style: TextStyle(
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 6,
                   )
@@ -88,20 +90,20 @@ class EventCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.only(left: 12.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: TextButton(
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: SizedBox(
-              width: 125,
+              width: 100.w,
               child: Column(
                 children: [
                   Image.network(
                     '${data?.image}',
-                    height: 25,
+                    height: 20.h,
                     color: mainColor,
                   ),
                   Wrap(
@@ -109,18 +111,18 @@ class EventCard2 extends StatelessWidget {
                     children: [
                       Text(
                         '${data?.number}',
-                        style: const TextStyle(
-                            fontSize: 30,
+                        style: TextStyle(
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
                       ),
                       if (days == true)
-                        const Text(
-                          'days',
+                        Text(
+                          'days'.tr(),
                           style: TextStyle(
-                              color: Color(0xFF777777),
-                              fontSize: 12,
+                              color: const Color(0xFF777777),
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500,
                               height: 4,
                               letterSpacing: 0.5),
@@ -130,12 +132,12 @@ class EventCard2 extends StatelessWidget {
                   Text(
                     data?.title ?? '',
                     maxLines: 1,
-                    style: const TextStyle(
-                        fontSize: 14,
+                    style: TextStyle(
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 6,
                   )
@@ -156,53 +158,56 @@ class UpcomingEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 5,
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            'assets/images/new_Upcoming_Event.png',
-            height: 185,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Upcoming events',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        height: 1.5,
-                        letterSpacing: 0.5)),
-                const Text('Public holiday and even',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                        color: Color(0xFF555555),
-                        letterSpacing: 0.5)),
-                const SizedBox(
-                  height: 6,
-                ),
-                Column(
-                  children: events
-                      .map((e) => EventCardItem(upcomingItems: e))
-                      .toList(),
-                )
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Card(
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 5,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/new_Upcoming_Event.png',
+              height: 120.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('upcoming_events'.tr(),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.5)),
+                  Text('public_holiday_and_even'.tr(),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                          color: Color(0xFF555555),
+                          letterSpacing: 0.5)),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Column(
+                    children: events
+                        .map((e) => EventCardItem(upcomingItems: e))
+                        .toList(),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

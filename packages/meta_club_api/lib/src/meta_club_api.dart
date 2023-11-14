@@ -28,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -1087,6 +1087,39 @@ class MetaClubApiClient {
         return ApprovalModel.fromJson(response.data);
       }
       return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Approval Details====================
+  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+    String api = 'user/leave/details/$approvalId';
+    final data = {
+      "user_id" : approvalUserId
+    };
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return ApprovalDetailsModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Action Approval Approved or Reject ====================
+  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
+    String api = 'user/leave/approval/status-change/$approvalId/$type';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.data['result'] != true) {
+        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
+      }
+      return response?.data['result'];
     } catch (_) {
       return null;
     }

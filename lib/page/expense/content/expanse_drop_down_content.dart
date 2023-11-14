@@ -27,7 +27,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
-                  tr("Select Payment"),
+                  tr("select_payment"),
                   style: const TextStyle(fontSize: 14),
                 ),
                 value: state?.paymentTypeName,
@@ -75,7 +75,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 dropdownColor: Colors.white,
                 isExpanded: true,
                 hint: Text(
-                  tr("Expanse Status"),
+                  tr("expanse_status"),
                   style: const TextStyle(fontSize: 14),
                 ),
                 value: state?.statusTypeName,
