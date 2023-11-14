@@ -57,6 +57,8 @@ dependencies:
     path: packages/user_repository
   location_track:
     path: packages/location_track
+  chat:
+    path: packages/chat
   lottie: ^2.4.0
   face:
     path: packages/face
