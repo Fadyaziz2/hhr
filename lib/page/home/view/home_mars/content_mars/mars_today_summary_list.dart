@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
+import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'today_list_count_mars.dart';
@@ -35,7 +38,7 @@ class TodaySummaryListMars extends StatelessWidget {
                   children: [
                     TodayListCountMars(
                       onTap: () {
-                        // dashboardModel?.getRoutSlag(context, provider?.todayData![0].slug);
+                        NavUtil.navigateScreen(context, const AppointmentScreen());
                       },
                       image: "assets/home_bg/appoinments.png",
                       title: "${dashboardModel!.data!.today![0].title}",
@@ -59,7 +62,7 @@ class TodaySummaryListMars extends StatelessWidget {
                     ),
                     TodayListCountMars(
                       onTap: () {
-                        // provider?.getRoutSlag(context, provider?.todayData![3].slug);
+                        NavUtil.navigateScreen(context, const SupportPage());
                       },
                       image: "assets/home_bg/support_tickets.png",
                       title: "${dashboardModel.data!.today![3].title}",
