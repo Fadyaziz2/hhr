@@ -9,7 +9,10 @@ import '../models/user_model.dart';
 class ChatService {
   ///create new user
   void createAndUpdateUserInfo(map, uid) {
-    FirebaseFirestore.instance.collection('users').doc(uid).set(map);
+    FirebaseFirestore.instance.collection('users').doc(uid).set(map).onError((error, stackTrace) {
+      print(error.toString());
+      print(stackTrace.toString());
+    });
   }
   ///getUser
   Future<UserModel> getUserData(String uid) async {

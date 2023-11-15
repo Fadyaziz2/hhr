@@ -70,7 +70,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ConversationScreen(friend: profile!, uid: '${widget.uid}', primaryColor: widget.primaryColor,)));
+                                    builder: (context) => ConversationScreen(user: profile!, uid: '${widget.uid}', primaryColor: widget.primaryColor,)));
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -114,14 +114,6 @@ class _ChatRoomState extends State<ChatRoom> {
                         return Container();
                       }
                     },
-                  );
-                } else {
-                  return const Column(
-                    children: [
-                      Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ],
                   );
                 }
               },
