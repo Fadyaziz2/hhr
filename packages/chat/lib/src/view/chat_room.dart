@@ -115,6 +115,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     },
                   );
                 }
+                return SizedBox.shrink();
               },
             );
           } else {
