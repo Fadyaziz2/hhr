@@ -19,10 +19,9 @@ class App extends StatelessWidget {
   final UserRepository userRepository;
 
   const App(
-      {Key? key,
+      {super.key,
       required this.authenticationRepository,
-      required this.userRepository})
-      : super(key: key);
+      required this.userRepository});
 
   @override
   Widget build(BuildContext context) {

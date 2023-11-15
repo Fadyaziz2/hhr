@@ -1,11 +1,14 @@
+import 'package:chat/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/res/const.dart';
 
+import '../../../../res/nav_utail.dart';
+import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/phonebook_bloc.dart';
 
 class PhoneBookDetailsScreen extends StatelessWidget {
-  const PhoneBookDetailsScreen(
-      {Key? key, required this.userId, required this.bloc})
-      : super(key: key);
+  const PhoneBookDetailsScreen({super.key, required this.userId, required this.bloc});
   final String userId;
   final PhoneBookBloc bloc;
 
@@ -20,6 +23,9 @@ class PhoneBookDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = context.read<AuthenticationBloc>().state.data;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Directory"),
@@ -29,6 +35,16 @@ class PhoneBookDetailsScreen extends StatelessWidget {
           future: bloc.onPhoneBookDetails(userId: userId.toString()),
           builder: (context, snapshot) {
             if (snapshot.hasData == true) {
+
+              final phonebook = UserModel(
+                  id: snapshot.data?.data?.id,
+                  name: snapshot.data?.data?.name,
+                  email: snapshot.data?.data?.email,
+                  phone: snapshot.data?.data?.phone,
+                  avatar: snapshot.data?.data?.avatar
+              );
+
+
               return Column(
                 children: [
                   const SizedBox(
@@ -67,15 +83,19 @@ class PhoneBookDetailsScreen extends StatelessWidget {
                             iconData: Icons.call,
                             bgColor: const Color(0xFF3171F9),
                             onPressed: () {
-                              bloc.add(DirectPhoneCall(
-                                  snapshot.data?.data?.phone ?? ''));
+                              bloc.add(DirectPhoneCall(snapshot.data?.data?.phone ?? ''));
                             }),
                         profileMenu(
-                            iconData: Icons.message_outlined,
+                            iconData: Icons.message,
                             bgColor: const Color(0xFF00B180),
                             onPressed: () {
-                              bloc.add(DirectMessage(
-                                  snapshot.data?.data?.phone ?? ''));
+                              NavUtil.navigateScreen(context, ConversationScreen(user: phonebook, uid: '${user?.user?.id}',primaryColor: colorPrimary,));
+                            }),
+                        profileMenu(
+                            iconData: Icons.sms,
+                            bgColor: const Color(0xFF00B180),
+                            onPressed: () {
+                              bloc.add(DirectMessage(snapshot.data?.data?.phone ?? ''));
                             }),
                         profileMenu(
                             iconData: Icons.mail,

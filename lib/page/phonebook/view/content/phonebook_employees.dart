@@ -72,10 +72,7 @@ class PhoneBookEmployees extends StatelessWidget {
                           onTap: () async {
                             Navigator.push(
                                 context,
-                                PhoneBookDetailsScreen.route(
-                                    homeBloc: context.read<PhoneBookBloc>(),
-                                    userId:
-                                        '${state.phoneBookUsers![index].id}'));
+                                PhoneBookDetailsScreen.route(homeBloc: context.read<PhoneBookBloc>(), userId: '${state.phoneBookUsers![index].id}'));
                           },
                           child: Container(
                             decoration: BoxDecoration(
