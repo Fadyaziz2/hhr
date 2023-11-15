@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../content/contents.dart';
+import 'today_list_count_mars.dart';
 
-class TodaySummaryListDesignTwo extends StatelessWidget {
+class TodaySummaryListMars extends StatelessWidget {
   final DashboardModel? dashboardModel;
 
-  const TodaySummaryListDesignTwo({super.key,this.dashboardModel});
+  const TodaySummaryListMars({super.key, this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
+    final dashboardModel = context.read<HomeBloc>().state.dashboardModel;
     return dashboardModel?.data?.today != null
-        ? SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Row(
-          children: List.generate(
-            dashboardModel?.data?.today?.length ?? 0,
-                (index) => EventCard(
-              data: dashboardModel?.data?.today![index],
-              onPressed: () => null,
-            ),
-          )),
-    )
-    /*Padding(
+        ? Padding(
             padding: const EdgeInsets.only(left: 18, right: 18, bottom: 18),
             child: Container(
-              // height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.35,
               padding: const EdgeInsets.only(left: 18, right: 18),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -40,46 +31,43 @@ class TodaySummaryListDesignTwo extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  childAspectRatio: (1.8 / .85),
+                  childAspectRatio: (1.8 / .95),
                   children: [
-                    ...
-                    HomePageTotalCountCard(
-                      ontap: () {
-                        bloc?.getRoutSlag(context, bloc?.todayData![0].slug);
+                    TodayListCountMars(
+                      onTap: () {
+                        // dashboardModel?.getRoutSlag(context, provider?.todayData![0].slug);
                       },
-                      image: "assets/images/appoinments.png",
-                      title: "${bloc!.todayData?[0].title}",
-                      count: "0${bloc!.todayData?[0].number}",
+                      image: "assets/home_bg/appoinments.png",
+                      title: "${dashboardModel!.data!.today![0].title}",
+                      count: "0${dashboardModel.data!.today![0].number}",
                     ),
-                    HomePageTotalCountCard(
-                      ontap: () {
-                        bloc?.getRoutSlag(context, bloc?.todayData![1].slug);
+                    TodayListCountMars(
+                      onTap: () {
+                        // provider?.getRoutSlag(context, provider?.todayData![1].slug);
                       },
-                      image: "assets/images/meetings.png",
-                      title: "${bloc!.todayData?[1].title}",
-                      count: "0${bloc!.todayData?[1].number}",
+                      image: "assets/home_bg/meetings.png",
+                      title: "${dashboardModel.data!.today![1].title}",
+                      count: "0${dashboardModel.data!.today![1].number}",
                     ),
-                    HomePageTotalCountCard(
-                      ontap: () {
-                        bloc?.getRoutSlag(
-                            context, bloc?.todayData![2].slug);
+                    TodayListCountMars(
+                      onTap: () {
+                        // provider?.getRoutSlag(context, provider?.todayData![2].slug);
                       },
-                      image: "assets/images/visit.png",
-                      title: "${bloc!.todayData?[2].title}",
-                      count: "0${bloc!.todayData?[2].number}",
+                      image: "assets/home_bg/visit.png",
+                      title: "${dashboardModel.data!.today![2].title}",
+                      count: "0${dashboardModel.data!.today![2].number}",
                     ),
-                    HomePageTotalCountCard(
-                      ontap: () {
-                        bloc?.getRoutSlag(
-                            context, bloc?.todayData![3].slug);
+                    TodayListCountMars(
+                      onTap: () {
+                        // provider?.getRoutSlag(context, provider?.todayData![3].slug);
                       },
-                      image: "assets/images/support_tickets.png",
-                      title: "${bloc!.todayData?[3].title}",
-                      count: "0${bloc!.todayData?[3].number}",
+                      image: "assets/home_bg/support_tickets.png",
+                      title: "${dashboardModel.data!.today![3].title}",
+                      count: "0${dashboardModel.data!.today![3].number}",
                     ),
                   ]),
             ),
-          )*/
+          )
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
@@ -108,53 +96,5 @@ class TodaySummaryListDesignTwo extends StatelessWidget {
               ),
             ),
           );
-  }
-}
-
-class HomePageTotalCountCard extends StatelessWidget {
-  const HomePageTotalCountCard(
-      {super.key, this.image, this.title, this.count, this.ontap});
-
-  final String? image;
-  final String? title;
-  final String? count;
-  final Function()? ontap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: ontap,
-      child: Row(
-        children: [
-          Image.asset(
-            image ?? "assets/images/placeholder_image.png",
-            height: 60,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  count ?? "",
-                  style: const TextStyle(
-                      color: colorPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22),
-                ),
-                Text(
-                  title ?? "",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

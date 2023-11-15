@@ -69,9 +69,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Widget chooseTheme(themeId) {
+    print('themeId $themeId');
     switch (themeId) {
       case 1:
-        return const HomePage();
+        return const HomeContent();
       case 2:
         return const SizedBox();
       default:
