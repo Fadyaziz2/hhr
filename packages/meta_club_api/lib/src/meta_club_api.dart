@@ -1002,6 +1002,27 @@ class MetaClubApiClient {
     }
   }
 
+  Future<BreakReportModel?> getBreakHistory(
+    String date,
+  ) async {
+    const String api = 'user/attendance/break-history';
+
+    final data = {
+      "date": date,
+    };
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return BreakReportModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<ExpenseCategoryModel?> getExpenseCategory() async {
     String api = 'accounts/expense/category-list';
     try {
@@ -1093,13 +1114,13 @@ class MetaClubApiClient {
   }
 
   /// ================== Approval Details====================
-  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+  Future<ApprovalDetailsModel?> getApprovalListDetails(
+      {required String approvalId, required String approvalUserId}) async {
     String api = 'user/leave/details/$approvalId';
-    final data = {
-      "user_id" : approvalUserId
-    };
+    final data = {"user_id": approvalUserId};
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1111,13 +1132,16 @@ class MetaClubApiClient {
   }
 
   /// ================== Action Approval Approved or Reject ====================
-  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
+  Future approvalApprovedOrReject(
+      {required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
+        throw NetworkRequestFailure(
+            response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
     } catch (_) {

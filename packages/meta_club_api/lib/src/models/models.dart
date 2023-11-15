@@ -38,3 +38,4 @@ export 'expense_create_response.dart';
 export 'payroll_model.dart';
 export 'approval_model.dart';
 export 'approval_details_model.dart';
+export 'break_report_model.dart';
