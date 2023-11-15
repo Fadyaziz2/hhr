@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/res/const.dart';
@@ -47,13 +46,11 @@ class BreakReportScreen extends StatelessWidget {
                       style: GoogleFonts.nunitoSans(
                           fontSize: 16, color: Colors.white),
                     ),
-                    // ),
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
                       state.breakReportModel?.data?.totalBreakTime ??
-                          // provider.responseBreakReport?.data?.totalBreakTime ??
                           "00:00:00",
                       style: const TextStyle(
                           color: Colors.white,
@@ -141,7 +138,6 @@ class BreakReportScreen extends StatelessWidget {
                               0),
                     )
                   : const Expanded(child: NoDataFoundWidget())
-              // : const SizedBox(),
             ],
           ),
         );
