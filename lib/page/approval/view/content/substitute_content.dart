@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
-import 'approval_details_tile_content.dart';
+import '../../../../res/widgets/card_tile_with_content.dart';
 
 class SubstituteContent extends StatelessWidget {
   const SubstituteContent({
@@ -49,7 +49,7 @@ class SubstituteContent extends StatelessWidget {
                 )
               ],
             )
-          : const ApprovalDetailsTileContent(title: 'Substitute', value: 'N/A'),
+          : const CardTileWithContent(title: 'Substitute', value: 'N/A'),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
+import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
@@ -17,8 +18,6 @@ import 'models/content.dart';
 import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
-
-import 'models/leave_request_model.dart';
 
 class MetaClubApiClient {
   String token;
@@ -278,6 +277,82 @@ class MetaClubApiClient {
         return LeaveRequestTypeModel.fromJson(response.data);
       }
       return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(
+      int? userId, String? date) async {
+    const String api = 'daily-leave/leave-list';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return DailyLeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveTypeListModel?> dailyLeaveSummaryStaffView(
+      {String? userId,
+      String? month,
+      String? leaveType,
+      String? leaveStatus}) async {
+    const String api = 'daily-leave/staff-list-view';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+        "month": month,
+        "leave_type": leaveType,
+        "leave_status": leaveStatus
+      });
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveTypeListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future postApplyLeave(data) async {
+    const String api = 'daily-leave/store';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future dailyLeaveApprovalAction(data)async{
+    const String api = 'daily-leave/approve-reject';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
     } catch (_) {
       return null;
     }
