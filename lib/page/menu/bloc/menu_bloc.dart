@@ -6,6 +6,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';
+import 'package:onesthrm/page/daily_leave/view/daily_leave_page.dart';
 import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
@@ -95,7 +96,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         break;
       case 'feedback':
       case 'report':
-      case 'daily-leave':
+      case 'daily_leave':
+      NavUtil.navigateScreen(event.context, const DailyLeavePage());
+      break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
