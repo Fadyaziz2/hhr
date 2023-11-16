@@ -54,7 +54,6 @@ class AppointmentCreateBloc
         getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
-    // add(LoadAppointmentCreateData(date: currentMonth));
   }
 
   FutureOr<void> _showTime(

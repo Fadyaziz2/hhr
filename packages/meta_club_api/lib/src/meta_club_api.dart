@@ -265,6 +265,28 @@ class MetaClubApiClient {
     }
   }
 
+  /// create Visit API
+  Future<bool> createVisitApi(
+      {BodyCreateVisit? bodyCreateVisit}) async {
+    const String api = 'visit/create';
+
+    if (kDebugMode) {
+      print(bodyCreateVisit?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
     const String api = 'user/leave/available';
 
@@ -1199,6 +1221,8 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+
 
   /// ================== Approval Details====================
   Future<ApprovalDetailsModel?> getApprovalListDetails(

@@ -10,7 +10,7 @@ import '../../../../../res/widgets/custom_button.dart';
 import '../../../bloc/bloc.dart';
 
 class CreateSupportListContent extends StatelessWidget {
-  const CreateSupportListContent({Key? key}) : super(key: key);
+  const CreateSupportListContent({super.key});
 
   @override
   Widget build(BuildContext context) {

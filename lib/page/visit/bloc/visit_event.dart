@@ -14,3 +14,21 @@ class HistoryListApi extends VisitEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SelectDatePicker extends VisitEvent {
+  final BuildContext context;
+  SelectDatePicker(this.context);
+
+  @override
+  List<Object> get props => [];
+}
+
+class CreateVisitEvent extends VisitEvent {
+  final BodyCreateVisit? bodyCreateVisit;
+  final BuildContext context;
+
+  CreateVisitEvent({this.bodyCreateVisit,required this.context});
+
+  @override
+  List<Object> get props => [];
+}
