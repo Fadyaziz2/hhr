@@ -3,19 +3,19 @@ import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/const.dart';
-import '../../../res/date_utils.dart';
-import '../../app/global_state.dart';
+
+import '../../../../res/const.dart';
+import '../../../../res/date_utils.dart';
+import '../../../app/global_state.dart';
 
 class BreakHeader extends StatelessWidget {
   final CustomTimerController timerController;
   final DashboardModel? dashboardModel;
 
   const BreakHeader(
-      {Key? key,
+      {super.key,
       required this.timerController,
-      required this.dashboardModel})
-      : super(key: key);
+      required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class BreakHeader extends StatelessWidget {
 }
 
 class HRMTimer extends StatefulWidget {
-  const HRMTimer({Key? key}) : super(key: key);
+  const HRMTimer({super.key});
 
   @override
   State<HRMTimer> createState() => _HRMTimerState();

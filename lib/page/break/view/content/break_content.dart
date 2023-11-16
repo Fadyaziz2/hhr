@@ -5,17 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
-import 'package:onesthrm/page/break/content/break_report_screen.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-import '../../../res/const.dart';
-import '../../../res/dialogs/custom_dialogs.dart';
-import '../../app/global_state.dart';
-import '../../attendance/content/animated_circular_button.dart';
-import '../../authentication/bloc/authentication_bloc.dart';
+import '../../../../res/const.dart';
+import '../../../../res/dialogs/custom_dialogs.dart';
+import '../../../app/global_state.dart';
+import '../../../attendance/content/animated_circular_button.dart';
+import '../../../authentication/bloc/authentication_bloc.dart';
 import 'break_header.dart';
+import 'break_report_screen.dart';
 
 class BreakContent extends StatefulWidget {
   final HomeBloc homeBloc;
