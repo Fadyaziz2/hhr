@@ -15,6 +15,7 @@ import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
+import '../../break/view/break_page.dart';
 import '../../phonebook/view/phonebook_page.dart';
 
 part 'menu_event.dart';
@@ -24,11 +25,13 @@ part 'menu_state.dart';
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final MetaClubApiClient _metaClubApiClient;
   final Settings _settings;
+  final HomeBloc _bloc;
 
   MenuBloc(
-      {required MetaClubApiClient metaClubApiClient, required Settings setting})
+      {required MetaClubApiClient metaClubApiClient, required Settings setting,required HomeBloc bloc})
       : _metaClubApiClient = metaClubApiClient,
         _settings = setting,
+        _bloc = bloc,
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
@@ -39,6 +42,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     RouteSlug event,
     Emitter<MenuState> emit,
   ) {
+
     switch (event.slugName) {
       case 'support':
         NavUtil.navigateScreen(event.context, const SupportPage());
@@ -76,6 +80,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
+        NavUtil.navigateScreen(event.context,  BlocProvider.value(value: _bloc,child: const BreakScreen()));
+        break;
       case 'feedback':
       case 'report':
       case 'daily-leave':

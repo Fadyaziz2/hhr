@@ -7,22 +7,17 @@ import '../bloc/break_bloc.dart';
 import 'content/break_content.dart';
 
 class BreakScreen extends StatelessWidget {
-  final HomeBloc homeBloc;
-  final DashboardModel? dashboardModel;
+  const BreakScreen({super.key});
 
-  const BreakScreen(
-      {super.key, required this.homeBloc, required this.dashboardModel});
-
-  static Route route(
-      {required HomeBloc homeBloc, required DashboardModel? dashboardModel}) {
+  static Route route({required HomeBloc bloc}) {
     return MaterialPageRoute(
-        builder: (_) =>
-            BreakScreen(homeBloc: homeBloc, dashboardModel: dashboardModel));
+        builder: (_) => BlocProvider.value(value: bloc, child: const BreakScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final homeBloc = context.read<HomeBloc>();
 
     return BlocProvider(
       create: (context) => BreakBloc(
