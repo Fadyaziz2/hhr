@@ -7,7 +7,7 @@ import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PhoneBookEmployees extends StatelessWidget {
-  const PhoneBookEmployees({Key? key}) : super(key: key);
+  const PhoneBookEmployees({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,21 +84,16 @@ class PhoneBookEmployees extends StatelessWidget {
                                       BorderSide(color: Colors.grey.shade300)),
                             ),
                             child: ListTile(
-                              title:
-                                  Text(state.phoneBookUsers?[index].name ?? ""),
-                              subtitle: Text(
-                                  state.phoneBookUsers?[index].designation ??
-                                      ""),
+                              title: Text(state.phoneBookUsers?[index].name ?? ""),
+                              subtitle: Text(state.phoneBookUsers?[index].designation ?? ""),
                               leading: ClipOval(
                                 child: CachedNetworkImage(
                                   height: 40,
                                   width: 40,
                                   fit: BoxFit.cover,
-                                  imageUrl:
-                                      "${state.phoneBookUsers?[index].avatar}",
+                                  imageUrl: "${state.phoneBookUsers?[index].avatar}",
                                   placeholder: (context, url) => Center(
-                                    child: Image.asset(
-                                        "assets/images/placeholder_image.png"),
+                                    child: Image.asset("assets/images/placeholder_image.png"),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),

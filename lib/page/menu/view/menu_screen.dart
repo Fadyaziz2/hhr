@@ -46,7 +46,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     return BlocProvider(
         create: (context) => MenuBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
-            setting: settings!)
+            setting: settings!,bloc: context.read<HomeBloc>())
           ..add(RouteSlug(context: context)),
         child: Scaffold(
             key: MenuScreen._scaffoldKey,
@@ -165,9 +165,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                     animation: animation,
                                     animationController: animationController,
                                     onPressed: () {
-                                      context.read<MenuBloc>().add(RouteSlug(
-                                          context: context,
-                                          slugName: menu.slug));
+                                      context.read<MenuBloc>().add(RouteSlug(context: context, slugName: menu.slug));
                                     })
                                 : const SizedBox.shrink();
                           },
