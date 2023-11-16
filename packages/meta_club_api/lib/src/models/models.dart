@@ -39,3 +39,4 @@ export 'payroll_model.dart';
 export 'approval_model.dart';
 export 'approval_details_model.dart';
 export 'visit_list_model.dart';
+export 'history_list_model.dart';

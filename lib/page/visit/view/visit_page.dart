@@ -15,7 +15,8 @@ class VisitPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => VisitBloc(
           metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-      ..add(VisitListApi()),
+      ..add(VisitListApi())
+      ..add(HistoryListApi()),
       child: const VisitContent(),
     );
   }

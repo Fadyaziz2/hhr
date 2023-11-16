@@ -18,7 +18,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -1091,11 +1090,30 @@ class MetaClubApiClient {
     }
   }
 
+  /// History List API
+  Future<HistoryListModel?> getHistoryList(String month) async {
+    const String api = 'visit/history';
+
+    final data = {"month": month};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return HistoryListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// ===================== Visit List ========================
   Future<VisitListModel?> getVisitList() async {
     const String api = 'visit/list';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return VisitListModel.fromJson(response?.data);
       }
@@ -1106,13 +1124,13 @@ class MetaClubApiClient {
   }
 
   /// ================== Approval Details====================
-  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+  Future<ApprovalDetailsModel?> getApprovalListDetails(
+      {required String approvalId, required String approvalUserId}) async {
     String api = 'user/leave/details/$approvalId';
-    final data = {
-      "user_id" : approvalUserId
-    };
+    final data = {"user_id": approvalUserId};
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1124,13 +1142,16 @@ class MetaClubApiClient {
   }
 
   /// ================== Action Approval Approved or Reject ====================
-  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
+  Future approvalApprovedOrReject(
+      {required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
+        throw NetworkRequestFailure(
+            response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
     } catch (_) {

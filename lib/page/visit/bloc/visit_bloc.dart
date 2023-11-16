@@ -15,9 +15,24 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       : _metaClubApiClient = metaClubApiClient,
         super(const VisitState()) {
     on<VisitListApi>(_visitListApi);
+    on<HistoryListApi>(_historyListApi);
   }
 
-  FutureOr<void> _visitListApi(VisitListApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _historyListApi(
+      HistoryListApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      final historyResponse = await _metaClubApiClient.getHistoryList("2023-11");
+      emit(state.copyWith(
+          status: NetworkStatus.success,historyListResponse: historyResponse));
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _visitListApi(
+      VisitListApi event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final visitResponse = await _metaClubApiClient.getVisitList();

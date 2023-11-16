@@ -9,3 +9,8 @@ class VisitListApi extends VisitEvent {
   @override
   List<Object?> get props => [];
 }
+
+class HistoryListApi extends VisitEvent {
+  @override
+  List<Object?> get props => [];
+}

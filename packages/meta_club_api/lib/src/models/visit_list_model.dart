@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class VisitListModel extends Equatable{
-  bool? result;
-  String? message;
-  VisitList? visitList;
+  final bool? result;
+  final String? message;
+  final VisitList? visitList;
 
-  VisitListModel({
+  const VisitListModel({
     this.result,
     this.message,
     this.visitList,
@@ -22,9 +22,9 @@ class VisitListModel extends Equatable{
 }
 
 class VisitList extends Equatable{
-  List<MyVisit>? myVisits;
+  final List<MyVisit>? myVisits;
 
-  VisitList({
+  const VisitList({
     this.myVisits,
   });
 
@@ -36,14 +36,14 @@ class VisitList extends Equatable{
   List<Object?> get props => [myVisits];
 }
 
-class MyVisit {
-  int? id;
-  String? title;
-  String? date;
-  String? status;
-  String? statusColor;
+class MyVisit extends Equatable{
+  final int? id;
+  final String? title;
+  final String? date;
+  final String? status;
+  final String? statusColor;
 
-  MyVisit({
+  const MyVisit({
     this.id,
     this.title,
     this.date,
