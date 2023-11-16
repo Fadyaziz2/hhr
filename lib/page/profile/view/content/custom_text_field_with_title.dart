@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-
   final String title;
   final String? hints;
   final String? value;
   final int? maxLine;
   final Function(String?) onData;
   final String? errorMsg;
+  final double? sizedBoxHeight;
 
-  const CustomTextField({Key? key,required this.title, this.value,required this.onData,this.hints,this.maxLine,this.errorMsg}) : super(key: key);
+  const CustomTextField(
+      {super.key,
+      required this.title,
+      this.value,
+      required this.onData,
+      this.hints,
+      this.maxLine,
+      this.errorMsg,
+      this.sizedBoxHeight = 10.0});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Text(
+        Text(
           title,
           style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: sizedBoxHeight,
         ),
         TextFormField(
           maxLines: maxLine,
@@ -34,24 +40,22 @@ class CustomTextField extends StatelessWidget {
           validator: (val) => val!.isEmpty ? errorMsg : null,
           controller: TextEditingController(text: value),
           decoration: InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-            hintText: hints,
-            hintStyle: const TextStyle(fontSize: 12),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.blue,width: 2
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+              hintText: hints,
+              hintStyle: const TextStyle(fontSize: 12),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue, width: 2),
               ),
-            ),
-            border: const OutlineInputBorder(
-              borderSide: BorderSide(width:2,color: Colors.blue),
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 2,color: Colors.black12),
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            )
-          ),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.black12),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              )),
         ),
       ],
     );
