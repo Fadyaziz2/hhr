@@ -42,3 +42,4 @@ export 'body_create_daily_leave.dart';
 export 'leave_type_list_model.dart';
 
 export 'approval_details_model.dart';
+export 'break_report_model.dart';

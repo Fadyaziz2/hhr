@@ -14,7 +14,7 @@ import '../../content/home_header.dart';
 LocationServiceProvider locationServiceProvider = LocationServiceProvider();
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -15,11 +15,10 @@ class BreakCard extends StatelessWidget {
   final DashboardModel? dashboardModel;
 
   const BreakCard(
-      {Key? key,
+      {super.key,
       required this.settings,
       required this.user,
-      required this.dashboardModel})
-      : super(key: key);
+      required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +28,7 @@ class BreakCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            Navigator.of(context).push(BreakScreen.route(
-                homeBloc: context.read<HomeBloc>(),
-                dashboardModel: dashboardModel));
+            Navigator.of(context).push(BreakScreen.route(bloc: context.read<HomeBloc>()));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
