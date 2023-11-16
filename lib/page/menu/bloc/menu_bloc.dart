@@ -12,6 +12,7 @@ import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_scree
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/page/payroll/view/view.dart';
+import 'package:onesthrm/page/report/view/view.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -93,7 +94,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'break':
       case 'feedback':
       case 'report':
-      NavUtil.navigateScreen(event.context, const DailyLeavePage());
+      NavUtil.navigateScreen(event.context, const ReportPage());
       break;
       case 'daily-leave':
         NavUtil.navigateScreen(event.context, const DailyLeavePage());
