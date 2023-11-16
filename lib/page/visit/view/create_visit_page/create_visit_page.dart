@@ -17,39 +17,49 @@ class CreateVisitPage extends StatelessWidget {
           tr("create_visit"),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 10.0, horizontal: 4),
-            child: Text(
-              tr("employee"),
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, fontSize: 16),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title:
-              Text(user?.user?.name ?? ""),
-              subtitle: Text(
-                  user?.user?.email ?? ""),
-              leading: ClipOval(
-                child: CachedNetworkImage(
-                  height: 40,
-                  width: 40,
-                  fit: BoxFit.cover,
-                  imageUrl: "${user?.user?.avatar}",
-                  placeholder: (context, url) => Center(
-                    child: Image.asset("assets/images/placeholder_image.png"),
-                  ),
-                  errorWidget: (context, url, error) =>
-                  const Icon(Icons.error),
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 10.0, horizontal: 4),
+              child: Text(
+                tr("employee"),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: 16),
               ),
             ),
-          ),
-        ],
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListTile(
+                title:
+                Text(user?.user?.name ?? ""),
+                subtitle: Text(
+                    user?.user?.email ?? ""),
+                leading: ClipOval(
+                  child: CachedNetworkImage(
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                    imageUrl: "${user?.user?.avatar}",
+                    placeholder: (context, url) => Center(
+                      child: Image.asset("assets/images/placeholder_image.png"),
+                    ),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
+                  ),
+                ),
+
+              ),
+            ),
+
+          ],
+        ),
       ),
     );
   }

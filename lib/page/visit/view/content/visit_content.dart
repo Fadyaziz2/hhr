@@ -4,6 +4,7 @@ import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_list_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
+import '../create_visit_page/create_visit_page.dart';
 import 'history_list_page.dart';
 
 class VisitContent extends StatelessWidget {
@@ -17,11 +18,11 @@ class VisitContent extends StatelessWidget {
       child: Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // NavUtil.navigateScreen(
-              //     context,
-              //     BlocProvider.value(
-              //         value: context.read<VisitBloc>(),
-              //         child: const ExpenseCategoryPage()));
+              NavUtil.navigateScreen(
+                  context,
+                  BlocProvider.value(
+                      value: context.read<VisitBloc>(),
+                      child: const CreateVisitPage()));
             },
             child: const Icon(Icons.add),
           ),
