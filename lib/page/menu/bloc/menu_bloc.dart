@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/break/view/break_page.dart';
 import 'package:onesthrm/page/daily_leave/view/daily_leave_page.dart';
 import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
@@ -91,6 +92,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
+        NavUtil.navigateScreen(event.context, BlocProvider.value(value: event.context.read<HomeBloc>(),child: const BreakScreen()));
+        break;
       case 'feedback':
       case 'report':
       case 'daily_leave':
