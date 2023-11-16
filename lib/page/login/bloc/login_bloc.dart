@@ -1,3 +1,4 @@
+import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
@@ -5,68 +6,82 @@ import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../models/password.dart';
 import '../models/phone.dart';
+
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   final AuthenticationRepository _authenticationRepository;
+  final ChatService _chatService;
 
-  LoginBloc({required AuthenticationRepository authenticationRepository})
+  LoginBloc(
+      {required AuthenticationRepository authenticationRepository, required ChatService chatService})
       : _authenticationRepository = authenticationRepository,
-        super(const LoginState()){
-   on<LoginEmailChange>(_onEmailUpdate);
-   on<LoginPasswordChange>(_onPasswordUpdate);
-   on<LoginSubmit>(_onLoginSubmitted);
+        _chatService =chatService,
+        super(const LoginState()) {
+    on<LoginEmailChange>(_onEmailUpdate);
+    on<LoginPasswordChange>(_onPasswordUpdate);
+    on<LoginSubmit>(_onLoginSubmitted);
   }
 
-  void _onEmailUpdate(LoginEmailChange event,Emitter<LoginState> emit){
-
+  void _onEmailUpdate(LoginEmailChange event, Emitter<LoginState> emit) {
     final email = Email.dirty(event.email);
 
-    emit(state.copyWith(email: email,isValid: Formz.validate([email,state.password]),status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(email: email,
+        isValid: Formz.validate([email, state.password]),
+        status: FormzSubmissionStatus.initial));
   }
 
-  void _onPasswordUpdate(LoginPasswordChange event,Emitter<LoginState> emit){
-
+  void _onPasswordUpdate(LoginPasswordChange event, Emitter<LoginState> emit) {
     final password = Password.dirty(event.password);
 
-    emit(state.copyWith(password: password,isValid: Formz.validate([state.email,password]),status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(password: password,
+        isValid: Formz.validate([state.email, password]),
+        status: FormzSubmissionStatus.initial));
   }
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
-      final eitherOrUser = await _authenticationRepository.login(email: state.email.value, password: state.password.value);
+      final eitherOrUser = await _authenticationRepository.login(
+          email: state.email.value, password: state.password.value);
 
       eitherOrUser.fold(
-              (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l)),
-              (r){
-                if(r?.user != null) {
-                  emit(state.copyWith(status: FormzSubmissionStatus.success, user: r));
-                }else{
-                  emit(state.copyWith(status: FormzSubmissionStatus.canceled, user: r));
-                }
-              });
+              (l) =>
+              emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l)),
+              (r) {
+            if (r?.user != null) {
+              ///create/update user information into fireStore
+              _chatService.createAndUpdateUserInfo(r?.user?.toJson(), '${r?.user?.id}');
+              emit(state.copyWith(status: FormzSubmissionStatus.success, user: r));
+            } else {
+              emit(state.copyWith(
+                  status: FormzSubmissionStatus.canceled, user: r));
+            }
+          });
     }
   }
 
   @override
   LoginState? fromJson(Map<String, dynamic> json) {
-
     final data = json['data'];
 
-    if(data != null) {
+    if (data != null) {
       final userData = LoginData.fromJson(data);
-      return LoginState(user: userData,status: FormzSubmissionStatus.success);
+      return LoginState(user: userData, status: FormzSubmissionStatus.success);
     } else {
-      return const LoginState(user: null,status: FormzSubmissionStatus.failure);
+      return const LoginState(
+          user: null, status: FormzSubmissionStatus.failure);
     }
   }
 
   @override
   Map<String, dynamic>? toJson(LoginState state) {
-    return <String,dynamic>{'data' : state.user != null ? state.user!.toJson():null};
+    return <String, dynamic>{
+      'data': state.user != null ? state.user!.toJson() : null
+    };
   }
 }

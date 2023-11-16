@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>203411705611-t92bv6ukdv2c368g6td9ti23f5c2esqu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.203411705611-t92bv6ukdv2c368g6td9ti23f5c2esqu</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDN3Ilav9sdQlmoDdQz8UqDTx4FgojaFac</string>
+	<string>AIzaSyCZknWYudCvdNBRWdt7n8JAgY0_MdA_xRc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>448617167485</string>
+	<string>203411705611</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.onest.hrm</string>
 	<key>PROJECT_ID</key>
-	<string>onesttech-hrm</string>
+	<string>hourworx</string>
 	<key>STORAGE_BUCKET</key>
-	<string>onesttech-hrm.appspot.com</string>
+	<string>hourworx.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:448617167485:ios:9e0916fa8e168a3eb88f14</string>
+	<string>1:203411705611:ios:7bc2a887ac5f5bfac7dc0e</string>
 </dict>
 </plist>

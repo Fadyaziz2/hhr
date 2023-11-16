@@ -1,3 +1,4 @@
+import 'package:chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
@@ -7,7 +8,7 @@ import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
 
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   static Route route(){
     return MaterialPageRoute(builder: (_) => const LoginPage());
@@ -20,7 +21,7 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: BlocProvider(
-            create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),
+            create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),chatService: ChatService()),
             child: const LoginForm(),
           ),
         ),
