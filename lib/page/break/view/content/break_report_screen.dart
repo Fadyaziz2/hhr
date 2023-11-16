@@ -108,16 +108,12 @@ class BreakReportScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      state.breakReportModel?.data?.breakHistory
-                                              ?.todayHistory?[index].reason ??
-                                          "",
+                                      state.breakReportModel?.data?.breakHistory?.todayHistory?[index].reason ?? "",
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
+                                    const SizedBox(height: 5.0,),
                                     Text(state
                                             .breakReportModel
                                             ?.data
@@ -133,9 +129,7 @@ class BreakReportScreen extends StatelessWidget {
                           separatorBuilder: (context, index) {
                             return const Divider();
                           },
-                          itemCount: state.breakReportModel?.data?.breakHistory
-                                  ?.todayHistory?.length ??
-                              0),
+                          itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory?.length ?? 0),
                     )
                   : const Expanded(child: NoDataFoundWidget())
             ],

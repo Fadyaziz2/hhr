@@ -14,9 +14,7 @@ part 'break_state.dart';
 class BreakBloc extends Bloc<BreakEvent, BreakState> {
   final MetaClubApiClient _metaClubApiClient;
 
-  BreakBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const BreakState()) {
+  BreakBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const BreakState()) {
     on<OnCustomTimerStart>(_onCustomTimerStart);
     on<OnBreakBackEvent>(_onBreakBack);
     on<SelectDatePicker>(_onSelectDatePicker);
