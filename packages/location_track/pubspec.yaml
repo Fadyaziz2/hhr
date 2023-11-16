@@ -21,7 +21,6 @@ dependencies:
   cloud_firestore: ^4.8.4
   meta_club_api:
     path: ../meta_club_api
-  fpdart: ^1.0.0
 
 
 

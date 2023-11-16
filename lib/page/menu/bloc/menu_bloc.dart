@@ -28,7 +28,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final HomeBloc _bloc;
 
   MenuBloc(
-      {required MetaClubApiClient metaClubApiClient, required Settings setting,required HomeBloc bloc})
+      {required MetaClubApiClient metaClubApiClient,
+      required Settings setting,
+      required HomeBloc bloc})
       : _metaClubApiClient = metaClubApiClient,
         _settings = setting,
         _bloc = bloc,
@@ -42,7 +44,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     RouteSlug event,
     Emitter<MenuState> emit,
   ) {
-
     switch (event.slugName) {
       case 'support':
         NavUtil.navigateScreen(event.context, const SupportPage());
@@ -80,7 +81,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
-        NavUtil.navigateScreen(event.context,  BlocProvider.value(value: _bloc,child: const BreakScreen()));
+        NavUtil.navigateScreen(event.context,
+            BlocProvider.value(value: _bloc, child: const BreakScreen()));
         break;
       case 'feedback':
       case 'report':

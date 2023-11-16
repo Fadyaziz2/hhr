@@ -10,7 +10,7 @@ import '../../bloc/phonebook_bloc.dart';
 class PhoneBookContent extends StatelessWidget {
   final Settings settings;
 
-  const PhoneBookContent({Key? key, required this.settings}) : super(key: key);
+  const PhoneBookContent({super.key, required this.settings});
 
   @override
   Widget build(BuildContext context) {
