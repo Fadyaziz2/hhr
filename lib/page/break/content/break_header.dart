@@ -12,14 +12,10 @@ class BreakHeader extends StatelessWidget {
   final DashboardModel? dashboardModel;
 
   const BreakHeader(
-      {Key? key,
-      required this.timerController,
-      required this.dashboardModel})
-      : super(key: key);
+      {super.key, required this.timerController, required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Center(
@@ -60,13 +56,16 @@ class BreakHeader extends StatelessWidget {
         ),
         CustomTimer(
             controller: timerController,
-            builder: (CustomTimerState state,CustomTimerRemainingTime remaining) {
+            builder:
+                (CustomTimerState state, CustomTimerRemainingTime remaining) {
               globalState.set(hour, remaining.hours);
               globalState.set(min, remaining.minutes);
               globalState.set(sec, remaining.seconds);
 
               return Text(
-                  state == CustomTimerState.counting ?  "${remaining.hours}:${remaining.minutes}:${remaining.seconds}" : "00:00:00",
+                  state == CustomTimerState.counting
+                      ? "${remaining.hours}:${remaining.minutes}:${remaining.seconds}"
+                      : "00:00:00",
                   style: GoogleFonts.cambay(
                     fontSize: 50.0,
                     fontWeight: FontWeight.bold,
@@ -79,31 +78,30 @@ class BreakHeader extends StatelessWidget {
 }
 
 class HRMTimer extends StatefulWidget {
-  const HRMTimer({Key? key}) : super(key: key);
+  const HRMTimer({super.key});
 
   @override
   State<HRMTimer> createState() => _HRMTimerState();
 }
 
 class _HRMTimerState extends State<HRMTimer> {
-
   String timer = '00:00:00';
 
   @override
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 1), (_) {
-      getSyncDuration().then((duration){
-        if(duration != null){
+      getSyncDuration().then((duration) {
+        if (duration != null) {
           final t = duration.toString().split('.');
           t.removeLast();
           timer = duration.inHours < 10 ? '0${t.join(':')}' : t.join(':');
-          if(mounted) {
+          if (mounted) {
             setState(() {});
           }
-        }else{
+        } else {
           timer = '00:00:00';
-          if(mounted) {
+          if (mounted) {
             setState(() {});
           }
         }
@@ -113,8 +111,7 @@ class _HRMTimerState extends State<HRMTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return  Text(
-        timer,
+    return Text(timer,
         style: GoogleFonts.cambay(
           fontSize: 50.0,
           fontWeight: FontWeight.bold,

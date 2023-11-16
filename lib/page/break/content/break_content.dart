@@ -20,7 +20,7 @@ import 'break_header.dart';
 class BreakContent extends StatefulWidget {
   final HomeBloc homeBloc;
 
-  const BreakContent({Key? key, required this.homeBloc}) : super(key: key);
+  const BreakContent({super.key, required this.homeBloc});
 
   @override
   State<BreakContent> createState() => BreakContentState();
