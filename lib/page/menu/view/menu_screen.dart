@@ -47,7 +47,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
         create: (context) => MenuBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
             setting: settings!,
-            bloc: context.read<HomeBloc>())
+            loginData: user!,
+            color: colorPrimary)
           ..add(RouteSlug(context: context)),
         child: Scaffold(
             key: MenuScreen._scaffoldKey,

@@ -58,6 +58,7 @@ class BreakContentState extends State<BreakContent>
 
   @override
   void dispose() {
+    controllerBreakTimer.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
