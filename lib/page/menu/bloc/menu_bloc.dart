@@ -1,3 +1,4 @@
+import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,12 +93,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'break':
       case 'feedback':
       case 'report':
-      case 'daily-leave':
+      case 'daily_leave':
       NavUtil.navigateScreen(event.context, const DailyLeavePage());
       break;
-      case 'daily_leave':
-        NavUtil.navigateScreen(event.context, const DailyLeavePage());
-        break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
