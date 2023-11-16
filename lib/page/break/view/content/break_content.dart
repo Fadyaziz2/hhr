@@ -166,8 +166,7 @@ class BreakContentState extends State<BreakContent>
                 context: context,
                 message: '${user?.user?.name}',
                 body: '${state.breakBack?.message}',
-                isSuccess: state.status == NetworkStatus.success &&
-                    state.breakBack?.result == true);
+                isSuccess: state.status == NetworkStatus.success && state.breakBack?.result == true);
           }
 
           if (state.status == NetworkStatus.success) {
@@ -204,18 +203,15 @@ class BreakContentState extends State<BreakContent>
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
-                if (state.breakBack?.data?.breakBackHistory?.todayHistory !=
-                    null)
+                if (state.breakBack?.data?.breakBackHistory?.todayHistory != null)
                   const SizedBox(height: 20.0),
-                if (state.breakBack?.data?.breakBackHistory?.todayHistory !=
-                    null)
+                if (state.breakBack?.data?.breakBackHistory?.todayHistory != null)
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        TodayHistory? todayHistory = state
-                            .breakBack?.data?.breakBackHistory?.todayHistory
-                            ?.elementAt(index);
+
+                        TodayHistory? todayHistory = state.breakBack?.data?.breakBackHistory?.todayHistory?.elementAt(index);
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -329,9 +325,7 @@ class BreakContentState extends State<BreakContent>
                       separatorBuilder: (context, index) {
                         return const Divider();
                       },
-                      itemCount: dashboard?.data?.breakHistory?.breakHistory
-                              ?.todayHistory!.length ??
-                          0)
+                      itemCount: dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.length ?? 0)
               ],
             ),
           );
