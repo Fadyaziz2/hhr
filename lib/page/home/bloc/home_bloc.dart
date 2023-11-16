@@ -2,10 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
+import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
 import '../../app/global_state.dart';
+import '../view/content/home_earth_content.dart';
 
 part 'home_event.dart';
 
@@ -27,7 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(const HomeState(status: NetworkStatus.loading));
     try {
       Settings? settings = await _metaClubApiClient.getSettings();
-
+      globalState.set(dashboardStyleId, settings?.data?.appTheme);
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
@@ -68,15 +70,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Widget chooseTheme(themeId) {
-    print('themeId $themeId');
-    switch (themeId) {
+  Widget chooseTheme() {
+    final id = globalState.get(dashboardStyleId);
+    print("appTheme $id");
+    switch (id) {
       case 1:
-        return const HomeContent();
+        return const HomeEarthContent();
       case 2:
-        return const SizedBox();
+        return const HomeMars();
       default:
-        return const HomePage();
+        return const HomeNeptuneContent();
     }
   }
 }

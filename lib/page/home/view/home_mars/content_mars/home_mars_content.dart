@@ -5,13 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/page/home/view/content/home_content.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/check_in_out_status_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/current_month_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/upcoming_event_mars.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-
 import '../../content/home_content_shimmer.dart';
+import '../../content/home_earth_content.dart';
 import 'mars_today_summary_list.dart';
 
 class HomeMarsContent extends StatelessWidget {

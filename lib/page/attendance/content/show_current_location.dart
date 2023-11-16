@@ -7,10 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
-import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+import '../../home/view/content/home_earth_content.dart';
 
 class ShowCurrentLocation extends StatelessWidget {
   final DashboardModel homeData;

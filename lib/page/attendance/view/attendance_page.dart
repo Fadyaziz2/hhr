@@ -4,11 +4,12 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
+import '../../home/view/content/home_earth_content.dart';
 
 class AttendancePage extends StatelessWidget {
   final HomeBloc homeBloc;
 
-  const AttendancePage({Key? key, required this.homeBloc}) : super(key: key);
+  const AttendancePage({super.key, required this.homeBloc});
 
   static Route route({required HomeBloc homeBloc}) {
     return MaterialPageRoute(builder: (_) => AttendancePage(homeBloc: homeBloc,));

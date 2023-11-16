@@ -18,6 +18,7 @@ List<String> supportTicketsButton = [tr("open"), tr('close'), tr('all')];
 final bloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const String attendanceId = 'attendance_id';
+const String dashboardStyleId = 'dashboard_style_Id';
 const String inTime = 'in_time';
 const String outTime = 'out_time';
 const String breakTime = 'in_time';

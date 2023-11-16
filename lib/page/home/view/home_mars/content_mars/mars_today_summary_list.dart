@@ -22,7 +22,7 @@ class TodaySummaryListMars extends StatelessWidget {
         ? Padding(
             padding: const EdgeInsets.only(left: 18, right: 18, bottom: 18),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.30,
               padding: const EdgeInsets.only(left: 18, right: 18),
               decoration: BoxDecoration(
                   color: Colors.white,
