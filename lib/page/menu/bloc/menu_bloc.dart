@@ -93,14 +93,19 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
-        NavUtil.navigateScreen(event.context, BlocProvider.value(value: event.context.read<HomeBloc>(),child: const BreakScreen()));
+        NavUtil.navigateScreen(
+            event.context,
+            BlocProvider.value(
+                value: event.context.read<HomeBloc>(),
+                child: const BreakScreen()));
         break;
       case 'feedback':
       case 'report':
-      NavUtil.navigateScreen(event.context, const ReportPage());
+        NavUtil.navigateScreen(event.context, const ReportPage());
+        break;
       case 'daily_leave':
-      NavUtil.navigateScreen(event.context, const DailyLeavePage());
-      break;
+        NavUtil.navigateScreen(event.context, const DailyLeavePage());
+        break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
