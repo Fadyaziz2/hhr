@@ -17,6 +17,7 @@ class HistoryListApi extends VisitEvent {
 
 class SelectDatePicker extends VisitEvent {
   final BuildContext context;
+
   SelectDatePicker(this.context);
 
   @override
@@ -24,11 +25,14 @@ class SelectDatePicker extends VisitEvent {
 }
 
 class CreateVisitEvent extends VisitEvent {
-  final BodyCreateVisit? bodyCreateVisit;
+  final BodyCreateVisit bodyCreateVisit;
   final BuildContext context;
 
-  CreateVisitEvent({this.bodyCreateVisit,required this.context});
+  CreateVisitEvent(
+      {required this.bodyCreateVisit,
+      required this.context,
+     });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [bodyCreateVisit];
 }
