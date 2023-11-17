@@ -46,27 +46,30 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     return BlocProvider(
         create: (context) => MenuBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+            setting: settings!,
             loginData: user!,
-            color: colorPrimary,
-            setting: settings!)
+            color: colorPrimary)
           ..add(RouteSlug(context: context)),
         child: Scaffold(
             key: MenuScreen._scaffoldKey,
             endDrawer: const MenuDrawer(),
             extendBody: true,
-            body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
+            body: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
               return Container(
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [colorPrimary, colorPrimaryGradient])),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
                   child: Column(
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, ProfileScreen.route(user?.user?.id, settings));
+                          Navigator.push(context,
+                              ProfileScreen.route(user?.user?.id, settings));
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(

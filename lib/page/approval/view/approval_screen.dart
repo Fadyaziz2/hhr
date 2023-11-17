@@ -13,9 +13,7 @@ class ApprovalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-        create: (_) => ApprovalBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-          ..add(ApprovalInitialDataRequest()),
+        create: (_) => ApprovalBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(ApprovalInitialDataRequest()),
         child: const ApprovalScreenContent());
   }
 }

@@ -15,7 +15,7 @@ import '../bloc/bottom_nav_cubit.dart';
 import 'bottom_nav_item.dart';
 
 class BottomNavContent extends StatelessWidget {
-  const BottomNavContent({Key? key}) : super(key: key);
+  const BottomNavContent({super.key});
 
   @override
   Widget build(BuildContext context) {
