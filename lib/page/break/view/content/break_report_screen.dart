@@ -65,11 +65,10 @@ class BreakReportScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 16,
+                height: 16.0,
               ),
-              state.breakReportModel!.data!.breakHistory?.todayHistory
-                          ?.isNotEmpty ==
-                      true
+              if(state.breakReportModel != null)
+              state.breakReportModel!.data!.breakHistory?.todayHistory?.isNotEmpty == true
                   ? Expanded(
                       child: ListView.separated(
                           shrinkWrap: true,
