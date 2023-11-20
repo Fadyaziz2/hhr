@@ -1223,4 +1223,20 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// Summary of attendance  ------------------
+  Future<ReportAttendanceSummary?> getAttendanceReportSummary(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/attendance/date-summary';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportAttendanceSummary.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }
