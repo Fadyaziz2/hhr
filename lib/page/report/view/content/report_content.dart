@@ -4,6 +4,7 @@ import 'package:onesthrm/res/nav_utail.dart';
 
 import 'attendance_summary/attendance_summary_content.dart';
 import 'break_summary/break_summary.dart';
+import 'content.dart';
 
 class ReportContent extends StatelessWidget {
   const ReportContent({super.key});
@@ -81,30 +82,37 @@ class ReportContent extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(26.0),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/menu_report/report_leave.png',
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      tr('leave'),
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500),
-                    )
-                  ],
+          InkWell(
+            onTap: () {
+              NavUtil.navigateScreen(context, const LeaveSummeryScreen());
+            },
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: InkWell(
+                onTap: () {
+                  NavUtil.navigateScreen(context, const LeaveSummeryScreen());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(26.0),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/menu_report/report_leave.png',
+                        height: 30,
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        tr('leave'),
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

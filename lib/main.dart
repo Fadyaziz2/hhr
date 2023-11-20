@@ -14,16 +14,19 @@ import 'package:path_provider/path_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
-  final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+  final authenticationRepository =
+      AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
   ///openBox for location hive
   openLocationBox();
 
-  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getTemporaryDirectory());
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getTemporaryDirectory());
   Bloc.observer = AppBlocObserver();
 
   runApp(EasyLocalization(

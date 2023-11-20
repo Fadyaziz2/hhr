@@ -45,3 +45,4 @@ export 'approval_details_model.dart';
 export 'break_report_model.dart';
 export 'summary_attendance.dart';
 export 'summary_attendance_to_list.dart';
+export 'leave_report_summary_model.dart';

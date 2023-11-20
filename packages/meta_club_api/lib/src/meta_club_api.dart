@@ -27,7 +27,6 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  // static const rootUrl = 'https://api.onesttech.com';
   static const rootUrl = 'https://hrm.onesttech.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
@@ -211,6 +210,22 @@ class MetaClubApiClient {
     }
   }
 
+  Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String date) async {
+    const String api = 'report/leave/date-summary';
+    final data = {'date': date};
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode == 200) {
+        return LeaveReportSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<LeaveDetailsModel?> leaveDetailsApi(
       int? userId, int? requestId) async {
     String api = "user/leave/details/$requestId";
@@ -343,12 +358,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future dailyLeaveApprovalAction(data)async{
+  Future dailyLeaveApprovalAction(data) async {
     const String api = 'daily-leave/approve-reject';
 
     try {
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1231,7 +1246,8 @@ class MetaClubApiClient {
     String api = 'report/attendance/date-summary';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return ReportAttendanceSummary.fromJson(response.data);
       }
