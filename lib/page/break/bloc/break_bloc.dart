@@ -29,8 +29,7 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     emit(state.copyWith(isTimerStart: !state.isTimerStart));
   }
 
-  FutureOr<void> _onBreakBack(
-      OnBreakBackEvent event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onBreakBack(OnBreakBackEvent event, Emitter<BreakState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     Break? data = await _metaClubApiClient.backBreak();
     globalState.set(breakTime, data?.data?.breakTime);
@@ -43,8 +42,7 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     emit(state.copyWith(status: NetworkStatus.success, breakBack: data));
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<BreakState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
