@@ -21,7 +21,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   FutureOr<void> _onGetReportData(GetReportData event, Emitter<ReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
-    final data = {'month': currentDate};
+    final data = {'date': currentDate};
     try {
       final report = await metaClubApiClient.getAttendanceReportSummary(body: data);
       emit(state.copyWith(status: NetworkStatus.success, attendanceSummary: report));

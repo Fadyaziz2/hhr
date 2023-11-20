@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 class SummeryTile extends StatelessWidget {
   const SummeryTile(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.titleValue,
-      required this.color})
-      : super(key: key);
+      required this.color});
   final String title;
   final String titleValue;
   final Color color;
@@ -31,7 +30,7 @@ class SummeryTile extends StatelessWidget {
           title: Text(title).tr(),
           trailing: Text(
             titleValue ?? '',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
         const Divider(
