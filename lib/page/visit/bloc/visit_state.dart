@@ -5,6 +5,7 @@ class VisitState extends Equatable {
   final VisitListModel? visitListResponse;
   final HistoryListModel? historyListResponse;
   final String? currentDate;
+  final String? currentMonth;
   final bool? isDateEnable;
 
   const VisitState(
@@ -12,6 +13,7 @@ class VisitState extends Equatable {
       this.visitListResponse,
       this.historyListResponse,
       this.currentDate,
+      this.currentMonth,
       this.isDateEnable = false});
 
   VisitState copyWith(
@@ -19,12 +21,14 @@ class VisitState extends Equatable {
       VisitListModel? visitListResponse,
       HistoryListModel? historyListResponse,
       String? currentDate,
+      String? currentMonth,
       bool? isDateEnable}) {
     return VisitState(
         status: status ?? this.status,
         visitListResponse: visitListResponse ?? this.visitListResponse,
         historyListResponse: historyListResponse ?? this.historyListResponse,
         currentDate: currentDate ?? this.currentDate,
+        currentMonth: currentMonth ?? this.currentMonth,
         isDateEnable: isDateEnable ?? this.isDateEnable);
   }
 
@@ -34,6 +38,7 @@ class VisitState extends Equatable {
         visitListResponse,
         historyListResponse,
         currentDate,
-        isDateEnable
+        isDateEnable,
+        currentMonth
       ];
 }

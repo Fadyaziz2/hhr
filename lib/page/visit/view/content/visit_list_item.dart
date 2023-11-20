@@ -16,7 +16,7 @@ class VisitListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         NavUtil.navigateScreen(
             context,
             BlocProvider.value(

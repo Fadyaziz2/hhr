@@ -7,6 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
 
 import '../../../res/date_utils.dart';
+import '../../../res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'visit_event.dart';
 
@@ -21,7 +22,36 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<VisitListApi>(_visitListApi);
     on<HistoryListApi>(_historyListApi);
     on<SelectDatePicker>(_onSelectDatePicker);
+    on<SelectMonthPicker>(_onSelectMonthPicker);
     on<CreateVisitEvent>(_onCreateVisitEvent);
+    on<VisitDetailsApi>(_visitDetailsApi);
+  }
+
+  FutureOr<void> _onSelectMonthPicker(
+      SelectMonthPicker event, Emitter<VisitState> emit) async {
+    var date = await showMonthPicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+    add(HistoryListApi());
+    emit(state.copyWith(
+        status: NetworkStatus.success, currentMonth: currentMonth));
+  }
+
+  FutureOr<void> _visitDetailsApi(VisitDetailsApi event,Emitter<VisitState> emit) async{
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      var visitDetailsResponse = await _metaClubApiClient.getVisitDetailsApi(20);
+      emit(state.copyWith(status: NetworkStatus.success));
+    } on Exception catch (e) {
+      emit(const VisitState(status:  NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -46,7 +76,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final historyResponse =
-          await _metaClubApiClient.getHistoryList("2023-11");
+          await _metaClubApiClient.getHistoryList(state.currentMonth);
       emit(state.copyWith(
           status: NetworkStatus.success, historyListResponse: historyResponse));
     } on Exception catch (e) {

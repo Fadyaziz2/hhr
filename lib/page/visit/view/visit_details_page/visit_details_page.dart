@@ -24,7 +24,7 @@ class VisitDetailsPage extends StatelessWidget {
       ),
       appBar: AppBar(
         title:  const Text(
-          "Start",
+          "Visit Details",
         ),
       ),
       body: ListView(
@@ -33,7 +33,7 @@ class VisitDetailsPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                const Text("Novermber 17, 2023"),
+                const Text("November 17, 2023"),
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
