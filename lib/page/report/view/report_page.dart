@@ -9,13 +9,8 @@ class ReportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    return BlocProvider(
-        create: (BuildContext context) => ReportBloc(
-            metaClubApiClient:
-                MetaClubApiClient(token: '${user?.user?.token}')),
-        child: Scaffold(
-          appBar: AppBar(title: const Text('Report Summary'),),
-            body: const ReportContent()));
+    return Scaffold(
+      appBar: AppBar(title: const Text('Report Summary'),),
+        body: const ReportContent());
   }
 }

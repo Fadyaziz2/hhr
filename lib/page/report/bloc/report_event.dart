@@ -6,8 +6,14 @@ abstract class ReportEvent extends Equatable {
 }
 
 class GetReportData extends ReportEvent {
-
   GetReportData();
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetLeaveReportSummary extends ReportEvent {
+  GetLeaveReportSummary();
 
   @override
   List<Object> get props => [];
