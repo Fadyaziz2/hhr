@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
 import '../../app/global_state.dart';
@@ -12,12 +15,15 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
+  late StreamSubscription locationSubscription;
 
   HomeBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
         super(const HomeState(status: NetworkStatus.initial)) {
     on<LoadSettings>(_onSettingsLoad);
     on<LoadHomeData>(_onHomeDataLoad);
+    on<OnSwitchPressed>(_onSwitchPressed);
+    on<OnLocationEnabled>(_onLocationEnabled);
   }
 
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
@@ -54,6 +60,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
+    emit(state.copy(isSwitched: !state.isSwitched));
+    if(event.user != null) {
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
+    }
+  }
+
+  void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
+    if(state.isSwitched){
+      event.locationProvider.getCurrentLocationStream(uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+    }else{
+      event.locationProvider.locationSubscription.pause();
     }
   }
 }
