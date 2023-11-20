@@ -18,3 +18,11 @@ class GetLeaveReportSummary extends ReportEvent {
   @override
   List<Object> get props => [];
 }
+
+class FilterLeaveReportSummary extends ReportEvent {
+  final int selectedEmployeeId;
+  FilterLeaveReportSummary(this.selectedEmployeeId);
+
+  @override
+  List<Object> get props => [selectedEmployeeId];
+}

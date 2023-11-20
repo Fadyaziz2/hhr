@@ -210,13 +210,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String? date) async {
+  Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String date) async {
     const String api = 'report/leave/date-summary';
-
+    final data = {'date': date};
     try {
-      FormData formData = FormData.fromMap({"month": date});
       final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode == 200) {
         return LeaveReportSummaryModel.fromJson(response.data);

@@ -1,0 +1,82 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/report/report.dart';
+import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/nav_utail.dart';
+
+import 'employee_leave_history.dart';
+
+class LeaveReportSummaryContent extends StatelessWidget {
+  const LeaveReportSummaryContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReportBloc, ReportState>(builder: (context, state) {
+      return Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+              child: ListView.builder(
+                itemCount:
+                    state.leaveReportSummaryModel?.data?.leaveTypes?.length ??
+                        0,
+                itemBuilder: (BuildContext context, int index) {
+                  final data =
+                      state.leaveReportSummaryModel?.data?.leaveTypes?[index];
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: ListTile(
+                        // onTap: () => NavUtil.navigateScreen(
+                        //   context,
+                        //    ReportLeaveListScreen(
+                        //     title: tr('sick_leave'),
+                        //   ),
+                        // ),
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(tr(data?.name ?? '')),
+                        trailing: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Text(
+                            data?.count.toString() ?? '',
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: colorPrimary, shape: const StadiumBorder()),
+            onPressed: () =>
+                NavUtil.navigateScreen(context, const EmployeeLeaveHistory()),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16),
+              child: Text(
+                tr(
+                  'search_all',
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 60,
+          )
+        ],
+      );
+    });
+  }
+}

@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -14,8 +16,28 @@ class EmployeeLeaveHistory extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text(tr('employee_leave_history'))),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: ListTile(
+                onTap: () async {
+                  PhoneBookUser employee = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SelectEmployeePage(),
+                      ));
+                },
+                title: const Text(("Select Employee")),
+                leading: const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                ),
+                trailing: const Icon(Icons.search),
+              ),
+            ),
+          ),
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
