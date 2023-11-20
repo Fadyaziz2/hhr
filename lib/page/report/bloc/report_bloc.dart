@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
+
+import '../../../res/date_utils.dart';
 
 part 'report_event.dart';
 
@@ -18,13 +21,29 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<GetReportData>(_onGetReportData);
     on<GetLeaveReportSummary>(_onLeaveReportSummary);
     on<FilterLeaveReportSummary>(_onFilterLeaveReportSummary);
+    on<SelectDate>(_onSelectDatePicker);
+  }
+
+  FutureOr<void> _onSelectDatePicker(
+      SelectDate event, Emitter<ReportState> emit) async {
+    var date = await showDatePicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
+    add(GetReportData());
+    emit(state.copyWith(
+        status: NetworkStatus.success, currentMonth: currentMonth));
   }
 
   FutureOr<void> _onGetReportData(
       GetReportData event, Emitter<ReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
-    final data = {'date': currentDate};
+    final data = {'date': state.currentMonth ?? currentDate};
     try {
       final report =
           await metaClubApiClient.getAttendanceReportSummary(body: data);
@@ -39,7 +58,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   Future<SummaryAttendanceToList?> getSummaryToList(
       {required String type}) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-    final data = {'type': type, 'date': currentDate};
+    final data = {'type': type, 'date': state.currentMonth ?? currentDate};
     try {
       final response =
           await metaClubApiClient.getAttendanceSummaryToList(body: data);

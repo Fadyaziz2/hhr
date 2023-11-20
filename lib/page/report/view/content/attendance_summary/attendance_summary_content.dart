@@ -14,10 +14,6 @@ class AttendanceSummaryContent extends StatelessWidget {
         create: (BuildContext context) => ReportBloc(
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
           ..add(GetReportData()),
-        child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Attendance Summary'),
-            ),
-            body: const AttendanceSummaryBody()));
+        child:  const AttendanceSummaryBody());
   }
 }

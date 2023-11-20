@@ -26,3 +26,12 @@ class FilterLeaveReportSummary extends ReportEvent {
   @override
   List<Object> get props => [selectedEmployeeId];
 }
+
+class SelectDate extends ReportEvent {
+  final BuildContext context;
+  SelectDate(this.context);
+
+  @override
+  List<Object> get props => [];
+}
+
