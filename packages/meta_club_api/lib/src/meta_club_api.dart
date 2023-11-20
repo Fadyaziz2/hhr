@@ -1240,4 +1240,20 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// Single Attendance Summary to List  ------------------
+  Future<SummaryAttendanceToList?> getAttendanceSummaryToList(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/attendance/summary-to-list';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return SummaryAttendanceToList.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }

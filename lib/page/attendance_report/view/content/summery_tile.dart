@@ -6,16 +6,20 @@ class SummeryTile extends StatelessWidget {
       {super.key,
       required this.title,
       required this.titleValue,
-      required this.color});
+      required this.color,
+      this.onTap});
+
   final String title;
   final String titleValue;
   final Color color;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
+          onTap: onTap,
           dense: true,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 2, horizontal: 16),

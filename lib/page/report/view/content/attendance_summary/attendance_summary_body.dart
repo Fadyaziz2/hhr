@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
 import 'package:onesthrm/page/report/report.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/page/report/view/content/attendance_summary/body_to_list_details.dart';
+
+import '../../../../../res/nav_utail.dart';
 
 class AttendanceSummaryBody extends StatelessWidget {
   const AttendanceSummaryBody({
@@ -21,43 +23,116 @@ class AttendanceSummaryBody extends StatelessWidget {
               const SizedBox(height: 16),
               ListTile(
                 title: Text(
-                  summaryData?.date ?? "",style: Theme.of(context).textTheme.titleMedium,
+                  summaryData?.date ?? "",
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                   /*  SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.present ?? '',
-                        title: 'working_days',
-                        color: colorPrimary),*/
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.onTimeIn ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'On Time', type: 'on_time_in'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.onTimeIn ?? '',
                         title: 'on_time',
                         color: Colors.green),
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.lateIn ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'On Late', type: 'late_in'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.lateIn ?? '',
                         title: 'late',
                         color: Colors.red),
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.leftTimely ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'Left Timely', type: 'left_timely'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.leftTimely ?? '',
                         title: 'left_timely',
                         color: Colors.green),
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.leftEarly ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'On Left Early', type: 'left_early'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.leftEarly ?? '',
                         title: 'left_early',
                         color: Colors.red),
                     SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'On Leave', type: 'leave'),
+                            ),
+                          );
+                        },
                         titleValue: summaryData?.attendanceSummary?.leave ?? '',
                         title: 'on_leave',
                         color: Colors.grey[400]!),
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.absent ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'Absent', type: 'absent'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.absent ?? '',
                         title: 'absent',
                         color: Colors.black87),
-                     SummeryTile(
-                        titleValue: summaryData?.attendanceSummary?.leftLater ?? '',
+                    SummeryTile(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                            context,
+                            BlocProvider.value(
+                              value: context.read<ReportBloc>(),
+                              child: const BodyToListDetails(
+                                  title: 'Left Later', type: 'left_later'),
+                            ),
+                          );
+                        },
+                        titleValue:
+                            summaryData?.attendanceSummary?.leftLater ?? '',
                         title: 'left_later',
                         color: Colors.amber),
                     const SizedBox(

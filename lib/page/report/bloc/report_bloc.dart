@@ -18,15 +18,31 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<GetReportData>(_onGetReportData);
   }
 
-  FutureOr<void> _onGetReportData(GetReportData event, Emitter<ReportState> emit) async {
+  FutureOr<void> _onGetReportData(
+      GetReportData event, Emitter<ReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
     final data = {'date': currentDate};
     try {
-      final report = await metaClubApiClient.getAttendanceReportSummary(body: data);
-      emit(state.copyWith(status: NetworkStatus.success, attendanceSummary: report));
+      final report =
+          await metaClubApiClient.getAttendanceReportSummary(body: data);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceSummary: report));
     } on Exception catch (e) {
       emit(const ReportState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  Future<SummaryAttendanceToList?> getSummaryToList(
+      {required String type}) async {
+    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
+    final data = {'type': type, 'date': currentDate};
+    try {
+      final response =
+          await metaClubApiClient.getAttendanceSummaryToList(body: data);
+      return response;
+    } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }
   }
