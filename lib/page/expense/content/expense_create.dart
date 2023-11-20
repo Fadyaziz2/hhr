@@ -14,7 +14,7 @@ class ExpenseCreate extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          tr("Create Expanse"),
+          tr("create_expanse"),
           style: Theme.of(context)
               .textTheme
               .titleMedium

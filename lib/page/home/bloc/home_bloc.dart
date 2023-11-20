@@ -20,6 +20,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<LoadHomeData>(_onHomeDataLoad);
   }
 
+  MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
+
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
     emit(const HomeState(status: NetworkStatus.loading));
     try {

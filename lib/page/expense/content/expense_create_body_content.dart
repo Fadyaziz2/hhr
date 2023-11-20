@@ -56,15 +56,15 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                             onChanged: (value) {
                               expenseCreateBody.amount = value;
                             },
-                            title: "Amount",
-                            labelText: 'Enter Amount',
+                            title: "amount".tr(),
+                            labelText: 'enter_amount'.tr(),
                           ),
                           const SizedBox(
                             height: 25,
                           ),
                           CommonTextFiledWithTitle(
-                            title: "Reference",
-                            labelText: 'Enter reference',
+                            title: "reference".tr(),
+                            labelText: 'enter_reference'.tr(),
                             onChanged: (value) {
                               expenseCreateBody.reference = value;
                             },
@@ -72,9 +72,9 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                           const SizedBox(
                             height: 25,
                           ),
-                          const Text(
-                            "date_schedule",
-                            style: TextStyle(
+                          Text(
+                            "date_schedule".tr(),
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -92,7 +92,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(state.selectDate ?? 'Select Date'),
+                                    Text(
+                                        state.selectDate ?? 'select_date'.tr()),
                                     const Icon(
                                       Icons.arrow_drop_down_sharp,
                                       color: Colors.grey,
@@ -106,8 +107,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                             height: 25,
                           ),
                           CommonTextFiledWithTitle(
-                            title: "Description",
-                            labelText: 'Enter description',
+                            title: "description".tr(),
+                            labelText: 'enter_description'.tr(),
                             onChanged: (value) {
                               expenseCreateBody.description = value;
                             },
@@ -137,7 +138,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (formKey.currentState!.validate() &&  state.status != NetworkStatus.loading) {
+                      if (formKey.currentState!.validate() &&
+                          state.status != NetworkStatus.loading) {
                         expenseCreateBody.date = state.selectDate;
                         expenseCreateBody.categoryId = categoryId;
                         context.read<ExpenseBloc>().add(
@@ -154,13 +156,15 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                       ),
                     ),
                     child: state.status == NetworkStatus.loading
-                        ? const CircularProgressIndicator(backgroundColor: Colors.white,)
-                        :  Text(tr("submit"),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        )),
+                        ? const CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          )
+                        : Text(tr("submit"),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            )),
                   ),
                 ),
               )

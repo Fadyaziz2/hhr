@@ -42,8 +42,8 @@ class CreateSupportListContent extends StatelessWidget {
                 ),
 
                 CustomTextField(
-                  title: 'Subject',
-                  hints: "Write Subject",
+                  title: 'Subject'.tr(),
+                  hints: "write_subject".tr(),
                   onData: (data) {
                     if (kDebugMode) {
                       print(data);
@@ -57,7 +57,7 @@ class CreateSupportListContent extends StatelessWidget {
 
                 CustomTextField(
                   title: tr("what_support_do_you_need?"),
-                  hints: "Write Description",
+                  hints: "write_description".tr(),
                   maxLine: 5,
                   onData: (data) {
                     if (kDebugMode) {

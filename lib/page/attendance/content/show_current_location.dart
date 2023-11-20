@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -13,89 +15,92 @@ import 'package:toggle_switch/toggle_switch.dart';
 class ShowCurrentLocation extends StatelessWidget {
   final DashboardModel homeData;
 
-  const ShowCurrentLocation({Key? key, required this.homeData})
-      : super(key: key);
+  const ShowCurrentLocation({super.key, required this.homeData});
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Container(
           color: const Color(0xffB7E3E8),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(8.0.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/images/map_marker_icon.json',
-                    height: 35, width: 35),
+                Lottie.asset('assets/images/map_marker_icon.json', height: 30.h, width: 30.w),
                 Expanded(
                   child: SizedBox(
                     child: Text(
-                      context.read<AttendanceBloc>().state.location ??  locationServiceProvider.place,
+                      context.read<AttendanceBloc>().state.location ??
+                          locationServiceProvider.place,
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 12.sp,
                           color: const Color(0xFF404A58)),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 5,
+                SizedBox(
+                  width: 5.w,
                 ),
                 InkWell(
                   onTap: () async {
-                    context.read<AttendanceBloc>().add(OnLocationRefreshEvent());
+                    context
+                        .read<AttendanceBloc>()
+                        .add(OnLocationRefreshEvent());
                   },
-                  child: context.read<AttendanceBloc>().state.locationLoaded ? Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 14,
-                        backgroundColor: colorPrimary,
-                        child: Center(
-                          child: Lottie.asset(
-                            'assets/images/Refresh.json',
-                            height: 24,
-                            width: 24,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        'refresh',
-                        style: TextStyle(
-                            color: colorPrimary, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ): const CircularProgressIndicator(),
+                  child: context.read<AttendanceBloc>().state.locationLoaded
+                      ? Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 14,
+                              backgroundColor: colorPrimary,
+                              child: Center(
+                                child: Lottie.asset(
+                                  'assets/images/Refresh.json',
+                                  height: 24.h,
+                                  width: 24.w,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Text(
+                              'refresh'.tr(),
+                              style: const TextStyle(
+                                  color: colorPrimary,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        )
+                      : const CircularProgressIndicator(),
                 )
               ],
             ),
           ),
         ),
-        const SizedBox(
-          height: 20,
+        SizedBox(
+          height: 16.h,
         ),
-        Text("choose your remote mode",
+        Text("choose_your_remote_mode".tr(),
             style: GoogleFonts.nunitoSans(
-                fontSize: 14,
+                fontSize: 13.sp,
                 color: Colors.black87,
                 fontWeight: FontWeight.bold)),
-        const SizedBox(
-          height: 15,
+        SizedBox(
+          height: 8.h,
         ),
         FutureBuilder<int?>(
           future: SharedUtil.getRemoteModeType(),
-          builder: (context, snapshot){
+          builder: (context, snapshot) {
             return SizedBox(
-              height: 42.0,
+              height: 40.0.h,
               child: ToggleSwitch(
-                minWidth: 110.0,
+                minWidth: 110.0.w,
                 borderColor: const [
                   colorPrimary,
                 ],
@@ -109,15 +114,20 @@ class ShowCurrentLocation extends StatelessWidget {
                 inactiveBgColor: colorPrimary,
                 inactiveFgColor: Colors.white,
                 initialLabelIndex: snapshot.data,
-                icons: const [FontAwesomeIcons.house, FontAwesomeIcons.building],
+                icons: const [
+                  FontAwesomeIcons.house,
+                  FontAwesomeIcons.building
+                ],
                 totalSwitches: 2,
-                labels: const ['home', 'office'],
+                labels: ['home'.tr(), 'office'.tr()],
                 radiusStyle: true,
                 onToggle: (index) {
                   /// RemoteModeType
                   /// 0 ==> Home
                   /// 1 ==> office
-                  context.read<AttendanceBloc>().add(OnRemoteModeChanged(mode: index??0));
+                  context
+                      .read<AttendanceBloc>()
+                      .add(OnRemoteModeChanged(mode: index ?? 0));
                 },
               ),
             );

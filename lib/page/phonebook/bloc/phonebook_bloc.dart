@@ -123,8 +123,9 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
 
   FutureOr<void> _onDirectPhoneCall(
       DirectPhoneCall event, Emitter<PhoneBookState> emit) async {
-    if (!await launchUrl(Uri.parse("tel://${event.phoneNumber}")))
+    if (!await launchUrl(Uri.parse("tel://${event.phoneNumber}"))) {
       throw 'Could not launch ${Uri.parse("tel://${event.phoneNumber}")}';
+    }
   }
 
   Future<PhoneBookDetailsModel?> onPhoneBookDetails(

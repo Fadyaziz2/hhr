@@ -8,6 +8,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
+import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
@@ -18,8 +19,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/leave_request_model.dart';
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -28,9 +27,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onestweb.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -278,6 +277,82 @@ class MetaClubApiClient {
         return LeaveRequestTypeModel.fromJson(response.data);
       }
       return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(
+      int? userId, String? date) async {
+    const String api = 'daily-leave/leave-list';
+
+    try {
+      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return DailyLeaveSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveTypeListModel?> dailyLeaveSummaryStaffView(
+      {String? userId,
+      String? month,
+      String? leaveType,
+      String? leaveStatus}) async {
+    const String api = 'daily-leave/staff-list-view';
+
+    try {
+      FormData formData = FormData.fromMap({
+        "user_id": userId,
+        "month": month,
+        "leave_type": leaveType,
+        "leave_status": leaveStatus
+      });
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return LeaveTypeListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future postApplyLeave(data) async {
+    const String api = 'daily-leave/store';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future dailyLeaveApprovalAction(data)async{
+    const String api = 'daily-leave/approve-reject';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return response.data;
     } catch (_) {
       return null;
     }
@@ -1002,6 +1077,27 @@ class MetaClubApiClient {
     }
   }
 
+  Future<BreakReportModel?> getBreakHistory(
+    String date,
+  ) async {
+    const String api = 'user/attendance/break-history';
+
+    final data = {
+      "date": date,
+    };
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return BreakReportModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<ExpenseCategoryModel?> getExpenseCategory() async {
     String api = 'accounts/expense/category-list';
     try {
@@ -1047,13 +1143,84 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ExpenseCreateResponse> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+  Future<ExpenseCreateResponse> expenseCreate(
+      {ExpenseCreateBody? expenseCreateBody}) async {
     String api = 'expense/add';
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', expenseCreateBody?.toJson());
+      final response = await _httpServiceImpl.postRequest(
+          '$_baseUrl$api', expenseCreateBody?.toJson());
       return ExpenseCreateResponse.fromJson(response.data);
     } catch (e) {
-      return ExpenseCreateResponse(message: 'Something went wrong', success: false);
+      return ExpenseCreateResponse(
+          message: 'Something went wrong', success: false);
+    }
+  }
+
+  /// ===================== Payroll Data List ========================
+  Future<PayrollModel?> getPayrollData({required String year}) async {
+    const String api = 'report/payslip/list';
+
+    final data = {"year": year.toString()};
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return PayrollModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Payroll Data List ========================
+  Future<ApprovalModel?> getApprovalData() async {
+    const String api = 'user/leave/approval/list/view';
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', '');
+      if (response.statusCode == 200) {
+        return ApprovalModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Approval Details====================
+  Future<ApprovalDetailsModel?> getApprovalListDetails(
+      {required String approvalId, required String approvalUserId}) async {
+    String api = 'user/leave/details/$approvalId';
+    final data = {"user_id": approvalUserId};
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode != 200) {
+        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      }
+      return ApprovalDetailsModel.fromJson(response.data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ================== Action Approval Approved or Reject ====================
+  Future approvalApprovedOrReject(
+      {required String approvalId, required int type}) async {
+    String api = 'user/leave/approval/status-change/$approvalId/$type';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.data['result'] != true) {
+        throw NetworkRequestFailure(
+            response?.data['message'] ?? 'server error');
+      }
+      return response?.data['result'];
+    } catch (_) {
+      return null;
     }
   }
 }

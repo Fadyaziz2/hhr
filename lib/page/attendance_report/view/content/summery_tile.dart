@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SummeryTile extends StatelessWidget {
@@ -27,7 +28,7 @@ class SummeryTile extends StatelessWidget {
               color: color,
             ),
           ),
-          title: Text(title),
+          title: Text(title).tr(),
           trailing: Text(
             titleValue ?? '',
             style: Theme.of(context).textTheme.titleMedium,

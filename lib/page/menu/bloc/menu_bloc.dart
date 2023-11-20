@@ -1,18 +1,23 @@
+import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/break/view/break_page.dart';
+import 'package:onesthrm/page/daily_leave/view/daily_leave_page.dart';
 import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
+import 'package:onesthrm/page/payroll/view/view.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-
+import 'package:user_repository/user_repository.dart';
 import '../../phonebook/view/phonebook_page.dart';
 
 part 'menu_event.dart';
@@ -20,23 +25,28 @@ part 'menu_event.dart';
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
-  final MetaClubApiClient _metaClubApiClient;
   final Settings _settings;
+  final LoginData _loginData;
+  final Color _primaryColor;
 
   MenuBloc(
-      {required MetaClubApiClient metaClubApiClient, required Settings setting})
-      : _metaClubApiClient = metaClubApiClient,
-        _settings = setting,
+      {required MetaClubApiClient metaClubApiClient,
+        required LoginData loginData,
+        required Color color,
+        required Settings setting})
+      : _settings = setting,
+        _loginData = loginData,
+        _primaryColor = color,
         super(const MenuState(
-          status: NetworkStatus.initial,
-        )) {
+        status: NetworkStatus.initial,
+      )) {
     on<RouteSlug>(onRouteSlug);
   }
 
   void onRouteSlug(
-    RouteSlug event,
-    Emitter<MenuState> emit,
-  ) {
+      RouteSlug event,
+      Emitter<MenuState> emit,
+      ) {
     switch (event.slugName) {
       case 'support':
         NavUtil.navigateScreen(event.context, const SupportPage());
@@ -58,6 +68,16 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const LeavePage());
         break;
       case 'approval':
+        NavUtil.navigateScreen(event.context, const ApprovalScreen());
+        break;
+      case 'chat':
+        NavUtil.navigateScreen(
+            event.context,
+            ChatRoom(
+              uid: '${_loginData.user?.id ?? 0}',
+              primaryColor: _primaryColor,
+            ));
+        break;
       case 'phonebook':
         NavUtil.navigateScreen(
             event.context,
@@ -72,10 +92,16 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
+        NavUtil.navigateScreen(event.context, BlocProvider.value(value: event.context.read<HomeBloc>(),child: const BreakScreen()));
+        break;
       case 'feedback':
       case 'report':
-      case 'daily-leave':
+      case 'daily_leave':
+      NavUtil.navigateScreen(event.context, const DailyLeavePage());
+      break;
       case 'payroll':
+        NavUtil.navigateScreen(event.context, const PayrollScreen());
+        break;
       case 'task':
         NavUtil.navigateScreen(event.context, const TaskScreen());
         break;

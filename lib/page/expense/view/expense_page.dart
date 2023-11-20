@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -15,12 +16,15 @@ class ExpensePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (context) => ExpenseBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(GetExpenseData())..add(ExpenseCategory()),
+      create: (context) => ExpenseBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+        ..add(GetExpenseData())
+        ..add(ExpenseCategory()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Expense"),
+              title: Text("expense".tr()),
               actions: [
                 IconButton(
                   icon: const Icon(
@@ -44,7 +48,11 @@ class ExpensePage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<ExpenseBloc>(),child: const ExpenseCategoryPage()));
+                NavUtil.navigateScreen(
+                    context,
+                    BlocProvider.value(
+                        value: context.read<ExpenseBloc>(),
+                        child: const ExpenseCategoryPage()));
               },
               child: const Icon(Icons.add),
             ),
