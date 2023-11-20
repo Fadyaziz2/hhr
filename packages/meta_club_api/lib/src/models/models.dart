@@ -45,3 +45,4 @@ export 'approval_details_model.dart';
 export 'visit_list_model.dart';
 export 'history_list_model.dart';
 export 'body_create_visit.dart';
+export 'visit_details_model.dart';

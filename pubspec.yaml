@@ -90,6 +90,7 @@ dependencies:
   connectivity_plus: ^2.3.6+1
   flutter_face_core: 5.2.0
   flutter_screenutil: ^5.8.4
+  geocoding: ^2.1.1
 
 
 dev_dependencies:

@@ -1190,14 +1190,14 @@ class MetaClubApiClient {
   }
 
   /// Visit Details API
-  Future<HistoryListModel?> getVisitDetailsApi(int? visitID) async {
-     String api = '/visit/show/$visitID';
+  Future<VisitDetailsModel?> getVisitDetailsApi(int? visitID) async {
+     String api = 'visit/show/$visitID';
 
     try {
       final response =
       await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
-        return HistoryListModel.fromJson(response?.data);
+        return VisitDetailsModel.fromJson(response?.data);
       }
       return null;
     } catch (_) {

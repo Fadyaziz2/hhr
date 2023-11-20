@@ -21,7 +21,9 @@ class VisitListItem extends StatelessWidget {
             context,
             BlocProvider.value(
                 value: context.read<VisitBloc>(),
-                child: const VisitDetailsPage()));
+                child: VisitDetailsPage(
+                  visitID: myVisit?.id,
+                )));
       },
       child: Column(
         children: [

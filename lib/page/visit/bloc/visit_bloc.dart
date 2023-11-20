@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -18,7 +19,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
   VisitBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
-        super(const VisitState()) {
+        super(VisitState()) {
     on<VisitListApi>(_visitListApi);
     on<HistoryListApi>(_historyListApi);
     on<SelectDatePicker>(_onSelectDatePicker);
@@ -42,16 +43,33 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         status: NetworkStatus.success, currentMonth: currentMonth));
   }
 
-  FutureOr<void> _visitDetailsApi(VisitDetailsApi event,Emitter<VisitState> emit) async{
+  FutureOr<void> _visitDetailsApi(
+      VisitDetailsApi event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      var visitDetailsResponse = await _metaClubApiClient.getVisitDetailsApi(20);
-      emit(state.copyWith(status: NetworkStatus.success));
+      String youLocationServer;
+      List locationListServer = [];
+      VisitDetailsModel? visitDetailsResponse =
+          await _metaClubApiClient.getVisitDetailsApi(event.visitId);
+
+      visitDetailsResponse?.data?.schedules?.map((e) async {
+        var latitude = e.latitude;
+        var longitude = e.longitude;
+        var lat = double.parse(latitude.toString());
+        var log = double.parse(longitude.toString());
+        List pm = await placemarkFromCoordinates(lat, log);
+        Placemark placeMark = pm[0];
+        youLocationServer =
+        "${placeMark.street ?? ""},${placeMark.locality ?? ""} ${placeMark.postalCode ?? ""}";
+        locationListServer.add(youLocationServer ?? "");
+      }).toList();
+      emit(state.copyWith(
+          status: NetworkStatus.success,
+          visitDetailsResponse: visitDetailsResponse,locationListServer: locationListServer));
     } on Exception catch (e) {
-      emit(const VisitState(status:  NetworkStatus.failure));
+      emit(VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
-
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -80,7 +98,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       emit(state.copyWith(
           status: NetworkStatus.success, historyListResponse: historyResponse));
     } on Exception catch (e) {
-      emit(const VisitState(status: NetworkStatus.failure));
+      emit(VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -93,7 +111,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       emit(state.copyWith(
           status: NetworkStatus.success, visitListResponse: visitResponse));
     } on Exception catch (e) {
-      emit(const VisitState(status: NetworkStatus.failure));
+      emit(VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -109,8 +127,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           if (success) {
             Fluttertoast.showToast(msg: "Visit Create Successfully");
             emit(state.copyWith(
-                status: NetworkStatus.success,
-                isDateEnable: false));
+                status: NetworkStatus.success, isDateEnable: false));
             add(VisitListApi());
             Navigator.pop(event.context);
           } else {
@@ -123,7 +140,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       }
     } on Exception catch (e) {
       emit(
-          const VisitState(status: NetworkStatus.failure, isDateEnable: false));
+          VisitState(status: NetworkStatus.failure, isDateEnable: false));
       throw NetworkRequestFailure(e.toString());
     }
   }

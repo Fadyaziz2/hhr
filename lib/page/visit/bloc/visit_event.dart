@@ -11,8 +11,10 @@ class VisitListApi extends VisitEvent {
 }
 
 class VisitDetailsApi extends VisitEvent {
+  final int? visitId;
+  VisitDetailsApi(this.visitId);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [visitId];
 }
 
 class HistoryListApi extends VisitEvent {
