@@ -9,6 +9,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../location_track.dart';
 
+
 Future openLocationBox() async {
   final document = await getApplicationDocumentsDirectory();
   Hive.init(document.path);
@@ -19,8 +20,7 @@ Future openLocationBox() async {
 class LocationServiceProvider {
   late LocationService locationServiceProvider;
   HiveLocationProvider locationProvider = HiveLocationProvider();
-  FirebaseLocationStoreProvider locationStoreProvider =
-      FirebaseLocationStoreProvider();
+  FirebaseLocationStoreProvider locationStoreProvider = FirebaseLocationStoreProvider();
 
   GeoLocatorService geoService = GeoLocatorService();
   LocationData userLocation = LocationData.fromMap({});
@@ -48,16 +48,14 @@ class LocationServiceProvider {
   ///return driver current location stream
   ///for this we use another package called {Location:any}
   ///to get location more better way
-  void getCurrentLocationStream(
-      {required int uid, required MetaClubApiClient metaClubApiClient}) async {
+  void getCurrentLocationStream({required int uid, required MetaClubApiClient metaClubApiClient}) async {
     ///location permission check
     await askForLocationAlwaysPermission();
 
     locationServiceProvider = LocationService();
 
     ///listening data from location service
-    locationSubscription =
-        locationServiceProvider.locationStream.listen((event) async {
+    locationSubscription = locationServiceProvider.locationStream.listen((event) async {
       ///initialize userLocation data
       userLocation = event;
 
@@ -82,13 +80,16 @@ class LocationServiceProvider {
 
         ///store data to server from hive
         deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+
+        ///Inactive all listener to listen location data for a while
+        locationSubscription.pause();
+
+        debugPrint('isPaused ${locationSubscription.isPaused}');
       }
 
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
 
-      ///Inactive all listener to listen location data for a while
-      locationSubscription.pause();
     });
 
     ///set timer to toggle location subscription
@@ -124,34 +125,34 @@ class LocationServiceProvider {
 
     placeMark = places?.first;
 
-    place =
-        '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+    place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
 
     Timer.periodic(const Duration(minutes: 2), (timer) async {
       if (kDebugMode) {
         print('local from position ${position.toString()}');
       }
 
-      double distance = 0.0;
+      if (!locationSubscription.isPaused) {
+        double distance = 0.0;
 
-      final locationModel = LocationModel(
-          latitude: position.latitude,
-          longitude: position.longitude,
-          speed: position.speed,
-          city: placeMark?.locality,
-          country: placeMark?.country,
-          countryCode: placeMark?.isoCountryCode,
-          address:
-              '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
-          heading: position.heading,
-          distance: distance,
-          datetime: DateTime.now().toString());
+        final locationModel = LocationModel(
+            latitude: position.latitude,
+            longitude: position.longitude,
+            speed: position.speed,
+            city: placeMark?.locality,
+            country: placeMark?.country,
+            countryCode: placeMark?.isoCountryCode,
+            address:
+            '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
+            heading: position.heading,
+            distance: distance,
+            datetime: DateTime.now().toString());
 
-      ///add data to local database
-      locationProvider.add(locationModel);
+        ///add data to local database
+        locationProvider.add(locationModel);
 
-      FirebaseLocationStoreProvider.sendLocationToFirebase(
-          uid, locationModel.toJson());
+        FirebaseLocationStoreProvider.sendLocationToFirebase(uid, locationModel.toJson());
+      }
     });
   }
 
@@ -161,15 +162,12 @@ class LocationServiceProvider {
       required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
     Timer.periodic(const Duration(minutes: 4), (timer) async {
-      if (locationProvider.toMapList().length > 2) {
+      if (locationProvider.toMapList().length > 2 &&  !locationSubscription.isPaused) {
         if (kDebugMode) {
-          print(
-              'data that u have to sent server ${locationProvider.toMapList()}');
+          print('data that u have to sent server ${locationProvider.toMapList()}');
         }
         metaClubApiClient
-            .storeLocationToServer(
-                locations: locationProvider.toMapList(),
-                date: DateTime.now().toString())
+            .storeLocationToServer(locations: locationProvider.toMapList(), date: DateTime.now().toString())
             .then((isStored) async {
           if (isStored) {
             await locationProvider.deleteAllLocation();
