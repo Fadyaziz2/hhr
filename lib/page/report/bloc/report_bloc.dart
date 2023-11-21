@@ -19,8 +19,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   ReportBloc({required this.metaClubApiClient})
       : super(const ReportState(status: NetworkStatus.initial)) {
     on<GetReportData>(_onGetReportData);
-    on<GetLeaveReportSummary>(_onLeaveReportSummary);
-    on<FilterLeaveReportSummary>(_onFilterLeaveReportSummary);
     on<SelectDate>(_onSelectDatePicker);
     on<SelectEmployee>(_selectEmployee);
   }
@@ -65,37 +63,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
           await metaClubApiClient.getAttendanceSummaryToList(body: data);
       return response;
     } catch (e) {
-      throw NetworkRequestFailure(e.toString());
-    }
-  }
-
-  FutureOr<void> _onLeaveReportSummary(
-      GetLeaveReportSummary event, Emitter<ReportState> emit) async {
-    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-
-    try {
-      final leaveSummaryData =
-          await metaClubApiClient.leaveReportSummaryApi(currentDate);
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          leaveReportSummaryModel: leaveSummaryData));
-    } on Exception catch (e) {
-      emit(const ReportState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
-  }
-
-  FutureOr<void> _onFilterLeaveReportSummary(
-      FilterLeaveReportSummary event, Emitter<ReportState> emit) async {
-    try {
-      LeaveSummaryModel? leaveSummaryResponse =
-          await metaClubApiClient.leaveSummaryApi(event.selectedEmployeeId);
-      emit(state.copyWith(
-          filterLeaveSummaryResponse: leaveSummaryResponse,
-          status: NetworkStatus.success));
-      return null;
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }

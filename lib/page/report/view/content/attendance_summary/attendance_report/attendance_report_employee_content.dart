@@ -13,6 +13,7 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
       body: const Column(
         children: [
           SelectEmployeeForAttendance(),
+
         ],
       ),
     );

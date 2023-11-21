@@ -12,21 +12,6 @@ class GetReportData extends ReportEvent {
   List<Object> get props => [];
 }
 
-class GetLeaveReportSummary extends ReportEvent {
-  GetLeaveReportSummary();
-
-  @override
-  List<Object> get props => [];
-}
-
-class FilterLeaveReportSummary extends ReportEvent {
-  final int selectedEmployeeId;
-  FilterLeaveReportSummary(this.selectedEmployeeId);
-
-  @override
-  List<Object> get props => [selectedEmployeeId];
-}
-
 class SelectDate extends ReportEvent {
   final BuildContext context;
   SelectDate(this.context);
