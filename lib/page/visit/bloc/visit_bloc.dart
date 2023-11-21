@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -26,6 +27,19 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<SelectMonthPicker>(_onSelectMonthPicker);
     on<CreateVisitEvent>(_onCreateVisitEvent);
     on<VisitDetailsApi>(_visitDetailsApi);
+    on<VisitGoToPosition>(_visitGoToPosition);
+  }
+
+  FutureOr<void> _visitGoToPosition(VisitGoToPosition event, Emitter<VisitState> emit) async {
+    Set<Marker> markers = {};
+    final GoogleMapController controller = event.controller;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: event.latLng, zoom: 15)));
+    markers.add(Marker(
+      markerId: MarkerId(event.latLng.latitude.toString()),
+      position: LatLng(event.latLng.latitude, event.latLng.longitude), //position of marker
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+    emit(state.copyWith(markers: markers));
   }
 
   FutureOr<void> _onSelectMonthPicker(
@@ -60,12 +74,13 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         List pm = await placemarkFromCoordinates(lat, log);
         Placemark placeMark = pm[0];
         youLocationServer =
-        "${placeMark.street ?? ""},${placeMark.locality ?? ""} ${placeMark.postalCode ?? ""}";
+            "${placeMark.street ?? ""},${placeMark.locality ?? ""} ${placeMark.postalCode ?? ""}";
         locationListServer.add(youLocationServer ?? "");
       }).toList();
       emit(state.copyWith(
           status: NetworkStatus.success,
-          visitDetailsResponse: visitDetailsResponse,locationListServer: locationListServer));
+          visitDetailsResponse: visitDetailsResponse,
+          locationListServer: locationListServer));
     } on Exception catch (e) {
       emit(VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -139,8 +154,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         emit(state.copyWith(status: NetworkStatus.success, isDateEnable: true));
       }
     } on Exception catch (e) {
-      emit(
-          VisitState(status: NetworkStatus.failure, isDateEnable: false));
+      emit(VisitState(status: NetworkStatus.failure, isDateEnable: false));
       throw NetworkRequestFailure(e.toString());
     }
   }

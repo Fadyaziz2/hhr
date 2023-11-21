@@ -2,8 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
+import 'package:onesthrm/page/visit/view/content/visit_note_content.dart';
 
 import '../../../../res/const.dart';
 import '../content/visit_details_google_map.dart';
@@ -17,17 +19,8 @@ class VisitDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<VisitBloc>().add(VisitDetailsApi(visitID));
+    late GoogleMapController mapController;
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // NavUtil.navigateScreen(
-            //     context,
-            //     BlocProvider.value(
-            //         value: context.read<VisitBloc>(),
-            //         child: const CreateVisitPage()));
-          },
-          child: const Icon(Icons.add),
-        ),
         appBar: AppBar(
           title: const Text(
             "Visit Details",
@@ -38,7 +31,7 @@ class VisitDetailsPage extends StatelessWidget {
             VisitDetailsResponse? data = state.visitDetailsResponse?.data;
             return ListView(
               children: [
-                VisitHeader(data: data),
+                const VisitHeader(),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
@@ -54,12 +47,16 @@ class VisitDetailsPage extends StatelessWidget {
                     elevation: 3,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
-                    child: const SizedBox(
+                    child: SizedBox(
                         height: 220,
                         width: double.infinity,
                         child: Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: VisitDetailsGoogleMap(),
+                          padding: const EdgeInsets.all(5.0),
+                          child: VisitDetailsGoogleMap(
+                            onMapCreated: (GoogleMapController controller) {
+                              mapController = controller;
+                            },
+                          ),
                         )),
                   ),
                 ),
@@ -137,14 +134,18 @@ class VisitDetailsPage extends StatelessWidget {
                   itemCount: data?.schedules?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
-                        // provider.goToPosition(LatLng(
-                        //     double.parse(provider.visitDetails?.data
-                        //         ?.schedules?[index].latitude ??
-                        //         ""),
-                        //     double.parse(provider.visitDetails?.data
-                        //         ?.schedules?[index].longitude ??
-                        //         "")));
+                      onTap: () async {
+                        context.read<VisitBloc>().add(
+                              VisitGoToPosition(
+                                  latLng: LatLng(
+                                      double.parse(
+                                          data?.schedules?[index].latitude ??
+                                              ""),
+                                      double.parse(
+                                          data?.schedules?[index].longitude ??
+                                              "")),
+                                  controller: mapController),
+                            );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -178,34 +179,7 @@ class VisitDetailsPage extends StatelessWidget {
                     return const Divider();
                   },
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                  child: Text(
-                    tr("visit_notes"),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 10),
-                      child: Row(
-                        children: [
-                          Text(
-                            tr("visit_notes"),
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.add)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                const VisitNoteContent(),
                 Row(
                   children: [
                     Expanded(

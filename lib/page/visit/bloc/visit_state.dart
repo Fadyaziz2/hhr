@@ -8,6 +8,7 @@ class VisitState extends Equatable {
   final String? currentMonth;
   final bool? isDateEnable;
   final VisitDetailsModel? visitDetailsResponse;
+  final Set<Marker> markers;
   List? locationListServer = [];
 
   VisitState(
@@ -18,6 +19,7 @@ class VisitState extends Equatable {
       this.currentMonth,
       this.visitDetailsResponse,
       this.locationListServer,
+      this.markers = const {},
       this.isDateEnable = false});
 
   VisitState copyWith(
@@ -27,10 +29,12 @@ class VisitState extends Equatable {
       String? currentDate,
       String? currentMonth,
       List? locationListServer,
+      Set<Marker>? markers,
       VisitDetailsModel? visitDetailsResponse,
       bool? isDateEnable}) {
     return VisitState(
         status: status ?? this.status,
+        markers: markers ?? this.markers,
         visitListResponse: visitListResponse ?? this.visitListResponse,
         visitDetailsResponse: visitDetailsResponse ?? this.visitDetailsResponse,
         historyListResponse: historyListResponse ?? this.historyListResponse,
@@ -48,6 +52,7 @@ class VisitState extends Equatable {
         currentDate,
         isDateEnable,
         currentMonth,
-        visitDetailsResponse
+        visitDetailsResponse,
+        markers
       ];
 }

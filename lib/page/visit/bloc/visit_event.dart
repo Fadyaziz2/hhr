@@ -10,6 +10,15 @@ class VisitListApi extends VisitEvent {
   List<Object?> get props => [];
 }
 
+class VisitGoToPosition extends VisitEvent {
+  final LatLng latLng;
+  final GoogleMapController controller;
+  VisitGoToPosition({required this.latLng,required this.controller});
+
+  @override
+  List<Object?> get props => [latLng,controller];
+}
+
 class VisitDetailsApi extends VisitEvent {
   final int? visitId;
   VisitDetailsApi(this.visitId);
