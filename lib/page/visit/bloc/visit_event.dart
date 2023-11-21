@@ -10,9 +10,15 @@ class VisitListApi extends VisitEvent {
   List<Object?> get props => [];
 }
 
-class VisitCreateNote extends VisitEvent {
+class VisitCreateNoteApi extends VisitEvent {
+
+  final BodyVisitNote? bodyVisitNote;
+  final BuildContext context;
+
+  VisitCreateNoteApi({this.bodyVisitNote,required this.context});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [bodyVisitNote];
 }
 
 class VisitGoToPosition extends VisitEvent {

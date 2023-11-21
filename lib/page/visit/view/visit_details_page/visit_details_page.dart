@@ -179,7 +179,7 @@ class VisitDetailsPage extends StatelessWidget {
                     return const Divider();
                   },
                 ),
-                const VisitNoteContent(),
+                 VisitNoteContent(visitID: visitID),
                 Row(
                   children: [
                     Expanded(

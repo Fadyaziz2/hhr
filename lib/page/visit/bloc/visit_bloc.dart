@@ -28,6 +28,27 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<CreateVisitEvent>(_onCreateVisitEvent);
     on<VisitDetailsApi>(_visitDetailsApi);
     on<VisitGoToPosition>(_visitGoToPosition);
+    on<VisitCreateNoteApi>(_visitCreateNoteApi);
+  }
+
+  FutureOr<void> _visitCreateNoteApi(VisitCreateNoteApi event,Emitter<VisitState> emit) async{
+    emit(VisitState(status: NetworkStatus.loading));
+    try{
+      await _metaClubApiClient.visitCreateNoteApi(bodyVisitNote: event.bodyVisitNote).then((success) {
+        if(success){
+          Fluttertoast.showToast(msg: "Visit Note Create Successfully");
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(VisitDetailsApi(event.bodyVisitNote?.visitId));
+          Navigator.pop(event.context);
+        }else {
+          emit(state.copyWith(status: NetworkStatus.failure));
+          Fluttertoast.showToast(msg: "Something went wrong!");
+        }
+      });
+    } on Exception catch(e) {
+      emit(VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _visitGoToPosition(VisitGoToPosition event, Emitter<VisitState> emit) async {

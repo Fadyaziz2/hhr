@@ -1,12 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../res/nav_utail.dart';
+import '../../bloc/visit_bloc.dart';
+import '../visit_note_page/visit_note_page.dart';
 
 class VisitNoteContent extends StatelessWidget {
-  const VisitNoteContent({super.key});
+  final int? visitID;
+  const VisitNoteContent({super.key,this.visitID});
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding:
@@ -18,7 +25,11 @@ class VisitNoteContent extends StatelessWidget {
         ),
         InkWell(
           onTap: (){
-
+            NavUtil.navigateScreen(
+                context,
+                BlocProvider.value(
+                    value: context.read<VisitBloc>(),
+                    child:  VisitNotePage(visitID: visitID,)));
           },
           child: Padding(
             padding: const EdgeInsets.all(10.0),
