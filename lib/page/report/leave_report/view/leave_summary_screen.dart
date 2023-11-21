@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/report/bloc/report_bloc.dart';
-import 'leave_report_summary_content.dart';
+import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 
 class LeaveSummeryScreen extends StatelessWidget {
   const LeaveSummeryScreen({super.key});
@@ -13,7 +13,7 @@ class LeaveSummeryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (BuildContext context) => ReportBloc(
+      create: (BuildContext context) => LeaveReportBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
         ..add(GetLeaveReportSummary()),
       child: Scaffold(

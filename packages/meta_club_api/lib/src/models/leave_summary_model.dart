@@ -21,7 +21,7 @@ class LeaveSummaryModel extends Equatable {
       );
 
   @override
-  List<Object?> get props => [result,message,leaveSummaryData];
+  List<Object?> get props => [result, message, leaveSummaryData];
 }
 
 class LeaveSummaryData extends Equatable {
@@ -39,13 +39,14 @@ class LeaveSummaryData extends Equatable {
 
   factory LeaveSummaryData.fromJson(Map<String, dynamic> json) =>
       LeaveSummaryData(
-        totalLeave: json["total_leave"],
-        totalUsed: json["total_used"],
-        leaveBalance: json["leave_balance"],
-        availableLeave: json["available_leave"] == null
-            ? []
-            : (json["available_leave"] as List).map((e) => AvailableLeave.fromJson(e)).toList()
-      );
+          totalLeave: json["total_leave"],
+          totalUsed: json["total_used"],
+          leaveBalance: json["leave_balance"],
+          availableLeave: json["available_leave"] == null
+              ? []
+              : (json["available_leave"] as List)
+                  .map((e) => AvailableLeave.fromJson(e))
+                  .toList());
 
   @override
   List<Object?> get props =>
