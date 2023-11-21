@@ -8,7 +8,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
-import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
