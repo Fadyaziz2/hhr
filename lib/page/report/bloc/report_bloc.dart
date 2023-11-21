@@ -22,6 +22,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<GetLeaveReportSummary>(_onLeaveReportSummary);
     on<FilterLeaveReportSummary>(_onFilterLeaveReportSummary);
     on<SelectDate>(_onSelectDatePicker);
+    on<SelectEmployee>(_selectEmployee);
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -97,5 +98,11 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }
+
+  FutureOr<void> _selectEmployee(
+      SelectEmployee event, Emitter<ReportState> emit) async {
+    emit(state.copyWith(selectEmployee: event.selectEmployee));
+    // add(DailyLeaveSummary(event.selectEmployee.id!));
   }
 }

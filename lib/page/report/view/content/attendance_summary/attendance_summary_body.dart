@@ -156,7 +156,12 @@ class AttendanceSummaryBody extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // print("You pressed Icon Elevated Button");
+                    NavUtil.navigateScreen(
+                      context,
+                      BlocProvider.value(
+                          value: context.read<ReportBloc>(),
+                          child: const AttendanceReportEmployeeContent()),
+                    );
                   },
                   icon: const Icon(
                     Icons.search,

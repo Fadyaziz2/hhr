@@ -3,6 +3,7 @@ part of 'report_bloc.dart';
 class ReportState extends Equatable {
   final NetworkStatus? status;
   final String? currentMonth;
+  final PhoneBookUser? selectEmployee;
   final ReportAttendanceSummary? attendanceSummary;
   final LeaveReportSummaryModel? leaveReportSummaryModel;
   final LeaveSummaryModel? filterLeaveSummaryResponse;
@@ -10,6 +11,7 @@ class ReportState extends Equatable {
   const ReportState(
       {this.status,
       this.currentMonth,
+      this.selectEmployee,
       this.attendanceSummary,
       this.leaveReportSummaryModel,
       this.filterLeaveSummaryResponse});
@@ -17,6 +19,7 @@ class ReportState extends Equatable {
   ReportState copyWith({
     NetworkStatus? status,
     ReportAttendanceSummary? attendanceSummary,
+    PhoneBookUser? selectEmployee,
     LeaveReportSummaryModel? leaveReportSummaryModel,
     LeaveSummaryModel? filterLeaveSummaryResponse,
     String? currentMonth,
@@ -24,6 +27,7 @@ class ReportState extends Equatable {
     return ReportState(
         status: status ?? this.status,
         currentMonth: currentMonth ?? this.currentMonth,
+        selectEmployee: selectEmployee ?? this.selectEmployee,
         attendanceSummary: attendanceSummary ?? this.attendanceSummary,
         leaveReportSummaryModel:
             leaveReportSummaryModel ?? this.leaveReportSummaryModel,
@@ -37,6 +41,7 @@ class ReportState extends Equatable {
         currentMonth,
         attendanceSummary,
         leaveReportSummaryModel,
-        filterLeaveSummaryResponse
+        filterLeaveSummaryResponse,
+        selectEmployee
       ];
 }

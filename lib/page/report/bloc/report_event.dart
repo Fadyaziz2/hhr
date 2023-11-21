@@ -35,3 +35,12 @@ class SelectDate extends ReportEvent {
   List<Object> get props => [];
 }
 
+class SelectEmployee extends ReportEvent {
+  final PhoneBookUser selectEmployee;
+
+  SelectEmployee(this.selectEmployee);
+
+  @override
+  List<Object> get props => [selectEmployee];
+}
+
