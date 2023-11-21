@@ -5,18 +5,22 @@ class ReportState extends Equatable {
   final ReportAttendanceSummary? attendanceSummary;
   final LeaveReportSummaryModel? leaveReportSummaryModel;
   final LeaveSummaryModel? filterLeaveSummaryResponse;
+  final PhoneBookUser? selectedEmployeeName;
 
-  const ReportState(
-      {this.status,
-      this.attendanceSummary,
-      this.leaveReportSummaryModel,
-      this.filterLeaveSummaryResponse});
+  const ReportState({
+    this.status,
+    this.attendanceSummary,
+    this.leaveReportSummaryModel,
+    this.filterLeaveSummaryResponse,
+    this.selectedEmployeeName,
+  });
 
   ReportState copyWith({
     NetworkStatus? status,
     ReportAttendanceSummary? attendanceSummary,
     LeaveReportSummaryModel? leaveReportSummaryModel,
     LeaveSummaryModel? filterLeaveSummaryResponse,
+    PhoneBookUser? selectedEmployeeName,
   }) {
     return ReportState(
         status: status ?? this.status,
@@ -24,7 +28,9 @@ class ReportState extends Equatable {
         leaveReportSummaryModel:
             leaveReportSummaryModel ?? this.leaveReportSummaryModel,
         filterLeaveSummaryResponse:
-            filterLeaveSummaryResponse ?? this.filterLeaveSummaryResponse);
+            filterLeaveSummaryResponse ?? this.filterLeaveSummaryResponse,
+        selectedEmployeeName:
+            selectedEmployeeName ?? this.selectedEmployeeName);
   }
 
   @override
@@ -32,6 +38,7 @@ class ReportState extends Equatable {
         status,
         attendanceSummary,
         leaveReportSummaryModel,
-        filterLeaveSummaryResponse
+        filterLeaveSummaryResponse,
+        selectedEmployeeName,
       ];
 }

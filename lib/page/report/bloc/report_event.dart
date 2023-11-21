@@ -20,9 +20,9 @@ class GetLeaveReportSummary extends ReportEvent {
 }
 
 class FilterLeaveReportSummary extends ReportEvent {
-  final int selectedEmployeeId;
-  FilterLeaveReportSummary(this.selectedEmployeeId);
+  final PhoneBookUser selectedEmployee;
+  FilterLeaveReportSummary(this.selectedEmployee);
 
   @override
-  List<Object> get props => [selectedEmployeeId];
+  List<Object> get props => [selectedEmployee];
 }

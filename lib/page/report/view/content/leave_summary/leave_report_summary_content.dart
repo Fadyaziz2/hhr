@@ -59,8 +59,11 @@ class LeaveReportSummaryContent extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: colorPrimary, shape: const StadiumBorder()),
-            onPressed: () =>
-                NavUtil.navigateScreen(context, const EmployeeLeaveHistory()),
+            onPressed: () => NavUtil.navigateScreen(
+                context,
+                BlocProvider.value(
+                    value: context.read<ReportBloc>(),
+                    child: const EmployeeLeaveHistory())),
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16),

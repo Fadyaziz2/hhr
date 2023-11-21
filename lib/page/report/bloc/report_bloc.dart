@@ -67,9 +67,10 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
   FutureOr<void> _onFilterLeaveReportSummary(
       FilterLeaveReportSummary event, Emitter<ReportState> emit) async {
+    emit(state.copyWith(selectedEmployeeName: event.selectedEmployee));
     try {
       LeaveSummaryModel? leaveSummaryResponse =
-          await metaClubApiClient.leaveSummaryApi(event.selectedEmployeeId);
+          await metaClubApiClient.leaveSummaryApi(event.selectedEmployee.id);
       emit(state.copyWith(
           filterLeaveSummaryResponse: leaveSummaryResponse,
           status: NetworkStatus.success));
