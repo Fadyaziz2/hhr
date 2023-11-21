@@ -21,6 +21,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<GetReportData>(_onGetReportData);
     on<SelectDate>(_onSelectDatePicker);
     on<SelectEmployee>(_selectEmployee);
+    on<GetAttendanceReportData>(_onAttendanceLoad);
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -70,6 +71,22 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   FutureOr<void> _selectEmployee(
       SelectEmployee event, Emitter<ReportState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
-    // add(DailyLeaveSummary(event.selectEmployee.id!));
+    add(GetAttendanceReportData(event.selectEmployee.id!));
+  }
+
+  FutureOr<void> _onAttendanceLoad(
+      GetAttendanceReportData event, Emitter<ReportState> emit) async {
+    final currentDate = DateFormat('y-MM').format(DateTime.now());
+
+    final data = {'month': state.currentMonth ?? currentDate};
+    try {
+      final report = await metaClubApiClient.getAttendanceReport(
+          body: data, userId: state.selectEmployee?.id ?? event.userId);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceReport: report));
+    } on Exception catch (e) {
+      emit(const ReportState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 }
