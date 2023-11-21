@@ -8,7 +8,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
-import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
@@ -27,6 +26,7 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
+  // static const rootUrl = 'https://api.onesttech.com';
   static const rootUrl = 'https://hrm.onesttech.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
@@ -255,6 +255,28 @@ class MetaClubApiClient {
       FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// create Visit API
+  Future<bool> createVisitApi(
+      {BodyCreateVisit? bodyCreateVisit}) async {
+    const String api = 'visit/create';
+
+    if (kDebugMode) {
+      print(bodyCreateVisit?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -1188,14 +1210,65 @@ class MetaClubApiClient {
     }
   }
 
-  /// ================== Approval Details====================
-  Future<ApprovalDetailsModel?> getApprovalListDetails(
-      {required String approvalId, required String approvalUserId}) async {
-    String api = 'user/leave/details/$approvalId';
-    final data = {"user_id": approvalUserId};
+  /// Visit Details API
+  Future<VisitDetailsModel?> getVisitDetailsApi(int? visitID) async {
+     String api = 'visit/show/$visitID';
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return VisitDetailsModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// History List API
+  Future<HistoryListModel?> getHistoryList(String? month) async {
+    const String api = 'visit/history';
+
+    final data = {"month": month};
+
     try {
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return HistoryListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Visit List ========================
+  Future<VisitListModel?> getVisitList() async {
+    const String api = 'visit/list';
+    try {
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return VisitListModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+
+
+  /// ================== Approval Details====================
+  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+    String api = 'user/leave/details/$approvalId';
+    final data = {
+      "user_id" : approvalUserId
+    };
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1207,16 +1280,13 @@ class MetaClubApiClient {
   }
 
   /// ================== Action Approval Approved or Reject ====================
-  Future approvalApprovedOrReject(
-      {required String approvalId, required int type}) async {
+  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(
-            response?.data['message'] ?? 'server error');
+        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
     } catch (_) {

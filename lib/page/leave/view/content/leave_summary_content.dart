@@ -13,7 +13,7 @@ import '../../bloc/leave_bloc.dart';
 class LeaveSummaryContent extends StatelessWidget {
   final LeaveState? state;
 
-  const LeaveSummaryContent({Key? key, this.state}) : super(key: key);
+  const LeaveSummaryContent({super.key, this.state});
 
   @override
   Widget build(BuildContext context) {

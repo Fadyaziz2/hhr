@@ -12,8 +12,7 @@ class OfficialProfileContent extends StatelessWidget {
   final Settings? settings;
 
   const OfficialProfileContent(
-      {Key? key, required this.profile, required this.settings})
-      : super(key: key);
+      {super.key, required this.profile, required this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,7 @@ class OfficialProfileContent extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(EditOfficialInfo.route(
                   bloc: context.read<ProfileBloc>(),
-                  pageName: 'official'.tr(),
+                  pageName: 'official',
                   settings: settings,
                   profile: profile));
             },

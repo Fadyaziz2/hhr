@@ -17,13 +17,11 @@ class CreateLeaveRequest extends StatelessWidget {
   final int? leaveTypeId;
 
   const CreateLeaveRequest(
-      {Key? key, this.starDate, this.leaveTypeId, this.endDate})
-      : super(key: key);
+      {super.key, this.starDate, this.leaveTypeId, this.endDate});
 
   @override
   Widget build(BuildContext context) {
     BodyCreateLeaveModel bodyCreateLeave = BodyCreateLeaveModel();
-    final user = context.read<AuthenticationBloc>().state.data;
     final formKey = GlobalKey<FormState>();
     return Form(
       key: formKey,

@@ -14,12 +14,11 @@ class EditOfficialInfo extends StatelessWidget {
   final Bloc profileBloc;
 
   const EditOfficialInfo(
-      {Key? key,
+      {super.key,
       required this.pageName,
       required this.settings,
       required this.profile,
-      required this.profileBloc})
-      : super(key: key);
+      required this.profileBloc});
 
   static Route route(
           {required String pageName,

@@ -101,7 +101,7 @@ class _AttendanceState extends State<AttendanceView>
                           context,
                           AttendanceReportPage.route(
                               attendanceBloc: context.read<AttendanceBloc>(),
-                              settings: settings!));
+                               settings: settings!));
                     },
                     icon: const Icon(Icons.bug_report_outlined))
               ],

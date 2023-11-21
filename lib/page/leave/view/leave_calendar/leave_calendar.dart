@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/create_leave_request/create_leave_request.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -10,7 +11,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 class LeaveCalendar extends StatelessWidget {
   final int? leaveRequestTypeId;
 
-  const LeaveCalendar({Key? key, this.leaveRequestTypeId}) : super(key: key);
+  const LeaveCalendar({super.key, this.leaveRequestTypeId});
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +50,20 @@ class LeaveCalendar extends StatelessWidget {
                   title: "next".tr(),
                   padding: 16,
                   clickButton: () {
-                    NavUtil.replaceScreen(
-                        context,
-                        BlocProvider.value(
-                          value: context.read<LeaveBloc>(),
-                          child: CreateLeaveRequest(
-                            leaveTypeId: leaveRequestTypeId,
-                            starDate: state.startDate,
-                            endDate: state.endDate,
-                          ),
-                        ));
+                    if (state.startDate == null) {
+                      Fluttertoast.showToast(msg: "Please select Date");
+                    } else {
+                      NavUtil.replaceScreen(
+                          context,
+                          BlocProvider.value(
+                            value: context.read<LeaveBloc>(),
+                            child: CreateLeaveRequest(
+                              leaveTypeId: leaveRequestTypeId,
+                              starDate: state.startDate,
+                              endDate: state.endDate,
+                            ),
+                          ));
+                    }
                   })
             ],
           ),

@@ -1,0 +1,147 @@
+import 'dart:async';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/enum.dart';
+
+import '../../../res/date_utils.dart';
+import '../../../res/widgets/month_picker_dialog/month_picker_dialog.dart';
+
+part 'visit_event.dart';
+
+part 'visit_state.dart';
+
+class VisitBloc extends Bloc<VisitEvent, VisitState> {
+  final MetaClubApiClient _metaClubApiClient;
+
+  VisitBloc({required MetaClubApiClient metaClubApiClient})
+      : _metaClubApiClient = metaClubApiClient,
+        super(VisitState()) {
+    on<VisitListApi>(_visitListApi);
+    on<HistoryListApi>(_historyListApi);
+    on<SelectDatePicker>(_onSelectDatePicker);
+    on<SelectMonthPicker>(_onSelectMonthPicker);
+    on<CreateVisitEvent>(_onCreateVisitEvent);
+    on<VisitDetailsApi>(_visitDetailsApi);
+  }
+
+  FutureOr<void> _onSelectMonthPicker(
+      SelectMonthPicker event, Emitter<VisitState> emit) async {
+    var date = await showMonthPicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+    add(HistoryListApi());
+    emit(state.copyWith(
+        status: NetworkStatus.success, currentMonth: currentMonth));
+  }
+
+  FutureOr<void> _visitDetailsApi(
+      VisitDetailsApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      String youLocationServer;
+      List locationListServer = [];
+      VisitDetailsModel? visitDetailsResponse =
+          await _metaClubApiClient.getVisitDetailsApi(event.visitId);
+
+      visitDetailsResponse?.data?.schedules?.map((e) async {
+        var latitude = e.latitude;
+        var longitude = e.longitude;
+        var lat = double.parse(latitude.toString());
+        var log = double.parse(longitude.toString());
+        List pm = await placemarkFromCoordinates(lat, log);
+        Placemark placeMark = pm[0];
+        youLocationServer =
+        "${placeMark.street ?? ""},${placeMark.locality ?? ""} ${placeMark.postalCode ?? ""}";
+        locationListServer.add(youLocationServer ?? "");
+      }).toList();
+      emit(state.copyWith(
+          status: NetworkStatus.success,
+          visitDetailsResponse: visitDetailsResponse,locationListServer: locationListServer));
+    } on Exception catch (e) {
+      emit(VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onSelectDatePicker(
+      SelectDatePicker event, Emitter<VisitState> emit) async {
+    final date = await showDatePicker(
+      context: event.context,
+      firstDate: DateTime(DateTime.now().year - 1, 5),
+      lastDate: DateTime(DateTime.now().year + 1, 9),
+      initialDate: DateTime.now(),
+      locale: const Locale("en"),
+    );
+    String? currentDate =
+        getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
+    emit(state.copyWith(
+        status: NetworkStatus.success,
+        currentDate: currentDate,
+        isDateEnable: false));
+  }
+
+  FutureOr<void> _historyListApi(
+      HistoryListApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      final historyResponse =
+          await _metaClubApiClient.getHistoryList(state.currentMonth);
+      emit(state.copyWith(
+          status: NetworkStatus.success, historyListResponse: historyResponse));
+    } on Exception catch (e) {
+      emit(VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _visitListApi(
+      VisitListApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      final visitResponse = await _metaClubApiClient.getVisitList();
+      emit(state.copyWith(
+          status: NetworkStatus.success, visitListResponse: visitResponse));
+    } on Exception catch (e) {
+      emit(VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onCreateVisitEvent(
+      CreateVisitEvent event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading, isDateEnable: false));
+    try {
+      if (state.currentDate?.isNotEmpty == true) {
+        await _metaClubApiClient
+            .createVisitApi(bodyCreateVisit: event.bodyCreateVisit)
+            .then((success) {
+          if (success) {
+            Fluttertoast.showToast(msg: "Visit Create Successfully");
+            emit(state.copyWith(
+                status: NetworkStatus.success, isDateEnable: false));
+            add(VisitListApi());
+            Navigator.pop(event.context);
+          } else {
+            emit(state.copyWith(status: NetworkStatus.failure));
+            Fluttertoast.showToast(msg: "Something went wrong!");
+          }
+        });
+      } else {
+        emit(state.copyWith(status: NetworkStatus.success, isDateEnable: true));
+      }
+    } on Exception catch (e) {
+      emit(
+          VisitState(status: NetworkStatus.failure, isDateEnable: false));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+}
