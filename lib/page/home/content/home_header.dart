@@ -5,11 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
+
 
 class HomeHeader extends StatelessWidget {
   final Settings? settings;
