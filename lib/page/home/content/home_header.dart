@@ -10,6 +10,7 @@ import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
+
 class HomeHeader extends StatelessWidget {
   final Settings? settings;
   final LoginData? user;
