@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -14,7 +15,8 @@ class LeaveReportSummaryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportBloc, ReportState>(builder: (context, state) {
+    return BlocBuilder<LeaveReportBloc, LeaveReportState>(
+        builder: (context, state) {
       return Column(
         children: [
           Expanded(
@@ -62,7 +64,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
             onPressed: () => NavUtil.navigateScreen(
                 context,
                 BlocProvider.value(
-                    value: context.read<ReportBloc>(),
+                    value: context.read<LeaveReportBloc>(),
                     child: const EmployeeLeaveHistory())),
             child: Padding(
               padding:

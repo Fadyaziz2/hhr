@@ -11,18 +11,3 @@ class GetReportData extends ReportEvent {
   @override
   List<Object> get props => [];
 }
-
-class GetLeaveReportSummary extends ReportEvent {
-  GetLeaveReportSummary();
-
-  @override
-  List<Object> get props => [];
-}
-
-class FilterLeaveReportSummary extends ReportEvent {
-  final PhoneBookUser selectedEmployee;
-  FilterLeaveReportSummary(this.selectedEmployee);
-
-  @override
-  List<Object> get props => [selectedEmployee];
-}

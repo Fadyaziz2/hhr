@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/report/bloc/report_bloc.dart';
+import 'package:onesthrm/page/report/leave_report/bloc/leave_report_bloc.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -17,7 +18,8 @@ class EmployeeLeaveHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text(tr('employee_leave_history'))),
-        body: BlocBuilder<ReportBloc, ReportState>(builder: (context, state) {
+        body: BlocBuilder<LeaveReportBloc, LeaveReportState>(
+            builder: (context, state) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,7 +35,7 @@ class EmployeeLeaveHistory extends StatelessWidget {
                             )).then((value) {
                           if (value != null) {
                             context
-                                .read<ReportBloc>()
+                                .read<LeaveReportBloc>()
                                 .add(FilterLeaveReportSummary(value));
                           }
                         });
