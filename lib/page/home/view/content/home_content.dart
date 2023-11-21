@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -25,10 +27,7 @@ class HomeContent extends StatelessWidget {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
 
         if (user?.user != null) {
-          locationServiceProvider.getCurrentLocationStream(
-              uid: user!.user!.id!,
-              metaClubApiClient:
-                  MetaClubApiClient(token: '${user.user?.token}'));
+          context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
         }
 
         return homeData != null
