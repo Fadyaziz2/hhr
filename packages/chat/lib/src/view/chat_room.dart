@@ -1,5 +1,4 @@
 import 'package:chat/src/models/friend.dart';
-import 'package:chat/src/view/content/conversation_screen.dart';
 import 'package:flutter/material.dart';
 import '../../chat.dart';
 
@@ -116,6 +115,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     },
                   );
                 }
+                return SizedBox.shrink();
               },
             );
           } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/approval/approval.dart';
-import 'package:onesthrm/page/approval/view/content/approval_details_tile_content.dart';
+import 'package:onesthrm/res/widgets/card_tile_with_content.dart';
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/common_elevated_button.dart';
@@ -39,22 +39,22 @@ class ApprovalDetailsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Employee Name', value: data?.name ?? ''),
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Department',
                               value: data?.department ?? ''),
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Designation',
                               value: data?.designation ?? ''),
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Request Leave On',
                               value: data?.requestedOn ?? ''),
                           LeaveTypeContent(data: data),
                           SubstituteContent(data: data),
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Employee Note', value: data?.note ?? ''),
-                          ApprovalDetailsTileContent(
+                          CardTileWithContent(
                               title: 'Approves',
                               value: data?.apporover ?? 'N/A'),
                           Visibility(

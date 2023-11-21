@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/break/view/break_page.dart';
+import 'package:onesthrm/page/daily_leave/view/daily_leave_page.dart';
 import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
@@ -29,22 +31,22 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 
   MenuBloc(
       {required MetaClubApiClient metaClubApiClient,
-      required LoginData loginData,
-      required Color color,
-      required Settings setting})
+        required LoginData loginData,
+        required Color color,
+        required Settings setting})
       : _settings = setting,
         _loginData = loginData,
         _primaryColor = color,
         super(const MenuState(
-          status: NetworkStatus.initial,
-        )) {
+        status: NetworkStatus.initial,
+      )) {
     on<RouteSlug>(onRouteSlug);
   }
 
   void onRouteSlug(
-    RouteSlug event,
-    Emitter<MenuState> emit,
-  ) {
+      RouteSlug event,
+      Emitter<MenuState> emit,
+      ) {
     switch (event.slugName) {
       case 'support':
         NavUtil.navigateScreen(event.context, const SupportPage());
@@ -90,9 +92,13 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
+        NavUtil.navigateScreen(event.context, BlocProvider.value(value: event.context.read<HomeBloc>(),child: const BreakScreen()));
+        break;
       case 'feedback':
       case 'report':
-      case 'daily-leave':
+      case 'daily_leave':
+      NavUtil.navigateScreen(event.context, const DailyLeavePage());
+      break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
