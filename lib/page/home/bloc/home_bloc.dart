@@ -94,9 +94,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Widget chooseTheme() {
-    final id = globalState.get(dashboardStyleId);
-    print("appTheme $id");
-    switch (id) {
+    final name = globalState.get(dashboardStyleId);
+    switch (name) {
       case 'neptune':
         return const HomeNeptuneContent();
       case 'mars':
