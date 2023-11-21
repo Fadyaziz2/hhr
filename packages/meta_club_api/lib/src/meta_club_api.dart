@@ -27,9 +27,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onesttech.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
