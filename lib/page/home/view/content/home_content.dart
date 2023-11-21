@@ -14,13 +14,14 @@ import '../../content/home_header.dart';
 LocationServiceProvider locationServiceProvider = LocationServiceProvider();
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
+        final user = context.read<AuthenticationBloc>().state.data;
 
         if (user?.user != null) {
           context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
