@@ -59,7 +59,7 @@ class Setting extends Equatable {
   final List<Department> departments;
   final List<Department> designations;
   final List<String> employeeTypes;
-  final int? appTheme;
+  final String? appTheme;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
       isHr: json["is_hr"],
