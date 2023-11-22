@@ -16,50 +16,42 @@ class AttendanceSummaryTile extends StatelessWidget {
         children: [
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.workingDays ??
-                  '',
+                  ?.attendanceSummary?.workingDays,
               title: 'Working Days',
               color: Colors.green),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalOnTimeIn ??
-                  '',
+                  ?.attendanceSummary?.totalOnTimeIn,
               title: 'on_time',
               color: Colors.green),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalLateIn ??
-                  '',
+                  ?.attendanceSummary?.totalLateIn,
               title: 'late',
               color: Colors.red),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalLeftTimely ??
-                  '',
+                  ?.attendanceSummary?.totalLeftTimely,
               title: 'left_timely',
               color: Colors.green),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalLeftEarly ??
-                  '',
+                  ?.attendanceSummary?.totalLeftEarly,
               title: 'left_early',
               color: Colors.red),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalLeave ??
-                  '',
+                  ?.attendanceSummary?.totalLeave,
               title: 'on_leave',
               color: Colors.grey[400]!),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.absent ??
-                  '',
+                  ?.attendanceSummary?.absent,
               title: 'absent',
               color: Colors.black87),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
-                      ?.attendanceSummary?.totalLeftLater ??
-                  '',
+                  ?.attendanceSummary?.totalLeftLater,
               title: 'left_later',
               color: Colors.amber),
           const SizedBox(
