@@ -8,7 +8,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/anniversary.dart';
 import 'package:meta_club_api/src/models/birthday.dart';
 import 'package:meta_club_api/src/models/contact_search.dart';
-import 'package:meta_club_api/src/models/daily_leave_summary_model.dart';
 import 'package:meta_club_api/src/models/gallery.dart';
 import 'package:meta_club_api/src/models/more.dart';
 import 'package:meta_club_api/src/models/response_qualification.dart';
@@ -27,9 +26,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://hrm.onesttech.com';
+  static const rootUrl = 'https://api.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/V11/';
+  static const _baseUrl = '$rootUrl/api/2.0/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {

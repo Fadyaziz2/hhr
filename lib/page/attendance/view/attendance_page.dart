@@ -8,7 +8,7 @@ import '../../authentication/bloc/authentication_bloc.dart';
 class AttendancePage extends StatelessWidget {
   final HomeBloc homeBloc;
 
-  const AttendancePage({Key? key, required this.homeBloc}) : super(key: key);
+  const AttendancePage({super.key, required this.homeBloc});
 
   static Route route({required HomeBloc homeBloc}) {
     return MaterialPageRoute(builder: (_) => AttendancePage(homeBloc: homeBloc,));
