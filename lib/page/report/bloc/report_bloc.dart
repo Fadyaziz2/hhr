@@ -15,8 +15,9 @@ part 'report_state.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final MetaClubApiClient metaClubApiClient;
+  final int userId;
 
-  ReportBloc({required this.metaClubApiClient})
+  ReportBloc({required this.metaClubApiClient, required this.userId})
       : super(const ReportState(status: NetworkStatus.initial)) {
     on<GetReportData>(_onGetReportData);
     on<SelectDate>(_onSelectDatePicker);
@@ -71,7 +72,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   FutureOr<void> _selectEmployee(
       SelectEmployee event, Emitter<ReportState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
-    add(GetAttendanceReportData(event.selectEmployee.id!));
+    add(GetAttendanceReportData());
   }
 
   FutureOr<void> _onAttendanceLoad(
@@ -80,10 +81,8 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
     final data = {'month': state.currentMonth ?? currentDate};
     try {
-      final report = await metaClubApiClient.getAttendanceReport(
-          body: data, userId: state.selectEmployee?.id ?? event.userId);
-      emit(state.copyWith(
-          status: NetworkStatus.success, attendanceReport: report));
+      final report = await metaClubApiClient.getAttendanceReport(body: data, userId: state.selectEmployee?.id ?? userId);
+      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: report));
     } on Exception catch (e) {
       emit(const ReportState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

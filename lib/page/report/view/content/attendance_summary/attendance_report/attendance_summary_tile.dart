@@ -9,7 +9,7 @@ class AttendanceSummaryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reportBloc = context.read<ReportBloc>();
+    final reportBloc = context.watch<ReportBloc>();
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,

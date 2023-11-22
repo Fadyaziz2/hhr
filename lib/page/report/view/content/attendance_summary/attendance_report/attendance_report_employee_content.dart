@@ -14,7 +14,7 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
 
     return BlocBuilder<ReportBloc, ReportState>(
       builder: (BuildContext context, state) {
-        context.read<ReportBloc>().add(GetAttendanceReportData(user!.user!.id!));
+        context.read<ReportBloc>().add(GetAttendanceReportData());
         return Scaffold(
           appBar: AppBar(
             title: const Text('Attendance of Employee'),

@@ -12,8 +12,9 @@ class AttendanceSummaryContent extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
         create: (BuildContext context) => ReportBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+            userId: user!.user!.id!)
           ..add(GetReportData()),
-        child:  const AttendanceSummaryBody());
+        child: const AttendanceSummaryBody());
   }
 }

@@ -7,7 +7,7 @@ class DailyReportTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reportBloc = context.read<ReportBloc>();
+    final reportBloc = context.watch<ReportBloc>();
 
     return ListView.builder(
       shrinkWrap: true,
@@ -15,7 +15,7 @@ class DailyReportTile extends StatelessWidget {
       itemCount: reportBloc.state.attendanceReport?.reportData?.dailyReport?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
         final data = reportBloc.state.attendanceReport?.reportData?.dailyReport?[index];
-        return SummaryOfDailyReportListTile(dailyReport: data!);
+        return SummaryOfDailyReportListTile(dailyReport: data!, isReportSummary: true,);
       },
     );
   }

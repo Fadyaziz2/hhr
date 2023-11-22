@@ -30,10 +30,10 @@ class SelectEmployee extends ReportEvent {
 }
 
 class GetAttendanceReportData extends ReportEvent {
-  final int userId;
-  GetAttendanceReportData(this.userId);
+
+  GetAttendanceReportData();
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [];
 }
 

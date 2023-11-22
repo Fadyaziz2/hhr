@@ -7,8 +7,10 @@ import 'present_attendance_tile.dart';
 
 class SummaryOfDailyReportListTile extends StatelessWidget {
   final DailyReport dailyReport;
+  final bool? isReportSummary;
 
-  const SummaryOfDailyReportListTile({super.key, required this.dailyReport});
+  const SummaryOfDailyReportListTile(
+      {super.key, required this.dailyReport, this.isReportSummary});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,9 @@ class SummaryOfDailyReportListTile extends StatelessWidget {
           dailyReport: dailyReport,
         );
       case "...":
-        return PendingAttendanceToday(dailyReport: dailyReport);
+        return isReportSummary == true
+            ? const SizedBox()
+            : PendingAttendanceToday(dailyReport: dailyReport);
       default:
         return const SizedBox.shrink();
     }
