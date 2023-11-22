@@ -21,6 +21,7 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     on<GetBreakInitialData>(_onGetInitialData);
     on<SelectDate>(_onSelectDatePicker);
     on<SelectEmployee>(_selectEmployee);
+    on<BreakSummaryDetails>(_onBreakSummaryDetails);
   }
 
   FutureOr<void> _onGetInitialData(
@@ -50,8 +51,9 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
-    if (event.isEmployeeScreen) {
+    if (event.isSummaryScreen) {
       // add(GetAttendanceReportData());
+      add(GetBreakInitialData());
     } else {
       add(GetBreakInitialData());
     }
@@ -62,12 +64,31 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
   Future<ReportBreakListModel?> getBreakSummaryHistoryList(
       {required String breakUserId}) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-    final data = {'user_id': breakUserId, 'date': state.currentMonth ?? currentDate};
+    final data = {
+      'user_id': breakUserId,
+      'date': state.currentMonth ?? currentDate
+    };
     try {
-      final response =
-      await metaClubApiClient.getBreakSummaryList(body: data);
+      final response = await metaClubApiClient.getBreakSummaryList(body: data);
       return response;
     } catch (e) {
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onBreakSummaryDetails(
+      BreakSummaryDetails event, Emitter<BreakState> emit) async {
+    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
+    final data = {
+      'user_id': state.selectEmployee ?? userId,
+      'date': state.currentMonth ?? currentDate
+    };
+    try {
+      final report = await metaClubApiClient.getBreakSummaryList(body: data);
+      emit(state.copyWith(
+          status: NetworkStatus.success, reportBreakListModel: report));
+    } on Exception catch (e) {
+      emit(const BreakState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }

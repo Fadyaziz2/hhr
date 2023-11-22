@@ -14,11 +14,12 @@ class GetBreakInitialData extends BreakEvent {
 
 class SelectDate extends BreakEvent {
   final BuildContext context;
-  final bool isEmployeeScreen;
-  SelectDate(this.context, this.isEmployeeScreen);
+  final bool isSummaryScreen;
+
+  SelectDate(this.context, this.isSummaryScreen);
 
   @override
-  List<Object> get props => [isEmployeeScreen];
+  List<Object> get props => [isSummaryScreen];
 }
 
 class SelectEmployee extends BreakEvent {
@@ -28,4 +29,11 @@ class SelectEmployee extends BreakEvent {
 
   @override
   List<Object> get props => [selectEmployee];
+}
+
+class BreakSummaryDetails extends BreakEvent {
+  BreakSummaryDetails();
+
+  @override
+  List<Object> get props => [];
 }

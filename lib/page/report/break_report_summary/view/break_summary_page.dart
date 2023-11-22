@@ -40,13 +40,6 @@ class BreakReportSummary extends StatelessWidget {
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
             ),
-            actions: [
-              IconButton(
-                  onPressed: () {
-
-                  },
-                  icon: const Icon(Icons.calendar_month))
-            ],
           ),
           body: const BreakSummaryContent()),
     );

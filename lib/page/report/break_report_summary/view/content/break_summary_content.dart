@@ -20,12 +20,24 @@ class BreakSummaryContent extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  state.breakSummaryModel?.data?.date ?? '',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      state.breakSummaryModel?.data?.date ?? '',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        context
+                            .read<BreakBloc>()
+                            .add(SelectDate(context, true));
+                      },
+                      icon: const Icon(Icons.calendar_month))
+                ],
               ),
               breakList?.isNotEmpty == true
                   ? Expanded(
@@ -91,7 +103,10 @@ class BreakSummaryContent extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       NavUtil.navigateScreen(
-                          context, const BreakReportSearch());
+                          context,
+                          BlocProvider.value(
+                              value: context.read<BreakBloc>(),
+                              child: const BreakReportSearch()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
