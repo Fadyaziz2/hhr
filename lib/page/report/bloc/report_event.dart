@@ -14,10 +14,11 @@ class GetReportData extends ReportEvent {
 
 class SelectDate extends ReportEvent {
   final BuildContext context;
-  SelectDate(this.context);
+  final bool isEmployeeScreen;
+  SelectDate(this.context, this.isEmployeeScreen);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isEmployeeScreen];
 }
 
 class SelectEmployee extends ReportEvent {

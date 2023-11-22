@@ -22,7 +22,7 @@ class AttendanceSummaryBody extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    context.read<ReportBloc>().add(SelectDate(context));
+                    context.read<ReportBloc>().add(SelectDate(context, false));
                   },
                   icon: const Icon(Icons.calendar_month))
             ],

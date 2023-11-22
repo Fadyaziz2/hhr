@@ -35,9 +35,13 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       locale: const Locale("en"),
     );
     String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    add(GetReportData());
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
+    if (event.isEmployeeScreen) {
+      add(GetAttendanceReportData());
+    } else {
+      add(GetReportData());
+    }
   }
 
   FutureOr<void> _onGetReportData(
@@ -81,8 +85,10 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
     final data = {'month': state.currentMonth ?? currentDate};
     try {
-      final report = await metaClubApiClient.getAttendanceReport(body: data, userId: state.selectEmployee?.id ?? userId);
-      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: report));
+      final report = await metaClubApiClient.getAttendanceReport(
+          body: data, userId: state.selectEmployee?.id ?? userId);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceReport: report));
     } on Exception catch (e) {
       emit(const ReportState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

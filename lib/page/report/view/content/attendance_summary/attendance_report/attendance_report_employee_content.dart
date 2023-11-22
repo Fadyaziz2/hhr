@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/report/report.dart';
 
 class AttendanceReportEmployeeContent extends StatelessWidget {
@@ -10,7 +8,6 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocBuilder<ReportBloc, ReportState>(
       builder: (BuildContext context, state) {
@@ -21,7 +18,7 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    // context.read<ReportBloc>().add(SelectDate(context));
+                    context.read<ReportBloc>().add(SelectDate(context, true));
                   },
                   icon: const Icon(Icons.calendar_month))
             ],

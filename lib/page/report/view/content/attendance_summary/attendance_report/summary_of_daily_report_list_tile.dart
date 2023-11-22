@@ -16,7 +16,6 @@ class SummaryOfDailyReportListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (dailyReport.status) {
       case "Present":
-        // return DailyReportTile(dailyReport: dailyReport, settings: settings);
         return PresentAttendanceTile(dailyReport: dailyReport);
       case "Absent":
         return AbsentContent(dailyReport: dailyReport);
