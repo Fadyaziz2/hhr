@@ -40,7 +40,7 @@ class VisitListPage extends StatelessWidget {
                       }),
                 )
               : const NoDataFoundWidget();
-        }else if (state.status == NetworkStatus.failure) {
+        } else if (state.status == NetworkStatus.failure) {
           return Center(
             child: Text(
               "failed_to_load_leave_list".tr(),

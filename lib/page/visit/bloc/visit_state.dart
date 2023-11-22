@@ -9,16 +9,14 @@ class VisitState extends Equatable {
   final bool? isDateEnable;
   final VisitDetailsModel? visitDetailsResponse;
   final Set<Marker> markers;
-  List? locationListServer = [];
 
-  VisitState(
+  const VisitState(
       {this.status = NetworkStatus.initial,
       this.visitListResponse,
       this.historyListResponse,
       this.currentDate,
       this.currentMonth,
       this.visitDetailsResponse,
-      this.locationListServer,
       this.markers = const {},
       this.isDateEnable = false});
 
@@ -28,7 +26,6 @@ class VisitState extends Equatable {
       HistoryListModel? historyListResponse,
       String? currentDate,
       String? currentMonth,
-      List? locationListServer,
       Set<Marker>? markers,
       VisitDetailsModel? visitDetailsResponse,
       bool? isDateEnable}) {
@@ -40,7 +37,6 @@ class VisitState extends Equatable {
         historyListResponse: historyListResponse ?? this.historyListResponse,
         currentDate: currentDate ?? this.currentDate,
         currentMonth: currentMonth ?? this.currentMonth,
-        locationListServer: locationListServer ?? this.locationListServer,
         isDateEnable: isDateEnable ?? this.isDateEnable);
   }
 

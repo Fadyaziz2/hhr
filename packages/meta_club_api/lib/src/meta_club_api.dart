@@ -265,6 +265,28 @@ class MetaClubApiClient {
     }
   }
 
+  /// create Reschedule API
+  Future<bool> createRescheduleApi(
+      {BodyCreateSchedule? bodyCreateSchedule}) async {
+    const String api = 'visit/create-schedule';
+
+    if (kDebugMode) {
+      print(bodyCreateSchedule?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyCreateSchedule!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// create Visit Note API
   Future<bool> visitCreateNoteApi(
       {BodyVisitNote? bodyVisitNote}) async {

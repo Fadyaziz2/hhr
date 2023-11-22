@@ -9,21 +9,20 @@ import '../../bloc/visit_bloc.dart';
 
 class VisitEmployeeInfo extends StatelessWidget {
   final LoginData? user;
-  const VisitEmployeeInfo({super.key,this.user});
+
+  const VisitEmployeeInfo({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
           child: Text(
             tr("employee"),
             style: const TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontWeight: FontWeight.bold),
+                color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         Card(
@@ -51,74 +50,66 @@ class VisitEmployeeInfo extends StatelessWidget {
                 fit: BoxFit.cover,
                 imageUrl: "${user?.user?.avatar}",
                 placeholder: (context, url) => Center(
-                  child: Image.asset(
-                      "assets/images/placeholder_image.png"),
+                  child: Image.asset("assets/images/placeholder_image.png"),
                 ),
-                errorWidget: (context, url, error) =>
-                const Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
         ),
         Padding(
-          padding:
-          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
           child: Text(
             tr("date*"),
             style: const TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontWeight: FontWeight.bold),
+                color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         BlocBuilder<VisitBloc, VisitState>(
             builder: (BuildContext context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      context
-                          .read<VisitBloc>()
-                          .add(SelectDatePicker(context));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.grey)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            state.currentDate?.isEmpty == true
-                                ? "Selected Date"
-                                : "${state.currentDate}",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const Icon(Icons.date_range_outlined)
-                        ],
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  context.read<VisitBloc>().add(SelectDatePicker(context));
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        state.currentDate?.isEmpty == true
+                            ? "Selected Date"
+                            : state.currentDate ?? "Selected Date",
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      const Icon(Icons.date_range_outlined)
+                    ],
                   ),
-                  state.isDateEnable == true
-                      ? const Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8),
-                    child: Text(
-                      "You must Select a visit date",
-                      style: TextStyle(
-                          color: colorDeepRed, fontSize: 12),
-                    ),
-                  )
-                      : const SizedBox()
-                ],
-              );
-            }),
+                ),
+              ),
+              state.isDateEnable == true
+                  ? const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      child: Text(
+                        "You must Select a visit date",
+                        style: TextStyle(color: colorDeepRed, fontSize: 12),
+                      ),
+                    )
+                  : const SizedBox()
+            ],
+          );
+        }),
         const SizedBox(
           height: 16,
         ),

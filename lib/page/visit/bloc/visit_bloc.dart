@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -20,7 +19,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
   VisitBloc({required MetaClubApiClient metaClubApiClient})
       : _metaClubApiClient = metaClubApiClient,
-        super(VisitState()) {
+        super(const VisitState()) {
     on<VisitListApi>(_visitListApi);
     on<HistoryListApi>(_historyListApi);
     on<SelectDatePicker>(_onSelectDatePicker);
@@ -29,35 +28,65 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<VisitDetailsApi>(_visitDetailsApi);
     on<VisitGoToPosition>(_visitGoToPosition);
     on<VisitCreateNoteApi>(_visitCreateNoteApi);
+    on<CreateRescheduleApi>(_createRescheduleApi);
   }
 
-  FutureOr<void> _visitCreateNoteApi(VisitCreateNoteApi event,Emitter<VisitState> emit) async{
-    emit(VisitState(status: NetworkStatus.loading));
-    try{
-      await _metaClubApiClient.visitCreateNoteApi(bodyVisitNote: event.bodyVisitNote).then((success) {
-        if(success){
-          Fluttertoast.showToast(msg: "Visit Note Create Successfully");
+  FutureOr<void> _createRescheduleApi(
+      CreateRescheduleApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .createRescheduleApi(bodyCreateSchedule: event.bodyCreateSchedule)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "Create Reschedule Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(event.bodyVisitNote?.visitId));
+          add(VisitDetailsApi(event.bodyCreateSchedule?.visitId));
           Navigator.pop(event.context);
-        }else {
+        } else {
           emit(state.copyWith(status: NetworkStatus.failure));
           Fluttertoast.showToast(msg: "Something went wrong!");
         }
       });
-    } on Exception catch(e) {
-      emit(VisitState(status: NetworkStatus.failure));
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _visitGoToPosition(VisitGoToPosition event, Emitter<VisitState> emit) async {
+  FutureOr<void> _visitCreateNoteApi(
+      VisitCreateNoteApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .visitCreateNoteApi(bodyVisitNote: event.bodyVisitNote)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "Visit Note Create Successfully");
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(VisitDetailsApi(event.bodyVisitNote?.visitId));
+          Navigator.pop(event.context);
+        } else {
+          emit(state.copyWith(status: NetworkStatus.failure));
+          Fluttertoast.showToast(msg: "Something went wrong!");
+        }
+      });
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _visitGoToPosition(
+      VisitGoToPosition event, Emitter<VisitState> emit) async {
     Set<Marker> markers = {};
     final GoogleMapController controller = event.controller;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: event.latLng, zoom: 15)));
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: event.latLng, zoom: 15)));
     markers.add(Marker(
       markerId: MarkerId(event.latLng.latitude.toString()),
-      position: LatLng(event.latLng.latitude, event.latLng.longitude), //position of marker
+      position: LatLng(event.latLng.latitude, event.latLng.longitude),
+      //position of marker
       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
     ));
     emit(state.copyWith(markers: markers));
@@ -82,28 +111,14 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       VisitDetailsApi event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      String youLocationServer;
-      List locationListServer = [];
       VisitDetailsModel? visitDetailsResponse =
           await _metaClubApiClient.getVisitDetailsApi(event.visitId);
 
-      visitDetailsResponse?.data?.schedules?.map((e) async {
-        var latitude = e.latitude;
-        var longitude = e.longitude;
-        var lat = double.parse(latitude.toString());
-        var log = double.parse(longitude.toString());
-        List pm = await placemarkFromCoordinates(lat, log);
-        Placemark placeMark = pm[0];
-        youLocationServer =
-            "${placeMark.street ?? ""},${placeMark.locality ?? ""} ${placeMark.postalCode ?? ""}";
-        locationListServer.add(youLocationServer ?? "");
-      }).toList();
       emit(state.copyWith(
           status: NetworkStatus.success,
-          visitDetailsResponse: visitDetailsResponse,
-          locationListServer: locationListServer));
+          visitDetailsResponse: visitDetailsResponse));
     } on Exception catch (e) {
-      emit(VisitState(status: NetworkStatus.failure));
+      emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -134,7 +149,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       emit(state.copyWith(
           status: NetworkStatus.success, historyListResponse: historyResponse));
     } on Exception catch (e) {
-      emit(VisitState(status: NetworkStatus.failure));
+      emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -147,7 +162,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       emit(state.copyWith(
           status: NetworkStatus.success, visitListResponse: visitResponse));
     } on Exception catch (e) {
-      emit(VisitState(status: NetworkStatus.failure));
+      emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -175,7 +190,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         emit(state.copyWith(status: NetworkStatus.success, isDateEnable: true));
       }
     } on Exception catch (e) {
-      emit(VisitState(status: NetworkStatus.failure, isDateEnable: false));
+      emit(const VisitState(status: NetworkStatus.failure, isDateEnable: false));
       throw NetworkRequestFailure(e.toString());
     }
   }
