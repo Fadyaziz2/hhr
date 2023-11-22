@@ -1271,4 +1271,36 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// Report Break Summary  ------------------
+  Future<ReportBreakSummaryModel?> getBreakSummary(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/break/date-summary';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportBreakSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Report Break List Summary  ------------------
+  Future<ReportBreakListModel?> getBreakSummaryList(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/break/user-break-history';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportBreakListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }

@@ -81,7 +81,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
   FutureOr<void> _onAttendanceLoad(
       GetAttendanceReportData event, Emitter<ReportState> emit) async {
-    final currentDate = DateFormat('y-MM').format(DateTime.now());
+    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
     final data = {'month': state.currentMonth ?? currentDate};
     try {
