@@ -70,12 +70,6 @@ class VisitDetailsPage extends StatelessWidget {
                           Text(
                             data?.schedules?[index].title ?? "",
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
                           Text(
                             data?.schedules?[index].dateTime ?? "",
                             style: const TextStyle(color: Colors.grey),

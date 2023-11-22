@@ -190,7 +190,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         emit(state.copyWith(status: NetworkStatus.success, isDateEnable: true));
       }
     } on Exception catch (e) {
-      emit(const VisitState(status: NetworkStatus.failure, isDateEnable: false));
+      emit(
+          const VisitState(status: NetworkStatus.failure, isDateEnable: false));
       throw NetworkRequestFailure(e.toString());
     }
   }
