@@ -81,11 +81,10 @@ class _AttendanceState extends State<AttendanceView>
       locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
     }
 
-
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
       listener: (context, state) {
-        if (state.checkData?.message != null) {
+        if (state.checkData?.message != null && state.actionStatus == ActionStatus.checkInOut) {
           showLoginDialog(
               context: context,
               message: '${user?.user?.name}',

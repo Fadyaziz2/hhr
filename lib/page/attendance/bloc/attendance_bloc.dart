@@ -46,7 +46,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(locationLoaded: false));
+    emit(state.copyWith(locationLoaded: false,actionStatus: ActionStatus.refresh));
     _locationServices.placeStream.listen((location) async {
       add(OnLocationUpdated(place: location));
     });
@@ -54,14 +54,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(state.copyWith(locationLoaded: true));
   }
 
-  void _onRemoteModeUpdate(
-      OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
+  void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
     body.mode = event.mode;
     SharedUtil.setRemoteModeType(event.mode);
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(status: NetworkStatus.loading));
+    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= 0;
     body.attendanceId = globalState.get(attendanceId);
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
