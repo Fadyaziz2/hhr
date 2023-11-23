@@ -20,8 +20,7 @@ class DailyReportTile extends StatelessWidget {
                     .state.attendanceReport?.reportData?.dailyReport?.length ??
                 0,
             itemBuilder: (BuildContext context, int index) {
-              final data = reportBloc
-                  .state.attendanceReport?.reportData?.dailyReport?[index];
+              final data = reportBloc.state.attendanceReport?.reportData?.dailyReport?[index];
               return SummaryOfDailyReportListTile(
                 dailyReport: data!,
                 isReportSummary: true,
