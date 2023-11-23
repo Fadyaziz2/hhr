@@ -27,9 +27,7 @@ class HomeNeptuneContent extends StatelessWidget {
       final homeData = context.read<HomeBloc>().state.dashboardModel;
 
       if (user?.user != null) {
-        locationServiceProvider.getCurrentLocationStream(
-            uid: user!.user!.id!,
-            metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}'));
+        context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
       }
 
       return homeData != null
