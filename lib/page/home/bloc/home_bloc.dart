@@ -75,8 +75,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
-      event.locationProvider.getCurrentLocationStream(
-          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+      event.locationProvider.getCurrentLocationStream(uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
     } else {
       try {
         event.locationProvider.locationSubscription.pause();
