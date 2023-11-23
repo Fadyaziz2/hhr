@@ -47,7 +47,7 @@ class HomeMarsContent extends StatelessWidget {
                               alignment: Alignment.bottomRight,
                               child: CupertinoSwitch(
                                   value:
-                                  context.read<HomeBloc>().state.isSwitched,
+                                      context.read<HomeBloc>().state.isSwitched,
                                   onChanged: (_) {
                                     context.read<HomeBloc>().add(
                                         OnSwitchPressed(
@@ -57,9 +57,10 @@ class HomeMarsContent extends StatelessWidget {
                                                 .data
                                                 ?.user,
                                             locationProvider:
-                                            locationServiceProvider));
+                                                locationServiceProvider));
                                   })),
                         ),
+
                         ///blue background
                         Positioned(
                           right: 0,
@@ -78,12 +79,13 @@ class HomeMarsContent extends StatelessWidget {
                               borderRadius: BorderRadius.circular(25.0),
                               color: Colors.grey.shade400.withOpacity(0.7),
                             ),
-
                             child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: CupertinoSwitch(
-                                    value:
-                                    context.read<HomeBloc>().state.isSwitched,
+                                    value: context
+                                        .read<HomeBloc>()
+                                        .state
+                                        .isSwitched,
                                     onChanged: (_) {
                                       context.read<HomeBloc>().add(
                                           OnSwitchPressed(
@@ -93,7 +95,7 @@ class HomeMarsContent extends StatelessWidget {
                                                   .data
                                                   ?.user,
                                               locationProvider:
-                                              locationServiceProvider));
+                                                  locationServiceProvider));
                                     })),
                           ),
                         ),
@@ -115,29 +117,29 @@ class HomeMarsContent extends StatelessWidget {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            NavUtil.navigateScreen(context, const ProfileScreen());
+                                            NavUtil.navigateScreen(
+                                                context, const ProfileScreen());
                                           },
                                           child: ClipOval(
                                             child: CachedNetworkImage(
-                                              height: 40,
-                                              width: 40,
-                                              fit: BoxFit.cover,
-                                              imageUrl: "${user?.user?.avatar}",
-                                              placeholder: (context, url) =>
-                                                  Center(
-                                                child: Image.asset(
-                                                    "assets/home_bg/placeholder_image.png"),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            ),
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                                imageUrl:
+                                                    "${user?.user?.avatar}",
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                        child: Image.asset(
+                                                            "assets/home_bg/placeholder_image.png")),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    const Icon(Icons.error)),
                                           ),
                                         ),
                                         InkWell(
                                             onTap: () {
-                                              // Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen()));
-                                              NavUtil.navigateScreen(context, const NotificationScreen());
+                                              NavUtil.navigateScreen(context,
+                                                  const NotificationScreen());
                                             },
                                             child: Image.asset(
                                               "assets/home_bg/aziz_notification.png",
@@ -159,8 +161,7 @@ class HomeMarsContent extends StatelessWidget {
                             ),
 
                             const CheckInOutStatusActionMars(),
-                            // CheckStatusSectionDesignTwo(bloc: bloc),
-                            //
+
                             const CurrentMonthMars(),
 
                             ///upcoming events:----------------------
