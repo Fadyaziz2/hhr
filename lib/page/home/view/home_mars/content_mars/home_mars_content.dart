@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +37,26 @@ class HomeMarsContent extends StatelessWidget {
                   return SingleChildScrollView(
                     child: Stack(
                       children: [
+                        Positioned(
+                          right: 0,
+                          top: 100,
+                          child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: CupertinoSwitch(
+                                  value:
+                                  context.read<HomeBloc>().state.isSwitched,
+                                  onChanged: (_) {
+                                    context.read<HomeBloc>().add(
+                                        OnSwitchPressed(
+                                            user: context
+                                                .read<AuthenticationBloc>()
+                                                .state
+                                                .data
+                                                ?.user,
+                                            locationProvider:
+                                            locationServiceProvider));
+                                  })),
+                        ),
                         ///blue background
                         Positioned(
                           right: 0,
@@ -45,6 +66,35 @@ class HomeMarsContent extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
+
+                        Positioned(
+                          right: 10,
+                          top: 100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              color: Colors.grey.shade400.withOpacity(0.7),
+                            ),
+
+                            child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: CupertinoSwitch(
+                                    value:
+                                    context.read<HomeBloc>().state.isSwitched,
+                                    onChanged: (_) {
+                                      context.read<HomeBloc>().add(
+                                          OnSwitchPressed(
+                                              user: context
+                                                  .read<AuthenticationBloc>()
+                                                  .state
+                                                  .data
+                                                  ?.user,
+                                              locationProvider:
+                                              locationServiceProvider));
+                                    })),
+                          ),
+                        ),
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
