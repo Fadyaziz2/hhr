@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../../authentication/bloc/authentication_bloc.dart';
-import '../../../report.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+
+import '../../../bloc/report_bloc.dart';
+import 'attendance_summary_body.dart';
 
 class AttendanceSummaryContent extends StatelessWidget {
   const AttendanceSummaryContent({super.key});

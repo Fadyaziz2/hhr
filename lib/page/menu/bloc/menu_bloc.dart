@@ -13,13 +13,13 @@ import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_scree
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/page/payroll/view/view.dart';
-import 'package:onesthrm/page/report/view/view.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../phonebook/view/phonebook_page.dart';
+import '../../report/attendance_report_summary/view/report_page.dart';
 
 part 'menu_event.dart';
 

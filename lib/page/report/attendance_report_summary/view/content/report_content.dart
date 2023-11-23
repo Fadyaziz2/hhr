@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:onesthrm/page/report/leave_report/view/view.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import '../../break_report_summary/view/view.dart';
+import '../../../report.dart';
 import 'attendance_summary/attendance_summary_content.dart';
 import 'content.dart';
 

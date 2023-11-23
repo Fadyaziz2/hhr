@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
-import '../../../../../attendance_report/view/content/pending_attendance_today.dart';
-import '../../../../../attendance_report/view/view.dart';
+import '../../../../../../attendance_report/view/content/pending_attendance_today.dart';
+import '../../../../../../attendance_report/view/view.dart';
 import 'present_attendance_tile.dart';
 
 class SummaryOfDailyReportListTile extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/report/report.dart';
 
-import '../../../../../attendance_report/view/content/summery_tile.dart';
+import '../../../../../../attendance_report/view/content/summery_tile.dart';
+import '../../../../bloc/report_bloc.dart';
 
 class AttendanceSummaryTile extends StatelessWidget {
   const AttendanceSummaryTile({super.key});

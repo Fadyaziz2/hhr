@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/report/bloc/report_bloc.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
+
+import '../../../bloc/report_bloc.dart';
 
 class BodyToListDetails extends StatelessWidget {
   const BodyToListDetails({super.key, required this.title, required this.type});

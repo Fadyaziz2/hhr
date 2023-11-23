@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
-import 'package:onesthrm/page/report/report.dart';
-import 'package:onesthrm/page/report/view/content/attendance_summary/body_to_list_details.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
-import '../../../../../res/nav_utail.dart';
+import '../../../bloc/report_bloc.dart';
+import 'attendance_report/attendance_report_employee.dart';
+import 'body_to_list_details.dart';
 
 class AttendanceSummaryBody extends StatelessWidget {
   const AttendanceSummaryBody({

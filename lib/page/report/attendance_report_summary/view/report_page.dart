@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/page/report/report.dart';
+import 'content/report_content.dart';
 
 class ReportPage extends StatelessWidget {
   const ReportPage({super.key});
