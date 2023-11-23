@@ -21,10 +21,21 @@ class LeaveReportSummaryContent extends StatelessWidget {
         builder: (context, state) {
       return Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            child: Card(
+              child: ListTile(
+                leading: Text(state.leaveReportSummaryModel?.data?.date ?? ''),
+                trailing: const Icon(
+                  Icons.calendar_month,
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
               child: ListView.builder(
                 itemCount:
                     state.leaveReportSummaryModel?.data?.leaveTypes?.length ??
@@ -32,25 +43,39 @@ class LeaveReportSummaryContent extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   final data =
                       state.leaveReportSummaryModel?.data?.leaveTypes?[index];
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: ListTile(
-                        // onTap: () => NavUtil.navigateScreen(
-                        //   context,
-                        //    ReportLeaveListScreen(
-                        //     title: tr('sick_leave'),
-                        //   ),
-                        // ),
-                        dense: true,
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(tr(data?.name ?? '')),
-                        trailing: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            data?.count.toString() ?? '',
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w500),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 4),
+                        child: ListTile(
+                          // onTap: () => NavUtil.navigateScreen(
+                          //   context,
+                          //    ReportLeaveListScreen(
+                          //     title: tr('sick_leave'),
+                          //   ),
+                          // ),
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            tr(data?.name ?? ''),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black.withOpacity(0.7),
+                            ),
+                          ),
+                          trailing: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              data?.count.toString() ?? '',
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
                       ),
