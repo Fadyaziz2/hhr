@@ -10,6 +10,7 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'leave_report_event.dart';
+
 part 'leave_report_state.dart';
 
 class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
@@ -24,21 +25,7 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     on<LeaveRequest>(_leaveRequest);
     on<SelectLeaveEmployee>(_selectEmployee);
     on<SelectDatePicker>(_onSelectDatePicker);
-    on<LeaveReportDetails>(_onLeaveReportDetails);
   }
-
-  // Future<SummaryAttendanceToList?> getSummaryToList(
-  //     {required String type}) async {
-  //   final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-  //   final data = {'type': type, 'date': currentDate};
-  //   try {
-  //     final response =
-  //         await metaClubApiClient.getAttendanceSummaryToList(body: data);
-  //     return response;
-  //   } catch (e) {
-  //     throw NetworkRequestFailure(e.toString());
-  //   }
-  // }
 
   FutureOr<void> _onLeaveReportSummary(
       GetLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
@@ -133,17 +120,12 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     add(GetLeaveReportSummary());
   }
 
-  FutureOr<void> _onLeaveReportDetails(
-      LeaveReportDetails event, Emitter<LeaveReportState> emit) async {
+  Future<LeaveDetailsModel?> onLeaveReportDetails(leaveId) async {
     try {
-      LeaveDetailsModel? leaveDetailsModel =
-          await metaClubApiClient.leaveReportDetailsApi(
-              state.selectedEmployee?.id ?? userId, event.leaveId);
-      emit(state.copyWith(
-          leaveDetailsModel: leaveDetailsModel, status: NetworkStatus.success));
-      return null;
+      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(
+          state.selectedEmployee?.id ?? userId, leaveId);
+      return leaveDetailsModel;
     } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }

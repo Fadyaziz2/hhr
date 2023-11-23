@@ -10,7 +10,6 @@ class LeaveReportState extends Equatable {
   final String? selectDate;
   final String? selectUserId;
   final PhoneBookUser? selectedEmployee;
-  final LeaveDetailsModel? leaveDetailsModel;
 
   const LeaveReportState({
     this.status,
@@ -20,7 +19,6 @@ class LeaveReportState extends Equatable {
     this.leaveRequestModel,
     this.selectMonth,
     this.selectDate,
-    this.leaveDetailsModel,
     this.selectUserId,
     this.selectedEmployee,
   });
@@ -35,7 +33,6 @@ class LeaveReportState extends Equatable {
     String? selectMonth,
     String? selectDate,
     PhoneBookUser? selectedEmployee,
-    LeaveDetailsModel? leaveDetailsModel,
     String? selectUserId,
   }) {
     return LeaveReportState(
@@ -49,8 +46,7 @@ class LeaveReportState extends Equatable {
         selectMonth: selectMonth ?? this.selectMonth,
         selectDate: selectDate ?? this.selectDate,
         selectedEmployee: selectedEmployee ?? this.selectedEmployee,
-        selectUserId: selectUserId ?? this.selectUserId,
-        leaveDetailsModel: leaveDetailsModel ?? this.leaveDetailsModel);
+        selectUserId: selectUserId ?? this.selectUserId);
   }
 
   @override
@@ -63,7 +59,6 @@ class LeaveReportState extends Equatable {
         selectedEmployee,
         selectUserId,
         selectMonth,
-        selectDate,
-        leaveDetailsModel
+        selectDate
       ];
 }

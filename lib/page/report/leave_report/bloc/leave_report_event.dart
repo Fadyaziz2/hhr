@@ -56,11 +56,3 @@ class SelectDatePicker extends LeaveReportEvent {
   @override
   List<Object> get props => [];
 }
-
-class LeaveReportDetails extends LeaveReportEvent {
-  final int leaveId;
-  LeaveReportDetails({required this.leaveId});
-
-  @override
-  List<Object> get props => [];
-}

@@ -6,7 +6,6 @@ import 'package:onesthrm/page/report/leave_report/bloc/leave_report_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/view/content/leave_info_content.dart';
 import 'package:onesthrm/page/report/leave_report/view/content/leave_report_list.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class EmployeeLeaveHistory extends StatelessWidget {
   const EmployeeLeaveHistory({super.key});
