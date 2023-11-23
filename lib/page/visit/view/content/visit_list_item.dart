@@ -6,6 +6,8 @@ import 'package:onesthrm/page/visit/view/visit_details_page/visit_details_page.d
 import 'package:onesthrm/res/nav_utail.dart';
 
 import '../../../../res/const.dart';
+import '../../../authentication/bloc/authentication_bloc.dart';
+import '../../../home/view/content/home_content.dart';
 import '../../bloc/visit_bloc.dart';
 
 class VisitListItem extends StatelessWidget {
@@ -15,6 +17,10 @@ class VisitListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
+    if (user?.user != null) {
+      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+    }
     return InkWell(
       onTap: () {
         NavUtil.navigateScreen(
