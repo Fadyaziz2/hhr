@@ -50,35 +50,6 @@ class HomeNeptuneContent extends StatelessWidget {
                         ),
                       ),
 
-                      Positioned(
-                        right: 10,
-                        top: 100,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            color: Colors.grey.shade400.withOpacity(0.7),
-                          ),
-                          child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: CupertinoSwitch(
-                                  value: context
-                                      .read<HomeBloc>()
-                                      .state
-                                      .isSwitched,
-                                  onChanged: (_) {
-                                    context.read<HomeBloc>().add(
-                                        OnSwitchPressed(
-                                            user: context
-                                                .read<AuthenticationBloc>()
-                                                .state
-                                                .data
-                                                ?.user,
-                                            locationProvider:
-                                            locationServiceProvider));
-                                  })),
-                        ),
-                      ),
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -116,17 +87,31 @@ class HomeNeptuneContent extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      InkWell(
-                                          onTap: () {
-                                            NavUtil.navigateScreen(context,
-                                                const NotificationScreen());
-                                            // Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen()));
-                                          },
-                                          child: Image.asset(
-                                            "assets/home_bg/aziz_notification.png",
-                                            height: 36,
-                                            width: 36,
-                                          ))
+                                      Transform.scale(
+                                        scale: 0.8,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(25)
+                                          ),
+                                          child: CupertinoSwitch(
+                                              value: context
+                                                  .read<HomeBloc>()
+                                                  .state
+                                                  .isSwitched,
+                                              onChanged: (_) {
+                                                context.read<HomeBloc>().add(
+                                                    OnSwitchPressed(
+                                                        user: context
+                                                            .read<AuthenticationBloc>()
+                                                            .state
+                                                            .data
+                                                            ?.user,
+                                                        locationProvider:
+                                                        locationServiceProvider));
+                                              }),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
