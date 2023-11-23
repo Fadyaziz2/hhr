@@ -3,6 +3,7 @@ import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
@@ -69,6 +70,7 @@ class _AttendanceState extends State<AttendanceView>
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
@@ -76,8 +78,9 @@ class _AttendanceState extends State<AttendanceView>
     final settings = widget.homeBloc.state.settings;
 
     if (user?.user != null) {
-      widget.homeBloc.add(OnSwitchPressed(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
+      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
     }
+
 
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
@@ -92,6 +95,7 @@ class _AttendanceState extends State<AttendanceView>
         if (state.status == NetworkStatus.success) {
           widget.homeBloc.add(LoadHomeData());
         }
+
       },
       child: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
@@ -161,6 +165,7 @@ class _AttendanceState extends State<AttendanceView>
   @override
   void dispose() {
     // faceService.deInit();
+    locationServiceProvider.disposePlaceController();
     super.dispose();
   }
 }

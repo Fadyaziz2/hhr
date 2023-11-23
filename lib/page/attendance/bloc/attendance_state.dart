@@ -15,14 +15,16 @@ class AttendanceState extends Equatable {
       {NetworkStatus? status,
       DashboardModel? dashboardModel,
         CheckData? checkInOut,
+        bool? locationLoaded,
       String? location}) {
     return AttendanceState(
         status: status ?? this.status,
+        locationLoaded: locationLoaded ?? this.locationLoaded,
         dashboardModel: dashboardModel ?? this.dashboardModel,
         checkData: checkInOut ?? checkData,
         location: location ?? this.location);
   }
 
   @override
-  List<Object?> get props => [status, dashboardModel, location, checkData];
+  List<Object?> get props => [status, dashboardModel, location, checkData,locationLoaded];
 }

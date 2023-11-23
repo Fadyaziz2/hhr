@@ -24,6 +24,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
     on<OnAttendance>(_onAttendance);
+    on<OnLocationUpdated>(_onLocationUpdated);
   }
 
   void _onLocationInit(
@@ -37,14 +38,20 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     globalState.set(outTime, attendanceData?.outTime);
     globalState.set(stayTime, attendanceData?.stayTime);
 
-    emit(AttendanceState(locationLoaded: true, location: _locationServices.place));
     add(OnLocationRefreshEvent());
   }
 
+  void _onLocationUpdated(OnLocationUpdated event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(location: event.place));
+  }
+
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(locationLoaded: false));
-    final location = await _locationServices.onLocationRefresh();
-    emit(AttendanceState(locationLoaded: true, location: location));
+    emit(state.copyWith(locationLoaded: false));
+    _locationServices.placeStream.listen((location) async {
+      add(OnLocationUpdated(place: location));
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    emit(state.copyWith(locationLoaded: true));
   }
 
   void _onRemoteModeUpdate(
