@@ -31,18 +31,26 @@ class LocationServiceProvider {
 
   ///return future location
   Future<Position?> getUserPositionFuture() async {
-    return await geoService.getCordFuture();
+    try{
+      return await geoService.getCordFuture();
+    }catch(e){
+      rethrow;
+    }
   }
 
   Future<String?> onLocationRefresh() async {
     Position? position = await getUserPositionFuture();
-    if (position != null) {
-      final places = await getAddressByPosition(position: position);
-      placeMark = places?.first;
-      place =
-          '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+    try{
+      if (position != null) {
+        final places = await getAddressByPosition(position: position);
+        placeMark = places?.first;
+        place =
+        '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+      }
+      return place;
+    }catch(e){
+      rethrow;
     }
-    return place;
   }
 
   ///return driver current location stream

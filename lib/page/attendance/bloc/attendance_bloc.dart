@@ -37,12 +37,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     globalState.set(outTime, attendanceData?.outTime);
     globalState.set(stayTime, attendanceData?.stayTime);
 
-    emit(AttendanceState(
-        locationLoaded: true, location: _locationServices.place));
+    emit(AttendanceState(locationLoaded: true, location: _locationServices.place));
+    add(OnLocationRefreshEvent());
   }
 
-  void _onLocationRefresh(
-      OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
+  void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(locationLoaded: false));
     final location = await _locationServices.onLocationRefresh();
     emit(AttendanceState(locationLoaded: true, location: location));
