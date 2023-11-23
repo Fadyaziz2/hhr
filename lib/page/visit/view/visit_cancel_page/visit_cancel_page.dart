@@ -37,8 +37,8 @@ class VisitCancelPage extends StatelessWidget {
                           state.status == NetworkStatus.success) {
                         bodyVisitCancel.visitId = visitId;
                         bodyVisitCancel.status = "cancelled";
-                        bodyVisitCancel.latitude = "23.815877934750823";
-                        bodyVisitCancel.longitude = "90.36617788667017";
+                        bodyVisitCancel.latitude =  state.latitude.toString();
+                        bodyVisitCancel.longitude =  state.longitude.toString();
                         context.read<VisitBloc>().add(VisitCancelApi(
                             context: context,
                             bodyVisitCancel: bodyVisitCancel));

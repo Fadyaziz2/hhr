@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -47,33 +48,33 @@ class VisitPhoneUpload extends StatelessWidget {
                           color: Colors.blue,
                         )),
                   ),
-                  // Expanded(
-                  //   flex: 4,
-                  //   child: ListView.builder(
-                  //     scrollDirection: Axis.horizontal,
-                  //     shrinkWrap: true,
-                  //     itemCount: provider.imageListSever?.length ?? 0,
-                  //     itemBuilder: (BuildContext context, index) {
-                  //       return Padding(
-                  //         padding: const EdgeInsets.all(8.0),
-                  //         child: CachedNetworkImage(
-                  //           height: 60,
-                  //           width: 60,
-                  //           fit: BoxFit.cover,
-                  //           imageUrl: provider
-                  //               .imageListSever?[index] ??
-                  //               "https://www.w3schools.com/howto/img_avatar.png",
-                  //           placeholder: (context, url) => Center(
-                  //             child: Image.asset(
-                  //                 "assets/images/placeholder_image.png"),
-                  //           ),
-                  //           errorWidget: (context, url, error) =>
-                  //           const Icon(Icons.error),
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  Expanded(
+                    flex: 4,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount:  3,
+                      itemBuilder: (BuildContext context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CachedNetworkImage(
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover,
+                            imageUrl:
+                                "https://www.w3schools.com/howto/img_avatar.png",
+                            placeholder: (context, url) => Center(
+                              child: Image.asset(
+                                  "assets/images/placeholder_image.png"),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Image.asset(
+                                    "assets/images/placeholder_image.png"),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -37,6 +37,15 @@ class VisitListApi extends VisitEvent {
   @override
   List<Object?> get props => [];
 }
+class VisitUpdateApi extends VisitEvent {
+  final BodyUpdateVisit? bodyUpdateVisit;
+  final BuildContext context;
+
+  VisitUpdateApi({this.bodyUpdateVisit, required this.context});
+
+  @override
+  List<Object?> get props => [bodyUpdateVisit];
+}
 
 class VisitCreateNoteApi extends VisitEvent {
   final BodyVisitNote? bodyVisitNote;

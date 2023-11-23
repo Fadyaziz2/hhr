@@ -308,6 +308,28 @@ class MetaClubApiClient {
     }
   }
 
+  /// Update Visit API
+  Future<bool> updateVisitApi(
+      {BodyUpdateVisit? bodyUpdateVisit}) async {
+    const String api = 'visit/update';
+
+    if (kDebugMode) {
+      print(bodyUpdateVisit?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyUpdateVisit!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// create Visit Note API
   Future<bool> visitCreateNoteApi(
       {BodyVisitNote? bodyVisitNote}) async {

@@ -19,7 +19,9 @@ class VisitListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     if (user?.user != null) {
-      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+      locationServiceProvider.getCurrentLocationStream(
+          uid: user!.user!.id!,
+          metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
     }
     return InkWell(
       onTap: () {

@@ -34,8 +34,8 @@ class VisitReschedule extends StatelessWidget {
                     if(state.currentDate != null) {
                       bodyCreateSchedule.date = state.currentDate;
                       bodyCreateSchedule.visitId = visitId;
-                      bodyCreateSchedule.latitude = "23.815877934750823";
-                      bodyCreateSchedule.longitude = "90.36617788667017";
+                      bodyCreateSchedule.latitude = state.latitude.toString();
+                      bodyCreateSchedule.longitude = state.longitude.toString();
 
                       context.read<VisitBloc>().add(CreateRescheduleApi(
                           bodyCreateSchedule: bodyCreateSchedule,

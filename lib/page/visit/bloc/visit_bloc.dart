@@ -31,6 +31,31 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<CreateRescheduleApi>(_createRescheduleApi);
     on<VisitCancelApi>(_visitCancelApi);
     on<VisitStatusApi>(_visitStatusApi);
+    on<VisitUpdateApi>(_visitUpdateApi);
+  }
+
+  FutureOr<void> _visitUpdateApi(
+      VisitUpdateApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .updateVisitApi(bodyUpdateVisit: event.bodyUpdateVisit)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "Visit Note Create Successfully");
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(VisitDetailsApi(visitId: event.bodyUpdateVisit?.id));
+          add(VisitListApi());
+          Navigator.pop(event.context);
+        } else {
+          emit(state.copyWith(status: NetworkStatus.failure));
+          Fluttertoast.showToast(msg: "Something went wrong!");
+        }
+      });
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _visitStatusApi(
@@ -161,8 +186,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       emit(state.copyWith(
           status: NetworkStatus.success,
           visitDetailsResponse: visitDetailsResponse,
-      longitude: event.longitude,
-      latitude: event.latitude));
+          longitude: event.longitude,
+          latitude: event.latitude));
     } on Exception catch (e) {
       emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

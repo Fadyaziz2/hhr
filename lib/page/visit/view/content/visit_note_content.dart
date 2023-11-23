@@ -30,10 +30,7 @@ class VisitNoteContent extends StatelessWidget {
         BlocBuilder<VisitBloc, VisitState>(
           builder: (BuildContext context, state) {
             if (state.status == NetworkStatus.loading) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
-              );
+              return const SizedBox();
             } else if (state.status == NetworkStatus.success) {
               return state.visitListResponse?.visitList?.myVisits?.isNotEmpty ==
                       true

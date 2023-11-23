@@ -9,6 +9,7 @@ import 'package:onesthrm/page/visit/view/content/visit_photo_upload.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../../../home/view/content/home_content.dart';
 import '../content/reschedule_cancel_button.dart';
+import '../content/visit_app_bar_action.dart';
 import '../content/visit_details_google_map.dart';
 import '../content/visit_hearder.dart';
 
@@ -19,10 +20,10 @@ class VisitDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<VisitBloc>().add(VisitDetailsApi(visitId: visitID,latitude: locationServiceProvider.userLocation.latitude,longitude: locationServiceProvider.userLocation.longitude));
-
-
-    print("LatLog : ${locationServiceProvider.userLocation.latitude} & ${locationServiceProvider.userLocation.longitude}");
+    context.read<VisitBloc>().add(VisitDetailsApi(
+        visitId: visitID,
+        latitude: locationServiceProvider.userLocation.latitude,
+        longitude: locationServiceProvider.userLocation.longitude));
 
     late GoogleMapController mapController;
     BodyVisitCancel bodyStatusChange = BodyVisitCancel();
@@ -50,8 +51,8 @@ class VisitDetailsPage extends StatelessWidget {
                             state.visitDetailsResponse?.data?.id;
                         bodyStatusChange.status = state
                             .visitDetailsResponse?.data?.nextStatus?.status;
-                        bodyStatusChange.latitude = "23.815877934750823";
-                        bodyStatusChange.longitude = "90.36617788667017";
+                        bodyStatusChange.latitude = state.latitude.toString();
+                        bodyStatusChange.longitude = state.longitude.toString();
                         context.read<VisitBloc>().add(VisitStatusApi(
                             context: context,
                             bodyVisitCancel: bodyStatusChange));
@@ -65,6 +66,11 @@ class VisitDetailsPage extends StatelessWidget {
           title: const Text(
             "Visit Details",
           ),
+          actions: [
+            VisitAppBarAction(
+              visitID: visitID,
+            ),
+          ],
         ),
         body: ListView(
           children: [
@@ -94,11 +100,14 @@ class VisitDetailsPage extends StatelessWidget {
                       context.read<VisitBloc>().add(
                             VisitGoToPosition(
                                 latLng: LatLng(
-                                    double.parse(
-                                        data?.schedules?[index].latitude ?? ""),
-                                    double.parse(
-                                        data?.schedules?[index].longitude ??
-                                            "")),
+                                    double.parse(data
+                                            ?.schedules?[index].latitude
+                                            .toString() ??
+                                        ""),
+                                    double.parse(data
+                                            ?.schedules?[index].longitude
+                                            .toString() ??
+                                        "")),
                                 controller: mapController),
                           );
                     },
