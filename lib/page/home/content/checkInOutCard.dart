@@ -9,7 +9,6 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
-import '../view/content/home_content.dart';
 
 class CheckInOutCard extends StatelessWidget {
   final Settings? settings;
