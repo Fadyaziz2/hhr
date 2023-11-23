@@ -42,7 +42,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           .then((success) {
         if (success) {
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(event.bodyVisitCancel?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitCancel?.visitId));
           add(VisitListApi());
           add(HistoryListApi());
         }
@@ -63,7 +63,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Cancel Visit Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(event.bodyVisitCancel?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitCancel?.visitId));
           add(VisitListApi());
           add(HistoryListApi());
           Navigator.pop(event.context);
@@ -85,7 +85,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Create Reschedule Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(event.bodyCreateSchedule?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyCreateSchedule?.visitId));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -108,7 +108,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(event.bodyVisitNote?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitNote?.visitId));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -158,11 +158,11 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       VisitDetailsModel? visitDetailsResponse =
           await _metaClubApiClient.getVisitDetailsApi(event.visitId);
 
-
-
       emit(state.copyWith(
           status: NetworkStatus.success,
-          visitDetailsResponse: visitDetailsResponse));
+          visitDetailsResponse: visitDetailsResponse,
+      longitude: event.longitude,
+      latitude: event.latitude));
     } on Exception catch (e) {
       emit(const VisitState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

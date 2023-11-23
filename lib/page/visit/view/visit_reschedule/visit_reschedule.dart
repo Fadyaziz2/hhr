@@ -27,8 +27,6 @@ class VisitReschedule extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<VisitBloc, VisitState>(
               builder: (context, state) {
-                // final user = context.read<AuthenticationBloc>().state.data;
-                // context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
                 return CustomButton(
                   title: "Create Reschedule",
                   padding: 16,
