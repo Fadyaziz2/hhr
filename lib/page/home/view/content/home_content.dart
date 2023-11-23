@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -22,46 +20,15 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        final settings = context.read<HomeBloc>().state.settings;
-        final user = context.read<AuthenticationBloc>().state.data;
         final homeData = context.read<HomeBloc>().state.dashboardModel;
+        final user = context.read<AuthenticationBloc>().state.data;
 
         if (user?.user != null) {
           context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
         }
 
         return homeData != null
-            ? BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
-                  return ListView(
-                    children: [
-                      ///top-header
-                      HomeHeader(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
-
-                      ///check-in-out card
-                      CheckInOutCard(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
-
-                      ///breakTime
-                      BreakCard(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
-
-                      ///bottom-header
-                      HomeBottom(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
-                    ],
-                  );
-                },
-              )
+            ? context.read<HomeBloc>().chooseTheme()
             : const HomeContentShimmer();
       },
     );
