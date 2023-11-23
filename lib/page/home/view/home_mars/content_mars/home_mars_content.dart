@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/all_natification/all_notification.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/check_in_out_status_mars.dart';
@@ -71,35 +70,6 @@ class HomeMarsContent extends StatelessWidget {
                           ),
                         ),
 
-                        Positioned(
-                          right: 10,
-                          top: 100,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              color: Colors.grey.shade400.withOpacity(0.7),
-                            ),
-                            child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: CupertinoSwitch(
-                                    value: context
-                                        .read<HomeBloc>()
-                                        .state
-                                        .isSwitched,
-                                    onChanged: (_) {
-                                      context.read<HomeBloc>().add(
-                                          OnSwitchPressed(
-                                              user: context
-                                                  .read<AuthenticationBloc>()
-                                                  .state
-                                                  .data
-                                                  ?.user,
-                                              locationProvider:
-                                                  locationServiceProvider));
-                                    })),
-                          ),
-                        ),
-
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -136,16 +106,31 @@ class HomeMarsContent extends StatelessWidget {
                                                     const Icon(Icons.error)),
                                           ),
                                         ),
-                                        InkWell(
-                                            onTap: () {
-                                              NavUtil.navigateScreen(context,
-                                                  const NotificationScreen());
-                                            },
-                                            child: Image.asset(
-                                              "assets/home_bg/aziz_notification.png",
-                                              height: 36,
-                                              width: 36,
-                                            ))
+                                        Transform.scale(
+                                          scale: 0.8,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(25)
+                                            ),
+                                            child: CupertinoSwitch(
+                                                value: context
+                                                    .read<HomeBloc>()
+                                                    .state
+                                                    .isSwitched,
+                                                onChanged: (_) {
+                                                  context.read<HomeBloc>().add(
+                                                      OnSwitchPressed(
+                                                          user: context
+                                                              .read<AuthenticationBloc>()
+                                                              .state
+                                                              .data
+                                                              ?.user,
+                                                          locationProvider:
+                                                          locationServiceProvider));
+                                                }),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
