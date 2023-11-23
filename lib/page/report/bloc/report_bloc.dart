@@ -15,12 +15,14 @@ part 'report_state.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final MetaClubApiClient metaClubApiClient;
+  final int userId;
 
-  ReportBloc({required this.metaClubApiClient})
+  ReportBloc({required this.metaClubApiClient, required this.userId})
       : super(const ReportState(status: NetworkStatus.initial)) {
     on<GetReportData>(_onGetReportData);
     on<SelectDate>(_onSelectDatePicker);
     on<SelectEmployee>(_selectEmployee);
+    on<GetAttendanceReportData>(_onAttendanceLoad);
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -33,9 +35,13 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       locale: const Locale("en"),
     );
     String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    add(GetReportData());
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
+    if (event.isEmployeeScreen) {
+      add(GetAttendanceReportData());
+    } else {
+      add(GetReportData());
+    }
   }
 
   FutureOr<void> _onGetReportData(
@@ -70,6 +76,22 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   FutureOr<void> _selectEmployee(
       SelectEmployee event, Emitter<ReportState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
-    // add(DailyLeaveSummary(event.selectEmployee.id!));
+    add(GetAttendanceReportData());
+  }
+
+  FutureOr<void> _onAttendanceLoad(
+      GetAttendanceReportData event, Emitter<ReportState> emit) async {
+    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
+
+    final data = {'month': state.currentMonth ?? currentDate};
+    try {
+      final report = await metaClubApiClient.getAttendanceReport(
+          body: data, userId: state.selectEmployee?.id ?? userId);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceReport: report));
+    } on Exception catch (e) {
+      emit(const ReportState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 }

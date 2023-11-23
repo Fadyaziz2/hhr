@@ -1,16 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/res/shimmers.dart';
 
 class SummeryTile extends StatelessWidget {
   const SummeryTile(
       {super.key,
       required this.title,
-      required this.titleValue,
+       this.titleValue,
       required this.color,
       this.onTap});
 
   final String title;
-  final String titleValue;
+  final String? titleValue;
   final Color color;
   final Function()? onTap;
 
@@ -32,10 +33,10 @@ class SummeryTile extends StatelessWidget {
             ),
           ),
           title: Text(title).tr(),
-          trailing: Text(
-            titleValue ?? '',
+          trailing: titleValue != null ? Text(
+            titleValue!,
             style: Theme.of(context).textTheme.titleSmall,
-          ),
+          ) : const RectangularCardShimmer(height: 30,width: 20,),
         ),
         const Divider(
           height: 0.0,

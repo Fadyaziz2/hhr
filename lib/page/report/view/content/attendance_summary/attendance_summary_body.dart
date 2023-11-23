@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
 import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/page/report/view/content/attendance_summary/body_to_list_details.dart';
+import 'package:onesthrm/res/shimmers.dart';
 
 import '../../../../../res/nav_utail.dart';
 
@@ -22,7 +23,7 @@ class AttendanceSummaryBody extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    context.read<ReportBloc>().add(SelectDate(context));
+                    context.read<ReportBloc>().add(SelectDate(context, false));
                   },
                   icon: const Icon(Icons.calendar_month))
             ],
@@ -32,12 +33,12 @@ class AttendanceSummaryBody extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                ListTile(
+                summaryData != null ? ListTile(
                   title: Text(
-                    summaryData?.date ?? "",
+                    summaryData.date ?? "",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
+                ) : const TileShimmer(titleHeight: 16,),
                 Card(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -54,7 +55,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.onTimeIn ?? '',
+                              summaryData?.attendanceSummary?.onTimeIn,
                           title: 'on_time',
                           color: Colors.green),
                       SummeryTile(
@@ -69,7 +70,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.lateIn ?? '',
+                              summaryData?.attendanceSummary?.lateIn,
                           title: 'late',
                           color: Colors.red),
                       SummeryTile(
@@ -84,7 +85,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.leftTimely ?? '',
+                              summaryData?.attendanceSummary?.leftTimely,
                           title: 'left_timely',
                           color: Colors.green),
                       SummeryTile(
@@ -99,7 +100,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.leftEarly ?? '',
+                              summaryData?.attendanceSummary?.leftEarly,
                           title: 'left_early',
                           color: Colors.red),
                       SummeryTile(
@@ -114,7 +115,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.leave ?? '',
+                              summaryData?.attendanceSummary?.leave,
                           title: 'on_leave',
                           color: Colors.grey[400]!),
                       SummeryTile(
@@ -129,7 +130,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.absent ?? '',
+                              summaryData?.attendanceSummary?.absent,
                           title: 'absent',
                           color: Colors.black87),
                       SummeryTile(
@@ -144,7 +145,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                             );
                           },
                           titleValue:
-                              summaryData?.attendanceSummary?.leftLater ?? '',
+                              summaryData?.attendanceSummary?.leftLater,
                           title: 'left_later',
                           color: Colors.amber),
                       const SizedBox(
