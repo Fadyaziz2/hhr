@@ -25,11 +25,18 @@ class LeaveReportSummaryContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
             child: Card(
               child: ListTile(
-                leading: Text(state.leaveReportSummaryModel?.data?.date ?? ''),
-                trailing: const Icon(
-                  Icons.calendar_month,
-                ),
-              ),
+                  leading:
+                      Text(state.leaveReportSummaryModel?.data?.date ?? ''),
+                  trailing: IconButton(
+                    onPressed: () {
+                      context
+                          .read<LeaveReportBloc>()
+                          .add(SelectDatePicker(context));
+                    },
+                    icon: const Icon(
+                      Icons.calendar_month,
+                    ),
+                  )),
             ),
           ),
           Expanded(
