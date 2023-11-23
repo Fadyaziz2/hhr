@@ -1,3 +1,4 @@
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
+import '../view/content/home_content.dart';
 
 class CheckInOutCard extends StatelessWidget {
   final Settings? settings;
@@ -15,11 +17,10 @@ class CheckInOutCard extends StatelessWidget {
   final DashboardModel? dashboardModel;
 
   const CheckInOutCard(
-      {Key? key,
+      {super.key,
       required this.settings,
       required this.user,
-      required this.dashboardModel})
-      : super(key: key);
+      required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +30,7 @@ class CheckInOutCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            Navigator.push(context,
-                AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),

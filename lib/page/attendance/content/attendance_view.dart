@@ -3,6 +3,7 @@ import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
@@ -14,6 +15,7 @@ import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../../home/view/content/home_content.dart';
 import 'animated_circular_button.dart';
 import 'check_in_check_out_time.dart';
 
@@ -32,7 +34,7 @@ class _AttendanceState extends State<AttendanceView>
 
   ///set condition here weather face checking enable or disable
   ///if enabled then we have to create faceSDK service instance
-  FaceServiceImpl faceService = FaceServiceImpl();
+  // FaceServiceImpl faceService = FaceServiceImpl();
 
   @override
   void initState() {
@@ -43,30 +45,31 @@ class _AttendanceState extends State<AttendanceView>
 
     ///set condition here weather face checking enable or disable
     ///fetch face date from local cache
-    SharedUtil.getValue(userFaceData).then((registeredFaceData) {
-      faceService.captureFromFaceApi(
-          isRegistered: registeredFaceData != null,
-          regImage: registeredFaceData,
-          onCaptured: (faceData) {
-            debugPrint('faceData $faceData');
-            if (faceData.length > 20) {
-              SharedUtil.setValue(userFaceData, faceData);
-            }
-          },
-          isSimilar: (isSimilar) {
-            debugPrint('isSimilar $isSimilar');
-            if (isSimilar) {
-              if (widget.homeBloc.state.dashboardModel != null) {
-                context.read<AttendanceBloc>().add(OnAttendance(
-                    homeData: widget.homeBloc.state.dashboardModel!));
-              } else {
-                debugPrint('dashboardModel is null\n you have to check api');
-              }
-            }
-          });
-    });
+    // SharedUtil.getValue(userFaceData).then((registeredFaceData) {
+    //   faceService.captureFromFaceApi(
+    //       isRegistered: registeredFaceData != null,
+    //       regImage: registeredFaceData,
+    //       onCaptured: (faceData) {
+    //         debugPrint('faceData $faceData');
+    //         if (faceData.length > 20) {
+    //           SharedUtil.setValue(userFaceData, faceData);
+    //         }
+    //       },
+    //       isSimilar: (isSimilar) {
+    //         debugPrint('isSimilar $isSimilar');
+    //         if (isSimilar) {
+    //           if (widget.homeBloc.state.dashboardModel != null) {
+    //             context.read<AttendanceBloc>().add(OnAttendance(
+    //                 homeData: widget.homeBloc.state.dashboardModel!));
+    //           } else {
+    //             debugPrint('dashboardModel is null\n you have to check api');
+    //           }
+    //         }
+    //       });
+    // });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +77,14 @@ class _AttendanceState extends State<AttendanceView>
     final homeData = widget.homeBloc.state.dashboardModel;
     final settings = widget.homeBloc.state.settings;
 
+    if (user?.user != null) {
+      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+    }
+
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
       listener: (context, state) {
-        if (state.checkData?.message != null) {
+        if (state.checkData?.message != null && state.actionStatus == ActionStatus.checkInOut) {
           showLoginDialog(
               context: context,
               message: '${user?.user?.name}',
@@ -87,6 +94,7 @@ class _AttendanceState extends State<AttendanceView>
         if (state.status == NetworkStatus.success) {
           widget.homeBloc.add(LoadHomeData());
         }
+
       },
       child: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
@@ -156,6 +164,7 @@ class _AttendanceState extends State<AttendanceView>
   @override
   void dispose() {
     // faceService.deInit();
+    locationServiceProvider.disposePlaceController();
     super.dispose();
   }
 }

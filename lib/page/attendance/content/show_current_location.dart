@@ -7,10 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
-import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+import '../../home/view/content/home_earth_content.dart';
 
 class ShowCurrentLocation extends StatelessWidget {
   final DashboardModel homeData;
@@ -19,6 +20,7 @@ class ShowCurrentLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Container(
@@ -30,17 +32,14 @@ class ShowCurrentLocation extends StatelessWidget {
               children: [
                 Lottie.asset('assets/images/map_marker_icon.json', height: 30.h, width: 30.w),
                 Expanded(
-                  child: SizedBox(
-                    child: Text(
-                      context.read<AttendanceBloc>().state.location ??
-                          locationServiceProvider.place,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: const Color(0xFF404A58)),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  child: Text(
+                    context.read<AttendanceBloc>().state.location ?? locationServiceProvider.place,
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                        color: const Color(0xFF404A58)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 SizedBox(
@@ -48,22 +47,21 @@ class ShowCurrentLocation extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    context
-                        .read<AttendanceBloc>()
-                        .add(OnLocationRefreshEvent());
+                    if(context.read<AttendanceBloc>().state.locationLoaded) {
+                      context.read<AttendanceBloc>().add(OnLocationRefreshEvent());
+                    }
                   },
-                  child: context.read<AttendanceBloc>().state.locationLoaded
-                      ? Row(
+                  child: Row(
                           children: [
                             CircleAvatar(
                               radius: 14,
                               backgroundColor: colorPrimary,
                               child: Center(
-                                child: Lottie.asset(
+                                child:  context.read<AttendanceBloc>().state.locationLoaded ? Lottie.asset(
                                   'assets/images/Refresh.json',
                                   height: 24.h,
                                   width: 24.w,
-                                ),
+                                ) : const CircularProgressIndicator(),
                               ),
                             ),
                             SizedBox(
@@ -76,8 +74,7 @@ class ShowCurrentLocation extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
-                        )
-                      : const CircularProgressIndicator(),
+                        ),
                 )
               ],
             ),

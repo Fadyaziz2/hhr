@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 Color mainColor = const Color(0xFF00a8e6);
 Color buttonColor = const Color(0xFF00a8e6);
 const Color colorPrimary = Color(0xFF00a8e6);
+const Color backgroundColor = Color(0xFFF6F6F6);
+const Color primaryBorderColor = Color(0xFFF3E9E7);
 const Color colorPrimaryGradient = Color(0xff00a7ab);
 const Color colorDeepRed = Color(0xFFBE5258);
 const Color appBarColor = Colors.white;
@@ -16,6 +18,7 @@ List<String> supportTicketsButton = [tr("open"), tr('close'), tr('all')];
 final bloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const String attendanceId = 'attendance_id';
+const String dashboardStyleId = 'dashboard_style_Id';
 const String inTime = 'in_time';
 const String outTime = 'out_time';
 const String breakTime = 'in_time';
