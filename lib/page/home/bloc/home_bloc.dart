@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
+import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
 import '../../app/global_state.dart';
+import '../view/content/home_earth_content.dart';
 
 part 'home_event.dart';
 
@@ -32,7 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(const HomeState(status: NetworkStatus.loading));
     try {
       Settings? settings = await _metaClubApiClient.getSettings();
-
+      globalState.set(dashboardStyleId, settings?.data?.appTheme);
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
@@ -43,30 +46,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(const HomeState(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
-
+      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
       globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
-      globalState.set(
-          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(
-          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(
-          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-
+      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
-      emit(state.copy(
-          dashboardModel: dashboardModel, status: NetworkStatus.success));
+      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}' );
+      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success));
     } catch (e) {
       emit(const HomeState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -75,20 +68,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: !state.isSwitched));
-    if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
+    if(event.user != null) {
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
     }
   }
 
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
-      event.locationProvider.getCurrentLocationStream(
-          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+      event.locationProvider.getCurrentLocationStream(uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
     } else {
       try {
         event.locationProvider.locationSubscription.pause();
       } catch (_) {}
+    }
+  }
+
+  Widget chooseTheme() {
+    final name = globalState.get(dashboardStyleId);
+    switch (name) {
+      case 'neptune':
+        return const HomeNeptuneContent();
+      case 'mars':
+        return const HomeMars();
+      default:
+        return const HomeEarthContent();
     }
   }
 }

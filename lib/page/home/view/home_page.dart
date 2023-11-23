@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'content/home_content.dart';
+import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/res/const.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,6 +11,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: HomeContent());
+    return const Scaffold(
+        backgroundColor: backgroundColor, body: HomeContent());
   }
 }

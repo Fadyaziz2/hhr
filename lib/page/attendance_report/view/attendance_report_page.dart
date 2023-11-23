@@ -11,9 +11,7 @@ class AttendanceReportPage extends StatelessWidget {
   final AttendanceBloc attendanceBloc;
   final Settings settings;
 
-  const AttendanceReportPage(
-      {Key? key, required this.attendanceBloc, required this.settings})
-      : super(key: key);
+  const AttendanceReportPage({super.key, required this.attendanceBloc, required this.settings});
 
   static Route route(
       {required AttendanceBloc attendanceBloc, required Settings settings}) {

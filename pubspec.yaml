@@ -139,6 +139,7 @@ flutter:
     - assets/translations/
     - assets/car_icon/
     - assets/task/
+    - assets/home_bg/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

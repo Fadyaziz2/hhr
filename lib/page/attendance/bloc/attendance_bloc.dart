@@ -24,6 +24,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
     on<OnAttendance>(_onAttendance);
+    on<OnLocationUpdated>(_onLocationUpdated);
   }
 
   void _onLocationInit(
@@ -37,25 +38,29 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     globalState.set(outTime, attendanceData?.outTime);
     globalState.set(stayTime, attendanceData?.stayTime);
 
-    emit(AttendanceState(
-        locationLoaded: true, location: _locationServices.place));
+    add(OnLocationRefreshEvent());
   }
 
-  void _onLocationRefresh(
-      OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(locationLoaded: false));
-    final location = await _locationServices.onLocationRefresh();
-    emit(AttendanceState(locationLoaded: true, location: location));
+  void _onLocationUpdated(OnLocationUpdated event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(location: event.place));
   }
 
-  void _onRemoteModeUpdate(
-      OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
+  void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(locationLoaded: false,actionStatus: ActionStatus.refresh));
+    _locationServices.placeStream.listen((location) async {
+      add(OnLocationUpdated(place: location));
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    emit(state.copyWith(locationLoaded: true));
+  }
+
+  void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
     body.mode = event.mode;
     SharedUtil.setRemoteModeType(event.mode);
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(status: NetworkStatus.loading));
+    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= 0;
     body.attendanceId = globalState.get(attendanceId);
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());

@@ -9,7 +9,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../location_track.dart';
 
-
 Future openLocationBox() async {
   final document = await getApplicationDocumentsDirectory();
   Hive.init(document.path);
@@ -20,7 +19,8 @@ Future openLocationBox() async {
 class LocationServiceProvider {
   late LocationService locationServiceProvider;
   HiveLocationProvider locationProvider = HiveLocationProvider();
-  FirebaseLocationStoreProvider locationStoreProvider = FirebaseLocationStoreProvider();
+  FirebaseLocationStoreProvider locationStoreProvider =
+      FirebaseLocationStoreProvider();
 
   GeoLocatorService geoService = GeoLocatorService();
   LocationData userLocation = LocationData.fromMap({});
@@ -28,21 +28,30 @@ class LocationServiceProvider {
   String place = '';
   late StreamSubscription locationSubscription;
   LatLng initialCameraPosition = const LatLng(23.256555, 90.157965);
+  final StreamController<String> _placeController = StreamController<String>.broadcast();
+  Stream<String> get placeStream => _placeController.stream;
 
   ///return future location
   Future<Position?> getUserPositionFuture() async {
-    return await geoService.getCordFuture();
+    try {
+      return await geoService.getCordFuture();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<String?> onLocationRefresh() async {
     Position? position = await getUserPositionFuture();
-    if (position != null) {
-      final places = await getAddressByPosition(position: position);
-      placeMark = places?.first;
-      place =
-          '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+    try {
+      if (position != null) {
+        final places = await getAddressByPosition(position: position);
+        placeMark = places?.first;
+        place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+      }
+      return place;
+    } catch (e) {
+      rethrow;
     }
-    return place;
   }
 
   ///return driver current location stream
@@ -50,7 +59,11 @@ class LocationServiceProvider {
   ///to get location more better way
   void getCurrentLocationStream({required int uid, required MetaClubApiClient metaClubApiClient}) async {
     ///location permission check
-    await askForLocationAlwaysPermission();
+   final isGranted = await askForLocationAlwaysPermission();
+
+   if(isGranted){
+
+   }
 
     locationServiceProvider = LocationService();
 
@@ -72,6 +85,14 @@ class LocationServiceProvider {
           altitudeAccuracy: 0,
           headingAccuracy: 0);
 
+
+      final places = await getAddressByPosition(position: position);
+      placeMark = places?.first;
+      place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+      if(!_placeController.isClosed) {
+        _placeController.add(place);
+      }
+
       ///when locationSubscription is enable only then
       ///location data can be processed to manipulate
       if (!locationSubscription.isPaused) {
@@ -89,7 +110,6 @@ class LocationServiceProvider {
 
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
-
     });
 
     ///set timer to toggle location subscription
@@ -101,8 +121,7 @@ class LocationServiceProvider {
     });
   }
 
-  Future<List<geocoding.Placemark>?> getAddressByPosition(
-      {required Position position}) async {
+  Future<List<geocoding.Placemark>?> getAddressByPosition({required Position position}) async {
     return await geoService.getAddress(position);
   }
 
@@ -117,8 +136,7 @@ class LocationServiceProvider {
   }
 
   ///store data to local
-  addLocationDataToLocal(
-      {String? currentDateData,
+  addLocationDataToLocal({String? currentDateData,
       required Position position,
       required int uid}) async {
     final places = await getAddressByPosition(position: position);
@@ -126,7 +144,9 @@ class LocationServiceProvider {
     placeMark = places?.first;
 
     place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
-
+    if(!_placeController.isClosed) {
+      _placeController.add(place);
+    }
     Timer.periodic(const Duration(minutes: 2), (timer) async {
       if (kDebugMode) {
         print('local from position ${position.toString()}');
@@ -143,7 +163,7 @@ class LocationServiceProvider {
             country: placeMark?.country,
             countryCode: placeMark?.isoCountryCode,
             address:
-            '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
+                '${placeMark?.name} ${placeMark?.subLocality} ${placeMark?.thoroughfare} ${placeMark?.subThoroughfare}',
             heading: position.heading,
             distance: distance,
             datetime: DateTime.now().toString());
@@ -151,7 +171,8 @@ class LocationServiceProvider {
         ///add data to local database
         locationProvider.add(locationModel);
 
-        FirebaseLocationStoreProvider.sendLocationToFirebase(uid, locationModel.toJson());
+        FirebaseLocationStoreProvider.sendLocationToFirebase(
+            uid, locationModel.toJson());
       }
     });
   }
@@ -162,12 +183,16 @@ class LocationServiceProvider {
       required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
     Timer.periodic(const Duration(minutes: 4), (timer) async {
-      if (locationProvider.toMapList().length > 2 &&  !locationSubscription.isPaused) {
+      if (locationProvider.toMapList().length > 2 &&
+          !locationSubscription.isPaused) {
         if (kDebugMode) {
-          print('data that u have to sent server ${locationProvider.toMapList()}');
+          print(
+              'data that u have to sent server ${locationProvider.toMapList()}');
         }
         metaClubApiClient
-            .storeLocationToServer(locations: locationProvider.toMapList(), date: DateTime.now().toString())
+            .storeLocationToServer(
+                locations: locationProvider.toMapList(),
+                date: DateTime.now().toString())
             .then((isStored) async {
           if (isStored) {
             await locationProvider.deleteAllLocation();
@@ -193,5 +218,9 @@ class LocationServiceProvider {
       return false;
     }
     return true;
+  }
+
+  void disposePlaceController() async {
+    await _placeController.close();
   }
 }
