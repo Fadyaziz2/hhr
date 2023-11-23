@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/res/const.dart';
@@ -15,6 +16,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.data;
     return BlocBuilder<LeaveReportBloc, LeaveReportState>(
         builder: (context, state) {
       return Column(
@@ -61,11 +63,13 @@ class LeaveReportSummaryContent extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: colorPrimary, shape: const StadiumBorder()),
-            onPressed: () => NavUtil.navigateScreen(
-                context,
-                BlocProvider.value(
-                    value: context.read<LeaveReportBloc>(),
-                    child: const EmployeeLeaveHistory())),
+            onPressed: () {
+              NavUtil.navigateScreen(
+                  context,
+                  BlocProvider.value(
+                      value: context.read<LeaveReportBloc>(),
+                      child: const EmployeeLeaveHistory()));
+            },
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16),

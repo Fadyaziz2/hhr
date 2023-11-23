@@ -1,0 +1,134 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/report/leave_report/bloc/leave_report_bloc.dart';
+import 'package:onesthrm/page/report/leave_report/view/view.dart';
+import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/shimmers.dart';
+
+class LeaveReportList extends StatelessWidget {
+  const LeaveReportList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final leaveBloc = context.watch<LeaveReportBloc>();
+    return leaveBloc.state.leaveRequestModel?.leaveRequestData?.leaveRequests
+                ?.isNotEmpty ==
+            true
+        ? ListView.builder(
+            shrinkWrap: true,
+            itemCount: leaveBloc.state.leaveRequestModel?.leaveRequestData
+                    ?.leaveRequests?.length ??
+                0,
+            itemBuilder: (context, index) {
+              final data = leaveBloc.state.leaveRequestModel?.leaveRequestData
+                  ?.leaveRequests?[index];
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 2),
+                    child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          NavUtil.navigateScreen(
+                              context, const LeaveSummaryDetails());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 6),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: [
+                                        Text(
+                                          data?.type ?? "${tr('leave')}: ",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          data?.days.toString() ?? tr('days'),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      data?.applyDate ?? '',
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.red,
+                                    style: BorderStyle.solid,
+                                    width: 3.0,
+                                  ),
+                                  color:
+                                      Color(int.parse(data?.colorCode ?? '')),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: DottedBorder(
+                                  color: Colors.white,
+                                  borderType: BorderType.RRect,
+                                  radius: const Radius.circular(5),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 3),
+                                  strokeWidth: 1,
+                                  child: const Center(
+                                    child: Text(
+                                      'pending',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: RectangularCardShimmer(
+                  height: 55,
+                  width: double.infinity,
+                ),
+              );
+            },
+          );
+  }
+}

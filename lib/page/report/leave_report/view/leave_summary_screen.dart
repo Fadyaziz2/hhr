@@ -14,7 +14,8 @@ class LeaveSummeryScreen extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
       create: (BuildContext context) => LeaveReportBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          userId: user!.user!.id!,
+          metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}'))
         ..add(GetLeaveReportSummary()),
       child: Scaffold(
         appBar: AppBar(
