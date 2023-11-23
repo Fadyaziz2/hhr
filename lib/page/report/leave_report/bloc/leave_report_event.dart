@@ -48,3 +48,19 @@ class SelectMonthPicker extends LeaveReportEvent {
         context,
       ];
 }
+
+class SelectDatePicker extends LeaveReportEvent {
+  final BuildContext context;
+  SelectDatePicker(this.context);
+
+  @override
+  List<Object> get props => [];
+}
+
+class LeaveReportDetails extends LeaveReportEvent {
+  final int leaveId;
+  LeaveReportDetails({required this.leaveId});
+
+  @override
+  List<Object> get props => [];
+}

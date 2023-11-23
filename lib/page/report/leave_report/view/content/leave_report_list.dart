@@ -7,6 +7,8 @@ import 'package:onesthrm/page/report/leave_report/view/view.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
+import 'leave_report_details.dart';
+
 class LeaveReportList extends StatelessWidget {
   const LeaveReportList({super.key});
 
@@ -33,7 +35,12 @@ class LeaveReportList extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           NavUtil.navigateScreen(
-                              context, const LeaveSummaryDetails());
+                              context,
+                              BlocProvider.value(
+                                  value: context.read<LeaveReportBloc>(),
+                                  child: LeaveReportDetailsScreen(
+                                    leaveId: data!.id!,
+                                  )));
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -72,7 +79,7 @@ class LeaveReportList extends StatelessWidget {
                                     ),
                                     Text(
                                       data?.applyDate ?? '',
-                                      style: TextStyle(fontSize: 10),
+                                      style: const TextStyle(fontSize: 10),
                                     ),
                                   ],
                                 ),
@@ -80,11 +87,6 @@ class LeaveReportList extends StatelessWidget {
                               Container(
                                 width: 80,
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    style: BorderStyle.solid,
-                                    width: 3.0,
-                                  ),
                                   color:
                                       Color(int.parse(data?.colorCode ?? '')),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -94,12 +96,12 @@ class LeaveReportList extends StatelessWidget {
                                   borderType: BorderType.RRect,
                                   radius: const Radius.circular(5),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 3),
+                                      horizontal: 8, vertical: 5),
                                   strokeWidth: 1,
-                                  child: const Center(
+                                  child: Center(
                                     child: Text(
-                                      'pending',
-                                      style: TextStyle(
+                                      data?.status ?? '',
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600),

@@ -7,8 +7,10 @@ class LeaveReportState extends Equatable {
   final LeaveRequestModel? leaveRequestModel;
   final PhoneBookUser? selectedEmployeeName;
   final String? selectMonth;
+  final String? selectDate;
   final String? selectUserId;
   final PhoneBookUser? selectedEmployee;
+  final LeaveDetailsModel? leaveDetailsModel;
 
   const LeaveReportState({
     this.status,
@@ -17,6 +19,8 @@ class LeaveReportState extends Equatable {
     this.selectedEmployeeName,
     this.leaveRequestModel,
     this.selectMonth,
+    this.selectDate,
+    this.leaveDetailsModel,
     this.selectUserId,
     this.selectedEmployee,
   });
@@ -29,21 +33,24 @@ class LeaveReportState extends Equatable {
     PhoneBookUser? selectedEmployeeName,
     LeaveRequestModel? leaveRequestModel,
     String? selectMonth,
+    String? selectDate,
     PhoneBookUser? selectedEmployee,
+    LeaveDetailsModel? leaveDetailsModel,
     String? selectUserId,
   }) {
     return LeaveReportState(
-      status: status ?? this.status,
-      leaveReportSummaryModel:
-          leaveReportSummaryModel ?? this.leaveReportSummaryModel,
-      filterLeaveSummaryResponse:
-          filterLeaveSummaryResponse ?? this.filterLeaveSummaryResponse,
-      selectedEmployeeName: selectedEmployeeName ?? this.selectedEmployeeName,
-      leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
-      selectMonth: selectMonth ?? this.selectMonth,
-      selectedEmployee: selectedEmployee ?? this.selectedEmployee,
-      selectUserId: selectUserId ?? this.selectUserId,
-    );
+        status: status ?? this.status,
+        leaveReportSummaryModel:
+            leaveReportSummaryModel ?? this.leaveReportSummaryModel,
+        filterLeaveSummaryResponse:
+            filterLeaveSummaryResponse ?? this.filterLeaveSummaryResponse,
+        selectedEmployeeName: selectedEmployeeName ?? this.selectedEmployeeName,
+        leaveRequestModel: leaveRequestModel ?? this.leaveRequestModel,
+        selectMonth: selectMonth ?? this.selectMonth,
+        selectDate: selectDate ?? this.selectDate,
+        selectedEmployee: selectedEmployee ?? this.selectedEmployee,
+        selectUserId: selectUserId ?? this.selectUserId,
+        leaveDetailsModel: leaveDetailsModel ?? this.leaveDetailsModel);
   }
 
   @override
@@ -55,5 +62,8 @@ class LeaveReportState extends Equatable {
         leaveRequestModel,
         selectedEmployee,
         selectUserId,
+        selectMonth,
+        selectDate,
+        leaveDetailsModel
       ];
 }

@@ -26,9 +26,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://hrm.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email, required String password}) async {
@@ -222,6 +222,23 @@ class MetaClubApiClient {
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveDetailsModel?> leaveReportDetailsApi(
+      int? userId, int leaveId) async {
+    const String api = 'user/leave/details';
+
+    try {
+      final data = {"user_id": userId};
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api/$leaveId', data);
+      if (response.statusCode == 200) {
+        return LeaveDetailsModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -1299,7 +1316,8 @@ class MetaClubApiClient {
     String api = 'report/break/date-summary';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return ReportBreakSummaryModel.fromJson(response.data);
       }
@@ -1315,7 +1333,8 @@ class MetaClubApiClient {
     String api = 'report/break/user-break-history';
 
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return ReportBreakListModel.fromJson(response.data);
       }
