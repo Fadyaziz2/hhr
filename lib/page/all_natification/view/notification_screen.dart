@@ -29,9 +29,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
           return Scaffold(
-              backgroundColor: Colors.transparent,
               appBar: AppBar(
-                automaticallyImplyLeading: false,
+                // automaticallyImplyLeading: false,
                 title: Text(tr("notifications")),
                 actions: [
                   Visibility(

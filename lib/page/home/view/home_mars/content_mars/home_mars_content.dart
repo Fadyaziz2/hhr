@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/all_natification/all_notification.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/check_in_out_status_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/current_month_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/upcoming_event_mars.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
+import 'package:onesthrm/page/profile/view/profile_page.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import '../../content/home_content_shimmer.dart';
 import '../../content/home_earth_content.dart';
 import 'mars_today_summary_list.dart';
@@ -112,7 +115,7 @@ class HomeMarsContent extends StatelessWidget {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            // Navigator.push(context, MaterialPageRoute(builder: (_) => const MyAccount()));
+                                            NavUtil.navigateScreen(context, const ProfileScreen());
                                           },
                                           child: ClipOval(
                                             child: CachedNetworkImage(
@@ -134,6 +137,7 @@ class HomeMarsContent extends StatelessWidget {
                                         InkWell(
                                             onTap: () {
                                               // Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen()));
+                                              NavUtil.navigateScreen(context, const NotificationScreen());
                                             },
                                             child: Image.asset(
                                               "assets/home_bg/aziz_notification.png",
