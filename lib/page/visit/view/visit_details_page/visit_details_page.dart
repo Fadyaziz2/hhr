@@ -6,6 +6,7 @@ import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_note_content.dart';
 import 'package:onesthrm/page/visit/view/content/visit_photo_upload.dart';
 
+import '../../../../res/widgets/custom_button.dart';
 import '../content/reschedule_cancel_button.dart';
 import '../content/visit_details_google_map.dart';
 import '../content/visit_hearder.dart';
@@ -19,7 +20,42 @@ class VisitDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<VisitBloc>().add(VisitDetailsApi(visitID));
     late GoogleMapController mapController;
+    BodyVisitCancel bodyStatusChange = BodyVisitCancel();
     return Scaffold(
+        bottomNavigationBar: BlocBuilder<VisitBloc, VisitState>(
+          builder: (context, state) {
+            return Visibility(
+              visible: state.visitDetailsResponse?.data?.nextStatus?.statusText
+                      ?.isEmpty ==
+                  false,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(0)),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                      title: state.visitDetailsResponse?.data?.nextStatus
+                              ?.statusText ??
+                          "",
+                      padding: 16,
+                      clickButton: () {
+                        bodyStatusChange.visitId =
+                            state.visitDetailsResponse?.data?.id;
+                        bodyStatusChange.status = state
+                            .visitDetailsResponse?.data?.nextStatus?.status;
+                        bodyStatusChange.latitude = "23.815877934750823";
+                        bodyStatusChange.longitude = "90.36617788667017";
+                        context.read<VisitBloc>().add(VisitStatusApi(
+                            context: context,
+                            bodyVisitCancel: bodyStatusChange));
+                      },
+                    )),
+              ),
+            );
+          },
+        ),
         appBar: AppBar(
           title: const Text(
             "Visit Details",
@@ -93,7 +129,7 @@ class VisitDetailsPage extends StatelessWidget {
               visitId: visitID,
             ),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
           ],
         ));

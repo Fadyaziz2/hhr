@@ -29,6 +29,50 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<VisitGoToPosition>(_visitGoToPosition);
     on<VisitCreateNoteApi>(_visitCreateNoteApi);
     on<CreateRescheduleApi>(_createRescheduleApi);
+    on<VisitCancelApi>(_visitCancelApi);
+    on<VisitStatusApi>(_visitStatusApi);
+  }
+
+  FutureOr<void> _visitStatusApi(
+      VisitStatusApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .cancelVisitApi(bodyVisitCancel: event.bodyVisitCancel)
+          .then((success) {
+        if (success) {
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(VisitDetailsApi(event.bodyVisitCancel?.visitId));
+          add(VisitListApi());
+          add(HistoryListApi());
+        }
+      });
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _visitCancelApi(
+      VisitCancelApi event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await _metaClubApiClient
+          .cancelVisitApi(bodyVisitCancel: event.bodyVisitCancel)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "Cancel Visit Successfully");
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(VisitDetailsApi(event.bodyVisitCancel?.visitId));
+          add(VisitListApi());
+          add(HistoryListApi());
+          Navigator.pop(event.context);
+        }
+      });
+    } on Exception catch (e) {
+      emit(const VisitState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _createRescheduleApi(
@@ -113,6 +157,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     try {
       VisitDetailsModel? visitDetailsResponse =
           await _metaClubApiClient.getVisitDetailsApi(event.visitId);
+
+
 
       emit(state.copyWith(
           status: NetworkStatus.success,

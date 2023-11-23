@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 
+import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../../../profile/view/content/custom_text_field_with_title.dart';
 
@@ -25,17 +26,23 @@ class VisitNotePage extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomButton(
-              title: "next".tr(),
-              padding: 16,
-              clickButton: () {
-                bodyVisitNote.visitId = visitID;
-                context.read<VisitBloc>().add(VisitCreateNoteApi(
-                    bodyVisitNote: bodyVisitNote, context: context));
-              },
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: BlocBuilder<VisitBloc, VisitState>(
+                builder: (context, state) {
+                  return CustomButton(
+                    title: "next".tr(),
+                    padding: 16,
+                    clickButton: () {
+                      if (formKey.currentState!.validate() &&
+                          state.status == NetworkStatus.success) {
+                        bodyVisitNote.visitId = visitID;
+                        context.read<VisitBloc>().add(VisitCreateNoteApi(
+                            bodyVisitNote: bodyVisitNote, context: context));
+                      }
+                    },
+                  );
+                },
+              )),
         ),
         appBar: AppBar(
           title: const Text("Visit Note"),
@@ -46,6 +53,7 @@ class VisitNotePage extends StatelessWidget {
             title: tr("note"),
             hints: "Please_write_a_note".tr(),
             maxLine: 5,
+            errorMsg: "Give a note. Field cannot be empty",
             onData: (data) {
               if (kDebugMode) {
                 print(data);

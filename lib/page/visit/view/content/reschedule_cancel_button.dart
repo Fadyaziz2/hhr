@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/visit/view/visit_cancel_page/visit_cancel_page.dart';
 import 'package:onesthrm/page/visit/view/visit_reschedule/visit_reschedule.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -25,7 +26,7 @@ class RescheduleCancelButton extends StatelessWidget {
                     context,
                     BlocProvider.value(
                         value: context.read<VisitBloc>(),
-                        child:  VisitReschedule(visitId: visitId,)));
+                        child:  VisitReschedule(visitId: visitId)));
               },
               style: ButtonStyle(
                 backgroundColor:
@@ -56,11 +57,9 @@ class RescheduleCancelButton extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                // NavUtil.replaceScreen(
-                //     context,
-                //     VisitCancelScreen(
-                //       visitId: provider.visitDetails?.data?.id,
-                //     ));
+                NavUtil.navigateScreen(context, BlocProvider.value(
+                    value: context.read<VisitBloc>(),
+                    child:  VisitCancelPage(visitId: visitId,)));
               },
               style: ButtonStyle(
                 backgroundColor:

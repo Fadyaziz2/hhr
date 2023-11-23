@@ -5,6 +5,24 @@ abstract class VisitEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class VisitCancelApi extends VisitEvent {
+  final BodyVisitCancel? bodyVisitCancel;
+  final BuildContext context;
+  VisitCancelApi({this.bodyVisitCancel, required this.context});
+  @override
+  List<Object?> get props => [bodyVisitCancel];
+
+}
+
+class VisitStatusApi extends VisitEvent {
+  final BodyVisitCancel? bodyVisitCancel;
+  final BuildContext context;
+  VisitStatusApi({this.bodyVisitCancel, required this.context});
+  @override
+  List<Object?> get props => [bodyVisitCancel];
+
+}
+
 class CreateRescheduleApi extends VisitEvent {
   final BodyCreateSchedule? bodyCreateSchedule;
   final BuildContext context;

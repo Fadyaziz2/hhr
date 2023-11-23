@@ -265,6 +265,28 @@ class MetaClubApiClient {
     }
   }
 
+  /// Cancel State and change status throw this one API
+  Future<bool> cancelVisitApi(
+      {BodyVisitCancel? bodyVisitCancel}) async {
+    const String api = 'visit/change-status';
+
+    if (kDebugMode) {
+      print(bodyVisitCancel?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyVisitCancel!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// create Reschedule API
   Future<bool> createRescheduleApi(
       {BodyCreateSchedule? bodyCreateSchedule}) async {
