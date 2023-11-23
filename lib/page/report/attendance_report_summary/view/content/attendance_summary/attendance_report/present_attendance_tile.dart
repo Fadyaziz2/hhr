@@ -4,11 +4,13 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/common/functions.dart';
 import 'package:onesthrm/res/common/toast.dart';
 
+import 'present_attendance_in_tile.dart';
+import 'present_attendance_out_tile.dart';
+
 class PresentAttendanceTile extends StatelessWidget {
   final DailyReport dailyReport;
 
-  const PresentAttendanceTile(
-      {super.key, required this.dailyReport});
+  const PresentAttendanceTile({super.key, required this.dailyReport});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,12 @@ class PresentAttendanceTile extends StatelessWidget {
     String? remoteModeOut;
 
     // remote mode In -> Home or Office
-    remoteModeIn = (int.tryParse(dailyReport.remoteModeIn ?? "1") == 0) ? "H" : "V";
+    remoteModeIn =
+        (int.tryParse(dailyReport.remoteModeIn ?? "1") == 0) ? "H" : "V";
 
 // remote mode Out -> Home or Office
-    remoteModeOut = (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
+    remoteModeOut =
+        (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
@@ -58,85 +62,8 @@ class PresentAttendanceTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 20.0),
-                      Visibility(
-                        visible: dailyReport.checkIn?.isNotEmpty == true,
-                        child: Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color(int.parse(getInOutColor(
-                                      status: dailyReport.checkInStatus))),
-                                  style: BorderStyle.solid,
-                                  width: 3.0,
-                                ),
-                                color: Color(int.parse(getInOutColor(
-                                    status: dailyReport.checkInStatus))),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: DottedBorder(
-                                color: Colors.white,
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(5),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 3),
-                                strokeWidth: 1,
-                                child: Text(
-                                  dailyReport.checkIn ?? "",
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                // getLocationIn(dailyReport);
-                                getReasonIn(dailyReport.checkInLocation);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.blueAccent),
-                                  child: Center(
-                                      child: Text(
-                                        remoteModeIn ,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                ),
-                              ),
-                            ),
-                            Visibility(
-                              visible:
-                              dailyReport.checkInReason?.isNotEmpty == true,
-                              child: InkWell(
-                                onTap: () {
-                                  getReasonIn(dailyReport.checkInReason);
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(0.0),
-                                  child: Icon(
-                                    Icons.article_outlined,
-                                    color: Colors.blue,
-                                    size: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      PresentAddressInTile(
+                          dailyReport: dailyReport, remoteModeIn: remoteModeIn),
                     ],
                   ),
                 ),
@@ -195,33 +122,9 @@ class PresentAttendanceTile extends StatelessWidget {
                             const SizedBox(
                               width: 16,
                             ),
-                            Visibility(
-                              visible:
-                              dailyReport.remoteModeOut?.isNotEmpty == true,
-                              child: InkWell(
-                                onTap: () {
-                                  getReasonIn(dailyReport.checkOutLocation);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: 16,
-                                    height: 16,
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.blueAccent),
-                                    child: Center(
-                                        child: Text(
-                                          remoteModeOut,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            PresentAddressOutTile(
+                                dailyReport: dailyReport,
+                                remoteModeOut: remoteModeOut),
                             Visibility(
                               visible: dailyReport.checkOutReason?.isNotEmpty ==
                                   true,
@@ -248,32 +151,6 @@ class PresentAttendanceTile extends StatelessWidget {
               ],
             ),
           ),
-          // Visibility(
-          //   visible: settings.data?.multiCheckIn ?? false,
-          //   child: Column(
-          //     children: [
-          //       const SizedBox(
-          //         width: 10,
-          //       ),
-          //       InkWell(
-          //         onTap: () {
-          //           String? date = dailyReport.fullDate;
-          //
-          //           ///Todo: when multiple check in enable
-          //           // attendanceDailyReportApi(date, context);
-          //         },
-          //         child: Lottie.asset(
-          //           'assets/images/report_one.json',
-          //           height: 55,
-          //           width: 55,
-          //         ),
-          //       ),
-          //       const SizedBox(
-          //         width: 10,
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );
