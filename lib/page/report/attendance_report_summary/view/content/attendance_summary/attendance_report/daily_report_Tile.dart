@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/report/attendance_report_summary/view/content/attendance_summary/attendance_report/summary_of_daily_report_list_tile.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
 import '../../../../bloc/report_bloc.dart';
+import 'summary_of_daily_report_list_tile.dart';
 
 class DailyReportTile extends StatelessWidget {
   const DailyReportTile({super.key});
