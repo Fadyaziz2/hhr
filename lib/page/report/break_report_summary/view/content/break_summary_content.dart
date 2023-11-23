@@ -34,7 +34,7 @@ class BreakSummaryContent extends StatelessWidget {
                       onPressed: () {
                         context
                             .read<BreakBloc>()
-                            .add(SelectDate(context, true));
+                            .add(SelectDate(context, false));
                       },
                       icon: const Icon(Icons.calendar_month))
                 ],

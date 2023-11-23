@@ -52,14 +52,16 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
     if (event.isSummaryScreen) {
-      // add(GetAttendanceReportData());
-      add(GetBreakInitialData());
+      add(BreakSummaryDetails());
     } else {
       add(GetBreakInitialData());
     }
   }
 
-  FutureOr<void> _selectEmployee(event, Emitter<BreakState> emit) async {}
+  FutureOr<void> _selectEmployee(event, Emitter<BreakState> emit) async {
+    emit(state.copyWith(selectEmployee: event.selectEmployee));
+    add(BreakSummaryDetails());
+  }
 
   Future<ReportBreakListModel?> getBreakSummaryHistoryList(
       {required String breakUserId}) async {
@@ -85,8 +87,7 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     };
     try {
       final report = await metaClubApiClient.getBreakSummaryList(body: data);
-      emit(state.copyWith(
-          status: NetworkStatus.success, reportBreakListModel: report));
+      emit(state.copyWith(status: NetworkStatus.success, reportBreakListModel: report));
     } on Exception catch (e) {
       emit(const BreakState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
