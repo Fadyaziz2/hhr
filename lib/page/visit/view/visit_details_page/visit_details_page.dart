@@ -12,7 +12,7 @@ import '../../../home/view/content/home_content.dart';
 import '../content/reschedule_cancel_button.dart';
 import '../content/visit_app_bar_action.dart';
 import '../content/visit_details_google_map.dart';
-import '../content/visit_hearder.dart';
+import '../content/visit_header.dart';
 import '../content/visit_schedule_item.dart';
 
 class VisitDetailsPage extends StatelessWidget {
