@@ -31,6 +31,7 @@ class UpdateVisit extends StatelessWidget {
                 builder: (context, state) {
                   return CustomButton(
                     title: "Update Visit",
+                    isLoading: state.status == NetworkStatus.loading,
                     padding: 16,
                     clickButton: () {
                       if (formKey.currentState!.validate() &&

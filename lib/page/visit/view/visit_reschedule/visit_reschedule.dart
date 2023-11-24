@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 import '../../../../res/const.dart';
+import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../../../profile/view/content/custom_text_field_with_title.dart';
 import '../../bloc/visit_bloc.dart';
@@ -30,6 +31,7 @@ class VisitReschedule extends StatelessWidget {
                 return CustomButton(
                   title: "Create Reschedule",
                   padding: 16,
+                  isLoading: state.status == NetworkStatus.loading,
                   clickButton: () {
                     if(state.currentDate != null) {
                       bodyCreateSchedule.date = state.currentDate;

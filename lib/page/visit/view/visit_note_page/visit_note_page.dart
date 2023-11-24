@@ -31,6 +31,7 @@ class VisitNotePage extends StatelessWidget {
                 builder: (context, state) {
                   return CustomButton(
                     title: "next".tr(),
+                    isLoading: state.status == NetworkStatus.loading,
                     padding: 16,
                     clickButton: () {
                       if (formKey.currentState!.validate() &&

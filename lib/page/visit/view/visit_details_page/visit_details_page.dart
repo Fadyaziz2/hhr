@@ -6,6 +6,7 @@ import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_note_content.dart';
 import 'package:onesthrm/page/visit/view/content/visit_photo_upload.dart';
 
+import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../../../home/view/content/home_content.dart';
 import '../content/reschedule_cancel_button.dart';
@@ -17,7 +18,7 @@ import '../content/visit_schedule_item.dart';
 class VisitDetailsPage extends StatelessWidget {
   final int? visitID;
 
-  const VisitDetailsPage({super.key, this.visitID});
+  const VisitDetailsPage({super.key,  this.visitID});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class VisitDetailsPage extends StatelessWidget {
                     child: CustomButton(
                       title: state.visitDetailsResponse?.data?.nextStatus?.statusText ?? "",
                       padding: 16,
+                      isLoading: state.status == NetworkStatus.loading,
                       clickButton: () {
                         bodyStatusChange.visitId = state.visitDetailsResponse?.data?.id;
                         bodyStatusChange.status = state.visitDetailsResponse?.data?.nextStatus?.status;

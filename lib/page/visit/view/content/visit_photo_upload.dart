@@ -6,6 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 
+import '../../../../res/const.dart';
+import '../../../../res/enum.dart';
+
 
 class VisitPhoneUpload extends StatelessWidget {
   final int? visitID;
@@ -53,34 +56,66 @@ class VisitPhoneUpload extends StatelessWidget {
                   ),
                 ),
                 BlocBuilder<VisitBloc, VisitState>(builder: (context,state) {
-                  return Expanded(
-                    flex: 4,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount:  state.visitDetailsResponse?.data?.images?.length ?? 0,
-                      itemBuilder: (BuildContext context, index) {
-                        VisitDetailsImage?  visitDetailsImage=  state.visitDetailsResponse?.data?.images?[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CachedNetworkImage(
-                            height: 60,
-                            width: 60,
-                            fit: BoxFit.cover,
-                            imageUrl: visitDetailsImage?.fileUrl ??
-                            "https://www.w3schools.com/howto/img_avatar.png",
-                            placeholder: (context, url) => Center(
-                              child: Image.asset(
-                                  "assets/images/placeholder_image.png"),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                Image.asset(
+                  if(state.status == NetworkStatus.loading) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Image Uploading....".tr(),
+                          style: TextStyle(
+                              color: colorPrimary.withOpacity(0.6),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    );
+                   return const Text("Image Uploading....");
+                  } else if(state.status == NetworkStatus.success){
+                    return Expanded(
+                      flex: 4,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:  state.visitDetailsResponse?.data?.images?.length ?? 0,
+                        itemBuilder: (BuildContext context, index) {
+                          VisitDetailsImage?  visitDetailsImage=  state.visitDetailsResponse?.data?.images?[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CachedNetworkImage(
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                              imageUrl: visitDetailsImage?.fileUrl ??
+                                  "https://www.w3schools.com/howto/img_avatar.png",
+                              placeholder: (context, url) => Center(
+                                child: Image.asset(
                                     "assets/images/placeholder_image.png"),
-                          ),
-                        );
-                      },
-                    ),
-                  );
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Image.asset(
+                                      "assets/images/placeholder_image.png"),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else if (state.status == NetworkStatus.failure) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Center(
+                        child: Text(
+                          "Image Upload Filed".tr(),
+                          style: TextStyle(
+                              color: colorPrimary.withOpacity(0.6),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    );
+                  }else {
+                    return const SizedBox();
+                  }
+
                 })
               ],
             ),

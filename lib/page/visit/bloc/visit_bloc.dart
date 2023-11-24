@@ -53,15 +53,14 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       FileUpload? fileData =
           await _metaClubApiClient.uploadFile(file: event.file);
       if (fileData?.result == true) {
-        // emit(state.copyWith(fileUpload: fileData, status: NetworkStatus.success));
-        print("Visit Uploaded URL : ${fileData?.previewUrl}");
         if (fileData?.previewUrl != null) {
           event.bodyImageUpload.imageURL = fileData?.previewUrl;
           bool? isSuccess = await _metaClubApiClient.visitUploadImageApi(
               bodyImageUpload: event.bodyImageUpload);
           if (isSuccess) {
+            emit(state.copyWith(status: NetworkStatus.success));
             Fluttertoast.showToast(msg: "Image Upload Successfully");
-            add(VisitDetailsApi());
+            add(VisitDetailsApi(visitId: event.bodyImageUpload.id));
           } else {
             Fluttertoast.showToast(msg: "Image Upload Filed");
           }
@@ -87,7 +86,6 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
           add(VisitDetailsApi(visitId: event.bodyUpdateVisit?.id));
-          add(VisitListApi());
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));

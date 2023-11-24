@@ -21,7 +21,7 @@ class HistoryItem extends StatelessWidget {
             BlocProvider.value(
                 value: context.read<VisitBloc>(),
                 child: VisitDetailsPage(
-                  visitID: myHistoryList?.id,
+                  visitID: myHistoryList!.id!,
                 )));
       },
       child: Column(

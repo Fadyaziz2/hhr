@@ -32,6 +32,7 @@ class VisitCancelPage extends StatelessWidget {
                   return CustomButton(
                     title: "Cancel Visit",
                     padding: 16,
+                    isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
                       if (formKey.currentState!.validate() &&
                           state.status == NetworkStatus.success) {
