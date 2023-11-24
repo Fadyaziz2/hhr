@@ -103,16 +103,23 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
 
   FutureOr<void> _onSelectDatePicker(
       SelectDatePicker event, Emitter<LeaveReportState> emit) async {
-    final date = await showDatePicker(
-      context: event.context,
-      firstDate: DateTime(DateTime.now().year - 1, 5),
-      lastDate: DateTime(DateTime.now().year + 1, 9),
-      initialDate: DateTime.now(),
-      locale: const Locale("en"),
-    );
-    String? currentDate = getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
-    emit(state.copyWith(selectDate: currentDate));
-    add(GetLeaveReportSummary());
+    try {
+      await showDatePicker(
+        context: event.context,
+        firstDate: DateTime(DateTime.now().year - 1, 5),
+        lastDate: DateTime(DateTime.now().year + 1, 9),
+        initialDate: DateTime.now(),
+        locale: const Locale("en"),
+      ).then((value) {
+        if (value != null) {
+          final currentDate = getDateAsString(format: 'y-M-d', dateTime: value);
+          emit(state.copyWith(selectDate: currentDate));
+          add(GetLeaveReportSummary());
+        }
+      });
+    } on Exception catch (e) {
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   Future<LeaveDetailsModel?> onLeaveReportDetails(leaveId) async {

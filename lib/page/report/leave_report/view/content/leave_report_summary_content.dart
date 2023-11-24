@@ -121,9 +121,6 @@ class LeaveReportSummaryContent extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 60,
-          )
         ],
       );
     });
