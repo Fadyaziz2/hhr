@@ -1,4 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -6,6 +5,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/nav_utail.dart';
 import '../../bloc/visit_bloc.dart';
 import '../visit_details_page/visit_details_page.dart';
+import 'history_status.dart';
 
 class HistoryItem extends StatelessWidget {
   final History? myHistoryList;
@@ -96,36 +96,7 @@ class HistoryItem extends StatelessWidget {
                               const SizedBox(
                                 height: 8,
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Color(int.parse(
-                                        myHistoryList?.statusColor ??
-                                            "0xFF1FB89E")),
-                                    style: BorderStyle.solid,
-                                    width: 3.0,
-                                  ),
-                                  color: Color(int.parse(
-                                      myHistoryList?.statusColor ??
-                                          "0xFF1FB89E")),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: DottedBorder(
-                                  color: Colors.white,
-                                  borderType: BorderType.RRect,
-                                  radius: const Radius.circular(5),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 3),
-                                  strokeWidth: 1,
-                                  child: Text(
-                                    myHistoryList?.status ?? "",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ),
+                              HistoryStatus(myHistoryList: myHistoryList,)
                             ],
                           ),
                         ),
