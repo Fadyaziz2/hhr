@@ -225,6 +225,20 @@ class MetaClubApiClient {
       return null;
     }
   }
+  Future<LeaveReportTypeWiseSummary?> getLeaveSummaryTypeWise(data) async {
+    const String api = 'report/leave/date-wise-leave';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return LeaveReportTypeWiseSummary.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 
   Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String date) async {
     const String api = 'report/leave/date-summary';

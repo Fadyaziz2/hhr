@@ -89,8 +89,12 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     add(FilterLeaveReportSummary());
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(state.selectedEmployee?.id ?? userId, state.selectMonth ?? currentMonth);
-      emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
+      final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(
+          state.selectedEmployee?.id ?? userId,
+          state.selectMonth ?? currentMonth);
+      emit(state.copyWith(
+          leaveRequestModel: leaveRequestResponse,
+          status: NetworkStatus.success));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -115,6 +119,21 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     try {
       final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(
           state.selectedEmployee?.id ?? userId, leaveId);
+      return leaveDetailsModel;
+    } catch (e) {
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  Future<LeaveReportTypeWiseSummary?> onTypeWiseLeaveSummary(leaveId) async {
+    final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
+    try {
+      final data = {
+        "date": state.selectDate ?? currentDate,
+        "leave_type": leaveId
+      };
+      final leaveDetailsModel =
+          await metaClubApiClient.getLeaveSummaryTypeWise(data);
       return leaveDetailsModel;
     } catch (e) {
       throw NetworkRequestFailure(e.toString());

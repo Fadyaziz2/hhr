@@ -37,13 +37,11 @@ class LeaveReportDetailsScreen extends StatelessWidget {
                         border: Border.all(
                           color: Color(int.parse(
                               leaveReportData?.colorCode ?? "0xFFFFFF")),
-                          // color: Color(int.parse("0xFF000000")),
                           style: BorderStyle.solid,
                           width: 3.0,
                         ),
                         color:
                             Color(int.parse(leaveReportData?.colorCode ?? "")),
-                        // color: Color(int.parse("0xFF000000")),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: DottedBorder(

@@ -58,12 +58,16 @@ class LeaveReportSummaryContent extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10.0, vertical: 4),
                               child: ListTile(
-                                // onTap: () => NavUtil.navigateScreen(
-                                //   context,
-                                //    ReportLeaveListScreen(
-                                //     title: tr('sick_leave'),
-                                //   ),
-                                // ),
+                                onTap: () {
+                                  NavUtil.navigateScreen(
+                                    context,
+                                    BlocProvider.value(
+                                      value: context.read<LeaveReportBloc>(),
+                                      child: LeaveTypeWiseSummary(
+                                          leaveData: data!),
+                                    ),
+                                  );
+                                },
                                 dense: true,
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
