@@ -7,8 +7,8 @@ import '../../bloc/visit_bloc.dart';
 import '../update_visit/update_visit.dart';
 
 class VisitAppBarAction extends StatelessWidget {
-  final int? visitID;
-  const VisitAppBarAction({super.key,this.visitID});
+  final int visitID;
+  const VisitAppBarAction({super.key,required this.visitID});
 
   @override
   Widget build(BuildContext context) {

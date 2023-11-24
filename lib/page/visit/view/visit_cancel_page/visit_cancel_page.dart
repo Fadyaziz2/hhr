@@ -10,9 +10,9 @@ import '../../../profile/view/content/custom_text_field_with_title.dart';
 import '../../bloc/visit_bloc.dart';
 
 class VisitCancelPage extends StatelessWidget {
-  final int? visitId;
+  final int visitId;
 
-  const VisitCancelPage({super.key, this.visitId});
+  const VisitCancelPage({super.key, required this.visitId});
 
   @override
   Widget build(BuildContext context) {

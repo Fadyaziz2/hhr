@@ -10,9 +10,9 @@ import '../../../../res/widgets/custom_button.dart';
 import '../../../profile/view/content/custom_text_field_with_title.dart';
 
 class VisitNotePage extends StatelessWidget {
-  final int? visitID;
+  final int visitID;
 
-  const VisitNotePage({super.key, this.visitID});
+  const VisitNotePage({super.key, required this.visitID});
 
   @override
   Widget build(BuildContext context) {

@@ -6,14 +6,13 @@ import '../../../../res/const.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
-import '../../../leave/view/content/leave_list_shimmer.dart';
 import '../../bloc/visit_bloc.dart';
 import '../visit_note_page/visit_note_page.dart';
 
 class VisitNoteContent extends StatelessWidget {
-  final int? visitID;
+  final int visitID;
 
-  const VisitNoteContent({super.key, this.visitID});
+  const VisitNoteContent({super.key, required this.visitID});
 
   @override
   Widget build(BuildContext context) {

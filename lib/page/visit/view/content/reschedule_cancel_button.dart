@@ -8,8 +8,8 @@ import '../../../../res/nav_utail.dart';
 import '../../bloc/visit_bloc.dart';
 
 class RescheduleCancelButton extends StatelessWidget {
-  final int? visitId;
-  const RescheduleCancelButton({super.key,this.visitId});
+  final int visitId;
+  const RescheduleCancelButton({super.key,required this.visitId});
 
   @override
   Widget build(BuildContext context) {

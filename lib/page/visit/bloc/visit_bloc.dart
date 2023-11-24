@@ -60,7 +60,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           if (isSuccess) {
             emit(state.copyWith(status: NetworkStatus.success));
             Fluttertoast.showToast(msg: "Image Upload Successfully");
-            add(VisitDetailsApi(visitId: event.bodyImageUpload.id));
+            add(VisitDetailsApi(visitId: event.bodyImageUpload.id!));
           } else {
             Fluttertoast.showToast(msg: "Image Upload Filed");
           }
@@ -85,7 +85,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyUpdateVisit?.id));
+          add(VisitDetailsApi(visitId: event.bodyUpdateVisit!.id!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -107,7 +107,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           .then((success) {
         if (success) {
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitCancel?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitCancel!.visitId!));
           add(VisitListApi());
           add(HistoryListApi());
         }
@@ -128,7 +128,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Cancel Visit Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitCancel?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitCancel!.visitId!));
           add(VisitListApi());
           add(HistoryListApi());
           Navigator.pop(event.context);
@@ -150,7 +150,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Create Reschedule Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyCreateSchedule?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyCreateSchedule!.visitId!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -173,7 +173,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitNote?.visitId));
+          add(VisitDetailsApi(visitId: event.bodyVisitNote!.visitId!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));

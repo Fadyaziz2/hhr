@@ -16,9 +16,9 @@ import '../content/visit_hearder.dart';
 import '../content/visit_schedule_item.dart';
 
 class VisitDetailsPage extends StatelessWidget {
-  final int? visitID;
+  final int visitID;
 
-  const VisitDetailsPage({super.key,  this.visitID});
+  const VisitDetailsPage({super.key,  required this.visitID});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class VisitDetailsPage extends StatelessWidget {
                       padding: 16,
                       isLoading: state.status == NetworkStatus.loading,
                       clickButton: () {
-                        bodyStatusChange.visitId = state.visitDetailsResponse?.data?.id;
+                        bodyStatusChange.visitId = state.visitDetailsResponse!.data!.id;
                         bodyStatusChange.status = state.visitDetailsResponse?.data?.nextStatus?.status;
                         bodyStatusChange.latitude = state.latitude.toString();
                         bodyStatusChange.longitude = state.longitude.toString();

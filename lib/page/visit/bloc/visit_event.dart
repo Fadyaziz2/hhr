@@ -91,11 +91,11 @@ class VisitGoToPosition extends VisitEvent {
 }
 
 class VisitDetailsApi extends VisitEvent {
-  final int? visitId;
+  final int visitId;
   final double? latitude;
   final double? longitude;
 
-  VisitDetailsApi({this.visitId, this.latitude, this.longitude});
+  VisitDetailsApi({required this.visitId, this.latitude, this.longitude});
 
   @override
   List<Object?> get props => [visitId, latitude, longitude];

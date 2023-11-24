@@ -10,9 +10,9 @@ import '../../../profile/view/content/custom_text_field_with_title.dart';
 import '../../bloc/visit_bloc.dart';
 
 class UpdateVisit extends StatelessWidget {
-  final int? visitID;
+  final int visitID;
 
-  const UpdateVisit({super.key, this.visitID});
+  const UpdateVisit({super.key, required this.visitID});
 
   @override
   Widget build(BuildContext context) {
