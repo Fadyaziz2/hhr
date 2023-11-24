@@ -15,7 +15,7 @@ part 'leave_report_state.dart';
 
 class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
   final MetaClubApiClient metaClubApiClient;
-  int userId;
+  final int userId;
 
   LeaveReportBloc({required this.metaClubApiClient, required this.userId})
       : super(const LeaveReportState(status: NetworkStatus.initial)) {
@@ -45,14 +45,12 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
 
   FutureOr<void> _onFilterLeaveReportSummary(
       FilterLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
-    emit(state.copyWith(selectedEmployeeName: event.selectedEmployee));
     try {
       LeaveSummaryModel? leaveSummaryResponse = await metaClubApiClient
-          .leaveSummaryApi(event.selectedEmployee?.id ?? userId);
+          .leaveSummaryApi(state.selectedEmployee?.id ?? userId);
       emit(state.copyWith(
           filterLeaveSummaryResponse: leaveSummaryResponse,
           status: NetworkStatus.success));
-      return null;
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -88,18 +86,11 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
   FutureOr<void> _leaveRequest(
       LeaveRequest event, Emitter<LeaveReportState> emit) async {
     final currentMonth = DateFormat('y-MM', "en").format(DateTime.now());
-    emit(state.copyWith(
-        status: NetworkStatus.loading,
-        selectMonth: state.selectMonth ?? currentMonth));
+    add(FilterLeaveReportSummary());
+    emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      LeaveRequestModel? leaveRequestResponse =
-          await metaClubApiClient.leaveRequestApi(
-              state.selectedEmployee?.id ?? userId,
-              state.selectMonth ?? currentMonth);
-      emit(state.copyWith(
-          leaveRequestModel: leaveRequestResponse,
-          status: NetworkStatus.success));
-      return null;
+      final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(state.selectedEmployee?.id ?? userId, state.selectMonth ?? currentMonth);
+      emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

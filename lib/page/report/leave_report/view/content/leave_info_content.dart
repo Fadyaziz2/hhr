@@ -14,7 +14,7 @@ class LeaveInfoContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        leaveBloc.state.filterLeaveSummaryResponse?.leaveSummaryData != null
+        leaveBloc.state.filterLeaveSummaryResponse != null
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(

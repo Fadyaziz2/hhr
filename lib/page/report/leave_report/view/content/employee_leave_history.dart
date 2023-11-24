@@ -9,12 +9,11 @@ import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 
 class EmployeeLeaveHistory extends StatelessWidget {
   const EmployeeLeaveHistory({super.key});
+
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    context.read<LeaveReportBloc>()
-      ..add(LeaveRequest())
-      ..add(FilterLeaveReportSummary());
+    context.read<LeaveReportBloc>().add(LeaveRequest());
     return BlocBuilder<LeaveReportBloc, LeaveReportState>(
         builder: (context, state) {
       return Scaffold(
@@ -46,8 +45,7 @@ class EmployeeLeaveHistory extends StatelessWidget {
                           builder: (context) => const SelectEmployeePage(),
                         )).then((value) {
                       if (value != null) {
-                        context.read<LeaveReportBloc>().add(
-                            FilterLeaveReportSummary(selectedEmployee: value));
+
                         context
                             .read<LeaveReportBloc>()
                             .add(SelectLeaveEmployee(value));
@@ -55,7 +53,10 @@ class EmployeeLeaveHistory extends StatelessWidget {
                     });
                   },
                   title: Text(
-                      state.selectedEmployeeName?.name ?? user!.user!.name!),
+                      context
+                          .watch<LeaveReportBloc>()
+                          .state.selectedEmployee
+                          ?.name  ?? user!.user!.name!),
                   leading: const CircleAvatar(
                     backgroundImage: NetworkImage(
                         'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),

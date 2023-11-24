@@ -13,8 +13,7 @@ class GetLeaveReportSummary extends LeaveReportEvent {
 }
 
 class FilterLeaveReportSummary extends LeaveReportEvent {
-  final PhoneBookUser? selectedEmployee;
-  FilterLeaveReportSummary({this.selectedEmployee});
+  FilterLeaveReportSummary();
 
   @override
   List<Object> get props => [];
@@ -30,8 +29,7 @@ class SelectLeaveEmployee extends LeaveReportEvent {
 }
 
 class LeaveRequest extends LeaveReportEvent {
-  final String? date;
-  LeaveRequest({this.date});
+  LeaveRequest();
 
   @override
   List<Object> get props => [];
@@ -39,18 +37,18 @@ class LeaveRequest extends LeaveReportEvent {
 
 class SelectMonthPicker extends LeaveReportEvent {
   final BuildContext context;
+
   SelectMonthPicker(
     this.context,
   );
 
   @override
-  List<Object> get props => [
-        context,
-      ];
+  List<Object> get props => [];
 }
 
 class SelectDatePicker extends LeaveReportEvent {
   final BuildContext context;
+
   SelectDatePicker(this.context);
 
   @override

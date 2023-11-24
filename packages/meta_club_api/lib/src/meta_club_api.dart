@@ -192,26 +192,6 @@ class MetaClubApiClient {
     }
   }
 
-  Future<SelectEmployeeLeaveModel?> selectEmployeeLeaveSummaryApi(
-      int? userId) async {
-    const String api = 'user/leave/list/view';
-
-    try {
-      FormData formData = FormData.fromMap({
-        "user_id": userId,
-      });
-      final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
-
-      if (response.statusCode == 200) {
-        return SelectEmployeeLeaveModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
-
   Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
     const String api = 'user/leave/list/view';
 
