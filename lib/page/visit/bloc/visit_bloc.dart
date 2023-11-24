@@ -48,7 +48,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
   }
 
   _onUploadFile(UploadFile event, Emitter<VisitState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading));
+    emit(state.copyWith(isImageLoading: true));
     try {
       FileUpload? fileData =
           await _metaClubApiClient.uploadFile(file: event.file);
@@ -58,7 +58,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           bool? isSuccess = await _metaClubApiClient.visitUploadImageApi(
               bodyImageUpload: event.bodyImageUpload);
           if (isSuccess) {
-            emit(state.copyWith(status: NetworkStatus.success));
+            emit(state.copyWith(isImageLoading: false));
             Fluttertoast.showToast(msg: "Image Upload Successfully");
             add(VisitDetailsApi(visitId: event.bodyImageUpload.id!));
           } else {
@@ -68,10 +68,10 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           Fluttertoast.showToast(msg: "Image Upload Filed");
         }
       } else {
-        emit(state.copyWith(status: NetworkStatus.failure));
+        emit(state.copyWith(isImageLoading: false));
       }
     } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
+      emit(state.copyWith(isImageLoading: false));
     }
   }
 
@@ -218,7 +218,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
   FutureOr<void> _visitDetailsApi(
       VisitDetailsApi event, Emitter<VisitState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading));
+    emit(state.copyWith(status: NetworkStatus.loading,isImageLoading: false));
     try {
       VisitDetailsModel? visitDetailsResponse =
           await _metaClubApiClient.getVisitDetailsApi(event.visitId);

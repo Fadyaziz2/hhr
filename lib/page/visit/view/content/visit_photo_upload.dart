@@ -56,7 +56,7 @@ class VisitPhoneUpload extends StatelessWidget {
                   ),
                 ),
                 BlocBuilder<VisitBloc, VisitState>(builder: (context,state) {
-                  if(state.status == NetworkStatus.loading) {
+                  if(state.isImageLoading == true) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -69,8 +69,7 @@ class VisitPhoneUpload extends StatelessWidget {
                         ),
                       ),
                     );
-                   return const Text("Image Uploading....");
-                  } else if(state.status == NetworkStatus.success){
+                  } else if(state.isImageLoading == false){
                     return Expanded(
                       flex: 4,
                       child: ListView.builder(
@@ -99,7 +98,7 @@ class VisitPhoneUpload extends StatelessWidget {
                         },
                       ),
                     );
-                  } else if (state.status == NetworkStatus.failure) {
+                  } else if (state.isImageLoading == true) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Center(

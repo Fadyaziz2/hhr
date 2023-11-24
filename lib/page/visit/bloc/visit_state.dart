@@ -11,6 +11,7 @@ class VisitState extends Equatable {
   final Set<Marker> markers;
   final double? longitude;
   final double? latitude;
+  final bool isImageLoading;
 
   const VisitState(
       {this.status = NetworkStatus.initial,
@@ -21,6 +22,7 @@ class VisitState extends Equatable {
       this.visitDetailsResponse,
       this.longitude,
       this.latitude,
+      this.isImageLoading = false,
       this.markers = const {},
       this.isDateEnable = false});
 
@@ -33,6 +35,7 @@ class VisitState extends Equatable {
       Set<Marker>? markers,
       double? latitude,
       double? longitude,
+      bool? isImageLoading,
       VisitDetailsModel? visitDetailsResponse,
       bool? isDateEnable}) {
     return VisitState(
@@ -40,6 +43,7 @@ class VisitState extends Equatable {
         longitude: longitude ?? this.longitude,
         status: status ?? this.status,
         markers: markers ?? this.markers,
+        isImageLoading: isImageLoading ?? this.isImageLoading,
         visitListResponse: visitListResponse ?? this.visitListResponse,
         visitDetailsResponse: visitDetailsResponse ?? this.visitDetailsResponse,
         historyListResponse: historyListResponse ?? this.historyListResponse,
@@ -59,6 +63,7 @@ class VisitState extends Equatable {
         visitDetailsResponse,
         markers,
         latitude,
-        longitude
+        longitude,
+        isImageLoading
       ];
 }
