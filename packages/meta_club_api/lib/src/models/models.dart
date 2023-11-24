@@ -51,3 +51,4 @@ export 'body_visit_note.dart';
 export 'body_create_schedule.dart';
 export 'body_visit_cancel.dart';
 export 'body_update_visit.dart';
+export 'body_image_upload.dart';

@@ -72,7 +72,7 @@ class HistoryListPage extends StatelessWidget {
             } else if (state.status == NetworkStatus.failure) {
               return Center(
                 child: Text(
-                  "failed_to_load_leave_list".tr(),
+                  "Failed to load Visit History".tr(),
                   style: TextStyle(
                       color: colorPrimary.withOpacity(0.4),
                       fontSize: 18,

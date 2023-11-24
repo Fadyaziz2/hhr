@@ -1,5 +1,6 @@
 library meta_club_api;
 
+import 'dart:async';
 import 'dart:io';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
@@ -299,6 +300,24 @@ class MetaClubApiClient {
       final response =
       await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  FutureOr<bool> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async{
+    const String api = 'visit/image-upload';
+    if (kDebugMode) {
+      print(bodyImageUpload?.toJson());
+    }
+    try {
+      FormData formData = FormData.fromMap(bodyImageUpload!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
       if (response.statusCode == 200) {
         return true;
       }

@@ -2,36 +2,39 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 
 
 class VisitPhoneUpload extends StatelessWidget {
-  const VisitPhoneUpload({super.key});
+  final int? visitID;
+  const VisitPhoneUpload({super.key,this.visitID});
 
   @override
   Widget build(BuildContext context) {
+   BodyImageUpload bodyImageUpload = BodyImageUpload();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding:
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-          child: Text(
-            tr("phone_optional"),
-            style:
-            const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          child: Text(tr("Visit Photo Upload (Optional)"), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: SizedBox(
             height: 60.0,
-            child: InkWell(
-              onTap: () {
-                // provider.pickImage(context);
-              },
-              child: Row(
-                children: [
-                  Container(
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    bodyImageUpload.id = visitID;
+                    context.read<VisitBloc>().add(VisitUploadPhoto(context: context,bodyImageUpload: bodyImageUpload));
+                  },
+                  child: Container(
                     decoration: BoxDecoration(
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(2.0),
@@ -48,21 +51,24 @@ class VisitPhoneUpload extends StatelessWidget {
                           color: Colors.blue,
                         )),
                   ),
-                  Expanded(
+                ),
+                BlocBuilder<VisitBloc, VisitState>(builder: (context,state) {
+                  return Expanded(
                     flex: 4,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount:  3,
+                      itemCount:  state.visitDetailsResponse?.data?.images?.length ?? 0,
                       itemBuilder: (BuildContext context, index) {
+                        VisitDetailsImage?  visitDetailsImage=  state.visitDetailsResponse?.data?.images?[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CachedNetworkImage(
                             height: 60,
                             width: 60,
                             fit: BoxFit.cover,
-                            imageUrl:
-                                "https://www.w3schools.com/howto/img_avatar.png",
+                            imageUrl: visitDetailsImage?.fileUrl ??
+                            "https://www.w3schools.com/howto/img_avatar.png",
                             placeholder: (context, url) => Center(
                               child: Image.asset(
                                   "assets/images/placeholder_image.png"),
@@ -74,9 +80,9 @@ class VisitPhoneUpload extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                ],
-              ),
+                  );
+                })
+              ],
             ),
           ),
         ),

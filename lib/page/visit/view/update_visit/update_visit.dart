@@ -36,7 +36,7 @@ class UpdateVisit extends StatelessWidget {
                       if (formKey.currentState!.validate() &&
                           state.status == NetworkStatus.success) {
                         bodyUpdateVisit.id = visitID;
-                        context.read<VisitBloc>().add(VisitUpdateApi(
+                        context.read<VisitBloc>().add(VisitUpdate(
                             context: context,
                             bodyUpdateVisit: bodyUpdateVisit));
                       }

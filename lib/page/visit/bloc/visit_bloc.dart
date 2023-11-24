@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +9,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
 
 import '../../../res/date_utils.dart';
+import '../../../res/dialogs/custom_dialogs.dart';
 import '../../../res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'visit_event.dart';
@@ -31,11 +33,51 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     on<CreateRescheduleApi>(_createRescheduleApi);
     on<VisitCancelApi>(_visitCancelApi);
     on<VisitStatusApi>(_visitStatusApi);
-    on<VisitUpdateApi>(_visitUpdateApi);
+    on<VisitUpdate>(_visitUpdateApi);
+    on<VisitUploadPhoto>(_visitUploadPhoto);
+    on<UploadFile>(_onUploadFile);
+  }
+
+  FutureOr<void> _visitUploadPhoto(
+      VisitUploadPhoto event, Emitter<VisitState> emit) async {
+    File? file = await pickFile(event.context);
+    debugPrint('file ${file?.path}');
+    if (file != null) {
+      add(UploadFile(file: file, bodyImageUpload: event.bodyImageUpload));
+    }
+  }
+
+  _onUploadFile(UploadFile event, Emitter<VisitState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      FileUpload? fileData =
+          await _metaClubApiClient.uploadFile(file: event.file);
+      if (fileData?.result == true) {
+        // emit(state.copyWith(fileUpload: fileData, status: NetworkStatus.success));
+        print("Visit Uploaded URL : ${fileData?.previewUrl}");
+        if (fileData?.previewUrl != null) {
+          event.bodyImageUpload.imageURL = fileData?.previewUrl;
+          bool? isSuccess = await _metaClubApiClient.visitUploadImageApi(
+              bodyImageUpload: event.bodyImageUpload);
+          if (isSuccess) {
+            Fluttertoast.showToast(msg: "Image Upload Successfully");
+            add(VisitDetailsApi());
+          } else {
+            Fluttertoast.showToast(msg: "Image Upload Filed");
+          }
+        } else {
+          Fluttertoast.showToast(msg: "Image Upload Filed");
+        }
+      } else {
+        emit(state.copyWith(status: NetworkStatus.failure));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+    }
   }
 
   FutureOr<void> _visitUpdateApi(
-      VisitUpdateApi event, Emitter<VisitState> emit) async {
+      VisitUpdate event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient

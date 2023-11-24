@@ -36,7 +36,7 @@ class VisitState extends Equatable {
       VisitDetailsModel? visitDetailsResponse,
       bool? isDateEnable}) {
     return VisitState(
-      latitude: latitude ?? this.latitude,
+        latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
         status: status ?? this.status,
         markers: markers ?? this.markers,
@@ -57,6 +57,8 @@ class VisitState extends Equatable {
         isDateEnable,
         currentMonth,
         visitDetailsResponse,
-        markers
+        markers,
+        latitude,
+        longitude
       ];
 }

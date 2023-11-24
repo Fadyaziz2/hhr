@@ -98,11 +98,13 @@ class VisitDetailsImage extends Equatable {
   final int? id;
   final int? fileId;
   final String? filePath;
+  final String? fileUrl;
 
   const VisitDetailsImage({
     this.id,
     this.fileId,
     this.filePath,
+    this.fileUrl
   });
 
   factory VisitDetailsImage.fromJson(Map<String, dynamic> json) =>
@@ -110,10 +112,11 @@ class VisitDetailsImage extends Equatable {
         id: json["id"],
         fileId: json["file_id"],
         filePath: json["file_path"],
+        fileUrl: json["file_url"]
       );
 
   @override
-  List<Object?> get props => [id, fileId, filePath];
+  List<Object?> get props => [id, fileId, filePath,fileUrl];
 }
 
 class NextStatus extends Equatable {

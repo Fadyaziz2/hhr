@@ -43,7 +43,7 @@ class VisitListPage extends StatelessWidget {
         } else if (state.status == NetworkStatus.failure) {
           return Center(
             child: Text(
-              "failed_to_load_leave_list".tr(),
+              "Failed to Load Visit List".tr(),
               style: TextStyle(
                   color: colorPrimary.withOpacity(0.4),
                   fontSize: 18,

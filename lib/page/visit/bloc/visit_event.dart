@@ -8,19 +8,41 @@ abstract class VisitEvent extends Equatable {
 class VisitCancelApi extends VisitEvent {
   final BodyVisitCancel? bodyVisitCancel;
   final BuildContext context;
+
   VisitCancelApi({this.bodyVisitCancel, required this.context});
+
   @override
   List<Object?> get props => [bodyVisitCancel];
-
 }
 
 class VisitStatusApi extends VisitEvent {
   final BodyVisitCancel? bodyVisitCancel;
   final BuildContext context;
+
   VisitStatusApi({this.bodyVisitCancel, required this.context});
+
   @override
   List<Object?> get props => [bodyVisitCancel];
+}
 
+class UploadFile extends VisitEvent {
+  final File file;
+  final BodyImageUpload bodyImageUpload;
+
+  UploadFile({required this.file, required this.bodyImageUpload});
+
+  @override
+  List<Object?> get props => [file.path, bodyImageUpload];
+}
+
+class VisitUploadPhoto extends VisitEvent {
+  final BuildContext context;
+  final BodyImageUpload bodyImageUpload;
+
+  VisitUploadPhoto({required this.context,required this.bodyImageUpload});
+
+  @override
+  List<Object?> get props => [bodyImageUpload];
 }
 
 class CreateRescheduleApi extends VisitEvent {
@@ -37,11 +59,12 @@ class VisitListApi extends VisitEvent {
   @override
   List<Object?> get props => [];
 }
-class VisitUpdateApi extends VisitEvent {
+
+class VisitUpdate extends VisitEvent {
   final BodyUpdateVisit? bodyUpdateVisit;
   final BuildContext context;
 
-  VisitUpdateApi({this.bodyUpdateVisit, required this.context});
+  VisitUpdate({this.bodyUpdateVisit, required this.context});
 
   @override
   List<Object?> get props => [bodyUpdateVisit];
@@ -72,10 +95,10 @@ class VisitDetailsApi extends VisitEvent {
   final double? latitude;
   final double? longitude;
 
-  VisitDetailsApi({this.visitId,this.latitude,this.longitude});
+  VisitDetailsApi({this.visitId, this.latitude, this.longitude});
 
   @override
-  List<Object?> get props => [visitId,latitude,longitude];
+  List<Object?> get props => [visitId, latitude, longitude];
 }
 
 class HistoryListApi extends VisitEvent {
