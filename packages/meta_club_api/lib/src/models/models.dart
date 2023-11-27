@@ -43,3 +43,12 @@ export 'leave_type_list_model.dart';
 
 export 'approval_details_model.dart';
 export 'break_report_model.dart';
+export 'visit_list_model.dart';
+export 'history_list_model.dart';
+export 'body_create_visit.dart';
+export 'visit_details_model.dart';
+export 'body_visit_note.dart';
+export 'body_create_schedule.dart';
+export 'body_visit_cancel.dart';
+export 'body_update_visit.dart';
+export 'body_image_upload.dart';

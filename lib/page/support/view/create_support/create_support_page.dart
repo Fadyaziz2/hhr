@@ -5,7 +5,7 @@ import 'package:onesthrm/res/const.dart';
 
 class CreateSupportPage extends StatelessWidget {
 
-  const CreateSupportPage({Key? key}) : super(key: key);
+  const CreateSupportPage({super.key});
 
 
   @override

@@ -49,7 +49,7 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
-      firstDate: DateTime(DateTime.now().year - 1, 5),
+      firstDate: DateTime(DateTime.now().year - 10, 5),
       lastDate: DateTime.now(),
       initialDate: DateTime.now(),
       locale: const Locale("en"),

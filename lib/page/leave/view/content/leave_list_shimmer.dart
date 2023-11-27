@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
 class LeaveListShimmer extends StatelessWidget {
-  const LeaveListShimmer({Key? key}) : super(key: key);
+  const LeaveListShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
