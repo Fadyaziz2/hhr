@@ -12,8 +12,7 @@ class EmergencyProfileContent extends StatelessWidget {
   final Settings? settings;
 
   const EmergencyProfileContent(
-      {Key? key, required this.profile, required this.settings})
-      : super(key: key);
+      {super.key, required this.profile, required this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class EmergencyProfileContent extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(EditOfficialInfo.route(
                   bloc: context.read<ProfileBloc>(),
-                  pageName: 'emergency'.tr(),
+                  pageName: 'emergency',
                   settings: settings,
                   profile: profile));
             },

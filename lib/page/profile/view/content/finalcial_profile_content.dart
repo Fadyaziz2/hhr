@@ -12,8 +12,7 @@ class FinancialProfileContent extends StatelessWidget {
   final Settings? settings;
 
   const FinancialProfileContent(
-      {Key? key, required this.profile, required this.settings})
-      : super(key: key);
+      {super.key, required this.profile, required this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class FinancialProfileContent extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(EditOfficialInfo.route(
                   bloc: context.read<ProfileBloc>(),
-                  pageName: 'financial'.tr(),
+                  pageName: 'financial',
                   settings: settings,
                   profile: profile));
             },

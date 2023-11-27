@@ -16,6 +16,7 @@ import 'package:onesthrm/page/payroll/view/view.dart';
 import 'package:onesthrm/page/report/report_page.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
+import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
@@ -88,6 +89,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         break;
       case 'conference':
       case 'visit':
+      NavUtil.navigateScreen(event.context, const VisitPage());
+      break;
       case 'meeting':
       case 'appointments':
         NavUtil.navigateScreen(event.context, const AppointmentScreen());

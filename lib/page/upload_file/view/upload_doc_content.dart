@@ -15,8 +15,7 @@ class UploadDocContent extends StatelessWidget {
   final String? initialAvatar;
 
   const UploadDocContent(
-      {Key? key, required this.onFileUpload, this.initialAvatar})
-      : super(key: key);
+      {super.key, required this.onFileUpload, this.initialAvatar});
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
@@ -32,13 +33,14 @@ class LeaveRequestType extends StatelessWidget {
                   title: "next".tr(),
                   padding: 16,
                   clickButton: () {
-                    NavUtil.replaceScreen(
-                        context,
-                        BlocProvider.value(
-                            value: context.read<LeaveBloc>(),
-                            child: LeaveCalendar(
-                                leaveRequestTypeId:
-                                    state.selectedRequestType?.id)));
+                    if(state.selectedRequestType?.id == null){
+                      Fluttertoast.showToast(msg: "Please select Leave Request Type");
+                    }else {
+                      NavUtil.replaceScreen(
+                          context, BlocProvider.value(
+                          value: context.read<LeaveBloc>(),
+                          child: LeaveCalendar(leaveRequestTypeId: state.selectedRequestType?.id)));
+                    }
                   },
                 ),
               ),

@@ -97,8 +97,7 @@ class RectangularCardShimmer extends StatelessWidget {
   final double height;
 
   const RectangularCardShimmer(
-      {Key? key, this.height = 100.0, this.width = 100.0})
-      : super(key: key);
+      {super.key, this.height = 100.0, this.width = 100.0});
 
   @override
   Widget build(BuildContext context) {
