@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
-
 import '../../../../res/const.dart';
-import '../../../../res/enum.dart';
+import '../../../../res/widgets/general_image_previewer.dart';
 
 
 class VisitPhoneUpload extends StatelessWidget {
@@ -78,21 +77,25 @@ class VisitPhoneUpload extends StatelessWidget {
                         itemCount:  state.visitDetailsResponse?.data?.images?.length ?? 0,
                         itemBuilder: (BuildContext context, index) {
                           VisitDetailsImage?  visitDetailsImage=  state.visitDetailsResponse?.data?.images?[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CachedNetworkImage(
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.cover,
-                              imageUrl: visitDetailsImage?.fileUrl ??
-                                  "https://www.w3schools.com/howto/img_avatar.png",
-                              placeholder: (context, url) => Center(
-                                child: Image.asset(
-                                    "assets/images/placeholder_image.png"),
+                          return GestureDetector(
+                            onTap: (){
+                              if(visitDetailsImage?.fileUrl != null) {
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => GeneralImagePreviewScreen(imageUrl: visitDetailsImage!.fileUrl!)));
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CachedNetworkImage(
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.cover,
+                                imageUrl: visitDetailsImage?.fileUrl ?? "https://www.w3schools.com/howto/img_avatar.png",
+                                placeholder: (context, url) => Center(
+                                  child: Image.asset("assets/images/placeholder_image.png"),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset("assets/images/placeholder_image.png"),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  Image.asset(
-                                      "assets/images/placeholder_image.png"),
                             ),
                           );
                         },

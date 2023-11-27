@@ -23,8 +23,7 @@ class UpdateVisit extends StatelessWidget {
       child: Scaffold(
         bottomNavigationBar: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-              color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
+          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
           child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: BlocBuilder<VisitBloc, VisitState>(

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_content.dart';
-
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class VisitPage extends StatelessWidget {
