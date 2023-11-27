@@ -52,10 +52,17 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
 
   FutureOr<void> _dailyLeaveSummary(
       DailyLeaveSummary event, Emitter<DailyLeaveState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading, currentMonth: state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now())));
+    emit(state.copyWith(
+        status: NetworkStatus.loading,
+        currentMonth:
+            state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now())));
     try {
-      DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient.dailyLeaveSummary(event.userId, state.currentMonth);
-      emit(state.copyWith(dailyLeaveSummaryModel: dailyLeaveSummaryModel, status: NetworkStatus.success, leaveTypeModel: leave?.first));
+      DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient
+          .dailyLeaveSummary(event.userId, state.currentMonth);
+      emit(state.copyWith(
+          dailyLeaveSummaryModel: dailyLeaveSummaryModel,
+          status: NetworkStatus.success,
+          leaveTypeModel: leave?.first));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
     }
@@ -118,7 +125,8 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     }
   }
 
-  FutureOr<void> _onLeaveAction(LeaveAction event, Emitter<DailyLeaveState> emit) async {
+  FutureOr<void> _onLeaveAction(
+      LeaveAction event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     final data = {'leave_id': event.leaveId, 'leave_status': event.leaveStatus};
     try {
@@ -129,11 +137,9 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
           Navigator.of(event.context).pop();
         }
       });
-
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
-
     }
   }
 }

@@ -197,12 +197,59 @@ class MetaClubApiClient {
     const String api = 'user/leave/list/view';
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      final data = {"user_id": userId, "month": date};
       final response =
-          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode == 200) {
         return LeaveRequestModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveDetailsModel?> leaveReportDetailsApi(
+      int? userId, int leaveId) async {
+    const String api = 'user/leave/details';
+
+    try {
+      final data = {"user_id": userId};
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api/$leaveId', data);
+      if (response.statusCode == 200) {
+        return LeaveDetailsModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+  Future<LeaveReportTypeWiseSummary?> getLeaveSummaryTypeWise(data) async {
+    const String api = 'report/leave/date-wise-leave';
+
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return LeaveReportTypeWiseSummary.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String date) async {
+    const String api = 'report/leave/date-summary';
+    final data = {'date': date};
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+
+      if (response.statusCode == 200) {
+        return LeaveReportSummaryModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
@@ -470,12 +517,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future dailyLeaveApprovalAction(data)async{
+  Future dailyLeaveApprovalAction(data) async {
     const String api = 'daily-leave/approve-reject';
 
     try {
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1395,6 +1442,74 @@ class MetaClubApiClient {
         throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Summary of attendance  ------------------
+  Future<ReportAttendanceSummary?> getAttendanceReportSummary(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/attendance/date-summary';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportAttendanceSummary.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Single Attendance Summary to List  ------------------
+  Future<SummaryAttendanceToList?> getAttendanceSummaryToList(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/attendance/summary-to-list';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return SummaryAttendanceToList.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Report Break Summary  ------------------
+  Future<ReportBreakSummaryModel?> getBreakSummary(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/break/date-summary';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportBreakSummaryModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Report Break List Summary  ------------------
+  Future<ReportBreakListModel?> getBreakSummaryList(
+      {required Map<String, dynamic> body}) async {
+    String api = 'report/break/user-break-history';
+
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return ReportBreakListModel.fromJson(response.data);
+      }
+      return null;
     } catch (_) {
       return null;
     }

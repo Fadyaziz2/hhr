@@ -13,6 +13,7 @@ import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_scree
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/page/payroll/view/view.dart';
+import 'package:onesthrm/page/report/report_page.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
@@ -32,22 +33,22 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 
   MenuBloc(
       {required MetaClubApiClient metaClubApiClient,
-        required LoginData loginData,
-        required Color color,
-        required Settings setting})
+      required LoginData loginData,
+      required Color color,
+      required Settings setting})
       : _settings = setting,
         _loginData = loginData,
         _primaryColor = color,
         super(const MenuState(
-        status: NetworkStatus.initial,
-      )) {
+          status: NetworkStatus.initial,
+        )) {
     on<RouteSlug>(onRouteSlug);
   }
 
   void onRouteSlug(
-      RouteSlug event,
-      Emitter<MenuState> emit,
-      ) {
+    RouteSlug event,
+    Emitter<MenuState> emit,
+  ) {
     switch (event.slugName) {
       case 'support':
         NavUtil.navigateScreen(event.context, const SupportPage());
@@ -95,13 +96,19 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;
       case 'break':
-        NavUtil.navigateScreen(event.context, BlocProvider.value(value: event.context.read<HomeBloc>(),child: const BreakScreen()));
+        NavUtil.navigateScreen(
+            event.context,
+            BlocProvider.value(
+                value: event.context.read<HomeBloc>(),
+                child: const BreakScreen()));
         break;
       case 'feedback':
       case 'report':
+        NavUtil.navigateScreen(event.context, const ReportPage());
+        break;
       case 'daily_leave':
-      NavUtil.navigateScreen(event.context, const DailyLeavePage());
-      break;
+        NavUtil.navigateScreen(event.context, const DailyLeavePage());
+        break;
       case 'payroll':
         NavUtil.navigateScreen(event.context, const PayrollScreen());
         break;
