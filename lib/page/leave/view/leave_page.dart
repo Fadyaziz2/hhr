@@ -6,7 +6,7 @@ import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/leave_summary_content.dart';
 
 class LeavePage extends StatefulWidget {
-  const LeavePage({Key? key}) : super(key: key);
+  const LeavePage({super.key});
 
   @override
   State<LeavePage> createState() => _LeavePageState();
