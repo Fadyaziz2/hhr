@@ -54,16 +54,14 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
             key: MenuScreen._scaffoldKey,
             endDrawer: const MenuDrawer(),
             extendBody: true,
-            body: BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
+            body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
               return Container(
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [colorPrimary, colorPrimaryGradient])),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
                   child: Column(
                     children: [
                       InkWell(
@@ -174,7 +172,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                 : const SizedBox.shrink();
                           },
                         ),
-                      )
+                      ),
+                      const SizedBox(height: 32.0,)
                     ],
                   ));
             })));

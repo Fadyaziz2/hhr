@@ -97,8 +97,7 @@ class BottomNavContent extends StatelessWidget {
                 context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
                 // myPage.jumpToPage(2);
               }),
-          floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: IndexedStack(
             index: selectedTab.index,
             children: const [
