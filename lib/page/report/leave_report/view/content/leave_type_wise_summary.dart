@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
@@ -34,6 +35,17 @@ class LeaveTypeWiseSummary extends StatelessWidget {
                           child: Column(
                             children: [
                               ListTile(
+                                onTap: () {
+                                  NavUtil.navigateScreen(
+                                    context,
+                                    BlocProvider.value(
+                                      value: context.read<LeaveReportBloc>(),
+                                      child: LeaveReportDetailsScreen(
+                                        leaveId: data!.id!,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(data?.avatar ??
                                       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
