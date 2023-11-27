@@ -8,6 +8,8 @@ import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'profile_menu_tile.dart';
+
 class ProfileDetails extends StatelessWidget {
   final int userId;
 
@@ -69,7 +71,7 @@ class ProfileDetails extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        profileMenu(
+                        ProfileMenuTile(
                             iconData: Icons.call,
                             bgColor: const Color(0xFF3171F9),
                             onPressed: () async {
@@ -78,7 +80,7 @@ class ProfileDetails extends StatelessWidget {
                                 throw 'Could not launch ${Uri.parse("tel://${profile?.phone}")}';
                               }
                             }),
-                        profileMenu(
+                        ProfileMenuTile(
                             iconData: Icons.message,
                             bgColor: const Color(0xFF00B180),
                             onPressed: () {
@@ -90,7 +92,7 @@ class ProfileDetails extends StatelessWidget {
                                     primaryColor: colorPrimary,
                                   ));
                             }),
-                        profileMenu(
+                        ProfileMenuTile(
                             iconData: Icons.sms,
                             bgColor: const Color(0xFF00B180),
                             onPressed: () async {
@@ -108,7 +110,7 @@ class ProfileDetails extends StatelessWidget {
                                 throw Exception(e.toString());
                               }
                             }),
-                        profileMenu(
+                        ProfileMenuTile(
                             iconData: Icons.mail,
                             bgColor: const Color(0xFFD8DAE8),
                             onPressed: () async {
@@ -122,9 +124,10 @@ class ProfileDetails extends StatelessWidget {
                               );
                               launchUrl(emailLaunchUri);
                             }),
-                        profileMenu(
+                        ProfileMenuTile(
                           bgColor: const Color(0xFFFD5250),
                           iconData: Icons.calendar_today_outlined,
+                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -160,28 +163,11 @@ class ProfileDetails extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
         },
-      ),
-    );
-  }
-
-  GestureDetector profileMenu(
-      {IconData? iconData, Function()? onPressed, Color? bgColor}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-            color: bgColor, borderRadius: BorderRadius.circular(12.0)),
-        child: Icon(
-          iconData,
-          color: Colors.white,
-        ),
       ),
     );
   }

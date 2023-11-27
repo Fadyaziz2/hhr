@@ -33,14 +33,17 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    emit(state.copyWith(
-        status: NetworkStatus.success, currentMonth: currentMonth));
-    if (event.isEmployeeScreen) {
-      add(GetAttendanceReportData());
-    } else {
-      add(GetReportData());
+    if(date != null){
+      String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
+      emit(state.copyWith(
+          status: NetworkStatus.success, currentMonth: currentMonth));
+      if (event.isEmployeeScreen) {
+        add(GetAttendanceReportData());
+      } else {
+        add(GetReportData());
+      }
     }
+
   }
 
   FutureOr<void> _onGetReportData(

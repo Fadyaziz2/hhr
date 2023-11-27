@@ -66,11 +66,13 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    emit(state.copyWith(
-        status: NetworkStatus.success, selectMonth: currentMonth));
+    if (date != null) {
+      String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+      emit(state.copyWith(
+          status: NetworkStatus.success, selectMonth: currentMonth));
 
-    add(LeaveRequest());
+      add(LeaveRequest());
+    }
   }
 
   FutureOr<void> _selectEmployee(

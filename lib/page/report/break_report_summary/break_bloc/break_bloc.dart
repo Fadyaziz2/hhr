@@ -48,14 +48,17 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    emit(state.copyWith(
-        status: NetworkStatus.success, currentMonth: currentMonth));
-    if (event.isSummaryScreen) {
-      add(BreakSummaryDetails());
-    } else {
-      add(GetBreakInitialData());
+    if(date != null){
+      String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
+      emit(state.copyWith(
+          status: NetworkStatus.success, currentMonth: currentMonth));
+      if (event.isSummaryScreen) {
+        add(BreakSummaryDetails());
+      } else {
+        add(GetBreakInitialData());
+      }
     }
+
   }
 
   FutureOr<void> _selectEmployee(event, Emitter<BreakState> emit) async {
