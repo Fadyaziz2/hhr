@@ -134,6 +134,15 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     }
   }
 
+  Future<LeaveDetailsModel?> onLeaveSummaryDetails(leaveUserId, leaveId) async {
+    try {
+      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(leaveUserId, leaveId);
+      return leaveDetailsModel;
+    } catch (e) {
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
   Future<LeaveReportTypeWiseSummary?> onTypeWiseLeaveSummary(leaveId) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
     try {

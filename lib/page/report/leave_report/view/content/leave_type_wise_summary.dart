@@ -40,8 +40,9 @@ class LeaveTypeWiseSummary extends StatelessWidget {
                                     context,
                                     BlocProvider.value(
                                       value: context.read<LeaveReportBloc>(),
-                                      child: LeaveReportDetailsScreen(
+                                      child: LeaveSummaryDetails(
                                         leaveId: data!.id!,
+                                        userId: data.userId!,
                                       ),
                                     ),
                                   );
