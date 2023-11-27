@@ -40,7 +40,7 @@ class VisitCancelPage extends StatelessWidget {
                         bodyVisitCancel.status = "cancelled";
                         bodyVisitCancel.latitude =  state.latitude.toString();
                         bodyVisitCancel.longitude =  state.longitude.toString();
-                        context.read<VisitBloc>().add(VisitCancelApi(
+                        context.read<VisitBloc>().add(VisitCancelEvent(
                             context: context,
                             bodyVisitCancel: bodyVisitCancel));
                       }

@@ -35,7 +35,7 @@ class VisitPhoneUpload extends StatelessWidget {
                 InkWell(
                   onTap: (){
                     bodyImageUpload.id = visitID;
-                    context.read<VisitBloc>().add(VisitUploadPhoto(context: context,bodyImageUpload: bodyImageUpload));
+                    context.read<VisitBloc>().add(VisitUploadPhotoEvent(context: context,bodyImageUpload: bodyImageUpload));
                   },
                   child: Container(
                     decoration: BoxDecoration(

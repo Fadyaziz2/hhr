@@ -37,7 +37,7 @@ class VisitNotePage extends StatelessWidget {
                       if (formKey.currentState!.validate() &&
                           state.status == NetworkStatus.success) {
                         bodyVisitNote.visitId = visitID;
-                        context.read<VisitBloc>().add(VisitCreateNoteApi(
+                        context.read<VisitBloc>().add(VisitCreateNoteEvent(
                             bodyVisitNote: bodyVisitNote, context: context));
                       }
                     },

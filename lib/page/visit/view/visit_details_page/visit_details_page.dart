@@ -22,7 +22,7 @@ class VisitDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<VisitBloc>().add(VisitDetailsApi(visitId: visitID, latitude: locationServiceProvider.userLocation.latitude,
+    context.read<VisitBloc>().add(VisitDetailsEvent(visitId: visitID, latitude: locationServiceProvider.userLocation.latitude,
         longitude: locationServiceProvider.userLocation.longitude));
     late GoogleMapController mapController;
     BodyVisitCancel bodyStatusChange = BodyVisitCancel();
@@ -47,7 +47,7 @@ class VisitDetailsPage extends StatelessWidget {
                         bodyStatusChange.status = state.visitDetailsResponse?.data?.nextStatus?.status;
                         bodyStatusChange.latitude = state.latitude.toString();
                         bodyStatusChange.longitude = state.longitude.toString();
-                        context.read<VisitBloc>().add(VisitStatusApi(context: context, bodyVisitCancel: bodyStatusChange));
+                        context.read<VisitBloc>().add(VisitStatusEvent(context: context, bodyVisitCancel: bodyStatusChange));
                       },
                     )),
               ),
@@ -81,7 +81,7 @@ class VisitDetailsPage extends StatelessWidget {
                   return InkWell(
                     onTap: () async {
                       context.read<VisitBloc>().add(
-                            VisitGoToPosition(latLng: LatLng(double.parse(schedule?.latitude.toString() ?? ""),
+                            VisitGoToPositionEvent(latLng: LatLng(double.parse(schedule?.latitude.toString() ?? ""),
                                 double.parse(schedule?.longitude.toString() ?? "")), controller: mapController),);
                     },
                       child: VisitScheduleItem(schedule: schedule)

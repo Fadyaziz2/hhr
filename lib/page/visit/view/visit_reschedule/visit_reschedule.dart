@@ -39,7 +39,7 @@ class VisitReschedule extends StatelessWidget {
                       bodyCreateSchedule.latitude = state.latitude.toString();
                       bodyCreateSchedule.longitude = state.longitude.toString();
 
-                      context.read<VisitBloc>().add(CreateRescheduleApi(
+                      context.read<VisitBloc>().add(CreateRescheduleEvent(
                           bodyCreateSchedule: bodyCreateSchedule,
                           context: context));
                     }else {
@@ -73,7 +73,7 @@ class VisitReschedule extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.read<VisitBloc>().add(SelectDatePicker(context));
+                      context.read<VisitBloc>().add(SelectDatePickerEvent(context));
                     },
                     child: Container(
                       padding:

@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
-
 import '../../../res/date_utils.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../../../res/widgets/month_picker_dialog/month_picker_dialog.dart';
@@ -19,39 +18,34 @@ part 'visit_state.dart';
 class VisitBloc extends Bloc<VisitEvent, VisitState> {
   final MetaClubApiClient _metaClubApiClient;
 
-  VisitBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const VisitState()) {
-    on<VisitListApi>(_visitListApi);
-    on<HistoryListApi>(_historyListApi);
-    on<SelectDatePicker>(_onSelectDatePicker);
-    on<SelectMonthPicker>(_onSelectMonthPicker);
+  VisitBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const VisitState()) {
+    on<VisitListEvent>(_onVisitList);
+    on<HistoryListEvent>(_onHistoryList);
+    on<SelectDatePickerEvent>(_onSelectDatePicker);
+    on<SelectMonthPickerEvent>(_onSelectMonthPicker);
     on<CreateVisitEvent>(_onCreateVisitEvent);
-    on<VisitDetailsApi>(_visitDetailsApi);
-    on<VisitGoToPosition>(_visitGoToPosition);
-    on<VisitCreateNoteApi>(_visitCreateNoteApi);
-    on<CreateRescheduleApi>(_createRescheduleApi);
-    on<VisitCancelApi>(_visitCancelApi);
-    on<VisitStatusApi>(_visitStatusApi);
-    on<VisitUpdate>(_visitUpdateApi);
-    on<VisitUploadPhoto>(_visitUploadPhoto);
-    on<UploadFile>(_onUploadFile);
+    on<VisitDetailsEvent>(_onVisitDetails);
+    on<VisitGoToPositionEvent>(_onVisitGoToPosition);
+    on<VisitCreateNoteEvent>(_onVisitCreateNote);
+    on<CreateRescheduleEvent>(_oncCreateReschedule);
+    on<VisitCancelEvent>(_onVisitCancel);
+    on<VisitStatusEvent>(_onVisitStatus);
+    on<VisitUpdateEvent>(_onVisitUpdate);
+    on<VisitUploadPhotoEvent>(_onVisitUploadPhoto);
+    on<UploadFileEvent>(_onUploadFile);
   }
 
-  FutureOr<void> _visitUploadPhoto(
-      VisitUploadPhoto event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitUploadPhoto(VisitUploadPhotoEvent event, Emitter<VisitState> emit) async {
     File? file = await pickFile(event.context);
-    debugPrint('file ${file?.path}');
     if (file != null) {
-      add(UploadFile(file: file, bodyImageUpload: event.bodyImageUpload));
+      add(UploadFileEvent(file: file, bodyImageUpload: event.bodyImageUpload));
     }
   }
 
-  _onUploadFile(UploadFile event, Emitter<VisitState> emit) async {
+  _onUploadFile(UploadFileEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(isImageLoading: true));
     try {
-      FileUpload? fileData =
-          await _metaClubApiClient.uploadFile(file: event.file);
+      FileUpload? fileData = await _metaClubApiClient.uploadFile(file: event.file);
       if (fileData?.result == true) {
         if (fileData?.previewUrl != null) {
           event.bodyImageUpload.imageURL = fileData?.previewUrl;
@@ -60,7 +54,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           if (isSuccess) {
             emit(state.copyWith(isImageLoading: false));
             Fluttertoast.showToast(msg: "Image Upload Successfully");
-            add(VisitDetailsApi(visitId: event.bodyImageUpload.id!));
+            add(VisitDetailsEvent(visitId: event.bodyImageUpload.id!));
           } else {
             Fluttertoast.showToast(msg: "Image Upload Filed");
           }
@@ -75,8 +69,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitUpdateApi(
-      VisitUpdate event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitUpdate(
+      VisitUpdateEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient
@@ -85,7 +79,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyUpdateVisit!.id!));
+          add(VisitDetailsEvent(visitId: event.bodyUpdateVisit!.id!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -98,8 +92,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitStatusApi(
-      VisitStatusApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitStatus(
+      VisitStatusEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient
@@ -107,9 +101,9 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
           .then((success) {
         if (success) {
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitCancel!.visitId!));
-          add(VisitListApi());
-          add(HistoryListApi());
+          add(VisitDetailsEvent(visitId: event.bodyVisitCancel!.visitId!));
+          add(VisitListEvent());
+          add(HistoryListEvent());
         }
       });
     } on Exception catch (e) {
@@ -118,8 +112,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitCancelApi(
-      VisitCancelApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitCancel(
+      VisitCancelEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient
@@ -128,9 +122,9 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Cancel Visit Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitCancel!.visitId!));
-          add(VisitListApi());
-          add(HistoryListApi());
+          add(VisitDetailsEvent(visitId: event.bodyVisitCancel!.visitId!));
+          add(VisitListEvent());
+          add(HistoryListEvent());
           Navigator.pop(event.context);
         }
       });
@@ -140,8 +134,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _createRescheduleApi(
-      CreateRescheduleApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _oncCreateReschedule(CreateRescheduleEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient
@@ -150,7 +143,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Create Reschedule Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyCreateSchedule!.visitId!));
+          add(VisitDetailsEvent(visitId: event.bodyCreateSchedule!.visitId!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -163,8 +156,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitCreateNoteApi(
-      VisitCreateNoteApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitCreateNote(VisitCreateNoteEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       await _metaClubApiClient
@@ -173,7 +165,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         if (success) {
           Fluttertoast.showToast(msg: "Visit Note Create Successfully");
           emit(state.copyWith(status: NetworkStatus.success));
-          add(VisitDetailsApi(visitId: event.bodyVisitNote!.visitId!));
+          add(VisitDetailsEvent(visitId: event.bodyVisitNote!.visitId!));
           Navigator.pop(event.context);
         } else {
           emit(state.copyWith(status: NetworkStatus.failure));
@@ -186,8 +178,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitGoToPosition(
-      VisitGoToPosition event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitGoToPosition(
+      VisitGoToPositionEvent event, Emitter<VisitState> emit) async {
     Set<Marker> markers = {};
     final GoogleMapController controller = event.controller;
     controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -202,7 +194,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
   }
 
   FutureOr<void> _onSelectMonthPicker(
-      SelectMonthPicker event, Emitter<VisitState> emit) async {
+      SelectMonthPickerEvent event, Emitter<VisitState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -211,13 +203,13 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       locale: const Locale("en"),
     );
     String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(HistoryListApi());
+    add(HistoryListEvent());
     emit(state.copyWith(
         status: NetworkStatus.success, currentMonth: currentMonth));
   }
 
-  FutureOr<void> _visitDetailsApi(
-      VisitDetailsApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitDetails(
+      VisitDetailsEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading,isImageLoading: false));
     try {
       VisitDetailsModel? visitDetailsResponse =
@@ -235,7 +227,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
   }
 
   FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<VisitState> emit) async {
+      SelectDatePickerEvent event, Emitter<VisitState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -243,16 +235,15 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentDate =
-        getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
+    String? currentDate = getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
     emit(state.copyWith(
         status: NetworkStatus.success,
         currentDate: currentDate,
         isDateEnable: false));
   }
 
-  FutureOr<void> _historyListApi(
-      HistoryListApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onHistoryList(
+      HistoryListEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final historyResponse =
@@ -265,8 +256,8 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     }
   }
 
-  FutureOr<void> _visitListApi(
-      VisitListApi event, Emitter<VisitState> emit) async {
+  FutureOr<void> _onVisitList(
+      VisitListEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final visitResponse = await _metaClubApiClient.getVisitList();
@@ -290,7 +281,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
             Fluttertoast.showToast(msg: "Visit Create Successfully");
             emit(state.copyWith(
                 status: NetworkStatus.success, isDateEnable: false));
-            add(VisitListApi());
+            add(VisitListEvent());
             Navigator.pop(event.context);
           } else {
             emit(state.copyWith(status: NetworkStatus.failure));

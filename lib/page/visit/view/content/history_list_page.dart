@@ -23,7 +23,7 @@ class HistoryListPage extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            context.read<VisitBloc>().add(SelectMonthPicker(context));
+            context.read<VisitBloc>().add(SelectMonthPickerEvent(context));
           },
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,

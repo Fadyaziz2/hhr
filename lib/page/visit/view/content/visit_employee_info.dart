@@ -72,7 +72,7 @@ class VisitEmployeeInfo extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  context.read<VisitBloc>().add(SelectDatePicker(context));
+                  context.read<VisitBloc>().add(SelectDatePickerEvent(context));
                 },
                 child: Container(
                   padding:
