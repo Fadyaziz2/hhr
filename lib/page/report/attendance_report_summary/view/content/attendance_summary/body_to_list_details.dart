@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/report/attendance_report_summary/view/content/attendance_summary/attendance_summary.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import '../../../bloc/report_bloc.dart';
@@ -33,6 +35,16 @@ class BodyToListDetails extends StatelessWidget {
                             final data = snapshot.data?.data?.users?[index];
                             return Card(
                               child: ListTile(
+                                onTap: () {
+                                  NavUtil.navigateScreen(
+                                    context,
+                                    BlocProvider.value(
+                                      value: context.read<ReportBloc>(),
+                                      child:
+                                          ProfileDetails(userId: data!.userId!),
+                                    ),
+                                  );
+                                },
                                 leading: CircleAvatar(
                                   backgroundImage:
                                       NetworkImage('${data?.avatar}'),

@@ -93,4 +93,9 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       throw NetworkRequestFailure(e.toString());
     }
   }
+
+  Future<PhoneBookDetailsModel?> onPhoneBookDetails(
+      {required String userId}) async {
+    return await metaClubApiClient.getPhoneBooksUserDetails(userId: userId);
+  }
 }
