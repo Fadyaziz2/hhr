@@ -30,7 +30,7 @@ class BreakHeader extends StatelessWidget {
                         fontSize: 16,
                         color: Color(0xFF555555))),
                 TextSpan(
-                    text: "${dashboardModel?.data?.breakHistory?.time}",
+                    text: "${dashboardModel?.data?.breakHistory?.time  ?? 0}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

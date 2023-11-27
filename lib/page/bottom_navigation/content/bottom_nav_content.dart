@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:onesthrm/page/break/view/break_page.dart';
+import 'package:onesthrm/page/daily_leave/daily_leave.dart';
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/view/view.dart';
@@ -103,7 +105,7 @@ class BottomNavContent extends StatelessWidget {
               HomePage(),
               LeavePage(),
               MenuScreen(),
-              ReportPage(),
+              DailyLeavePage(),
               NotificationScreen(),
             ],
           ),
