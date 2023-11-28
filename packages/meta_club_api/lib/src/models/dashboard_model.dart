@@ -12,8 +12,7 @@ class DashboardModel extends Equatable {
   final String? message;
   final DashboardData? data;
 
-  factory DashboardModel.fromJson(Map<String, dynamic> json) =>
-      DashboardModel(
+  factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
         result: json["result"],
         message: json["message"],
         data: DashboardData.fromJson(json["data"]),
@@ -24,17 +23,15 @@ class DashboardModel extends Equatable {
 }
 
 class DashboardData extends Equatable {
-
-  const DashboardData({
-    this.today,
-    this.currentMonth,
-    this.upcomingEvents,
-    this.appointments,
-    this.menus,
-    this.config,
-    this.breakHistory,
-    this.attendanceData
-  });
+  const DashboardData(
+      {this.today,
+      this.currentMonth,
+      this.upcomingEvents,
+      this.appointments,
+      this.menus,
+      this.config,
+      this.breakHistory,
+      this.attendanceData});
 
   final List<TodayData>? today;
   final List<CurrentMonthData>? currentMonth;
@@ -45,8 +42,7 @@ class DashboardData extends Equatable {
   final Config? config;
   final BreakHistory? breakHistory;
 
-  factory DashboardData.fromJson(Map<String, dynamic> json) =>
-      DashboardData(
+  factory DashboardData.fromJson(Map<String, dynamic> json) => DashboardData(
         today: List<TodayData>.from(
             json["today"].map((x) => TodayData.fromJson(x))),
         upcomingEvents: List<UpcomingEvent>.from(
@@ -57,13 +53,24 @@ class DashboardData extends Equatable {
             json["current_month"].map((x) => CurrentMonthData.fromJson(x))),
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
         attendanceData: AttendanceData.fromJson(json['attendance_status']),
-        breakHistory: json['break_history_data'] != null ? BreakHistory.fromJson(json['break_history_data']) : null,
+        breakHistory: json['break_history_data'] != null
+            ? BreakHistory.fromJson(json['break_history_data'])
+            : null,
         config: Config.fromJson(json['config']),
       );
 
+  Map<String, dynamic> toJson() => {
+        "today": today?.map((e) => e.toJson()).toList(),
+        "upcoming_events": upcomingEvents?.map((e) => e.toJson()).toList(),
+        "appoinment_list": appointments?.map((e) => e.toJson()).toList(),
+        "menus": menus?.map((e) => e.toJson()).toList(),
+        "attendance_status": attendanceData?.toJson(),
+        "break_history_data": breakHistory?.toJson(),
+        "config": config?.toJson(),
+      };
+
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         today,
         currentMonth,
         upcomingEvents,
@@ -89,8 +96,7 @@ class Menu {
   String? icon;
   String? imageType;
 
-  factory Menu.fromJson(Map<String, dynamic> json) =>
-      Menu(
+  factory Menu.fromJson(Map<String, dynamic> json) => Menu(
         name: json["name"],
         slug: json["slug"],
         position: json["position"],
@@ -98,8 +104,7 @@ class Menu {
         imageType: json["image_type"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "name": name,
         "slug": slug,
         "position": position,
@@ -117,9 +122,14 @@ class AttendanceData {
   final String? stayTime;
 
   AttendanceData(
-      {this.id, this.checkIn, this.checkout, this.inTime, this.outTime, this.stayTime});
+      {this.id,
+      this.checkIn,
+      this.checkout,
+      this.inTime,
+      this.outTime,
+      this.stayTime});
 
-  factory AttendanceData.fromJson(Map<String, dynamic> json){
+  factory AttendanceData.fromJson(Map<String, dynamic> json) {
     return AttendanceData(
       id: json['id'],
       checkIn: json['checkin'],
@@ -129,20 +139,30 @@ class AttendanceData {
       stayTime: json['stay_time'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "id'": id,
+    "checkin": checkIn,
+    "checkout": checkout,
+    "in_time": inTime,
+    "out_time": outTime,
+    "stay_time": stayTime,
+  };
 }
 
 class Appointment {
-  Appointment({this.id,
-    this.title,
-    this.date,
-    this.day,
-    this.time,
-    this.startAt,
-    this.endAt,
-    this.location,
-    this.duration,
-    this.participants,
-    this.appointmentWith});
+  Appointment(
+      {this.id,
+      this.title,
+      this.date,
+      this.day,
+      this.time,
+      this.startAt,
+      this.endAt,
+      this.location,
+      this.duration,
+      this.participants = const [],
+      this.appointmentWith});
 
   int? id;
   String? title;
@@ -153,11 +173,10 @@ class Appointment {
   String? endAt;
   String? location;
   String? duration;
-  List<Participant>? participants;
+  List<Participant> participants;
   String? appointmentWith;
 
-  factory Appointment.fromJson(Map<String, dynamic> json) =>
-      Appointment(
+  factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
         id: json["id"],
         title: json["title"],
         date: json["date"],
@@ -171,6 +190,20 @@ class Appointment {
             json["participants"].map((x) => Participant.fromJson(x))),
         appointmentWith: json["appoinmentWith"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "date": date,
+        "day": day,
+        "time": time,
+        "start_at": startAt,
+        "end_at": endAt,
+        "location_track": location,
+        "duration": duration,
+        "participants": participants.map((e) => e.toJson()).toList(),
+        "appoinmentWith": appointmentWith
+      };
 }
 
 class BreakHistory {
@@ -179,16 +212,22 @@ class BreakHistory {
   final bool? hasBreak;
   final BreakBackHistory? breakHistory;
 
-  BreakHistory({this.timeBreak, this.hasBreak, this.breakHistory,this.time});
-  
-  factory BreakHistory.fromJson(Map<String,dynamic> json){
+  BreakHistory({this.timeBreak, this.hasBreak, this.breakHistory, this.time});
+
+  factory BreakHistory.fromJson(Map<String, dynamic> json) {
     return BreakHistory(
-      time: json['total_break_time'],
-      timeBreak: TimeBreak.fromString(json['total_break_time']),
-      hasBreak: json['has_break'],
-      breakHistory: BreakBackHistory.fromJson(json['break_history'])
-    );
+        time: json['total_break_time'],
+        timeBreak: TimeBreak.fromString(json['total_break_time']),
+        hasBreak: json['has_break'],
+        breakHistory: BreakBackHistory.fromJson(json['break_history']));
   }
+
+  Map<String, dynamic> toJson() => {
+        "total_break_time": timeBreak?.toJson(),
+        "has_break": hasBreak,
+        "break_history": breakHistory?.toJson()
+      };
+
   @override
   String toString() {
     return '${timeBreak?.hour}:${timeBreak?.min}:${timeBreak?.sec}:';
@@ -202,10 +241,13 @@ class TimeBreak {
 
   TimeBreak({this.hour = 0, this.min = 0, this.sec = 0});
 
-  factory TimeBreak.fromString(String time){
+  factory TimeBreak.fromString(String time) {
     final t = time.split(':');
-    return TimeBreak(hour: int.parse(t[0]), min: int.parse(t[1]), sec: int.parse(t[2]));
+    return TimeBreak(
+        hour: int.parse(t[0]), min: int.parse(t[1]), sec: int.parse(t[2]));
   }
+
+  Map<String, dynamic> toJson() => {"hour": hour, "min": min, "sec": sec};
 
   @override
   String toString() {
@@ -214,7 +256,6 @@ class TimeBreak {
 }
 
 class CurrentMonthData {
-
   CurrentMonthData({this.image, this.title, this.number, this.slug});
 
   String? image;
@@ -229,8 +270,7 @@ class CurrentMonthData {
           number: json["number"],
           slug: json["slug"]);
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "image": image,
         "title": title,
         "number": number,
@@ -238,7 +278,6 @@ class CurrentMonthData {
 }
 
 class TodayData {
-
   TodayData({this.image, this.title, this.number, this.slug});
 
   String? image;
@@ -246,15 +285,13 @@ class TodayData {
   dynamic number;
   String? slug;
 
-  factory TodayData.fromJson(Map<String, dynamic> json) =>
-      TodayData(
-          image: json["image"],
-          title: json["title"],
-          number: json["number"],
-          slug: json["slug"]);
+  factory TodayData.fromJson(Map<String, dynamic> json) => TodayData(
+      image: json["image"],
+      title: json["title"],
+      number: json["number"],
+      slug: json["slug"]);
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "image": image,
         "title": title,
         "number": number,
@@ -262,15 +299,14 @@ class TodayData {
 }
 
 class UpcomingEvent {
-  UpcomingEvent({
-    this.id,
-    this.title,
-    this.date,
-    this.day,
-    this.time,
-    this.startDate,
-    this.image
-  });
+  UpcomingEvent(
+      {this.id,
+      this.title,
+      this.date,
+      this.day,
+      this.time,
+      this.startDate,
+      this.image});
 
   int? id;
   String? title;
@@ -280,16 +316,24 @@ class UpcomingEvent {
   String? startDate;
   String? image;
 
-  factory UpcomingEvent.fromJson(Map<String, dynamic> json) =>
-      UpcomingEvent(
-          id: json["id"],
-          title: json["title"],
-          date: json["date"],
-          day: json["day"],
-          time: json["time"],
-          startDate: json["start_date"],
-          image: json["attachment_file_id"]
-      );
+  factory UpcomingEvent.fromJson(Map<String, dynamic> json) => UpcomingEvent(
+      id: json["id"],
+      title: json["title"],
+      date: json["date"],
+      day: json["day"],
+      time: json["time"],
+      startDate: json["start_date"],
+      image: json["attachment_file_id"]);
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+    "date": date,
+    "day": day,
+    "time": time,
+    "start_date": startDate,
+    "attachment_file_id": image
+  };
 }
 
 class Participant {
@@ -300,19 +344,32 @@ class Participant {
   final String? end;
   final String? duration;
 
-  Participant({this.name, this.isAgree, this.isPresent, this.start, this.end,
-    this.duration});
+  Participant(
+      {this.name,
+      this.isAgree,
+      this.isPresent,
+      this.start,
+      this.end,
+      this.duration});
 
-  factory Participant.fromJson(Map<String, dynamic> json){
+  factory Participant.fromJson(Map<String, dynamic> json) {
     return Participant(
-      name: json['name'],
-      isAgree: json['is_agree'],
-      isPresent: json['is_agree'],
-      start: json['is_agree'],
-      end: json['is_agree'],
-    );
+        name: json['name'],
+        isAgree: json['is_agree'],
+        isPresent: json['is_present'],
+        start: json['appoinment_started_at'],
+        end: json['appoinment_ended_at'],
+        duration: json['appoinment_duration']);
   }
 
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "is_agree": isAgree,
+        "is_present": isPresent,
+        "appoinment_started_at": start,
+        "appoinment_ended_at": end,
+        "appoinment_duration": duration
+      };
 }
 
 class Config {
@@ -360,8 +417,7 @@ class Config {
     this.isTeamLead,
   });
 
-  factory Config.fromJson(Map<String, dynamic> json) =>
-      Config(
+  factory Config.fromJson(Map<String, dynamic> json) => Config(
         isAdmin: json["is_admin"],
         isHr: json["is_hr"],
         isManager: json["is_manager"],
@@ -383,6 +439,28 @@ class Config {
         locationService: json["location_service"],
         isTeamLead: json["is_team_lead"],
       );
+
+  Map<String, dynamic> toJson() => {
+        'is_hr': isHr,
+        'is_admin': isAdmin,
+        'is_manager': isManager,
+        'is_face_registered': isFaceRegistered,
+        'location_service': locationService,
+        'location_services': locationServices?.toJson(),
+        'is_ip_enabled': isIpEnabled,
+        'location_bind': locationBind,
+        'time_wish': timeWish?.toJson(),
+        'time_zone': timeZone,
+        'multi_checkin': multiCheckIn,
+        'currency_code': currencyCode,
+        'currency_symbol': currencySymbol,
+        'attendance_method': attendanceMethod,
+        'duty_schedule': dutySchedule?.toJson(),
+        'break_status': breakStatus?.toJson(),
+        'live_tracking': liveTracking?.toJson(),
+        'google_api_key': googleApiKey,
+        'is_team_lead': isTeamLead
+      };
 }
 
 class BarikoiApi {
@@ -398,16 +476,14 @@ class BarikoiApi {
     this.statusId,
   });
 
-  factory BarikoiApi.fromJson(Map<String, dynamic> json) =>
-      BarikoiApi(
+  factory BarikoiApi.fromJson(Map<String, dynamic> json) => BarikoiApi(
         key: json["key"],
         secret: json["secret"],
         endpoint: json["endpoint"],
         statusId: json["status_id"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "key": key,
         "secret": secret,
         "endpoint": endpoint,
@@ -436,8 +512,7 @@ class BreakData {
     this.timeBreak,
   });
 
-  factory BreakData.fromJson(Map<String, dynamic> json) =>
-      BreakData(
+  factory BreakData.fromJson(Map<String, dynamic> json) => BreakData(
         breakTime: json['break_time'] != "" ? json["break_time"] : null,
         backTime: json['back_time'] != "" ? json["back_time"] : null,
         reason: json["reason"],
@@ -445,8 +520,19 @@ class BreakData {
         updatedAt: json["updated_at"],
         status: json["status"],
         diffTime: json["diff_time"],
-        timeBreak: json['diff_time'] != "" ?  TimeBreak.fromString(json['diff_time']) : null,
+        timeBreak: json['diff_time'] != ""
+            ? TimeBreak.fromString(json['diff_time'])
+            : null,
       );
+
+  Map<String, dynamic> toJson() => {
+        "break_time": breakTime,
+        "back_time": backTime,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "status": status,
+        "diff_time": timeBreak?.toJson(),
+      };
 }
 
 class DutyScheduleData {
@@ -463,6 +549,9 @@ class DutyScheduleData {
         startTime: TimeData.fromJson(json["start_time"]),
         endTime: TimeData.fromJson(json["end_time"]),
       );
+
+  Map<String, dynamic> toJson() =>
+      {"start_time": startTime, "end_time": endTime};
 }
 
 class TimeData {
@@ -476,15 +565,13 @@ class TimeData {
     this.sec,
   });
 
-  factory TimeData.fromJson(Map<String, dynamic> json) =>
-      TimeData(
+  factory TimeData.fromJson(Map<String, dynamic> json) => TimeData(
         hour: json["hour"],
         min: json["min"],
         sec: json["sec"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "hour": hour,
         "min": min,
         "sec": sec,
@@ -506,8 +593,7 @@ class LiveTrackingData {
         liveDataStoreTime: json["live_data_store_time"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "app_sync_time": appSyncTime,
         "live_data_store_time": liveDataStoreTime,
       };
@@ -528,8 +614,7 @@ class LocationServices {
         barikoi: json["barikoi"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "google": google,
         "barikoi": barikoi,
       };
@@ -546,10 +631,12 @@ class TimeWishData {
     this.image,
   });
 
-  factory TimeWishData.fromJson(Map<String, dynamic> json) =>
-      TimeWishData(
+  factory TimeWishData.fromJson(Map<String, dynamic> json) => TimeWishData(
         wish: json["wish"],
         subTitle: json["sub_title"],
         image: json["image"],
       );
+
+  Map<String, dynamic> toJson() =>
+      {"wish": wish, "sub_title": subTitle, "image": image};
 }

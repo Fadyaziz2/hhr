@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
@@ -16,13 +17,11 @@ part 'home_event.dart';
 
 part 'home_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
   late StreamSubscription locationSubscription;
 
-  HomeBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const HomeState(status: NetworkStatus.initial)) {
+  HomeBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const HomeState()) {
     on<LoadSettings>(_onSettingsLoad);
     on<LoadHomeData>(_onHomeDataLoad);
     on<OnSwitchPressed>(_onSwitchPressed);
@@ -32,19 +31,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
-    emit(const HomeState(status: NetworkStatus.loading));
+    emit(state.copy(status: NetworkStatus.loading));
     try {
       Settings? settings = await _metaClubApiClient.getSettings();
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
-      emit(const HomeState(status: NetworkStatus.failure));
+      emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
-    emit(const HomeState(status: NetworkStatus.loading));
+    emit(state.copy(status: NetworkStatus.loading));
     try {
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
       ///Initialize attendance data at global state
@@ -61,7 +60,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success));
     } catch (e) {
-      emit(const HomeState(status: NetworkStatus.failure));
+      emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
@@ -93,5 +92,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       default:
         return const HomeEarthContent();
     }
+  }
+
+  @override
+  HomeState? fromJson(Map<String, dynamic> json) {
+    return HomeState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(HomeState state) {
+    return state.toJson();
   }
 }

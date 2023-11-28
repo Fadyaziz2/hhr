@@ -89,6 +89,27 @@ class Setting extends Equatable {
       employeeTypes: List<String>.from(json["employee_types"]),
       appTheme: json['app_theme']);
 
+  Map<String,dynamic> toJson() => {
+    'is_hr':isHr,
+    'is_admin':isAdmin,
+    'is_face_registered':isFaceRegistered,
+    'location_service':locationService,
+    'is_ip_enabled':isIpEnabled,
+    'time_wish':timeWish?.toJson(),
+    'barikoi_api':barikoiAPI?.toJson(),
+    'time_zone':timeZone,
+    'multi_checkin':multiCheckIn,
+    'currency_code':currencyCode,
+    'attendance_method':attendanceMethod,
+    'duty_schedule':dutySchedule?.toJson(),
+    'break_status':breakStatus?.toJson(),
+    'live_tracking':liveTracking?.toJson(),
+    'departments':departments.map((e) => e.toJson()).toList(),
+    'designations':designations.map((e) => e.toJson()).toList(),
+    'employee_types':employeeTypes,
+    'app_theme':appTheme,
+  };
+
   @override
   List<Object?> get props =>
       [isIpEnabled, currencyCode, attendanceMethod, isAdmin, isFaceRegistered, appTheme];
@@ -173,8 +194,7 @@ class BreakStatus {
       diffTime: json["diff_time"]);
 
   Map<String, dynamic> toJson() => {
-        "date":
-            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "date": "${date?.year.toString().padLeft(4, '0')}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}",
         "break_time": breakTime,
         "back_time": backTime,
         "status": status,
@@ -239,6 +259,11 @@ class Department extends Equatable {
   factory Department.fromJson(Map<String, dynamic> json) {
     return Department(id: json['id'], title: json['title']);
   }
+
+  Map<String,dynamic> toJson() => {
+    'id':id,
+    'title':title
+  };
 
   @override
   List<Object?> get props => [id, title];
