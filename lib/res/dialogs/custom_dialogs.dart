@@ -10,7 +10,8 @@ Future<void> showRegistrationSuccessDialog(
     {required BuildContext context,
     bool isSuccess = true,
     String message = 'Account Verification',
-    String body = 'Your account verification now on process. we will notify you after completing your verification'}) async {
+    String body =
+        'Your account verification now on process. we will notify you after completing your verification'}) async {
   await showDialog(
       context: context,
       builder: (context) {
@@ -50,18 +51,19 @@ Future<void> showRegistrationSuccessDialog(
 
 void showLoginDialog(
     {required BuildContext context,
-      bool isSuccess = true,
-      String message = 'Account Login',
-      String body = 'Your account verification now on process. we will notify you after completing your verification'})  {
-   showDialog(
+    bool isSuccess = true,
+    String message = 'Account Login',
+    String body =
+        'Your account verification now on process. we will notify you after completing your verification'}) {
+  showDialog(
       context: context,
       builder: (_) {
         return SimpleDialog(
           title: Center(
               child: Text(
-                message ?? '',
-                style: const TextStyle(fontSize: 18.0),
-              )),
+            message ?? '',
+            style: const TextStyle(fontSize: 18.0),
+          )),
           contentPadding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           children: [
@@ -89,7 +91,10 @@ void showLoginDialog(
       });
 }
 
-showCustomYearPicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
+showCustomYearPicker(
+    {required BuildContext context,
+    required Function(DateTime dateTime) onDatePicked,
+    DateTime? initialDate}) {
   showModalBottomSheet(
     context: context,
     builder: (ctx) {
@@ -108,38 +113,41 @@ showCustomYearPicker({required BuildContext context,required Function(DateTime d
                 right: 15,
               ),
               child: SfDateRangePicker(
-                onSelectionChanged: (arg) {
-                  onDatePicked(arg.value);
-                  Navigator.of(context).pop();
-                },
-                onSubmit: (arg) {},
-                maxDate: DateTime.now().add(const Duration(days: 365)),
-                initialDisplayDate: initialDate ?? DateTime.now(),
-                view: DateRangePickerView.year,
-                selectionMode: DateRangePickerSelectionMode.single,
-                  monthViewSettings:
-                  DateRangePickerMonthViewSettings(enableSwipeSelection: false),
-                allowViewNavigation: true,
+                  onSelectionChanged: (arg) {
+                    onDatePicked(arg.value);
+                    Navigator.of(context).pop();
+                  },
+                  onSubmit: (arg) {},
+                  maxDate: DateTime.now().add(const Duration(days: 365)),
+                  initialDisplayDate: initialDate ?? DateTime.now(),
+                  view: DateRangePickerView.year,
+                  selectionMode: DateRangePickerSelectionMode.single,
+                  monthViewSettings: DateRangePickerMonthViewSettings(
+                      enableSwipeSelection: false),
+                  allowViewNavigation: true,
                   toggleDaySelection: false,
                   yearCellStyle: DateRangePickerYearCellStyle(
-                    disabledDatesDecoration:BoxDecoration(
+                    disabledDatesDecoration: BoxDecoration(
                         color: const Color(0xFFDFDFDF),
-                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFFB6B6B6), width: 1),
                         shape: BoxShape.circle),
-                    disabledDatesTextStyle: const TextStyle(color: Colors.black),
-                    leadingDatesDecoration:BoxDecoration(
+                    disabledDatesTextStyle:
+                        const TextStyle(color: Colors.black),
+                    leadingDatesDecoration: BoxDecoration(
                         color: const Color(0xFFDFDFDF),
-                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFFB6B6B6), width: 1),
                         shape: BoxShape.circle),
                     leadingDatesTextStyle: const TextStyle(color: Colors.black),
                     textStyle: const TextStyle(color: Colors.blue),
                     todayCellDecoration: BoxDecoration(
                         color: const Color(0xFFDFDFDF),
-                        border: Border.all(color: const Color(0xFFB6B6B6), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFFB6B6B6), width: 1),
                         shape: BoxShape.circle),
                     todayTextStyle: const TextStyle(color: Colors.green),
-                  )
-              ),
+                  )),
             ),
           ],
         ),
@@ -148,7 +156,35 @@ showCustomYearPicker({required BuildContext context,required Function(DateTime d
   );
 }
 
-showCustomDatePicker({required BuildContext context,required Function(DateTime dateTime) onDatePicked,DateTime? initialDate}) {
+showYearPicker(
+    {required BuildContext context,
+    required Function(DateTime dateTime) onDatePicked,
+    DateTime? initialDate,
+    required DateTime selectDate}) {
+  showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text('Select Year',
+              style: Theme.of(context).textTheme.titleMedium),
+          content: SizedBox(
+            height: 300,
+            child: YearPicker(
+              firstDate: DateTime(DateTime.now().year - 10, 5),
+              lastDate: DateTime.now(),
+              initialDate: initialDate,
+              selectedDate: selectDate,
+              onChanged: onDatePicked,
+            ),
+          ),
+        );
+      });
+}
+
+showCustomDatePicker(
+    {required BuildContext context,
+    required Function(DateTime dateTime) onDatePicked,
+    DateTime? initialDate}) {
   showModalBottomSheet(
     context: context,
     builder: (ctx) {
@@ -226,7 +262,8 @@ class CustomDialogImagePicker extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Lottie.asset("assets/images/ic_camera.json",height: 50,width: 50),
+                      Lottie.asset("assets/images/ic_camera.json",
+                          height: 50, width: 50),
                       const SizedBox(
                         height: 8,
                       ),
@@ -251,7 +288,8 @@ class CustomDialogImagePicker extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 5.0),
                     child: Column(
                       children: [
-                        Lottie.asset("assets/images/ic_gallery.json",height: 50,width: 50),
+                        Lottie.asset("assets/images/ic_gallery.json",
+                            height: 50, width: 50),
                         const SizedBox(
                           height: 3,
                         ),
@@ -296,7 +334,6 @@ class CustomDialogImagePicker extends StatelessWidget {
 }
 
 Future<File?> pickFile(BuildContext context) async {
-
   File? file;
 
   return await showDialog(
@@ -306,9 +343,7 @@ Future<File?> pickFile(BuildContext context) async {
         onCameraClick: () async {
           final ImagePicker picker = ImagePicker();
           final XFile? image = await picker.pickImage(
-              source: ImageSource.camera,
-              maxHeight: 320,
-              maxWidth: 300);
+              source: ImageSource.camera, maxHeight: 320, maxWidth: 300);
           file = File(image!.path);
           debugPrint(image.path);
           Navigator.of(context).pop(file);
@@ -316,9 +351,7 @@ Future<File?> pickFile(BuildContext context) async {
         onGalleryClick: () async {
           final ImagePicker pickerGallery = ImagePicker();
           final XFile? imageGallery = await pickerGallery.pickImage(
-              source: ImageSource.gallery,
-              maxHeight: 320,
-              maxWidth: 300);
+              source: ImageSource.gallery, maxHeight: 320, maxWidth: 300);
           file = File(imageGallery!.path);
           debugPrint(file?.path);
           Navigator.of(context).pop(file);
