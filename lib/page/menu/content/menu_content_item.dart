@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
+import '../../../res/widgets/dynamic_image_viewer.dart';
 
 class MenuContentItem extends StatelessWidget {
   final Function() onPressed;
@@ -39,21 +40,8 @@ class MenuContentItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
-                        menu.icon?.contains('svg') == true
-                            ? SvgPicture.network(
-                                menu.icon ?? "",
-                                height: 25,
-                                width: 25,
-                                color: colorPrimary,
-                              )
-                            : CachedNetworkImage(
-                                imageUrl:menu.icon ?? '',
-                                height: 25,
-                                width: 25,
-                              ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        DynamicImageViewer(image:  menu.icon ?? "",),
+                        const SizedBox(width: 10.0),
                         Expanded(
                           child: Text(
                             menu.name ?? '',
