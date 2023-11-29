@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,12 +12,11 @@ class MenuContentItem extends StatelessWidget {
   final Animation animation;
 
   const MenuContentItem(
-      {Key? key,
+      {super.key,
       required this.onPressed,
       required this.menu,
       required this.animationController,
-      required this.animation})
-      : super(key: key);
+      required this.animation});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,8 @@ class MenuContentItem extends StatelessWidget {
                                 width: 25,
                                 color: colorPrimary,
                               )
-                            : Image.network(
-                                menu.icon ?? '',
+                            : CachedNetworkImage(
+                                imageUrl:menu.icon ?? '',
                                 height: 25,
                                 width: 25,
                               ),
