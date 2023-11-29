@@ -21,6 +21,7 @@ class LeaveReportList extends StatelessWidget {
                   ?.isNotEmpty ==
               true
           ? ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: leaveBloc.state.leaveRequestModel?.leaveRequestData
                       ?.leaveRequests?.length ??

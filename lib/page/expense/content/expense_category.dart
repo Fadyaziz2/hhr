@@ -87,7 +87,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (state.selectedCategory?.id != null) {
-                        NavUtil.replaceScreen(
+                        NavUtil.navigateScreen(
                             context,
                             BlocProvider.value(
                                 value: context.read<ExpenseBloc>(),
