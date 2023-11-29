@@ -6,7 +6,7 @@ import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class TaskScreenContent extends StatelessWidget {
-  const TaskScreenContent({Key? key}) : super(key: key);
+  const TaskScreenContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,8 @@ class TaskScreenContent extends StatelessWidget {
                 TitleWithSeeAll(
                     context: context,
                     onTap: () {
-                      NavUtil.navigateScreen(context, AllTaskListScreen(bloc: context.read<TaskBloc>(), taskCollection: tasks));
+                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<TaskBloc>(),
+                      child: AllTaskListScreen(taskCollection: tasks)));
                     }, title: '',
                     child: const TaskStatusDropdown(),),
 

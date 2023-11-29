@@ -9,5 +9,6 @@ List<TaskStatusModel> statusList = [
   TaskStatusModel(id: 24, title: 'Not Started'),
   TaskStatusModel(id: 25, title: 'On Hold'),
   TaskStatusModel(id: 26, title: 'In Progress'),
+  TaskStatusModel(id: 27, title: 'Completed'),
   TaskStatusModel(id: 28, title: 'Cancelled'),
 ];
