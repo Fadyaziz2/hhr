@@ -5,8 +5,10 @@ import '../const.dart';
 
 class DynamicImageViewer extends StatelessWidget {
   final String image;
+  final double height;
+  final double width;
 
-  const DynamicImageViewer({super.key, required this.image});
+  const DynamicImageViewer({super.key, required this.image,this.width = 25.0,this.height = 25.0});
 
   @override
   Widget build(BuildContext context) {
