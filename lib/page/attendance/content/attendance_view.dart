@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
@@ -10,7 +10,6 @@ import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -103,15 +102,23 @@ class _AttendanceState extends State<AttendanceView>
             appBar: AppBar(
               title: Text('attendance'.tr()),
               actions: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          AttendanceReportPage.route(
-                              attendanceBloc: context.read<AttendanceBloc>(),
-                               settings: settings!));
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: (){
+                            Navigator.push(
+                                context,
+                                AttendanceReportPage.route(
+                                    attendanceBloc: context.read<AttendanceBloc>(),
+                                     settings: settings!));
                     },
-                    icon: const Icon(Icons.bug_report_outlined))
+                    child: Lottie.asset(
+                      'assets/images/ic_report_lottie.json',
+                      height: 40,
+                      width: 40,
+                    ),
+                  ),
+                ),
               ],
             ),
             body: Center(
