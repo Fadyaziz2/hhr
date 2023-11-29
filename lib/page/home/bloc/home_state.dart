@@ -10,7 +10,7 @@ class HomeState extends Equatable {
       {this.status = NetworkStatus.initial,
       this.settings,
       this.dashboardModel,
-      this.isSwitched = false});
+      this.isSwitched = true});
 
   HomeState copy(
       {BuildContext? context,

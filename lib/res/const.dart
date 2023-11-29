@@ -42,6 +42,7 @@ const String keyIosDeviceToken = "ios_device_token";
 const String keySelectLanguage = "key_select_language";
 const String keyRemoteModeType = "key_remote_mode_type";
 const String keyMenuList = "key_menu_list";
+const String isLocation = "isLocation";
 const List languages = [
   {
     'name': 'English',

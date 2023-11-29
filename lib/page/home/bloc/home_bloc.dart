@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -35,6 +34,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     try {
       Settings? settings = await _metaClubApiClient.getSettings();
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
+      globalState.set(isLocation, settings?.data?.locationService);
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
@@ -54,11 +54,13 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
       globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
       globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
       globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}' );
       globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
-      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success));
+      final bool isLocationEnabled = globalState.get(isLocation);
+      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success,isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
