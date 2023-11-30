@@ -8,22 +8,25 @@ import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
-class ExpenseCategoryPage extends StatefulWidget {
-  const ExpenseCategoryPage({
+class ExpenseCategoryListPage extends StatefulWidget {
+  const ExpenseCategoryListPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ExpenseCategoryPage> createState() => _ExpenseCategoryPageState();
+  State<ExpenseCategoryListPage> createState() =>
+      _ExpenseCategoryListPageState();
 }
 
-class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
+class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExpenseBloc, ExpenseState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: false,
             title: Text(
               tr("expense_log"),
               style: Theme.of(context)
@@ -106,7 +109,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                         ),
                       ),
                     ),
-                    child: Text(tr("next"),
+                    child: Text(tr("Back"),
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

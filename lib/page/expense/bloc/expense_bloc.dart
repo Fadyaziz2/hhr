@@ -155,7 +155,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
         if (expenseResponse.success) {
           add(GetExpenseData());
           Navigator.pop(event.context);
-          Navigator.pop(event.context);
         }
       });
     } catch (e) {
