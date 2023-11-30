@@ -1412,6 +1412,22 @@ class MetaClubApiClient {
     }
   }
 
+  /// ===================== Meeting List ========================
+  Future<MeetingsListModel?> getMeetingList() async {
+    const String api = 'meeting';
+    final data = {"month": "11/2023"};
+    try {
+      final response =
+      await _httpServiceImpl.postRequest('$_baseUrl$api',data);
+      if (response.statusCode == 200) {
+        return MeetingsListModel.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
 
 
   /// ================== Approval Details====================
