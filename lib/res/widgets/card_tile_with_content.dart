@@ -21,7 +21,7 @@ class CardTileWithContent extends StatelessWidget {
             color: const Color(0xFF6B6A70),
           ),
         ),
-        subtitle: Text(value, style: style),
+        subtitle: Text(value, style: style.copyWith(fontSize: 14)),
       ),
     );
   }

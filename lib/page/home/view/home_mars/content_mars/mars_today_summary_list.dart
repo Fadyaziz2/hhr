@@ -4,6 +4,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
+import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:shimmer/shimmer.dart';
@@ -46,7 +47,7 @@ class TodaySummaryListMars extends StatelessWidget {
                     ),
                     TodayListCountMars(
                       onTap: () {
-                        // provider?.getRoutSlag(context, provider?.todayData![1].slug);
+                        // NavUtil.navigateScreen(context, const Meeti());
                       },
                       image: "assets/home_bg/meetings.png",
                       title: "${dashboardModel.data!.today![1].title}",
@@ -54,7 +55,7 @@ class TodaySummaryListMars extends StatelessWidget {
                     ),
                     TodayListCountMars(
                       onTap: () {
-                        // provider?.getRoutSlag(context, provider?.todayData![2].slug);
+                        NavUtil.navigateScreen(context, const VisitPage());
                       },
                       image: "assets/home_bg/visit.png",
                       title: "${dashboardModel.data!.today![2].title}",
