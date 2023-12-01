@@ -15,7 +15,7 @@ class DashboardModel extends Equatable {
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
         result: json["result"],
         message: json["message"],
-        data: DashboardData.fromJson(json["data"]),
+        data: json["data"] != null ? DashboardData.fromJson(json["data"]) : null,
       );
 
   @override
@@ -49,8 +49,8 @@ class DashboardData extends Equatable {
             json["upcoming_events"].map((x) => UpcomingEvent.fromJson(x))),
         appointments: List<Appointment>.from(
             json["appoinment_list"].map((x) => Appointment.fromJson(x))),
-        currentMonth: List<CurrentMonthData>.from(
-            json["current_month"].map((x) => CurrentMonthData.fromJson(x))),
+        currentMonth:json["current_month"] != null ?  List<CurrentMonthData>.from(
+            json["current_month"].map((x) => CurrentMonthData.fromJson(x))) : [],
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
         attendanceData: AttendanceData.fromJson(json['attendance_status']),
         breakHistory: json['break_history_data'] != null
@@ -216,7 +216,7 @@ class BreakHistory {
 
   factory BreakHistory.fromJson(Map<String, dynamic> json) {
     return BreakHistory(
-        time: json['total_break_time'],
+        time: json['total_break_time'] != null ? json['total_break_time'] : null,
         timeBreak: TimeBreak.fromString(json['total_break_time']),
         hasBreak: json['has_break'],
         breakHistory: BreakBackHistory.fromJson(json['break_history']));
