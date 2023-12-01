@@ -4,9 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/attachment_content.dart';
+import 'package:onesthrm/page/expense/content/expense_category.dart';
+import 'package:onesthrm/page/expense/content/expense_category_list_page.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 
 class ExpenseCreateBodyContent extends StatelessWidget {
   final int? categoryId;
@@ -35,7 +38,11 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                     Container(
                       color: Colors.blue[50],
                       child: ListTile(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => NavUtil.replaceScreen(
+                            context,
+                            BlocProvider.value(
+                                value: context.read<ExpenseBloc>(),
+                                child: const ExpenseCategoryListPage())),
                         leading: const Icon(Icons.list_alt),
                         trailing: Text(
                           tr("change"),

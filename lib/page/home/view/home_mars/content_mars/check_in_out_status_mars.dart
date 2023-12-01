@@ -13,7 +13,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardModel = context.read<HomeBloc>().state.dashboardModel;
+    final dashboardModel = context.watch<HomeBloc>().state.dashboardModel;
     return  Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(

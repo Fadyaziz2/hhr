@@ -20,7 +20,7 @@ class LeaveSummeryScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(tr('leave_summery')),
         ),
-        body: const LeaveReportSummaryContent(),
+        body: LeaveReportSummaryContent(),
       ),
     );
   }

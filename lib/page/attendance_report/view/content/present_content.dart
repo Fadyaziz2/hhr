@@ -251,32 +251,32 @@ class DailyReportTile extends StatelessWidget {
               ],
             ),
           ),
-          Visibility(
-            visible: settings.data?.multiCheckIn ?? false,
-            child: Column(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    String? date = dailyReport.fullDate;
-
-                    ///Todo: when multiple check in enable
-                    // attendanceDailyReportApi(date, context);
-                  },
-                  child: Lottie.asset(
-                    'assets/images/report_one.json',
-                    height: 55,
-                    width: 55,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          )
+          // Visibility(
+          //   visible: settings.data?.multiCheckIn ?? false,
+          //   child: Column(
+          //     children: [
+          //       const SizedBox(
+          //         width: 10,
+          //       ),
+          //       InkWell(
+          //         onTap: () {
+          //           String? date = dailyReport.fullDate;
+          //
+          //           ///Todo: when multiple check in enable
+          //           // attendanceDailyReportApi(date, context);
+          //         },
+          //         child: Lottie.asset(
+          //           'assets/images/report_one.json',
+          //           height: 55,
+          //           width: 55,
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         width: 10,
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

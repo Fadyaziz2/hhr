@@ -6,7 +6,7 @@ import 'package:onesthrm/page/task/view/content/content.dart';
 import '../bloc/task_bloc.dart';
 
 class TaskScreen extends StatelessWidget {
-  const TaskScreen({Key? key}) : super(key: key);
+  const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/task/view/content/title_with_see_all_content.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/shimmers.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class TaskScreenContent extends StatelessWidget {
-  const TaskScreenContent({Key? key}) : super(key: key);
+  const TaskScreenContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,46 +23,61 @@ class TaskScreenContent extends StatelessWidget {
               children: [
                 const SizedBox(height: 20.0),
                 TaskDashboardCardList(staticsData: staticsData),
-
                 TitleWithSeeAll(
-                    context: context,
-                    onTap: () {
-                      NavUtil.navigateScreen(context, AllTaskListScreen(bloc: context.read<TaskBloc>(), taskCollection: tasks));
-                    }, title: '',
-                    child: const TaskStatusDropdown(),),
-
+                  context: context,
+                  onTap: () {
+                    NavUtil.navigateScreen(
+                        context,
+                        BlocProvider.value(
+                            value: context.read<TaskBloc>(),
+                            child: AllTaskListScreen(taskCollection: tasks)));
+                  },
+                  title: '',
+                  child: const TaskStatusDropdown(),
+                ),
                 const SizedBox(
                   height: 12.0,
                 ),
-
-                tasks.isNotEmpty == true
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: tasks.length ?? 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          final data = tasks[index];
-                          return TaskListCard(
-                            onTap: () {
-                              NavUtil.navigateScreen(
-                                context,
-                                TaskScreenDetails(
-                                  bloc: context.read<TaskBloc>(),
-                                  taskId: data.id.toString(),
-                                ),
+                state.taskDashboardData != null
+                    ? tasks.isNotEmpty == true
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: tasks.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final data = tasks[index];
+                              return TaskListCard(
+                                onTap: () {
+                                  NavUtil.navigateScreen(
+                                    context,
+                                    TaskScreenDetails(
+                                      bloc: context.read<TaskBloc>(),
+                                      taskId: data.id.toString(),
+                                    ),
+                                  );
+                                },
+                                userCount: data.usersCount,
+                                taskListData: data,
+                                taskName: data.title,
+                                tapButtonColor: const Color(0xFF00a8e6),
+                                taskStartDate: data.dateRange,
                               );
                             },
-                            userCount: data.usersCount,
-                            taskListData: data,
-                            taskName: data.title,
-                            tapButtonColor: const Color(0xFF00a8e6),
-                            taskStartDate: data.dateRange,
+                          )
+                        : const NoDataFoundWidget()
+                    : ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return const TileShimmer(
+                            isSubTitle: true,
                           );
                         },
-                      )
-                    : const NoDataFoundWidget(),
-
-                   const SizedBox(height: 12.0,),
+                      ),
+                const SizedBox(
+                  height: 12.0,
+                ),
               ],
             ),
           ),

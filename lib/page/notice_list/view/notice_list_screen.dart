@@ -8,7 +8,7 @@ import 'package:onesthrm/page/notice_list/content/notice_list_content.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class NoticeListScreen extends StatelessWidget {
-  const NoticeListScreen({Key? key}) : super(key: key);
+  const NoticeListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class NoticeListScreen extends StatelessWidget {
                       : Expanded(
                           child: Center(
                               child: Text(
-                            tr("no_notification_found"),
+                            tr("no_notice_found"),
                             style: const TextStyle(
                                 color: Color(0x65555555),
                                 fontSize: 22,

@@ -4,8 +4,7 @@ import 'content.dart';
 
 class TaskDashboardCard extends StatelessWidget {
   const TaskDashboardCard(
-      {Key? key, this.title, this.count, required this.customPainter, this.titleColor, this.titleAsset, this.onTap})
-      : super(key: key);
+      {super.key, this.title, this.count, required this.customPainter, this.titleColor, this.titleAsset, this.onTap});
   final String? title, count, titleAsset;
   final CustomPainter? customPainter;
   final Color? titleColor;
@@ -27,7 +26,7 @@ class TaskDashboardCard extends StatelessWidget {
                   right: 0,
                   child: TaskStatusCard(
                     image: titleAsset!,
-                    title: title ?? "",
+                    title: title,
                     textColor: titleColor ?? Colors.black,
                   )),
               CustomPaint(
