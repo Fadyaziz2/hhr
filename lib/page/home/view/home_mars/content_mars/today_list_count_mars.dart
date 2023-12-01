@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/widgets/dynamic_image_viewer.dart';
 
 class TodayListCountMars extends StatelessWidget {
   const TodayListCountMars(
@@ -16,10 +17,7 @@ class TodayListCountMars extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Image.network(
-            image ?? '',
-            height: 40,
-          ),
+          DynamicImageViewer(image:  image ?? "",height: 35,width: 35,),
           const SizedBox(
             width: 8,
           ),
