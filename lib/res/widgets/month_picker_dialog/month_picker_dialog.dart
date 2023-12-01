@@ -65,12 +65,12 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
   void initState() {
     super.initState();
     selectedDate = DateTime(widget.initialDate!.year, widget.initialDate!.month);
-    if (widget.firstDate != null) {
-      _firstDate = DateTime(widget.firstDate!.year, widget.firstDate!.month);
-    }
-    if (widget.lastDate != null) {
-      _lastDate = DateTime(widget.lastDate!.year, widget.lastDate!.month);
-    }
+    // if (widget.firstDate != null) {
+    //   _firstDate = DateTime(widget.firstDate!.year, widget.firstDate!.month);
+    // }
+    // if (widget.lastDate != null) {
+    //   _lastDate = DateTime(widget.lastDate!.year, widget.lastDate!.month);
+    // }
 
     _upDownPageLimitPublishSubject = PublishSubject();
     _upDownButtonEnableStatePublishSubject = PublishSubject();

@@ -1413,9 +1413,9 @@ class MetaClubApiClient {
   }
 
   /// ===================== Meeting List ========================
-  Future<MeetingsListModel?> getMeetingList() async {
+  Future<MeetingsListModel?> getMeetingList(String? month) async {
     const String api = 'meeting';
-    final data = {"month": "11/2023"};
+    final data = {"month": month};
     try {
       final response =
       await _httpServiceImpl.postRequest('$_baseUrl$api',data);
