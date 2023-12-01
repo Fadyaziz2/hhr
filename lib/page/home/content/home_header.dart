@@ -10,7 +10,6 @@ import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
-
 class HomeHeader extends StatelessWidget {
   final Settings? settings;
   final LoginData? user;
@@ -38,10 +37,22 @@ class HomeHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10.0.h,),
-            Align(alignment: Alignment.bottomRight,child: CupertinoSwitch(value: context.read<HomeBloc>().state.isSwitched, onChanged: (_){
-              context.read<HomeBloc>().add(OnSwitchPressed(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
-            })),
+            SizedBox(
+              height: 10.0.h,
+            ),
+            Align(
+                alignment: Alignment.bottomRight,
+                child: CupertinoSwitch(
+                    value: context.read<HomeBloc>().state.isSwitched,
+                    onChanged: (_) {
+                      context.read<HomeBloc>().add(OnSwitchPressed(
+                          user: context
+                              .read<AuthenticationBloc>()
+                              .state
+                              .data
+                              ?.user,
+                          locationProvider: locationServiceProvider));
+                    })),
             Row(
               children: [
                 Expanded(
@@ -89,7 +100,8 @@ class HomeHeader extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    if (settings?.data?.timeWish != null || dashboardModel?.data?.config?.timeWish != null)
+                    if (settings?.data?.timeWish != null ||
+                        dashboardModel?.data?.config?.timeWish != null)
                       SvgPicture.network(
                         settings?.data?.timeWish?.image ??
                             dashboardModel?.data?.config?.timeWish?.image ??
@@ -98,7 +110,7 @@ class HomeHeader extends StatelessWidget {
                         height: 60,
                         width: 60,
                         placeholderBuilder: (BuildContext context) =>
-                        const SizedBox(),
+                            const SizedBox(),
                       ),
                   ],
                 ),
@@ -133,7 +145,8 @@ class HomeHeader extends StatelessWidget {
                 dashboardModel?.data?.today?.length ?? 0,
                 (index) => EventCard(
                   data: dashboardModel?.data?.today![index],
-                  onPressed: () => null,
+                  onPressed: () => context.read<HomeBloc>().routeSlug(
+                      dashboardModel?.data?.today![index].slug, context),
                 ),
               )),
             ),

@@ -16,9 +16,9 @@ class TodayListCountMars extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Image.asset(
-            image ?? "assets/images/placeholder_image.png",
-            height: 60,
+          Image.network(
+            image ?? '',
+            height: 40,
           ),
           const SizedBox(
             width: 8,
@@ -37,6 +37,7 @@ class TodayListCountMars extends StatelessWidget {
                 ),
                 Text(
                   title ?? "",
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.black, fontSize: 12),
                 ),
