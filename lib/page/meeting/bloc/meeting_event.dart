@@ -6,12 +6,12 @@ abstract class MeetingEvent extends Equatable {
 }
 
 class MeetingListEvent extends MeetingEvent {
-  final String? date;
+  final String date;
 
-  MeetingListEvent({this.date});
+  MeetingListEvent({required this.date});
 
   @override
-  List<Object> get props => [date!];
+  List<Object> get props => [date];
 }
 
 class SelectDatePicker extends MeetingEvent {
@@ -52,4 +52,18 @@ class SelectEndTime extends MeetingEvent {
 
   @override
   List<Object> get props => [];
+}
+
+class CreateMeetingEvent extends MeetingEvent {
+  final MeetingBodyModel bodyCreateMeeting;
+  final BuildContext context;
+  final String date;
+
+  CreateMeetingEvent(
+      {required this.context,
+      required this.bodyCreateMeeting,
+      required this.date});
+
+  @override
+  List<Object> get props => [bodyCreateMeeting, date];
 }

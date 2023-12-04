@@ -10,6 +10,8 @@ class PhoneBookState extends Equatable {
   final Department? designations;
   final PhoneBookDetailsModel? phoneBookDetails;
 
+  final bool isMultiSelectionEnabled;
+
   const PhoneBookState(
       {this.phoneBookUsers,
       this.status = NetworkStatus.initial,
@@ -18,6 +20,7 @@ class PhoneBookState extends Equatable {
       this.pageCount = 1,
       this.departments,
       this.designations,
+      this.isMultiSelectionEnabled = false,
       this.phoneBookDetails});
 
   PhoneBookState copyWith(
@@ -28,6 +31,7 @@ class PhoneBookState extends Equatable {
       int? pageCount,
       Department? departments,
       Department? designations,
+      bool? isMultiSelectionEnabled,
       PhoneBookDetailsModel? phoneBookDetails}) {
     return PhoneBookState(
         phoneBookUsers: phoneBookUsers ?? this.phoneBookUsers,
@@ -37,6 +41,8 @@ class PhoneBookState extends Equatable {
         pageCount: pageCount ?? this.pageCount,
         departments: departments ?? this.departments,
         designations: designations ?? this.designations,
+        isMultiSelectionEnabled:
+            isMultiSelectionEnabled ?? this.isMultiSelectionEnabled,
         phoneBookDetails: phoneBookDetails ?? this.phoneBookDetails);
   }
 
@@ -48,6 +54,7 @@ class PhoneBookState extends Equatable {
         refreshStatus,
         departments,
         designations,
-        phoneBookDetails
+        phoneBookDetails,
+        isMultiSelectionEnabled
       ];
 }

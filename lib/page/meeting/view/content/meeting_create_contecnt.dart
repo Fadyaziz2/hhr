@@ -5,6 +5,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/attachment_content.dart';
 import 'package:onesthrm/page/meeting/view/content/meeting_time_cart.dart';
+import 'package:onesthrm/page/multi_selection_employee/multi_selection_employee_page.dart';
 
 import '../../../../res/common_text_widget.dart';
 
@@ -84,6 +85,33 @@ class MeetingCreateContent extends StatelessWidget {
           height: 25,
         ),
         MeetingTimeCart(meetingState: state),
+        const SizedBox(
+          height: 26,
+        ),
+        Card(
+          child: ListTile(
+            onTap: () async {
+              PhoneBookUser employee = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const MultiSelectionEmployee(),
+                  ));
+              // // ignore: use_build_context_synchronously
+              // context
+              //     .read<LeaveBloc>()
+              // // ignore: use_build_context_synchronously
+              //     .add(SelectEmployee(employee));
+            },
+            title: Text(
+                tr("Add Meeting Member")),
+            leading: const CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+            ),
+            trailing: const Icon(Icons.add),
+          ),
+        ),
         const SizedBox(
           height: 26,
         ),

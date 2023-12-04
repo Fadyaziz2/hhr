@@ -12,6 +12,14 @@ class PhoneBookLoadRequest extends PhoneBookEvent {
   List<Object?> get props => [];
 }
 
+class IsMultiSelectionEnabled extends PhoneBookEvent {
+  final bool? isMultiSelectionEnabled;
+  IsMultiSelectionEnabled(this.isMultiSelectionEnabled);
+
+  @override
+  List<Object?> get props => [isMultiSelectionEnabled];
+}
+
 class PhoneBookSearchData extends PhoneBookEvent {
   final String? searchText;
   final int? pageCount;

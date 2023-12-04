@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../res/enum.dart';
 
 part 'phonebook_event.dart';
+
 part 'phonebook_state.dart';
 
 enum PullStatus { idle, loading, loaded }
@@ -25,6 +26,7 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
     on<DirectPhoneCall>(_onDirectPhoneCall);
     on<DirectMessage>(_onDirectMessage);
     on<DirectMailTo>(_onDirectMailTo);
+    on<IsMultiSelectionEnabled>(_onIsMultiSelectionEnabled);
   }
 
   FutureOr<void> _onPhoneBookDataRequest(
@@ -161,5 +163,10 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
       },
     );
     launchUrl(emailLaunchUri);
+  }
+
+  FutureOr<void> _onIsMultiSelectionEnabled(
+      IsMultiSelectionEnabled event, Emitter<PhoneBookState> emit) {
+    emit(state.copyWith(isMultiSelectionEnabled: event.isMultiSelectionEnabled));
   }
 }

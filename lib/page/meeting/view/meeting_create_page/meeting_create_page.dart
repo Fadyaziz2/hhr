@@ -7,6 +7,7 @@ import 'package:onesthrm/page/meeting/view/content/meeting_create_contecnt.dart'
 
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
+import '../../../leave/view/content/leave_list_shimmer.dart';
 
 class MeetingCreatePage extends StatelessWidget {
   const MeetingCreatePage({super.key});
@@ -14,46 +15,54 @@ class MeetingCreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-  MeetingBodyModel meetingBodyModel =  MeetingBodyModel();
-    return Scaffold(
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(0)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocBuilder<MeetingBloc,MeetingState>(
-            builder: (context,state){
-              return CustomButton(
-                title: "Create Meeting".tr(),
-                padding: 16,
-                clickButton: () {
-                  meetingBodyModel.startAt = state.startTime;
-                  meetingBodyModel.endAt = state.endTime;
-                  meetingBodyModel.date = state.currentMonthSchedule;
-                  print(meetingBodyModel.toJson());
+    MeetingBodyModel meetingBodyModel = MeetingBodyModel();
+    return Form(
+      key: formKey,
+      child: Scaffold(
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocBuilder<MeetingBloc, MeetingState>(
+                builder: (context, state) {
+                  return CustomButton(
+                    title: "Create Meeting".tr(),
+                    padding: 16,
+                    isLoading: state.status == NetworkStatus.loading,
+                    clickButton: () {
+                      final currentDate =
+                          DateFormat('y-MM').format(DateTime.now());
+                      if (formKey.currentState!.validate() &&
+                          state.status == NetworkStatus.success) {
+                        meetingBodyModel.startAt = state.startTime;
+                        meetingBodyModel.endAt = state.endTime;
+                        meetingBodyModel.date = state.currentMonthSchedule;
+                        context.read<MeetingBloc>().add(CreateMeetingEvent(
+                            bodyCreateMeeting: meetingBodyModel,
+                            date: currentDate,
+                            context: context));
+                      }
+                    },
+                  );
                 },
-              );
-            },
-          )
+              )),
         ),
-      ),
-      appBar: AppBar(
-        title: const Text("Meeting Create"),
-      ),
-      body: BlocBuilder<MeetingBloc,MeetingState>(
-        builder: (context,state) {
-          if (state.status == NetworkStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if( state.status == NetworkStatus.success){
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: formKey,
+        appBar: AppBar(
+          title: const Text("Meeting Create"),
+        ),
+        body: BlocBuilder<MeetingBloc, MeetingState>(
+          builder: (context, state) {
+            if (state.status == NetworkStatus.loading) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: LeaveListShimmer(),
+              );
+            } else if (state.status == NetworkStatus.success) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,15 +71,14 @@ class MeetingCreatePage extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            );
-          } else if(state.status == NetworkStatus.failure) {
-            return const Center(
-                child: Text('Failed to load  list'));
-          }else  {
-            return const SizedBox();
-          }
-        },
+              );
+            } else if (state.status == NetworkStatus.failure) {
+              return const Center(child: Text('Failed to load  list'));
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
