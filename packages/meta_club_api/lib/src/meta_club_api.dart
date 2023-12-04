@@ -178,9 +178,9 @@ class MetaClubApiClient {
     const String api = 'user/leave/summary';
 
     try {
-      FormData formData = FormData.fromMap({
+      final formData = {
         "user_id": userId,
-      });
+      };
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 

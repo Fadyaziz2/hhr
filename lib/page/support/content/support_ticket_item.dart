@@ -16,7 +16,7 @@ class SupportTicketItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavUtil.replaceScreen(
+        NavUtil.navigateScreen(
             context,
             SupportDetails(
               supportModel: supportModel,

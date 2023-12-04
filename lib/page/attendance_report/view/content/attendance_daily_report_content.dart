@@ -6,11 +6,15 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
 import 'package:user_repository/user_repository.dart';
 
+import '../../../../res/shimmers.dart';
 import '../../bloc/bloc.dart';
 
 class AttendanceDailyReportContent extends StatelessWidget {
   const AttendanceDailyReportContent(
-      {Key? key, required this.bloc, required this.user, required this.settings})
+      {Key? key,
+      required this.bloc,
+      required this.user,
+      required this.settings})
       : super(key: key);
   final AttendanceReportBloc bloc;
   final LoginData user;
@@ -18,7 +22,8 @@ class AttendanceDailyReportContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listOfDailyReport = bloc.state.attendanceReport?.reportData?.dailyReport;
+    final listOfDailyReport =
+        bloc.state.attendanceReport?.reportData?.dailyReport;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -34,15 +39,32 @@ class AttendanceDailyReportContent extends StatelessWidget {
             height: 20,
           ),
 
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: listOfDailyReport?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) {
-              final data = listOfDailyReport?[index];
-              return DailyReportListTile(dailyReport: data!, settings: settings,);
-            },
-          ),
+          listOfDailyReport != null
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: listOfDailyReport.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final data = listOfDailyReport[index];
+                    return DailyReportListTile(
+                      dailyReport: data,
+                      settings: settings,
+                    );
+                  },
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: TileShimmer(
+                        titleHeight: 30,
+                        isSubTitle: true,
+                      ),
+                    );
+                  },
+                ),
 
           /// Bottom =========================
 

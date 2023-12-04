@@ -19,6 +19,6 @@ class SelectDatePicker extends PayrollEvent {
   SelectDatePicker(this.context);
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 

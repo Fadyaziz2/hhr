@@ -33,47 +33,50 @@ class EmployeeLeaveHistory extends StatelessWidget {
               )
             ],
           ),
-          body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () async {
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SelectEmployeePage(),
-                        )).then((value) {
-                      if (value != null) {
-
-                        context
-                            .read<LeaveReportBloc>()
-                            .add(SelectLeaveEmployee(value));
-                      }
-                    });
-                  },
-                  title: Text(
-                      context
-                          .watch<LeaveReportBloc>()
-                          .state.selectedEmployee
-                          ?.name  ?? user!.user!.name!),
-                  leading: const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+          body: SingleChildScrollView(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SelectEmployeePage(),
+                          )).then((value) {
+                        if (value != null) {
+                          context
+                              .read<LeaveReportBloc>()
+                              .add(SelectLeaveEmployee(value));
+                        }
+                      });
+                    },
+                    title: Text(context
+                            .watch<LeaveReportBloc>()
+                            .state
+                            .selectedEmployee
+                            ?.name ??
+                        user!.user!.name!),
+                    leading: const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                    ),
+                    trailing: const Icon(Icons.search),
                   ),
-                  trailing: const Icon(Icons.search),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            const LeaveInfoContent(),
-            const SizedBox(
-              height: 12,
-            ),
-            const LeaveReportList()
-          ]));
+              const SizedBox(
+                height: 8,
+              ),
+              const LeaveInfoContent(),
+              const SizedBox(
+                height: 12,
+              ),
+              const LeaveReportList()
+            ]),
+          ));
     });
   }
 }

@@ -187,7 +187,7 @@ class BreakStatus {
   String? diffTime;
 
   factory BreakStatus.fromJson(Map<String, dynamic> json) => BreakStatus(
-      date: json["date"] != null ? DateTime.parse(json["date"]) : null,
+      date: json["date"] != null ? DateTime.tryParse(json["date"]) : null,
       breakTime: json["break_time"],
       backTime: json["back_time"],
       status: json["status"],

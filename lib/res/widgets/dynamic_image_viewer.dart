@@ -8,20 +8,22 @@ class DynamicImageViewer extends StatelessWidget {
   final double height;
   final double width;
 
-  const DynamicImageViewer({super.key, required this.image,this.width = 25.0,this.height = 25.0});
+  const DynamicImageViewer(
+      {super.key, required this.image, this.width = 25.0, this.height = 25.0});
 
   @override
   Widget build(BuildContext context) {
     return image.contains('svg') == true
         ? SvgPicture.network(
             image,
-            height: 25,
-            width: 25,
+            height: height,
+            width: width,
             color: colorPrimary,
-          ) : CachedNetworkImage(
+          )
+        : CachedNetworkImage(
             imageUrl: image,
-            height: 25,
-            width: 25,
+            height: height,
+            width: width,
           );
   }
 }

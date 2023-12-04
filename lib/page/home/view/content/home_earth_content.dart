@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/home/content/home_bottom.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';

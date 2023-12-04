@@ -19,8 +19,8 @@ class TaskDashboardCardList extends StatelessWidget {
           children: [
             TaskDashboardCard(
               customPainter: TotalTaskCustomPainter(),
-              title: staticsData?[0].text ?? '',
-              count: '${staticsData?[0].count ?? ''}',
+              title: staticsData?[0].text,
+              count: staticsData?[0].count.toString(),
               titleAsset: "assets/task/task.png",
               titleColor: const Color(0xffD8808F),
             ),
@@ -29,8 +29,8 @@ class TaskDashboardCardList extends StatelessWidget {
             ),
             TaskDashboardCard(
               customPainter: TotalCompleteTaskCustomPainter(),
-              title: staticsData?[1].text ?? '',
-              count: '${staticsData?[1].count ?? ''}',
+              title: staticsData?[1].text,
+              count: staticsData?[1].count.toString(),
               titleAsset: "assets/task/complete_task.png",
               titleColor: const Color(0xff80C090),
             ),
@@ -40,8 +40,8 @@ class TaskDashboardCardList extends StatelessWidget {
           children: [
             TaskDashboardCard(
               customPainter: TotalTaskInProgressCustomPainter(),
-              title: staticsData?[2].text ?? '',
-              count: '${staticsData?[2].count ?? ''}',
+              title: staticsData?[2].text,
+              count: staticsData?[2].count.toString(),
               titleAsset: "assets/task/task_in_progress.png",
               titleColor: const Color(0xffD3B980),
             ),
@@ -50,8 +50,8 @@ class TaskDashboardCardList extends StatelessWidget {
             ),
             TaskDashboardCard(
               customPainter: TotalTaskInReviewCustomPainter(),
-              title: staticsData?[3].text ?? '',
-              count: '${staticsData?[3].count ?? ''}',
+              title: staticsData?[3].text,
+              count: staticsData?[3].count.toString(),
               titleAsset: "assets/task/task_in_review.png",
               titleColor: const Color(0xff80BBC3),
             ),
