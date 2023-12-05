@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -17,6 +17,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   final AuthenticationRepository _authenticationRepository;
   final ChatService _chatService;
+  final formKey = GlobalKey<FormState>();
 
   LoginBloc(
       {required AuthenticationRepository authenticationRepository, required ChatService chatService})

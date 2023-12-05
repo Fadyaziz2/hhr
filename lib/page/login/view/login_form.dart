@@ -14,10 +14,8 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final formKey = GlobalKey<FormState>();
-
     return Form(
-      key: formKey,
+      key: context.read<LoginBloc>().formKey,
       child: Center(
         child: BlocListener<LoginBloc, LoginState>(
           listenWhen: (oldState,newState) => oldState != newState,
@@ -55,7 +53,7 @@ class LoginForm extends StatelessWidget {
                   const SizedBox(
                     height: 32.0,
                   ),
-                  _LoginButton(formState: formKey.currentState,),
+                  _LoginButton(),
                   const SizedBox(height: 16,),
                 ],
               ),
@@ -140,9 +138,7 @@ class _PasswordInput extends StatelessWidget {
 
 class _LoginButton extends StatelessWidget {
 
-  final FormState? formState;
-
-  const _LoginButton({required this.formState});
+  const _LoginButton();
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +151,7 @@ class _LoginButton extends StatelessWidget {
                 height: 45.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    if(formState?.validate() == true){
+                    if(context.read<LoginBloc>().formKey.currentState?.validate() == true){
                       context.read<LoginBloc>().add(const LoginSubmit());
                     }
                   },
