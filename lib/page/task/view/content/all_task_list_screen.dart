@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
@@ -6,16 +7,16 @@ import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../task.dart';
 
 class AllTaskListScreen extends StatelessWidget {
-  const AllTaskListScreen({Key? key, this.taskCollection, required this.bloc})
-      : super(key: key);
+  const AllTaskListScreen({super.key, this.taskCollection});
+
   final List<TaskCollection>? taskCollection;
-  final TaskBloc bloc;
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<TaskBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Task'),
+        title: Text('All ${bloc.state.taskSelectedDropdownValue?.title ?? ''} Task'),
       ),
       body: taskCollection?.isNotEmpty == true
           ? ListView.builder(

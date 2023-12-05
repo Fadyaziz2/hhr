@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:onesthrm/res/shimmers.dart';
 
 class TaskStatusCard extends StatelessWidget {
-  const TaskStatusCard({Key? key, this.title, this.image, this.textColor})
-      : super(key: key);
+  const TaskStatusCard({super.key, this.title, this.image, this.textColor});
 
   final String? title, image;
   final Color? textColor;
@@ -34,13 +34,13 @@ class TaskStatusCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              title ?? "",
+            title != null ? Text(
+              title!,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: textColor ?? Colors.black,
                   fontSize: 16),
-            )
+            ) : const RectangularCardShimmer(height: 10,)
           ],
         ),
       ),

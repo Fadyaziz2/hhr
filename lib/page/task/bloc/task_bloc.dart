@@ -16,7 +16,7 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final MetaClubApiClient metaClubApiClient;
 
-  TaskBloc({required this.metaClubApiClient}) : super(const TaskState(status: NetworkStatus.initial)) {
+  TaskBloc({required this.metaClubApiClient}) : super( TaskState(status: NetworkStatus.initial, taskSelectedDropdownValue: statusList.first)) {
     on<TaskInitialDataRequest>(_onTaskInitialDataRequest);
     on<TaskSetDropdownValue>(_onTaskSetDropdownValue);
     on<TaskDetailsStatusRadioValueSet>(_onTaskDetailsStatusRadioValueSet);

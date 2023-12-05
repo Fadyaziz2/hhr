@@ -25,7 +25,7 @@ class TodaySummeryListNeptune extends StatelessWidget {
             children: [
               InkWell(
                 onTap: (){
-                  // provider?.getRoutSlag(context, provider?.todayData?[index].slug);
+                  context.read<HomeBloc>().routeSlug(data?.slug, context);
                 },
                 child: Column(
                   children: [

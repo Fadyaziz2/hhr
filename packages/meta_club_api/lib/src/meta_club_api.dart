@@ -178,9 +178,9 @@ class MetaClubApiClient {
     const String api = 'user/leave/summary';
 
     try {
-      FormData formData = FormData.fromMap({
+      final formData = {
         "user_id": userId,
-      });
+      };
       final response =
           await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
@@ -226,12 +226,13 @@ class MetaClubApiClient {
       return null;
     }
   }
+
   Future<LeaveReportTypeWiseSummary?> getLeaveSummaryTypeWise(data) async {
     const String api = 'report/leave/date-wise-leave';
 
     try {
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
       if (response.statusCode == 200) {
         return LeaveReportTypeWiseSummary.fromJson(response.data);
       }
@@ -313,8 +314,7 @@ class MetaClubApiClient {
   }
 
   /// Cancel State and change status throw this one API
-  Future<bool> cancelVisitApi(
-      {BodyVisitCancel? bodyVisitCancel}) async {
+  Future<bool> cancelVisitApi({BodyVisitCancel? bodyVisitCancel}) async {
     const String api = 'visit/change-status';
 
     if (kDebugMode) {
@@ -323,7 +323,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyVisitCancel!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -345,7 +345,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyCreateSchedule!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -356,7 +356,7 @@ class MetaClubApiClient {
     }
   }
 
-  FutureOr<bool> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async{
+  FutureOr<bool> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async {
     const String api = 'visit/image-upload';
     if (kDebugMode) {
       print(bodyImageUpload?.toJson());
@@ -364,7 +364,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyImageUpload!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
       if (response.statusCode == 200) {
         return true;
       }
@@ -375,8 +375,7 @@ class MetaClubApiClient {
   }
 
   /// Update Visit API
-  Future<bool> updateVisitApi(
-      {BodyUpdateVisit? bodyUpdateVisit}) async {
+  Future<bool> updateVisitApi({BodyUpdateVisit? bodyUpdateVisit}) async {
     const String api = 'visit/update';
 
     if (kDebugMode) {
@@ -385,7 +384,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyUpdateVisit!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -397,8 +396,7 @@ class MetaClubApiClient {
   }
 
   /// create Visit Note API
-  Future<bool> visitCreateNoteApi(
-      {BodyVisitNote? bodyVisitNote}) async {
+  Future<bool> visitCreateNoteApi({BodyVisitNote? bodyVisitNote}) async {
     const String api = 'visit/create-note';
 
     if (kDebugMode) {
@@ -407,7 +405,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyVisitNote!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -419,8 +417,7 @@ class MetaClubApiClient {
   }
 
   /// create Visit API
-  Future<bool> createVisitApi(
-      {BodyCreateVisit? bodyCreateVisit}) async {
+  Future<bool> createVisitApi({BodyCreateVisit? bodyCreateVisit}) async {
     const String api = 'visit/create';
 
     if (kDebugMode) {
@@ -429,7 +426,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
 
       if (response.statusCode == 200) {
         return true;
@@ -1365,11 +1362,11 @@ class MetaClubApiClient {
 
   /// Visit Details API
   Future<VisitDetailsModel?> getVisitDetailsApi(int? visitID) async {
-     String api = 'visit/show/$visitID';
+    String api = 'visit/show/$visitID';
 
     try {
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return VisitDetailsModel.fromJson(response?.data);
       }
@@ -1412,16 +1409,14 @@ class MetaClubApiClient {
     }
   }
 
-
-
   /// ================== Approval Details====================
-  Future<ApprovalDetailsModel?> getApprovalListDetails({required String approvalId, required String approvalUserId}) async {
+  Future<ApprovalDetailsModel?> getApprovalListDetails(
+      {required String approvalId, required String approvalUserId}) async {
     String api = 'user/leave/details/$approvalId';
-    final data = {
-      "user_id" : approvalUserId
-    };
+    final data = {"user_id": approvalUserId};
     try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
 
       if (response.statusCode != 200) {
         throw NetworkRequestFailure(response.statusMessage ?? 'server error');
@@ -1433,13 +1428,16 @@ class MetaClubApiClient {
   }
 
   /// ================== Action Approval Approved or Reject ====================
-  Future approvalApprovedOrReject({required String approvalId, required int type}) async {
+  Future approvalApprovedOrReject(
+      {required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
 
       if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
+        throw NetworkRequestFailure(
+            response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
     } catch (_) {
