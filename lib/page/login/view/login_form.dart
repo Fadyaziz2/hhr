@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../bloc/login_bloc.dart';
+import '../models/email.dart';
+import '../models/password.dart';
 
 class LoginForm extends StatelessWidget {
 
@@ -12,49 +14,51 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Center(
-      child: BlocListener<LoginBloc, LoginState>(
-        listenWhen: (oldState,newState) => oldState != newState,
-        listener: (context, state) {
-          if (state.status.isFailure) {
-             showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
-          }
-          if(state.status.isCanceled){
-             showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
-          }
-          if(state.status.isSuccess){
-            showLoginDialog(context: context,isSuccess: true,message: '${state.user?.user?.name}',body: 'Authentication Successful');
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                Center(
-                    child: Image.asset(
-                      "assets/images/app_icon.png",
-                      height: 130,
-                      width: 130,
-                    )),
-                const SizedBox(
-                  height: 32.0,
-                ),
-                const _EmailInput(),
-                const SizedBox(
-                  height: 18.0,
-                ),
-                const _PasswordInput(),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                const _LoginButton(),
-                const SizedBox(height: 16,),
-              ],
+    final formKey = GlobalKey<FormState>();
+
+    return Form(
+      key: formKey,
+      child: Center(
+        child: BlocListener<LoginBloc, LoginState>(
+          listenWhen: (oldState,newState) => oldState != newState,
+          listener: (context, state) {
+            if (state.status.isFailure) {
+               showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
+            }
+            if(state.status.isCanceled){
+               showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
+            }
+            if(state.status.isSuccess){
+              showLoginDialog(context: context,isSuccess: true,message: '${state.user?.user?.name}',body: 'Authentication Successful');
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                children: [
+                  Center(
+                      child: Image.asset(
+                        "assets/images/app_icon.png",
+                        height: 130.0,
+                        width: 130.0,
+                      )),
+                  const SizedBox(
+                    height: 55.0,
+                  ),
+                  const _EmailInput(),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  const _PasswordInput(),
+                  const SizedBox(
+                    height: 32.0,
+                  ),
+                  _LoginButton(formState: formKey.currentState,),
+                  const SizedBox(height: 16,),
+                ],
+              ),
             ),
           ),
         ),
@@ -64,16 +68,18 @@ class LoginForm extends StatelessWidget {
 }
 
 class _EmailInput extends StatelessWidget {
+
   const _EmailInput();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           key: const Key('email_text_field'),
-          onChanged: (phone) =>
-              context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
+          onChanged: (phone) => context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
+          validator: (value) => state.email.validator(value ?? '')?.text(),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
             labelText: 'Email',
             fillColor: Colors.white,
@@ -98,11 +104,14 @@ class _PasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           key: const Key('password_text_field'),
           onChanged: (password) => context
               .read<LoginBloc>()
               .add(LoginPasswordChange(password: password)),
+          validator: (value) => state.password.validator(value ?? '')?.text(),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: state.isObscure,
           decoration: InputDecoration(
             labelText: 'Password',
             fillColor: Colors.white,
@@ -111,12 +120,12 @@ class _PasswordInput extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
             suffixIcon: IconButton(
-              icon: const Icon(
-                Icons.visibility_off,
+              icon: Icon(
+               state.isObscure ?  Icons.visibility_off: Icons.visibility,
                 color: colorPrimary,
               ),
               onPressed: () {
-
+                context.read<LoginBloc>().add(const OnObscureEvent());
               },
             ),
             prefixIcon: const Icon(Icons.password),
@@ -130,7 +139,10 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  const _LoginButton();
+
+  final FormState? formState;
+
+  const _LoginButton({required this.formState});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +155,9 @@ class _LoginButton extends StatelessWidget {
                 height: 45.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<LoginBloc>().add(const LoginSubmit());
+                    if(formState?.validate() == true){
+                      context.read<LoginBloc>().add(const LoginSubmit());
+                    }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                   child: const Text('Login',style: TextStyle(color: Colors.white),),
@@ -151,5 +165,23 @@ class _LoginButton extends StatelessWidget {
               );
       },
     );
+  }
+}
+
+extension on PhoneValidationError{
+  String text(){
+    switch(this){
+      case PhoneValidationError.empty:
+        return 'Please enter on email';
+    }
+  }
+}
+
+extension on PasswordValidationError{
+  String text(){
+    switch(this){
+      case PasswordValidationError.empty:
+        return 'Please enter on phone';
+    }
   }
 }

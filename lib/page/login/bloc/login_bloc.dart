@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -5,7 +7,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../models/password.dart';
-import '../models/phone.dart';
+import '../models/email.dart';
 
 part 'login_event.dart';
 
@@ -24,6 +26,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     on<LoginEmailChange>(_onEmailUpdate);
     on<LoginPasswordChange>(_onPasswordUpdate);
     on<LoginSubmit>(_onLoginSubmitted);
+    on<OnObscureEvent>(_onObscureEvent);
   }
 
   void _onEmailUpdate(LoginEmailChange event, Emitter<LoginState> emit) {
@@ -83,5 +86,9 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     return <String, dynamic>{
       'data': state.user != null ? state.user!.toJson() : null
     };
+  }
+
+  FutureOr<void> _onObscureEvent(OnObscureEvent event, Emitter<LoginState> emit) {
+    emit(state.copyWith(isObscure: !state.isObscure));
   }
 }

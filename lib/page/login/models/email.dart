@@ -2,11 +2,10 @@ import 'package:formz/formz.dart';
 
 enum PhoneValidationError { empty }
 
-
 class Email extends FormzInput<String, PhoneValidationError>{
 
   const Email.pure() : super.pure('');
-  const Email.dirty([String value = '']) : super.dirty(value);
+  const Email.dirty([super.value = '']) : super.dirty();
 
   @override
   PhoneValidationError? validator(String value) {

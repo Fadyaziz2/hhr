@@ -28,6 +28,10 @@ class LoginPasswordChange extends LoginEvent{
   List<Object?> get props => [password];
 }
 
+class OnObscureEvent extends LoginEvent{
+  const OnObscureEvent();
+}
+
 class LoginSubmit extends LoginEvent{
   const LoginSubmit();
 }
