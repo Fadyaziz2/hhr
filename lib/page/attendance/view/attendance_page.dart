@@ -11,7 +11,7 @@ class AttendancePage extends StatelessWidget {
   const AttendancePage({super.key, required this.homeBloc});
 
   static Route route({required HomeBloc homeBloc}) {
-    return MaterialPageRoute(builder: (_) => AttendancePage(homeBloc: homeBloc,));
+    return MaterialPageRoute(builder: (_) => BlocProvider.value(value: homeBloc,child: AttendancePage(homeBloc: homeBloc,)));
   }
 
   @override
@@ -23,8 +23,8 @@ class AttendancePage extends StatelessWidget {
       create: (BuildContext context) => AttendanceBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
           locationServices: locationServiceProvider)..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
-      child: Scaffold(
-        body: AttendanceView(homeBloc: homeBloc),
+      child: const Scaffold(
+        body: AttendanceView(),
       ),
     );
   }

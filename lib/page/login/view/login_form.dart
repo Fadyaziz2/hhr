@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:location_track/location_track.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
 
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class LoginForm extends StatelessWidget {
 }
 
 class _EmailInput extends StatelessWidget {
-  const _EmailInput({Key? key}) : super(key: key);
+  const _EmailInput();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +92,7 @@ class _EmailInput extends StatelessWidget {
 }
 
 class _PasswordInput extends StatelessWidget {
-  const _PasswordInput({Key? key}) : super(key: key);
+  const _PasswordInput();
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +130,7 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  const _LoginButton({Key? key}) : super(key: key);
+  const _LoginButton();
 
   @override
   Widget build(BuildContext context) {

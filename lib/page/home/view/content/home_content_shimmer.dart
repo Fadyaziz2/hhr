@@ -3,7 +3,8 @@ import '../../../../res/const.dart';
 import '../../../../res/shimmers.dart';
 
 class HomeContentShimmer extends StatelessWidget {
-  const HomeContentShimmer({Key? key}) : super(key: key);
+
+  const HomeContentShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
