@@ -38,8 +38,7 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
@@ -92,6 +91,9 @@ class BreakContentState extends State<BreakContent>
           print("detached");
         }
         break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
+        break;
     }
   }
 
@@ -100,6 +102,9 @@ class BreakContentState extends State<BreakContent>
     final user = context.read<AuthenticationBloc>().state.data;
     final dashboard = widget.homeBloc.state.dashboardModel;
 
+    if(dashboard != null){
+      context.read<BreakBloc>().add(OnInitialHistoryEvent(breaks: dashboard.data!.breakHistory?.breakHistory?.todayHistory));
+    }
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -195,8 +200,6 @@ class BreakContentState extends State<BreakContent>
                     context.read<BreakBloc>().add(OnBreakBackEvent());
                   },
                 ),
-                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
-                    null)
                   const Text(
                     "Last Breaks",
                     style: TextStyle(
@@ -204,31 +207,23 @@ class BreakContentState extends State<BreakContent>
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
-                if (state.breakBack?.data?.breakBackHistory?.todayHistory != null)
+                if (state.breakReportModel?.data?.breakHistory?.todayHistory != null)...[
                   const SizedBox(height: 20.0),
-                if (state.breakBack?.data?.breakBackHistory?.todayHistory != null)
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
 
-                        TodayHistory? todayHistory = state.breakBack?.data?.breakBackHistory?.todayHistory?.elementAt(index);
+                        BreakTodayHistory? todayHistory = state.breakReportModel?.data?.breakHistory?.todayHistory?.elementAt(index);
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              width: 100,
+                            Expanded(
                               child: Text(
                                 todayHistory?.breakTimeDuration ?? "",
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.center,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
                             ),
                             Container(
                               height: 40,
@@ -238,87 +233,73 @@ class BreakContentState extends State<BreakContent>
                                   : colorPrimary,
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 35.0,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  todayHistory?.reason ?? "",
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(todayHistory?.breakBackTime ?? ""),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    todayHistory?.reason ?? "",
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(todayHistory?.breakBackTime ?? ""),
+                                ],
+                              ),
                             )
                           ],
                         );
                       },
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                      itemCount: dashboard?.data?.breakHistory?.breakHistory
-                              ?.todayHistory!.length ??
-                          0),
-                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
-                    null)
-                  const SizedBox(height: 20.0),
-                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
-                        null &&
-                    state.breakBack?.data?.breakBackHistory?.todayHistory ==
-                        null)
-                  ListView.separated(
+                      separatorBuilder: (context, index) {return const Divider();},
+                      itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory!.length ?? 0),
+                  const Divider(),
+                ],
+                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)const SizedBox(height: 8.0),
+                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        TodayHistory? todayHistory = dashboard
-                            ?.data?.breakHistory?.breakHistory?.todayHistory!
-                            .elementAt(index);
+
+                        TodayHistory? todayHistory = dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.elementAt(index);
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              width: 100,
+                            Expanded(
                               child: Text(
                                 todayHistory?.breakTimeDuration ?? "",
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.center,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
                             ),
                             Container(
                               height: 40,
                               width: 3,
-                              color: globalState.get(breakStatus) == 'break_in'
-                                  ? const Color(0xFFE8356C)
-                                  : colorPrimary,
+                              color: globalState.get(breakStatus) == 'break_in' ? const Color(0xFFE8356C) : colorPrimary,
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 35.0,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  todayHistory?.reason ?? "",
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(todayHistory?.breakBackTime ?? ""),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    todayHistory?.reason ?? "",
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(todayHistory?.breakBackTime ?? ""),
+                                ],
+                              ),
                             )
                           ],
                         );
