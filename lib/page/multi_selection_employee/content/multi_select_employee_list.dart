@@ -14,8 +14,8 @@ class MultiSelectEmployeeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RefreshController refreshController =
-    RefreshController(initialRefresh: false);
+
+    RefreshController refreshController = RefreshController(initialRefresh: false);
 
     return BlocListener<PhoneBookBloc, PhoneBookState>(
       listenWhen: (oldState, newState) => oldState != newState,
@@ -26,18 +26,16 @@ class MultiSelectEmployeeList extends StatelessWidget {
       },
       child: BlocBuilder<PhoneBookBloc, PhoneBookState>(
           builder: (context, state) {
-              return state.phoneBookUsers?.isNotEmpty == true
-                  ? ListView.builder(
+              return state.phoneBookUsers?.isNotEmpty == true ? ListView.builder(
                 itemCount: state.phoneBookUsers?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
+                  ///enabling multi-selection
+                  context.read<PhoneBookBloc>().add(IsMultiSelectionEnabled(true));
                   return InkWell(
                     onTap: () async {
                       context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
                     },
                     onLongPress: (){
-                      context
-                          .read<PhoneBookBloc>()
-                          .add(IsMultiSelectionEnabled(true));
                       context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
                     },
                     child: Container(
@@ -47,13 +45,8 @@ class MultiSelectEmployeeList extends StatelessWidget {
                                 color: Colors.grey.shade300)),
                       ),
                       child: ListTile(
-                        title: Text(
-                            state.phoneBookUsers?[index].name ??
-                                ""),
-                        subtitle: Text(state
-                            .phoneBookUsers?[index]
-                            .designation ??
-                            ""),
+                        title: Text(state.phoneBookUsers?[index].name ?? ""),
+                        subtitle: Text(state.phoneBookUsers?[index].designation ?? ""),
                         leading: ClipOval(
                           child: CachedNetworkImage(
                             height: 40,
@@ -69,7 +62,6 @@ class MultiSelectEmployeeList extends StatelessWidget {
                             const Icon(Icons.error),
                           ),
                         ),
-
                         trailing: Visibility(
                           visible: state.isMultiSelectionEnabled,
                           child: Icon(
@@ -105,8 +97,7 @@ class MultiSelectEmployeeList extends StatelessWidget {
                     ),
                   );
                 },
-              )
-                  : Shimmer.fromColors(
+              ) : Shimmer.fromColors(
                 baseColor: const Color(0xFFE8E8E8),
                 highlightColor: Colors.white,
                 child: Container(

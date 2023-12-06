@@ -147,7 +147,6 @@ class HomeMarsContent extends StatelessWidget {
                             const CheckInOutStatusActionMars(),
 
                             const CurrentMonthMars(),
-
                             ///upcoming events:----------------------
                             const UpcomingEventMars(),
                             SizedBox(height: 80.h),
