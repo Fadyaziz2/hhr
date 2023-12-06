@@ -9,6 +9,7 @@ class PhoneBookState extends Equatable {
   final Department? departments;
   final Department? designations;
   final PhoneBookDetailsModel? phoneBookDetails;
+  final List<PhoneBookUser> selectedItems;
 
   final bool isMultiSelectionEnabled;
 
@@ -21,18 +22,21 @@ class PhoneBookState extends Equatable {
       this.departments,
       this.designations,
       this.isMultiSelectionEnabled = false,
-      this.phoneBookDetails});
+      this.phoneBookDetails,
+      this.selectedItems = const []});
 
-  PhoneBookState copyWith(
-      {List<PhoneBookUser>? phoneBookUsers,
-      String? searchKey,
-      NetworkStatus? status,
-      PullStatus? pullStatus,
-      int? pageCount,
-      Department? departments,
-      Department? designations,
-      bool? isMultiSelectionEnabled,
-      PhoneBookDetailsModel? phoneBookDetails}) {
+  PhoneBookState copyWith({
+    List<PhoneBookUser>? phoneBookUsers,
+    String? searchKey,
+    NetworkStatus? status,
+    PullStatus? pullStatus,
+    int? pageCount,
+    Department? departments,
+    Department? designations,
+    bool? isMultiSelectionEnabled,
+    PhoneBookDetailsModel? phoneBookDetails,
+    List<PhoneBookUser>? selectedItems,
+  }) {
     return PhoneBookState(
         phoneBookUsers: phoneBookUsers ?? this.phoneBookUsers,
         searchKey: searchKey ?? this.searchKey,
@@ -43,7 +47,8 @@ class PhoneBookState extends Equatable {
         designations: designations ?? this.designations,
         isMultiSelectionEnabled:
             isMultiSelectionEnabled ?? this.isMultiSelectionEnabled,
-        phoneBookDetails: phoneBookDetails ?? this.phoneBookDetails);
+        phoneBookDetails: phoneBookDetails ?? this.phoneBookDetails,
+        selectedItems: selectedItems ?? this.selectedItems);
   }
 
   @override
@@ -55,6 +60,7 @@ class PhoneBookState extends Equatable {
         departments,
         designations,
         phoneBookDetails,
-        isMultiSelectionEnabled
+        isMultiSelectionEnabled,
+        selectedItems
       ];
 }

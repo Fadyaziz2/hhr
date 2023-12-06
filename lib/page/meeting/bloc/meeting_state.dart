@@ -8,14 +8,13 @@ class MeetingState extends Equatable {
   final String? startTime;
   final String? endTime;
 
-  const MeetingState({
-    this.status = NetworkStatus.initial,
-    this.meetingsListResponse,
-    this.startTime,
-    this.endTime,
-    this.currentMonth,
-    this.currentMonthSchedule,
-  });
+  const MeetingState(
+      {this.status = NetworkStatus.initial,
+      this.meetingsListResponse,
+      this.startTime,
+      this.endTime,
+      this.currentMonth,
+      this.currentMonthSchedule});
 
   MeetingState copyWith(
       {NetworkStatus? status,
@@ -30,8 +29,7 @@ class MeetingState extends Equatable {
         endTime: endTime ?? this.endTime,
         meetingsListResponse: meetingsListResponse ?? this.meetingsListResponse,
         currentMonth: currentMonth ?? this.currentMonth,
-        currentMonthSchedule:
-            currentMonthSchedule ?? this.currentMonthSchedule);
+        currentMonthSchedule: currentMonthSchedule ?? this.currentMonthSchedule);
   }
 
   @override

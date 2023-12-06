@@ -8,7 +8,7 @@ import 'package:onesthrm/res/const.dart';
 
 class PhoneBookPage extends StatelessWidget {
   final Settings? settings;
-  const PhoneBookPage({Key? key, this.settings}) : super(key: key);
+  const PhoneBookPage({super.key, this.settings});
 
   static Route route(int? userId, Settings? settings) =>
       MaterialPageRoute(builder: (_) => PhoneBookPage(settings: settings!));

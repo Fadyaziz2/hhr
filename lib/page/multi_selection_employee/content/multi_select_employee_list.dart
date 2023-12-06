@@ -25,159 +25,99 @@ class MultiSelectEmployeeList extends StatelessWidget {
         }
       },
       child: BlocBuilder<PhoneBookBloc, PhoneBookState>(
-          buildWhen: (oldState, newState) => oldState != newState,
           builder: (context, state) {
-            if (state.status == NetworkStatus.success) {
-              return state.phoneBookUsers?.length == null
-                  ? Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset('assets/images/no_data_found.json',
-                          repeat: false, height: 200),
-                      const Text(
-                        'No Results',
-                        style: TextStyle(color: Colors.red),
+              return state.phoneBookUsers?.isNotEmpty == true
+                  ? ListView.builder(
+                itemCount: state.phoneBookUsers?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () async {
+                      context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
+                    },
+                    onLongPress: (){
+                      context
+                          .read<PhoneBookBloc>()
+                          .add(IsMultiSelectionEnabled(true));
+                      context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Colors.grey.shade300)),
                       ),
-                    ],
-                  ))
-                  : SmartRefresher(
-                  enablePullDown: false,
-                  enablePullUp: true,
-                  header: const WaterDropHeader(),
-                  footer: CustomFooter(builder: (context, mode) {
-                    Widget body;
-                    if (mode == LoadStatus.idle) {
-                      body = const Text("pull up load");
-                    } else if (mode == LoadStatus.loading) {
-                      body = const CupertinoActivityIndicator();
-                    } else if (mode == LoadStatus.failed) {
-                      body = const Text("Load Failed!Click retry!");
-                    } else if (mode == LoadStatus.canLoading) {
-                      body = const Text("release to load more");
-                    } else {
-                      body = const Text("No more Data");
-                    }
-                    return SizedBox(
-                      height: 55.0,
-                      child: Center(child: body),
-                    );
-                  }),
-                  controller: refreshController,
-                  onLoading: () {
-                    context.read<PhoneBookBloc>().add(PhoneBookLoadMore());
-                    refreshController.loadComplete();
-                  },
-                  onRefresh: () {
-                    context
-                        .read<PhoneBookBloc>()
-                        .add(PhoneBookLoadRefresh());
-                  },
-                  child: state.phoneBookUsers?.isNotEmpty == true
-                      ? ListView.builder(
-                    itemCount: state.phoneBookUsers?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () async {
-                          // var allUserData =
-                          // state.phoneBookUsers?[index];
-                          // Navigator.pop(context, allUserData);
-                          // print(allUserData?.id);
-                          // Navigator.push(
-                          //     context,
-                          //     PhonebookDetailsScreen.route(
-                          //         homeBloc: context.read<PhonebookBloc>(),
-                          //         userId:
-                          //             '${state.phonebookUsers![index].id}'));
-                        },
-                        onLongPress: (){
-                          context
-                              .read<PhoneBookBloc>()
-                              .add(IsMultiSelectionEnabled(true));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.shade300)),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                                state.phoneBookUsers?[index].name ??
-                                    ""),
-                            subtitle: Text(state
-                                .phoneBookUsers?[index]
-                                .designation ??
+                      child: ListTile(
+                        title: Text(
+                            state.phoneBookUsers?[index].name ??
                                 ""),
-                            leading: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 40,
-                                width: 40,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                "${state.phoneBookUsers?[index].avatar}",
-                                placeholder: (context, url) => Center(
-                                  child: Image.asset(
-                                      "assets/images/placeholder_image.png"),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                              ),
+                        subtitle: Text(state
+                            .phoneBookUsers?[index]
+                            .designation ??
+                            ""),
+                        leading: ClipOval(
+                          child: CachedNetworkImage(
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.cover,
+                            imageUrl:
+                            "${state.phoneBookUsers?[index].avatar}",
+                            placeholder: (context, url) => Center(
+                              child: Image.asset(
+                                  "assets/images/placeholder_image.png"),
                             ),
-
-                            trailing: Visibility(
-                              visible: state.isMultiSelectionEnabled,
-                              child: Icon(
-                                state.isMultiSelectionEnabled
-                                // selectedItem.contains(allUserProvider
-                                //     .responseAllUser!.data!.users![index])
-                                    ? Icons.check_circle
-                                    : Icons.radio_button_unchecked,
-                                size: 26,
-                                color: const Color(0xFF5DB226),
-                              ),
-                            ),
-                            // trailing: InkWell(
-                            //   onTap: () {
-                            //     /// Dial
-                            //     context.read<PhonebookBloc>().add(
-                            //         DirectPhoneCall(
-                            //             state.phonebookUsers?[index].phone ??
-                            //                 ''));
-                            //   },
-                            //   child: const Padding(
-                            //     padding: EdgeInsets.all(8.0),
-                            //     child: Icon(
-                            //       Icons.phone,
-                            //       size: 20,
-                            //       color: Colors.grey,
-                            //     ),
-                            //   ),
-                            // ),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                           ),
                         ),
-                      );
-                    },
-                  )
-                      : Shimmer.fromColors(
-                    baseColor: const Color(0xFFE8E8E8),
-                    highlightColor: Colors.white,
-                    child: Container(
-                        height: 100,
-                        margin: const EdgeInsets.only(bottom: 16.0),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE8E8E8),
-                          borderRadius: BorderRadius.circular(
-                              100), // radius of 10// green as background color
-                        )),
-                  ));
-            }
-            if (state.status == NetworkStatus.failure) {
-              return const Center(
-                  child: Text('Failed to load Appointment list'));
-            }
-            return const EmployeeListShimmer();
+
+                        trailing: Visibility(
+                          visible: state.isMultiSelectionEnabled,
+                          child: Icon(
+                            // state.isMultiSelectionEnabled
+                            // selectedItem.contains(allUserProvider
+                            //     .responseAllUser!.data!.users![index])
+                            //   context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
+                            state.selectedItems.contains(state.phoneBookUsers![index])
+                                ? Icons.check_circle
+                                : Icons.radio_button_unchecked,
+                            size: 26,
+                            color: const Color(0xFF5DB226),
+                          ),
+                        ),
+                        // trailing: InkWell(
+                        //   onTap: () {
+                        //     /// Dial
+                        //     context.read<PhonebookBloc>().add(
+                        //         DirectPhoneCall(
+                        //             state.phonebookUsers?[index].phone ??
+                        //                 ''));
+                        //   },
+                        //   child: const Padding(
+                        //     padding: EdgeInsets.all(8.0),
+                        //     child: Icon(
+                        //       Icons.phone,
+                        //       size: 20,
+                        //       color: Colors.grey,
+                        //     ),
+                        //   ),
+                        // ),
+                      ),
+                    ),
+                  );
+                },
+              )
+                  : Shimmer.fromColors(
+                baseColor: const Color(0xFFE8E8E8),
+                highlightColor: Colors.white,
+                child: Container(
+                    height: 100,
+                    margin: const EdgeInsets.only(bottom: 16.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8E8E8),
+                      borderRadius: BorderRadius.circular(
+                          100), // radius of 10// green as background color
+                    )),
+              );
           }),
     );
   }

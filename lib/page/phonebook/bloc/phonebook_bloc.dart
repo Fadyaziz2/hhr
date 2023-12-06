@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,7 @@ enum PullStatus { idle, loading, loaded }
 
 class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
   final MetaClubApiClient metaClubApiClient;
-
+  List<PhoneBookUser> phoneBooks = [];
   PhoneBookBloc({required this.metaClubApiClient})
       : super(const PhoneBookState(status: NetworkStatus.initial)) {
     on<PhoneBookLoadRequest>(_onPhoneBookDataRequest);
@@ -27,6 +28,18 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
     on<DirectMessage>(_onDirectMessage);
     on<DirectMailTo>(_onDirectMailTo);
     on<IsMultiSelectionEnabled>(_onIsMultiSelectionEnabled);
+    on<DoMultiSelectionEvent>(_onDoMultiSelection);
+  }
+
+  Future<void> _onDoMultiSelection(DoMultiSelectionEvent event,Emitter<PhoneBookState> emit) async{
+    if(state.isMultiSelectionEnabled){
+      if(phoneBooks.contains(event.phoneBookUser)){
+        phoneBooks.remove(event.phoneBookUser);
+      } else {
+        phoneBooks.add(event.phoneBookUser);
+      }
+      emit(state.copyWith(status: NetworkStatus.success,selectedItems: phoneBooks));
+    }
   }
 
   FutureOr<void> _onPhoneBookDataRequest(
@@ -165,8 +178,7 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
     launchUrl(emailLaunchUri);
   }
 
-  FutureOr<void> _onIsMultiSelectionEnabled(
-      IsMultiSelectionEnabled event, Emitter<PhoneBookState> emit) {
+  FutureOr<void> _onIsMultiSelectionEnabled(IsMultiSelectionEnabled event, Emitter<PhoneBookState> emit) {
     emit(state.copyWith(isMultiSelectionEnabled: event.isMultiSelectionEnabled));
   }
 }
