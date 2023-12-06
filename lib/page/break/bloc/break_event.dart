@@ -37,3 +37,10 @@ class GetBreakHistoryData extends BreakEvent {
   @override
   List<Object> get props => [];
 }
+
+class OnInitialHistoryEvent extends BreakEvent{
+ final  List<TodayHistory>? breaks;
+  OnInitialHistoryEvent({this.breaks = const []});
+  @override
+  List<Object?> get props => [breaks];
+}

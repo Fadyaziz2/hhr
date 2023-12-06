@@ -22,10 +22,10 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     on<OnBreakBackEvent>(_onBreakBack);
     on<SelectDatePicker>(_onSelectDatePicker);
     on<GetBreakHistoryData>(_onBreakHistoryDataLoad);
+    on<OnInitialHistoryEvent>(_onInitialBreakHistory);
   }
 
-  FutureOr<void> _onCustomTimerStart(
-      OnCustomTimerStart event, Emitter<BreakState> emit) {
+  FutureOr<void> _onCustomTimerStart(OnCustomTimerStart event, Emitter<BreakState> emit) {
     emit(state.copyWith(isTimerStart: !state.isTimerStart));
   }
 
@@ -54,22 +54,13 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     add(GetBreakHistoryData(date: currentDate));
   }
 
-  FutureOr<void> _onBreakHistoryDataLoad(
-      GetBreakHistoryData event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onBreakHistoryDataLoad(GetBreakHistoryData event, Emitter<BreakState> emit) async {
     final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    emit(state.copyWith(
-      status: NetworkStatus.loading,
-      currentDate: event.date,
-    ));
+    emit(state.copyWith(status: NetworkStatus.loading, currentDate: event.date));
     try {
-      final BreakReportModel? breakReportModelData =
-          await _metaClubApiClient.getBreakHistory(
-        state.currentDate ?? currentDate,
-      );
+      final BreakReportModel? breakReportModelData = await _metaClubApiClient.getBreakHistory(state.currentDate ?? currentDate);
       if (breakReportModelData != null) {
-        emit(state.copyWith(
-            status: NetworkStatus.success,
-            breakReportModel: breakReportModelData));
+        emit(state.copyWith(status: NetworkStatus.success, breakReportModel: breakReportModelData));
       } else {
         emit(state.copyWith(status: NetworkStatus.failure));
       }
@@ -77,5 +68,9 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }
+
+  FutureOr<void> _onInitialBreakHistory(OnInitialHistoryEvent event, Emitter<BreakState> emit) {
+    emit(state.copyWith(breaks: event.breaks ?? []));
   }
 }

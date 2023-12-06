@@ -1,3 +1,3 @@
 
 export 'password.dart';
-export 'phone.dart';
+export 'email.dart';

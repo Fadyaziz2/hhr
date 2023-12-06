@@ -26,9 +26,7 @@ class HomeContent extends StatelessWidget {
           context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
         }
 
-        return homeData != null
-            ? context.read<HomeBloc>().chooseTheme()
-            : const HomeContentShimmer();
+        return homeData != null ? context.read<HomeBloc>().chooseTheme() : const HomeContentShimmer();
       },
     );
   }

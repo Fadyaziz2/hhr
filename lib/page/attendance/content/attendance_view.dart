@@ -19,9 +19,8 @@ import 'animated_circular_button.dart';
 import 'check_in_check_out_time.dart';
 
 class AttendanceView extends StatefulWidget {
-  final HomeBloc homeBloc;
 
-  const AttendanceView({super.key, required this.homeBloc});
+  const AttendanceView({super.key});
 
   @override
   State<AttendanceView> createState() => _AttendanceState();
@@ -73,8 +72,9 @@ class _AttendanceState extends State<AttendanceView>
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final homeData = widget.homeBloc.state.dashboardModel;
-    final settings = widget.homeBloc.state.settings;
+    final homeBloc = context.read<HomeBloc>();
+    final homeData = homeBloc.state.dashboardModel;
+    final settings = homeBloc.state.settings;
 
     if (user?.user != null) {
       locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
@@ -91,9 +91,8 @@ class _AttendanceState extends State<AttendanceView>
               isSuccess: state.checkData?.checkInOut != null ? true : false);
         }
         if (state.status == NetworkStatus.success) {
-          widget.homeBloc.add(LoadHomeData());
+          homeBloc.add(LoadHomeData());
         }
-
       },
       child: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
