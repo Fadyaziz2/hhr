@@ -31,7 +31,7 @@ class CreateVisitPage extends StatelessWidget {
               child: BlocBuilder<VisitBloc, VisitState>(
                 builder: (context, state) {
                   return CustomButton(
-                    title: "Create Visit",
+                    title: "create_visit".tr(),
                     padding: 16,
                     isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
@@ -63,7 +63,7 @@ class CreateVisitPage extends StatelessWidget {
                 CustomTextField(
                   title: 'title*'.tr(),
                   hints: tr("give_a_title_to_your_visit"),
-                  errorMsg: "Field cannot be empty",
+                  errorMsg: "field_cannot_be_empty".tr(),
                   onData: (data) {
                     if (kDebugMode) {
                       print(data);

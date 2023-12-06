@@ -30,7 +30,7 @@ class VisitCancelPage extends StatelessWidget {
               child: BlocBuilder<VisitBloc, VisitState>(
                 builder: (context, state) {
                   return CustomButton(
-                    title: "Cancel Visit",
+                    title: "cancel_visit".tr(),
                     padding: 16,
                     isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
@@ -38,8 +38,8 @@ class VisitCancelPage extends StatelessWidget {
                           state.status == NetworkStatus.success) {
                         bodyVisitCancel.visitId = visitId;
                         bodyVisitCancel.status = "cancelled";
-                        bodyVisitCancel.latitude =  state.latitude.toString();
-                        bodyVisitCancel.longitude =  state.longitude.toString();
+                        bodyVisitCancel.latitude = state.latitude.toString();
+                        bodyVisitCancel.longitude = state.longitude.toString();
                         context.read<VisitBloc>().add(VisitCancelEvent(
                             context: context,
                             bodyVisitCancel: bodyVisitCancel));
@@ -55,10 +55,10 @@ class VisitCancelPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: CustomTextField(
-            title: tr("Note"),
+            title: tr("note"),
             hints: "write_a_cancellation_note".tr(),
             maxLine: 5,
-            errorMsg: "Give a note. Field cannot be empty",
+            errorMsg: "give_a_note.Field_cannot_be_empty".tr(),
             onData: (data) {
               if (kDebugMode) {
                 print(data);

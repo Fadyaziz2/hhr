@@ -25,18 +25,18 @@ class HistoryListPage extends StatelessWidget {
           onTap: () {
             context.read<VisitBloc>().add(SelectMonthPickerEvent(context));
           },
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.calendar_month,
                 color: colorPrimary,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Text(
-                "Select Month",
+                "select_month".tr(),
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],
@@ -72,7 +72,7 @@ class HistoryListPage extends StatelessWidget {
             } else if (state.status == NetworkStatus.failure) {
               return Center(
                 child: Text(
-                  "Failed to load Visit History".tr(),
+                  "ailed_to_load_visit_history".tr(),
                   style: TextStyle(
                       color: colorPrimary.withOpacity(0.4),
                       fontSize: 18,

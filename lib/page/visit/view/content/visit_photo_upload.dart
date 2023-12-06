@@ -8,21 +8,21 @@ import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import '../../../../res/const.dart';
 import '../../../../res/widgets/general_image_previewer.dart';
 
-
 class VisitPhoneUpload extends StatelessWidget {
   final int? visitID;
-  const VisitPhoneUpload({super.key,this.visitID});
+  const VisitPhoneUpload({super.key, this.visitID});
 
   @override
   Widget build(BuildContext context) {
-   BodyImageUpload bodyImageUpload = BodyImageUpload();
+    BodyImageUpload bodyImageUpload = BodyImageUpload();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-          child: Text(tr("Visit Photo Upload (Optional)"), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+          child: Text(
+            tr("visit_photo_upload_(Optional)"),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
           ),
         ),
         Padding(
@@ -32,9 +32,10 @@ class VisitPhoneUpload extends StatelessWidget {
             child: Row(
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     bodyImageUpload.id = visitID;
-                    context.read<VisitBloc>().add(VisitUploadPhotoEvent(context: context,bodyImageUpload: bodyImageUpload));
+                    context.read<VisitBloc>().add(VisitUploadPhotoEvent(
+                        context: context, bodyImageUpload: bodyImageUpload));
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -54,13 +55,13 @@ class VisitPhoneUpload extends StatelessWidget {
                         )),
                   ),
                 ),
-                BlocBuilder<VisitBloc, VisitState>(builder: (context,state) {
-                  if(state.isImageLoading == true) {
+                BlocBuilder<VisitBloc, VisitState>(builder: (context, state) {
+                  if (state.isImageLoading == true) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          "Image Uploading....".tr(),
+                          "image_uploading".tr(),
                           style: TextStyle(
                               color: colorPrimary.withOpacity(0.6),
                               fontSize: 18,
@@ -68,19 +69,28 @@ class VisitPhoneUpload extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else if(state.isImageLoading == false){
+                  } else if (state.isImageLoading == false) {
                     return Expanded(
                       flex: 4,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount:  state.visitDetailsResponse?.data?.images?.length ?? 0,
+                        itemCount:
+                            state.visitDetailsResponse?.data?.images?.length ??
+                                0,
                         itemBuilder: (BuildContext context, index) {
-                          VisitDetailsImage?  visitDetailsImage=  state.visitDetailsResponse?.data?.images?[index];
+                          VisitDetailsImage? visitDetailsImage =
+                              state.visitDetailsResponse?.data?.images?[index];
                           return GestureDetector(
-                            onTap: (){
-                              if(visitDetailsImage?.fileUrl != null) {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => GeneralImagePreviewScreen(imageUrl: visitDetailsImage!.fileUrl!)));
+                            onTap: () {
+                              if (visitDetailsImage?.fileUrl != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            GeneralImagePreviewScreen(
+                                                imageUrl: visitDetailsImage!
+                                                    .fileUrl!)));
                               }
                             },
                             child: Padding(
@@ -89,12 +99,15 @@ class VisitPhoneUpload extends StatelessWidget {
                                 height: 60,
                                 width: 60,
                                 fit: BoxFit.cover,
-                                imageUrl: visitDetailsImage?.fileUrl ?? "https://www.w3schools.com/howto/img_avatar.png",
+                                imageUrl: visitDetailsImage?.fileUrl ??
+                                    "https://www.w3schools.com/howto/img_avatar.png",
                                 placeholder: (context, url) => Center(
-                                  child: Image.asset("assets/images/placeholder_image.png"),
+                                  child: Image.asset(
+                                      "assets/images/placeholder_image.png"),
                                 ),
                                 errorWidget: (context, url, error) =>
-                                    Image.asset("assets/images/placeholder_image.png"),
+                                    Image.asset(
+                                        "assets/images/placeholder_image.png"),
                               ),
                             ),
                           );
@@ -106,7 +119,7 @@ class VisitPhoneUpload extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Center(
                         child: Text(
-                          "Image Upload Filed".tr(),
+                          "image_upload_filed".tr(),
                           style: TextStyle(
                               color: colorPrimary.withOpacity(0.6),
                               fontSize: 18,
@@ -114,10 +127,9 @@ class VisitPhoneUpload extends StatelessWidget {
                         ),
                       ),
                     );
-                  }else {
+                  } else {
                     return const SizedBox();
                   }
-
                 })
               ],
             ),
