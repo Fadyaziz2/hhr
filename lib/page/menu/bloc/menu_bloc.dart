@@ -57,8 +57,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'attendance':
         NavUtil.navigateScreen(
             event.context,
-            AttendancePage(
-              homeBloc: event.context.read<HomeBloc>(),
+            BlocProvider.value(
+              value: event.context.read<HomeBloc>(),
+              child: AttendancePage(
+                homeBloc: event.context.read<HomeBloc>(),
+              ),
             ));
         break;
       case 'notice':
