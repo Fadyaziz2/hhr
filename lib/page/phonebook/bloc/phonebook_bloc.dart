@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +14,7 @@ enum PullStatus { idle, loading, loaded }
 
 class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
   final MetaClubApiClient metaClubApiClient;
-  List<PhoneBookUser> phoneBooks = [];
-  PhoneBookBloc({required this.metaClubApiClient})
-      : super(const PhoneBookState(status: NetworkStatus.initial)) {
+  PhoneBookBloc({required this.metaClubApiClient}) : super(const PhoneBookState(status: NetworkStatus.initial)) {
     on<PhoneBookLoadRequest>(_onPhoneBookDataRequest);
     on<PhoneBookSearchData>(_onPhoneBookSearch);
     on<PhoneBookLoadRefresh>(_onPhoneBookLoadRefresh);
@@ -33,6 +30,7 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
 
   Future<void> _onDoMultiSelection(DoMultiSelectionEvent event,Emitter<PhoneBookState> emit) async{
     if(state.isMultiSelectionEnabled){
+      List<PhoneBookUser> phoneBooks = [...state.selectedItems];
       if(phoneBooks.contains(event.phoneBookUser)){
         phoneBooks.remove(event.phoneBookUser);
       } else {

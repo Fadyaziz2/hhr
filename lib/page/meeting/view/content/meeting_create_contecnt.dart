@@ -8,10 +8,12 @@ import 'package:onesthrm/page/meeting/view/content/meeting_time_cart.dart';
 import 'package:onesthrm/page/multi_selection_employee/multi_selection_employee_page.dart';
 
 import '../../../../res/common_text_widget.dart';
+import '../../../../res/const.dart';
 
 class MeetingCreateContent extends StatelessWidget {
   final MeetingState? state;
   final MeetingBodyModel? meetingBodyModel;
+
 
   const MeetingCreateContent({super.key, this.state,this.meetingBodyModel});
 
@@ -91,17 +93,18 @@ class MeetingCreateContent extends StatelessWidget {
         Card(
           child: ListTile(
             onTap: () async {
-              PhoneBookUser employee = await Navigator.push(
+              if(state!.selectedNames.isNotEmpty){
+                state?.selectedNames.clear();
+                state?.selectedIds.clear();
+              }
+
+             List<PhoneBookUser> selectedEmployee = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
                     const MultiSelectionEmployee(),
                   ));
-              // // ignore: use_build_context_synchronously
-              // context
-              //     .read<LeaveBloc>()
-              // // ignore: use_build_context_synchronously
-              //     .add(SelectEmployee(employee));
+             context.read<MeetingBloc>().add(SelectedEmployeeEvent(selectedEmployee));
             },
             title: Text(
                 tr("Add Meeting Member")),
@@ -111,6 +114,36 @@ class MeetingCreateContent extends StatelessWidget {
             ),
             trailing: const Icon(Icons.add),
           ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+              children: List.generate(
+                  state?.selectedNames.length ?? 0,
+                      (index) => Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF00CCFF),
+                              colorPrimary,
+                            ],
+                            begin: FractionalOffset(2.0, 0.0),
+                            end: FractionalOffset(0.0, 1.0),
+                            stops: [0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                      ),
+                      child: Text(
+                        state?.selectedNames[index] ?? "",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      )))),
         ),
         const SizedBox(
           height: 26,

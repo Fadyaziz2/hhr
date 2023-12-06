@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/meeting_create_contecnt.dart';
-
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../../../leave/view/content/leave_list_shimmer.dart';
@@ -36,6 +35,7 @@ class MeetingCreatePage extends StatelessWidget {
                           DateFormat('y-MM').format(DateTime.now());
                       if (formKey.currentState!.validate() &&
                           state.status == NetworkStatus.success) {
+                        meetingBodyModel.participants = state.selectedIds.join(',');
                         meetingBodyModel.startAt = state.startTime;
                         meetingBodyModel.endAt = state.endTime;
                         meetingBodyModel.date = state.currentMonthSchedule;

@@ -10,7 +10,6 @@ class PhoneBookState extends Equatable {
   final Department? designations;
   final PhoneBookDetailsModel? phoneBookDetails;
   final List<PhoneBookUser> selectedItems;
-
   final bool isMultiSelectionEnabled;
 
   const PhoneBookState(

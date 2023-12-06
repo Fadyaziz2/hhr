@@ -4,7 +4,7 @@ class MeetingBodyModel {
   String? location;
   String? date;
   String? attachmentFile;
-  int? participants;
+  String? participants;
   String? duration;
   String? startAt;
   String? endAt;

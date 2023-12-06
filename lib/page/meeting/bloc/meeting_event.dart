@@ -5,6 +5,15 @@ abstract class MeetingEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SelectedEmployeeEvent extends MeetingEvent {
+
+  final List<PhoneBookUser> phoneBooks;
+  SelectedEmployeeEvent(this.phoneBooks);
+
+  @override
+  List<Object> get props => [phoneBooks];
+}
+
 class MeetingListEvent extends MeetingEvent {
   final String date;
 
