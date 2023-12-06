@@ -223,7 +223,7 @@ class BreakHistory {
   }
 
   Map<String, dynamic> toJson() => {
-        "total_break_time": timeBreak?.toJson(),
+        "total_break_time": timeBreak?.toString(),
         "has_break": hasBreak,
         "break_history": breakHistory?.toJson()
       };
@@ -248,6 +248,7 @@ class TimeBreak {
   }
 
   Map<String, dynamic> toJson() => {"hour": hour, "min": min, "sec": sec};
+
 
   @override
   String toString() {
@@ -433,9 +434,9 @@ class Config {
         dutySchedule: DutyScheduleData.fromJson(json["duty_schedule"]),
         locationServices: LocationServices.fromJson(json["location_services"]),
         googleApiKey: json["google_api_key"],
-        barikoiApi: BarikoiApi.fromJson(json["barikoi_api"]),
-        breakStatus: BreakData.fromJson(json["break_status"]),
-        liveTracking: LiveTrackingData.fromJson(json["live_tracking"]),
+        barikoiApi: json["barikoi_api"] != null ? BarikoiApi.fromJson(json["barikoi_api"]) : null,
+        breakStatus: json["break_status"] != null ? BreakData.fromJson(json["break_status"]) : null,
+        liveTracking: json["live_tracking"] !=  null ? LiveTrackingData.fromJson(json["live_tracking"]) : null,
         locationService: json["location_service"],
         isTeamLead: json["is_team_lead"],
       );
@@ -522,7 +523,7 @@ class BreakData {
         diffTime: json["diff_time"],
         timeBreak: json['diff_time'] != ""
             ? TimeBreak.fromString(json['diff_time'])
-            : null,
+            : TimeBreak(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -531,7 +532,7 @@ class BreakData {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "status": status,
-        "diff_time": timeBreak?.toJson(),
+        "diff_time": timeBreak?.toString(),
       };
 }
 

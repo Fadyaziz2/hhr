@@ -4,7 +4,7 @@ class BreakState extends Equatable {
   final NetworkStatus status;
   final Break? breakBack;
   final bool isTimerStart;
-  final List<Break>? breaks;
+  final List<TodayHistory>? breaks;
   final String? currentDate;
   final BreakReportModel? breakReportModel;
 
@@ -21,7 +21,7 @@ class BreakState extends Equatable {
       {NetworkStatus? status,
       Break? breakBack,
       bool? isTimerStart,
-      List<Break>? breaks,
+      List<TodayHistory>? breaks,
       BreakReportModel? breakReportModel,
       String? currentDate}) {
     return BreakState(

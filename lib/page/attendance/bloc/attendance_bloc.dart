@@ -42,7 +42,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationUpdated(OnLocationUpdated event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(location: event.place));
+    emit(state.copyWith(location: event.place,actionStatus: ActionStatus.location));
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
@@ -51,7 +51,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       add(OnLocationUpdated(place: location));
     });
     await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(locationLoaded: true));
+    emit(state.copyWith(locationLoaded: true,actionStatus: ActionStatus.refresh));
   }
 
   void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {

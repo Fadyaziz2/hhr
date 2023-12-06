@@ -61,7 +61,7 @@ class HomeHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
                             settings?.data?.timeWish?.wish ??
                                 dashboardModel?.data?.config?.timeWish?.wish ??
@@ -72,7 +72,7 @@ class HomeHeader extends StatelessWidget {
                                 fontWeight: FontWeight.bold)),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
                           '${user?.user?.name}',
                           style: TextStyle(
@@ -83,7 +83,7 @@ class HomeHeader extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
                           settings?.data?.timeWish?.subTitle ??
                               dashboardModel?.data?.config?.timeWish?.wish ??
