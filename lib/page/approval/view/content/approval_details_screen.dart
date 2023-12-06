@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/approval/approval.dart';
@@ -24,12 +25,13 @@ class ApprovalDetailsScreen extends StatelessWidget {
         builder: (BuildContext context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Approval Details'),
+          title: const Text('approval_details').tr(),
         ),
         body: Stack(
           children: [
             FutureBuilder(
-              future: bloc.onApprovalDetails(approvalId: approvalId, approvalUserId: approvalUserId),
+              future: bloc.onApprovalDetails(
+                  approvalId: approvalId, approvalUserId: approvalUserId),
               builder: (_, snapshot) {
                 final data = snapshot.data?.approvalDetailsData;
                 final isStatus = bloc.isApproved(data?.status);
@@ -40,22 +42,22 @@ class ApprovalDetailsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CardTileWithContent(
-                              title: 'Employee Name', value: data?.name ?? ''),
+                              title: 'employee_name', value: data?.name ?? ''),
                           CardTileWithContent(
-                              title: 'Department',
+                              title: 'department',
                               value: data?.department ?? ''),
                           CardTileWithContent(
-                              title: 'Designation',
+                              title: 'designation',
                               value: data?.designation ?? ''),
                           CardTileWithContent(
-                              title: 'Request Leave On',
+                              title: 'request_leave_on',
                               value: data?.requestedOn ?? ''),
                           LeaveTypeContent(data: data),
                           SubstituteContent(data: data),
                           CardTileWithContent(
-                              title: 'Employee Note', value: data?.note ?? ''),
+                              title: 'employee_note', value: data?.note ?? ''),
                           CardTileWithContent(
-                              title: 'Approves',
+                              title: 'approves',
                               value: data?.apporover ?? 'N/A'),
                           Visibility(
                             visible: isStatus,
@@ -67,7 +69,8 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                   child: CustomElevatedButton(
                                     onTap: () {
                                       /// approved == 1
-                                      if (bloc.state.status == NetworkStatus.success) {
+                                      if (bloc.state.status ==
+                                          NetworkStatus.success) {
                                         bloc.add(ApproveOrRejectAction(
                                             approvalId: approvalId,
                                             type: 1,
@@ -77,9 +80,9 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                       }
                                     },
                                     title: const Text(
-                                      'Approved',
+                                      'approved',
                                       style: TextStyle(color: Colors.white),
-                                    ),
+                                    ).tr(),
                                   ),
                                 ),
                                 Padding(
@@ -88,7 +91,8 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                   child: CustomElevatedButton(
                                     onTap: () {
                                       /// reject == 6
-                                      if (bloc.state.status == NetworkStatus.success) {
+                                      if (bloc.state.status ==
+                                          NetworkStatus.success) {
                                         bloc.add(ApproveOrRejectAction(
                                             approvalId: approvalId,
                                             type: 6,
@@ -98,9 +102,9 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                       }
                                     },
                                     title: const Text(
-                                      'Reject',
+                                      'reject',
                                       style: TextStyle(color: Colors.white),
-                                    ),
+                                    ).tr(),
                                     bgColor: Colors.red,
                                   ),
                                 ),

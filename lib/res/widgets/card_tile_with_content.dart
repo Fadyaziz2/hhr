@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CardTileWithContent extends StatelessWidget {
@@ -20,8 +21,8 @@ class CardTileWithContent extends StatelessWidget {
           style: style!.copyWith(
             color: const Color(0xFF6B6A70),
           ),
-        ),
-        subtitle: Text(value, style: style.copyWith(fontSize: 14)),
+        ).tr(),
+        subtitle: Text(value, style: style.copyWith(fontSize: 14)).tr(),
       ),
     );
   }

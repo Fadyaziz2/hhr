@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/approval/approval.dart';
@@ -15,7 +16,7 @@ class ApprovalScreenContent extends StatelessWidget {
       builder: (BuildContext context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Approval'),
+            title: const Text('approval').tr(),
           ),
           body: state.status == NetworkStatus.loading
               ? ListView.builder(

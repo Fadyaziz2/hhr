@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
@@ -24,9 +25,10 @@ class LeaveTypeContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Leave Type',
-                          style: textStyle!
-                              .copyWith(color: const Color(0xFF6B6A70))),
+                      Text('leave_type',
+                              style: textStyle!
+                                  .copyWith(color: const Color(0xFF6B6A70)))
+                          .tr(),
                       Chip(
                         label: Text(data?.type ?? '', style: textStyle),
                         shape: const StadiumBorder(),
@@ -39,9 +41,10 @@ class LeaveTypeContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Leave Status',
-                          style: textStyle.copyWith(
-                              color: const Color(0xFF6B6A70))),
+                      Text('leave_status',
+                              style: textStyle.copyWith(
+                                  color: const Color(0xFF6B6A70)))
+                          .tr(),
                       Chip(
                         backgroundColor: Color(
                           int.parse(data?.colorCode ?? "0.0"),
@@ -49,7 +52,7 @@ class LeaveTypeContent extends StatelessWidget {
                         label: Text(
                           data?.status ?? '',
                           style: textStyle.copyWith(color: Colors.white),
-                        ),
+                        ).tr(),
                         shape: const StadiumBorder(),
                       )
                     ],
@@ -67,9 +70,10 @@ class LeaveTypeContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Form - To',
-                          style: textStyle.copyWith(
-                              color: const Color(0xFF6B6A70))),
+                      Text('form_-_to',
+                              style: textStyle.copyWith(
+                                  color: const Color(0xFF6B6A70)))
+                          .tr(),
                       Chip(
                         label: Text(data?.period ?? '', style: textStyle),
                         shape: const StadiumBorder(),
@@ -82,9 +86,10 @@ class LeaveTypeContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Leave Balance',
-                          style: textStyle.copyWith(
-                              color: const Color(0xFF6B6A70))),
+                      Text('leave_balance',
+                              style: textStyle.copyWith(
+                                  color: const Color(0xFF6B6A70)))
+                          .tr(),
                       Chip(
                         label: Text(
                             '${data?.totalUsed} / ${data?.availableLeave} Days',

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
@@ -27,11 +28,12 @@ class SubstituteContent extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 4.0),
-                  child: Text('Substitute',
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelSmall!
-                          .copyWith(color: const Color(0xFF6B6A70))),
+                  child: Text('substitute',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(color: const Color(0xFF6B6A70)))
+                      .tr(),
                 ),
                 const SizedBox(
                   height: 4,
@@ -49,7 +51,7 @@ class SubstituteContent extends StatelessWidget {
                 )
               ],
             )
-          : const CardTileWithContent(title: 'Substitute', value: 'N/A'),
+          : const CardTileWithContent(title: 'substitute', value: 'N/A'),
     );
   }
 }
