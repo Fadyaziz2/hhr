@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
@@ -34,13 +35,17 @@ class TaskStatusCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            title != null ? Text(
-              title!,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: textColor ?? Colors.black,
-                  fontSize: 16),
-            ) : const RectangularCardShimmer(height: 10,)
+            title != null
+                ? Text(
+                    title!.tr(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: textColor ?? Colors.black,
+                        fontSize: 16),
+                  )
+                : const RectangularCardShimmer(
+                    height: 10,
+                  )
           ],
         ),
       ),

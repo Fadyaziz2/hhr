@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/task/task.dart';
@@ -13,7 +14,7 @@ class TaskScreenDetails extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Task Details"),
+        title: const Text("task_details").tr(),
       ),
       body: FutureBuilder(
         future: bloc?.onTaskDetailsDataRequest(taskId),
@@ -37,13 +38,13 @@ class TaskScreenDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildTitleAndValue(
-                          title: 'Task Name', data: data.title ?? ''),
+                          title: 'task_name'.tr(), data: data.title ?? ''),
                       const SizedBox(
                         height: 12.0,
                       ),
-                      const Text(
-                        "Description ",
-                        style: TextStyle(
+                      Text(
+                        "description".tr(),
+                        style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
                             fontSize: 14.0),
@@ -59,17 +60,17 @@ class TaskScreenDetails extends StatelessWidget {
                             color: Color(0xff8A8A8A), fontSize: 14.0),
                       ),
                       buildTitleAndValue(
-                          title: "Priority", data: data.priority),
+                          title: "priority".tr(), data: data.priority),
                       buildTitleAndValue(
-                        title: "Task Supervisor",
+                        title: "task_supervisor".tr(),
                         data: data.supervisor ?? "",
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Deadline",
-                            style: TextStyle(
+                          Text(
+                            "deadline".tr(),
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0),
@@ -92,9 +93,9 @@ class TaskScreenDetails extends StatelessWidget {
                                           color: Colors.blue,
                                         ),
                                         borderRadius: BorderRadius.circular(5)),
-                                    child: const Text(
-                                      "Update Status",
-                                      style: TextStyle(
+                                    child: Text(
+                                      "update_status".tr(),
+                                      style: const TextStyle(
                                           color: Colors.black, fontSize: 14.0),
                                     ),
                                   ),
@@ -102,7 +103,7 @@ class TaskScreenDetails extends StatelessWidget {
                               : Row(
                                   children: [
                                     const Text(
-                                      "Task Complete",
+                                      "task_complete",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16.0,
@@ -180,11 +181,11 @@ class TaskScreenDetails extends StatelessWidget {
                       const SizedBox(
                         height: 12.0,
                       ),
-                      const Text(
-                        "Assignee",
+                      Text(
+                        "assignee".tr(),
                         textAlign: TextAlign.justify,
-                        style:
-                            TextStyle(color: Color(0xff8A8A8A), fontSize: 14.0),
+                        style: const TextStyle(
+                            color: Color(0xff8A8A8A), fontSize: 14.0),
                       ),
                       const SizedBox(
                         height: 6.0,
@@ -243,11 +244,11 @@ class TaskScreenDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("Your Task Status"),
+              const Text("your_task_status"),
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("Not Started"),
+                title: const Text("not_started"),
                 value: 24,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -259,7 +260,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("On Hold"),
+                title: const Text("on_hold"),
                 value: 25,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -271,7 +272,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("In Progress"),
+                title: const Text("in_progress"),
                 value: 26,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -283,7 +284,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("Completed"),
+                title: const Text("completed"),
                 value: 27,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -322,9 +323,9 @@ class TaskScreenDetails extends StatelessWidget {
 
               Navigator.pop(context);
             },
-            child: const Text(
-              'Okay',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              'okay'.tr(),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),

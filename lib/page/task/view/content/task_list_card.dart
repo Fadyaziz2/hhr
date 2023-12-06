@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
@@ -38,7 +39,7 @@ class TaskListCard extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   title: data.elementAt(i).name != null
-                      ? Text("Name : ${data.elementAt(i).name} ")
+                      ? Text("name: ${data.elementAt(i).name} ").tr()
                       : const SizedBox(),
                   content: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
@@ -47,18 +48,20 @@ class TaskListCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           data.elementAt(i).designation != null
-                              ? Text(
-                              "Designation : ${data.elementAt(i).designation ?? ""}")
+                              ? Text("designation: ${data.elementAt(i).designation ?? ""}")
+                                  .tr()
                               : const SizedBox(),
                           data.elementAt(i).department != null
-                              ? Text(
-                              "Department : ${data.elementAt(i).department ?? ""}")
+                              ? Text("department: ${data.elementAt(i).department ?? ""}")
+                                  .tr()
                               : const SizedBox(),
                           data.elementAt(i).phone != null
-                              ? Text("Phone : ${data.elementAt(i).phone ?? ""}")
+                              ? Text("phone: ${data.elementAt(i).phone ?? ""}")
+                                  .tr()
                               : const SizedBox(),
                           data.elementAt(i).email != null
-                              ? Text("Email : ${data.elementAt(i).email ?? ""}")
+                              ? Text("email: ${data.elementAt(i).email ?? ""}")
+                                  .tr()
                               : const SizedBox(),
                         ],
                       ),
@@ -89,11 +92,10 @@ class TaskListCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        margin:  const EdgeInsets.only(bottom: 8.0),
+        margin: const EdgeInsets.only(bottom: 8.0),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -102,7 +104,7 @@ class TaskListCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      taskName ?? "",
+                      taskName ?? "".tr(),
                       maxLines: 3,
                       style: const TextStyle(
                           color: Colors.black,
@@ -115,9 +117,9 @@ class TaskListCard extends StatelessWidget {
               const SizedBox(
                 height: 20.0,
               ),
-              const Text(
-                "Assignee",
-                style: TextStyle(
+              Text(
+                "assignee".tr(),
+                style: const TextStyle(
                     color: Color(0xff8A8A8A),
                     fontSize: 12.0,
                     fontWeight: FontWeight.w400),

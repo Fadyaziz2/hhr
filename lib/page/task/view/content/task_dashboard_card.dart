@@ -4,7 +4,13 @@ import 'content.dart';
 
 class TaskDashboardCard extends StatelessWidget {
   const TaskDashboardCard(
-      {super.key, this.title, this.count, required this.customPainter, this.titleColor, this.titleAsset, this.onTap});
+      {super.key,
+      this.title,
+      this.count,
+      required this.customPainter,
+      this.titleColor,
+      this.titleAsset,
+      this.onTap});
   final String? title, count, titleAsset;
   final CustomPainter? customPainter;
   final Color? titleColor;

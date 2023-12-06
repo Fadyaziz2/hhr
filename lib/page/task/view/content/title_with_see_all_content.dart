@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-
 class TitleWithSeeAll extends StatelessWidget {
-
   final BuildContext context;
   final VoidCallback onTap;
   final Widget? child;
   final String title;
 
-  const TitleWithSeeAll({super.key,required this.context,required this.onTap,required this.title, this.child});
+  const TitleWithSeeAll(
+      {super.key,
+      required this.context,
+      required this.onTap,
+      required this.title,
+      this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class TitleWithSeeAll extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: const Text(
-                "See All",
+                "see_all",
                 style: TextStyle(fontSize: 14.0),
               ),
             ),
