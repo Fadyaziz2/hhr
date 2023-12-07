@@ -8,7 +8,10 @@ import '../../res/widgets/custom_button.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 
 class MultiSelectionEmployee extends StatelessWidget {
-  const MultiSelectionEmployee({super.key});
+
+  final Function(List<PhoneBookUser>) onItemSelected;
+
+  const MultiSelectionEmployee({super.key,required this.onItemSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,8 @@ class MultiSelectionEmployee extends StatelessWidget {
                       title: "Selected Employee (${state.selectedItems.length})",
                       padding: 16,
                       clickButton: () {
-                        Navigator.pop(context, state.selectedItems);
+                        onItemSelected(state.selectedItems);
+                        Navigator.pop(context);
                       },
                     );
                   },

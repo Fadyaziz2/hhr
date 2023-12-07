@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,8 +84,7 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     ));
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<MeetingState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 1),
@@ -96,12 +96,12 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     add(MeetingListEvent(date: currentMonth));
   }
 
-  FutureOr<void> _onMeetingList(
-      MeetingListEvent event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onMeetingList(MeetingListEvent event, Emitter<MeetingState> emit) async {
+    final currentDate = DateFormat('y-MM').format(DateTime.now());
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final meetingListResponse = await _metaClubApiClient
-          .getMeetingList(state.currentMonth ?? event.date);
+          .getMeetingList(state.currentMonth ?? event.date ??  currentDate);
       emit(state.copyWith(
           status: NetworkStatus.success,
           meetingsListResponse: meetingListResponse));
