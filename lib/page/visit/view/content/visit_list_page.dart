@@ -22,7 +22,8 @@ class VisitListPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: LeaveListShimmer(),
           );
-        } else if (state.status == NetworkStatus.success) {
+        }
+        else if (state.status == NetworkStatus.success) {
           return state.visitListResponse?.visitList?.myVisits?.isNotEmpty ==
                   true
               ? Padding(
@@ -40,7 +41,8 @@ class VisitListPage extends StatelessWidget {
                       }),
                 )
               : const NoDataFoundWidget();
-        } else if (state.status == NetworkStatus.failure) {
+        }
+        else if (state.status == NetworkStatus.failure) {
           return Center(
             child: Text(
               "failed_to_load_visit".tr(),
@@ -50,7 +52,8 @@ class VisitListPage extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           );
-        } else {
+        }
+        else {
           return const SizedBox();
         }
       },

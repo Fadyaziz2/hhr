@@ -18,17 +18,12 @@ class MeetingsListModel extends Equatable {
         data: MeetingsData.fromJson(json["data"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "result": result,
-        "message": message,
-        "data": data!.toJson(),
-      };
   @override
   List<Object?> get props => [result, message, data];
 }
 
 class MeetingsData extends Equatable {
-  MeetingsData({
+  const MeetingsData({
     this.items,
   });
 
@@ -39,15 +34,13 @@ class MeetingsData extends Equatable {
             json["items"].map((x) => MeetingsItem.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "items": List<dynamic>.from(items!.map((x) => x.toJson())),
-      };
+
   @override
   List<Object?> get props => [items];
 }
 
 class MeetingsItem extends Equatable {
-  MeetingsItem(
+  const MeetingsItem(
       {this.id,
       this.title,
       this.date,
@@ -87,19 +80,6 @@ class MeetingsItem extends Equatable {
         appointmentWith: json["appoinmentWith"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "date": date,
-        "day": day,
-        "time": time,
-        "start_at": startAt,
-        "end_at": endAt,
-        "location": location,
-        "duration": duration,
-        "participants":
-            List<dynamic>.from(participants!.map((x) => x.toJson())),
-      };
   @override
   List<Object?> get props => [
         id,
@@ -116,7 +96,7 @@ class MeetingsItem extends Equatable {
 }
 
 class MeetingsParticipant extends Equatable {
-  MeetingsParticipant({
+  const MeetingsParticipant({
     this.name,
     this.isAgree,
     this.isPresent,
@@ -145,14 +125,6 @@ class MeetingsParticipant extends Equatable {
         appoinmentDuration: json["appoinment_duration"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "is_agree": isAgree,
-        "is_present": isPresent,
-        "present_at": presentAt,
-        "appoinment_started_at": appointmentStartedAt,
-        "appoinment_ended_at": appointmentEndedAt,
-        "appoinment_duration": appoinmentDuration,
-      };
+  @override
   List<Object?> get props => [name, isAgree, isPresent, presentAt];
 }

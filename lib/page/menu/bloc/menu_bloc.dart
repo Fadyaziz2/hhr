@@ -11,6 +11,7 @@ import 'package:onesthrm/page/expense/view/expense_page.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/leave/view/leave_page.dart';
+import 'package:onesthrm/page/meeting/meeting.dart';
 import 'package:onesthrm/page/notice_list/view/notice_list_screen.dart';
 import 'package:onesthrm/page/payroll/view/view.dart';
 import 'package:onesthrm/page/report/report_page.dart';
@@ -56,8 +57,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'attendance':
         NavUtil.navigateScreen(
             event.context,
-            AttendancePage(
-              homeBloc: event.context.read<HomeBloc>(),
+            BlocProvider.value(
+              value: event.context.read<HomeBloc>(),
+              child: AttendancePage(
+                homeBloc: event.context.read<HomeBloc>(),
+              ),
             ));
         break;
       case 'notice':
@@ -88,10 +92,14 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             ));
         break;
       case 'conference':
+        NavUtil.navigateScreen(event.context, const MeetingPage());
+        break;
       case 'visit':
       NavUtil.navigateScreen(event.context, const VisitPage());
       break;
       case 'meeting':
+        NavUtil.navigateScreen(event.context, const MeetingPage());
+        break;
       case 'appointments':
         NavUtil.navigateScreen(event.context, const AppointmentScreen());
         break;

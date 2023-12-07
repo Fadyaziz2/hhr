@@ -9,6 +9,8 @@ class PhoneBookState extends Equatable {
   final Department? departments;
   final Department? designations;
   final PhoneBookDetailsModel? phoneBookDetails;
+  final List<PhoneBookUser> selectedItems;
+  final bool isMultiSelectionEnabled;
 
   const PhoneBookState(
       {this.phoneBookUsers,
@@ -18,17 +20,22 @@ class PhoneBookState extends Equatable {
       this.pageCount = 1,
       this.departments,
       this.designations,
-      this.phoneBookDetails});
+      this.isMultiSelectionEnabled = false,
+      this.phoneBookDetails,
+      this.selectedItems = const []});
 
-  PhoneBookState copyWith(
-      {List<PhoneBookUser>? phoneBookUsers,
-      String? searchKey,
-      NetworkStatus? status,
-      PullStatus? pullStatus,
-      int? pageCount,
-      Department? departments,
-      Department? designations,
-      PhoneBookDetailsModel? phoneBookDetails}) {
+  PhoneBookState copyWith({
+    List<PhoneBookUser>? phoneBookUsers,
+    String? searchKey,
+    NetworkStatus? status,
+    PullStatus? pullStatus,
+    int? pageCount,
+    Department? departments,
+    Department? designations,
+    bool? isMultiSelectionEnabled,
+    PhoneBookDetailsModel? phoneBookDetails,
+    List<PhoneBookUser>? selectedItems,
+  }) {
     return PhoneBookState(
         phoneBookUsers: phoneBookUsers ?? this.phoneBookUsers,
         searchKey: searchKey ?? this.searchKey,
@@ -37,7 +44,10 @@ class PhoneBookState extends Equatable {
         pageCount: pageCount ?? this.pageCount,
         departments: departments ?? this.departments,
         designations: designations ?? this.designations,
-        phoneBookDetails: phoneBookDetails ?? this.phoneBookDetails);
+        isMultiSelectionEnabled:
+            isMultiSelectionEnabled ?? this.isMultiSelectionEnabled,
+        phoneBookDetails: phoneBookDetails ?? this.phoneBookDetails,
+        selectedItems: selectedItems ?? this.selectedItems);
   }
 
   @override
@@ -48,6 +58,8 @@ class PhoneBookState extends Equatable {
         refreshStatus,
         departments,
         designations,
-        phoneBookDetails
+        phoneBookDetails,
+        isMultiSelectionEnabled,
+        selectedItems
       ];
 }
