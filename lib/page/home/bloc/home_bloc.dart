@@ -5,8 +5,10 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
+import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
+import 'package:onesthrm/page/meeting/meeting.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
@@ -108,12 +110,14 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   Widget chooseTheme() {
     final name = globalState.get(dashboardStyleId);
     switch (name) {
+      case 'earth':
+        return const HomeEarthContent();
       case 'neptune':
         return const HomeNeptuneContent();
       case 'mars':
         return const HomeMars();
       default:
-        return const HomeEarthContent();
+        return const HomeContentShimmer();
     }
   }
 
@@ -130,6 +134,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         break;
       case 'appointment':
         NavUtil.navigateScreen(context, const AppointmentScreen());
+        break;
+      case 'meeting':
+        NavUtil.navigateScreen(context, const MeetingPage());
         break;
       default:
         return debugPrint('default');
