@@ -5,7 +5,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 class AppointmentDetailsScreen extends StatelessWidget {
   final MeetingsItem? data;
 
-  const AppointmentDetailsScreen({Key? key, this.data}) : super(key: key);
+  const AppointmentDetailsScreen({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {

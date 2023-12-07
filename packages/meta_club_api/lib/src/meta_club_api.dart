@@ -416,6 +416,21 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> createMeetingApi({MeetingBodyModel? meetingBodyModel}) async {
+    const String api = "meeting/create";
+    try {
+      FormData formData = FormData.fromMap(meetingBodyModel!.toJson());
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', formData);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// create Visit API
   Future<bool> createVisitApi({BodyCreateVisit? bodyCreateVisit}) async {
     const String api = 'visit/create';
@@ -1402,6 +1417,22 @@ class MetaClubApiClient {
           await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
       if (response?.statusCode == 200) {
         return VisitListModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// ===================== Meeting List ========================
+  Future<MeetingsListModel?> getMeetingList(String? month) async {
+    const String api = 'meeting';
+    final data = {"month": month};
+    try {
+      final response =
+          await _httpServiceImpl.postRequest('$_baseUrl$api', data);
+      if (response.statusCode == 200) {
+        return MeetingsListModel.fromJson(response.data);
       }
       return null;
     } catch (_) {

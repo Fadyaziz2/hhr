@@ -50,7 +50,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
       SelectDatePicker event, Emitter<AppointmentState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
-      firstDate: DateTime(DateTime.now().year - 1, 5),
+      firstDate: DateTime(DateTime.now().year - 1, 1),
       lastDate: DateTime(DateTime.now().year + 1, 9),
       initialDate: DateTime.now(),
       locale: const Locale("en"),

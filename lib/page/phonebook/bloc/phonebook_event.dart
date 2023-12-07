@@ -5,11 +5,26 @@ abstract class PhoneBookEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class DoMultiSelectionEvent extends PhoneBookEvent {
+  final PhoneBookUser phoneBookUser;
+  DoMultiSelectionEvent(this.phoneBookUser);
+  @override
+  List<Object?> get props => [phoneBookUser];
+}
+
 class PhoneBookLoadRequest extends PhoneBookEvent {
   PhoneBookLoadRequest();
 
   @override
   List<Object?> get props => [];
+}
+
+class IsMultiSelectionEnabled extends PhoneBookEvent {
+  final bool? isMultiSelectionEnabled;
+  IsMultiSelectionEnabled(this.isMultiSelectionEnabled);
+
+  @override
+  List<Object?> get props => [isMultiSelectionEnabled];
 }
 
 class PhoneBookSearchData extends PhoneBookEvent {
