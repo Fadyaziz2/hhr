@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat/chat.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/bloc/report_bloc.dart';
@@ -19,7 +20,7 @@ class ProfileDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Details'),
+        title: const Text('profile_details').tr(),
       ),
       body: FutureBuilder(
         future: context
@@ -136,27 +137,27 @@ class ProfileDetails extends StatelessWidget {
                     height: 20,
                   ),
                   buildProfileDetails(
-                    title: "Phone",
+                    title: "phone",
                     description: snapshot.data?.data?.phone ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Email",
+                    title: "email".tr(),
                     description: snapshot.data?.data?.email ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Department",
+                    title: "department".tr(),
                     description: snapshot.data?.data?.designation ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Date of Birth",
+                    title: "date_of_birth",
                     description: snapshot.data?.data?.birthDate ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Blood Group",
+                    title: "blood_group",
                     description: snapshot.data?.data?.bloodGroup ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Social Media",
+                    title: "social_media",
                     description: snapshot.data?.data?.facebookLink ?? "N/A",
                   ),
                 ],
@@ -181,7 +182,7 @@ class ProfileDetails extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Text(title!),
+            child: Text(title!).tr(),
           ),
           Expanded(
             flex: 2,

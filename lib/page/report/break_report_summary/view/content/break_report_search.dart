@@ -46,11 +46,12 @@ class BreakReportSearch extends StatelessWidget {
                       });
                     },
                     title: Text(context
-                            .watch<BreakBloc>()
-                            .state
-                            .selectEmployee
-                            ?.name! ??
-                        'Select Employee'),
+                                .watch<BreakBloc>()
+                                .state
+                                .selectEmployee
+                                ?.name! ??
+                            'select_employee')
+                        .tr(),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(context
                               .watch<BreakBloc>()
@@ -145,11 +146,11 @@ class BreakReportSearch extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Break",
+                                          "break",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold),
-                                        ),
+                                        ).tr(),
                                         const SizedBox(
                                           height: 5,
                                         ),

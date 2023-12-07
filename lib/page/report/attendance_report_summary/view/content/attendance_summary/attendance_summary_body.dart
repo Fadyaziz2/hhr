@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
@@ -20,7 +21,7 @@ class AttendanceSummaryBody extends StatelessWidget {
         final summaryData = state.attendanceSummary?.data;
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Attendance Summary'),
+            title: Text('attendance_summary'.tr()),
             actions: [
               IconButton(
                   onPressed: () {
@@ -34,12 +35,16 @@ class AttendanceSummaryBody extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                summaryData != null ? ListTile(
-                  title: Text(
-                    summaryData.date ?? "",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ) : const TileShimmer(titleHeight: 16,),
+                summaryData != null
+                    ? ListTile(
+                        title: Text(
+                          summaryData.date ?? "",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      )
+                    : const TileShimmer(
+                        titleHeight: 16,
+                      ),
                 Card(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -51,12 +56,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'On Time', type: 'on_time_in'),
+                                    title: 'On_time', type: 'on_time_in'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.onTimeIn,
+                          titleValue: summaryData?.attendanceSummary?.onTimeIn,
                           title: 'on_time',
                           color: Colors.green),
                       SummeryTile(
@@ -66,12 +70,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'On Late', type: 'late_in'),
+                                    title: 'late', type: 'late_in'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.lateIn,
+                          titleValue: summaryData?.attendanceSummary?.lateIn,
                           title: 'late',
                           color: Colors.red),
                       SummeryTile(
@@ -81,7 +84,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'Left Timely', type: 'left_timely'),
+                                    title: 'left_timely', type: 'left_timely'),
                               ),
                             );
                           },
@@ -96,12 +99,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'On Left Early', type: 'left_early'),
+                                    title: 'left_early', type: 'left_early'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.leftEarly,
+                          titleValue: summaryData?.attendanceSummary?.leftEarly,
                           title: 'left_early',
                           color: Colors.red),
                       SummeryTile(
@@ -111,12 +113,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'On Leave', type: 'leave'),
+                                    title: 'on_leave', type: 'leave'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.leave,
+                          titleValue: summaryData?.attendanceSummary?.leave,
                           title: 'on_leave',
                           color: Colors.grey[400]!),
                       SummeryTile(
@@ -126,12 +127,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'Absent', type: 'absent'),
+                                    title: 'absent', type: 'absent'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.absent,
+                          titleValue: summaryData?.attendanceSummary?.absent,
                           title: 'absent',
                           color: Colors.black87),
                       SummeryTile(
@@ -141,12 +141,11 @@ class AttendanceSummaryBody extends StatelessWidget {
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
-                                    title: 'Left Later', type: 'left_later'),
+                                    title: 'left_later', type: 'left_later'),
                               ),
                             );
                           },
-                          titleValue:
-                              summaryData?.attendanceSummary?.leftLater,
+                          titleValue: summaryData?.attendanceSummary?.leftLater,
                           title: 'left_later',
                           color: Colors.amber),
                       const SizedBox(
@@ -171,9 +170,9 @@ class AttendanceSummaryBody extends StatelessWidget {
                   ),
                   //icon data for elevated button
                   label: const Text(
-                    "Search All Employee Attendance",
+                    "search_all_employee_attendance",
                     style: TextStyle(color: Colors.white),
-                  ),
+                  ).tr(),
                   //label text
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(400, 50),

@@ -57,13 +57,12 @@ class LeaveReportDetailsScreen extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 10,
                               fontWeight: FontWeight.w600),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   ],
                 ),
               ),
-
               BuildContainer(
                   title: tr("requested_on"),
                   titleValue: leaveReportData?.requestedOn ?? ""),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BuildContainer extends StatelessWidget {
@@ -36,7 +37,7 @@ class BuildContainer extends StatelessWidget {
                     titleValue ?? '',
                     style: const TextStyle(fontWeight: FontWeight.w600),
                     maxLines: 1,
-                  ),
+                  ).tr(),
                 ),
                 Visibility(
                   visible: iconVisibility,
