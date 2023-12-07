@@ -15,12 +15,12 @@ class SelectedEmployeeEvent extends MeetingEvent {
 }
 
 class MeetingListEvent extends MeetingEvent {
-  final String date;
+  final String? date;
 
-  MeetingListEvent({required this.date});
+  MeetingListEvent({this.date});
 
   @override
-  List<Object> get props => [date];
+  List<Object> get props => [];
 }
 
 class SelectDatePicker extends MeetingEvent {
