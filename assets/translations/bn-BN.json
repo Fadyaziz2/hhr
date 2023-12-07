@@ -16,7 +16,7 @@
   "start_time": "সময় শুরু",
   "check_in": "চেক ইন",
   "done_for_today": "আজকের জন্য সম্পন্ন?",
-  "break_time": "বিরতি",
+  "break_time": "ব্রেক টাইম",
   "start_break": "বিরতি শুরু করুন",
   "upcoming_events": "আসন্ন ঘটনাবলী",
   "public_holiday_and_even": "পাবলিক হলিডে এবং ইভেন্ট",
@@ -523,5 +523,10 @@
   "PhoneBook": "ফোনবুক",
   "Phonebook": "ফোনবুক",
   "DEPARTMENT": "ডিপার্টমেন্ট",
-  "DESIGNATION": "ডেজিগনেশন"
+  "DESIGNATION": "ডেজিগনেশন",
+  "you_have_not_taken_a_break": "আপনি এখনও বিরতি নেননি",
+  "Back": "ব্যাক",
+  "Break": "ব্রেক",
+  "last_breaks": "লাস্ট ব্রেক",
+  "You_have_already_taken": "আপনি ইতিমধ্যে গ্রহণ করেছেন "
 }
