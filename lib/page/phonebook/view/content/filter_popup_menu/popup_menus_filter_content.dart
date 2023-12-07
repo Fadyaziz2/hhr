@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -34,13 +35,13 @@ class PopupMenusFilerContent extends StatelessWidget {
         },
         itemBuilder: (BuildContext context) =>
             <PopupMenuEntry<PhonebookFilterType>>[
-          const PopupMenuItem<PhonebookFilterType>(
+          PopupMenuItem<PhonebookFilterType>(
             value: PhonebookFilterType.department,
-            child: Text('Department'),
+            child: const Text('department').tr(),
           ),
-          const PopupMenuItem<PhonebookFilterType>(
+          PopupMenuItem<PhonebookFilterType>(
             value: PhonebookFilterType.designation,
-            child: Text('Designation'),
+            child: const Text('designation').tr(),
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class PopupMenusFilerContent extends StatelessWidget {
               title: Text(
                 item.name.toUpperCase(),
                 style: Theme.of(context).textTheme.titleMedium,
-              ),
+              ).tr(),
             ),
             Expanded(
               child: FilterBottomSheetList(

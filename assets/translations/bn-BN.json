@@ -109,7 +109,7 @@
   "no_notice_found": "কোন নোটিশ পাওয়া যায়নি",
   "clear_all_notice": "সমস্ত বিজ্ঞপ্তি সাফ করুন",
   "select_department": "বিভাগ নির্বাচন করুন",
-  "department": "বিভাগ",
+  "department": "ডিপার্টমেন্ট",
   "payment_history": "অর্থ প্রদান ইতিহাস",
   "no_payment_history_found": "কোন পেমেন্ট ইতিহাস পাওয়া যায়নি",
   "expanse_claims": "বিস্তৃত দাবি",
@@ -157,7 +157,7 @@
   "employee_leave_history": "কর্মচারী ছুটির ইতিহাস",
   "request_details": "বিস্তারিত অনুরোধ",
   "name": "নাম",
-  "designation": "ডেসিগন্যাশন",
+  "designation": "ডেজিগনেশন",
   "balance": "ভারসাম্য",
   "leave_history": "ছুটির ইতিহাস",
   "leave_reason": "ছুটির কারণ",
@@ -518,5 +518,10 @@
   "Leave Without Pay": "লিভ উইথআউট পে",
   "search_all": "সার্চ অল",
   "Cancel": "ক্যানসেল",
-  "Approve": "এপ্রুভ"
+  "Approve": "এপ্রুভ",
+  "directory": "ডিরেক্টরি",
+  "PhoneBook": "ফোনবুক",
+  "Phonebook": "ফোনবুক",
+  "DEPARTMENT": "ডিপার্টমেন্ট",
+  "DESIGNATION": "ডেজিগনেশন"
 }
