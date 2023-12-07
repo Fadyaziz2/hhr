@@ -14,9 +14,7 @@ class MultiSelectionEmployee extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return BlocProvider(
-      create: (_) => PhoneBookBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
-        ..add(PhoneBookLoadRequest()),
+      create: (_) => PhoneBookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(PhoneBookLoadRequest()),
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Multi Selection Employee"),
@@ -26,22 +24,14 @@ class MultiSelectionEmployee extends StatelessWidget {
                     ? IconButton(
                         onPressed: () {
                           state.selectedItems.clear();
-                          context
-                              .read<PhoneBookBloc>()
-                              .add(IsMultiSelectionEnabled(false));
+                          context.read<PhoneBookBloc>().add(IsMultiSelectionEnabled(false));
                         },
-                        icon: const Icon(
-                          Icons.clear,
-                          color: Colors.white,
-                        ))
+                        icon: const Icon(Icons.clear, color: Colors.white,))
                     : IconButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new_outlined,
-                          color: Colors.white,
-                        ));
+                        icon: const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,));
               })),
           bottomNavigationBar: Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -53,8 +43,7 @@ class MultiSelectionEmployee extends StatelessWidget {
                 child: BlocBuilder<PhoneBookBloc, PhoneBookState>(
                   builder: (context, state) {
                     return CustomButton(
-                      title:
-                          "Selected Employee (${state.selectedItems.length})",
+                      title: "Selected Employee (${state.selectedItems.length})",
                       padding: 16,
                       clickButton: () {
                         Navigator.pop(context, state.selectedItems);

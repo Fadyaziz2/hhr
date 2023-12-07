@@ -18,12 +18,9 @@ class MeetingCreatePage extends StatelessWidget {
     return Form(
       key: formKey,
       child: Scaffold(
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-              color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
+        bottomNavigationBar: Container(padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
+          child: Padding(padding: const EdgeInsets.all(8.0),
               child: BlocBuilder<MeetingBloc, MeetingState>(
                 builder: (context, state) {
                   return CustomButton(
@@ -66,8 +63,7 @@ class MeetingCreatePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MeetingCreateContent(
-                          state: state, meetingBodyModel: meetingBodyModel),
+                      MeetingCreateContent(state: state, meetingBodyModel: meetingBodyModel),
                     ],
                   ),
                 ),

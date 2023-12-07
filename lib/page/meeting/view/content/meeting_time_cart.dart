@@ -15,20 +15,14 @@ class MeetingTimeCart extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                tr("start_time"),
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+              Text(tr("start_time"),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10,),
               Card(
                 child: InkWell(
                   onTap: () {
-                    context.read<MeetingBloc>().add(SelectStartTime(
-                      context,
-                    ));
+                    context.read<MeetingBloc>().add(SelectStartTime(context));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -37,10 +31,7 @@ class MeetingTimeCart extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(meetingState?.startTime ?? tr("start_time")),
-                        const Icon(
-                          Icons.arrow_drop_down_sharp,
-                          color: Colors.grey,
-                        )
+                        const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
                       ],
                     ),
                   ),
@@ -53,32 +44,22 @@ class MeetingTimeCart extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                tr("end_time"),
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+              Text(tr("end_time"),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               Card(
                 child: InkWell(
                   onTap: () {
-                    context.read<MeetingBloc>().add(SelectEndTime(
-                      context,
-                    ));
+                    context.read<MeetingBloc>().add(SelectEndTime(context));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(meetingState?.endTime ?? tr("end_time")),
-                        const Icon(
-                          Icons.arrow_drop_down_sharp,
-                          color: Colors.grey,
-                        )
+                        const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
                       ],
                     ),
                   ),

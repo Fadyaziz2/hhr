@@ -8,7 +8,7 @@ import 'package:onesthrm/page/meeting/view/content/meeting_time_cart.dart';
 import 'package:onesthrm/page/multi_selection_employee/multi_selection_employee_page.dart';
 
 import '../../../../res/common_text_widget.dart';
-import '../../../../res/const.dart';
+import 'meeting_name_list.dart';
 
 class MeetingCreateContent extends StatelessWidget {
   final MeetingState? state;
@@ -22,16 +22,12 @@ class MeetingCreateContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CommonTextFiledWithTitle(
-          title: "title".tr(),
-          labelText: 'enter_title'.tr(),
+        CommonTextFiledWithTitle(title: "title".tr(), labelText: 'enter_title'.tr(),
           onChanged: (data) {
             meetingBodyModel?.title = data;
           },
         ),
-        const SizedBox(
-          height: 25,
-        ),
+        const SizedBox(height: 25,),
         CommonTextFiledWithTitle(
           title: "description".tr(),
           labelText: "enter_text".tr(),
@@ -39,9 +35,7 @@ class MeetingCreateContent extends StatelessWidget {
             meetingBodyModel?.description = data;
           },
         ),
-        const SizedBox(
-          height: 25,
-        ),
+        const SizedBox(height: 25,),
         CommonTextFiledWithTitle(
           title: "location".tr(),
           labelText: 'enter_location'.tr(),
@@ -49,110 +43,53 @@ class MeetingCreateContent extends StatelessWidget {
             meetingBodyModel?.location = data;
           },
         ),
-        const SizedBox(
-          height: 25,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Text(
-            "date_schedule".tr(),
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold),
+        const SizedBox(height: 25,),
+        Padding(padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text("date_schedule".tr(),
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         Card(
           child: InkWell(
             onTap: () {
-              context
-                  .read<MeetingBloc>()
-                  .add(SelectDatePickerSchedule(context));
+              context.read<MeetingBloc>().add(SelectDatePickerSchedule(context));
             },
             child: Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(state?.currentMonthSchedule ?? 'select_date'.tr()),
-                  const Icon(
-                    Icons.arrow_drop_down_sharp,
-                    color: Colors.grey,
-                  )
+                  const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
                 ],
               ),
             ),
           ),
         ),
-        const SizedBox(
-          height: 25,
-        ),
+        const SizedBox(height: 25),
         MeetingTimeCart(meetingState: state),
-        const SizedBox(
-          height: 26,
-        ),
+        const SizedBox(height: 26),
         Card(
           child: ListTile(
             onTap: () async {
-              if(state!.selectedNames.isNotEmpty){
+              if(state?.selectedNames.isNotEmpty == true){
                 state?.selectedNames.clear();
                 state?.selectedIds.clear();
               }
+              /// Get Selected Employee List
+              List<PhoneBookUser> selectedEmployee = await Navigator.push(context, MaterialPageRoute(builder: (context) => const MultiSelectionEmployee(),));
 
-             List<PhoneBookUser> selectedEmployee = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                    const MultiSelectionEmployee(),
-                  ));
-             context.read<MeetingBloc>().add(SelectedEmployeeEvent(selectedEmployee));
+              context.read<MeetingBloc>().add(SelectedEmployeeEvent(selectedEmployee));
             },
-            title: Text(
-                tr("Add Meeting Member")),
-            leading: const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-            ),
+            title: Text(tr("Add Meeting Member")),
+            leading: const CircleAvatar(backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),),
             trailing: const Icon(Icons.add),
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Row(
-              children: List.generate(
-                  state?.selectedNames.length ?? 0,
-                      (index) => Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 5),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF00CCFF),
-                              colorPrimary,
-                            ],
-                            begin: FractionalOffset(2.0, 0.0),
-                            end: FractionalOffset(0.0, 1.0),
-                            stops: [0.0, 1.0],
-                            tileMode: TileMode.clamp),
-                      ),
-                      child: Text(
-                        state?.selectedNames[index] ?? "",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      )))),
-        ),
-        const SizedBox(
-          height: 26,
-        ),
+        MeetingNameList(state: state),
+        const SizedBox(height: 26,),
         AttachmentContent(meetingBodyModel: meetingBodyModel),
-        const SizedBox(
-          height: 26,
-        ),
-
+        const SizedBox(height: 26,),
       ],
     );
   }

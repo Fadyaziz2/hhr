@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shimmer/shimmer.dart';
+import '../../leave/view/content/leave_list_shimmer.dart';
 
 class MultiSelectEmployeeList extends StatelessWidget {
   const MultiSelectEmployeeList({super.key});
@@ -25,7 +25,6 @@ class MultiSelectEmployeeList extends StatelessWidget {
               return state.phoneBookUsers?.isNotEmpty == true ? ListView.builder(
                 itemCount: state.phoneBookUsers?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-
                   return InkWell(
                     onTap: () async {
                       context.read<PhoneBookBloc>().add(DoMultiSelectionEvent(state.phoneBookUsers![index]));
@@ -36,32 +35,24 @@ class MultiSelectEmployeeList extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Colors.grey.shade300)),
+                        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
                       ),
                       child: ListTile(
                         title: Text(state.phoneBookUsers?[index].name ?? ""),
                         subtitle: Text(state.phoneBookUsers?[index].designation ?? ""),
                         leading: ClipOval(
-                          child: CachedNetworkImage(
-                            height: 40,
-                            width: 40,
+                          child: CachedNetworkImage(height: 40, width: 40,
                             fit: BoxFit.cover,
-                            imageUrl:
-                            "${state.phoneBookUsers?[index].avatar}",
+                            imageUrl: "${state.phoneBookUsers?[index].avatar}",
                             placeholder: (context, url) => Center(
-                              child: Image.asset(
-                                  "assets/images/placeholder_image.png"),
-                            ),
+                              child: Image.asset("assets/images/placeholder_image.png"),),
                             errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                           ),
                         ),
                         trailing: Visibility(
                           visible: state.isMultiSelectionEnabled,
-                          child: Icon(
-                            state.selectedItems.contains(state.phoneBookUsers![index])
+                          child: Icon(state.selectedItems.contains(state.phoneBookUsers![index])
                                 ? Icons.check_circle
                                 : Icons.radio_button_unchecked,
                             size: 26,
@@ -72,14 +63,9 @@ class MultiSelectEmployeeList extends StatelessWidget {
                     ),
                   );
                 },
-              ) : Shimmer.fromColors(
-                baseColor: const Color(0xFFE8E8E8),
-                highlightColor: Colors.white,
-                child: Container(
-                    margin: const EdgeInsets.only(bottom: 16.0),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE8E8E8), // radius of 10// green as background color
-                    )),
+              ) : const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: LeaveListShimmer(),
               );
           }),
     );

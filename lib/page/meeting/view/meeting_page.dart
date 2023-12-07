@@ -15,9 +15,7 @@ class MeetingPage extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     return BlocProvider(
-      create: (_) => MeetingBloc(
-          metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
-        ..add(MeetingListEvent(date: currentDate)),
+      create: (_) => MeetingBloc(metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))..add(MeetingListEvent(date: currentDate)),
       child: const MeetingContent(),
     );
   }

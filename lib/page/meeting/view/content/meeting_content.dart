@@ -19,11 +19,7 @@ class MeetingContent extends StatelessWidget {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            NavUtil.navigateScreen(
-                context,
-                BlocProvider.value(
-                    value: context.read<MeetingBloc>(),
-                    child: const MeetingCreatePage()));
+            NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<MeetingBloc>(), child: const MeetingCreatePage()));
           },
           child: const Icon(Icons.add),
         ),
@@ -51,49 +47,28 @@ class MeetingContent extends StatelessWidget {
                       ? Expanded(
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: state.meetingsListResponse?.data?.items
-                                    ?.length ??
-                                0,
+                            itemCount: state.meetingsListResponse?.data?.items?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {
-                              final data = state
-                                  .meetingsListResponse?.data?.items?[index];
-                              return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
+                              final data = state.meetingsListResponse?.data?.items?[index];
+                              return Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                   child: InkWell(
                                     onTap: () {
-                                      NavUtil.navigateScreen(
-                                          context,
-                                          MeetingDetailsPage(
-                                            data: data,
-                                          ));
+                                      NavUtil.navigateScreen(context, MeetingDetailsPage(data: data));
                                     },
-                                    child: EventWidgets(
-                                        isAppointment: true, data: data!),
+                                    child: EventWidgets(isAppointment: true, data: data!),
                                   ));
                             },
                           ),
                         )
-                      : Expanded(
-                          child: Center(
-                              child: Text(
-                            tr("No Meeting Found"),
-                            style: const TextStyle(
-                                color: Color(0x65555555),
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500),
-                          )),
-                        )
+                      : Expanded(child: Center(child: Text(tr("No Meeting Found"),
+                            style: const TextStyle(color: colorGray, fontSize: 22, fontWeight: FontWeight.w500),)),)
                 ],
               );
             } else if (state.status == NetworkStatus.failure) {
               return Center(
-                child: Text(
-                  "Failed to load Meeting List".tr(),
-                  style: TextStyle(
-                      color: colorPrimary.withOpacity(0.4),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
+                child: Text("Failed to load Meeting List".tr(),
+                  style: TextStyle(color: colorPrimary.withOpacity(0.4),
+                  fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               );
             } else {

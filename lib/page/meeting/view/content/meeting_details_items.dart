@@ -11,9 +11,7 @@ class MeetingDetailsItems extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 0.5, color: Colors.grey),
-        ),
+        border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey),),
       ),
       child: Row(
         children: [
@@ -23,11 +21,8 @@ class MeetingDetailsItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Text(
-                    subTitle ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                    maxLines: 1,
-                  ),
+                  child: Text(subTitle ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.w600), maxLines: 1,),
                 ),
               ],
             ),

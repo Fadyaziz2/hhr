@@ -15,14 +15,10 @@ class AttachmentContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          tr("attachment"),
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        Text(tr("attachment"),
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          height: 16,
-        ),
+        const SizedBox(height: 16,),
         UploadDocContent(
           onFileUpload: (FileUpload? data) {
             if (kDebugMode) {
@@ -30,8 +26,7 @@ class AttachmentContent extends StatelessWidget {
             }
             meetingBodyModel?.attachmentFile = data?.previewUrl;
           },
-          initialAvatar:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
+          initialAvatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
         ),
       ],
     );
