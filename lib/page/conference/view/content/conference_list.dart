@@ -55,7 +55,7 @@ class ConferenceList extends StatelessWidget {
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Wrap(
-                                      spacing: 5,
+                                      spacing: -15,
                                       children: List<Widget>.generate(
                                           data?.members?.length ?? 0,
                                           (index) {
