@@ -6,6 +6,7 @@ import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/attachment_content.dart';
 import 'package:onesthrm/page/meeting/view/content/meeting_time_cart.dart';
 import 'package:onesthrm/page/multi_selection_employee/multi_selection_employee_page.dart';
+import 'package:onesthrm/res/const.dart';
 
 import '../../../../res/common_text_widget.dart';
 import 'meeting_name_list.dart';
@@ -19,6 +20,9 @@ class MeetingCreateContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final meetingBloc = context.read<MeetingBloc>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,9 +54,11 @@ class MeetingCreateContent extends StatelessWidget {
           ),
         ),
         Card(
+          color: colorCardBackground,
+          elevation: 0.0,
           child: InkWell(
             onTap: () {
-              context.read<MeetingBloc>().add(SelectDatePickerSchedule(context));
+              meetingBloc.add(SelectDatePickerSchedule(context));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
@@ -70,6 +76,8 @@ class MeetingCreateContent extends StatelessWidget {
         MeetingTimeCart(meetingState: state),
         const SizedBox(height: 26),
         Card(
+          color: colorCardBackground,
+          elevation: 0,
           child: ListTile(
             onTap: () async {
               if(state?.selectedNames.isNotEmpty == true){
@@ -77,9 +85,9 @@ class MeetingCreateContent extends StatelessWidget {
                 state?.selectedIds.clear();
               }
               /// Get Selected Employee List
-              List<PhoneBookUser> selectedEmployee = await Navigator.push(context, MaterialPageRoute(builder: (context) => const MultiSelectionEmployee(),));
-
-              context.read<MeetingBloc>().add(SelectedEmployeeEvent(selectedEmployee));
+               Navigator.push(context, MaterialPageRoute(builder: (context) => MultiSelectionEmployee(onItemSelected: (items){
+               meetingBloc.add(SelectedEmployeeEvent(items));
+              },),));
             },
             title: Text(tr("Add Meeting Member")),
             leading: const CircleAvatar(backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),),

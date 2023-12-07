@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 
+import '../../../../res/const.dart';
+
 class MeetingTimeCart extends StatelessWidget {
   final MeetingState? meetingState;
   const MeetingTimeCart({super.key,this.meetingState});
@@ -20,6 +22,8 @@ class MeetingTimeCart extends StatelessWidget {
               ),
               const SizedBox(height: 10,),
               Card(
+                color: colorCardBackground,
+                elevation: 0.0,
                 child: InkWell(
                   onTap: () {
                     context.read<MeetingBloc>().add(SelectStartTime(context));
@@ -49,6 +53,8 @@ class MeetingTimeCart extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Card(
+                color: colorCardBackground,
+                elevation: 0.0,
                 child: InkWell(
                   onTap: () {
                     context.read<MeetingBloc>().add(SelectEndTime(context));
