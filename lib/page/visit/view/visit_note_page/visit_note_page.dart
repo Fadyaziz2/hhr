@@ -46,7 +46,7 @@ class VisitNotePage extends StatelessWidget {
               )),
         ),
         appBar: AppBar(
-          title: const Text("Visit Note"),
+          title: Text("visit_note".tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -54,7 +54,7 @@ class VisitNotePage extends StatelessWidget {
             title: tr("note"),
             hints: "Please_write_a_note".tr(),
             maxLine: 5,
-            errorMsg: "Give a note. Field cannot be empty",
+            errorMsg: "give_a_note.Field_cannot_be_empty".tr(),
             onData: (data) {
               if (kDebugMode) {
                 print(data);

@@ -23,13 +23,14 @@ class UpdateVisit extends StatelessWidget {
       child: Scaffold(
         bottomNavigationBar: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
+          decoration: BoxDecoration(
+              color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
           child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: BlocBuilder<VisitBloc, VisitState>(
                 builder: (context, state) {
                   return CustomButton(
-                    title: "Update Visit",
+                    title: "update_visit".tr(),
                     isLoading: state.status == NetworkStatus.loading,
                     padding: 16,
                     clickButton: () {
@@ -56,7 +57,7 @@ class UpdateVisit extends StatelessWidget {
                 CustomTextField(
                   title: 'title*'.tr(),
                   hints: tr("give_a_title_to_your_visit"),
-                  errorMsg: "Field cannot be empty",
+                  errorMsg: "field_cannot_be_empty".tr(),
                   onData: (data) {
                     if (kDebugMode) {
                       print(data);

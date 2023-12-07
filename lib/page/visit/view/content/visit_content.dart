@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
@@ -27,7 +28,7 @@ class VisitContent extends StatelessWidget {
             child: const Icon(Icons.add),
           ),
           appBar: AppBar(
-            title: const Text("Visit"),
+            title: const Text("visit").tr(),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(56),
               child: Container(
@@ -38,7 +39,7 @@ class VisitContent extends StatelessWidget {
                   border:
                       Border(bottom: BorderSide(color: Colors.grey.shade400)),
                 ),
-                child: const TabBar(
+                child: TabBar(
                   isScrollable: false,
                   unselectedLabelColor: Colors.black,
                   labelColor: Colors.green,
@@ -47,10 +48,10 @@ class VisitContent extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
                     Tab(
-                      text: "My Visit",
+                      text: "my_visit".tr(),
                     ),
                     Tab(
-                      text: "History",
+                      text: "history".tr(),
                     ),
                   ],
                 ),

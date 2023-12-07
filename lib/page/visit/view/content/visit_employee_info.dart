@@ -85,26 +85,26 @@ class VisitEmployeeInfo extends StatelessWidget {
                     children: [
                       Text(
                         state.currentDate?.isEmpty == true
-                            ? "Selected Date"
-                            : state.currentDate ?? "Selected Date",
+                            ? "selected_date"
+                            : state.currentDate ?? "selected_date",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
-                      ),
+                      ).tr(),
                       const Icon(Icons.date_range_outlined)
                     ],
                   ),
                 ),
               ),
               state.isDateEnable == true
-                  ? const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                      child: Text(
-                        "You must Select a visit date",
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8),
+                      child: const Text(
+                        "you_must_select_a_visit_date",
                         style: TextStyle(color: colorDeepRed, fontSize: 12),
-                      ),
+                      ).tr(),
                     )
                   : const SizedBox()
             ],

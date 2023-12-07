@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -24,11 +25,13 @@ class VisitHeader extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color(int.parse("0xFFFE8E63")),
+                        color:
+                            Color(int.parse(data?.statusColor ?? "0xFFFE8E63")),
                         style: BorderStyle.solid,
                         width: 3.0,
                       ),
-                      color: Color(int.parse("0xFFFE8E63")),
+                      color:
+                          Color(int.parse(data?.statusColor ?? "0xFFFE8E63")),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: DottedBorder(
@@ -44,7 +47,7 @@ class VisitHeader extends StatelessWidget {
                             color: Colors.white,
                             fontSize: 10,
                             fontWeight: FontWeight.w600),
-                      ),
+                      ).tr(),
                     ),
                   ),
                 ],

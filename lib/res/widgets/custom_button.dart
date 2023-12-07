@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -33,13 +34,15 @@ class CustomButton extends StatelessWidget {
             minimumSize: const Size.fromHeight(50),
             backgroundColor: backgroundColor),
         child: isLoading
-            ? const CircularProgressIndicator(backgroundColor: Colors.white,)
+            ? const CircularProgressIndicator(
+                backgroundColor: Colors.white,
+              )
             : Text("$title",
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            )),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                )).tr(),
       ),
     );
   }

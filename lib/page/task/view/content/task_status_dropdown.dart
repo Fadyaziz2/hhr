@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/task/model/status_model.dart';
@@ -17,16 +18,15 @@ class TaskStatusDropdown extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           width: 150,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.white,
-            border: Border.all(color: Colors.grey.shade300)
-          ),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              border: Border.all(color: Colors.grey.shade300)),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<TaskStatusModel>(
               isExpanded: true,
-              hint: const Text(
-                "In Progress",
-                style: TextStyle(fontSize: 14),
+              hint: Text(
+                "in_progress".tr(),
+                style: const TextStyle(fontSize: 14),
               ),
               value: state.taskSelectedDropdownValue,
               icon: const Icon(
@@ -45,9 +45,9 @@ class TaskStatusDropdown extends StatelessWidget {
                 return DropdownMenuItem<TaskStatusModel>(
                   value: value,
                   child: Text(
-                    value.title ?? '',
+                    value.title ?? ''.tr(),
                     style: const TextStyle(fontSize: 14),
-                  ),
+                  ).tr(),
                 );
               }).toList(),
             ),

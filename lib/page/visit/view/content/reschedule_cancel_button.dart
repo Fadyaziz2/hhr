@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/visit/view/visit_cancel_page/visit_cancel_page.dart';
@@ -9,7 +10,7 @@ import '../../bloc/visit_bloc.dart';
 
 class RescheduleCancelButton extends StatelessWidget {
   final int visitId;
-  const RescheduleCancelButton({super.key,required this.visitId});
+  const RescheduleCancelButton({super.key, required this.visitId});
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +27,22 @@ class RescheduleCancelButton extends StatelessWidget {
                     context,
                     BlocProvider.value(
                         value: context.read<VisitBloc>(),
-                        child:  VisitReschedule(visitId: visitId)));
+                        child: VisitReschedule(visitId: visitId)));
               },
               style: ButtonStyle(
-                backgroundColor:
-                MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all<
-                    RoundedRectangleBorder>(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
               ),
-              child: const Text('Reschedule',
+              child: const Text('reschedule',
                   style: TextStyle(
                     color: colorPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
-                  )),
+                  )).tr(),
             ),
           ),
         ),
@@ -57,30 +56,31 @@ class RescheduleCancelButton extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                NavUtil.navigateScreen(context, BlocProvider.value(
-                    value: context.read<VisitBloc>(),
-                    child:  VisitCancelPage(visitId: visitId,)));
+                NavUtil.navigateScreen(
+                    context,
+                    BlocProvider.value(
+                        value: context.read<VisitBloc>(),
+                        child: VisitCancelPage(
+                          visitId: visitId,
+                        )));
               },
               style: ButtonStyle(
-                backgroundColor:
-                MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all<
-                    RoundedRectangleBorder>(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
               ),
-              child: const Text('Cancel',
+              child: const Text('cancel',
                   style: TextStyle(
                     color: colorPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
-                  )),
+                  )).tr(),
             ),
           ),
         ),
-
       ],
     );
   }

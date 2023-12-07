@@ -13,11 +13,11 @@ import '../../bloc/visit_bloc.dart';
 
 class VisitReschedule extends StatelessWidget {
   final int? visitId;
-  const VisitReschedule({super.key,this.visitId});
+  const VisitReschedule({super.key, this.visitId});
 
   @override
   Widget build(BuildContext context) {
-    BodyCreateSchedule bodyCreateSchedule =  BodyCreateSchedule();
+    BodyCreateSchedule bodyCreateSchedule = BodyCreateSchedule();
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -29,11 +29,11 @@ class VisitReschedule extends StatelessWidget {
             child: BlocBuilder<VisitBloc, VisitState>(
               builder: (context, state) {
                 return CustomButton(
-                  title: "Create Reschedule",
+                  title: "create_reschedule".tr(),
                   padding: 16,
                   isLoading: state.status == NetworkStatus.loading,
                   clickButton: () {
-                    if(state.currentDate != null) {
+                    if (state.currentDate != null) {
                       bodyCreateSchedule.date = state.currentDate;
                       bodyCreateSchedule.visitId = visitId;
                       bodyCreateSchedule.latitude = state.latitude.toString();
@@ -42,8 +42,9 @@ class VisitReschedule extends StatelessWidget {
                       context.read<VisitBloc>().add(CreateRescheduleEvent(
                           bodyCreateSchedule: bodyCreateSchedule,
                           context: context));
-                    }else {
-                      Fluttertoast.showToast(msg: "Date filed can't be Empty");
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "date_filed_can't_be_empty".tr());
                     }
                   },
                 );
@@ -59,11 +60,14 @@ class VisitReschedule extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
               child: Text(
                 tr("date*"),
                 style: const TextStyle(
-                    color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             BlocBuilder<VisitBloc, VisitState>(
@@ -73,11 +77,13 @@ class VisitReschedule extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.read<VisitBloc>().add(SelectDatePickerEvent(context));
+                      context
+                          .read<VisitBloc>()
+                          .add(SelectDatePickerEvent(context));
                     },
                     child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.grey)),
@@ -86,8 +92,8 @@ class VisitReschedule extends StatelessWidget {
                         children: [
                           Text(
                             state.currentDate?.isEmpty == true
-                                ? "Selected Date"
-                                : state.currentDate ?? "Selected Date",
+                                ? "selected_date".tr()
+                                : state.currentDate ?? "selected_date".tr(),
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -99,21 +105,24 @@ class VisitReschedule extends StatelessWidget {
                     ),
                   ),
                   state.isDateEnable == true
-                      ? const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8),
                           child: Text(
-                            "You must Select a visit date",
-                            style: TextStyle(color: colorDeepRed, fontSize: 12),
+                            "you_must_select_a_visit_date".tr(),
+                            style: const TextStyle(
+                                color: colorDeepRed, fontSize: 12),
                           ),
                         )
                       : const SizedBox()
                 ],
               );
             }),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             CustomTextField(
-              title: tr("Note (Optional)"),
+              title: tr("Note_(Optional)"),
               hints: "write_note".tr(),
               maxLine: 5,
               onData: (data) {

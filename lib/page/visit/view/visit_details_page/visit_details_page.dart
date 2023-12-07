@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,11 +19,13 @@ import '../content/visit_schedule_item.dart';
 class VisitDetailsPage extends StatelessWidget {
   final int visitID;
 
-  const VisitDetailsPage({super.key,  required this.visitID});
+  const VisitDetailsPage({super.key, required this.visitID});
 
   @override
   Widget build(BuildContext context) {
-    context.read<VisitBloc>().add(VisitDetailsEvent(visitId: visitID, latitude: locationServiceProvider.userLocation.latitude,
+    context.read<VisitBloc>().add(VisitDetailsEvent(
+        visitId: visitID,
+        latitude: locationServiceProvider.userLocation.latitude,
         longitude: locationServiceProvider.userLocation.longitude));
     late GoogleMapController mapController;
     BodyVisitCancel bodyStatusChange = BodyVisitCancel();
@@ -30,7 +33,10 @@ class VisitDetailsPage extends StatelessWidget {
     return Scaffold(
         bottomNavigationBar: BlocBuilder<VisitBloc, VisitState>(
           builder: (context, state) {
-            return Visibility(visible: state.visitDetailsResponse?.data?.nextStatus?.statusText?.isEmpty == false,
+            return Visibility(
+              visible: state.visitDetailsResponse?.data?.nextStatus?.statusText
+                      ?.isEmpty ==
+                  false,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
@@ -39,15 +45,21 @@ class VisitDetailsPage extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButton(
-                      title: state.visitDetailsResponse?.data?.nextStatus?.statusText ?? "",
+                      title: state.visitDetailsResponse?.data?.nextStatus
+                              ?.statusText ??
+                          "",
                       padding: 16,
                       isLoading: state.status == NetworkStatus.loading,
                       clickButton: () {
-                        bodyStatusChange.visitId = state.visitDetailsResponse!.data!.id;
-                        bodyStatusChange.status = state.visitDetailsResponse?.data?.nextStatus?.status;
+                        bodyStatusChange.visitId =
+                            state.visitDetailsResponse!.data!.id;
+                        bodyStatusChange.status = state
+                            .visitDetailsResponse?.data?.nextStatus?.status;
                         bodyStatusChange.latitude = state.latitude.toString();
                         bodyStatusChange.longitude = state.longitude.toString();
-                        context.read<VisitBloc>().add(VisitStatusEvent(context: context, bodyVisitCancel: bodyStatusChange));
+                        context.read<VisitBloc>().add(VisitStatusEvent(
+                            context: context,
+                            bodyVisitCancel: bodyStatusChange));
                       },
                     )),
               ),
@@ -55,7 +67,7 @@ class VisitDetailsPage extends StatelessWidget {
           },
         ),
         appBar: AppBar(
-          title: const Text("Visit Details"),
+          title: Text("visit_details".tr()),
           actions: [VisitAppBarAction(visitID: visitID)],
         ),
         body: ListView(
@@ -64,7 +76,11 @@ class VisitDetailsPage extends StatelessWidget {
             const VisitHeader(),
 
             /// Visit Google Map Part .....
-            VisitDetailsGoogleMap(onMapCreated: (GoogleMapController controller) {mapController = controller;},),
+            VisitDetailsGoogleMap(
+              onMapCreated: (GoogleMapController controller) {
+                mapController = controller;
+              },
+            ),
 
             /// Visit Photo Upload Part .....
             VisitPhoneUpload(visitID: visitID),
@@ -79,15 +95,23 @@ class VisitDetailsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   Schedule? schedule = data?.schedules?[index];
                   return InkWell(
-                    onTap: () async {
-                      context.read<VisitBloc>().add(
-                            VisitGoToPositionEvent(latLng: LatLng(double.parse(schedule?.latitude.toString() ?? ""),
-                                double.parse(schedule?.longitude.toString() ?? "")), controller: mapController),);
-                    },
-                      child: VisitScheduleItem(schedule: schedule)
-                  );
+                      onTap: () async {
+                        context.read<VisitBloc>().add(
+                              VisitGoToPositionEvent(
+                                  latLng: LatLng(
+                                      double.parse(
+                                          schedule?.latitude.toString() ?? ""),
+                                      double.parse(
+                                          schedule?.longitude.toString() ??
+                                              "")),
+                                  controller: mapController),
+                            );
+                      },
+                      child: VisitScheduleItem(schedule: schedule));
                 },
-                separatorBuilder: (BuildContext context, int index) { return const Divider();},
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider();
+                },
               );
             }),
 
@@ -95,9 +119,13 @@ class VisitDetailsPage extends StatelessWidget {
             VisitNoteContent(visitID: visitID),
 
             /// Visit ReSchedule and Cancel Button Part
-            RescheduleCancelButton(visitId: visitID,),
+            RescheduleCancelButton(
+              visitId: visitID,
+            ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ));
   }
