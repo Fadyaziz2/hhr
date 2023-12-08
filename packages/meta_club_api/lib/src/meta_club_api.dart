@@ -81,6 +81,22 @@ class MetaClubApiClient {
     }
   }
 
+  Future<CompanyListModel?> getCompanyList() async {
+    const String api = 'url will be there'; // todo
+
+    try {
+      final response =
+      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+
+      if (response?.statusCode == 200) {
+        return CompanyListModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<Settings?> getSettings() async {
     const String api = 'app/base-settings';
 
