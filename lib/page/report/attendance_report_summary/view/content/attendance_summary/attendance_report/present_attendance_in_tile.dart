@@ -1,5 +1,5 @@
-
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/common/functions.dart';
@@ -24,21 +24,20 @@ class PresentAddressInTile extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Color(int.parse(getInOutColor(
-                    status: dailyReport.checkInStatus))),
+                color: Color(int.parse(
+                    getInOutColor(status: dailyReport.checkInStatus))),
                 style: BorderStyle.solid,
                 width: 3.0,
               ),
-              color: Color(int.parse(getInOutColor(
-                  status: dailyReport.checkInStatus))),
+              color: Color(
+                  int.parse(getInOutColor(status: dailyReport.checkInStatus))),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: DottedBorder(
               color: Colors.white,
               borderType: BorderType.RRect,
               radius: const Radius.circular(5),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               strokeWidth: 1,
               child: Text(
                 dailyReport.checkIn ?? "",
@@ -63,22 +62,20 @@ class PresentAddressInTile extends StatelessWidget {
                 width: 16,
                 height: 16,
                 decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blueAccent),
+                    shape: BoxShape.circle, color: Colors.blueAccent),
                 child: Center(
                     child: Text(
-                      remoteModeIn ?? '',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
-                    )),
+                  remoteModeIn ?? '',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold),
+                ).tr()),
               ),
             ),
           ),
           Visibility(
-            visible:
-            dailyReport.checkInReason?.isNotEmpty == true,
+            visible: dailyReport.checkInReason?.isNotEmpty == true,
             child: InkWell(
               onTap: () {
                 getReasonIn(dailyReport.checkInReason);

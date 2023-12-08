@@ -28,8 +28,7 @@ class MeetingCreatePage extends StatelessWidget {
                     padding: 16,
                     isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
-                      final currentDate =
-                          DateFormat('y-MM').format(DateTime.now());
+                      final currentDate = DateFormat('y-MM').format(DateTime.now());
                       if (formKey.currentState!.validate() &&
                           state.status == NetworkStatus.success) {
                         meetingBodyModel.participants = state.selectedIds.join(',');
@@ -60,12 +59,7 @@ class MeetingCreatePage extends StatelessWidget {
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MeetingCreateContent(state: state, meetingBodyModel: meetingBodyModel),
-                    ],
-                  ),
+                  child: MeetingCreateContent(state: state, meetingBodyModel: meetingBodyModel),
                 ),
               );
             } else if (state.status == NetworkStatus.failure) {

@@ -20,10 +20,8 @@ class MeetingNameList extends StatelessWidget {
           children: List.generate(
               state?.selectedNames.length ?? 0,
               (index) => Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     gradient: const LinearGradient(

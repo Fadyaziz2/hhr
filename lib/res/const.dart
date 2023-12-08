@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 Color mainColor = const Color(0xFF00a8e6);
 Color buttonColor = const Color(0xFF00a8e6);
 const Color colorPrimary = Color(0xFF00a8e6);
+const Color colorCardBackground = Color(0xffF3F9FE);
 const Color backgroundColor = Color(0xFFF6F6F6);
 const Color primaryBorderColor = Color(0xFFF3E9E7);
 const Color colorPrimaryGradient = Color(0xff00a7ab);

@@ -119,8 +119,8 @@ class HomeHeader extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(
-              height: 10.0,
+             SizedBox(
+              height: 20.0.h,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -135,7 +135,7 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 20.0.h,
+              height: 8.0.h,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,

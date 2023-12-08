@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -23,7 +24,7 @@ class PhoneBookPage extends StatelessWidget {
           ..add(PhoneBookLoadRequest()),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('PhoneBook'),
+            title: const Text('PhoneBook').tr(),
             backgroundColor: mainColor,
           ),
           body: PhoneBookContent(

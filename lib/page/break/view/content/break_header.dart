@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:custom_timer/custom_timer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -23,21 +24,21 @@ class BreakHeader extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               children: [
-                const TextSpan(
-                    text: 'You have already taken ',
-                    style: TextStyle(
+                TextSpan(
+                    text: 'You_have_already_taken'.tr(),
+                    style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
                         color: Color(0xFF555555))),
                 TextSpan(
-                    text: "${dashboardModel?.data?.breakHistory?.time  ?? 0}",
+                    text: "${dashboardModel?.data?.breakHistory?.time ?? 0} ",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.redAccent)),
-                const TextSpan(
-                    text: ' break',
-                    style: TextStyle(
+                TextSpan(
+                    text: 'break'.tr(),
+                    style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
                         color: Color(0xFF555555))),
@@ -46,12 +47,12 @@ class BreakHeader extends StatelessWidget {
           ),
         ),
         const Text(
-          "You have not taken a break",
+          "you_have_not_taken_a_break",
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 16,
               color: Color(0xFF555555)),
-        ),
+        ).tr(),
         const SizedBox(
           height: 8.0,
         ),

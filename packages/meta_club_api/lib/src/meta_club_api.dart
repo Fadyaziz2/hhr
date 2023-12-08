@@ -1543,4 +1543,18 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// Conference List  ------------------
+  Future<ConferenceModel?> getConferenceList() async {
+    const String api = 'conference/my-meeting';
+    try {
+      final response = await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      if (response?.statusCode == 200) {
+        return ConferenceModel.fromJson(response?.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }

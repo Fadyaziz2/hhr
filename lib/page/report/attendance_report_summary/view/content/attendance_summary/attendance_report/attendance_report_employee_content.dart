@@ -12,13 +12,12 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<ReportBloc, ReportState>(
       builder: (BuildContext context, state) {
         context.read<ReportBloc>().add(GetAttendanceReportData());
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Attendance of Employee'),
+            title: const Text('attendance_of_employee').tr(),
             actions: [
               IconButton(
                   onPressed: () {
@@ -39,12 +38,12 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
                   ),
                   Center(
                       child: Text(
-                        tr('daily_report'),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16),
-                      )),
+                    tr('daily_report'),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
+                  )),
                   const SizedBox(
                     height: 20,
                   ),

@@ -5,7 +5,7 @@ import 'package:onesthrm/page/appointment/appoinment_list/content/upcoming_event
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/meeting_create_page/meeting_create_page.dart';
 import 'package:onesthrm/page/meeting/view/meeting_details_page/meeting_details_page.dart';
-
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../../../res/const.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/nav_utail.dart';
@@ -59,9 +59,7 @@ class MeetingContent extends StatelessWidget {
                                   ));
                             },
                           ),
-                        )
-                      : Expanded(child: Center(child: Text(tr("No Meeting Found"),
-                            style: const TextStyle(color: colorGray, fontSize: 22, fontWeight: FontWeight.w500),)),)
+                        ) : const Expanded(child: Center(child: NoDataFoundWidget(title: 'No Meeting Found',)),)
                 ],
               );
             } else if (state.status == NetworkStatus.failure) {

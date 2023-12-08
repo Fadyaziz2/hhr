@@ -65,7 +65,7 @@ class LeaveReportList extends StatelessWidget {
                                                 fontSize: 12,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500),
-                                          ),
+                                          ).tr(),
                                           const SizedBox(
                                             width: 20,
                                           ),
@@ -109,7 +109,7 @@ class LeaveReportList extends StatelessWidget {
                                             color: Colors.white,
                                             fontSize: 10,
                                             fontWeight: FontWeight.w600),
-                                      ),
+                                      ).tr(),
                                     ),
                                   ),
                                 ),

@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/common/functions.dart';
@@ -52,14 +53,14 @@ class PresentAttendanceTile extends StatelessWidget {
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "IN",
+                        child: const Text(
+                          "in",
                           style: TextStyle(
                             fontSize: 10,
                           ),
-                        ),
+                        ).tr(),
                       ),
                       const SizedBox(width: 20.0),
                       PresentAddressInTile(
@@ -75,11 +76,11 @@ class PresentAttendanceTile extends StatelessWidget {
                   color: const Color(0xffFCF6FF),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "OUT",
-                          style: TextStyle(
+                          "out".tr(),
+                          style: const TextStyle(
                             fontSize: 10,
                           ),
                         ),
@@ -116,7 +117,7 @@ class PresentAttendanceTile extends StatelessWidget {
                                       color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600),
-                                ),
+                                ).tr(),
                               ),
                             ),
                             const SizedBox(

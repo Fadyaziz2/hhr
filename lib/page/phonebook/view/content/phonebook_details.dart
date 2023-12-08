@@ -1,4 +1,5 @@
 import 'package:chat/chat.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
@@ -29,7 +30,7 @@ class PhoneBookDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Directory"),
+        title: const Text("directory").tr(),
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
@@ -126,27 +127,27 @@ class PhoneBookDetailsScreen extends StatelessWidget {
                     height: 20,
                   ),
                   buildProfileDetails(
-                    title: "Phone",
+                    title: "phone",
                     description: snapshot.data?.data?.phone ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Email",
+                    title: "email",
                     description: snapshot.data?.data?.email ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Department",
+                    title: "department",
                     description: snapshot.data?.data?.designation ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Date of Birth",
+                    title: "date_of_birth",
                     description: snapshot.data?.data?.birthDate ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Blood Group",
+                    title: "blood_group",
                     description: snapshot.data?.data?.bloodGroup ?? "N/A",
                   ),
                   buildProfileDetails(
-                    title: "Social Media",
+                    title: "social_media",
                     description: snapshot.data?.data?.facebookLink ?? "N/A",
                   ),
                 ],
@@ -186,7 +187,7 @@ class PhoneBookDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Text(title!),
+            child: Text(title!).tr(),
           ),
           Expanded(
             flex: 2,

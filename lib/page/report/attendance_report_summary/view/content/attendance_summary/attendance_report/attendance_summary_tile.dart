@@ -17,7 +17,7 @@ class AttendanceSummaryTile extends StatelessWidget {
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
                   ?.attendanceSummary?.workingDays,
-              title: 'Working Days',
+              title: 'working_days',
               color: Colors.green),
           SummeryTile(
               titleValue: reportBloc.state.attendanceReport?.reportData
