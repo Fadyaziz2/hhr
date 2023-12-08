@@ -67,70 +67,83 @@ class BreakReportScreen extends StatelessWidget {
               const SizedBox(
                 height: 16.0,
               ),
-              if(state.breakReportModel != null)
-              state.breakReportModel!.data!.breakHistory?.todayHistory?.isNotEmpty == true
-                  ? Expanded(
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    state
-                                            .breakReportModel
-                                            ?.data
-                                            ?.breakHistory
-                                            ?.todayHistory?[index]
-                                            .breakTimeDuration ??
-                                        "",
-                                    textAlign: TextAlign.center,
+              if (state.breakReportModel != null)
+                state.breakReportModel!.data!.breakHistory?.todayHistory
+                            ?.isNotEmpty ==
+                        true
+                    ? Expanded(
+                        child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  height: 40,
-                                  width: 3,
-                                  color: colorPrimary,
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.breakReportModel?.data?.breakHistory?.todayHistory?[index].reason ?? "",
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      state
+                                              .breakReportModel
+                                              ?.data
+                                              ?.breakHistory
+                                              ?.todayHistory?[index]
+                                              .breakTimeDuration ??
+                                          "",
+                                      textAlign: TextAlign.center,
                                     ),
-                                    const SizedBox(height: 5.0,),
-                                    Text(state
-                                            .breakReportModel
-                                            ?.data
-                                            ?.breakHistory
-                                            ?.todayHistory?[index]
-                                            .breakBackTime ??
-                                        ""),
-                                  ],
-                                )
-                              ],
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory?.length ?? 0),
-                    )
-                  : const Expanded(child: NoDataFoundWidget())
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 3,
+                                    color: colorPrimary,
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state
+                                                .breakReportModel
+                                                ?.data
+                                                ?.breakHistory
+                                                ?.todayHistory?[index]
+                                                .reason ??
+                                            "",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ).tr(),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(state
+                                              .breakReportModel
+                                              ?.data
+                                              ?.breakHistory
+                                              ?.todayHistory?[index]
+                                              .breakBackTime ??
+                                          ""),
+                                    ],
+                                  )
+                                ],
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            itemCount: state.breakReportModel?.data
+                                    ?.breakHistory?.todayHistory?.length ??
+                                0),
+                      )
+                    : const Expanded(child: NoDataFoundWidget())
             ],
           ),
         );

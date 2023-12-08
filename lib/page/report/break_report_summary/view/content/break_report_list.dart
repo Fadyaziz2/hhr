@@ -26,7 +26,8 @@ class BreakReportList extends StatelessWidget {
             .getBreakSummaryHistoryList(breakUserId: breakUserId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final breakHistory = snapshot.data?.data?.breakHistory?.todayHistory;
+            final breakHistory =
+                snapshot.data?.data?.breakHistory?.todayHistory;
             return Column(
               children: [
                 Container(
@@ -77,7 +78,8 @@ class BreakReportList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final data = breakHistory?[index];
                       return Card(
-                        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 4.0),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -85,7 +87,7 @@ class BreakReportList extends StatelessWidget {
                               const SizedBox(
                                 width: 10,
                               ),
-                               SizedBox(
+                              SizedBox(
                                 width: 100,
                                 child: Text(
                                   data?.breakTimeDuration ?? '',
@@ -103,15 +105,15 @@ class BreakReportList extends StatelessWidget {
                               const SizedBox(
                                 width: 20,
                               ),
-                                Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    "Break",
+                                    "break",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   const SizedBox(
                                     height: 5,
                                   ),

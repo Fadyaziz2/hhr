@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
@@ -68,9 +69,10 @@ class LeaveInfoListTile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(data?.type ?? "Sick",
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey)),
+                    Text(data?.type ?? "sick",
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey))
+                        .tr(),
                   ],
                 ),
               );

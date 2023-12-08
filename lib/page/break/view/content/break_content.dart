@@ -1,4 +1,5 @@
 import 'package:custom_timer/custom_timer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,8 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
@@ -102,8 +104,9 @@ class BreakContentState extends State<BreakContent>
     final user = context.read<AuthenticationBloc>().state.data;
     final dashboard = widget.homeBloc.state.dashboardModel;
 
-    if(dashboard != null){
-      context.read<BreakBloc>().add(OnInitialHistoryEvent(breaks: dashboard.data!.breakHistory?.breakHistory?.todayHistory));
+    if (dashboard != null) {
+      context.read<BreakBloc>().add(OnInitialHistoryEvent(
+          breaks: dashboard.data!.breakHistory?.breakHistory?.todayHistory));
     }
     return Scaffold(
       appBar: AppBar(
@@ -121,12 +124,12 @@ class BreakContentState extends State<BreakContent>
           ),
         ),
         title: Text(
-          "Break time",
+          "break_time",
           style: Theme.of(context)
               .textTheme
               .titleMedium
               ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
-        ),
+        ).tr(),
         actions: [
           InkWell(
             onTap: () {
@@ -172,7 +175,8 @@ class BreakContentState extends State<BreakContent>
                 context: context,
                 message: '${user?.user?.name}',
                 body: '${state.breakBack?.message}',
-                isSuccess: state.status == NetworkStatus.success && state.breakBack?.result == true);
+                isSuccess: state.status == NetworkStatus.success &&
+                    state.breakBack?.result == true);
           }
 
           if (state.status == NetworkStatus.success) {
@@ -191,8 +195,8 @@ class BreakContentState extends State<BreakContent>
                 ),
                 AnimatedCircularButton(
                   title: globalState.get(breakStatus) == 'break_in'
-                      ? 'Back'
-                      : 'Break',
+                      ? 'Back'.tr()
+                      : 'Break'.tr(),
                   color: globalState.get(breakStatus) == 'break_in'
                       ? colorDeepRed
                       : colorPrimary,
@@ -200,21 +204,23 @@ class BreakContentState extends State<BreakContent>
                     context.read<BreakBloc>().add(OnBreakBackEvent());
                   },
                 ),
-                  const Text(
-                    "Last Breaks",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                if (state.breakReportModel?.data?.breakHistory?.todayHistory != null)...[
+                const Text(
+                  "last_breaks",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ).tr(),
+                if (state.breakReportModel?.data?.breakHistory?.todayHistory !=
+                    null) ...[
                   const SizedBox(height: 20.0),
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-
-                        BreakTodayHistory? todayHistory = state.breakReportModel?.data?.breakHistory?.todayHistory?.elementAt(index);
+                        BreakTodayHistory? todayHistory = state
+                            .breakReportModel?.data?.breakHistory?.todayHistory
+                            ?.elementAt(index);
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -255,17 +261,26 @@ class BreakContentState extends State<BreakContent>
                           ],
                         );
                       },
-                      separatorBuilder: (context, index) {return const Divider();},
-                      itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory!.length ?? 0),
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                      itemCount: state.breakReportModel?.data?.breakHistory
+                              ?.todayHistory!.length ??
+                          0),
                   const Divider(),
                 ],
-                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)const SizedBox(height: 8.0),
-                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)ListView.separated(
+                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                    null)
+                  const SizedBox(height: 8.0),
+                if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory !=
+                    null)
+                  ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-
-                        TodayHistory? todayHistory = dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.elementAt(index);
+                        TodayHistory? todayHistory = dashboard
+                            ?.data?.breakHistory?.breakHistory?.todayHistory!
+                            .elementAt(index);
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -279,7 +294,9 @@ class BreakContentState extends State<BreakContent>
                             Container(
                               height: 40,
                               width: 3,
-                              color: globalState.get(breakStatus) == 'break_in' ? const Color(0xFFE8356C) : colorPrimary,
+                              color: globalState.get(breakStatus) == 'break_in'
+                                  ? const Color(0xFFE8356C)
+                                  : colorPrimary,
                             ),
                             const SizedBox(
                               width: 35.0,
@@ -293,7 +310,7 @@ class BreakContentState extends State<BreakContent>
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   const SizedBox(
                                     height: 5,
                                   ),
@@ -307,7 +324,9 @@ class BreakContentState extends State<BreakContent>
                       separatorBuilder: (context, index) {
                         return const Divider();
                       },
-                      itemCount: dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.length ?? 0)
+                      itemCount: dashboard?.data?.breakHistory?.breakHistory
+                              ?.todayHistory!.length ??
+                          0)
               ],
             ),
           );

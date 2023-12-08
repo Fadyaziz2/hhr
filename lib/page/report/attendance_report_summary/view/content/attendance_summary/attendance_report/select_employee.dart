@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,15 +25,15 @@ class SelectEmployeeForAttendance extends StatelessWidget {
             }
           });
         },
-        title: Text(
-            context.watch<ReportBloc>().state.selectEmployee?.name! ??
-                'Select Employee'),
+        title: Text(context.watch<ReportBloc>().state.selectEmployee?.name! ??
+                'select_employee')
+            .tr(),
         leading: CircleAvatar(
           backgroundImage: NetworkImage(context
-              .watch<ReportBloc>()
-              .state
-              .selectEmployee
-              ?.avatar ??
+                  .watch<ReportBloc>()
+                  .state
+                  .selectEmployee
+                  ?.avatar ??
               'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
         ),
       ),

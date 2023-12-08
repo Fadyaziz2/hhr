@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
@@ -15,12 +16,12 @@ class PhoneBookSearch extends StatelessWidget {
       padding:
           const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
       child: TextField(
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          hintText: "Search",
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.search),
+          hintText: "search".tr(),
           filled: true,
-          contentPadding: EdgeInsets.all(0),
-          border: OutlineInputBorder(
+          contentPadding: const EdgeInsets.all(0),
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50.0),
             ),
