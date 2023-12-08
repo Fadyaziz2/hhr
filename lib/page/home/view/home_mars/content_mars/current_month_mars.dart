@@ -9,7 +9,7 @@ class CurrentMonthMars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dashboardModel = context.read<HomeBloc>().state.dashboardModel;
+    final dashboardModel = context.watch<HomeBloc>().state.dashboardModel;
     return Container(
       margin: const EdgeInsets.only(left: 18, right: 18, top: 18),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -35,80 +35,37 @@ class CurrentMonthMars extends StatelessWidget {
             color: primaryBorderColor,
             height: 0.5,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[0].number ?? 0}",
-                    style: const TextStyle(
-                        color: colorPrimary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                  dashboardModel?.data?.currentMonth?.length ?? 0, (index) {
+                final currentMonth = dashboardModel?.data?.currentMonth?[index];
+                return Container(
+                  margin: const EdgeInsets.only(right: 18.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${currentMonth?.number ?? 0}",
+                        style: const TextStyle(
+                            color: Color(0xffF76B6E),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "${currentMonth?.title ?? 0}",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[0].title ?? 0}",
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
-                color: primaryBorderColor,
-                width: 0.5,
-                height: 48,
-              ),
-              Column(
-                children: [
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[1].number ?? 0}",
-                    style: const TextStyle(
-                        color: Color(0xffF76B6E),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[1].title ?? 0}",
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
-                color: primaryBorderColor,
-                width: 0.5,
-                height: 48,
-              ),
-              Column(
-                children: [
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[2].number ?? 0}",
-                    style: const TextStyle(
-                        color: Color(0xff3DBA90),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "${dashboardModel?.data?.currentMonth?[2].title ?? 0}",
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ],
-          ),
+                );
+              }),
+            ),
+          )
         ],
       ),
     );
