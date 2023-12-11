@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/dynamic_image_viewer.dart';
@@ -17,7 +18,11 @@ class TodayListCountMars extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          DynamicImageViewer(image:  image ?? "",height: 35,width: 35,),
+          DynamicImageViewer(
+            image: image ?? "",
+            height: 35,
+            width: 35,
+          ),
           const SizedBox(
             width: 8,
           ),
@@ -38,7 +43,7 @@ class TodayListCountMars extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.black, fontSize: 12),
-                ),
+                ).tr(),
               ],
             ),
           ),

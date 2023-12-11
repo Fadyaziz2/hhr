@@ -148,12 +148,12 @@
   "support_policy": "সমর্থন নীতি",
   "privacy_policy": "গোপনীয়তা নীতি",
   "terms_conditions": "শর্তাবলী",
-  "logout": "প্রস্থান",
-  "are_you_sure_you_want_to_logout": "আপনি লগ আউট করতে চান",
+  "logout": "লগআউট",
+  "are_you_sure_you_want_to_logout": "আপনি লগ আউট করতে চান?",
   "no": "না",
   "yes": "হ্যাঁ",
   "setting": "সেটিংস",
-  "support": "সমর্থন",
+  "support": "সাপোর্ট",
   "employee_leave_history": "কর্মচারী ছুটির ইতিহাস",
   "request_details": "বিস্তারিত অনুরোধ",
   "name": "নাম",
@@ -547,5 +547,10 @@
   "select_leave_type_and_time": "সিলেক্ট লিভ টাইপ এন্ড টাইম",
   "Late Arrive": "লেট এরাইভ",
   "Early Leave": "আর্লি লিভ",
-  "Daily Leave Requested": "ডেইলি লিভ রেকুয়েস্টেড"
+  "Daily Leave Requested": "ডেইলি লিভ রেকুয়েস্টেড",
+  "chat_room": "চ্যাট রুম",
+  "Chat": "চ্যাট",
+  "Conference": "কনফারেন্স",
+  "face_register": "ফেস রেজিস্টার",
+  "cancelled": "ক্যান্সেলেড"
 }

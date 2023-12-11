@@ -25,7 +25,7 @@ class CurrentMonthMars extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ).tr(),
           const Text(
-            'An Overview of your Progress',
+            'an_overview_of_your_progress',
             style: TextStyle(
               fontSize: 12,
             ),
@@ -59,7 +59,7 @@ class CurrentMonthMars extends StatelessWidget {
                         "${currentMonth?.title ?? 0}",
                         style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
-                      )
+                      ).tr()
                     ],
                   ),
                 );
