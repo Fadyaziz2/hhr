@@ -21,8 +21,7 @@ class BreakScreen extends StatelessWidget {
     final homeBloc = context.read<HomeBloc>();
 
     return BlocProvider(
-      create: (context) => BreakBloc(
-        metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+      create: (context) => BreakBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
       )..add(GetBreakHistoryData()),
       child: BreakContent(homeBloc: homeBloc),
     );

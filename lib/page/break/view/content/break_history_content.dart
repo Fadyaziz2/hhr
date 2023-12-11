@@ -76,58 +76,58 @@ class BreakHistoryContent extends StatelessWidget {
               itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory!.length ?? 0),
           const Divider(),
         ],
-        if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
-          const SizedBox(height: 8.0),
-        if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
-          ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                TodayHistory? todayHistory = dashboard
-                    ?.data?.breakHistory?.breakHistory?.todayHistory!
-                    .elementAt(index);
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        todayHistory?.breakTimeDuration ?? "",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 3,
-                      color: globalState.get(breakStatus) == 'break_in'
-                          ? const Color(0xFFE8356C)
-                          : colorPrimary,
-                    ),
-                    const SizedBox(
-                      width: 35.0,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            todayHistory?.reason ?? "",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ).tr(),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(todayHistory?.breakBackTime ?? ""),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) {return const Divider();},
-              itemCount: dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.length ?? 0)
+        // if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+        //   const SizedBox(height: 8.0),
+        // if (dashboard?.data?.breakHistory?.breakHistory?.todayHistory != null)
+        //   ListView.separated(
+        //       shrinkWrap: true,
+        //       physics: const NeverScrollableScrollPhysics(),
+        //       itemBuilder: (context, index) {
+        //         TodayHistory? todayHistory = dashboard
+        //             ?.data?.breakHistory?.breakHistory?.todayHistory!
+        //             .elementAt(index);
+        //
+        //         return Row(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [
+        //             Expanded(
+        //               child: Text(
+        //                 todayHistory?.breakTimeDuration ?? "",
+        //                 textAlign: TextAlign.center,
+        //               ),
+        //             ),
+        //             Container(
+        //               height: 40,
+        //               width: 3,
+        //               color: globalState.get(breakStatus) == 'break_in'
+        //                   ? const Color(0xFFE8356C)
+        //                   : colorPrimary,
+        //             ),
+        //             const SizedBox(
+        //               width: 35.0,
+        //             ),
+        //             Expanded(
+        //               child: Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   Text(
+        //                     todayHistory?.reason ?? "",
+        //                     style: const TextStyle(
+        //                         color: Colors.black,
+        //                         fontWeight: FontWeight.bold),
+        //                   ).tr(),
+        //                   const SizedBox(
+        //                     height: 5,
+        //                   ),
+        //                   Text(todayHistory?.breakBackTime ?? ""),
+        //                 ],
+        //               ),
+        //             )
+        //           ],
+        //         );
+        //       },
+        //       separatorBuilder: (context, index) {return const Divider();},
+        //       itemCount: dashboard?.data?.breakHistory?.breakHistory?.todayHistory!.length ?? 0)
       ],
     );
   }
