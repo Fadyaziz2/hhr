@@ -29,19 +29,7 @@ class DialogMultiAttendanceList extends StatelessWidget {
             remoteModeOut = (int.tryParse(dateWiseReport?.remoteModeOut ?? "0") == 0) ? "H" : "V";
 
             /// CheckIn Status Color
-            if (dateWiseReport?.checkInStatus == "OT") {
-              checkInColor = "0xff46A44D"; //green Color
-            } else if (dateWiseReport?.checkInStatus == "L") {
-              checkInColor = "0xffF44336"; // red Color
-            } else if (dateWiseReport?.checkInStatus == "A") {
-              checkInColor = "0xff000000"; // Black Color
-            } else if (dateWiseReport?.checkInStatus == "LT") {
-              checkInColor = "0xff46A44D"; //green Color
-            } else if (dateWiseReport?.checkInStatus == "LL") {
-              checkInColor = "0xffFFC107"; // yellow Color
-            } else {
-              checkInColor = "0xff46A44D"; //green Color
-            }
+            checkInColor = checkInStatusColor(dateWiseReport, checkInColor);
 
             /// CheckOut Status Color
             if (dateWiseReport?.checkOutStatus == "OT") {
@@ -69,5 +57,22 @@ class DialogMultiAttendanceList extends StatelessWidget {
             );
           },
         ));
+  }
+
+  String? checkInStatusColor(DateWiseReport? dateWiseReport, String? checkInColor) {
+    if (dateWiseReport?.checkInStatus == "OT") {
+      checkInColor = "0xff46A44D"; //green Color
+    } else if (dateWiseReport?.checkInStatus == "L") {
+      checkInColor = "0xffF44336"; // red Color
+    } else if (dateWiseReport?.checkInStatus == "A") {
+      checkInColor = "0xff000000"; // Black Color
+    } else if (dateWiseReport?.checkInStatus == "LT") {
+      checkInColor = "0xff46A44D"; //green Color
+    } else if (dateWiseReport?.checkInStatus == "LL") {
+      checkInColor = "0xffFFC107"; // yellow Color
+    } else {
+      checkInColor = "0xff46A44D"; //green Color
+    }
+    return checkInColor;
   }
 }
