@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -25,9 +26,15 @@ class ApplyDailySelectEmployee extends StatelessWidget {
             }
           });
         },
-        title: Text(context.watch<DailyLeaveBloc>().state.selectEmployee?.name! ?? 'Select Employee'),
+        title: Text(
+            context.watch<DailyLeaveBloc>().state.selectEmployee?.name! ??
+                'select_employee'.tr()),
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(context.watch<DailyLeaveBloc>().state.selectEmployee?.avatar ??
+          backgroundImage: NetworkImage(context
+                  .watch<DailyLeaveBloc>()
+                  .state
+                  .selectEmployee
+                  ?.avatar ??
               'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
         ),
       ),

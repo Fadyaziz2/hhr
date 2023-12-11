@@ -23,8 +23,9 @@ class DailyLeaveContent extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                context.read<DailyLeaveBloc>().add(
-                    SelectDatePickerDailyLeave(user!.user!.id!, context));
+                context
+                    .read<DailyLeaveBloc>()
+                    .add(SelectDatePickerDailyLeave(user!.user!.id!, context));
               },
               icon: const Icon(Icons.calendar_month_outlined))
         ],
@@ -41,7 +42,7 @@ class DailyLeaveContent extends StatelessWidget {
                     child: const DailyCreatePage(),
                   ));
             },
-            title: "Apply Daily Leave",
+            title: "apply_daily_leave".tr(),
             color: colorPrimary,
           ),
           const DailyLeaveStatusContent()
