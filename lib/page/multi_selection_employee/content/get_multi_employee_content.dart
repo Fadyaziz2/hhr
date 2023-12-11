@@ -15,6 +15,13 @@ class GetMultiEmployeeContent extends StatelessWidget {
         EmployeeSearch(
           bloc: context.read<PhoneBookBloc>(),
         ),
+        Text(
+          "** Please, long press to select employee **",
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Colors.green),
+        ),
         const Expanded(child: MultiSelectEmployeeList()),
       ],
     );
