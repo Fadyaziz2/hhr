@@ -29,8 +29,7 @@ class MeetingCreatePage extends StatelessWidget {
                     isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
                       final currentDate = DateFormat('y-MM').format(DateTime.now());
-                      if (formKey.currentState!.validate() &&
-                          state.status == NetworkStatus.success) {
+                      if (formKey.currentState!.validate() && state.status == NetworkStatus.success) {
                         meetingBodyModel.participants = state.selectedIds.join(',');
                         meetingBodyModel.startAt = state.startTime;
                         meetingBodyModel.endAt = state.endTime;

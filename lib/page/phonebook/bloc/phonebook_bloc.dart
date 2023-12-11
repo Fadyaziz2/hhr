@@ -42,6 +42,8 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
 
   FutureOr<void> _onPhoneBookDataRequest(
       PhoneBookLoadRequest event, Emitter<PhoneBookState> emit) async {
+
+    emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final phoneBook = await metaClubApiClient.getPhoneBooks(
           designationId: state.designations?.id,

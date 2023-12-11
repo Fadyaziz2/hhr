@@ -5,19 +5,10 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/all_natification/content/notification_cart_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
-
-  @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends State<NotificationScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +21,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
             builder: (context, state) {
           return Scaffold(
               appBar: AppBar(
-                // automaticallyImplyLeading: false,
                 title: Text(tr("notifications")),
                 actions: [
                   Visibility(
@@ -46,7 +36,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         context
                             .read<NotificationBloc>()
                             .add(LoadNotificationData());
-                        // provider.clearNotificationApi();
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -71,9 +60,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
               body: Column(
                 children: [
-                  // provider.isLoading
-                  //     ? provider.notificationsList!.isNotEmpty
-                  //         ?
                   state.notificationResponse?.data?.notifications?.isNotEmpty ==
                           true
                       ? Expanded(
@@ -102,16 +88,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             },
                           ),
                         )
-                      : Expanded(
-                          child: Center(
-                              child: Text(
-                            tr("no_notification_found"),
-                            style: const TextStyle(
-                                color: Color(0x65555555),
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500),
-                          )),
-                        )
+                      : const Expanded(child: NoDataFoundWidget())
                   // : const SizedBox(),
                 ],
               ));

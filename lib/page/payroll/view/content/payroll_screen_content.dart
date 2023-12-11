@@ -42,95 +42,104 @@ class PayrollScreenContent extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Table(
-                      border: TableBorder.all(width: 0.5),
-                      columnWidths: const <int, TableColumnWidth>{
-                        0: FlexColumnWidth(),
-                        1: FlexColumnWidth(),
-                        2: FlexColumnWidth(),
-                        3: FlexColumnWidth(),
-                      },
-                      defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
-                      children: <TableRow>[
-                        TableRow(
-                          children: [
-                            HeaderTableRow(title: 'month'.tr()),
-                            Center(child: HeaderTableRow(title: 'salary'.tr())),
-                            Center(
-                                child: HeaderTableRow(title: 'payslip'.tr())),
-                            Center(
-                              child: HeaderTableRow(title: 'share'.tr()),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Table(
+                          border: TableBorder.all(width: 0.5),
+                          columnWidths: const <int, TableColumnWidth>{
+                            0: FlexColumnWidth(),
+                            1: FlexColumnWidth(),
+                            2: FlexColumnWidth(),
+                            3: FlexColumnWidth(),
+                          },
+                          defaultVerticalAlignment:
+                              TableCellVerticalAlignment.middle,
+                          children: <TableRow>[
+                            TableRow(
+                              children: [
+                                HeaderTableRow(title: 'month'.tr()),
+                                Center(
+                                    child:
+                                        HeaderTableRow(title: 'salary'.tr())),
+                                Center(
+                                    child:
+                                        HeaderTableRow(title: 'payslip'.tr())),
+                                Center(
+                                  child: HeaderTableRow(title: 'share'.tr()),
+                                ),
+                              ],
                             ),
+                            ...List.generate(
+                                state.payroll?.payrollListData?.length ?? 0,
+                                (index) {
+                              final data =
+                                  state.payroll?.payrollListData?[index];
+                              return TableRow(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      data?.month ?? '',
+                                      style: const TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                    ).tr(),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      data?.salary.toString() ?? '',
+                                      style: const TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: data?.isCalculated == true
+                                        ? InkWell(
+                                            onTap: () => context
+                                                .read<PayrollBloc>()
+                                                .getPaySlip(data!.payslipLink!),
+                                            child: Text('download'.tr(),
+                                                style: const TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    decoration: TextDecoration
+                                                        .underline)),
+                                          )
+                                        : const Text(
+                                            '',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                  ),
+                                  Center(
+                                    child: data?.isCalculated == true
+                                        ? InkWell(
+                                            onTap: () => context
+                                                .read<PayrollBloc>()
+                                                .sharePaySlip(
+                                                    data!.payslipLink!),
+                                            child: Text('share'.tr(),
+                                                style: const TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    decoration: TextDecoration
+                                                        .underline)),
+                                          )
+                                        : const Text(
+                                            '',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                  ),
+                                ],
+                              );
+                            })
                           ],
                         ),
-                        ...List.generate(
-                            state.payroll?.payrollListData?.length ?? 0,
-                            (index) {
-                          final data = state.payroll?.payrollListData?[index];
-                          return TableRow(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  data?.month ?? '',
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
-                                ).tr(),
-                              ),
-                              Center(
-                                child: Text(
-                                  data?.salary.toString() ?? '',
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ),
-                              Center(
-                                child: data?.isCalculated == true
-                                    ? InkWell(
-                                        onTap: () => context
-                                            .read<PayrollBloc>()
-                                            .getPaySlip(data!.payslipLink!),
-                                        child: Text('download'.tr(),
-                                            style: const TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                                decoration:
-                                                    TextDecoration.underline)),
-                                      )
-                                    : const Text(
-                                        '',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            decoration:
-                                                TextDecoration.underline),
-                                      ),
-                              ),
-                              Center(
-                                child: data?.isCalculated == true
-                                    ? InkWell(
-                                        onTap: () => context
-                                            .read<PayrollBloc>()
-                                            .sharePaySlip(data!.payslipLink!),
-                                        child: Text('share'.tr(),
-                                            style: const TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                                decoration:
-                                                    TextDecoration.underline)),
-                                      )
-                                    : const Text(
-                                        '',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            decoration:
-                                                TextDecoration.underline),
-                                      ),
-                              ),
-                            ],
-                          );
-                        })
-                      ],
+                      ),
                     ),
                   ),
                 ],

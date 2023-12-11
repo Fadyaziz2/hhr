@@ -6,7 +6,7 @@ import 'package:onesthrm/page/phonebook/phonebook.dart';
 import '../../../../res/common/debouncer.dart';
 
 class PhoneBookSearch extends StatelessWidget {
-  const PhoneBookSearch({Key? key, this.bloc}) : super(key: key);
+  const PhoneBookSearch({super.key, this.bloc});
   final Bloc? bloc;
 
   @override

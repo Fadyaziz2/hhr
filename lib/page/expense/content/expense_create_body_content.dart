@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/attachment_content.dart';
-import 'package:onesthrm/page/expense/content/expense_category.dart';
 import 'package:onesthrm/page/expense/content/expense_category_list_page.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
 import 'package:onesthrm/res/const.dart';

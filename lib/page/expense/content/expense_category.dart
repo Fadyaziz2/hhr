@@ -10,8 +10,8 @@ import 'package:onesthrm/res/nav_utail.dart';
 
 class ExpenseCategoryPage extends StatefulWidget {
   const ExpenseCategoryPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExpenseCategoryPage> createState() => _ExpenseCategoryPageState();
