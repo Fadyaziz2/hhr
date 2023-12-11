@@ -20,6 +20,7 @@ class AttendanceReportBloc
   final MetaClubApiClient metaClubApiClient;
   final LoginData user;
   var dateTime = DateTime.now();
+  bool isDialogOpen = true;
 
   AttendanceReportBloc({required this.metaClubApiClient, required this.user})
       : super(const AttendanceReportState(status: NetworkStatus.initial)) {
@@ -30,20 +31,25 @@ class AttendanceReportBloc
 
   FutureOr<void> _onMultiAttendance(
       MultiAttendanceEvent event, Emitter<AttendanceReportState> emit) async {
+
     final data = {'date': event.date, 'user_id': user.user!.id};
     try {
       MultiAttendanceModel? multiAttendanceResponse = await metaClubApiClient.multiCheckInList(body: data);
-      if(multiAttendanceResponse?.result == true){
-        showDialog(
+      if(multiAttendanceResponse?.result == true && isDialogOpen == true) {
+        state.copyWith(isDialogOpen: isDialogOpen = false);
+       await showDialog(
+            barrierDismissible: false,
             context: event.context!,
             builder: (BuildContext context) {
+
               return AlertDialog(
-                title: Text(multiAttendanceResponse?.multiAttendanceData?.date ?? ""),
-                content: DialogMultiAttendanceList(multiAttendanceData: multiAttendanceResponse?.multiAttendanceData,),
+                title: Text(multiAttendanceResponse?.multiAttendanceData?.date ?? "No Date Found"),
+                content: DialogMultiAttendanceList(multiAttendanceData: multiAttendanceResponse?.multiAttendanceData),
                 actions: <Widget>[
                   TextButton(
                     child: const Text('Cancel',style: TextStyle(color: Colors.red),),
                     onPressed: () {
+                      state.copyWith(isDialogOpen: isDialogOpen = true);
                       Navigator.of(context).pop();
                     },
                   ),
