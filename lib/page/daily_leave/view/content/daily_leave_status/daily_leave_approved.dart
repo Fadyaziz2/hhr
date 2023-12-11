@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -25,13 +26,13 @@ class DailyLeaveApproved extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 4.0),
-          child: Text(
-            "Approved Leave",
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: const Text(
+            "approved_leave",
             style: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+          ).tr(),
         ),
         const SizedBox(
           height: 8,
@@ -43,7 +44,7 @@ class DailyLeaveApproved extends StatelessWidget {
               BlocProvider.value(
                   value: context.read<DailyLeaveBloc>(),
                   child: LeaveTypeScreen(
-                    appBarName: "Early Leave",
+                    appBarName: "early_leave",
                     leaveListData: LeaveListModel(
                         userId: user!.user!.id!.toString(),
                         month: dailyLeaveBloc.state.currentMonth ??
@@ -53,7 +54,7 @@ class DailyLeaveApproved extends StatelessWidget {
                   )),
             );
           },
-          title: 'Early Leave',
+          title: 'early_leave'.tr(),
           value: approved?.earlyLeave.toString() ?? '',
           color: Colors.green,
         ),
@@ -64,7 +65,7 @@ class DailyLeaveApproved extends StatelessWidget {
               BlocProvider.value(
                   value: context.read<DailyLeaveBloc>(),
                   child: LeaveTypeScreen(
-                    appBarName: "Late Leave",
+                    appBarName: "late_leave".tr(),
                     leaveListData: LeaveListModel(
                         userId: user!.user!.id!.toString(),
                         month: dailyLeaveBloc.state.currentMonth ??
@@ -74,7 +75,7 @@ class DailyLeaveApproved extends StatelessWidget {
                   )),
             );
           },
-          title: 'Late Leave',
+          title: 'late_leave'.tr(),
           value: approved?.lateArrive.toString() ?? '',
           color: Colors.green,
         ),

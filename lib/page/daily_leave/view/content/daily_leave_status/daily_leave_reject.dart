@@ -23,11 +23,11 @@ class DailyLeaveReject extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 4.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
           child: Text(
-            "Rejected Leave",
-            style: TextStyle(
+            "rejected_leave".tr(),
+            style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
@@ -41,7 +41,7 @@ class DailyLeaveReject extends StatelessWidget {
               BlocProvider.value(
                 value: context.read<DailyLeaveBloc>(),
                 child: LeaveTypeScreen(
-                  appBarName: "Early Leave",
+                  appBarName: "early_leave".tr(),
                   leaveListData: LeaveListModel(
                       userId: user!.user!.id!.toString(),
                       month: dailyLeaveBloc.state.currentMonth ??
@@ -52,7 +52,7 @@ class DailyLeaveReject extends StatelessWidget {
               ),
             );
           },
-          title: 'Early Leave',
+          title: 'early_leave'.tr(),
           value: rejected?.earlyLeave.toString() ?? '',
           color: Colors.red,
         ),
@@ -63,7 +63,7 @@ class DailyLeaveReject extends StatelessWidget {
               BlocProvider.value(
                   value: context.read<DailyLeaveBloc>(),
                   child: LeaveTypeScreen(
-                    appBarName: "Late Leave",
+                    appBarName: "late_leave".tr(),
                     leaveListData: LeaveListModel(
                         userId: user!.user!.id!.toString(),
                         month: dailyLeaveBloc.state.currentMonth ??
@@ -73,7 +73,7 @@ class DailyLeaveReject extends StatelessWidget {
                   )),
             );
           },
-          title: 'Late Leave',
+          title: 'late_leave'.tr(),
           value: rejected?.lateArrive.toString() ?? '',
           color: Colors.red,
         ),

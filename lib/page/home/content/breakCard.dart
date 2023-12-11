@@ -28,7 +28,8 @@ class BreakCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            Navigator.of(context).push(BreakScreen.route(bloc: context.read<HomeBloc>()));
+            Navigator.of(context)
+                .push(BreakScreen.route(bloc: context.read<HomeBloc>()));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -46,8 +47,9 @@ class BreakCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          dashboardModel?.data?.config?.breakStatus?.status != 'break_out'
-                              ? "You're in break"
+                          dashboardModel?.data?.config?.breakStatus?.status !=
+                                  'break_out'
+                              ? "you're_in_break".tr()
                               : "take_coffee".tr(),
                           style: TextStyle(
                               fontSize: 16.sp,
@@ -56,7 +58,8 @@ class BreakCard extends StatelessWidget {
                               letterSpacing: 0.5)),
                       // SizedBox(height: 10.h),
                       Text(
-                        dashboardModel?.data?.config?.breakStatus?.status != 'break_out'
+                        dashboardModel?.data?.config?.breakStatus?.status !=
+                                'break_out'
                             ? '${dashboardModel?.data?.config?.breakStatus?.breakTime}'
                             : 'break'.tr(),
                         style: TextStyle(

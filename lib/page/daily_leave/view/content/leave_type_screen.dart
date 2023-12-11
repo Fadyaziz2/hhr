@@ -19,7 +19,7 @@ class LeaveTypeScreen extends StatelessWidget {
     final dailyLeaveBloc = context.read<DailyLeaveBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarName ?? ''),
+        title: Text(appBarName ?? '').tr(),
       ),
       body: FutureBuilder(
         future: dailyLeaveBloc.onLeaveTypeList(leaveListData),
@@ -67,7 +67,8 @@ class LeaveTypeScreen extends StatelessWidget {
                                         onTap: () => NavUtil.replaceScreen(
                                           context,
                                           BlocProvider.value(
-                                            value: context.read<DailyLeaveBloc>(),
+                                            value:
+                                                context.read<DailyLeaveBloc>(),
                                             child: LeaveTypeViewScreen(
                                               data: data,
                                             ),

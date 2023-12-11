@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
@@ -26,14 +27,14 @@ class DailyLeaveStatusContent extends StatelessWidget {
           child: LeaveListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
-        return  Padding(
+        return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// Select Employee =============
               Visibility(
-                visible: user?.user?.isHr == true,
+                  visible: user?.user?.isHr == true,
                   child: const ApplyDailySelectEmployee()),
 
               /// Approved Leave ===============
@@ -50,7 +51,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
       } else if (state.status == NetworkStatus.failure) {
         return Center(
           child: Text(
-            "Failed to load Leave list",
+            "failed_to_load_leave_list".tr(),
             style: TextStyle(
                 color: colorPrimary.withOpacity(0.4),
                 fontSize: 18,

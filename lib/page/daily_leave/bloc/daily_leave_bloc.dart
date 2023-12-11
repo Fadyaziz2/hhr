@@ -90,7 +90,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       try {
         await _metaClubApiClient.postApplyLeave(data).then((value) {
           if (value['result'] == true) {
-            Fluttertoast.showToast(msg: value['message']);
+            Fluttertoast.showToast(msg: value['message'.tr()]);
             add(DailyLeaveSummary(event.userId));
             Navigator.of(event.context).pop();
           }
@@ -99,7 +99,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
         emit(state.copyWith(status: NetworkStatus.failure));
       }
     } else {
-      Fluttertoast.showToast(msg: 'Select leave type and time');
+      Fluttertoast.showToast(msg: 'select_leave_type_and_time'.tr());
     }
   }
 

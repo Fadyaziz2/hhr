@@ -16,7 +16,7 @@ class SupportContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LanguageBloc, LanguageState>(
-      builder: (context,state){
+      builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,9 +24,9 @@ class SupportContent extends StatelessWidget {
               height: 10,
             ),
             const Text(
-              'Support',
+              'support',
               style: TextStyle(color: Colors.grey),
-            ),
+            ).tr(),
             const Divider(),
             ListTile(
               onTap: () {
@@ -40,8 +40,8 @@ class SupportContent extends StatelessWidget {
               dense: true,
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
-              leading:
-              SvgPicture.asset("assets/menu_drawer_icons/support-policy.svg"),
+              leading: SvgPicture.asset(
+                  "assets/menu_drawer_icons/support-policy.svg"),
               title: const Text('support_policy').tr(),
             ),
             ListTile(
@@ -56,8 +56,8 @@ class SupportContent extends StatelessWidget {
               dense: true,
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
-              leading:
-              SvgPicture.asset("assets/menu_drawer_icons/privacy-policy.svg"),
+              leading: SvgPicture.asset(
+                  "assets/menu_drawer_icons/privacy-policy.svg"),
               title: const Text('privacy_policy').tr(),
             ),
             ListTile(
@@ -72,38 +72,39 @@ class SupportContent extends StatelessWidget {
               dense: true,
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
-              leading:
-              SvgPicture.asset("assets/menu_drawer_icons/terms-condition.svg"),
+              leading: SvgPicture.asset(
+                  "assets/menu_drawer_icons/terms-condition.svg"),
               title: const Text('terms_conditions').tr(),
             ),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
-                  return ListTile(
-                    onTap: () => showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        content: const Text('Are you sure, you want to Logout?'),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('No')),
-                          TextButton(
-                              onPressed: () {
-                                BlocProvider.of<AuthenticationBloc>(context)
-                                    .add(AuthenticationLogoutRequest());
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Yes')),
-                        ],
-                      ),
-                    ),
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    horizontalTitleGap: 8,
-                    leading: SvgPicture.asset("assets/menu_drawer_icons/logout.svg"),
-                    title: const Text('Logout').tr(),
-                  );
-                })
+              return ListTile(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    content: const Text('are_you_sure_you_want_to_logout').tr(),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('no').tr()),
+                      TextButton(
+                          onPressed: () {
+                            BlocProvider.of<AuthenticationBloc>(context)
+                                .add(AuthenticationLogoutRequest());
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('yes').tr()),
+                    ],
+                  ),
+                ),
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                horizontalTitleGap: 8,
+                leading:
+                    SvgPicture.asset("assets/menu_drawer_icons/logout.svg"),
+                title: const Text('logout').tr(),
+              );
+            })
           ],
         );
       },

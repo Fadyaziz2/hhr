@@ -15,22 +15,27 @@ class MenuSettingsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LanguageBloc, LanguageState>(
-      builder: (_,__){
+      builder: (_, __) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10.0,),
-            const Text('Setting', style: TextStyle(color: Colors.grey),),
+            const SizedBox(
+              height: 10.0,
+            ),
+            const Text(
+              'setting',
+              style: TextStyle(color: Colors.grey),
+            ).tr(),
             const Divider(),
-            const ListTile(
+            ListTile(
               dense: true,
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
-              leading: Icon(
+              leading: const Icon(
                 Icons.face_retouching_natural,
                 color: Colors.black,
               ),
-              title: Text('Face Register'),
+              title: const Text('face_register').tr(),
             ),
             ListTile(
               onTap: () {
@@ -39,7 +44,8 @@ class MenuSettingsContent extends StatelessWidget {
               dense: true,
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
-              leading: SvgPicture.asset('assets/menu_drawer_icons/language-change.svg'),
+              leading: SvgPicture.asset(
+                  'assets/menu_drawer_icons/language-change.svg'),
               title: const Text("language_change").tr(),
             ),
           ],

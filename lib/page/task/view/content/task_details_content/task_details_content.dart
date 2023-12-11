@@ -244,11 +244,11 @@ class TaskScreenDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text("your_task_status"),
+              const Text("your_task_status").tr(),
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("not_started"),
+                title: const Text("not_started").tr(),
                 value: 24,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -260,7 +260,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("on_hold"),
+                title: const Text("on_hold").tr(),
                 value: 25,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -272,7 +272,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("in_progress"),
+                title: const Text("in_progress").tr(),
                 value: 26,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {
@@ -284,7 +284,7 @@ class TaskScreenDetails extends StatelessWidget {
               RadioListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                title: const Text("completed"),
+                title: const Text("completed").tr(),
                 value: 27,
                 groupValue: bloc.state.taskDetailsRadioValueSelect,
                 onChanged: (int? value) {

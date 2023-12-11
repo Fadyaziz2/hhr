@@ -18,19 +18,25 @@ class MeetingCreatePage extends StatelessWidget {
     return Form(
       key: formKey,
       child: Scaffold(
-        bottomNavigationBar: Container(padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
-          child: Padding(padding: const EdgeInsets.all(8.0),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              color: Colors.grey[100], borderRadius: BorderRadius.circular(0)),
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: BlocBuilder<MeetingBloc, MeetingState>(
                 builder: (context, state) {
                   return CustomButton(
-                    title: "Create Meeting".tr(),
+                    title: "create_meeting".tr(),
                     padding: 16,
                     isLoading: state.status == NetworkStatus.loading,
                     clickButton: () {
-                      final currentDate = DateFormat('y-MM').format(DateTime.now());
-                      if (formKey.currentState!.validate() && state.status == NetworkStatus.success) {
-                        meetingBodyModel.participants = state.selectedIds.join(',');
+                      final currentDate =
+                          DateFormat('y-MM').format(DateTime.now());
+                      if (formKey.currentState!.validate() &&
+                          state.status == NetworkStatus.success) {
+                        meetingBodyModel.participants =
+                            state.selectedIds.join(',');
                         meetingBodyModel.startAt = state.startTime;
                         meetingBodyModel.endAt = state.endTime;
                         meetingBodyModel.date = state.currentMonthSchedule;
@@ -45,7 +51,7 @@ class MeetingCreatePage extends StatelessWidget {
               )),
         ),
         appBar: AppBar(
-          title: const Text("Meeting Create"),
+          title: const Text("meeting_create").tr(),
         ),
         body: BlocBuilder<MeetingBloc, MeetingState>(
           builder: (context, state) {
@@ -58,11 +64,12 @@ class MeetingCreatePage extends StatelessWidget {
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: MeetingCreateContent(state: state, meetingBodyModel: meetingBodyModel),
+                  child: MeetingCreateContent(
+                      state: state, meetingBodyModel: meetingBodyModel),
                 ),
               );
             } else if (state.status == NetworkStatus.failure) {
-              return const Center(child: Text('Failed to load  list'));
+              return Center(child: const Text('failed_to_load_list').tr());
             } else {
               return const SizedBox();
             }

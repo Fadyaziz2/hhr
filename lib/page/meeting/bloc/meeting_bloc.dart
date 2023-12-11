@@ -36,7 +36,7 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
       ids.add(element.id!);
       users.add(element.name!);
     }
-    emit(state.copyWith(selectedIds: ids,selectedNames: users));
+    emit(state.copyWith(selectedIds: ids, selectedNames: users));
   }
 
   FutureOr<void> _showTime(
@@ -84,7 +84,8 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     ));
   }
 
-  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onSelectDatePicker(
+      SelectDatePicker event, Emitter<MeetingState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 1),
@@ -96,12 +97,13 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     add(MeetingListEvent(date: currentMonth));
   }
 
-  FutureOr<void> _onMeetingList(MeetingListEvent event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onMeetingList(
+      MeetingListEvent event, Emitter<MeetingState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final meetingListResponse = await _metaClubApiClient
-          .getMeetingList(state.currentMonth ?? event.date ??  currentDate);
+          .getMeetingList(state.currentMonth ?? event.date ?? currentDate);
       emit(state.copyWith(
           status: NetworkStatus.success,
           meetingsListResponse: meetingListResponse));
@@ -119,12 +121,12 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
           .createMeetingApi(meetingBodyModel: event.bodyCreateMeeting)
           .then((success) {
         if (success) {
-          Fluttertoast.showToast(msg: "Meeting Create Successfully");
+          Fluttertoast.showToast(msg: "meeting_create_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(MeetingListEvent(date: event.date));
           Navigator.pop(event.context);
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong!");
+          Fluttertoast.showToast(msg: "something_went_wrong".tr());
           emit(state.copyWith(status: NetworkStatus.failure));
         }
       });
