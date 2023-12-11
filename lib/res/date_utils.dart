@@ -38,7 +38,7 @@ String? getDDMMYYYYAsString({required String date, String outputFormat = 'yyyy-m
 }
 
 String getTimeAmPm(DateTime dateTime) {
-  return DateFormat('hh:mm a',).format(dateTime).toString();
+  return DateFormat('hh:mm a').format(dateTime).toString();
 }
 
 DateTime getDateTimeFromTimestamp(int timestamp) {
