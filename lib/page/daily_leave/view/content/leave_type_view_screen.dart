@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -22,7 +23,7 @@ class LeaveTypeViewScreen extends StatelessWidget {
     final bloc = context.read<DailyLeaveBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(data?.leaveType ?? ''),
+        title: Text(data?.leaveType ?? '').tr(),
       ),
       body: BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
         builder: (BuildContext context, state) {
@@ -37,24 +38,24 @@ class LeaveTypeViewScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             CardTileWithContent(
-                              title: 'Name',
+                              title: 'name',
                               value: data?.staff ?? '',
                             ),
                             CardTileWithContent(
-                              title: 'Designation',
+                              title: 'designation',
                               value: data?.designation ?? '',
                             ),
                             Row(
                               children: [
                                 Expanded(
                                   child: CardTileWithContent(
-                                    title: 'Leave Type',
+                                    title: 'leave_type',
                                     value: data?.leaveType ?? '',
                                   ),
                                 ),
                                 Expanded(
                                   child: CardTileWithContent(
-                                    title: 'Status',
+                                    title: 'status',
                                     value: data?.status ?? '',
                                   ),
                                 )
@@ -64,29 +65,29 @@ class LeaveTypeViewScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: CardTileWithContent(
-                                    title: 'Leave Data On',
+                                    title: 'leave_data_on',
                                     value: data?.date ?? '',
                                   ),
                                 ),
                                 Expanded(
                                   child: CardTileWithContent(
-                                    title: 'Time',
+                                    title: 'time',
                                     value: data?.time ?? '',
                                   ),
                                 ),
                               ],
                             ),
                             CardTileWithContent(
-                              title: 'Reason',
+                              title: 'reason',
                               value: data?.reason ?? '',
                             ),
                             CardTileWithContent(
-                              title: 'Manager Approval',
+                              title: 'manager_approval',
                               value: data?.approvalDetails?.managerApproval ??
                                   'N/A',
                             ),
                             CardTileWithContent(
-                              title: 'HR Approval',
+                              title: 'hr_approval',
                               value: data?.approvalDetails?.hrApproval ?? 'N/A',
                             ),
                           ],
@@ -94,7 +95,8 @@ class LeaveTypeViewScreen extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: data?.status != 'Approved' && user?.user?.isHr == true,
+                      visible: data?.status != 'Approved' &&
+                          user?.user?.isHr == true,
                       child: Column(
                         children: [
                           Padding(
@@ -109,9 +111,9 @@ class LeaveTypeViewScreen extends StatelessWidget {
                                   context: context,
                                 ));
                               },
-                              title: const Text(
-                                'Approved',
-                                style: TextStyle(color: Colors.white),
+                              title: Text(
+                                'approved'.tr(),
+                                style: const TextStyle(color: Colors.white),
                               ),
                               bgColor: colorPrimary,
                             ),
@@ -129,9 +131,9 @@ class LeaveTypeViewScreen extends StatelessWidget {
                                 ));
                               },
                               title: const Text(
-                                'Reject',
+                                'reject',
                                 style: TextStyle(color: Colors.white),
-                              ),
+                              ).tr(),
                               bgColor: Colors.red,
                             ),
                           ),

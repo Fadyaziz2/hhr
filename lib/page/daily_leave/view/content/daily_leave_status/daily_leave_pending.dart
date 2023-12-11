@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -17,62 +18,67 @@ class DailyLeavePending extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final dailyLeaveBloc = context.read<DailyLeaveBloc>();
-    final pending = dailyLeaveBloc.state.dailyLeaveSummaryModel?.dailyLeaveSummaryData?.pending;
+    final pending = dailyLeaveBloc
+        .state.dailyLeaveSummaryModel?.dailyLeaveSummaryData?.pending;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-           const SizedBox(
+        const SizedBox(
           height: 10,
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 4.0),
-          child: Text(
-            "Pending Leave",
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: const Text(
+            "pending_leave",
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-          ),
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ).tr(),
         ),
         const SizedBox(
           height: 8,
         ),
         DailyLeaveTile(
-            onTap: () {
-              NavUtil.navigateScreen(
-                context,
-                BlocProvider.value(
-                    value: context.read<DailyLeaveBloc>(),
-                    child:  LeaveTypeScreen(
-                      appBarName: "Early Leave",
-                      leaveListData: LeaveListModel(
-                          userId: user!.user!.id!.toString(),
-                          month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now()),
-                          leaveStatus: 'pending',
-                          leaveType:  "early_leave"),
-                    )),
-              );
-            },
-            title: 'Early Leave',
-            value: pending?.earlyLeave.toString() ?? '', color: Colors.yellow,),
+          onTap: () {
+            NavUtil.navigateScreen(
+              context,
+              BlocProvider.value(
+                  value: context.read<DailyLeaveBloc>(),
+                  child: LeaveTypeScreen(
+                    appBarName: "early_leave".tr(),
+                    leaveListData: LeaveListModel(
+                        userId: user!.user!.id!.toString(),
+                        month: dailyLeaveBloc.state.currentMonth ??
+                            DateFormat('y-MM-d').format(DateTime.now()),
+                        leaveStatus: 'pending',
+                        leaveType: "early_leave"),
+                  )),
+            );
+          },
+          title: 'early_leave'.tr(),
+          value: pending?.earlyLeave.toString() ?? '',
+          color: Colors.yellow,
+        ),
         DailyLeaveTile(
-            onTap: () {
-              NavUtil.navigateScreen(
-                context,
-                BlocProvider.value(
-                    value: context.read<DailyLeaveBloc>(),
-                    child:  LeaveTypeScreen(
-                      appBarName: "Late Leave",
-                      leaveListData: LeaveListModel(
-                          userId: user!.user!.id!.toString(),
-                          month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now()),
-                          leaveStatus: 'pending',
-                          leaveType:  "late_arrive"),
-                    )),
-              );
-            },
-            title: 'Late Leave',
-            value: pending?.lateArrive.toString() ?? '', color: Colors.yellow,),
+          onTap: () {
+            NavUtil.navigateScreen(
+              context,
+              BlocProvider.value(
+                  value: context.read<DailyLeaveBloc>(),
+                  child: LeaveTypeScreen(
+                    appBarName: "late_leave".tr(),
+                    leaveListData: LeaveListModel(
+                        userId: user!.user!.id!.toString(),
+                        month: dailyLeaveBloc.state.currentMonth ??
+                            DateFormat('y-MM-d').format(DateTime.now()),
+                        leaveStatus: 'pending',
+                        leaveType: "late_arrive"),
+                  )),
+            );
+          },
+          title: 'late_leave'.tr(),
+          value: pending?.lateArrive.toString() ?? '',
+          color: Colors.yellow,
+        ),
       ],
     );
   }
