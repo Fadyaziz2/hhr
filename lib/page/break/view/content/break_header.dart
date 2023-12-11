@@ -56,24 +56,25 @@ class BreakHeader extends StatelessWidget {
         const SizedBox(
           height: 8.0,
         ),
-        CustomTimer(
-            controller: timerController,
-            builder:
-                (CustomTimerState state, CustomTimerRemainingTime remaining) {
-              globalState.set(hour, remaining.hours);
-              globalState.set(min, remaining.minutes);
-              globalState.set(sec, remaining.seconds);
-
-              return Text(
-                  state == CustomTimerState.counting
-                      ? "${remaining.hours}:${remaining.minutes}:${remaining.seconds}"
-                      : "00:00:00",
-                  style: GoogleFonts.cambay(
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ));
-            }),
+        // CustomTimer(
+        //     controller: timerController,
+        //     builder:
+        //         (CustomTimerState state, CustomTimerRemainingTime remaining) {
+        //       globalState.set(hour, remaining.hours);
+        //       globalState.set(min, remaining.minutes);
+        //       globalState.set(sec, remaining.seconds);
+        //
+        //       return Text(
+        //           state == CustomTimerState.counting
+        //               ? "${remaining.hours}:${remaining.minutes}:${remaining.seconds}"
+        //               : "00:00:00",
+        //           style: GoogleFonts.cambay(
+        //             fontSize: 50.0,
+        //             fontWeight: FontWeight.bold,
+        //             color: Colors.black,
+        //           ));
+        //     }),
+        const HRMTimer(),
       ],
     );
   }
