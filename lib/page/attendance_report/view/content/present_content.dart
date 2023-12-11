@@ -1,17 +1,18 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/common/functions.dart';
 import '../../../../res/common/toast.dart';
+import '../../bloc/attendance_report_bloc.dart';
 
 class DailyReportTile extends StatelessWidget {
   final DailyReport dailyReport;
   final Settings settings;
 
   const DailyReportTile(
-      {Key? key, required this.dailyReport, required this.settings})
-      : super(key: key);
+      {super.key, required this.dailyReport, required this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -251,32 +252,23 @@ class DailyReportTile extends StatelessWidget {
               ],
             ),
           ),
-          // Visibility(
-          //   visible: settings.data?.multiCheckIn ?? false,
-          //   child: Column(
-          //     children: [
-          //       const SizedBox(
-          //         width: 10,
-          //       ),
-          //       InkWell(
-          //         onTap: () {
-          //           String? date = dailyReport.fullDate;
-          //
-          //           ///Todo: when multiple check in enable
-          //           // attendanceDailyReportApi(date, context);
-          //         },
-          //         child: Lottie.asset(
-          //           'assets/images/report_one.json',
-          //           height: 55,
-          //           width: 55,
-          //         ),
-          //       ),
-          //       const SizedBox(
-          //         width: 10,
-          //       ),
-          //     ],
-          //   ),
-          // )
+          Visibility(
+            visible: settings.data?.multiCheckIn ?? false,
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    context.read<AttendanceReportBloc>().add(MultiAttendanceEvent(date: dailyReport.fullDate!,context: context));
+                  },
+                  child: Lottie.asset(
+                    'assets/images/report_one.json',
+                    height: 45,
+                    width: 45,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

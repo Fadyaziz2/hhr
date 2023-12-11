@@ -61,3 +61,4 @@ export 'select_employee_leave_model.dart';
 export 'leave_report_type_wise_summary.dart';
 export 'meeting_body_model.dart';
 export 'conference_model.dart';
+export 'multi_attendance_model.dart';

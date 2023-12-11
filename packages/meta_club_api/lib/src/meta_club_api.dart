@@ -19,6 +19,8 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
+import 'models/multi_attendance_model.dart';
+
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;
@@ -121,6 +123,22 @@ class MetaClubApiClient {
           await _httpServiceImpl.postRequest('$_baseUrl$api', body);
       if (response.statusCode == 200) {
         return CheckData.fromJson(response.data);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Multi check-in List ------------------
+  Future<MultiAttendanceModel?> multiCheckInList(
+      {required Map<String, dynamic> body, int? userId}) async {
+    String api = 'report/attendance/particular-date';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
+      if (response.statusCode == 200) {
+        return MultiAttendanceModel.fromJson(response.data);
       }
       return null;
     } catch (_) {
