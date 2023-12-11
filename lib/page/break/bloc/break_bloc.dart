@@ -35,14 +35,21 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
   FutureOr<void> _onBreakBack(
       OnBreakBackEvent event, Emitter<BreakState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
+
     Break? data = await _metaClubApiClient.backBreak();
 
-    state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
-        BreakTodayHistory(
-            name: data?.data?.status ?? 'Running',
-            reason: 'Running',
-            breakBackTime: data?.data?.breakTime,
-            breakTimeDuration: '0 min'));
+    TodayHistory? todayHistory =  data?.data?.breakBackHistory?.todayHistory?.first;
+
+    String breakBack = '${data?.data?.breakTime} - ${data?.data?.backTime ?? ''}';
+
+    if( data?.data?.status != 'break_in'){
+      state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
+          BreakTodayHistory(
+              name: data?.data?.status ?? 'Running',
+              reason: 'Break',
+              breakBackTime: todayHistory?.breakBackTime ?? breakBack,
+              breakTimeDuration: todayHistory?.breakTimeDuration ??'0 min'));
+    }
 
     globalState.set(breakTime, data?.data?.breakTime);
     globalState.set(backTime, data?.data?.backTime);
