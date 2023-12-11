@@ -41,7 +41,6 @@ class AttendanceReportBloc
             barrierDismissible: false,
             context: event.context!,
             builder: (BuildContext context) {
-
               return AlertDialog(
                 title: Text(multiAttendanceResponse?.multiAttendanceData?.date ?? "No Date Found"),
                 content: DialogMultiAttendanceList(multiAttendanceData: multiAttendanceResponse?.multiAttendanceData),
