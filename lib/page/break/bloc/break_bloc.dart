@@ -9,7 +9,9 @@ import 'package:onesthrm/res/enum.dart';
 
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
+
 part 'break_event.dart';
+
 part 'break_state.dart';
 
 class BreakBloc extends Bloc<BreakEvent, BreakState> {
@@ -25,25 +27,36 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     on<OnInitialHistoryEvent>(_onInitialBreakHistory);
   }
 
-  FutureOr<void> _onCustomTimerStart(OnCustomTimerStart event, Emitter<BreakState> emit) {
+  FutureOr<void> _onCustomTimerStart(
+      OnCustomTimerStart event, Emitter<BreakState> emit) {
     emit(state.copyWith(isTimerStart: !state.isTimerStart));
   }
 
-  FutureOr<void> _onBreakBack(OnBreakBackEvent event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onBreakBack(
+      OnBreakBackEvent event, Emitter<BreakState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     Break? data = await _metaClubApiClient.backBreak();
+
+    state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
+        BreakTodayHistory(
+            name: data?.data?.status ?? 'Running',
+            reason: 'Running',
+            breakBackTime: data?.data?.breakTime,
+            breakTimeDuration: '0 min'));
+
     globalState.set(breakTime, data?.data?.breakTime);
     globalState.set(backTime, data?.data?.backTime);
     globalState.set(breakStatus, data?.data?.status);
     globalState.set(hour, '0');
     globalState.set(min, '0');
     globalState.set(sec, '0');
+
     add(OnCustomTimerStart(hour: 0, min: 0, sec: 0));
-    add(GetBreakHistoryData());
     emit(state.copyWith(status: NetworkStatus.success, breakBack: data));
   }
 
-  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onSelectDatePicker(
+      SelectDatePicker event, Emitter<BreakState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -55,13 +68,18 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     add(GetBreakHistoryData(date: currentDate));
   }
 
-  FutureOr<void> _onBreakHistoryDataLoad(GetBreakHistoryData event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onBreakHistoryDataLoad(
+      GetBreakHistoryData event, Emitter<BreakState> emit) async {
     final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    emit(state.copyWith(status: NetworkStatus.loading, currentDate: event.date));
+    emit(
+        state.copyWith(status: NetworkStatus.loading, currentDate: event.date));
     try {
-      final BreakReportModel? breakReportModelData = await _metaClubApiClient.getBreakHistory(state.currentDate ?? currentDate);
+      final BreakReportModel? breakReportModelData = await _metaClubApiClient
+          .getBreakHistory(state.currentDate ?? currentDate);
       if (breakReportModelData != null) {
-        emit(state.copyWith(status: NetworkStatus.success, breakReportModel: breakReportModelData));
+        emit(state.copyWith(
+            status: NetworkStatus.success,
+            breakReportModel: breakReportModelData));
       } else {
         emit(state.copyWith(status: NetworkStatus.failure));
       }
@@ -71,7 +89,8 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     }
   }
 
-  FutureOr<void> _onInitialBreakHistory(OnInitialHistoryEvent event, Emitter<BreakState> emit) {
+  FutureOr<void> _onInitialBreakHistory(
+      OnInitialHistoryEvent event, Emitter<BreakState> emit) {
     emit(state.copyWith(breaks: event.breaks ?? []));
   }
 }
