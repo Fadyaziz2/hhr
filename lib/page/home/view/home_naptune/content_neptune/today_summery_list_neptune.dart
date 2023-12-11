@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/res/const.dart';
@@ -19,49 +20,49 @@ class TodaySummeryListNeptune extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final data = dashboardModel?.data?.today?[index];
           return Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: (){
-                  context.read<HomeBloc>().routeSlug(data?.slug, context);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      height: 75,
-                      width: 75,
-                      decoration: const BoxDecoration(
-                        color: colorPrimary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          data?.number.toString() ?? "00",
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () {
+                    context.read<HomeBloc>().routeSlug(data?.slug, context);
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 75,
+                        width: 75,
+                        decoration: const BoxDecoration(
+                          color: colorPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            data?.number.toString() ?? "00",
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      data?.title.toString() ?? "",
-                      style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        data?.title.toString() ?? "",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ).tr()
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
         },
       ),
     );
   }
 }
-

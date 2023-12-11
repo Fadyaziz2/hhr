@@ -33,13 +33,17 @@ class LeaveRequestType extends StatelessWidget {
                   title: "next".tr(),
                   padding: 16,
                   clickButton: () {
-                    if(state.selectedRequestType?.id == null){
-                      Fluttertoast.showToast(msg: "Please select Leave Request Type");
-                    }else {
+                    if (state.selectedRequestType?.id == null) {
+                      Fluttertoast.showToast(
+                          msg: "Please select Leave Request Type");
+                    } else {
                       NavUtil.replaceScreen(
-                          context, BlocProvider.value(
-                          value: context.read<LeaveBloc>(),
-                          child: LeaveCalendar(leaveRequestTypeId: state.selectedRequestType?.id)));
+                          context,
+                          BlocProvider.value(
+                              value: context.read<LeaveBloc>(),
+                              child: LeaveCalendar(
+                                  leaveRequestTypeId:
+                                      state.selectedRequestType?.id)));
                     }
                   },
                 ),
@@ -76,7 +80,7 @@ class LeaveRequestType extends StatelessWidget {
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   const Spacer(),
                                   Text(
                                     '${availableLeave.leftDays} ${tr("days_left")}',

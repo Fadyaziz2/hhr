@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class TaskStatusModel {
   int? id;
   String? title;
@@ -6,9 +8,9 @@ class TaskStatusModel {
 }
 
 List<TaskStatusModel> statusList = [
-  TaskStatusModel(id: 24, title: 'Not Started'),
-  TaskStatusModel(id: 25, title: 'On Hold'),
-  TaskStatusModel(id: 26, title: 'In Progress'),
+  TaskStatusModel(id: 24, title: 'not_started'.tr()),
+  TaskStatusModel(id: 25, title: 'on_hold'.tr()),
+  TaskStatusModel(id: 26, title: 'in_progress'),
   TaskStatusModel(id: 27, title: 'Completed'),
-  TaskStatusModel(id: 28, title: 'Cancelled'),
+  TaskStatusModel(id: 28, title: 'cancelled'),
 ];

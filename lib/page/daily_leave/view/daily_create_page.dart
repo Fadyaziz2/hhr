@@ -37,7 +37,7 @@ class DailyCreatePage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(
-                  title: "Apply",
+                  title: "apply".tr(),
                   padding: 16,
                   isLoading: bloc.state.status == NetworkStatus.loading,
                   clickButton: () {

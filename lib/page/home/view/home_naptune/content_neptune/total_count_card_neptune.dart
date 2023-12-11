@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -39,7 +40,7 @@ class HomePageTotalCountCard extends StatelessWidget {
                   title ?? "",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.black, fontSize: 12),
-                ),
+                ).tr(),
               ],
             ),
           ),

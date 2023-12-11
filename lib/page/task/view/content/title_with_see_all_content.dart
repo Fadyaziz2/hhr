@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TitleWithSeeAll extends StatelessWidget {
@@ -41,7 +42,7 @@ class TitleWithSeeAll extends StatelessWidget {
               child: const Text(
                 "see_all",
                 style: TextStyle(fontSize: 14.0),
-              ),
+              ).tr(),
             ),
           )
         ],

@@ -12,18 +12,23 @@ class MeetingDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Meeting Details")),
+      appBar: AppBar(title: const Text("meeting_details").tr()),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            MeetingDetailsItems(title: 'title'.tr(), subTitle: data?.title ?? ''),
-            MeetingDetailsItems(title: 'description'.tr(), subTitle: data?.title ?? ''),
+            MeetingDetailsItems(
+                title: 'title'.tr(), subTitle: data?.title ?? ''),
+            MeetingDetailsItems(
+                title: 'description'.tr(), subTitle: data?.title ?? ''),
             MeetingDetailsItems(title: 'date'.tr(), subTitle: data?.date ?? ''),
             MeetingDetailsItems(title: 'time'.tr(), subTitle: data?.time ?? ''),
-            MeetingDetailsItems(title: 'location'.tr(), subTitle: data?.location ?? ''),
+            MeetingDetailsItems(
+                title: 'location'.tr(), subTitle: data?.location ?? ''),
             MeetingDetailsItems(title: 'day'.tr(), subTitle: data?.day ?? ''),
-            MeetingDetailsItems(title: 'start_time'.tr(), subTitle: data?.startAt ?? ''),
-            MeetingDetailsItems(title: 'end_time'.tr(), subTitle: data?.endAt ?? '')
+            MeetingDetailsItems(
+                title: 'start_time'.tr(), subTitle: data?.startAt ?? ''),
+            MeetingDetailsItems(
+                title: 'end_time'.tr(), subTitle: data?.endAt ?? '')
           ],
         ),
       ),

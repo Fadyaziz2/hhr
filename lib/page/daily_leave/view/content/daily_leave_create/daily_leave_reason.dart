@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
@@ -14,22 +15,23 @@ class DailyLeaveReason extends StatelessWidget {
       child: TextFormField(
         controller: context.read<DailyLeaveBloc>().reasonTextController,
         maxLines: 6,
-        validator: (val) => val!.isEmpty ? "Reason can't be empty" : null,
+        validator: (val) => val!.isEmpty ? "reason_can't_be_empty".tr() : null,
         style: const TextStyle(fontSize: 14),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-          hintText: 'Write Reason',
-          hintStyle: TextStyle(fontSize: 12),
-          focusedBorder: OutlineInputBorder(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+          hintText: 'write_reason'.tr(),
+          hintStyle: const TextStyle(fontSize: 12),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2),
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderSide: BorderSide(width: 2, color: Colors.blue),
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(width: 2, color: Colors.black12),
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),

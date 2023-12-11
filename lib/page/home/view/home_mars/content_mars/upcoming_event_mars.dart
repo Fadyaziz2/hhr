@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
@@ -15,15 +16,15 @@ class UpcomingEventMars extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Recent Events",
+                const Text(
+                  "recent_events",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+                ).tr(),
               ],
             ),
           ),
@@ -73,15 +74,15 @@ class UpcomingEventMars extends StatelessWidget {
                         );
                       }))
               : Container(
-            margin: const EdgeInsets.only(bottom: 18.0),
-            width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 18.0),
+                  width: double.infinity,
                   padding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                       border: Border.all(color: primaryBorderColor)),
-                  child: const Center(child: Text('No recent available'))),
+                  child: const Center(child: Text('no_recent_available'))),
         ],
       ),
     );
