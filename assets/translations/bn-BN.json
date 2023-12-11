@@ -528,5 +528,12 @@
   "Back": "ব্যাক",
   "Break": "ব্রেক",
   "last_breaks": "লাস্ট ব্রেক",
-  "You_have_already_taken": "আপনি ইতিমধ্যে গ্রহণ করেছেন "
+  "You_have_already_taken": "আপনি ইতিমধ্যে গ্রহণ করেছেন ",
+  "meeting_list": "মিটিং লিস্ট",
+  "failed_to_load_meeting_list": "মিটিংয়ের তালিকা লোড করা যায়নি",
+  "add_meeting_member": "এড মিটিং মেম্বার",
+  "meeting_create": "মিটিং তৈরি করুন",
+  "failed_to_load_list": "তালিকা লোড করতে ব্যর্থ",
+  "meeting_create_successfully": "মিটিং সফলভাবে তৈরি হয়েছে",
+  "Meeting": "মিটিং"
 }

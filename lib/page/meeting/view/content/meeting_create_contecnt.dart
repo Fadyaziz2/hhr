@@ -15,23 +15,25 @@ class MeetingCreateContent extends StatelessWidget {
   final MeetingState? state;
   final MeetingBodyModel? meetingBodyModel;
 
-
-  const MeetingCreateContent({super.key, this.state,this.meetingBodyModel});
+  const MeetingCreateContent({super.key, this.state, this.meetingBodyModel});
 
   @override
   Widget build(BuildContext context) {
-
     final meetingBloc = context.read<MeetingBloc>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CommonTextFiledWithTitle(title: "title".tr(), labelText: 'enter_title'.tr(),
+        CommonTextFiledWithTitle(
+          title: "title".tr(),
+          labelText: 'enter_title'.tr(),
           onChanged: (data) {
             meetingBodyModel?.title = data;
           },
         ),
-        const SizedBox(height: 25,),
+        const SizedBox(
+          height: 25,
+        ),
         CommonTextFiledWithTitle(
           title: "description".tr(),
           labelText: "enter_text".tr(),
@@ -39,7 +41,9 @@ class MeetingCreateContent extends StatelessWidget {
             meetingBodyModel?.description = data;
           },
         ),
-        const SizedBox(height: 25,),
+        const SizedBox(
+          height: 25,
+        ),
         CommonTextFiledWithTitle(
           title: "location".tr(),
           labelText: 'enter_location'.tr(),
@@ -47,10 +51,15 @@ class MeetingCreateContent extends StatelessWidget {
             meetingBodyModel?.location = data;
           },
         ),
-        const SizedBox(height: 25,),
-        Padding(padding: const EdgeInsets.only(bottom: 16.0),
-          child: Text("date_schedule".tr(),
-            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        const SizedBox(
+          height: 25,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            "date_schedule".tr(),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         Card(
@@ -61,12 +70,16 @@ class MeetingCreateContent extends StatelessWidget {
               meetingBloc.add(SelectDatePickerSchedule(context));
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(state?.currentMonthSchedule ?? 'select_date'.tr()),
-                  const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
+                  const Icon(
+                    Icons.arrow_drop_down_sharp,
+                    color: Colors.grey,
+                  )
                 ],
               ),
             ),
@@ -80,24 +93,38 @@ class MeetingCreateContent extends StatelessWidget {
           elevation: 0,
           child: ListTile(
             onTap: () async {
-              if(state?.selectedNames.isNotEmpty == true){
+              if (state?.selectedNames.isNotEmpty == true) {
                 state?.selectedNames.clear();
                 state?.selectedIds.clear();
               }
+
               /// Get Selected Employee List
-               Navigator.push(context, MaterialPageRoute(builder: (context) => MultiSelectionEmployee(onItemSelected: (items){
-               meetingBloc.add(SelectedEmployeeEvent(items));
-              },),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MultiSelectionEmployee(
+                      onItemSelected: (items) {
+                        meetingBloc.add(SelectedEmployeeEvent(items));
+                      },
+                    ),
+                  ));
             },
-            title: Text(tr("Add Meeting Member")),
-            leading: const CircleAvatar(backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),),
+            title: Text(tr("add_meeting_member")),
+            leading: const CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+            ),
             trailing: const Icon(Icons.add),
           ),
         ),
         MeetingNameList(state: state),
-        const SizedBox(height: 26,),
+        const SizedBox(
+          height: 26,
+        ),
         AttachmentContent(meetingBodyModel: meetingBodyModel),
-        const SizedBox(height: 26,),
+        const SizedBox(
+          height: 26,
+        ),
       ],
     );
   }
