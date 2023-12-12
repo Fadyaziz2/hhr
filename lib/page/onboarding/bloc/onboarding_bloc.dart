@@ -16,13 +16,19 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
 
   OnboardingBloc({required MetaClubApiClient metaClubApiClient}) : _metaClubApiClient = metaClubApiClient, super(const OnboardingState()){
     on<CompanyListEvent>(_onCompanyList);
+    on<OnSelectedCompanyEvent>(_onSelectedCompany);
+  }
+
+  FutureOr<void> _onSelectedCompany(OnSelectedCompanyEvent event,Emitter<OnboardingState> emit) async{
+    emit(state.copyWith(companyList: event.selectedCompany));
   }
 
   FutureOr<void> _onCompanyList (CompanyListEvent event,Emitter<OnboardingState> emit) async{
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       CompanyListModel? companyList = await _metaClubApiClient.getCompanyList();
-      emit(state.copyWith(status: NetworkStatus.success,));
+      // state.listOfCompany = companyList?.companyList;
+      emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyList));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
