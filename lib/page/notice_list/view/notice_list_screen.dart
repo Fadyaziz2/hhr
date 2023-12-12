@@ -6,6 +6,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/notice_list/bloc/notice_list_bloc.dart';
 import 'package:onesthrm/page/notice_list/content/notice_list_content.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class NoticeListScreen extends StatelessWidget {
   const NoticeListScreen({super.key});
@@ -52,15 +53,8 @@ class NoticeListScreen extends StatelessWidget {
                             },
                           ),
                         )
-                      : Expanded(
-                          child: Center(
-                              child: Text(
-                            tr("no_notice_found"),
-                            style: const TextStyle(
-                                color: Color(0x65555555),
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500),
-                          )),
+                      : const Expanded(
+                          child: Center(child: NoDataFoundWidget()),
                         )
                   // : const SizedBox(),
                 ],

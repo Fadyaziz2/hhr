@@ -11,6 +11,7 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'expense_event.dart';
+
 part 'expense_state.dart';
 
 class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
@@ -65,8 +66,10 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(GetExpenseData(date: currentMonth));
+    if (date != null) {
+      String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+      add(GetExpenseData(date: currentMonth));
+    }
   }
 
   FutureOr<void> _onSelectedPaymentType(
@@ -140,8 +143,11 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentDate = getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
-    emit(state.copy(selectDate: currentDate));
+    if (date != null) {
+      String? currentDate =
+          getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
+      emit(state.copy(selectDate: currentDate));
+    }
   }
 
   FutureOr<void> _onCreateButton(

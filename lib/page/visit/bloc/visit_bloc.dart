@@ -202,10 +202,12 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(HistoryListEvent());
-    emit(state.copyWith(
-        status: NetworkStatus.success, currentMonth: currentMonth));
+    if(date != null){
+      String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+      add(HistoryListEvent());
+      emit(state.copyWith(
+          status: NetworkStatus.success, currentMonth: currentMonth));
+    }
   }
 
   FutureOr<void> _onVisitDetails(
@@ -235,11 +237,13 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentDate = getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
-    emit(state.copyWith(
-        status: NetworkStatus.success,
-        currentDate: currentDate,
-        isDateEnable: false));
+    if(date != null){
+      String? currentDate = getDateAsString(format: 'yyyy-MM-dd', dateTime: date);
+      emit(state.copyWith(
+          status: NetworkStatus.success,
+          currentDate: currentDate,
+          isDateEnable: false));
+    }
   }
 
   FutureOr<void> _onHistoryList(

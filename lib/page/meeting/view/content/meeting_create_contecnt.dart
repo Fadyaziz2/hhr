@@ -88,6 +88,10 @@ class MeetingCreateContent extends StatelessWidget {
         const SizedBox(height: 25),
         MeetingTimeCart(meetingState: state),
         const SizedBox(height: 26),
+        Text(tr("Add Member"),
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10,),
         Card(
           color: colorCardBackground,
           elevation: 0,

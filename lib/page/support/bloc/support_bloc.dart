@@ -10,6 +10,7 @@ import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dar
 import '../../../res/date_utils.dart';
 
 part 'support_event.dart';
+
 part 'support_state.dart';
 
 var dateTime = DateTime.now();
@@ -89,10 +90,11 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
       initialDate: dateTime,
       locale: const Locale("en"),
     );
-
-    dateTime = date!;
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(GetSupportData(filter: state.filter, date: currentMonth));
+    if (date != null) {
+      dateTime = date;
+      String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+      add(GetSupportData(filter: state.filter, date: currentMonth));
+    }
   }
 
   FutureOr<void> _onFilterChange(

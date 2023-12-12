@@ -40,10 +40,12 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
-    add(LeaveRequest(event.userId));
-    emit(state.copyWith(
-        status: NetworkStatus.success, currentMonth: currentMonth));
+    if(date != null){
+      String? currentMonth = getDateAsString(format: 'y-MM', dateTime: date);
+      add(LeaveRequest(event.userId));
+      emit(state.copyWith(
+          status: NetworkStatus.success, currentMonth: currentMonth));
+    }
   }
 
   FutureOr<void> _submitLeaveRequest(

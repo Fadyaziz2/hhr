@@ -1,5 +1,6 @@
 import 'package:chat/src/models/friend.dart';
 import 'package:flutter/material.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../chat.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -29,16 +30,7 @@ class _ChatRoomState extends State<ChatRoom> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return Container(
-                alignment: Alignment.center,
-                child: Text(
-                  'Empty list',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: Colors.white),
-                ),
-              );
+              return const NoDataFoundWidget();
             }
 
             return ListView.builder(
@@ -115,14 +107,14 @@ class _ChatRoomState extends State<ChatRoom> {
                     },
                   );
                 }
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               },
             );
           } else {
             return Center(
                 child: CircularProgressIndicator(
                   backgroundColor: widget.primaryColor,
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                  valueColor: const AlwaysStoppedAnimation(Colors.white),
                 ));
           }
         },

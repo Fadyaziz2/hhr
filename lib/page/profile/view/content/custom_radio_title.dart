@@ -8,23 +8,30 @@ class CustomRadioTitle extends StatelessWidget {
   final BodyPrioritySupport? groupValue;
 
   const CustomRadioTitle(
-      {Key? key, required this.onChanged, required this.title, this.value, this.groupValue})
-      : super(key: key);
+      {super.key,
+      required this.onChanged,
+      required this.title,
+      this.value,
+      this.groupValue});
 
   @override
   Widget build(BuildContext context) {
-    return RadioListTile<BodyPrioritySupport?>(
-        contentPadding: EdgeInsets.zero,
-        dense: true,
-        value: value,
-        title: Text(
-          title,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black45,
-              fontSize: 14),
-        ),
-        groupValue: groupValue,
-        onChanged: onChanged);
+    return Theme(
+      data: Theme.of(context).copyWith(
+          listTileTheme: const ListTileThemeData(horizontalTitleGap: 2)),
+      child: RadioListTile<BodyPrioritySupport?>(
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+          value: value,
+          title: Text(
+            title,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black45,
+                fontSize: 14),
+          ),
+          groupValue: groupValue,
+          onChanged: onChanged),
+    );
   }
 }

@@ -6,8 +6,7 @@ import 'package:onesthrm/page/expense/content/expense_create_body_content.dart';
 class ExpenseCreate extends StatelessWidget {
   final int? categoryId;
   final String? categoryName;
-  const ExpenseCreate({Key? key, this.categoryId, this.categoryName})
-      : super(key: key);
+  const ExpenseCreate({super.key, this.categoryId, this.categoryName});
   @override
   Widget build(BuildContext context) {
     ExpenseCreateBody expenseCreateBody = ExpenseCreateBody();
