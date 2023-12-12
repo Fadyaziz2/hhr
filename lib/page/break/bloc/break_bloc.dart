@@ -45,7 +45,7 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     if( data?.data?.status != 'break_in'){
       state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
           BreakTodayHistory(
-              name: data?.data?.status ?? 'Running',
+              name:'Break',
               reason: 'Break',
               breakBackTime: todayHistory?.breakBackTime ?? breakBack,
               breakTimeDuration: todayHistory?.breakTimeDuration ??'0 min'));

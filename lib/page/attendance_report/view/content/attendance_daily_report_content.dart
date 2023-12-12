@@ -11,11 +11,10 @@ import '../../bloc/bloc.dart';
 
 class AttendanceDailyReportContent extends StatelessWidget {
   const AttendanceDailyReportContent(
-      {Key? key,
+      {super.key,
       required this.bloc,
       required this.user,
-      required this.settings})
-      : super(key: key);
+      required this.settings});
   final AttendanceReportBloc bloc;
   final LoginData user;
   final Settings settings;
