@@ -258,7 +258,7 @@ class DailyReportTile extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    context.read<AttendanceReportBloc>().add(MultiAttendanceEvent(date: dailyReport.fullDate!,context: context));
+                    context.read<AttendanceReportBloc>().add(MultiAttendanceEvent(date: dailyReport.fullDate!,context: context,dailyReport: dailyReport));
                   },
                   child: Lottie.asset(
                     'assets/images/report_one.json',

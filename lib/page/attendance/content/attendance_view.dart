@@ -10,6 +10,7 @@ import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -19,7 +20,6 @@ import 'animated_circular_button.dart';
 import 'check_in_check_out_time.dart';
 
 class AttendanceView extends StatefulWidget {
-
   const AttendanceView({super.key});
 
   @override
@@ -68,7 +68,6 @@ class _AttendanceState extends State<AttendanceView>
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
@@ -77,13 +76,16 @@ class _AttendanceState extends State<AttendanceView>
     final settings = homeBloc.state.settings;
 
     if (user?.user != null) {
-      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+      locationServiceProvider.getCurrentLocationStream(
+          uid: user!.user!.id!,
+          metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
     }
 
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
       listener: (context, state) {
-        if (state.checkData?.message != null && state.actionStatus == ActionStatus.checkInOut) {
+        if (state.checkData?.message != null &&
+            state.actionStatus == ActionStatus.checkInOut) {
           showLoginDialog(
               context: context,
               message: '${user?.user?.name}',
@@ -104,12 +106,12 @@ class _AttendanceState extends State<AttendanceView>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
-                    onTap: (){
-                            Navigator.push(
-                                context,
-                                AttendanceReportPage.route(
-                                    attendanceBloc: context.read<AttendanceBloc>(),
-                                     settings: settings!));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          AttendanceReportPage.route(
+                              attendanceBloc: context.read<AttendanceBloc>(),
+                              settings: settings!));
                     },
                     child: Lottie.asset(
                       'assets/images/ic_report_lottie.json',
@@ -120,8 +122,8 @@ class _AttendanceState extends State<AttendanceView>
                 ),
               ],
             ),
-            body: Center(
-              child: ListView(
+            body: SingleChildScrollView(
+              child: Column(
                 children: [
                   /// Show Current Location and Remote mode ......
                   if (homeData != null)
@@ -133,20 +135,34 @@ class _AttendanceState extends State<AttendanceView>
                   if (homeData != null) ShowCurrentTime(homeData: homeData),
 
                   if (homeData != null)
-                    AnimatedCircularButton(
-                      onComplete: () {
-                        context
-                            .read<AttendanceBloc>()
-                            .add(OnAttendance(homeData: homeData));
-                      },
-                      isCheckedIn: homeData.data?.attendanceData?.id != null,
-                      title: globalState.get(attendanceId) == null
-                          ? "check_in".tr()
-                          : "check_out".tr(),
-                      color: globalState.get(attendanceId) == null
-                          ? colorPrimary
-                          : colorDeepRed,
-                    ),
+                    state.status == NetworkStatus.loading
+                        ? Shimmer.fromColors(
+                            baseColor: const Color(0xFFE8E8E8),
+                            highlightColor: Colors.white,
+                            child: Container(
+                                height: 184,
+                                width: 184,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFE8E8E8),
+                                  borderRadius: BorderRadius.circular(
+                                      100), // radius of 10// green as background color
+                                )),
+                          )
+                        : AnimatedCircularButton(
+                            onComplete: () {
+                              context
+                                  .read<AttendanceBloc>()
+                                  .add(OnAttendance(homeData: homeData));
+                            },
+                            isCheckedIn:
+                                homeData.data?.attendanceData?.id != null,
+                            title: globalState.get(attendanceId) == null
+                                ? "check_in".tr()
+                                : "check_out".tr(),
+                            color: globalState.get(attendanceId) == null
+                                ? colorPrimary
+                                : colorDeepRed,
+                          ),
 
                   SizedBox(
                     height: 35.h,

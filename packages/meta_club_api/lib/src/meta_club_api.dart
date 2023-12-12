@@ -130,21 +130,6 @@ class MetaClubApiClient {
     }
   }
 
-  /// Multi check-in List ------------------
-  Future<MultiAttendanceModel?> multiCheckInList(
-      {required Map<String, dynamic> body, int? userId}) async {
-    String api = 'report/attendance/particular-date';
-
-    try {
-      final response = await _httpServiceImpl.postRequest('$_baseUrl$api', body);
-      if (response.statusCode == 200) {
-        return MultiAttendanceModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
 
   /// attendance report get data ------------------
   Future<AttendanceReport?> getAttendanceReport(
