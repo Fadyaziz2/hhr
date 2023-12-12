@@ -50,7 +50,7 @@ class HttpServiceImpl implements HttpService {
       throw FormatException(e.message);
     } on DioError catch (e) {
       debugPrint(e.message);
-      throw Exception(e.message);
+      return e.response;
     }
 
     return response;
