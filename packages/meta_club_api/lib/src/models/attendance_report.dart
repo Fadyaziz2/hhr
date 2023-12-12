@@ -18,12 +18,6 @@ class AttendanceReport extends Equatable {
         reportData: AttendanceReportData.fromJson(json["data"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "result": result,
-        "message": message,
-        "data": reportData!.toJson(),
-      };
-
   @override
   List<Object?> get props => [result, message, reportData];
 }
@@ -44,11 +38,6 @@ class AttendanceReportData extends Equatable {
         dailyReport: List<DailyReport>.from(
             json["daily_report"].map((x) => DailyReport.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "attendance_summary": attendanceSummary!.toJson(),
-        "daily_report": List<dynamic>.from(dailyReport!.map((x) => x.toJson())),
-      };
 
   @override
   List<Object?> get props => [attendanceSummary, dailyReport];
@@ -96,19 +85,6 @@ class AttendanceSummary extends Equatable {
         totalLeftLater: json["total_left_later"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "working_days": workingDays,
-        "present": present,
-        "work_time": workTime,
-        "absent": absent,
-        "total_on_time_in": totalOnTimeIn,
-        "total_leave": totalLeave,
-        "total_early_in": totalEarlyIn,
-        "total_late_in": totalLateIn,
-        "total_left_timely": totalLeftTimely,
-        "total_left_early": totalLeftEarly,
-        "total_left_later": totalLeftLater,
-      };
 
   @override
   List<Object?> get props => [
@@ -142,6 +118,7 @@ class DailyReport extends Equatable {
     this.checkOut,
     this.checkOutLocation,
     this.checkOutReason,
+    this.multipleAttendance,
   });
 
   final String? fullDate;
@@ -158,6 +135,7 @@ class DailyReport extends Equatable {
   final String? checkOut;
   final String? checkOutLocation;
   final String? checkOutReason;
+  final MultipleAttendance? multipleAttendance;
 
   factory DailyReport.fromJson(Map<String, dynamic> json) => DailyReport(
         fullDate: json["full_date"],
@@ -174,24 +152,10 @@ class DailyReport extends Equatable {
         checkOut: json["check_out"],
         checkOutLocation: json["check_out_location"],
         checkOutReason: json["check_out_reason"],
+        multipleAttendance: json["multiple_attendance"] == null
+            ? null
+            : MultipleAttendance.fromJson(json["multiple_attendance"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "full_date": fullDate,
-        "week_day": weekDay,
-        "date": date,
-        "status": status,
-        "remote_mode_in": remoteModeIn,
-        "remote_mode_out": remoteModeOut,
-        "check_in": checkIn,
-        "check_in_status": checkInStatus,
-        "check_out_status": checkOutStatus,
-        "check_in_location": checkInLocation,
-        "check_in_reason": checkInReason,
-        "check_out": checkOut,
-        "check_out_location": checkOutLocation,
-        "check_out_reason": checkOutReason,
-      };
 
   @override
   List<Object?> get props => [
@@ -208,6 +172,32 @@ class DailyReport extends Equatable {
         checkInReason,
         checkOut,
         checkOutLocation,
-        checkOutReason
+        checkOutReason,
+        multipleAttendance
+      ];
+}
+
+class MultipleAttendance extends Equatable {
+  final String? date;
+  final List<DailyReport>? dateWiseReport;
+
+  const MultipleAttendance({
+    this.date,
+    this.dateWiseReport,
+  });
+
+  factory MultipleAttendance.fromJson(Map<String, dynamic> json) =>
+      MultipleAttendance(
+        date: json["date"],
+        dateWiseReport: json["date_wise_report"] == null
+            ? []
+            : List<DailyReport>.from(
+                json["date_wise_report"]!.map((x) => DailyReport.fromJson(x))),
+      );
+
+  @override
+  List<Object?> get props => [
+        date,
+        dateWiseReport,
       ];
 }

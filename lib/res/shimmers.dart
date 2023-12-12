@@ -102,23 +102,22 @@ class RectangularCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: const Color(0xffF3F9FE),
+      baseColor: const Color(0xFFE8E8E8),
       highlightColor: Colors.white,
       child: Container(
           height: height,
           width: width,
-          margin: const EdgeInsets.only(right: 8.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: const Color(0xFFE8E8E8),
             borderRadius: BorderRadius.circular(
-                8.0), // radius of 10// green as background color
+                5.0), // radius of 10// green as background color
           )),
     );
   }
 }
 
 class HorizontalListShimmer extends StatelessWidget {
-  const HorizontalListShimmer({Key? key}) : super(key: key);
+  const HorizontalListShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

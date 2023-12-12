@@ -9,7 +9,10 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 import 'package:user_repository/user_repository.dart';
 
+import '../view/content/dialog_multi_attendance_list.dart';
+
 part 'attendance_report_event.dart';
+
 part 'attendance_report_state.dart';
 
 class AttendanceReportBloc
@@ -17,28 +20,66 @@ class AttendanceReportBloc
   final MetaClubApiClient metaClubApiClient;
   final LoginData user;
   var dateTime = DateTime.now();
+  bool isDialogOpen = true;
 
   AttendanceReportBloc({required this.metaClubApiClient, required this.user})
       : super(const AttendanceReportState(status: NetworkStatus.initial)) {
     on<GetAttendanceReportData>(_onAttendanceLoad);
     on<SelectDatePicker>(_onSelectDatePicker);
+    on<MultiAttendanceEvent>(_onMultiAttendance);
   }
 
-  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event, Emitter<AttendanceReportState> emit) async {
-    final currentDate = DateFormat('y-MM').format(DateTime.now());
+  FutureOr<void> _onMultiAttendance(
+      MultiAttendanceEvent event, Emitter<AttendanceReportState> emit) async {
 
-    final data = {'month': event.date ?? currentDate};
     try {
-      final report = await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
-      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: report));
+      if(isDialogOpen == true) {
+        state.copyWith(isDialogOpen: isDialogOpen = false);
+       await showDialog(
+            barrierDismissible: false,
+            context: event.context!,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(event.dailyReport.multipleAttendance?.date ?? "No Date Found"),
+                content: DialogMultiAttendanceList(dailyReport: event.dailyReport),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Cancel',style: TextStyle(color: Colors.red),),
+                    onPressed: () {
+                      state.copyWith(isDialogOpen: isDialogOpen = true);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+      }else {
+        state.copyWith(isDialogOpen: isDialogOpen = true);
+      }
     } on Exception catch (e) {
       emit(const AttendanceReportState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event,
+      Emitter<AttendanceReportState> emit) async {
+    final currentDate = DateFormat('y-MM').format(DateTime.now());
 
+    final data = {'month': event.date ?? currentDate};
+    try {
+      final report = await metaClubApiClient.getAttendanceReport(
+          body: data, userId: user.user!.id);
+      emit(state.copyWith(
+          status: NetworkStatus.success, attendanceReport: report));
+    } on Exception catch (e) {
+      emit(const AttendanceReportState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onSelectDatePicker(
+      SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),

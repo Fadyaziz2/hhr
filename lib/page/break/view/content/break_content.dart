@@ -10,6 +10,7 @@ import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../res/const.dart';
 import '../../../../res/date_utils.dart';
 import '../../../../res/dialogs/custom_dialogs.dart';
@@ -186,11 +187,17 @@ class BreakContentState extends State<BreakContent> with TickerProviderStateMixi
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20.0),
-                BreakHeader(
-                  timerController: controllerBreakTimer,
-                  dashboardModel: dashboard,
-                ),
-                AnimatedCircularButton(
+                BreakHeader(timerController: controllerBreakTimer, dashboardModel: dashboard,),
+                state.status == NetworkStatus.loading ? Shimmer.fromColors(
+                  baseColor: const Color(0xFFE8E8E8),
+                  highlightColor: Colors.white,
+                  child: Container(
+                      height: 184,
+                      width: 184,
+                      decoration: BoxDecoration(color: const Color(0xFFE8E8E8),
+                        borderRadius: BorderRadius.circular(100), // radius of 10// green as background color
+                      )),
+                ) :AnimatedCircularButton(
                   title: globalState.get(breakStatus) == 'break_in'
                       ? 'Back'.tr()
                       : 'Break'.tr(),

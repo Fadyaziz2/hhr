@@ -12,10 +12,9 @@ class DailyReportListTile extends StatelessWidget {
   final Settings settings;
 
   const DailyReportListTile(
-      {Key? key,
+      {super.key,
       required this.dailyReport,
-      required this.settings})
-      : super(key: key);
+      required this.settings});
 
   @override
   Widget build(BuildContext context) {
