@@ -14,3 +14,8 @@ dependencies:
   photo_view: ^0.14.0
   image_picker: ^1.0.4
   fluttertoast: ^8.0.9
+  lottie: ^2.4.0
+
+flutter:
+  assets:
+    - assets/

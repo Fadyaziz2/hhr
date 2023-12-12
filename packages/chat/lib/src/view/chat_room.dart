@@ -1,7 +1,7 @@
 import 'package:chat/src/models/friend.dart';
 import 'package:flutter/material.dart';
-import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../chat.dart';
+import 'content/no_data_found_widget.dart';
 
 class ChatRoom extends StatefulWidget {
   final String uid;
