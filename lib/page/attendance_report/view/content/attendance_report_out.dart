@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class AttendanceReportOut extends StatelessWidget {
-  final DateWiseReport? dateWiseReport;
+  final DailyReport? dateWiseReport;
   final String? checkOutColor;
   final String? remoteModeOut;
 

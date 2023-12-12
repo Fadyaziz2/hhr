@@ -1,6 +1,8 @@
+
+
 import 'package:meta_club_api/meta_club_api.dart';
 
-String? checkInStatusColor(DateWiseReport? dateWiseReport, String? checkInColor) {
+String? checkInStatusColor(DailyReport? dateWiseReport, String? checkInColor) {
   if (dateWiseReport?.checkInStatus == "OT") {
     checkInColor = "0xff46A44D"; //green Color
   } else if (dateWiseReport?.checkInStatus == "L") {
@@ -17,7 +19,7 @@ String? checkInStatusColor(DateWiseReport? dateWiseReport, String? checkInColor)
   return checkInColor;
 }
 
-String? checkOutStatusColor(DateWiseReport? dateWiseReport, String? checkOutColor) {
+String? checkOutStatusColor(DailyReport? dateWiseReport, String? checkOutColor) {
   if (dateWiseReport?.checkOutStatus == "OT") {
     checkOutColor = "0xff46A44D"; //green Color
   } else if (dateWiseReport?.checkOutStatus == "LE") {

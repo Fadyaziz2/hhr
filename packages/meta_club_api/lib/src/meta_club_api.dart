@@ -19,8 +19,6 @@ import 'models/donation.dart';
 import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
-import 'models/multi_attendance_model.dart';
-
 class MetaClubApiClient {
   String token;
   late final HttpServiceImpl _httpServiceImpl;

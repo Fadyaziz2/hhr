@@ -6,9 +6,9 @@ import 'package:onesthrm/res/widgets/check_status_color.dart';
 import 'attendance_report_in.dart';
 
 class DialogMultiAttendanceList extends StatelessWidget {
-  final MultiAttendanceData? multiAttendanceData;
+  final DailyReport? dailyReport;
 
-  const DialogMultiAttendanceList({super.key, this.multiAttendanceData});
+  const DialogMultiAttendanceList({super.key, this.dailyReport});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class DialogMultiAttendanceList extends StatelessWidget {
         width: 300.0, // Change as per your requirement
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: multiAttendanceData?.dateWiseReport?.length ?? 0,
+          itemCount: dailyReport?.multipleAttendance?.dateWiseReport?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            DateWiseReport? dateWiseReport = multiAttendanceData?.dateWiseReport?[index];
+            DailyReport? dateWiseReport =dailyReport?.multipleAttendance?.dateWiseReport?[index];
             /// CheckIn Status Color
             checkInColor = checkInStatusColor(dateWiseReport, checkInColor);
             /// CheckOut Status Color

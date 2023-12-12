@@ -40,8 +40,8 @@ class AttendanceReportBloc
             context: event.context!,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(event.dailyReport.fullDate ?? "No Date Found"),
-                // content: DialogMultiAttendanceList(multiAttendanceData: multiAttendanceResponse?.multiAttendanceData),
+                title: Text(event.dailyReport.multipleAttendance?.date ?? "No Date Found"),
+                content: DialogMultiAttendanceList(dailyReport: event.dailyReport),
                 actions: <Widget>[
                   TextButton(
                     child: const Text('Cancel',style: TextStyle(color: Colors.red),),
