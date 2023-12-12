@@ -82,11 +82,11 @@ class MetaClubApiClient {
   }
 
   Future<CompanyListModel?> getCompanyList() async {
-    const String api = 'url will be there'; // todo
+    const String api = 'https://api.onesttech.com/api/2.0/company-list'; // todo
 
     try {
       final response =
-      await _httpServiceImpl.getRequestWithToken('$_baseUrl$api');
+      await _httpServiceImpl.getRequestWithToken(api);
 
       if (response?.statusCode == 200) {
         return CompanyListModel.fromJson(response?.data);

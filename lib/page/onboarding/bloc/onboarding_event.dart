@@ -9,3 +9,10 @@ class CompanyListEvent extends OnboardingEvent {
   @override
   List<Object> get props => [];
 }
+
+class OnSelectedCompanyEvent extends OnboardingEvent {
+  final CompanyList selectedCompany;
+  OnSelectedCompanyEvent({required this.selectedCompany});
+  @override
+  List<Object> get props => [selectedCompany];
+}

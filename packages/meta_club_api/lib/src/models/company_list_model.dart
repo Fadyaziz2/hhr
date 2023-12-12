@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class CompanyListModel extends Equatable {
+class CompanyListModel extends Equatable{
   final bool? result;
   final String? message;
   final List<CompanyList>? companyList;
@@ -11,17 +11,16 @@ class CompanyListModel extends Equatable {
     this.companyList,
   });
 
-  factory CompanyListModel.fromJson(Map<String, dynamic> json) =>
-      CompanyListModel(
-        result: json["result"],
-        message: json["message"],
-        companyList: json["data"] == null ? [] : List<CompanyList>.from(
-            json["data"]!.map((x) => CompanyList.fromJson(x))),
-      );
+  factory CompanyListModel.fromJson(Map<String, dynamic> json) => CompanyListModel(
+    result: json["result"],
+    message: json["message"],
+    companyList: json["data"] == null ? [] : List<CompanyList>.from(json["data"]!.map((x) => CompanyList.fromJson(x))),
+  );
 
   @override
-  List<Object?> get props => [result, message, companyList];
-
+  List<Object?> get props =>[result,message,];
+  
+  
 }
 
 class CompanyList extends Equatable{
@@ -44,6 +43,13 @@ class CompanyList extends Equatable{
     url: json["url"],
   );
 
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "company_name": companyName,
+    "subdomain": subdomain,
+    "url": url,
+  };
+
   @override
-  List<Object?> get props => [id, companyName, subdomain,url];
+  List<Object?> get props => [id,companyName,subdomain,url];
 }
