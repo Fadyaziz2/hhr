@@ -27,8 +27,8 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       CompanyListModel? companyList = await _metaClubApiClient.getCompanyList();
-      // state.listOfCompany = companyList?.companyList;
-      emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyList));
+      List<CompanyList>? com = companyList?.companyList;
+      emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyList,));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
