@@ -629,7 +629,7 @@ class MetaClubApiClient {
       FormData formData = FormData.fromMap({
         "subject": bodyCreateSupport?.subject,
         "description": bodyCreateSupport?.description,
-        "file_id": bodyCreateSupport?.previewId,
+        "image_url": bodyCreateSupport?.previewId,
         "priority_id": bodyCreateSupport?.priorityId
       });
 

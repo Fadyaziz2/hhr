@@ -6,6 +6,7 @@ import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class LeaveReportSummaryContent extends StatelessWidget {
   const LeaveReportSummaryContent({
@@ -41,7 +42,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 8),
-                    child: ListView.builder(
+                    child: state.leaveReportSummaryModel?.data?.leaveTypes?.isNotEmpty ==true ? ListView.builder(
                       itemCount: state.leaveReportSummaryModel?.data?.leaveTypes
                               ?.length ??
                           0,
@@ -92,7 +93,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
                           ),
                         );
                       },
-                    ),
+                    ) : const Center(child: NoDataFoundWidget(title: "no_data_found",)),
                   ),
                 )
               : Expanded(child: ListView.builder(
