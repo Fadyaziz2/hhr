@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
 import 'package:onesthrm/page/attendance_report/bloc/bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/res/const.dart';
 
 class AttendanceReportPage extends StatelessWidget {
   final AttendanceBloc attendanceBloc;
@@ -23,12 +25,13 @@ class AttendanceReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return user != null
         ? BlocProvider(
             create: (context) => AttendanceReportBloc(
                 user: user,
                 metaClubApiClient:
-                    MetaClubApiClient(token: '${user.user?.token}'))
+                    MetaClubApiClient(token: '${user.user?.token}', companyUrl: baseUrl))
               ..add(GetAttendanceReportData()),
             child: BlocBuilder<AttendanceReportBloc, AttendanceReportState>(
               builder: (context, state) {

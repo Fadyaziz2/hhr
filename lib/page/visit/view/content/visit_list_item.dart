@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/visit/view/visit_details_page/visit_details_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
@@ -19,10 +20,11 @@ class VisitListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     if (user?.user != null) {
       locationServiceProvider.getCurrentLocationStream(
           uid: user!.user!.id!,
-          metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+          metaClubApiClient: MetaClubApiClient(token: user.user!.token!, companyUrl: baseUrl));
     }
     return InkWell(
       onTap: () {

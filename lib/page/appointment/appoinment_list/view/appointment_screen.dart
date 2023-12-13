@@ -2,23 +2,26 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 AppointmentBloc? bloc;
 
 class AppointmentScreen extends StatelessWidget {
-  const AppointmentScreen({Key? key}) : super(key: key);
+  const AppointmentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => AppointmentBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(GetAppointmentData()),
       child: BlocBuilder<AppointmentBloc, AppointmentState>(
         builder: (context, state) {

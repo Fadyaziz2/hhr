@@ -29,12 +29,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = globalState.get(companyUrl);
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: baseUrl))..add(CompanyListEvent())),
+          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))..add(CompanyListEvent())),
           BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc())

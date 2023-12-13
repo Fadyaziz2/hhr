@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/upload_file/bloc/bloc.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
@@ -11,15 +13,16 @@ class UploadContent extends StatelessWidget {
   final Function(FileUpload? data) onFileUploaded;
   final String? initialAvatar;
 
-  const UploadContent({Key? key,required this.onFileUploaded,this.initialAvatar}) : super(key: key);
+  const UploadContent({super.key,required this.onFileUploaded,this.initialAvatar});
 
   @override
   Widget build(BuildContext context) {
 
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider<UploadFileBloc>(
-      create: (context) => UploadFileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+      create: (context) => UploadFileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: BlocListener<UploadFileBloc,UploadFileState>(
         listener: (context,state){
           if(state.networkStatus == NetworkStatus.success){

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/profile/bloc/profile/profile_bloc.dart';
 import 'package:onesthrm/page/profile/bloc/update/update_profile_bloc.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import 'edit_profile_content.dart';
@@ -37,9 +39,10 @@ class EditOfficialInfo extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (_) => UpdateProfileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+      create: (_) => UpdateProfileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

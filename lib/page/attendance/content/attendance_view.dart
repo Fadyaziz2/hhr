@@ -68,17 +68,17 @@ class _AttendanceState extends State<AttendanceView>
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final homeBloc = context.read<HomeBloc>();
+    final baseUrl = globalState.get(companyUrl);
     final homeData = homeBloc.state.dashboardModel;
     final settings = homeBloc.state.settings;
 
     if (user?.user != null) {
-      locationServiceProvider.getCurrentLocationStream(
-          uid: user!.user!.id!,
-          metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+      locationServiceProvider.getCurrentLocationStream(uid: user!.user!.id!, metaClubApiClient: MetaClubApiClient(token: user.user!.token!, companyUrl: baseUrl));
     }
 
     return BlocListener<AttendanceBloc, AttendanceState>(
