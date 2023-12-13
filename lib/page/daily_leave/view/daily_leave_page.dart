@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_content.dart';
+import 'package:onesthrm/res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../bloc/daily_leave_event.dart';
 
@@ -12,9 +14,10 @@ class DailyLeavePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => DailyLeaveBloc(
-          metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}"))
+          metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}", companyUrl: baseUrl))
         ..add(DailyLeaveSummary(user!.user!.id!)),
       child: const DailyLeaveContent(),
     );

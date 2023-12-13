@@ -38,7 +38,7 @@ void main() {
 
   group('HRM App Initialization', () {
     setUp(() async {
-      apiClient = MetaClubApiClient(token: '');
+      apiClient = MetaClubApiClient(token: '', companyUrl: '');
       authenticationRepository = AuthenticationRepository(apiClient: apiClient);
       userRepository = UserRepository(token: '');
       initHydratedStorage();
@@ -62,7 +62,7 @@ void main() {
     setUp(() {
       authBloc = MockAuthenticationBloc();
       when(() => authBloc.state).thenReturn(const AuthenticationState.unknown());
-      apiClient = MetaClubApiClient(token: '');
+      apiClient = MetaClubApiClient(token: '', companyUrl: '');
       authenticationRepository = AuthenticationRepository(apiClient: apiClient);
       userRepository = UserRepository(token: '');
       initHydratedStorage();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import '../../../res/const.dart';
 import '../bloc/registration_bloc.dart';
 import '../cubit/country_cubit.dart';
@@ -11,7 +12,7 @@ class RegistrationPage extends StatefulWidget {
   static get route =>
       MaterialPageRoute(builder: (_) => const RegistrationPage());
 
-  const RegistrationPage({Key? key}) : super(key: key);
+  const RegistrationPage({super.key});
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
@@ -20,11 +21,12 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
+    final baseUrl = globalState.get(companyUrl);
     return MultiBlocProvider(
       providers: [
         BlocProvider<QualificationCubit>(create: (_) => QualificationCubit()),
         BlocProvider<CountryCubit>(create: (_) => CountryCubit()),
-        BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc(metaClubApiClient: MetaClubApiClient(token: ''))..add(RegistrationInitialRequest()))
+        BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc(metaClubApiClient: MetaClubApiClient(token: '', companyUrl: baseUrl))..add(RegistrationInitialRequest()))
       ],
       child: Scaffold(
         backgroundColor: Colors.white,

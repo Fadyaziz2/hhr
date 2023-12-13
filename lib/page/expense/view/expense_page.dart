@@ -2,22 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expanse_drop_down_content.dart';
 import 'package:onesthrm/page/expense/content/expense_category.dart';
 import 'package:onesthrm/page/expense/content/expense_list_content.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 class ExpensePage extends StatelessWidget {
-  const ExpensePage({Key? key}) : super(key: key);
+  const ExpensePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => ExpenseBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(GetExpenseData())
         ..add(ExpenseCategory()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
