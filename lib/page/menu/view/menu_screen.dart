@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -112,9 +113,9 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text(
-                                        "VIEW PROFILE",
-                                        style: TextStyle(
+                                       Text(
+                                        "view_profile".tr(),
+                                        style: const TextStyle(
                                             fontSize: 14, color: colorPrimary),
                                       ),
                                     ],

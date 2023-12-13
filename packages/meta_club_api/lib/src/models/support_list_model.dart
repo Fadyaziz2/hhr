@@ -54,6 +54,7 @@ class SupportModel {
   String? priorityColor;
   String? date;
   String? description;
+  String? imageUrl;
 
   SupportModel(
       {this.id,
@@ -64,7 +65,7 @@ class SupportModel {
       this.priorityName,
       this.priorityColor,
       this.date,
-      this.description});
+      this.description,this.imageUrl});
 
   factory SupportModel.fromJson(Map<String, dynamic> json) => SupportModel(
       id: json["id"],
@@ -72,6 +73,7 @@ class SupportModel {
       file: json["file"],
       typeName: json["type_name"],
       typeColor: json["type_color"],
+      imageUrl: json["image_url"],
       priorityName: json["priority_name"],
       priorityColor: json["priority_color"],
       date: json["date"],
@@ -86,6 +88,7 @@ class SupportModel {
         "priority_name": priorityName,
         "priority_color": priorityColor,
         "date": date,
-        "description": description
+        "description": description,
+    "image_url":imageUrl
       };
 }

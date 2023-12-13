@@ -10,7 +10,7 @@ import 'package:onesthrm/res/nav_utail.dart';
 import '../bloc/bloc.dart';
 
 class SupportPage extends StatelessWidget {
-  const SupportPage({Key? key}) : super(key: key);
+  const SupportPage({super.key});
 
   @override
   Widget build(BuildContext context) {
