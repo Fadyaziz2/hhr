@@ -11,6 +11,9 @@ import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
+
 class NoticeListScreen extends StatelessWidget {
   const NoticeListScreen({super.key});
 
