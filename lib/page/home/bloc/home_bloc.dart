@@ -53,8 +53,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
+      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
