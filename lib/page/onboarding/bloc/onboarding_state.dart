@@ -3,28 +3,39 @@ part of "onboarding_bloc.dart";
 class OnboardingState extends Equatable {
   final NetworkStatus? status;
   final CompanyListModel? companyListModel;
-  final CompanyList? companyList;
-  final List<CompanyList>? listOfCompany;
+  final Company? selectedCompany;
+  final List<Company>? listOfCompany;
 
   const OnboardingState(
       {this.status = NetworkStatus.initial,
       this.companyListModel,
-      this.companyList,
+      this.selectedCompany,
       this.listOfCompany});
 
   OnboardingState copyWith(
       {NetworkStatus? status,
       CompanyListModel? companyListModel,
-      CompanyList? companyList,
-      List<CompanyList>? listOfCompany}) {
+      Company? selectedCompany,
+      List<Company>? listOfCompany}) {
     return OnboardingState(
         status: status ?? this.status,
         companyListModel: companyListModel ?? this.companyListModel,
-        companyList: companyList ?? this.companyList,
+        selectedCompany: selectedCompany ?? this.selectedCompany,
         listOfCompany: listOfCompany ?? this.listOfCompany);
   }
 
+  factory OnboardingState.fromJson(Map<String, dynamic> json) {
+    return OnboardingState(
+        status: NetworkStatus.success,
+        companyListModel:  json['companyListModel'] != null ?CompanyListModel.fromJson(json['companyListModel']) : null,
+        selectedCompany: json['selectedCompany'] != null ? Company.fromJson(json['selectedCompany']): null);
+  }
+
+  Map<String,dynamic> toJson() => {
+    'selectedCompany':selectedCompany?.toJson(),
+    'companyListModel': companyListModel?.toJson()
+  };
+
   @override
-  List<Object?> get props =>
-      [status, companyListModel, companyList, listOfCompany];
+  List<Object?> get props => [status, companyListModel, selectedCompany, listOfCompany];
 }

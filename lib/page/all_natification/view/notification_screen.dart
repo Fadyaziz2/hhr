@@ -6,8 +6,11 @@ import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/all_natification/content/notification_cart_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
+
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -22,9 +25,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (context) => NotificationBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
           ..add(LoadNotificationData()),
         child: BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
