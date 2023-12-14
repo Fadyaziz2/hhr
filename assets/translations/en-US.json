@@ -558,12 +558,8 @@
   "no_recent_available": "No recent available",
   "face_register": "Face Register",
   "cancelled": "Cancelled",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error",
-  "error": "Error"
+  "Update official data": "Update official data",
+  "Update personal data": "Update personal data",
+  "Update financial data": "Update financial data",
+  "Update emergency data": "Update emergency data"
 }

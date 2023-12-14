@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -46,7 +47,7 @@ class EditOfficialInfo extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('Update $pageName data'),
+          title: Text('Update $pageName data'.tr()),
         ),
         body: BlocListener<UpdateProfileBloc, UpdateProfileState>(
           listener: (context, state) {

@@ -6,7 +6,7 @@ class BodyCreateLeaveModel {
   String? leaveFrom;
   String? leaveTo;
   String? reason;
-  int? fileId;
+  String? imageUrl;
 
   BodyCreateLeaveModel(
       {this.userId,
@@ -16,7 +16,7 @@ class BodyCreateLeaveModel {
       this.leaveFrom,
       this.leaveTo,
       this.reason,
-      this.fileId});
+      this.imageUrl});
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
@@ -26,6 +26,6 @@ class BodyCreateLeaveModel {
         "leave_from": leaveFrom,
         "leave_to": leaveTo,
         "reason": reason,
-        "file_id": fileId
+        "image_url": imageUrl
       };
 }

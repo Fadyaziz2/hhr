@@ -185,7 +185,7 @@
   "no_visit_found": "কোন ভিজিট পাওয়া যায়নি",
   "reschedule_visit": "পরিদর্শন পুনঃনির্ধারণ করুন",
   "new_date*": "নতুন তারিখ*",
-  "save": "সংরক্ষণ",
+  "save": "আপডেট",
   "update_visit": "পরিদর্শন আপডেট করুন",
   "description_optional": "বর্ণনা (ঐচ্ছিক)",
   "phone_optional": "ফোন ঐচ্ছিক)",
@@ -319,8 +319,8 @@
   "enter_employee_type": "কর্মচারী টাইপ লিখুন",
   "enter_grade": "শ্রেণী লিখুন",
   "personal_info_edit": "পার্সোনাল ইনফো এডিট",
-  "gender*": "Gender*",
-  "gender": "লিঙ্গ",
+  "gender*": "জেন্ডার*",
+  "gender": "জেন্ডার",
   "male": "পুরুষ",
   "female": "মহিলা",
   "other": "অন্যান্য",
@@ -554,5 +554,9 @@
   "Chat": "চ্যাট",
   "Conference": "কনফারেন্স",
   "face_register": "ফেস রেজিস্টার",
-  "cancelled": "ক্যান্সেলেড"
+  "cancelled": "ক্যান্সেলেড",
+  "Update official data": "অফিসিয়াল ডেটা আপডেট",
+  "Update personal data": "পার্সোনাল ডেটা আপডেট",
+  "Update financial data": "ফিনান্সিয়াল ডেটা আপডেট",
+  "Update emergency data": "ইমার্জেন্সি ডেটা আপডেট"
 }

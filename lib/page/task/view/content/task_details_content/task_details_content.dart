@@ -102,9 +102,9 @@ class TaskScreenDetails extends StatelessWidget {
                                 )
                               : Row(
                                   children: [
-                                    const Text(
-                                      "task_complete",
-                                      style: TextStyle(
+                                     Text(
+                                      "task_complete".tr(),
+                                      style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold),

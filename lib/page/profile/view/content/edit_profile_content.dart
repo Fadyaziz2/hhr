@@ -15,12 +15,11 @@ class EditProfileContent extends StatefulWidget {
   final Bloc bloc;
 
   const EditProfileContent(
-      {Key? key,
+      {super.key,
       required this.pageName,
       required this.settings,
       required this.profile,
-      required this.bloc})
-      : super(key: key);
+      required this.bloc});
 
   @override
   State<EditProfileContent> createState() => _EditProfileContentState();

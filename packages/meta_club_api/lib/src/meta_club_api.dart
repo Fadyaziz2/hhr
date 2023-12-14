@@ -33,8 +33,8 @@ class MetaClubApiClient {
   static const _baseUrl = '$rootUrl/api/2.0/';
 
   String getBaseUrl(){
-    final baseUrl = companyUrl ?? _baseUrl;
-    return baseUrl.replaceAll('http', 'https');
+    final baseUrl = companyUrl;
+    return baseUrl;
   }
 
   Future<Either<LoginFailure, LoginData?>> login(
@@ -45,7 +45,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-          await _httpServiceImpl.postRequest('${baseUrl.replaceAll('http', 'https')}$login', body);
+          await _httpServiceImpl.postRequest('$baseUrl$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
