@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -6,6 +7,7 @@ import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
 import '../../../res/const.dart';
+import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../profile/view/profile_page.dart';
@@ -39,13 +41,14 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final baseUrl = globalState.get(companyUrl);
     final settings = context.read<HomeBloc>().state.settings;
     final homeData = context.watch<HomeBloc>().state.dashboardModel;
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
         create: (context) => MenuBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
             setting: settings!,
             loginData: user!,
             color: colorPrimary)
@@ -112,9 +115,9 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text(
-                                        "VIEW PROFILE",
-                                        style: TextStyle(
+                                       Text(
+                                        "view_profile".tr(),
+                                        style: const TextStyle(
                                             fontSize: 14, color: colorPrimary),
                                       ),
                                     ],

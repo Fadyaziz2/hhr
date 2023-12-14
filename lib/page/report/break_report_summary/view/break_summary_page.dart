@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/report/break_report_summary/break_report.dart';
 import 'package:onesthrm/res/const.dart';
+import '../../../app/global_state.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 
 class BreakReportSummary extends StatelessWidget {
@@ -12,9 +13,10 @@ class BreakReportSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (BuildContext context) => BreakBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'),
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
           userId: user!.user!.id!)
         ..add(GetBreakInitialData()),
       child: Scaffold(

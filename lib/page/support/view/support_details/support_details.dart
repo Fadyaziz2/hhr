@@ -8,7 +8,7 @@ import 'package:onesthrm/page/support/content/type_name_widget.dart';
 class SupportDetails extends StatelessWidget {
   final SupportModel? supportModel;
 
-  const SupportDetails({Key? key, this.supportModel}) : super(key: key);
+  const SupportDetails({super.key, this.supportModel});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class SupportDetails extends StatelessWidget {
             ),
             Text(
               supportModel?.description ??
-                  "this_data_is_static_cause_there_is_no_API_yet".tr(),
+                  "".tr(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -97,7 +97,7 @@ class SupportDetails extends StatelessWidget {
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  imageUrl: supportModel?.file ??
+                  imageUrl: supportModel?.imageUrl ??
                       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
                   placeholder: (context, url) => Center(
                     child: Image.asset("assets/images/app_icon.png"),

@@ -4,7 +4,9 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/multi_selection_employee/content/get_multi_employee_content.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 
+import '../../res/const.dart';
 import '../../res/widgets/custom_button.dart';
+import '../app/global_state.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 
 class MultiSelectionEmployee extends StatelessWidget {
@@ -16,8 +18,9 @@ class MultiSelectionEmployee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
-      create: (_) => PhoneBookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))..add(PhoneBookLoadRequest()),
+      create: (_) => PhoneBookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))..add(PhoneBookLoadRequest()),
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Multi Selection Employee"),

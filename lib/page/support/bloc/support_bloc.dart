@@ -113,18 +113,24 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     emit(state.copy(status: NetworkStatus.loading));
 
     try {
-      await _metaClubApiClient
-          .createSupport(bodyCreateSupport: event.bodyCreateSupport)
-          .then((success) {
-        if (success) {
-          add(GetSupportData(filter: event.filter, date: event.date));
-          Fluttertoast.showToast(msg: "ticket_created_successfully".tr());
+      if (event.bodyCreateSupport.priorityId == null) {
+        Fluttertoast.showToast(msg: "You must set priority".tr());
+      } else if (event.bodyCreateSupport.subject == null) {
+        Fluttertoast.showToast(msg: "Subject filed can not be empty".tr());
+      } else {
+        await _metaClubApiClient
+            .createSupport(bodyCreateSupport: event.bodyCreateSupport)
+            .then((success) {
+          if (success) {
+            add(GetSupportData(filter: event.filter, date: event.date));
+            Fluttertoast.showToast(msg: "ticket_created_successfully".tr());
 
-          Navigator.pop(event.context);
-        } else {
-          emit(state.copy(status: NetworkStatus.failure));
-        }
-      });
+            Navigator.pop(event.context);
+          } else {
+            emit(state.copy(status: NetworkStatus.failure));
+          }
+        });
+      }
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
