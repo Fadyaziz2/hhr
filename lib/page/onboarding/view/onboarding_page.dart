@@ -42,6 +42,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       body: BlocBuilder<OnboardingBloc,OnboardingState>(
         builder: (context,state){
+          if(state.companyListModel?.companyList?.length == 1){
+            NavUtil.pushAndRemoveUntil(context, const LoginPage());
+          }
           return Stack(
             children: [
               Column(
@@ -102,7 +105,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     padding: const EdgeInsets.all(12.0),
                     child: TextFormField(
                       onChanged: (value) {
-                        // provider.onChangeSearch(value);
+
+
                       },
                       decoration: InputDecoration(
                           hintText: 'Choose A Company',
@@ -111,12 +115,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           filled: true,
                           fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: colorPrimary),
+                              borderSide: const BorderSide(color: colorPrimary),
                               borderRadius: BorderRadius.circular(25.0)),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: colorPrimary),
+                              borderSide: const BorderSide(color: colorPrimary),
                               borderRadius: BorderRadius.circular(25.0)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),

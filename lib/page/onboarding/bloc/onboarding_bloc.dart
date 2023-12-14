@@ -30,12 +30,11 @@ class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
 
   FutureOr<void> _onCompanyLoaded (CompanyListEvent event,Emitter<OnboardingState> emit) async{
     emit(state.copyWith(status: NetworkStatus.loading));
-
     try {
       CompanyListModel? companyModel = await _metaClubApiClient.getCompanyList();
       List<Company> companies = companyModel?.companyList ?? [];
-      if(companies.length == 1){
-
+      if(companies.isNotEmpty){
+        emit(state.copyWith(selectedCompany: companies.first));
       }
       emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyModel));
     } catch (e) {
