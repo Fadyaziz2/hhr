@@ -35,7 +35,7 @@ class AuthenticationRepository {
     yield* _userController.stream;
   }
 
-  Future<Either<LoginFailure, LoginData?>> login({required String email, required String password,required String baseUrl}) async {
+  Future<Either<LoginFailure, LoginData?>> login({required String email, required String password,required String? baseUrl}) async {
     final userEither = await apiClient.login(email: email, password: password,baseUrl: baseUrl);
 
     userEither.fold((l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
