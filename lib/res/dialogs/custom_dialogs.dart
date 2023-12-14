@@ -122,7 +122,7 @@ showCustomYearPicker(
                   initialDisplayDate: initialDate ?? DateTime.now(),
                   view: DateRangePickerView.year,
                   selectionMode: DateRangePickerSelectionMode.single,
-                  monthViewSettings: DateRangePickerMonthViewSettings(
+                  monthViewSettings: const DateRangePickerMonthViewSettings(
                       enableSwipeSelection: false),
                   allowViewNavigation: true,
                   toggleDaySelection: false,
@@ -169,6 +169,7 @@ showYearPicker(
               style: Theme.of(context).textTheme.titleMedium),
           content: SizedBox(
             height: 300,
+            width: double.maxFinite,
             child: YearPicker(
               firstDate: DateTime(DateTime.now().year - 10, 5),
               lastDate: DateTime.now(),

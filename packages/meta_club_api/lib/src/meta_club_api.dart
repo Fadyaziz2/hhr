@@ -1367,7 +1367,7 @@ class MetaClubApiClient {
   Future<PayrollModel?> getPayrollData({required String year}) async {
     const String api = 'report/payslip/list';
 
-    final data = {"year": year.toString()};
+    final data = {"year": year};
 
     try {
       final response =
@@ -1376,7 +1376,7 @@ class MetaClubApiClient {
         return PayrollModel.fromJson(response.data);
       }
       return null;
-    } catch (_) {
+    } catch (e) {
       return null;
     }
   }
