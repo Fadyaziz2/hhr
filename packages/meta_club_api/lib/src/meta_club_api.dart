@@ -38,14 +38,16 @@ class MetaClubApiClient {
   }
 
   Future<Either<LoginFailure, LoginData?>> login(
-      {required String email, required String password,required String baseUrl}) async {
+      {required String email, required String password,required String? baseUrl}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$baseUrl$login', body);
+
+
+
+      final response = await _httpServiceImpl.postRequest('${baseUrl ?? _baseUrl}$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
