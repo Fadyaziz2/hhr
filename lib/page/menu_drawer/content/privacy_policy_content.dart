@@ -6,15 +6,14 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
 import 'package:onesthrm/page/menu_drawer/bloc/menu_drawer_bloc.dart';
-import 'package:onesthrm/res/enum.dart';
+
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
 
 class PolicyContentScreen extends StatelessWidget {
   final String? appBarName;
   final String? apiSlug;
-  const PolicyContentScreen({Key? key, this.appBarName, this.apiSlug})
-      : super(
-          key: key,
-        );
+  const PolicyContentScreen({super.key, this.appBarName, this.apiSlug});
   static Route route(String? appBarName, String? apiSlug) => MaterialPageRoute(
       builder: (_) => PolicyContentScreen(
             apiSlug: apiSlug,
@@ -23,10 +22,11 @@ class PolicyContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (context) => MenuDrawerBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(MenuDrawerLoadData(context: context, slug: apiSlug)),
       child: Scaffold(
         appBar: AppBar(

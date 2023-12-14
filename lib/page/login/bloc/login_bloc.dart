@@ -6,11 +6,12 @@ import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
 import '../models/password.dart';
 import '../models/email.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
@@ -49,9 +50,8 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-
-      final eitherOrUser = await _authenticationRepository.login(
-          email: state.email.value, password: state.password.value);
+      final baseUrl = globalState.get(companyUrl);
+      final eitherOrUser = await _authenticationRepository.login(email: state.email.value, password: state.password.value,baseUrl: baseUrl);
 
       eitherOrUser.fold(
               (l) =>

@@ -17,7 +17,7 @@ void main() async {
 
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
-  final MetaClubApiClient apiClient = MetaClubApiClient(token: '');
+  final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
   final authenticationRepository =
       AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');

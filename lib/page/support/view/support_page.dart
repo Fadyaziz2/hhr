@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_page.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
@@ -15,10 +16,11 @@ class SupportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (context) => SupportBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(GetSupportData()),
       child: BlocBuilder<SupportBloc, SupportState>(
         builder: (context, state) {

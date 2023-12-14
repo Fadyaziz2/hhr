@@ -8,16 +8,23 @@ import 'package:onesthrm/page/notice_list/content/notice_list_content.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
+
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
+
 class NoticeListScreen extends StatelessWidget {
   const NoticeListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (context) => NotificationListBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}'))
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(LoadNotificationListData()),
       child: Scaffold(
         appBar: AppBar(
