@@ -49,21 +49,19 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
     if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress,loginAction: LoginAction.login));
       final baseUrl = globalState.get(companyUrl);
       final eitherOrUser = await _authenticationRepository.login(email: state.email.value, password: state.password.value,baseUrl: baseUrl);
 
       eitherOrUser.fold(
-              (l) =>
-              emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l)),
+              (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l,loginAction: LoginAction.login)),
               (r) {
             if (r?.user != null) {
               ///create/update user information into fireStore
               _chatService.createAndUpdateUserInfo(r?.user?.toJson(), '${r?.user?.id}');
-              emit(state.copyWith(status: FormzSubmissionStatus.success, user: r));
+              emit(state.copyWith(status: FormzSubmissionStatus.success, user: r,loginAction: LoginAction.login));
             } else {
-              emit(state.copyWith(
-                  status: FormzSubmissionStatus.canceled, user: r));
+              emit(state.copyWith(status: FormzSubmissionStatus.canceled, user: r,loginAction: LoginAction.login));
             }
           });
     }
@@ -85,11 +83,11 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   @override
   Map<String, dynamic>? toJson(LoginState state) {
     return <String, dynamic>{
-      'data': state.user != null ? state.user!.toJson() : null
+      'data': state.user!.toJson()
     };
   }
 
   FutureOr<void> _onObscureEvent(OnObscureEvent event, Emitter<LoginState> emit) {
-    emit(state.copyWith(isObscure: !state.isObscure));
+    emit(state.copyWith(isObscure: !state.isObscure,loginAction: LoginAction.obscure));
   }
 }

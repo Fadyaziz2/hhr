@@ -705,8 +705,7 @@ class MetaClubApiClient {
       {required List<Map<String, dynamic>> locations, String? date}) async {
     try {
       final data = {'locations': locations};
-      var response = await _httpServiceImpl.postRequest(
-          "${{getBaseUrl()}}user/attendance/live-location-store", data);
+      var response = await _httpServiceImpl.postRequest("${getBaseUrl()}user/attendance/live-location-store", data);
       if (response.statusCode == 200) {
         if (kDebugMode) {
           print("storeLocationToServer ${response.data}");
@@ -1320,12 +1319,11 @@ class MetaClubApiClient {
     }
   }
 
-  ///////// Appoinment Create///////////////
+  ///////// Appointment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
-      // debugPrint('body: $data');
 
       FormData formData = FormData.fromMap({
         "title": appointmentBody?.title,

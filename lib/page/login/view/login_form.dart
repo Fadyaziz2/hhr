@@ -20,7 +20,7 @@ class LoginForm extends StatelessWidget {
       key: context.read<LoginBloc>().formKey,
       child: Center(
         child: BlocListener<LoginBloc, LoginState>(
-          listenWhen: (oldState,newState) => oldState != newState,
+          listenWhen: (oldState,newState) => oldState.loginAction == LoginAction.login,
           listener: (context, state) {
             if (state.status.isFailure) {
                showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
@@ -60,7 +60,7 @@ class LoginForm extends StatelessWidget {
                   const SizedBox(
                     height: 32.0,
                   ),
-                  _LoginButton(),
+                  const _LoginButton(),
                   const SizedBox(height: 16,),
                 ],
               ),
