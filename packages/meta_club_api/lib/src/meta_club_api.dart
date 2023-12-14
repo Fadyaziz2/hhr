@@ -33,8 +33,8 @@ class MetaClubApiClient {
   static const _baseUrl = '$rootUrl/api/2.0/';
 
   String getBaseUrl(){
-    final baseUrl = companyUrl ?? _baseUrl;
-    return baseUrl.replaceAll('http', 'https');
+    final baseUrl = companyUrl;
+    return baseUrl;
   }
 
   Future<Either<LoginFailure, LoginData?>> login(
@@ -45,7 +45,7 @@ class MetaClubApiClient {
 
     try {
       final response =
-          await _httpServiceImpl.postRequest('${baseUrl.replaceAll('http', 'https')}$login', body);
+          await _httpServiceImpl.postRequest('$baseUrl$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
@@ -705,8 +705,7 @@ class MetaClubApiClient {
       {required List<Map<String, dynamic>> locations, String? date}) async {
     try {
       final data = {'locations': locations};
-      var response = await _httpServiceImpl.postRequest(
-          "${{getBaseUrl()}}user/attendance/live-location-store", data);
+      var response = await _httpServiceImpl.postRequest("${getBaseUrl()}user/attendance/live-location-store", data);
       if (response.statusCode == 200) {
         if (kDebugMode) {
           print("storeLocationToServer ${response.data}");
@@ -1320,12 +1319,11 @@ class MetaClubApiClient {
     }
   }
 
-  ///////// Appoinment Create///////////////
+  ///////// Appointment Create///////////////
   Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
-      // debugPrint('body: $data');
 
       FormData formData = FormData.fromMap({
         "title": appointmentBody?.title,

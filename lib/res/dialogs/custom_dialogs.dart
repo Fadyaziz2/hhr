@@ -10,8 +10,7 @@ Future<void> showRegistrationSuccessDialog(
     {required BuildContext context,
     bool isSuccess = true,
     String message = 'Account Verification',
-    String body =
-        'Your account verification now on process. we will notify you after completing your verification'}) async {
+    String body = ''}) async {
   await showDialog(
       context: context,
       builder: (context) {
@@ -53,8 +52,7 @@ void showLoginDialog(
     {required BuildContext context,
     bool isSuccess = true,
     String message = 'Account Login',
-    String body =
-        'Your account verification now on process. we will notify you after completing your verification'}) {
+    String body = ''}) {
   showDialog(
       context: context,
       builder: (_) {
@@ -62,11 +60,15 @@ void showLoginDialog(
           title: Center(
               child: Text(
             message ?? '',
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 18.0),
           )),
           contentPadding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           children: [
+            const SizedBox(
+              height: 16.0,
+            ),
             CircleAvatar(
               radius: 30.0,
               backgroundColor: isSuccess ? Colors.green : Colors.red,
