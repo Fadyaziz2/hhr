@@ -4,10 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
-import '../../../../res/const.dart';
 import '../../../../res/date_utils.dart';
-import '../../../app/global_state.dart';
 
 class BreakHeader extends StatelessWidget {
   final CustomTimerController timerController;
@@ -20,39 +17,45 @@ class BreakHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                    text: 'You_have_already_taken'.tr(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Color(0xFF555555))),
-                TextSpan(
-                    text: "${dashboardModel?.data?.breakHistory?.time ?? 0} ",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.redAccent)),
-                TextSpan(
-                    text: 'break'.tr(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Color(0xFF555555))),
-              ],
+        Visibility(
+          visible: dashboardModel?.data?.breakHistory?.hasBreak == true,
+          child: Center(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                      text: 'You_have_already_taken'.tr(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: Color(0xFF555555))),
+                  TextSpan(
+                      text: "${dashboardModel?.data?.breakHistory?.time ?? 0} ",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.redAccent)),
+                  TextSpan(
+                      text: 'break'.tr(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: Color(0xFF555555))),
+                ],
+              ),
             ),
           ),
         ),
-        const Text(
-          "you_have_not_taken_a_break",
-          style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Color(0xFF555555)),
-        ).tr(),
+        Visibility(
+          visible: dashboardModel?.data?.breakHistory?.hasBreak == false,
+          child: const Text(
+            "you_have_not_taken_a_break",
+            style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: Color(0xFF555555)),
+          ).tr(),
+        ),
         const SizedBox(
           height: 8.0,
         ),
