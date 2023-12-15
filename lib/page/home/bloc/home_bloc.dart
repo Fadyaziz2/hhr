@@ -67,8 +67,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
       globalState.set(
           breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(
-          isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
@@ -78,10 +77,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(sec,
           '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
-      emit(state.copy(
-          dashboardModel: dashboardModel,
-          status: NetworkStatus.success,
-          isSwitched: isLocationEnabled));
+      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
