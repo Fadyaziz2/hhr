@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
 import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../../res/const.dart';
@@ -10,26 +12,35 @@ import '../models/email.dart';
 import '../models/password.dart';
 
 class LoginForm extends StatelessWidget {
-
   const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: context.read<LoginBloc>().formKey,
       child: Center(
         child: BlocListener<LoginBloc, LoginState>(
-          listenWhen: (oldState,newState) => oldState.loginAction == LoginAction.login,
+          listenWhen: (oldState, newState) =>
+              oldState.loginAction == LoginAction.login,
           listener: (context, state) {
             if (state.status.isFailure) {
-               showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
+              showLoginDialog(
+                  context: context,
+                  isSuccess: false,
+                  message: state.message?.error ?? 'Authentication failed');
             }
-            if(state.status.isCanceled){
-               showLoginDialog(context: context,isSuccess: false,message: '${state.user?.user?.name}');
+            if (state.status.isCanceled) {
+              showLoginDialog(
+                  context: context,
+                  isSuccess: false,
+                  message: '${state.user?.user?.name}');
             }
-            if(state.status.isSuccess){
-              showLoginDialog(context: context,isSuccess: true,message: '${state.user?.user?.name}',body: 'Authentication Successful');
+            if (state.status.isSuccess) {
+              showLoginDialog(
+                  context: context,
+                  isSuccess: true,
+                  message: '${state.user?.user?.name}',
+                  body: 'Authentication Successful');
             }
           },
           child: Padding(
@@ -39,15 +50,15 @@ class LoginForm extends StatelessWidget {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       NavUtil.navigateScreen(context, const OnboardingPage());
                     },
                     child: Center(
                         child: Image.asset(
-                          "assets/images/app_icon.png",
-                          height: 130.0,
-                          width: 130.0,
-                        )),
+                      "assets/images/app_icon.png",
+                      height: 130.0,
+                      width: 130.0,
+                    )),
                   ),
                   const SizedBox(
                     height: 55.0,
@@ -58,10 +69,33 @@ class LoginForm extends StatelessWidget {
                   ),
                   const _PasswordInput(),
                   const SizedBox(
-                    height: 32.0,
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () {
+                        NavUtil.navigateScreen(context, const ForgetPassword());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Text(
+                          tr("forgot_password"),
+                          style: const TextStyle(
+                              color: colorPrimary,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        ).tr(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
                   ),
                   const _LoginButton(),
-                  const SizedBox(height: 16,),
+                  const SizedBox(
+                    height: 16,
+                  ),
                 ],
               ),
             ),
@@ -73,7 +107,6 @@ class LoginForm extends StatelessWidget {
 }
 
 class _EmailInput extends StatelessWidget {
-
   const _EmailInput();
 
   @override
@@ -82,7 +115,8 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           key: const Key('email_text_field'),
-          onChanged: (phone) => context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
+          onChanged: (phone) =>
+              context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
           validator: (value) => state.email.validator(value ?? '')?.text(),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
@@ -94,7 +128,8 @@ class _EmailInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.phone_android_rounded),
             prefixIconColor: mainColor,
-            errorText: state.email.displayError != null ? 'Invalid email' : null,
+            errorText:
+                state.email.displayError != null ? 'Invalid email' : null,
           ),
         );
       },
@@ -126,7 +161,7 @@ class _PasswordInput extends StatelessWidget {
             ),
             suffixIcon: IconButton(
               icon: Icon(
-               state.isObscure ?  Icons.visibility_off: Icons.visibility,
+                state.isObscure ? Icons.visibility_off : Icons.visibility,
                 color: colorPrimary,
               ),
               onPressed: () {
@@ -135,7 +170,8 @@ class _PasswordInput extends StatelessWidget {
             ),
             prefixIcon: const Icon(Icons.password),
             prefixIconColor: mainColor,
-            errorText:  state.password.displayError != null ? 'Invalid password' : null,
+            errorText:
+                state.password.displayError != null ? 'Invalid password' : null,
           ),
         );
       },
@@ -144,7 +180,6 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-
   const _LoginButton();
 
   @override
@@ -158,12 +193,20 @@ class _LoginButton extends StatelessWidget {
                 height: 45.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    if(context.read<LoginBloc>().formKey.currentState?.validate() == true){
+                    if (context
+                            .read<LoginBloc>()
+                            .formKey
+                            .currentState
+                            ?.validate() ==
+                        true) {
                       context.read<LoginBloc>().add(const LoginSubmit());
                     }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
-                  child: const Text('Login',style: TextStyle(color: Colors.white),),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               );
       },
@@ -171,18 +214,18 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-extension on PhoneValidationError{
-  String text(){
-    switch(this){
+extension on PhoneValidationError {
+  String text() {
+    switch (this) {
       case PhoneValidationError.empty:
         return 'Please enter on email';
     }
   }
 }
 
-extension on PasswordValidationError{
-  String text(){
-    switch(this){
+extension on PasswordValidationError {
+  String text() {
+    switch (this) {
       case PasswordValidationError.empty:
         return 'Please enter on phone';
     }
