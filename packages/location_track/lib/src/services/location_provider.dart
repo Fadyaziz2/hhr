@@ -61,8 +61,8 @@ class LocationServiceProvider {
     ///location permission check
    final isGranted = await askForLocationAlwaysPermission();
 
-   if(isGranted){
-
+   if(!isGranted){
+     await askForLocationAlwaysPermission();
    }
 
     locationServiceProvider = LocationService();
