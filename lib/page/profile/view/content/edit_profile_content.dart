@@ -27,7 +27,6 @@ class EditProfileContent extends StatefulWidget {
 }
 
 class _EditProfileContentState extends State<EditProfileContent> {
-
   BodyOfficialInfo official = BodyOfficialInfo();
   BodyPersonalInfo personal = BodyPersonalInfo();
   BodyFinancialInfo financial = BodyFinancialInfo();
@@ -35,8 +34,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
 
   @override
   Widget build(BuildContext context) {
-
-    UpdateProfileBloc  bloc = context.watch<UpdateProfileBloc>();
+    UpdateProfileBloc bloc = context.watch<UpdateProfileBloc>();
 
     return SingleChildScrollView(
       child: Padding(
@@ -44,22 +42,42 @@ class _EditProfileContentState extends State<EditProfileContent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if(widget.pageName == 'official')
-              OfficialForm(profile: widget.profile, bloc: bloc, onOfficialUpdate: (data) {
-                official = data;
-              }, settings: widget.settings,),
-            if(widget.pageName == 'personal')
-              PersonalForm(profile: widget.profile, bloc: bloc, onPersonalUpdate: (data) {
-                personal = data;
-              }, settings: widget.settings,),
-            if(widget.pageName == 'financial')
-              FinancialForm(profile: widget.profile, bloc: bloc, onFinancialUpdate: (data) {
-                financial = data;
-              }, settings: widget.settings,),
-            if(widget.pageName == 'emergency')
-              EmergencyForm(profile: widget.profile, bloc: bloc, onEmergencyUpdate: (data) {
-                emergency = data;
-              }, settings: widget.settings,),
+            if (widget.pageName == 'official')
+              OfficialForm(
+                profile: widget.profile,
+                bloc: bloc,
+                onOfficialUpdate: (data) {
+                  official = data;
+                },
+                settings: widget.settings,
+              ),
+            if (widget.pageName == 'personal')
+              PersonalForm(
+                profile: widget.profile,
+                bloc: bloc,
+                onPersonalUpdate: (data) {
+                  personal = data;
+                },
+                settings: widget.settings,
+              ),
+            if (widget.pageName == 'financial')
+              FinancialForm(
+                profile: widget.profile,
+                bloc: bloc,
+                onFinancialUpdate: (data) {
+                  financial = data;
+                },
+                settings: widget.settings,
+              ),
+            if (widget.pageName == 'emergency')
+              EmergencyForm(
+                profile: widget.profile,
+                bloc: bloc,
+                onEmergencyUpdate: (data) {
+                  emergency = data;
+                },
+                settings: widget.settings,
+              ),
           ],
         ),
       ),
