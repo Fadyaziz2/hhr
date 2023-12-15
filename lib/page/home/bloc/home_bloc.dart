@@ -33,6 +33,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<LoadHomeData>(_onHomeDataLoad);
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
+    on<OnLocationRefresh>(_onLocationRefresh);
   }
 
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
@@ -87,18 +88,23 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
+  void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
+    emit(state.copy(isSwitched: true));
+    if (event.user != null) {
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
+    }
+  }
+
   void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: !state.isSwitched));
     if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
     }
   }
 
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
-      event.locationProvider.getCurrentLocationStream(
-          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+      event.locationProvider.getCurrentLocationStream(uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
     } else {
       try {
         event.locationProvider.locationSubscription.pause();

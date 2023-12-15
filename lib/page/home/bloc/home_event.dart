@@ -11,6 +11,12 @@ class LoadHomeData extends HomeEvent{}
 
 class OnHomeRefresh extends HomeEvent{}
 
+class OnLocationRefresh extends HomeEvent{
+  final User? user;
+  final LocationServiceProvider locationProvider;
+  OnLocationRefresh({required this.user,required this.locationProvider});
+}
+
 class OnSwitchPressed extends HomeEvent{
   final User? user;
   final LocationServiceProvider locationProvider;
