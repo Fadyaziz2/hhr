@@ -59,7 +59,7 @@ class _AppViewState extends State<AppView> {
   @override
   void initState() {
     ///channel wise notification setup
-    // FirebaseMessaging.instance.subscribeToTopic('onesthrm'); // todo for IOS run comment this line
+    FirebaseMessaging.instance.subscribeToTopic('onesthrm'); // todo for IOS run comment this line
     super.initState();
   }
 
