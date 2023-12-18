@@ -149,12 +149,9 @@ class _AttendanceState extends State<AttendanceView>
                           )
                         : AnimatedCircularButton(
                             onComplete: () {
-                              context
-                                  .read<AttendanceBloc>()
-                                  .add(OnAttendance(homeData: homeData));
+                              context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
                             },
-                            isCheckedIn:
-                                homeData.data?.attendanceData?.id != null,
+                            isCheckedIn: homeData.data?.attendanceData?.id != null,
                             title: globalState.get(attendanceId) == null
                                 ? "check_in".tr()
                                 : "check_out".tr(),

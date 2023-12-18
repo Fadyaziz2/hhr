@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -38,17 +39,26 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
 
     Break? data = await _metaClubApiClient.backBreak();
 
-    TodayHistory? todayHistory =  data?.data?.breakBackHistory?.todayHistory?.first;
+    final todayHistories =  data?.data?.breakBackHistory?.todayHistory;
 
     String breakBack = '${data?.data?.breakTime} - ${data?.data?.backTime ?? ''}';
 
     if( data?.data?.status != 'break_in'){
-      state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
-          BreakTodayHistory(
-              name:'Break',
-              reason: 'Break',
-              breakBackTime: todayHistory?.breakBackTime ?? breakBack,
-              breakTimeDuration: todayHistory?.breakTimeDuration ??'0 min'));
+      if(todayHistories?.isNotEmpty == true){
+        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
+            BreakTodayHistory(
+                name:'Break',
+                reason: 'Break',
+                breakBackTime: todayHistories![0].breakBackTime ?? breakBack,
+                breakTimeDuration: todayHistories[0].breakTimeDuration ??'0 min'));
+      }else{
+        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
+            BreakTodayHistory(
+                name:'Break',
+                reason: 'Break',
+                breakBackTime: breakBack,
+                breakTimeDuration: '0 min'));
+      }
     }
 
     globalState.set(breakTime, data?.data?.breakTime);
