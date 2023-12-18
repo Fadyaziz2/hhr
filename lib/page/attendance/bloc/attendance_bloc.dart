@@ -6,7 +6,6 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-
 import '../../../res/const.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
