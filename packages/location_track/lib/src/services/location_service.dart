@@ -19,6 +19,10 @@ class LocationService {
     });
   }
 
+  Future<PermissionStatus> hasPermission() async {
+    return await location.hasPermission();
+  }
+
   ///continuously emit location updates
   final StreamController<LocationData> _locationController = StreamController<LocationData>.broadcast();
 

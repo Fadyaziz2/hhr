@@ -9,6 +9,8 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
+import '../../authentication/bloc/authentication_bloc.dart';
+import '../view/content/home_content.dart';
 
 class CheckInOutCard extends StatelessWidget {
   final Settings? settings;
@@ -29,6 +31,7 @@ class CheckInOutCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
+            context.read<HomeBloc>().add(OnLocationRefresh(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
             Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(

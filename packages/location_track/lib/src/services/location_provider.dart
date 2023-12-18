@@ -54,6 +54,11 @@ class LocationServiceProvider {
     }
   }
 
+  Future<bool> isLocationEnabled() async {
+    final status = await locationServiceProvider.hasPermission();
+    return status == PermissionStatus.granted;
+  }
+
   ///return driver current location stream
   ///for this we use another package called {Location:any}
   ///to get location more better way
