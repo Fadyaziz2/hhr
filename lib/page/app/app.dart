@@ -5,6 +5,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
@@ -12,7 +13,10 @@ import '../bottom_navigation/view/bottom_navigation_page.dart';
 import '../internet_connectivity/bloc/internet_bloc.dart';
 import '../language/bloc/language_bloc.dart';
 import '../login/view/login_page.dart';
+import '../onboarding/bloc/onboarding_bloc.dart';
+import '../onboarding/view/onboarding_page.dart';
 import '../splash/view/splash.dart';
+import 'global_state.dart';
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -29,10 +33,8 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (_) => AuthenticationBloc(
-                  authenticationRepository: authenticationRepository,
-                  userRepository: userRepository)),
+          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))..add(CompanyListEvent())),
+          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc())
         ],
@@ -57,7 +59,7 @@ class _AppViewState extends State<AppView> {
   @override
   void initState() {
     ///channel wise notification setup
-    FirebaseMessaging.instance.subscribeToTopic('onesthrm');
+    FirebaseMessaging.instance.subscribeToTopic('onesthrm'); // todo for IOS run comment this line
     super.initState();
   }
 
@@ -73,6 +75,13 @@ class _AppViewState extends State<AppView> {
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
+
+                ///update company data at application initial event
+                final company = context.read<OnboardingBloc>().state.selectedCompany;
+                globalState.set(companyName, company?.companyName);
+                globalState.set(companyId, company?.id);
+                globalState.set(companyUrl, company?.url);
+
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
                     _navigator.pushAndRemoveUntil(
@@ -81,8 +90,11 @@ class _AppViewState extends State<AppView> {
                     );
                     break;
                   case AuthenticationStatus.unauthenticated:
-                    _navigator.pushAndRemoveUntil(
-                        LoginPage.route(), (route) => false);
+                    if(company == null){
+                      _navigator.pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
+                    }else{
+                      _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
+                    }
                     break;
                   default:
                     break;

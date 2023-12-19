@@ -118,7 +118,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                           height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          imageUrl: "${user?.user?.avatar}",
+                          imageUrl: "${leaveDetailsData?.imageUrl}",
                           placeholder: (context, url) => Center(
                             child: Image.asset(
                                 "assets/images/placeholder_image.png"),

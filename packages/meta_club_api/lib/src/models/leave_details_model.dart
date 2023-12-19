@@ -15,7 +15,9 @@ class LeaveDetailsModel extends Equatable {
       LeaveDetailsModel(
         result: json["result"],
         message: json["message"],
-        leaveDetailsData: json["data"] == null ? null : LeaveDetailsData.fromJson(json["data"]),
+        leaveDetailsData: json["data"] == null
+            ? null
+            : LeaveDetailsData.fromJson(json["data"]),
       );
 
   @override
@@ -43,55 +45,56 @@ class LeaveDetailsData extends Equatable {
   final String? colorCode;
   final dynamic substitute;
   final String? attachment;
+  final String? imageUrl;
 
-  const LeaveDetailsData({
-    this.id,
-    this.userId,
-    this.name,
-    this.designation,
-    this.department,
-    this.employeeId,
-    this.requestedOn,
-    this.type,
-    this.period,
-    this.totalDays,
-    this.note,
-    this.apporover,
-    this.availableLeave,
-    this.totalUsed,
-    this.approvedBy,
-    this.referredBy,
-    this.status,
-    this.colorCode,
-    this.substitute,
-    this.attachment,
-  });
+  const LeaveDetailsData(
+      {this.id,
+      this.userId,
+      this.name,
+      this.designation,
+      this.department,
+      this.employeeId,
+      this.requestedOn,
+      this.type,
+      this.period,
+      this.totalDays,
+      this.note,
+      this.apporover,
+      this.availableLeave,
+      this.totalUsed,
+      this.approvedBy,
+      this.referredBy,
+      this.status,
+      this.colorCode,
+      this.substitute,
+      this.attachment,
+      this.imageUrl});
 
-  factory LeaveDetailsData.fromJson(Map<String, dynamic> json) => LeaveDetailsData(
-        id: json["id"],
-        userId: json["user_id"],
-        name: json["name"],
-        designation: json["designation"],
-        department: json["department"],
-        employeeId: json["employee_id"],
-        requestedOn: json["requested_on"],
-        type: json["type"],
-        period: json["period"],
-        totalDays: json["total_days"],
-        note: json["note"],
-        apporover: json["apporover"],
-        availableLeave: json["available_leave"],
-        totalUsed: json["total_used"],
-        approvedBy: json["approved_by"],
-        referredBy: json["referred_by"],
-        status: json["status"],
-        colorCode: json["color_code"],
-        substitute: json["substitute"],
-        attachment: json["attachment"],
-      );
+  factory LeaveDetailsData.fromJson(Map<String, dynamic> json) =>
+      LeaveDetailsData(
+          id: json["id"],
+          userId: json["user_id"],
+          name: json["name"],
+          designation: json["designation"],
+          department: json["department"],
+          employeeId: json["employee_id"],
+          requestedOn: json["requested_on"],
+          type: json["type"],
+          period: json["period"],
+          totalDays: json["total_days"],
+          note: json["note"],
+          apporover: json["apporover"],
+          availableLeave: json["available_leave"],
+          totalUsed: json["total_used"],
+          approvedBy: json["approved_by"],
+          referredBy: json["referred_by"],
+          status: json["status"],
+          colorCode: json["color_code"],
+          substitute: json["substitute"],
+          attachment: json["attachment"],
+          imageUrl: json['image_url']);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         id,
         userId,
@@ -112,6 +115,7 @@ class LeaveDetailsData extends Equatable {
         status,
         colorCode,
         substitute,
-        attachment
+        attachment,
+        imageUrl
       ];
 }

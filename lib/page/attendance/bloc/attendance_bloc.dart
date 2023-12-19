@@ -6,7 +6,6 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-
 import '../../../res/const.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
@@ -27,8 +26,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationUpdated>(_onLocationUpdated);
   }
 
-  void _onLocationInit(
-      OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
+  void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
 
@@ -48,6 +46,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
     emit(state.copyWith(locationLoaded: false,actionStatus: ActionStatus.refresh));
     _locationServices.placeStream.listen((location) async {
+      body.latitude = '${_locationServices.userLocation.latitude}';
+      body.longitude = '${_locationServices.userLocation.longitude}';
       add(OnLocationUpdated(place: location));
     });
     await Future.delayed(const Duration(seconds: 1));
@@ -61,8 +61,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
-    body.mode ??= 0;
+    body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
+    body.latitude = '${_locationServices.userLocation.latitude}';
+    body.longitude = '${_locationServices.userLocation.longitude}';
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
     globalState.set(
         attendanceId,

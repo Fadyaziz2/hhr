@@ -77,7 +77,7 @@ class CreateSupportListContent extends StatelessWidget {
                     if (kDebugMode) {
                       print(data?.fileId);
                     }
-                    createSupport.previewId = data?.fileId;
+                    createSupport.previewId = data?.previewUrl;
                   },
                   initialAvatar:
                       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",

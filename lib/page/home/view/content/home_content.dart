@@ -21,11 +21,6 @@ class HomeContent extends StatelessWidget {
       builder: (context, state) {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
         final user = context.read<AuthenticationBloc>().state.data;
-
-        if (user?.user != null) {
-          context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
-        }
-
         return homeData != null ? context.read<HomeBloc>().chooseTheme() : const HomeContentShimmer();
       },
     );

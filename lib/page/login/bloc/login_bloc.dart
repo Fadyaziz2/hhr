@@ -6,11 +6,12 @@ import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import '../../../res/const.dart';
+import '../../app/global_state.dart';
 import '../models/password.dart';
 import '../models/email.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
@@ -48,22 +49,19 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
     if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-
-      final eitherOrUser = await _authenticationRepository.login(
-          email: state.email.value, password: state.password.value);
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress,loginAction: LoginAction.login));
+      final baseUrl = globalState.get(companyUrl);
+      final eitherOrUser = await _authenticationRepository.login(email: state.email.value, password: state.password.value,baseUrl: baseUrl);
 
       eitherOrUser.fold(
-              (l) =>
-              emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l)),
+              (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, message: l,loginAction: LoginAction.login)),
               (r) {
             if (r?.user != null) {
               ///create/update user information into fireStore
               _chatService.createAndUpdateUserInfo(r?.user?.toJson(), '${r?.user?.id}');
-              emit(state.copyWith(status: FormzSubmissionStatus.success, user: r));
+              emit(state.copyWith(status: FormzSubmissionStatus.success, user: r,loginAction: LoginAction.login));
             } else {
-              emit(state.copyWith(
-                  status: FormzSubmissionStatus.canceled, user: r));
+              emit(state.copyWith(status: FormzSubmissionStatus.canceled, user: r,loginAction: LoginAction.login));
             }
           });
     }
@@ -90,6 +88,6 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   }
 
   FutureOr<void> _onObscureEvent(OnObscureEvent event, Emitter<LoginState> emit) {
-    emit(state.copyWith(isObscure: !state.isObscure));
+    emit(state.copyWith(isObscure: !state.isObscure,loginAction: LoginAction.obscure));
   }
 }

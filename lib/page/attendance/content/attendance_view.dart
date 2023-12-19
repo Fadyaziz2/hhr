@@ -68,6 +68,7 @@ class _AttendanceState extends State<AttendanceView>
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
@@ -76,9 +77,7 @@ class _AttendanceState extends State<AttendanceView>
     final settings = homeBloc.state.settings;
 
     if (user?.user != null) {
-      locationServiceProvider.getCurrentLocationStream(
-          uid: user!.user!.id!,
-          metaClubApiClient: MetaClubApiClient(token: user.user!.token!));
+      context.read<HomeBloc>().add(OnLocationRefresh(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
     }
 
     return BlocListener<AttendanceBloc, AttendanceState>(
@@ -150,12 +149,9 @@ class _AttendanceState extends State<AttendanceView>
                           )
                         : AnimatedCircularButton(
                             onComplete: () {
-                              context
-                                  .read<AttendanceBloc>()
-                                  .add(OnAttendance(homeData: homeData));
+                              context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
                             },
-                            isCheckedIn:
-                                homeData.data?.attendanceData?.id != null,
+                            isCheckedIn: homeData.data?.attendanceData?.id != null,
                             title: globalState.get(attendanceId) == null
                                 ? "check_in".tr()
                                 : "check_out".tr(),

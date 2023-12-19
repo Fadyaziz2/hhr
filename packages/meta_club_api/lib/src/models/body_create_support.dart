@@ -4,9 +4,9 @@ class BodyCreateSupport {
   String? subject;
   String? description;
   int? priorityId;
-  int? previewId;
+  String? previewId;
 
-  BodyCreateSupport({String? subject, String? description, int? priority,int? previewId}) {
+  BodyCreateSupport({String? subject, String? description, int? priority,String? previewId}) {
     subject = this.subject;
     description = this.description;
     priority = priorityId;
@@ -18,7 +18,7 @@ class BodyCreateSupport {
     map["subject"] = subject;
     map["description"] = description;
     map["priority_id"] = priorityId;
-    map["file_id"] = previewId;
+    map["image_url"] = previewId;
 
     return map;
   }

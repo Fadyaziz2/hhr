@@ -1,4 +1,5 @@
 import 'package:chat/src/models/friend.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../chat.dart';
 import 'content/no_data_found_widget.dart';
@@ -20,8 +21,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Chat Room',
+        title:  Text("chat_room".tr(),
           style: TextStyle(color: Color(0xffeeeeee)),
         ),
       ),
@@ -30,7 +30,7 @@ class _ChatRoomState extends State<ChatRoom> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return const NoDataFoundWidget();
+              return  NoDataFoundWidget(title: "no_data_found",);
             }
 
             return ListView.builder(

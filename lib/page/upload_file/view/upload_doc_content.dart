@@ -4,10 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_event.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_state.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class UploadDocContent extends StatelessWidget {
@@ -20,9 +22,10 @@ class UploadDocContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
     return BlocProvider<UploadFileBloc>(
       create: (context) => UploadFileBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}')),
+          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: BlocListener<UploadFileBloc, UploadFileState>(
         listener: (context, state) {
           if (state.networkStatus == NetworkStatus.success) {

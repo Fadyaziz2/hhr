@@ -54,7 +54,7 @@ class CreateLeaveRequest extends StatelessWidget {
                     if (kDebugMode) {
                       print(data?.fileId);
                     }
-                    bodyCreateLeave.fileId = data?.fileId;
+                    bodyCreateLeave.imageUrl = data?.previewUrl;
                   },
                   initialAvatar:
                       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png",
@@ -120,8 +120,8 @@ class CreateLeaveRequest extends StatelessWidget {
                               bodyCreateLeave.substituteId =
                                   state.selectedEmployee?.id;
                               bodyCreateLeave.applyDate = starDate;
-                              bodyCreateLeave.leaveTo = starDate;
-                              bodyCreateLeave.leaveFrom = endDate;
+                              bodyCreateLeave.leaveTo = endDate;
+                              bodyCreateLeave.leaveFrom = starDate;
                               context.read<LeaveBloc>().add(SubmitLeaveRequest(
                                   bodyCreateLeaveModel: bodyCreateLeave,
                                   uid: user!.user!.id!,

@@ -21,7 +21,7 @@ class NoDataFoundWidget extends StatelessWidget {
       children: [
         Lottie.asset(assetImage, repeat: false, height: 200),
         Text(
-          title,
+          title.tr(),
           style: TextStyle(
               color: colorPrimary.withOpacity(0.4),
               fontSize: 18,

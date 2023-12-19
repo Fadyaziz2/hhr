@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../bloc/login_bloc.dart';
@@ -18,7 +20,7 @@ class LoginForm extends StatelessWidget {
       key: context.read<LoginBloc>().formKey,
       child: Center(
         child: BlocListener<LoginBloc, LoginState>(
-          listenWhen: (oldState,newState) => oldState != newState,
+          listenWhen: (oldState,newState) => oldState.loginAction == LoginAction.login,
           listener: (context, state) {
             if (state.status.isFailure) {
                showLoginDialog(context: context,isSuccess: false,message: state.message?.error ?? 'Authentication failed');
@@ -36,12 +38,17 @@ class LoginForm extends StatelessWidget {
               reverse: true,
               child: Column(
                 children: [
-                  Center(
-                      child: Image.asset(
-                        "assets/images/app_icon.png",
-                        height: 130.0,
-                        width: 130.0,
-                      )),
+                  InkWell(
+                    onTap: (){
+                      NavUtil.navigateScreen(context, const OnboardingPage());
+                    },
+                    child: Center(
+                        child: Image.asset(
+                          "assets/images/app_icon.png",
+                          height: 130.0,
+                          width: 130.0,
+                        )),
+                  ),
                   const SizedBox(
                     height: 55.0,
                   ),
@@ -53,7 +60,7 @@ class LoginForm extends StatelessWidget {
                   const SizedBox(
                     height: 32.0,
                   ),
-                  _LoginButton(),
+                  const _LoginButton(),
                   const SizedBox(height: 16,),
                 ],
               ),

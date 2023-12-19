@@ -8,7 +8,7 @@ class AttendanceBody {
 
   Map<String, dynamic> toJson() => {
         'latitude': latitude,
-        'longitude': latitude,
+        'longitude': longitude,
         'reason': reason,
         'remote_mode': mode,
         'attendance_id': attendanceId,

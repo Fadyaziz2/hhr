@@ -15,7 +15,9 @@ dependencies:
   image_picker: ^1.0.4
   fluttertoast: ^8.0.9
   lottie: ^2.4.0
+  easy_localization: ^3.0.2
 
 flutter:
   assets:
     - assets/
+    - assets/translations/
