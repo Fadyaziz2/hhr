@@ -7,6 +7,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/forgot_password/bloc/forgot_password_bloc.dart';
 import 'package:onesthrm/page/forgot_password/content/change_password.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 class ForgetPassword extends StatelessWidget {
@@ -75,42 +76,52 @@ class ForgetPassword extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                Container(
-                  height: 45,
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      NavUtil.navigateScreen(
-                          context,
-                          BlocProvider.value(
-                            value: context.read<ForgotPasswordBloc>(),
-                            child: ChangePassword(
-                              email: forgotPasswordBody.email.toString(),
-                              forgotPasswordBody: forgotPasswordBody,
-                            ),
-                          ));
-                      // context
-                      //     .read<ForgetPassProvider>()
-                      //     .getVerificationCode(context);
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => colorPrimary),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+                    builder: (context, state) {
+                  return Container(
+                    height: 45,
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        context.read<ForgotPasswordBloc>().add(
+                            GetVerificationCode(
+                                forgotPasswordBody.email.toString(), context));
+                        if (state.status == NetworkStatus.success) {
+                          await NavUtil.navigateScreen(
+                              context,
+                              BlocProvider.value(
+                                value: context.read<ForgotPasswordBloc>(),
+                                child: ChangePassword(
+                                  email: forgotPasswordBody.email.toString(),
+                                  forgotPasswordBody: forgotPasswordBody,
+                                ),
+                              ));
+                        }
+
+                        // context
+                        //     .read<ForgetPassProvider>()
+                        //     .getVerificationCode(context);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => colorPrimary),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                       ),
+                      child: Text(tr("send_verification_code"),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          )),
                     ),
-                    child: Text(tr("send_verification_code"),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        )),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           )),

@@ -16,7 +16,22 @@ class ForgotPasswordBloc
 
   ForgotPasswordBloc({required this.metaClubApiClient})
       : super(const ForgotPasswordState(status: NetworkStatus.initial)) {
+    on<GetVerificationCode>(_onVerificationCode);
     on<ForgotPassword>(_onForgotPassword);
+  }
+
+  FutureOr<void> _onVerificationCode(
+      GetVerificationCode event, Emitter<ForgotPasswordState> emit) {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      var response = metaClubApiClient.getVerificationCode(email: event.email);
+      if (response == true) {
+        print('success');
+      }
+    } catch (e) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
   }
 
   FutureOr<void> _onForgotPassword(

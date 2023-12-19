@@ -45,13 +45,7 @@ class HomeHeader extends StatelessWidget {
                 child: CupertinoSwitch(
                     value: context.read<HomeBloc>().state.isSwitched,
                     onChanged: (_) {
-                      context.read<HomeBloc>().add(OnSwitchPressed(
-                          user: context
-                              .read<AuthenticationBloc>()
-                              .state
-                              .data
-                              ?.user,
-                          locationProvider: locationServiceProvider));
+                      context.read<HomeBloc>().add(OnSwitchPressed(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
                     })),
             Row(
               children: [

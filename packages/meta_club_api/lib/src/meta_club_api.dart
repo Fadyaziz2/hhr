@@ -40,14 +40,14 @@ class MetaClubApiClient {
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email,
       required String password,
-      required String baseUrl}) async {
+      required String? baseUrl}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('$baseUrl$login', body);
+      final response = await _httpServiceImpl.postRequest(
+          '${baseUrl ?? _baseUrl}$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
@@ -1352,7 +1352,7 @@ class MetaClubApiClient {
     }
   }
 
-  ///////// Appointment Create///////////////
+  ///////// Forget password ///////////////
   Future<String> forgetPassword(
       {ForgotPasswordBody? forgotPasswordBody}) async {
     String api = 'change-password';
@@ -1375,6 +1375,23 @@ class MetaClubApiClient {
     } catch (e) {
       return 'Something went wrong';
     }
+  }
+
+  Future<bool?> getVerificationCode({String? email}) async {
+    String api = 'reset-password';
+
+    try {
+      final data = {"email": email};
+
+      final response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+    return null;
   }
 
   Future<ExpenseCreateResponse> expenseCreate(
