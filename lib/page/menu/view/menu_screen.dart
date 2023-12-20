@@ -176,7 +176,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           },
                         ),
                       ),
-                      const SizedBox(height: 32.0,)
+                      const SizedBox(height: 65.0,)
                     ],
                   ));
             })));
