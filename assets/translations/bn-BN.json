@@ -558,5 +558,6 @@
   "Update official data": "অফিসিয়াল ডেটা আপডেট",
   "Update personal data": "পার্সোনাল ডেটা আপডেট",
   "Update financial data": "ফিনান্সিয়াল ডেটা আপডেট",
-  "Update emergency data": "ইমার্জেন্সি ডেটা আপডেট"
+  "Update emergency data": "ইমার্জেন্সি ডেটা আপডেট",
+  "you_are_offline": "আপনি অফলাইন, আপনার নেটওয়ার্ক চেক করুন"
 }
