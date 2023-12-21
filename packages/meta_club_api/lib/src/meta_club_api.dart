@@ -1383,7 +1383,6 @@ class MetaClubApiClient {
   Future<VerificationCodeModel> updatePassword(
       {PasswordChangeBody? passwordChangeBody}) async {
     String api = 'user/password-update';
-    dynamic errorMessage;
 
     try {
       final data = {
@@ -1395,16 +1394,20 @@ class MetaClubApiClient {
 
       final response =
           await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      errorMessage = response.data["message"];
 
-      if (response.data['results'] == true) {
+      if (response.statusCode == 200) {
         return VerificationCodeModel.fromJson(response.data);
       } else {
         return VerificationCodeModel.fromJson(response.data);
       }
     } catch (e) {
-      return VerificationCodeModel(message: errorMessage);
+      VerificationCodeModel(
+        message: e.toString(),
+      );
     }
+    return VerificationCodeModel(
+      message: 'Something went wrong ',
+    );
   }
 
   Future<VerificationCodeModel> getVerificationCode({String? email}) async {
@@ -1443,7 +1446,7 @@ class MetaClubApiClient {
   Future<PayrollModel?> getPayrollData({required String year}) async {
     const String api = 'report/payslip/list';
 
-    final data = {"year": year};
+    final data = {"year": year.toString()};
 
     try {
       final response =
@@ -1452,7 +1455,7 @@ class MetaClubApiClient {
         return PayrollModel.fromJson(response.data);
       }
       return null;
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

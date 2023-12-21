@@ -11,5 +11,5 @@ class PasswordChange extends PasswordChangeEvent {
 
   PasswordChange(this.passwordChangeBody, this.context);
   @override
-  List<Object> get props => [passwordChangeBody, context];
+  List<Object> get props => [passwordChangeBody];
 }

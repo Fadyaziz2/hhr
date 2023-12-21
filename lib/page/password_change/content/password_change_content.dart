@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
 import 'package:onesthrm/page/password_change/bloc/password_change_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 
 class PasswordChangeContent extends StatelessWidget {
@@ -31,9 +33,7 @@ class PasswordChangeContent extends StatelessWidget {
                 SizedBox(
                   height: 45,
                   child: TextFormField(
-                    // controller: provider.currentPassTextController,
                     keyboardType: TextInputType.visiblePassword,
-                    // obscureText: !provider.passwordVisible,
                     decoration: InputDecoration(
                       labelText: tr("current_password"),
                       labelStyle: const TextStyle(fontSize: 12),
@@ -48,15 +48,11 @@ class PasswordChangeContent extends StatelessWidget {
                         val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 SizedBox(
                   height: 45,
                   child: TextFormField(
-                    // controller: provider.newPasswordTextController,
                     keyboardType: TextInputType.visiblePassword,
-                    // obscureText: !provider.passwordVisible,
                     decoration: InputDecoration(
                       labelText: tr("new_password"),
                       labelStyle: const TextStyle(fontSize: 12),
@@ -77,9 +73,7 @@ class PasswordChangeContent extends StatelessWidget {
                 SizedBox(
                   height: 45,
                   child: TextFormField(
-                    // controller: provider.reTypePasswordTextController,
                     keyboardType: TextInputType.visiblePassword,
-                    // obscureText: !provider.passwordVisible,
                     decoration: InputDecoration(
                       labelText: tr("Re_type_new_password"),
                       labelStyle: const TextStyle(fontSize: 12),
@@ -111,36 +105,12 @@ class PasswordChangeContent extends StatelessWidget {
                     }
                   },
                 ),
-                // SizedBox(
-                //   height: 45,
-                //   width: double.infinity,
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       // context
-                //       //     .read<ChangePasswordProfileProvider>()
-                //       //     .getChangePasswordProfile(context);
-                //     },
-                //     style: ButtonStyle(
-                //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                //         RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(10.0),
-                //         ),
-                //       ),
-                //     ),
-                //     child: Text(tr("change_password"),
-                //         style: const TextStyle(
-                //           color: Colors.white,
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 14.0,
-                //         )),
-                //   ),
-                // ),
                 const SizedBox(
                   height: 10,
                 ),
                 InkWell(
                   onTap: () {
-                    // NavUtil.navigateScreen(context, const ForgetPassword());
+                    NavUtil.navigateScreen(context, const ForgetPassword());
                   },
                   child: Center(
                     child: Padding(
