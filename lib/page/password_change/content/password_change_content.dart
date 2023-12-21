@@ -31,7 +31,7 @@ class PasswordChangeContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
@@ -45,12 +45,12 @@ class PasswordChangeContent extends StatelessWidget {
                       passwordChangeBody.currentPassword = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
@@ -64,14 +64,14 @@ class PasswordChangeContent extends StatelessWidget {
                       passwordChangeBody.password = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
                   height: 12,
                 ),
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
@@ -85,7 +85,7 @@ class PasswordChangeContent extends StatelessWidget {
                       passwordChangeBody.passwordConfirmation = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(

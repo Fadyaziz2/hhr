@@ -63,7 +63,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                       forgotPasswordBody.code = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
@@ -84,7 +84,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                       forgotPasswordBody.password = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
@@ -105,7 +105,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                       forgotPasswordBody.passwordConfirmation = value;
                     },
                     validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty" : null,
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
