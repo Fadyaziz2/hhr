@@ -39,25 +39,25 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
 
     Break? data = await _metaClubApiClient.backBreak();
 
-    final todayHistories =  data?.data?.breakBackHistory?.todayHistory;
+    final todayHistories = data?.data?.breakBackHistory?.todayHistory;
 
-    String breakBack = '${data?.data?.breakTime} - ${data?.data?.backTime ?? ''}';
+    String breakBack =
+        '${data?.data?.breakTime} - ${data?.data?.backTime ?? ''}';
 
-    if( data?.data?.status != 'break_in'){
-      if(todayHistories?.isNotEmpty == true){
-        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
+    if (data?.data?.status != 'break_in') {
+      if (todayHistories?.isNotEmpty == true) {
+        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(
+            0,
             BreakTodayHistory(
-                name:'Break',
+                name: 'Break',
                 reason: 'Break',
                 breakBackTime: todayHistories![0].breakBackTime ?? breakBack,
-                breakTimeDuration: todayHistories[0].breakTimeDuration ??'0 min'));
-      }else{
-        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0,
-            BreakTodayHistory(
-                name:'Break',
-                reason: 'Break',
-                breakBackTime: breakBack,
-                breakTimeDuration: '0 min'));
+                breakTimeDuration:
+                    todayHistories[0].breakTimeDuration ?? '0 min'));
+      } else {
+        if (data?.result == true) {
+          state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0, BreakTodayHistory(name: 'Break', reason: 'Break', breakBackTime: breakBack, breakTimeDuration: '0 min'));
+        }
       }
     }
 

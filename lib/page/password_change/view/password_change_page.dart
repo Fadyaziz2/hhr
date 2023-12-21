@@ -24,7 +24,7 @@ class PasswordChangePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(tr("change_password")),
         ),
-        body: PasswordChangeContent(),
+        body: const PasswordChangeContent(),
       ),
     );
   }

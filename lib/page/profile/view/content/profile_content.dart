@@ -13,8 +13,7 @@ import 'official_profile_content.dart';
 
 class ProfileContent extends StatelessWidget {
   final Settings? settings;
-
-  const ProfileContent({Key? key, required this.settings}) : super(key: key);
+  const ProfileContent({super.key, required this.settings});
 
   @override
   Widget build(BuildContext context) {

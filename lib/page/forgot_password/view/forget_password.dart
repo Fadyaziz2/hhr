@@ -19,10 +19,7 @@ class ForgetPassword extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     final formKey = GlobalKey<FormState>();
     return BlocProvider(
-      create: (context) => ForgotPasswordBloc(
-        metaClubApiClient: MetaClubApiClient(
-            token: '${user?.user?.token}', companyUrl: baseUrl),
-      ),
+      create: (context) => ForgotPasswordBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: Form(
         key: formKey,
         child: Scaffold(

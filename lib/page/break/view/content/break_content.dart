@@ -41,8 +41,7 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,

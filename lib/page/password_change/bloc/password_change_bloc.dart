@@ -11,8 +11,7 @@ import 'package:onesthrm/res/enum.dart';
 part 'password_change_event.dart';
 part 'password_change_state.dart';
 
-class PasswordChangeBloc
-    extends Bloc<PasswordChangeEvent, PasswordChangeState> {
+class PasswordChangeBloc extends Bloc<PasswordChangeEvent, PasswordChangeState> {
   final MetaClubApiClient metaClubApiClient;
 
   PasswordChangeBloc({required this.metaClubApiClient})
@@ -20,17 +19,14 @@ class PasswordChangeBloc
     on<PasswordChange>(_onForgotPassword);
   }
 
-  FutureOr<void> _onForgotPassword(
-      PasswordChange event, Emitter<PasswordChangeState> emit) async {
+  FutureOr<void> _onForgotPassword(PasswordChange event, Emitter<PasswordChangeState> emit) async {
     try {
       emit(state.copyWith(status: NetworkStatus.loading));
-      VerificationCodeModel? response = await metaClubApiClient.updatePassword(
-          passwordChangeBody: event.passwordChangeBody);
+      VerificationCodeModel? response = await metaClubApiClient.updatePassword(passwordChangeBody: event.passwordChangeBody);
       if (response.result == true) {
         Fluttertoast.showToast(msg: response.message.toString());
         // ignore: use_build_context_synchronously
-        BlocProvider.of<AuthenticationBloc>(event.context)
-            .add(AuthenticationLogoutRequest());
+        BlocProvider.of<AuthenticationBloc>(event.context).add(AuthenticationLogoutRequest());
         // ignore: use_build_context_synchronously
         Navigator.of(event.context).pop();
         emit(state.copyWith(status: NetworkStatus.success));

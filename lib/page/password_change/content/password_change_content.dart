@@ -10,10 +10,14 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 
-class PasswordChangeContent extends StatelessWidget {
-  const PasswordChangeContent({
-    super.key,
-  });
+class PasswordChangeContent extends StatefulWidget {
+  const PasswordChangeContent({super.key});
+
+  @override
+  State<PasswordChangeContent> createState() => _PasswordChangeContentState();
+}
+
+class _PasswordChangeContentState extends State<PasswordChangeContent> {
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +88,7 @@ class PasswordChangeContent extends StatelessWidget {
                     onChanged: (value) {
                       passwordChangeBody.passwordConfirmation = value;
                     },
-                    validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
+                    validator: (val) => val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
@@ -99,9 +102,7 @@ class PasswordChangeContent extends StatelessWidget {
                   clickButton: () {
                     passwordChangeBody.userId = user?.user?.id;
                     if (formKey.currentState!.validate()) {
-                      context
-                          .read<PasswordChangeBloc>()
-                          .add(PasswordChange(passwordChangeBody, context));
+                      context.read<PasswordChangeBloc>().add(PasswordChange(passwordChangeBody, context));
                     }
                   },
                 ),
