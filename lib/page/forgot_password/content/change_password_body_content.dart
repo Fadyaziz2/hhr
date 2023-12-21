@@ -16,13 +16,13 @@ class ChangePasswordBodyContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     ForgotPasswordBody forgotPasswordBody = ForgotPasswordBody();
-    return BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-        builder: (context, state) {
-      final formKey = GlobalKey<FormState>();
-      return Form(
-        key: formKey,
-        child: Padding(
+    return Form(
+      key: formKey,
+      child: BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+          builder: (context, state) {
+        return Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -128,8 +128,8 @@ class ChangePasswordBodyContent extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }

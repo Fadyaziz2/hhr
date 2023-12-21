@@ -18,17 +18,16 @@ class PasswordChangeContent extends StatefulWidget {
 }
 
 class _PasswordChangeContentState extends State<PasswordChangeContent> {
-
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     PasswordChangeBody passwordChangeBody = PasswordChangeBody();
     final user = context.read<AuthenticationBloc>().state.data;
-    return BlocBuilder<PasswordChangeBloc, PasswordChangeState>(
-        builder: (context, state) {
-      final formKey = GlobalKey<FormState>();
-      return Form(
-        key: formKey,
-        child: Padding(
+    return Form(
+      key: formKey,
+      child: BlocBuilder<PasswordChangeBloc, PasswordChangeState>(
+          builder: (context, state) {
+        return Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -88,7 +87,8 @@ class _PasswordChangeContentState extends State<PasswordChangeContent> {
                     onChanged: (value) {
                       passwordChangeBody.passwordConfirmation = value;
                     },
-                    validator: (val) => val!.isEmpty ? "field_cannot_be_empty".tr() : null,
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                 ),
                 const SizedBox(
@@ -102,7 +102,9 @@ class _PasswordChangeContentState extends State<PasswordChangeContent> {
                   clickButton: () {
                     passwordChangeBody.userId = user?.user?.id;
                     if (formKey.currentState!.validate()) {
-                      context.read<PasswordChangeBloc>().add(PasswordChange(passwordChangeBody, context));
+                      context
+                          .read<PasswordChangeBloc>()
+                          .add(PasswordChange(passwordChangeBody, context));
                     }
                   },
                 ),
@@ -129,8 +131,8 @@ class _PasswordChangeContentState extends State<PasswordChangeContent> {
               ],
             ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }
