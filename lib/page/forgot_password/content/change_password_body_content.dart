@@ -49,7 +49,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                   height: 26,
                 ),
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -70,7 +70,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
@@ -91,7 +91,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 45,
+                  height: 50,
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(

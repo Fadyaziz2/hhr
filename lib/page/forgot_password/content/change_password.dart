@@ -11,14 +11,6 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  bool _passwordVisible = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _passwordVisible = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
