@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../bloc/login_bloc.dart';
@@ -38,17 +36,12 @@ class LoginForm extends StatelessWidget {
               reverse: true,
               child: Column(
                 children: [
-                  InkWell(
-                    onTap: (){
-                      NavUtil.navigateScreen(context, const OnboardingPage());
-                    },
-                    child: Center(
-                        child: Image.asset(
-                          "assets/images/app_icon.png",
-                          height: 130.0,
-                          width: 130.0,
-                        )),
-                  ),
+                  Center(
+                      child: Image.asset(
+                        "assets/images/app_icon.png",
+                        height: 130.0,
+                        width: 130.0,
+                      )),
                   const SizedBox(
                     height: 55.0,
                   ),
