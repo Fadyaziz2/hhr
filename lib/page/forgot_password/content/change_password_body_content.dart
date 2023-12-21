@@ -48,57 +48,65 @@ class ChangePasswordBodyContent extends StatelessWidget {
                 const SizedBox(
                   height: 26,
                 ),
-                TextFormField(
-                  // controller: provider.enterCodeTextController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: tr("enter_code"),
-                    labelStyle: const TextStyle(fontSize: 14),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: tr("enter_code"),
+                      labelStyle: const TextStyle(fontSize: 14),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      forgotPasswordBody.code = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    forgotPasswordBody.code = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    labelText: tr("new_password"),
-                    labelStyle: const TextStyle(fontSize: 14),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: InputDecoration(
+                      labelText: tr("new_password"),
+                      labelStyle: const TextStyle(fontSize: 14),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      forgotPasswordBody.password = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    forgotPasswordBody.password = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    labelText: 'confirm_password'.tr(),
-                    labelStyle: const TextStyle(fontSize: 14),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: InputDecoration(
+                      labelText: 'confirm_password'.tr(),
+                      labelStyle: const TextStyle(fontSize: 14),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      forgotPasswordBody.passwordConfirmation = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    forgotPasswordBody.passwordConfirmation = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 26,
@@ -117,34 +125,6 @@ class ChangePasswordBodyContent extends StatelessWidget {
                     }
                   },
                 )
-                // Container(
-                //   margin: const EdgeInsets.symmetric(horizontal: 0),
-                //   height: 45,
-                //   width: double.infinity,
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       forgotPasswordBody.email = email;
-                //       context
-                //           .read<ForgotPasswordBloc>()
-                //           .add(ForgotPassword(forgotPasswordBody!, context));
-                //     },
-                //     style: ButtonStyle(
-                //       backgroundColor: MaterialStateColor.resolveWith(
-                //           (states) => colorPrimary),
-                //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                //         RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(10.0),
-                //         ),
-                //       ),
-                //     ),
-                //     child: Text(tr("reset_password"),
-                //         style: const TextStyle(
-                //           color: Colors.white,
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 16.0,
-                //         )),
-                //   ),
-                // ),
               ],
             ),
           ),

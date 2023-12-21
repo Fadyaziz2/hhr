@@ -43,20 +43,23 @@ class ForgetPassword extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: tr("enter_your_email"),
-                      labelStyle: const TextStyle(fontSize: 12),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  SizedBox(
+                    height: 45,
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: tr("enter_your_email"),
+                        labelStyle: const TextStyle(fontSize: 12),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                       ),
+                      onChanged: (value) {
+                        forgotPasswordBody.email = value;
+                      },
+                      validator: (val) =>
+                          val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                     ),
-                    onChanged: (value) {
-                      forgotPasswordBody.email = value;
-                    },
-                    validator: (val) =>
-                        val!.isEmpty ? "field_cannot_be_empty".tr() : null,
                   ),
                   const SizedBox(
                     height: 5,

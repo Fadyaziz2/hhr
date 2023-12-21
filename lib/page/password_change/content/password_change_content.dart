@@ -28,62 +28,71 @@ class PasswordChangeContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  // controller: provider.currentPassTextController,
-                  keyboardType: TextInputType.visiblePassword,
-                  // obscureText: !provider.passwordVisible,
-                  decoration: InputDecoration(
-                    labelText: tr("current_password"),
-                    labelStyle: const TextStyle(fontSize: 12),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    // controller: provider.currentPassTextController,
+                    keyboardType: TextInputType.visiblePassword,
+                    // obscureText: !provider.passwordVisible,
+                    decoration: InputDecoration(
+                      labelText: tr("current_password"),
+                      labelStyle: const TextStyle(fontSize: 12),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      passwordChangeBody.currentPassword = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    passwordChangeBody.currentPassword = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                TextFormField(
-                  // controller: provider.newPasswordTextController,
-                  keyboardType: TextInputType.visiblePassword,
-                  // obscureText: !provider.passwordVisible,
-                  decoration: InputDecoration(
-                    labelText: tr("new_password"),
-                    labelStyle: const TextStyle(fontSize: 12),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    // controller: provider.newPasswordTextController,
+                    keyboardType: TextInputType.visiblePassword,
+                    // obscureText: !provider.passwordVisible,
+                    decoration: InputDecoration(
+                      labelText: tr("new_password"),
+                      labelStyle: const TextStyle(fontSize: 12),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      passwordChangeBody.password = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    passwordChangeBody.password = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                TextFormField(
-                  // controller: provider.reTypePasswordTextController,
-                  keyboardType: TextInputType.visiblePassword,
-                  // obscureText: !provider.passwordVisible,
-                  decoration: InputDecoration(
-                    labelText: tr("Re_type_new_password"),
-                    labelStyle: const TextStyle(fontSize: 12),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    // controller: provider.reTypePasswordTextController,
+                    keyboardType: TextInputType.visiblePassword,
+                    // obscureText: !provider.passwordVisible,
+                    decoration: InputDecoration(
+                      labelText: tr("Re_type_new_password"),
+                      labelStyle: const TextStyle(fontSize: 12),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                     ),
+                    onChanged: (value) {
+                      passwordChangeBody.passwordConfirmation = value;
+                    },
+                    validator: (val) =>
+                        val!.isEmpty ? "field_cannot_be_empty" : null,
                   ),
-                  onChanged: (value) {
-                    passwordChangeBody.passwordConfirmation = value;
-                  },
-                  validator: (val) =>
-                      val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
                   height: 20,
