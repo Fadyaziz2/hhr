@@ -24,8 +24,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
     on<OnAttendance>(_onAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
+    on<ReasonEvent>(_onReason);
   }
 
+  void _onReason(ReasonEvent event,Emitter<AttendanceState> emit)async {
+    body.reason = event.reasonData;
+  }
   void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';

@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
+import '../../attendance_reason/attendance_reason.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/view/content/home_content.dart';
@@ -68,7 +69,6 @@ class _AttendanceState extends State<AttendanceView>
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
@@ -77,7 +77,9 @@ class _AttendanceState extends State<AttendanceView>
     final settings = homeBloc.state.settings;
 
     if (user?.user != null) {
-      context.read<HomeBloc>().add(OnLocationRefresh(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
+      context.read<HomeBloc>().add(OnLocationRefresh(
+          user: context.read<AuthenticationBloc>().state.data?.user,
+          locationProvider: locationServiceProvider));
     }
 
     return BlocListener<AttendanceBloc, AttendanceState>(
@@ -149,9 +151,12 @@ class _AttendanceState extends State<AttendanceView>
                           )
                         : AnimatedCircularButton(
                             onComplete: () {
-                              context.read<AttendanceBloc>().add(OnAttendance(homeData: homeData));
+                              context
+                                  .read<AttendanceBloc>()
+                                  .add(OnAttendance(homeData: homeData));
                             },
-                            isCheckedIn: homeData.data?.attendanceData?.id != null,
+                            isCheckedIn:
+                                homeData.data?.attendanceData?.id != null,
                             title: globalState.get(attendanceId) == null
                                 ? "check_in".tr()
                                 : "check_out".tr(),
@@ -159,9 +164,24 @@ class _AttendanceState extends State<AttendanceView>
                                 ? colorPrimary
                                 : colorDeepRed,
                           ),
+                  InkWell(
+                    onTap: (){
+                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(),
+                          child: const AttendanceReason()));
+                    },
+                    child: const Padding(padding: EdgeInsets.all(8.0),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.note_add_outlined,color: colorPrimary,),
+                          SizedBox(width: 5,),
+                          Text("Add Reason",style: TextStyle(color: colorPrimary,fontSize: 16),),
+                        ],
+                      ),
+                    ),
+                  ),
 
                   SizedBox(
-                    height: 35.h,
+                    height: 15.h,
                   ),
 
                   /// Show Check In Check Out time

@@ -44,10 +44,13 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-    add(DailyLeaveSummary(state.selectEmployee?.id ?? event.userId));
-    emit(state.copyWith(
-        status: NetworkStatus.success, currentMonth: currentMonth));
+    if(date != null){
+      String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
+      add(DailyLeaveSummary(state.selectEmployee?.id ?? event.userId));
+      emit(state.copyWith(
+          status: NetworkStatus.success, currentMonth: currentMonth));
+    }
+
   }
 
   FutureOr<void> _dailyLeaveSummary(

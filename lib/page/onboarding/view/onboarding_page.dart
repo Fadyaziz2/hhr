@@ -6,7 +6,6 @@ import 'package:onesthrm/page/onboarding/bloc/onboarding_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import '../../../res/nav_utail.dart';
 import '../../../res/widgets/custom_button.dart';
-import '../../authentication/bloc/authentication_bloc.dart';
 import '../../login/view/login_page.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -97,34 +96,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
                 ],
               ),
-              Positioned(
-                  top: 216,
-                  right: 0,
-                  left: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: TextFormField(
-                      onChanged: (value) {
-
-
-                      },
-                      decoration: InputDecoration(
-                          hintText: 'Choose A Company',
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 18.0, vertical: 4.0),
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: colorPrimary),
-                              borderRadius: BorderRadius.circular(25.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: colorPrimary),
-                              borderRadius: BorderRadius.circular(25.0)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )),
-                    ),
-                  ))
             ],
           );
         },
