@@ -1353,7 +1353,7 @@ class MetaClubApiClient {
   }
 
   ///////// Forget password ///////////////
-  Future<String> forgetPassword(
+  Future<VerificationCodeModel> forgetPassword(
       {ForgotPasswordBody? forgotPasswordBody}) async {
     String api = 'change-password';
 
@@ -1368,16 +1368,49 @@ class MetaClubApiClient {
       final response =
           await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.data['result'] == true) {
-        return response.data['message'];
+      if (response.statusCode == 200) {
+        return VerificationCodeModel.fromJson(response.data);
+      } else {
+        return VerificationCodeModel.fromJson(response.data);
       }
-      return response.data['message'];
-    } catch (e) {
-      return 'Something went wrong';
-    }
+    } catch (e) {}
+    return VerificationCodeModel(
+      message: 'Something went wrong',
+    );
   }
 
-  Future<bool?> getVerificationCode({String? email}) async {
+  ///////// Change password ///////////////
+  Future<VerificationCodeModel> updatePassword(
+      {PasswordChangeBody? passwordChangeBody}) async {
+    String api = 'user/password-update';
+
+    try {
+      final data = {
+        "user_id": passwordChangeBody?.userId,
+        "current_password": passwordChangeBody?.currentPassword,
+        "password": passwordChangeBody?.password,
+        "password_confirmation": passwordChangeBody?.passwordConfirmation,
+      };
+
+      final response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+
+      if (response.statusCode == 200) {
+        return VerificationCodeModel.fromJson(response.data);
+      } else {
+        return VerificationCodeModel.fromJson(response.data);
+      }
+    } catch (e) {
+      VerificationCodeModel(
+        message: e.toString(),
+      );
+    }
+    return VerificationCodeModel(
+      message: 'Something went wrong ',
+    );
+  }
+
+  Future<VerificationCodeModel> getVerificationCode({String? email}) async {
     String api = 'reset-password';
 
     try {
@@ -1386,12 +1419,14 @@ class MetaClubApiClient {
       final response =
           await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
       if (response.statusCode == 200) {
-        return true;
+        return VerificationCodeModel.fromJson(response.data);
+      } else {
+        return VerificationCodeModel.fromJson(response.data);
       }
-    } catch (e) {
-      return false;
-    }
-    return null;
+    } catch (e) {}
+    return VerificationCodeModel(
+      message: 'Something went wrong',
+    );
   }
 
   Future<ExpenseCreateResponse> expenseCreate(

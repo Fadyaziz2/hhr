@@ -2,22 +2,22 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/forgot_password/bloc/forgot_password_bloc.dart';
+import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
+import 'package:onesthrm/page/password_change/bloc/password_change_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 
-class ChangePasswordBodyContent extends StatelessWidget {
-  final String? email;
-  const ChangePasswordBodyContent({
+class PasswordChangeContent extends StatelessWidget {
+  const PasswordChangeContent({
     super.key,
-    this.email,
   });
 
   @override
   Widget build(BuildContext context) {
-    ForgotPasswordBody forgotPasswordBody = ForgotPasswordBody();
-    return BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+    PasswordChangeBody passwordChangeBody = PasswordChangeBody();
+    final user = context.read<AuthenticationBloc>().state.data;
+    return BlocBuilder<PasswordChangeBloc, PasswordChangeState>(
         builder: (context, state) {
       final formKey = GlobalKey<FormState>();
       return Form(
@@ -28,123 +28,124 @@ class ChangePasswordBodyContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  tr("reset_your_password"),
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "${tr("a_code_has_been_sent_to")} ${email} ${tr("use_the_code_here")}",
-                  style: const TextStyle(color: Colors.black54, fontSize: 12),
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
                 TextFormField(
-                  // controller: provider.enterCodeTextController,
-                  keyboardType: TextInputType.emailAddress,
+                  // controller: provider.currentPassTextController,
+                  keyboardType: TextInputType.visiblePassword,
+                  // obscureText: !provider.passwordVisible,
                   decoration: InputDecoration(
-                    labelText: tr("enter_code"),
-                    labelStyle: const TextStyle(fontSize: 14),
+                    labelText: tr("current_password"),
+                    labelStyle: const TextStyle(fontSize: 12),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                   ),
                   onChanged: (value) {
-                    forgotPasswordBody.code = value;
+                    passwordChangeBody.currentPassword = value;
                   },
                   validator: (val) =>
                       val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 12,
                 ),
                 TextFormField(
+                  // controller: provider.newPasswordTextController,
                   keyboardType: TextInputType.visiblePassword,
+                  // obscureText: !provider.passwordVisible,
                   decoration: InputDecoration(
                     labelText: tr("new_password"),
-                    labelStyle: const TextStyle(fontSize: 14),
+                    labelStyle: const TextStyle(fontSize: 12),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                   ),
                   onChanged: (value) {
-                    forgotPasswordBody.password = value;
+                    passwordChangeBody.password = value;
                   },
                   validator: (val) =>
                       val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 12,
                 ),
                 TextFormField(
+                  // controller: provider.reTypePasswordTextController,
                   keyboardType: TextInputType.visiblePassword,
+                  // obscureText: !provider.passwordVisible,
                   decoration: InputDecoration(
-                    labelText: 'confirm_password'.tr(),
-                    labelStyle: const TextStyle(fontSize: 14),
+                    labelText: tr("Re_type_new_password"),
+                    labelStyle: const TextStyle(fontSize: 12),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                   ),
                   onChanged: (value) {
-                    forgotPasswordBody.passwordConfirmation = value;
+                    passwordChangeBody.passwordConfirmation = value;
                   },
                   validator: (val) =>
                       val!.isEmpty ? "field_cannot_be_empty" : null,
                 ),
                 const SizedBox(
-                  height: 26,
+                  height: 20,
                 ),
                 CustomButton(
-                  padding: 0,
                   isLoading: state.status == NetworkStatus.loading,
-                  title: tr("reset_password"),
+                  padding: 0,
                   backgroundColor: colorPrimary,
+                  title: tr("change_password"),
                   clickButton: () {
+                    passwordChangeBody.userId = user?.user?.id;
                     if (formKey.currentState!.validate()) {
-                      forgotPasswordBody.email = email;
                       context
-                          .read<ForgotPasswordBloc>()
-                          .add(ForgotPassword(forgotPasswordBody, context));
+                          .read<PasswordChangeBloc>()
+                          .add(PasswordChange(passwordChangeBody, context));
                     }
                   },
-                )
-                // Container(
-                //   margin: const EdgeInsets.symmetric(horizontal: 0),
+                ),
+                // SizedBox(
                 //   height: 45,
                 //   width: double.infinity,
                 //   child: ElevatedButton(
                 //     onPressed: () {
-                //       forgotPasswordBody.email = email;
-                //       context
-                //           .read<ForgotPasswordBloc>()
-                //           .add(ForgotPassword(forgotPasswordBody!, context));
+                //       // context
+                //       //     .read<ChangePasswordProfileProvider>()
+                //       //     .getChangePasswordProfile(context);
                 //     },
                 //     style: ButtonStyle(
-                //       backgroundColor: MaterialStateColor.resolveWith(
-                //           (states) => colorPrimary),
                 //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 //         RoundedRectangleBorder(
                 //           borderRadius: BorderRadius.circular(10.0),
                 //         ),
                 //       ),
                 //     ),
-                //     child: Text(tr("reset_password"),
+                //     child: Text(tr("change_password"),
                 //         style: const TextStyle(
                 //           color: Colors.white,
                 //           fontWeight: FontWeight.bold,
-                //           fontSize: 16.0,
+                //           fontSize: 14.0,
                 //         )),
                 //   ),
                 // ),
+                const SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    // NavUtil.navigateScreen(context, const ForgetPassword());
+                  },
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        tr("forgot_password"),
+                        style: const TextStyle(
+                            color: Colors.deepPurple,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

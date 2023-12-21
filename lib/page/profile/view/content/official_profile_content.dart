@@ -2,7 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/password_change/view/password_change_page.dart';
 import 'package:onesthrm/page/profile/view/content/edit_profile_info.dart';
+import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/custom_button.dart';
 import '../../../../res/custom_build_profile_details.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../bloc/profile/profile_bloc.dart';
@@ -60,6 +64,17 @@ class OfficialProfileContent extends StatelessWidget {
             text: 'edit_official_info'.tr(),
             radius: 4,
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomButton(
+            padding: 30,
+            backgroundColor: colorPrimary,
+            title: "change_password".tr(),
+            clickButton: () {
+              NavUtil.navigateScreen(context, const PasswordChangePage());
+            },
+          )
         ],
       ),
     );
