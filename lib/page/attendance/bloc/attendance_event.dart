@@ -28,6 +28,14 @@ class OnLocationUpdated extends AttendanceEvent{
   List<Object?> get props => [place];
 }
 
+class ReasonEvent extends AttendanceEvent{
+  final String reasonData;
+
+  ReasonEvent({required this.reasonData});
+
+  @override
+  List<Object?> get props => [reasonData];
+}
 
 class OnRemoteModeChanged extends AttendanceEvent{
   final int mode;

@@ -3,13 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/internet_connectivity/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
-import '../../../res/nav_utail.dart';
-import '../../splash/view/splash.dart';
 
 class NoInternetScreen extends StatelessWidget {
   final Widget child;
 
-  const NoInternetScreen({Key? key, required this.child}) : super(key: key);
+  const NoInternetScreen({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

@@ -7,12 +7,13 @@ import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/page/break/view/content/break_history_content.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
+import 'package:onesthrm/page/internet_connectivity/bloc/bloc.dart';
+import 'package:onesthrm/page/internet_connectivity/view/device_offline_view.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../res/const.dart';
-import '../../../../res/date_utils.dart';
 import '../../../../res/dialogs/custom_dialogs.dart';
 import '../../../app/global_state.dart';
 import '../../../attendance/content/animated_circular_button.dart';
@@ -29,7 +30,8 @@ class BreakContent extends StatefulWidget {
   State<BreakContent> createState() => BreakContentState();
 }
 
-class BreakContentState extends State<BreakContent> with TickerProviderStateMixin, WidgetsBindingObserver {
+class BreakContentState extends State<BreakContent>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late AnimationController controller;
   late CustomTimerController controllerBreakTimer;
 
@@ -39,11 +41,15 @@ class BreakContentState extends State<BreakContent> with TickerProviderStateMixi
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
-        begin: Duration(hours: int.parse(globalState.get(hour) ?? '0'), minutes: int.parse(globalState.get(min) ?? '0'), seconds: int.parse(globalState.get(sec) ?? '0')),
+        begin: Duration(
+            hours: int.parse(globalState.get(hour) ?? '0'),
+            minutes: int.parse(globalState.get(min) ?? '0'),
+            seconds: int.parse(globalState.get(sec) ?? '0')),
         end: const Duration(days: 1));
 
     if (globalState.get(breakStatus) == 'break_in') {
@@ -102,117 +108,135 @@ class BreakContentState extends State<BreakContent> with TickerProviderStateMixi
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final dashboard = widget.homeBloc.state.dashboardModel;
+    final internetStatus = context.read<InternetBloc>().state.status;
 
     if (dashboard != null) {
-      context.read<BreakBloc>().add(OnInitialHistoryEvent(breaks: dashboard.data!.breakHistory?.breakHistory?.todayHistory));
+      context.read<BreakBloc>().add(OnInitialHistoryEvent(
+          breaks: dashboard.data!.breakHistory?.breakHistory?.todayHistory));
     }
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  Color(0xFF00CCFF),
-                  colorPrimary,
+    return DeviceOfflineView(
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF00CCFF),
+                    colorPrimary,
+                  ],
+                  begin: FractionalOffset(3.0, 0.0),
+                  end: FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
+          ),
+          title: Text(
+            "break_time",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
+          ).tr(),
+          actions: [
+            InkWell(
+              onTap: () {
+                NavUtil.navigateScreen(
+                    context,
+                    BlocProvider.value(
+                        value: context.read<BreakBloc>(),
+                        child: const BreakReportScreen()));
+              },
+              child: Row(
+                children: [
+                  Lottie.asset(
+                    'assets/images/ic_report_lottie.json',
+                    height: 40,
+                    width: 40,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
                 ],
-                begin: FractionalOffset(3.0, 0.0),
-                end: FractionalOffset(0.0, 1.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
+              ),
+            ),
+          ],
         ),
-        title: Text(
-          "break_time",
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
-        ).tr(),
-        actions: [
-          InkWell(
-            onTap: () {
-              NavUtil.navigateScreen(
-                  context,
-                  BlocProvider.value(
-                      value: context.read<BreakBloc>(),
-                      child: const BreakReportScreen()));
-            },
-            child: Row(
-              children: [
-                Lottie.asset(
-                  'assets/images/ic_report_lottie.json',
-                  height: 40,
-                  width: 40,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: BlocListener<BreakBloc, BreakState>(
-        listenWhen: (oldState, newState) => oldState.isTimerStart != newState.isTimerStart,
-        listener: (context, state) {
-          if (globalState.get(breakStatus) == 'break_in') {
-            controllerBreakTimer.start();
-            ///current time of milliseconds
-            SharedUtil.setValue(breakTime, '${DateTime.now().millisecondsSinceEpoch}');
-          } else {
-            controllerBreakTimer.reset();
-            ///current time of milliseconds
-            SharedUtil.deleteKey(breakTime);
-          }
+        body: BlocListener<BreakBloc, BreakState>(
+          listenWhen: (oldState, newState) =>
+              oldState.isTimerStart != newState.isTimerStart,
+          listener: (context, state) {
+            if (globalState.get(breakStatus) == 'break_in') {
+              controllerBreakTimer.start();
 
-          ///show message from apis weather break/back
-          ///success or failure
-          if (state.breakBack?.message != null) {
-            showLoginDialog(
-                context: context,
-                message: '${user?.user?.name}',
-                body: '${state.breakBack?.message}',
-                isSuccess: state.status == NetworkStatus.success && state.breakBack?.result == true);
-          }
+              ///current time of milliseconds
+              SharedUtil.setValue(
+                  breakTime, '${DateTime.now().millisecondsSinceEpoch}');
+            } else {
+              controllerBreakTimer.reset();
 
-          ///if break / back success then home api call again
-          ///for update break status in parent widget
-          if (state.status == NetworkStatus.success) {
-            widget.homeBloc.add(LoadHomeData());
-          }
-        },
-        child: BlocBuilder<BreakBloc, BreakState>(builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20.0),
-                BreakHeader(timerController: controllerBreakTimer, dashboardModel: dashboard,),
-                state.status == NetworkStatus.loading ? Shimmer.fromColors(
-                  baseColor: const Color(0xFFE8E8E8),
-                  highlightColor: Colors.white,
-                  child: Container(
-                      height: 184,
-                      width: 184,
-                      decoration: BoxDecoration(color: const Color(0xFFE8E8E8),
-                        borderRadius: BorderRadius.circular(100), // radius of 10// green as background color
-                      )),
-                ) :AnimatedCircularButton(
-                  title: globalState.get(breakStatus) == 'break_in'
-                      ? 'Back'.tr()
-                      : 'Break'.tr(),
-                  color: globalState.get(breakStatus) == 'break_in'
-                      ? colorDeepRed
-                      : colorPrimary,
-                  onComplete: () {
-                    context.read<BreakBloc>().add(OnBreakBackEvent());
-                  },
-                ),
-               BreakHistoryContent(state: state, dashboard: dashboard)
-              ],
-            ),
-          );
-        }),
+              ///current time of milliseconds
+              SharedUtil.deleteKey(breakTime);
+            }
+
+            ///show message from apis weather break/back
+            ///success or failure
+            if (state.breakBack?.message != null) {
+              showLoginDialog(
+                  context: context,
+                  message: '${user?.user?.name}',
+                  body: '${state.breakBack?.message}',
+                  isSuccess: state.status == NetworkStatus.success &&
+                      state.breakBack?.result == true);
+            }
+
+            ///if break / back success then home api call again
+            ///for update break status in parent widget
+            if (state.status == NetworkStatus.success) {
+              widget.homeBloc.add(LoadHomeData());
+            }
+          },
+          child: BlocBuilder<BreakBloc, BreakState>(builder: (context, state) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 8.0,),
+                  BreakHeader(
+                    timerController: controllerBreakTimer,
+                    dashboardModel: dashboard,
+                  ),
+                  state.status == NetworkStatus.loading
+                      ? Shimmer.fromColors(
+                          baseColor: const Color(0xFFE8E8E8),
+                          highlightColor: Colors.white,
+                          child: Container(
+                              height: 184,
+                              width: 184,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE8E8E8),
+                                borderRadius: BorderRadius.circular(
+                                    100), // radius of 10// green as background color
+                              )),
+                        )
+                      : AnimatedCircularButton(
+                          title: globalState.get(breakStatus) == 'break_in'
+                              ? 'Back'.tr()
+                              : 'Break'.tr(),
+                          color: globalState.get(breakStatus) == 'break_in'
+                              ? colorDeepRed
+                              : colorPrimary,
+                          onComplete: () {
+                            if (internetStatus == InternetStatus.online) {
+                              context.read<BreakBloc>().add(OnBreakBackEvent());
+                            }
+                          },
+                        ),
+                  BreakHistoryContent(state: state, dashboard: dashboard)
+                ],
+              ),
+            );
+          }),
+        ),
       ),
     );
   }

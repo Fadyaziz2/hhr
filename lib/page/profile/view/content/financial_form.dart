@@ -47,7 +47,7 @@ class _FinancialFormState extends State<FinancialForm> {
           height: 16.0,
         ),
         CustomTextField(
-          title: 'Tin',
+          title: "tin".tr(),
           value: widget.profile?.financial?.tin,
           hints: widget.profile?.financial?.tin,
           onData: (data) {

@@ -8,18 +8,18 @@ class TileShimmer extends StatelessWidget {
   final bool isSubTitle;
   final double titleHeight;
   const TileShimmer(
-      {Key? key,
+      {super.key,
       this.isLeading = false,
       this.isTrailing = false,
       this.isTitle = true,
       this.isSubTitle = false,
-      this.titleHeight = 12.0})
-      : super(key: key);
+      this.titleHeight = 12.0});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
+      contentPadding: EdgeInsets.zero,
       visualDensity: VisualDensity.compact,
       horizontalTitleGap: 0.0,
       title: isTitle
@@ -96,8 +96,7 @@ class RectangularCardShimmer extends StatelessWidget {
   final double width;
   final double height;
 
-  const RectangularCardShimmer(
-      {super.key, this.height = 100.0, this.width = 100.0});
+  const RectangularCardShimmer({super.key, this.height = 110.0, this.width = 130.0});
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +106,7 @@ class RectangularCardShimmer extends StatelessWidget {
       child: Container(
           height: height,
           width: width,
+          margin: const EdgeInsets.only(right: 8.0),
           decoration: BoxDecoration(
             color: const Color(0xFFE8E8E8),
             borderRadius: BorderRadius.circular(
@@ -124,7 +124,7 @@ class HorizontalListShimmer extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.only(left: 16.0),
         child: Row(
           children: List.generate(
             6,

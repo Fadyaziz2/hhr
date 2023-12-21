@@ -145,7 +145,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                       ),
                       Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.all(0),
+                          padding: const EdgeInsets.only(bottom: 55.0),
                           itemCount: homeData?.data?.menus?.length ?? 0,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -176,7 +176,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           },
                         ),
                       ),
-                      const SizedBox(height: 32.0,)
+                      const SizedBox(height: 36.0,)
                     ],
                   ));
             })));
