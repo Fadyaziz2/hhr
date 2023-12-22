@@ -33,8 +33,15 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))..add(CompanyListEvent())),
-          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
+          BlocProvider(
+              create: (_) => OnboardingBloc(
+                  metaClubApiClient:
+                      MetaClubApiClient(token: "", companyUrl: ''))
+                ..add(CompanyListEvent())),
+          BlocProvider(
+              create: (_) => AuthenticationBloc(
+                  authenticationRepository: authenticationRepository,
+                  userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc())
         ],
@@ -75,9 +82,9 @@ class _AppViewState extends State<AppView> {
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
-
                 ///update company data at application initial event
-                final company = context.read<OnboardingBloc>().state.selectedCompany;
+                final company =
+                    context.read<OnboardingBloc>().state.selectedCompany;
                 globalState.set(companyName, company?.companyName);
                 globalState.set(companyId, company?.id);
                 globalState.set(companyUrl, company?.url);
@@ -90,10 +97,12 @@ class _AppViewState extends State<AppView> {
                     );
                     break;
                   case AuthenticationStatus.unauthenticated:
-                    if(company == null){
-                      _navigator.pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
-                    }else{
-                      _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
+                    if (company == null) {
+                      _navigator.pushAndRemoveUntil(
+                          OnboardingPage.route(), (_) => false);
+                    } else {
+                      _navigator.pushAndRemoveUntil(
+                          LoginPage.route(), (route) => false);
                     }
                     break;
                   default:

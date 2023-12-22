@@ -8,7 +8,7 @@ import 'package:onesthrm/page/menu_drawer/content/support_content.dart';
 import 'package:onesthrm/res/const.dart';
 
 class MenuDrawer extends StatelessWidget {
-  const MenuDrawer({Key? key, this.provider}) : super(key: key);
+  const MenuDrawer({super.key, this.provider});
   final MenuBloc? provider;
 
   @override

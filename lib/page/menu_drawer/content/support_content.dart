@@ -89,8 +89,7 @@ class SupportContent extends StatelessWidget {
                           child: const Text('no').tr()),
                       TextButton(
                           onPressed: () {
-                            BlocProvider.of<AuthenticationBloc>(context)
-                                .add(AuthenticationLogoutRequest());
+                            BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLogoutRequest());
                             Navigator.of(context).pop();
                           },
                           child: const Text('yes').tr()),

@@ -10,18 +10,17 @@ class BodyOfficialInfo {
   String? employeeType;
   String? employeeId;
 
-
   BodyOfficialInfo(
       {int? userId,
-        String? name,
-        String? email,
-        int? departmentId,
-        int? designationId,
-        int? managerId,
-        String? joiningDateDb,
-        String? employeeType,
-        String? employeeId,
-        String? grade}) {
+      String? name,
+      String? email,
+      int? departmentId,
+      int? designationId,
+      int? managerId,
+      String? joiningDateDb,
+      String? employeeType,
+      String? employeeId,
+      String? grade}) {
     userId = userId;
     name = name;
     email = email;
@@ -33,7 +32,6 @@ class BodyOfficialInfo {
     employeeId = employeeId;
     grade = grade;
   }
-
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
@@ -48,11 +46,9 @@ class BodyOfficialInfo {
     map['employee_id'] = employeeId;
     return map;
   }
-
 }
 
 class BodyPersonalInfo {
-
   String? gender;
   String? phone;
   String? birthDate;
@@ -67,9 +63,8 @@ class BodyPersonalInfo {
   MultipartFile? nidFile;
   MultipartFile? passportFile;
 
-
-  BodyPersonalInfo({
-      this.gender,
+  BodyPersonalInfo(
+      {this.gender,
       this.phone,
       this.birthDate,
       this.address,
@@ -97,22 +92,15 @@ class BodyPersonalInfo {
     map['passport_file'] = passportFile;
     return map;
   }
-
 }
 
 class BodyFinancialInfo {
-
   String? tin;
   String? bankName;
   String? bankAccount;
   String? avatar;
 
-
-  BodyFinancialInfo({
-    this.tin,
-    this.bankName,
-    this.bankAccount,
-    this.avatar});
+  BodyFinancialInfo({this.tin, this.bankName, this.bankAccount, this.avatar});
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
@@ -125,15 +113,11 @@ class BodyFinancialInfo {
 }
 
 class BodyEmergencyInfo {
-
   String? name;
   String? mobile;
   String? relationship;
 
-  BodyEmergencyInfo({
-    this.name,
-    this.mobile,
-    this.relationship});
+  BodyEmergencyInfo({this.name, this.mobile, this.relationship});
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
@@ -142,5 +126,4 @@ class BodyEmergencyInfo {
     map['emergency_mobile_relationship'] = relationship;
     return map;
   }
-
 }
