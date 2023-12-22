@@ -48,6 +48,7 @@ const String keySelectLanguage = "key_select_language";
 const String keyRemoteModeType = "key_remote_mode_type";
 const String keyMenuList = "key_menu_list";
 const String isLocation = "isLocation";
+const String notificationChannels = "notification_channels";
 const List languages = [
   {
     'name': 'English',
