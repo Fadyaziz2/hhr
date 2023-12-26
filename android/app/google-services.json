@@ -1,35 +1,41 @@
 {
   "project_info": {
-    "project_number": "448617167485",
-    "firebase_url": "https://onesttech-hrm-default-rtdb.firebaseio.com",
-    "project_id": "onesttech-hrm",
-    "storage_bucket": "onesttech-hrm.appspot.com"
+    "project_number": "203411705611",
+    "project_id": "hourworx",
+    "storage_bucket": "hourworx.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:448617167485:android:07bb85c67f9c4165b88f14",
+        "mobilesdk_app_id": "1:203411705611:android:ff7f9e4b03ac7fd8c7dc0e",
         "android_client_info": {
-          "package_name": "com.onest.hrm"
+          "package_name": "com.data.co"
         }
       },
       "oauth_client": [
         {
-          "client_id": "448617167485-5ob20gpo0rs1icrbep3hrmglf340ncae.apps.googleusercontent.com",
+          "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGgSUAf2zrdmCsFLbhtASuuG-g_BZpeC4"
+          "current_key": "AIzaSyD6N0rlO4oyMTHuFNIoCHsZ_55tf-tKVoU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "448617167485-5ob20gpo0rs1icrbep3hrmglf340ncae.apps.googleusercontent.com",
+              "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "203411705611-3ao43leiublt4apt078q33lb9k1tateq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abgpharmaceuticals.admin"
+              }
             }
           ]
         }
@@ -37,28 +43,107 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:448617167485:android:5645ad1ba24957d6b88f14",
+        "mobilesdk_app_id": "1:203411705611:android:118bc6401a766261c7dc0e",
         "android_client_info": {
-          "package_name": "com.onesttech.hrm"
+          "package_name": "com.onest.club"
         }
       },
       "oauth_client": [
         {
-          "client_id": "448617167485-5ob20gpo0rs1icrbep3hrmglf340ncae.apps.googleusercontent.com",
+          "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGgSUAf2zrdmCsFLbhtASuuG-g_BZpeC4"
+          "current_key": "AIzaSyD6N0rlO4oyMTHuFNIoCHsZ_55tf-tKVoU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "448617167485-5ob20gpo0rs1icrbep3hrmglf340ncae.apps.googleusercontent.com",
+              "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "203411705611-3ao43leiublt4apt078q33lb9k1tateq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abgpharmaceuticals.admin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203411705611:android:8dcdb7118350d05dc7dc0e",
+        "android_client_info": {
+          "package_name": "com.onest.hrm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6N0rlO4oyMTHuFNIoCHsZ_55tf-tKVoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "203411705611-3ao43leiublt4apt078q33lb9k1tateq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abgpharmaceuticals.admin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203411705611:android:42d656770847df2dc7dc0e",
+        "android_client_info": {
+          "package_name": "com.worx24hour.hrm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6N0rlO4oyMTHuFNIoCHsZ_55tf-tKVoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203411705611-5flr21hi3uicnvg2h9r72co1fhunv3qk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "203411705611-3ao43leiublt4apt078q33lb9k1tateq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abgpharmaceuticals.admin"
+              }
             }
           ]
         }

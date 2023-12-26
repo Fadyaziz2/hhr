@@ -24,8 +24,6 @@ void main() async {
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
 
-  await FirebaseMessaging.instance.subscribeToTopic('alwaysbijoy');
-
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
   final authenticationRepository =
       AuthenticationRepository(apiClient: apiClient);
