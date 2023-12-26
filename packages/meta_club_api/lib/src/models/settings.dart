@@ -40,7 +40,8 @@ class Setting extends Equatable {
       this.departments = const [],
       this.designations = const [],
       this.employeeTypes = const [],
-      this.appTheme});
+      this.appTheme,
+      this.notificationChannels = const []});
 
   final bool? isIpEnabled;
   final bool? isHr;
@@ -60,59 +61,73 @@ class Setting extends Equatable {
   final List<Department> designations;
   final List<String> employeeTypes;
   final String? appTheme;
+  final List<String>? notificationChannels;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
-      isHr: json["is_hr"],
-      isAdmin: json["is_admin"],
-      isFaceRegistered: json["is_face_registered"],
-      locationService: json["location_service"],
-      isIpEnabled: json["is_ip_enabled"],
-      timeWish: TimeWish.fromJson(json["time_wish"]),
-      barikoiAPI: json["barikoi_api"].toString() != '[]'
-          ? BarikoiAPI.fromJson(json["barikoi_api"])
-          : null,
-      timeZone: json["time_zone"],
-      multiCheckIn: json["multi_checkin"],
-      currencyCode: json["currency_code"],
-      attendanceMethod: json["attendance_method"],
-      dutySchedule: DutySchedule.fromJson(json['duty_schedule']),
-      breakStatus: BreakStatus.fromJson(json["break_status"]),
-      liveTracking: LiveTracking.fromJson(json["live_tracking"]),
-      departments: json["departments"] != null
-          ? List<Department>.from(
-              (json["departments"] as List).map((e) => Department.fromJson(e)))
-          : [],
-      designations: json["designations"] != null
-          ? List<Department>.from(
-              (json["designations"] as List).map((e) => Department.fromJson(e)))
-          : [],
-      employeeTypes: List<String>.from(json["employee_types"]),
-      appTheme: json['app_theme']);
+        isHr: json["is_hr"],
+        isAdmin: json["is_admin"],
+        isFaceRegistered: json["is_face_registered"],
+        locationService: json["location_service"],
+        isIpEnabled: json["is_ip_enabled"],
+        timeWish: TimeWish.fromJson(json["time_wish"]),
+        barikoiAPI: json["barikoi_api"].toString() != '[]'
+            ? BarikoiAPI.fromJson(json["barikoi_api"])
+            : null,
+        timeZone: json["time_zone"],
+        multiCheckIn: json["multi_checkin"],
+        currencyCode: json["currency_code"],
+        attendanceMethod: json["attendance_method"],
+        dutySchedule: DutySchedule.fromJson(json['duty_schedule']),
+        breakStatus: BreakStatus.fromJson(json["break_status"]),
+        liveTracking: LiveTracking.fromJson(json["live_tracking"]),
+        departments: json["departments"] != null
+            ? List<Department>.from((json["departments"] as List)
+                .map((e) => Department.fromJson(e)))
+            : [],
+        designations: json["designations"] != null
+            ? List<Department>.from((json["designations"] as List)
+                .map((e) => Department.fromJson(e)))
+            : [],
+        employeeTypes: List<String>.from(json["employee_types"]),
+        appTheme: json['app_theme'],
+        notificationChannels: json["notification_channels"] == null
+            ? []
+            : List<String>.from(json["notification_channels"]!.map((x) => x)),
+      );
 
-  Map<String,dynamic> toJson() => {
-    'is_hr':isHr,
-    'is_admin':isAdmin,
-    'is_face_registered':isFaceRegistered,
-    'location_service':locationService,
-    'is_ip_enabled':isIpEnabled,
-    'time_wish':timeWish?.toJson(),
-    'barikoi_api':barikoiAPI?.toJson(),
-    'time_zone':timeZone,
-    'multi_checkin':multiCheckIn,
-    'currency_code':currencyCode,
-    'attendance_method':attendanceMethod,
-    'duty_schedule':dutySchedule?.toJson(),
-    'break_status':breakStatus?.toJson(),
-    'live_tracking':liveTracking?.toJson(),
-    'departments':departments.map((e) => e.toJson()).toList(),
-    'designations':designations.map((e) => e.toJson()).toList(),
-    'employee_types':employeeTypes,
-    'app_theme':appTheme,
-  };
+  Map<String, dynamic> toJson() => {
+        'is_hr': isHr,
+        'is_admin': isAdmin,
+        'is_face_registered': isFaceRegistered,
+        'location_service': locationService,
+        'is_ip_enabled': isIpEnabled,
+        'time_wish': timeWish?.toJson(),
+        'barikoi_api': barikoiAPI?.toJson(),
+        'time_zone': timeZone,
+        'multi_checkin': multiCheckIn,
+        'currency_code': currencyCode,
+        'attendance_method': attendanceMethod,
+        'duty_schedule': dutySchedule?.toJson(),
+        'break_status': breakStatus?.toJson(),
+        'live_tracking': liveTracking?.toJson(),
+        'departments': departments.map((e) => e.toJson()).toList(),
+        'designations': designations.map((e) => e.toJson()).toList(),
+        'employee_types': employeeTypes,
+        'app_theme': appTheme,
+        "notification_channels": notificationChannels == null
+            ? []
+            : List<dynamic>.from(notificationChannels!.map((x) => x)),
+      };
 
   @override
-  List<Object?> get props =>
-      [isIpEnabled, currencyCode, attendanceMethod, isAdmin, isFaceRegistered, appTheme];
+  List<Object?> get props => [
+        isIpEnabled,
+        currencyCode,
+        attendanceMethod,
+        isAdmin,
+        isFaceRegistered,
+        appTheme
+      ];
 }
 
 class DutySchedule {
@@ -194,7 +209,8 @@ class BreakStatus {
       diffTime: json["diff_time"]);
 
   Map<String, dynamic> toJson() => {
-        "date": "${date?.year.toString().padLeft(4, '0')}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}",
+        "date":
+            "${date?.year.toString().padLeft(4, '0')}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}",
         "break_time": breakTime,
         "back_time": backTime,
         "status": status,
@@ -260,10 +276,7 @@ class Department extends Equatable {
     return Department(id: json['id'], title: json['title']);
   }
 
-  Map<String,dynamic> toJson() => {
-    'id':id,
-    'title':title
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'title': title};
 
   @override
   List<Object?> get props => [id, title];

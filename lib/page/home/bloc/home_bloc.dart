@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -44,6 +45,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       Settings? settings = await _metaClubApiClient.getSettings();
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       globalState.set(isLocation, settings?.data?.locationService);
+      globalState.set(
+          notificationChannels, settings?.data?.notificationChannels);
+      await subscribeTopic();
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
@@ -51,10 +55,21 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
+  Future subscribeTopic() async {
+    final notifications = globalState.get(notificationChannels);
+    if (notifications != null) {
+      for (var topic in notifications) {
+        await FirebaseMessaging.instance.subscribeToTopic(topic);
+        debugPrint("Firebase topics: $topic");
+      }
+    }
+  }
+
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      DashboardModel? dashboardModel =
+          await _metaClubApiClient.getDashboardData();
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
@@ -67,7 +82,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
       globalState.set(
           breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(
+          isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
@@ -77,7 +93,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(sec,
           '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
-      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
+      emit(state.copy(
+          dashboardModel: dashboardModel,
+          status: NetworkStatus.success,
+          isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -87,20 +106,23 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: true));
     if (event.user != null) {
-      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
+      add(OnLocationEnabled(
+          user: event.user!, locationProvider: event.locationProvider));
     }
   }
 
   void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: !state.isSwitched));
     if (event.user != null) {
-      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
+      add(OnLocationEnabled(
+          user: event.user!, locationProvider: event.locationProvider));
     }
   }
 
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
-      event.locationProvider.getCurrentLocationStream(uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+      event.locationProvider.getCurrentLocationStream(
+          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
     } else {
       try {
         event.locationProvider.locationSubscription.pause();

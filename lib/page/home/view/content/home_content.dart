@@ -5,6 +5,7 @@ import 'package:onesthrm/page/home/content/home_bottom.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/internet_connectivity/view/device_offline_view.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
+import 'package:onesthrm/res/service/notification_service.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/home_bloc.dart';
 import '../../content/breakCard.dart';
@@ -18,6 +19,7 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
