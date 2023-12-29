@@ -113,8 +113,14 @@ class NotificationService {
   }
 
   ///scheduled notification
-  Future<void> scheduleNotification(int id, String title, String body, int hour,
-      int minute, int second) async {
+  Future<void> scheduleNotification(
+      {required int id,
+      required String title,
+      required String body,
+      required int day,
+      required int hour,
+      required int minute,
+      required int second}) async {
     tz.initializeTimeZones();
 
     final scheduleTime = DateTime.now();
@@ -134,21 +140,27 @@ class NotificationService {
     }
 
     tz.TZDateTime tzDateTime = tz.TZDateTime.local(scheduleTime.year,
-            scheduleTime.month, scheduleTime.day, hour, minute, second, 0, 0)
+            scheduleTime.month, day, hour, minute, second, 0, 0)
         .subtract(offsetTime);
     if (tzDateTime.isBefore(scheduleTime)) {
       tzDateTime = tzDateTime.add(const Duration(days: 1));
     }
 
     NotificationDataModel notificationData = NotificationDataModel(
-        id: "0", body: '', title: '', type: 'check-in', image: null, url: '');
+        id: "${id++}",
+        body: '',
+        title: '',
+        type: 'check-in',
+        image: null,
+        url: '');
 
     String payload = json.encode(notificationData.toJson());
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id, title, body, tzDateTime, notificationDetails,
+        id++, title, body, tzDateTime, notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
         payload: payload);
   }
 

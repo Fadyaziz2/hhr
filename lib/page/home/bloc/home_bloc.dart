@@ -12,6 +12,7 @@ import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_nep
 import 'package:onesthrm/page/meeting/meeting.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
@@ -69,7 +70,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     emit(state.copy(status: NetworkStatus.loading));
     try {
       DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
+      await _metaClubApiClient.getDashboardData();
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
@@ -87,92 +88,142 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ??
+              '0'}');
       globalState.set(min,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ??
+              '0'}');
       globalState.set(sec,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ??
+              '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
       emit(state.copy(
           dashboardModel: dashboardModel,
           status: NetworkStatus.success,
           isSwitched: isLocationEnabled));
+      await sceduleNotification();
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
-    emit(state.copy(isSwitched: true));
-    if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
+  Future sceduleNotification() async {
+    var listOfDates = [
+      "2023-12-29 14:05",
+      "2023-12-30 14:06",
+      "2023-12-29 14:07",
+    ];
+
+    for (var dateString in listOfDates) {
+      // Parse the date-time string into a DateTime object
+      DateTime dateTime = DateTime.parse(dateString);
+
+      // Extract date and time components
+      int year = dateTime.year;
+      int month = dateTime.month;
+      int day = dateTime.day;
+      int hour = dateTime.hour;
+      int minute = dateTime.minute;
+
+      // Schedule the notification
+      await notificationPlugin.scheduleNotification(
+        id: minute,
+        title: "Hello bijoy",
+        body: "Good Morning $dateString",
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: 0,
+      );
     }
   }
+/*var listOfDates = [
+      "2023-12-29 12:21",
+      "2023-12-29 12:21",
+      "2023-12-29 12:21",
+    ];
+    for (var element in minLIst) {
+      await notificationPlugin.scheduleNotification(
+          id: null,
+          title: "hello bijoy",
+          body: "Good Morning $element",
+          day: null,
+          hour: null,
+          minute: null,
+          second: null);
+    }*/
 
-  void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
-    emit(state.copy(isSwitched: !state.isSwitched));
-    if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
-    }
-  }
 
-  void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
-    if (state.isSwitched) {
-      event.locationProvider.getCurrentLocationStream(
-          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
-    } else {
-      try {
-        event.locationProvider.locationSubscription.pause();
-      } catch (_) {}
-    }
-  }
-
-  Widget chooseTheme() {
-    final name = globalState.get(dashboardStyleId);
-    switch (name) {
-      case 'earth':
-        return const HomeEarthContent();
-      case 'neptune':
-        return const HomeNeptuneContent();
-      case 'mars':
-        return const HomeMars();
-      default:
-        return const HomeContentShimmer();
-    }
-  }
-
-  void routeSlug(slugName, context) {
-    switch (slugName) {
-      case 'support':
-        NavUtil.navigateScreen(context, const SupportPage());
-        break;
-      case 'support_ticket':
-        NavUtil.navigateScreen(context, const SupportPage());
-        break;
-      case 'visit':
-        NavUtil.navigateScreen(context, const VisitPage());
-        break;
-      case 'appointment':
-        NavUtil.navigateScreen(context, const AppointmentScreen());
-        break;
-      case 'meeting':
-        NavUtil.navigateScreen(context, const MeetingPage());
-        break;
-      default:
-        return debugPrint('default');
-    }
-  }
-
-  @override
-  HomeState? fromJson(Map<String, dynamic> json) {
-    return HomeState.fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(HomeState state) {
-    return state.toJson();
+void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
+  emit(state.copy(isSwitched: true));
+  if (event.user != null) {
+    add(OnLocationEnabled(
+        user: event.user!, locationProvider: event.locationProvider));
   }
 }
+
+void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
+  emit(state.copy(isSwitched: !state.isSwitched));
+  if (event.user != null) {
+    add(OnLocationEnabled(
+        user: event.user!, locationProvider: event.locationProvider));
+  }
+}
+
+void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
+  if (state.isSwitched) {
+    event.locationProvider.getCurrentLocationStream(
+        uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+  } else {
+    try {
+      event.locationProvider.locationSubscription.pause();
+    } catch (_) {}
+  }
+}
+
+Widget chooseTheme() {
+  final name = globalState.get(dashboardStyleId);
+  switch (name) {
+    case 'earth':
+      return const HomeEarthContent();
+    case 'neptune':
+      return const HomeNeptuneContent();
+    case 'mars':
+      return const HomeMars();
+    default:
+      return const HomeContentShimmer();
+  }
+}
+
+void routeSlug(slugName, context) {
+  switch (slugName) {
+    case 'support':
+      NavUtil.navigateScreen(context, const SupportPage());
+      break;
+    case 'support_ticket':
+      NavUtil.navigateScreen(context, const SupportPage());
+      break;
+    case 'visit':
+      NavUtil.navigateScreen(context, const VisitPage());
+      break;
+    case 'appointment':
+      NavUtil.navigateScreen(context, const AppointmentScreen());
+      break;
+    case 'meeting':
+      NavUtil.navigateScreen(context, const MeetingPage());
+      break;
+    default:
+      return debugPrint('default');
+  }
+}
+
+@override
+HomeState? fromJson(Map<String, dynamic> json) {
+  return HomeState.fromJson(json);
+}
+
+@override
+Map<String, dynamic>? toJson(HomeState state) {
+  return state.toJson();
+}}
