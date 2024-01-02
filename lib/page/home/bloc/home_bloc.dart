@@ -70,7 +70,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     emit(state.copy(status: NetworkStatus.loading));
     try {
       DashboardModel? dashboardModel =
-      await _metaClubApiClient.getDashboardData();
+          await _metaClubApiClient.getDashboardData();
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
@@ -88,49 +88,73 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ??
-              '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
       globalState.set(min,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ??
-              '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
       globalState.set(sec,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ??
-              '0'}');
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
       emit(state.copy(
           dashboardModel: dashboardModel,
           status: NetworkStatus.success,
           isSwitched: isLocationEnabled));
-      await sceduleNotification();
+      await checkInScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime);
+      await checkOutScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  Future sceduleNotification() async {
+  Future checkInScheduleNotification(startTime) async {
     var listOfDates = [
       "2023-12-29 14:05",
       "2023-12-30 14:06",
       "2023-12-29 14:07",
     ];
 
-    for (var dateString in listOfDates) {
+    for (var dateString in startTime) {
+      var splitMinute = dateString.split(" ")[1].split(":");
+      DateTime dateTime = splitMinute.contains("00") ? DateTime.parse(dateString + "") : DateTime.parse(dateString + "0");
+      if (dateTime.isBefore(DateTime.now()) && dateTime.day != DateTime.now().day) {
+        await notificationPlugin.unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
+      } else {
+        // Extract date and time components
+        int day = dateTime.day;
+        int hour = dateTime.hour;
+        int minute = dateTime.minute;
+
+        // Schedule the notification
+        await notificationPlugin.scheduleNotification(
+          id: day + hour,
+          title: "Check In Alert",
+          body: "Good morning have you checked in office yet",
+          day: day,
+          hour: hour,
+          minute: minute,
+          second: 0,
+        );
+      }
+    }
+  }
+
+  Future checkOutScheduleNotification(outTime) async {
+    for (var dateString in outTime) {
       // Parse the date-time string into a DateTime object
-      DateTime dateTime = DateTime.parse(dateString);
+      DateTime dateTime = DateTime.parse(dateString + "0");
 
       // Extract date and time components
-      int year = dateTime.year;
-      int month = dateTime.month;
       int day = dateTime.day;
       int hour = dateTime.hour;
       int minute = dateTime.minute;
 
       // Schedule the notification
       await notificationPlugin.scheduleNotification(
-        id: minute,
-        title: "Hello bijoy",
-        body: "Good Morning $dateString",
+        id: day + hour,
+        title: "Check Out Alert",
+        body: "Good evening, have you checked out office yet",
         day: day,
         hour: hour,
         minute: minute,
@@ -138,6 +162,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       );
     }
   }
+
 /*var listOfDates = [
       "2023-12-29 12:21",
       "2023-12-29 12:21",
@@ -154,76 +179,76 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           second: null);
     }*/
 
+  void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
+    emit(state.copy(isSwitched: true));
+    if (event.user != null) {
+      add(OnLocationEnabled(
+          user: event.user!, locationProvider: event.locationProvider));
+    }
+  }
 
-void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
-  emit(state.copy(isSwitched: true));
-  if (event.user != null) {
-    add(OnLocationEnabled(
-        user: event.user!, locationProvider: event.locationProvider));
+  void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
+    emit(state.copy(isSwitched: !state.isSwitched));
+    if (event.user != null) {
+      add(OnLocationEnabled(
+          user: event.user!, locationProvider: event.locationProvider));
+    }
+  }
+
+  void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
+    if (state.isSwitched) {
+      event.locationProvider.getCurrentLocationStream(
+          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+    } else {
+      try {
+        event.locationProvider.locationSubscription.pause();
+      } catch (_) {}
+    }
+  }
+
+  Widget chooseTheme() {
+    final name = globalState.get(dashboardStyleId);
+    switch (name) {
+      case 'earth':
+        return const HomeEarthContent();
+      case 'neptune':
+        return const HomeNeptuneContent();
+      case 'mars':
+        return const HomeMars();
+      default:
+        return const HomeContentShimmer();
+    }
+  }
+
+  void routeSlug(slugName, context) {
+    switch (slugName) {
+      case 'support':
+        NavUtil.navigateScreen(context, const SupportPage());
+        break;
+      case 'support_ticket':
+        NavUtil.navigateScreen(context, const SupportPage());
+        break;
+      case 'visit':
+        NavUtil.navigateScreen(context, const VisitPage());
+        break;
+      case 'appointment':
+        NavUtil.navigateScreen(context, const AppointmentScreen());
+        break;
+      case 'meeting':
+        NavUtil.navigateScreen(context, const MeetingPage());
+        break;
+      default:
+        return debugPrint('default');
+    }
+  }
+
+  @override
+  HomeState? fromJson(Map<String, dynamic> json) {
+    return HomeState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(HomeState state) {
+    return state.toJson();
   }
 }
-
-void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
-  emit(state.copy(isSwitched: !state.isSwitched));
-  if (event.user != null) {
-    add(OnLocationEnabled(
-        user: event.user!, locationProvider: event.locationProvider));
-  }
-}
-
-void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
-  if (state.isSwitched) {
-    event.locationProvider.getCurrentLocationStream(
-        uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
-  } else {
-    try {
-      event.locationProvider.locationSubscription.pause();
-    } catch (_) {}
-  }
-}
-
-Widget chooseTheme() {
-  final name = globalState.get(dashboardStyleId);
-  switch (name) {
-    case 'earth':
-      return const HomeEarthContent();
-    case 'neptune':
-      return const HomeNeptuneContent();
-    case 'mars':
-      return const HomeMars();
-    default:
-      return const HomeContentShimmer();
-  }
-}
-
-void routeSlug(slugName, context) {
-  switch (slugName) {
-    case 'support':
-      NavUtil.navigateScreen(context, const SupportPage());
-      break;
-    case 'support_ticket':
-      NavUtil.navigateScreen(context, const SupportPage());
-      break;
-    case 'visit':
-      NavUtil.navigateScreen(context, const VisitPage());
-      break;
-    case 'appointment':
-      NavUtil.navigateScreen(context, const AppointmentScreen());
-      break;
-    case 'meeting':
-      NavUtil.navigateScreen(context, const MeetingPage());
-      break;
-    default:
-      return debugPrint('default');
-  }
-}
-
-@override
-HomeState? fromJson(Map<String, dynamic> json) {
-  return HomeState.fromJson(json);
-}
-
-@override
-Map<String, dynamic>? toJson(HomeState state) {
-  return state.toJson();
-}}

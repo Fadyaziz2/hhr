@@ -164,6 +164,10 @@ class NotificationService {
         payload: payload);
   }
 
+  Future<void> unSubscribeScheduleNotification(data)async {
+    await flutterLocalNotificationsPlugin.cancel(data);
+  }
+
   Future<void> showNotificationWithAttachment(
       {title, body, image, payload = 'payload'}) async {
     final bigPicture = await _downloadAndSaveFile('$image', 'bigPicture');
