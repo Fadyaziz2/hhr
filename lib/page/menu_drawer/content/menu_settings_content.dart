@@ -28,16 +28,6 @@ class MenuSettingsContent extends StatelessWidget {
             ).tr(),
             const Divider(),
             ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.zero,
-              horizontalTitleGap: 8,
-              leading: const Icon(
-                Icons.face_retouching_natural,
-                color: Colors.black,
-              ),
-              title: const Text('face_register').tr(),
-            ),
-            ListTile(
               onTap: () {
                 NavUtil.navigateScreen(context, const LanguageScreen());
               },
