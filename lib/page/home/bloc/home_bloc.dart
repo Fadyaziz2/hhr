@@ -109,17 +109,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   }
 
   Future checkInScheduleNotification(startTime) async {
-    var listOfDates = [
-      "2023-12-29 14:05",
-      "2023-12-30 14:06",
-      "2023-12-29 14:07",
-    ];
-
+    await notificationPlugin.unSubscribeScheduleAll();
     for (var dateString in startTime) {
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute.contains("00") ? DateTime.parse(dateString + "") : DateTime.parse(dateString + "0");
-      if (dateTime.isBefore(DateTime.now()) && dateTime.day != DateTime.now().day) {
-        await notificationPlugin.unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse(dateString + "")
+          : DateTime.parse(dateString + "0");
+      if (dateTime.isBefore(DateTime.now()) &&
+          dateTime.day != DateTime.now().day) {
+        await notificationPlugin
+            .unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
       } else {
         // Extract date and time components
         int day = dateTime.day;
@@ -142,42 +141,33 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future checkOutScheduleNotification(outTime) async {
     for (var dateString in outTime) {
-      // Parse the date-time string into a DateTime object
-      DateTime dateTime = DateTime.parse(dateString + "0");
+      var splitMinute = dateString.split(" ")[1].split(":");
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse(dateString + "")
+          : DateTime.parse(dateString + "0");
+      if (dateTime.isBefore(DateTime.now()) &&
+          dateTime.day != DateTime.now().day) {
+        await notificationPlugin
+            .unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
+      } else {
+        // Extract date and time components
+        int day = dateTime.day;
+        int hour = dateTime.hour;
+        int minute = dateTime.minute;
 
-      // Extract date and time components
-      int day = dateTime.day;
-      int hour = dateTime.hour;
-      int minute = dateTime.minute;
-
-      // Schedule the notification
-      await notificationPlugin.scheduleNotification(
-        id: day + hour,
-        title: "Check Out Alert",
-        body: "Good evening, have you checked out office yet",
-        day: day,
-        hour: hour,
-        minute: minute,
-        second: 0,
-      );
+        // Schedule the notification
+        await notificationPlugin.scheduleNotification(
+          id: day + hour,
+          title: "Check Out Alert",
+          body: "Good evening, have you checked out office yet",
+          day: day,
+          hour: hour,
+          minute: minute,
+          second: 0,
+        );
+      }
     }
   }
-
-/*var listOfDates = [
-      "2023-12-29 12:21",
-      "2023-12-29 12:21",
-      "2023-12-29 12:21",
-    ];
-    for (var element in minLIst) {
-      await notificationPlugin.scheduleNotification(
-          id: null,
-          title: "hello bijoy",
-          body: "Good Morning $element",
-          day: null,
-          hour: null,
-          minute: null,
-          second: null);
-    }*/
 
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: true));

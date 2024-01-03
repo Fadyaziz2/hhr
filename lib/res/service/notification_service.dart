@@ -164,8 +164,12 @@ class NotificationService {
         payload: payload);
   }
 
-  Future<void> unSubscribeScheduleNotification(data)async {
+  Future<void> unSubscribeScheduleNotification(data) async {
     await flutterLocalNotificationsPlugin.cancel(data);
+  }
+
+  Future<void> unSubscribeScheduleAll() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   Future<void> showNotificationWithAttachment(
