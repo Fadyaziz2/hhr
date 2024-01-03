@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/const.dart';
+
+import 'device_util.dart';
 
 class CustomButton extends StatelessWidget {
   final String? title;
@@ -10,13 +13,12 @@ class CustomButton extends StatelessWidget {
   final Color? backgroundColor;
 
   const CustomButton(
-      {Key? key,
+      {super.key,
       this.title,
       this.clickButton,
       this.padding = 10,
       this.isLoading = false,
-      this.backgroundColor = colorPrimary})
-      : super(key: key);
+      this.backgroundColor = colorPrimary});
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +30,13 @@ class CustomButton extends StatelessWidget {
           if (clickButton != null) clickButton!();
         },
         style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+            minimumSize: Size.fromHeight(DeviceUtil.isTablet ? 40.sp : 50),
             backgroundColor: backgroundColor),
         child: isLoading
-            ? const CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              )
-            : Text("$title",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                )).tr(),
+            ? const CircularProgressIndicator(backgroundColor: Colors.white)
+            : Text("$title", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
+                  fontSize: DeviceUtil.isTablet ? 12.sp : 12.0)).tr(),
       ),
     );
   }

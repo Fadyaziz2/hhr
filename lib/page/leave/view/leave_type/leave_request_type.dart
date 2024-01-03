@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../../res/widgets/custom_button.dart';
+import '../../../../res/widgets/device_util.dart';
 import '../leave_calendar/leave_calendar.dart';
 
 class LeaveRequestType extends StatelessWidget {
@@ -20,13 +22,11 @@ class LeaveRequestType extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-              title: Text("leave_request_type".tr()),
+              title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 12),),
             ),
             bottomNavigationBar: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(0)),
+              decoration: BoxDecoration(color: Colors.grey[100],borderRadius: BorderRadius.circular(0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(
@@ -34,41 +34,25 @@ class LeaveRequestType extends StatelessWidget {
                   padding: 16,
                   clickButton: () {
                     if (state.selectedRequestType?.id == null) {
-                      Fluttertoast.showToast(
-                          msg: "Please select Leave Request Type");
+                      Fluttertoast.showToast(msg: "Please select Leave Request Type");
                     } else {
-                      NavUtil.replaceScreen(
-                          context,
-                          BlocProvider.value(
-                              value: context.read<LeaveBloc>(),
-                              child: LeaveCalendar(
-                                  leaveRequestTypeId:
-                                      state.selectedRequestType?.id)));
+                      NavUtil.replaceScreen(context, BlocProvider.value(value: context.read<LeaveBloc>(),
+                              child: LeaveCalendar(leaveRequestTypeId: state.selectedRequestType?.id)));
                     }
                   },
                 ),
               ),
             ),
-            body: state.leaveRequestType?.leaveRequestType?.availableLeave !=
-                    null
-                ? state.leaveRequestType?.leaveRequestType?.availableLeave
-                            ?.isNotEmpty ==
-                        true
+            body: state.leaveRequestType?.leaveRequestType?.availableLeave != null
+                ? state.leaveRequestType?.leaveRequestType?.availableLeave?.isNotEmpty == true
                     ? ListView.separated(
                         padding: const EdgeInsets.all(12),
                         shrinkWrap: true,
-                        itemCount: state.leaveRequestType?.leaveRequestType
-                                ?.availableLeave?.length ??
-                            0,
+                        itemCount: state.leaveRequestType?.leaveRequestType?.availableLeave?.length ?? 0,
                         itemBuilder: (context, index) {
-                          AvailableLeaveType? availableLeave = state
-                              .leaveRequestType
-                              ?.leaveRequestType
-                              ?.availableLeave?[index];
+                          AvailableLeaveType? availableLeave = state.leaveRequestType?.leaveRequestType?.availableLeave?[index];
                           return Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
                             elevation: 4,
                             child: RadioListTile<AvailableLeaveType>(
                               value: availableLeave!,
@@ -76,25 +60,23 @@ class LeaveRequestType extends StatelessWidget {
                                 children: [
                                   Text(
                                     "${availableLeave.type}",
-                                    style: const TextStyle(
-                                        fontSize: 14,
+                                    style:  TextStyle(
+                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ).tr(),
                                   const Spacer(),
                                   Text(
                                     '${availableLeave.leftDays} ${tr("days_left")}',
-                                    style: const TextStyle(
-                                        fontSize: 14,
+                                    style: TextStyle(
+                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
                                         fontWeight: FontWeight.w500),
                                   ).tr(),
                                 ],
                               ),
                               groupValue: state.selectedRequestType,
                               onChanged: (AvailableLeaveType? value) {
-                                context
-                                    .read<LeaveBloc>()
-                                    .add(SelectedRequestType(value!));
+                                context.read<LeaveBloc>().add(SelectedRequestType(value!));
                                 if (kDebugMode) {
                                   print(value.type);
                                 }
@@ -102,11 +84,9 @@ class LeaveRequestType extends StatelessWidget {
                             ),
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(height: 5))
+                        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 5))
                     : const NoDataFoundWidget()
-                : const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                : const Padding(padding: EdgeInsets.symmetric(horizontal: 16),
                     child: LeaveListShimmer(),
                   ));
       },
