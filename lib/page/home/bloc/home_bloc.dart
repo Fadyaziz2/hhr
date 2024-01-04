@@ -69,9 +69,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
-
+      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      ///Schedule check-in notification
+      await checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime);
+      ///Schedule check-out notification
+      await checkOutScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
@@ -94,14 +96,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(sec,
           '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
-      emit(state.copy(
-          dashboardModel: dashboardModel,
-          status: NetworkStatus.success,
-          isSwitched: isLocationEnabled));
-      await checkInScheduleNotification(
-          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime);
-      await checkOutScheduleNotification(
-          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
+      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -137,15 +132,13 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   Future checkOutScheduleNotification(outTime) async {
     for (var dateString in outTime) {
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute[1].contains("00")
-          ? DateTime.parse(dateString + "")
-          : DateTime.parse(dateString + "0");
-        // Extract date and time components
+      DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
+        /// Extract date and time components
         int day = dateTime.day;
         int hour = dateTime.hour;
         int minute = dateTime.minute;
 
-        // Schedule the notification
+        /// Schedule the notification
         await notificationPlugin.scheduleNotification(
           id: day + hour,
           title: "Check Out Alert",
