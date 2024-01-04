@@ -79,14 +79,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
       globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
-      globalState.set(
-          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(
-          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(
-          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(
-          isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
