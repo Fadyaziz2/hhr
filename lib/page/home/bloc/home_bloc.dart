@@ -12,6 +12,7 @@ import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_nep
 import 'package:onesthrm/page/meeting/meeting.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
@@ -97,10 +98,64 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           dashboardModel: dashboardModel,
           status: NetworkStatus.success,
           isSwitched: isLocationEnabled));
+      await checkInScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime);
+      await checkOutScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+  }
+
+  Future checkInScheduleNotification(startTime) async {
+    await notificationPlugin.unSubscribeScheduleAll();
+    for (var dateString in startTime) {
+      var splitMinute = dateString.split(" ")[1].split(":");
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse(dateString + "")
+          : DateTime.parse(dateString + "0");
+
+        // Extract date and time components
+        int day = dateTime.day;
+        int hour = dateTime.hour;
+        int minute = dateTime.minute;
+
+        // Schedule the notification
+        await notificationPlugin.scheduleNotification(
+          id: day + hour,
+          title: "Check In Alert",
+          body: "Good morning have you checked in office yet",
+          day: day,
+          hour: hour,
+          minute: minute,
+          second: 0,
+        );
+      }
+  }
+
+  Future checkOutScheduleNotification(outTime) async {
+    for (var dateString in outTime) {
+      var splitMinute = dateString.split(" ")[1].split(":");
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse(dateString + "")
+          : DateTime.parse(dateString + "0");
+        // Extract date and time components
+        int day = dateTime.day;
+        int hour = dateTime.hour;
+        int minute = dateTime.minute;
+
+        // Schedule the notification
+        await notificationPlugin.scheduleNotification(
+          id: day + hour,
+          title: "Check Out Alert",
+          body: "Good evening, have you checked out office yet",
+          day: day,
+          hour: hour,
+          minute: minute,
+          second: 0,
+        );
+      }
   }
 
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {

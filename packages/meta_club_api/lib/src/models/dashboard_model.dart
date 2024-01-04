@@ -15,7 +15,8 @@ class DashboardModel extends Equatable {
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
         result: json["result"],
         message: json["message"],
-        data: json["data"] != null ? DashboardData.fromJson(json["data"]) : null,
+        data:
+            json["data"] != null ? DashboardData.fromJson(json["data"]) : null,
       );
 
   @override
@@ -49,8 +50,10 @@ class DashboardData extends Equatable {
             json["upcoming_events"].map((x) => UpcomingEvent.fromJson(x))),
         appointments: List<Appointment>.from(
             json["appoinment_list"].map((x) => Appointment.fromJson(x))),
-        currentMonth:json["current_month"] != null ?  List<CurrentMonthData>.from(
-            json["current_month"].map((x) => CurrentMonthData.fromJson(x))) : [],
+        currentMonth: json["current_month"] != null
+            ? List<CurrentMonthData>.from(
+                json["current_month"].map((x) => CurrentMonthData.fromJson(x)))
+            : [],
         menus: List<Menu>.from(json["menus"].map((x) => Menu.fromJson(x))),
         attendanceData: AttendanceData.fromJson(json['attendance_status']),
         breakHistory: json['break_history_data'] != null
@@ -141,13 +144,13 @@ class AttendanceData {
   }
 
   Map<String, dynamic> toJson() => {
-    "id'": id,
-    "checkin": checkIn,
-    "checkout": checkout,
-    "in_time": inTime,
-    "out_time": outTime,
-    "stay_time": stayTime,
-  };
+        "id'": id,
+        "checkin": checkIn,
+        "checkout": checkout,
+        "in_time": inTime,
+        "out_time": outTime,
+        "stay_time": stayTime,
+      };
 }
 
 class Appointment {
@@ -216,7 +219,8 @@ class BreakHistory {
 
   factory BreakHistory.fromJson(Map<String, dynamic> json) {
     return BreakHistory(
-        time: json['total_break_time'] != null ? json['total_break_time'] : null,
+        time:
+            json['total_break_time'] != null ? json['total_break_time'] : null,
         timeBreak: TimeBreak.fromString(json['total_break_time']),
         hasBreak: json['has_break'],
         breakHistory: BreakBackHistory.fromJson(json['break_history']));
@@ -248,7 +252,6 @@ class TimeBreak {
   }
 
   Map<String, dynamic> toJson() => {"hour": hour, "min": min, "sec": sec};
-
 
   @override
   String toString() {
@@ -327,14 +330,14 @@ class UpcomingEvent {
       image: json["attachment_file_id"]);
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "date": date,
-    "day": day,
-    "time": time,
-    "start_date": startDate,
-    "attachment_file_id": image
-  };
+        "id": id,
+        "title": title,
+        "date": date,
+        "day": day,
+        "time": time,
+        "start_date": startDate,
+        "attachment_file_id": image
+      };
 }
 
 class Participant {
@@ -434,9 +437,15 @@ class Config {
         dutySchedule: DutyScheduleData.fromJson(json["duty_schedule"]),
         locationServices: LocationServices.fromJson(json["location_services"]),
         googleApiKey: json["google_api_key"],
-        barikoiApi: json["barikoi_api"] != null ? BarikoiApi.fromJson(json["barikoi_api"]) : null,
-        breakStatus: json["break_status"] != null ? BreakData.fromJson(json["break_status"]) : null,
-        liveTracking: json["live_tracking"] !=  null ? LiveTrackingData.fromJson(json["live_tracking"]) : null,
+        barikoiApi: json["barikoi_api"] != null
+            ? BarikoiApi.fromJson(json["barikoi_api"])
+            : null,
+        breakStatus: json["break_status"] != null
+            ? BreakData.fromJson(json["break_status"])
+            : null,
+        liveTracking: json["live_tracking"] != null
+            ? LiveTrackingData.fromJson(json["live_tracking"])
+            : null,
         locationService: json["location_service"],
         isTeamLead: json["is_team_lead"],
       );
@@ -539,20 +548,37 @@ class BreakData {
 class DutyScheduleData {
   final TimeData? startTime;
   final TimeData? endTime;
+  List<String>? listOfStartDatetime;
+  List<String>? listOfEndDatetime;
 
-  DutyScheduleData({
-    this.startTime,
-    this.endTime,
-  });
+  DutyScheduleData(
+      {this.startTime,
+      this.endTime,
+      this.listOfStartDatetime,
+      this.listOfEndDatetime});
 
   factory DutyScheduleData.fromJson(Map<String, dynamic> json) =>
       DutyScheduleData(
         startTime: TimeData.fromJson(json["start_time"]),
         endTime: TimeData.fromJson(json["end_time"]),
+        listOfStartDatetime: json["list_of_start_datetime"] == null
+            ? []
+            : List<String>.from(json["list_of_start_datetime"]!.map((x) => x)),
+        listOfEndDatetime: json["list_of_end_datetime"] == null
+            ? []
+            : List<String>.from(json["list_of_end_datetime"]!.map((x) => x)),
       );
 
-  Map<String, dynamic> toJson() =>
-      {"start_time": startTime, "end_time": endTime};
+  Map<String, dynamic> toJson() => {
+        "start_time": startTime,
+        "end_time": endTime,
+        "list_of_start_datetime": listOfStartDatetime == null
+            ? []
+            : List<dynamic>.from(listOfStartDatetime!.map((x) => x)),
+        "list_of_end_datetime": listOfEndDatetime == null
+            ? []
+            : List<dynamic>.from(listOfEndDatetime!.map((x) => x)),
+      };
 }
 
 class TimeData {
