@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class SummeryTile extends StatelessWidget {
   const SummeryTile(
@@ -22,25 +24,24 @@ class SummeryTile extends StatelessWidget {
         ListTile(
           onTap: onTap,
           dense: true,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+          contentPadding: EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 2.h : 2, horizontal: DeviceUtil.isTablet ? 16.w : 16),
           leading: Container(
-            width: 16,
-            height: 16,
+            width: DeviceUtil.isTablet ? 16.sp : 16,
+            height:DeviceUtil.isTablet ? 16.sp : 16,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: color,
             ),
           ),
-          title: Text(title).tr(),
+          title: Text(title,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
           trailing: titleValue != null ? Text(
             titleValue!,
-            style: Theme.of(context).textTheme.titleSmall,
-          ) : const RectangularCardShimmer(height: 30,width: 20,),
+            style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+          ) : RectangularCardShimmer(height: DeviceUtil.isTablet ? 30.h : 30,width: DeviceUtil.isTablet ? 20.w : 20,),
         ),
-        const Divider(
+         Divider(
           height: 0.0,
-          thickness: 1,
+          thickness: DeviceUtil.isTablet ? 1.w : 1,
         )
       ],
     );

@@ -195,10 +195,7 @@ class BreakContentState extends State<BreakContent>
                   const SizedBox(
                     height: 8.0,
                   ),
-                  BreakHeader(
-                          timerController: controllerBreakTimer,
-                          dashboardModel: dashboard),
-
+                  BreakHeader(timerController: controllerBreakTimer, dashboardModel: dashboard),
                   state.status == NetworkStatus.loading
                       ? Shimmer.fromColors(
                           baseColor: const Color(0xFFE8E8E8),

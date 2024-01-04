@@ -24,7 +24,7 @@ class LeaveRequestType extends StatelessWidget {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
               child: AppBar(
-                title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 12),),
+                title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
                 iconTheme:  IconThemeData(
                     size: DeviceUtil.isTablet ? 40 : 30,
                     color: Colors.white

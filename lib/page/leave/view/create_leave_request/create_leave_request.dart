@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/page/upload_file/view/upload_doc_content.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
+import '../../../../res/widgets/device_util.dart';
 
 class CreateLeaveRequest extends StatelessWidget {
   final String? starDate;
@@ -26,8 +29,12 @@ class CreateLeaveRequest extends StatelessWidget {
     return Form(
       key: formKey,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(tr("request_leave")),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
+          child: AppBar(
+            iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+            title: Text(tr("request_leave"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -35,9 +42,7 @@ class CreateLeaveRequest extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 CustomTextField(
                     title: "note".tr(),
                     hints: "write_reason".tr(),
@@ -69,38 +74,35 @@ class CreateLeaveRequest extends StatelessWidget {
                       children: [
                         Text(
                           tr("substitute"),
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
                         const SizedBox(
                           height: 8,
                         ),
                         Card(
                           child: ListTile(
                             onTap: () async {
-                              PhoneBookUser employee = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SelectEmployeePage(),
-                                  ));
+                              PhoneBookUser employee = await Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => const SelectEmployeePage(),));
                               // ignore: use_build_context_synchronously
-                              context
-                                  .read<LeaveBloc>()
-                                  // ignore: use_build_context_synchronously
-                                  .add(SelectEmployee(employee));
+                              context.read<LeaveBloc>().add(SelectEmployee(employee));
                             },
                             title: Text(state.selectedEmployee?.name! ??
-                                tr("add_a_Substitute")),
+                                tr("add_a_Substitute"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp :14),),
                             subtitle: Text(
                                 state.selectedEmployee?.designation! ??
-                                    tr("add_a_Designation")),
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(state
-                                      .selectedEmployee?.avatar ??
-                                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+                                    tr("add_a_Designation"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp :12)),
+                            leading : ClipOval(
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl:  state.selectedEmployee?.avatar ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+                                placeholder: (context, url) => Center(
+                                child: Image.asset("assets/images/app_icon.png"),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                                ),
                             ),
-                            trailing: const Icon(Icons.edit),
+                            trailing: Icon(Icons.edit,size: DeviceUtil.isTablet ? 16.sp : 24,),
                           ),
                         ),
                         const SizedBox(

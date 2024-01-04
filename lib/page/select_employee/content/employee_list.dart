@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/select_employee/content/employee_list_shimmer.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -34,10 +36,8 @@ class EmployeeList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Lottie.asset('assets/images/no_data_found.json',
-                            repeat: false, height: 200),
-                        const Text(
-                          'No Results',
+                        Lottie.asset('assets/images/no_data_found.json', repeat: false, height: 200),
+                        const Text('No Results',
                           style: TextStyle(color: Colors.red),
                         ),
                       ],
@@ -70,9 +70,7 @@ class EmployeeList extends StatelessWidget {
                         refreshController.loadComplete();
                       },
                       onRefresh: () {
-                        context
-                            .read<PhoneBookBloc>()
-                            .add(PhoneBookLoadRefresh());
+                        context.read<PhoneBookBloc>().add(PhoneBookLoadRefresh());
                       },
                       child: state.phoneBookUsers?.isNotEmpty == true
                           ? ListView.builder(
@@ -80,16 +78,9 @@ class EmployeeList extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                   onTap: () async {
-                                    var allUserData =
-                                        state.phoneBookUsers?[index];
+                                    var allUserData = state.phoneBookUsers?[index];
                                     Navigator.pop(context, allUserData);
                                     print(allUserData?.id);
-                                    // Navigator.push(
-                                    //     context,
-                                    //     PhonebookDetailsScreen.route(
-                                    //         homeBloc: context.read<PhonebookBloc>(),
-                                    //         userId:
-                                    //             '${state.phonebookUsers![index].id}'));
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -99,16 +90,12 @@ class EmployeeList extends StatelessWidget {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                          state.phoneBookUsers?[index].name ??
-                                              ""),
-                                      subtitle: Text(state
-                                              .phoneBookUsers?[index]
-                                              .designation ??
-                                          ""),
+                                          state.phoneBookUsers?[index].name ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
+                                      subtitle: Text(state.phoneBookUsers?[index].designation ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),),
                                       leading: ClipOval(
                                         child: CachedNetworkImage(
-                                          height: 40,
-                                          width: 40,
+                                          height: DeviceUtil.isTablet ? 70 : 40,
+                                          width: DeviceUtil.isTablet ? 70 :40,
                                           fit: BoxFit.cover,
                                           imageUrl:
                                               "${state.phoneBookUsers?[index].avatar}",
@@ -146,7 +133,7 @@ class EmployeeList extends StatelessWidget {
                               baseColor: const Color(0xFFE8E8E8),
                               highlightColor: Colors.white,
                               child: Container(
-                                  height: 100,
+                                  height: DeviceUtil.isTablet ? 100.h : 100.0,
                                   margin: const EdgeInsets.only(bottom: 16.0),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFE8E8E8),

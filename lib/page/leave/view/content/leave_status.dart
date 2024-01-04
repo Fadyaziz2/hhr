@@ -1,11 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class LeaveStatus extends StatelessWidget {
   final LeaveDetailsData? leaveDetailsData;
 
-  const LeaveStatus({Key? key, this.leaveDetailsData}) : super(key: key);
+  const LeaveStatus({super.key, this.leaveDetailsData});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +30,8 @@ class LeaveStatus extends StatelessWidget {
         strokeWidth: 1,
         child: Text(
           '${leaveDetailsData?.status}',
-          style: const TextStyle(
-              color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: DeviceUtil.isTablet ? 20 : 10, fontWeight: FontWeight.w600),
         ),
       ),
     );

@@ -16,9 +16,7 @@ class DailyReportTile extends StatelessWidget {
         ? ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: reportBloc
-                    .state.attendanceReport?.reportData?.dailyReport?.length ??
-                0,
+            itemCount: reportBloc.state.attendanceReport?.reportData?.dailyReport?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               final data = reportBloc.state.attendanceReport?.reportData?.dailyReport?[index];
               return SummaryOfDailyReportListTile(

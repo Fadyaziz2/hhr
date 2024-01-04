@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class CustomTextField extends StatelessWidget {
   final String title;
@@ -26,15 +28,15 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: DeviceUtil.isTablet ? 12.sp : 12, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: sizedBoxHeight,
         ),
         TextFormField(
           maxLines: maxLine,
-          style: const TextStyle(fontSize: 14),
+          style: TextStyle(fontSize: DeviceUtil.isTablet ?  14.sp : 14),
           keyboardType: TextInputType.name,
           onChanged: onData,
           validator: (val) => val!.isEmpty ? errorMsg : null,
@@ -44,7 +46,7 @@ class CustomTextField extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
               hintText: hints,
-              hintStyle: const TextStyle(fontSize: 12),
+              hintStyle: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue, width: 2),
               ),

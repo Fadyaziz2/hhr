@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 import '../../../../../../select_employee/view/select_employee.dart';
 import '../../../../bloc/report_bloc.dart';
@@ -26,14 +28,9 @@ class SelectEmployeeForAttendance extends StatelessWidget {
           });
         },
         title: Text(context.watch<ReportBloc>().state.selectEmployee?.name! ??
-                'select_employee')
-            .tr(),
+                'select_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),).tr(),
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(context
-                  .watch<ReportBloc>()
-                  .state
-                  .selectEmployee
-                  ?.avatar ??
+          backgroundImage: NetworkImage(context.watch<ReportBloc>().state.selectEmployee?.avatar ??
               'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
         ),
       ),

@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../report.dart';
 import 'attendance_summary/attendance_summary_content.dart';
 import 'content.dart';
@@ -21,8 +23,7 @@ class ReportContent extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                NavUtil.navigateScreen(
-                    context, const AttendanceSummaryContent());
+                NavUtil.navigateScreen(context, const AttendanceSummaryContent());
               },
               child: Padding(
                 padding: const EdgeInsets.all(26.0),
@@ -30,15 +31,13 @@ class ReportContent extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/menu_report/report_attendance.png',
-                      height: 30,
+                      height: DeviceUtil.isTablet ? 30.h : 30,
                     ),
-                    const SizedBox(
-                      width: 16,
-                    ),
+                    const SizedBox(width: 16),
                     Text(
                       tr('attendance'),
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 16.sp : 16),
                     )
                   ],
                 ),
@@ -63,15 +62,15 @@ class ReportContent extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/menu_report/report_break.png',
-                      height: 30,
+                      height: DeviceUtil.isTablet ? 30.h : 30,
                     ),
                     const SizedBox(
                       width: 16,
                     ),
                     Text(
                       tr("break"),
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 14.sp : 14),
                     )
                   ],
                 ),
@@ -87,9 +86,7 @@ class ReportContent extends StatelessWidget {
             },
             child: Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               child: InkWell(
                 onTap: () {
                   NavUtil.navigateScreen(context, const LeaveSummeryScreen());
@@ -100,15 +97,15 @@ class ReportContent extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/menu_report/report_leave.png',
-                        height: 30,
+                        height: DeviceUtil.isTablet ? 30.h : 30,
                       ),
                       const SizedBox(
                         width: 16,
                       ),
                       Text(
                         tr('leave'),
-                        style: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 14.sp : 14),
                       )
                     ],
                   ),

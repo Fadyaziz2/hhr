@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 import '../../../../bloc/report_bloc.dart';
 import 'attendance_summary_tile.dart';
@@ -16,15 +18,22 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
       builder: (BuildContext context, state) {
         context.read<ReportBloc>().add(GetAttendanceReportData());
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('attendance_of_employee').tr(),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    context.read<ReportBloc>().add(SelectDate(context, true));
-                  },
-                  icon: const Icon(Icons.calendar_month))
-            ],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
+            child: AppBar(
+              iconTheme:  IconThemeData(
+                  size: DeviceUtil.isTablet ? 40 : 30,
+                  color: Colors.white
+              ),
+              title:  Text('attendance_of_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),).tr(),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context.read<ReportBloc>().add(SelectDate(context, true));
+                    },
+                    icon: const Icon(Icons.calendar_month))
+              ],
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -39,10 +48,10 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
                   Center(
                       child: Text(
                     tr('daily_report'),
-                    style: const TextStyle(
+                    style:  TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        fontSize: DeviceUtil.isTablet ? 16.sp : 16),
                   )),
                   const SizedBox(
                     height: 20,

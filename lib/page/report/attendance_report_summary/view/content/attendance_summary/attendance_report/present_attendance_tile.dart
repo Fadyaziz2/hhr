@@ -1,9 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/common/functions.dart';
 import 'package:onesthrm/res/common/toast.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 import 'present_attendance_in_tile.dart';
 import 'present_attendance_out_tile.dart';
@@ -27,20 +29,20 @@ class PresentAttendanceTile extends StatelessWidget {
         (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding:  EdgeInsets.only(bottom: DeviceUtil.isTablet ? 20.0.r : 20),
       child: Row(
         children: [
           SizedBox(
-            width: 100,
+            width: DeviceUtil.isTablet ? 100.w : 100,
             child: Column(
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style: const TextStyle(color: Colors.black54, fontSize: 12),
+                  style:  TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 12.sp : 12),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style: const TextStyle(color: Colors.black54, fontSize: 20),
+                  style:  TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 20.sp : 20),
                 ),
               ],
             ),
@@ -54,15 +56,15 @@ class PresentAttendanceTile extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: const Text(
+                        padding: const EdgeInsets.all(8.0),
+                        child:  Text(
                           "in",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: DeviceUtil.isTablet ? 10.sp : 10,
                           ),
                         ).tr(),
                       ),
-                      const SizedBox(width: 20.0),
+                       SizedBox(width: DeviceUtil.isTablet ? 20.0.w : 20),
                       PresentAddressInTile(
                           dailyReport: dailyReport, remoteModeIn: remoteModeIn),
                     ],
@@ -80,8 +82,8 @@ class PresentAttendanceTile extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "out".tr(),
-                          style: const TextStyle(
-                            fontSize: 10,
+                          style:  TextStyle(
+                            fontSize: DeviceUtil.isTablet ? 10.sp : 10,
                           ),
                         ),
                       ),
@@ -113,9 +115,9 @@ class PresentAttendanceTile extends StatelessWidget {
                                 strokeWidth: 1,
                                 child: Text(
                                   dailyReport.checkOut ?? "",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: DeviceUtil.isTablet ? 12.sp : 12,
                                       fontWeight: FontWeight.w600),
                                 ).tr(),
                               ),
@@ -133,12 +135,12 @@ class PresentAttendanceTile extends StatelessWidget {
                                 onTap: () {
                                   getReasonIn(dailyReport.checkOutReason);
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(0.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
                                   child: Icon(
                                     Icons.article_outlined,
                                     color: Colors.blue,
-                                    size: 18,
+                                    size: DeviceUtil.isTablet ? 18.r : 18,
                                   ),
                                 ),
                               ),

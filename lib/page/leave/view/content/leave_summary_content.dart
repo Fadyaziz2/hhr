@@ -26,7 +26,7 @@ class LeaveSummaryContent extends StatelessWidget {
         preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
         child: AppBar(
           iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
-          title: Text("leave_summary".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :12),),
+          title: Text("leave_summary".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),),
           actions: [
             IconButton(
                 onPressed: () {
