@@ -109,19 +109,19 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   }
 
   Future checkInScheduleNotification(startTime) async {
+    ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
+    ///looping all schedule and set that schedule as active
     for (var dateString in startTime) {
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute[1].contains("00")
-          ? DateTime.parse(dateString + "")
-          : DateTime.parse(dateString + "0");
+      DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
 
-        // Extract date and time components
+        /// Extract date and time components
         int day = dateTime.day;
         int hour = dateTime.hour;
         int minute = dateTime.minute;
 
-        // Schedule the notification
+        /// Schedule the notification
         await notificationPlugin.scheduleNotification(
           id: day + hour,
           title: "Check In Alert",
