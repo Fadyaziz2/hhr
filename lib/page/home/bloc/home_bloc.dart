@@ -115,11 +115,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       DateTime dateTime = splitMinute[1].contains("00")
           ? DateTime.parse(dateString + "")
           : DateTime.parse(dateString + "0");
-      if (dateTime.isBefore(DateTime.now()) &&
-          dateTime.day != DateTime.now().day) {
-        await notificationPlugin
-            .unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
-      } else {
+
         // Extract date and time components
         int day = dateTime.day;
         int hour = dateTime.hour;
@@ -136,7 +132,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           second: 0,
         );
       }
-    }
   }
 
   Future checkOutScheduleNotification(outTime) async {
@@ -145,11 +140,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       DateTime dateTime = splitMinute[1].contains("00")
           ? DateTime.parse(dateString + "")
           : DateTime.parse(dateString + "0");
-      if (dateTime.isBefore(DateTime.now()) &&
-          dateTime.day != DateTime.now().day) {
-        await notificationPlugin
-            .unSubscribeScheduleNotification(dateTime.day + dateTime.hour);
-      } else {
         // Extract date and time components
         int day = dateTime.day;
         int hour = dateTime.hour;
@@ -166,7 +156,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           second: 0,
         );
       }
-    }
   }
 
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
