@@ -172,8 +172,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 
-  Future<void> showNotificationWithAttachment(
-      {title, body, image, payload = 'payload'}) async {
+  Future<void> showNotificationWithAttachment({title, body, image, payload = 'payload'}) async {
     final bigPicture = await _downloadAndSaveFile('$image', 'bigPicture');
     final largeIcon = await _downloadAndSaveFile('$image', 'largeIcon');
     final iosPlatformSpecifies = DarwinNotificationDetails(
