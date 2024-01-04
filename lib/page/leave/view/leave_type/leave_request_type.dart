@@ -21,8 +21,15 @@ class LeaveRequestType extends StatelessWidget {
     return BlocBuilder<LeaveBloc, LeaveState>(
       builder: (context, state) {
         return Scaffold(
-            appBar: AppBar(
-              title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 12),),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
+              child: AppBar(
+                title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 12),),
+                iconTheme:  IconThemeData(
+                    size: DeviceUtil.isTablet ? 40 : 30,
+                    color: Colors.white
+                ),
+              ),
             ),
             bottomNavigationBar: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),

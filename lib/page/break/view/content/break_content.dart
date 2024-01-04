@@ -21,8 +21,6 @@ import '../../../app/global_state.dart';
 import '../../../attendance/content/animated_circular_button.dart';
 import '../../../attendance/tab_content/tab_animated_circular_button.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
-import '../tab_content/tab_break_header.dart';
-import '../tab_content/tab_break_history_content.dart';
 import 'break_header.dart';
 import 'break_report_screen.dart';
 
@@ -46,8 +44,7 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
@@ -163,7 +160,6 @@ class BreakContentState extends State<BreakContent>
           listener: (context, state) {
             if (globalState.get(breakStatus) == 'break_in') {
               controllerBreakTimer.start();
-
               ///current time of milliseconds
               SharedUtil.setValue(
                   breakTime, '${DateTime.now().millisecondsSinceEpoch}');
@@ -199,13 +195,10 @@ class BreakContentState extends State<BreakContent>
                   const SizedBox(
                     height: 8.0,
                   ),
-                  DeviceUtil.isTablet
-                      ? TabBreakHeader(
-                          timerController: controllerBreakTimer,
-                          dashboardModel: dashboard)
-                      : BreakHeader(
+                  BreakHeader(
                           timerController: controllerBreakTimer,
                           dashboardModel: dashboard),
+
                   state.status == NetworkStatus.loading
                       ? Shimmer.fromColors(
                           baseColor: const Color(0xFFE8E8E8),
@@ -250,10 +243,7 @@ class BreakContentState extends State<BreakContent>
                                 }
                               },
                             ),
-                  DeviceUtil.isTablet
-                      ? TabBreakHistoryContent(
-                          state: state, dashboard: dashboard)
-                      : BreakHistoryContent(state: state, dashboard: dashboard)
+                  BreakHistoryContent(state: state, dashboard: dashboard)
                 ],
               ),
             );

@@ -2,16 +2,17 @@ import 'dart:async';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../../res/date_utils.dart';
 
 class BreakHeader extends StatelessWidget {
   final CustomTimerController timerController;
   final DashboardModel? dashboardModel;
 
-  const BreakHeader(
-      {super.key, required this.timerController, required this.dashboardModel});
+  const BreakHeader({super.key, required this.timerController, required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,10 @@ class BreakHeader extends StatelessWidget {
                 children: [
                   TextSpan(
                       text: 'You_have_already_taken'.tr(),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: Color(0xFF555555))),
+                          fontSize: DeviceUtil.isTablet ? 16.sp : 16,
+                          color: const Color(0xFF555555))),
                   TextSpan(
                       text: "${dashboardModel?.data?.breakHistory?.time ?? 0} ",
                       style: const TextStyle(
@@ -37,10 +38,10 @@ class BreakHeader extends StatelessWidget {
                           color: Colors.redAccent)),
                   TextSpan(
                       text: 'break'.tr(),
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: Color(0xFF555555))),
+                          fontSize: DeviceUtil.isTablet ? 16.sp : 16,
+                          color: const Color(0xFF555555))),
                 ],
               ),
             ),
@@ -48,35 +49,17 @@ class BreakHeader extends StatelessWidget {
         ),
         Visibility(
           visible: dashboardModel?.data?.breakHistory?.hasBreak == false,
-          child: const Text(
+          child:  Text(
             "you_have_not_taken_a_break",
             style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Color(0xFF555555)),
+                fontSize: DeviceUtil.isTablet ? 16.sp : 16,
+                color: const Color(0xFF555555)),
           ).tr(),
         ),
         const SizedBox(
           height: 8.0,
         ),
-        // CustomTimer(
-        //     controller: timerController,
-        //     builder:
-        //         (CustomTimerState state, CustomTimerRemainingTime remaining) {
-        //       globalState.set(hour, remaining.hours);
-        //       globalState.set(min, remaining.minutes);
-        //       globalState.set(sec, remaining.seconds);
-        //
-        //       return Text(
-        //           state == CustomTimerState.counting
-        //               ? "${remaining.hours}:${remaining.minutes}:${remaining.seconds}"
-        //               : "00:00:00",
-        //           style: GoogleFonts.cambay(
-        //             fontSize: 50.0,
-        //             fontWeight: FontWeight.bold,
-        //             color: Colors.black,
-        //           ));
-        //     }),
         const HRMTimer(),
       ],
     );
@@ -119,7 +102,7 @@ class _HRMTimerState extends State<HRMTimer> {
   Widget build(BuildContext context) {
     return Text(timer,
         style: GoogleFonts.cambay(
-          fontSize: 50.0,
+          fontSize: DeviceUtil.isTablet ? 40.sp : 50.0,
           fontWeight: FontWeight.bold,
           color: Colors.black,
         ));
