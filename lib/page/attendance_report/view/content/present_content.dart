@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../../res/common/functions.dart';
 import '../../../../res/common/toast.dart';
 import '../../bloc/attendance_report_bloc.dart';
@@ -30,7 +32,7 @@ class DailyReportTile extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 100,
+            width: DeviceUtil.isTablet ?  100.w : 100,
             child: Column(
               children: [
                 Text(
@@ -227,8 +229,7 @@ class DailyReportTile extends StatelessWidget {
                               ),
                             ),
                             Visibility(
-                              visible: dailyReport.checkOutReason?.isNotEmpty ==
-                                  true,
+                              visible: dailyReport.checkOutReason?.isNotEmpty == true,
                               child: InkWell(
                                 onTap: () {
                                   getReasonIn(dailyReport.checkOutReason);

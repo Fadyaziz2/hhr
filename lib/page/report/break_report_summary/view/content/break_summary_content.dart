@@ -138,9 +138,9 @@ class BreakSummaryContent extends StatelessWidget {
         }
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TileShimmer(
+            return  Padding(
+              padding: EdgeInsets.all(DeviceUtil.isTablet ? 8.0.r : 8.0),
+              child: const TileShimmer(
                 isSubTitle: true,
               ),
             );

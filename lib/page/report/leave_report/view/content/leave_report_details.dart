@@ -2,8 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/leave/view/content/build_container.dart';
 import 'package:onesthrm/page/report/leave_report/bloc/leave_report_bloc.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class LeaveReportDetailsScreen extends StatelessWidget {
   final int leaveId;
@@ -13,7 +15,11 @@ class LeaveReportDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("leave_details".tr())),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+          child: AppBar(
+              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+              title: Text("leave_details".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),))),
       body: FutureBuilder(
         future: context.read<LeaveReportBloc>().onLeaveReportDetails(leaveId),
         builder: (BuildContext context, snapshot) {
@@ -31,17 +37,16 @@ class LeaveReportDetailsScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SizedBox(width: 130, child: Text(tr("status"))),
+                    SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(tr("status"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),)),
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(int.parse(
                               leaveReportData?.colorCode ?? "0xFFFFFF")),
                           style: BorderStyle.solid,
-                          width: 3.0,
+                          width: DeviceUtil.isTablet ? 3.0.w : 3.0,
                         ),
-                        color:
-                            Color(int.parse(leaveReportData?.colorCode ?? "")),
+                        color: Color(int.parse(leaveReportData?.colorCode ?? "")),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: DottedBorder(
@@ -53,9 +58,8 @@ class LeaveReportDetailsScreen extends StatelessWidget {
                         strokeWidth: 1,
                         child: Text(
                           '${leaveReportData?.status}',
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
+                          style: TextStyle(color: Colors.white,
+                              fontSize: DeviceUtil.isTablet ? 10.sp : 10,
                               fontWeight: FontWeight.w600),
                         ).tr(),
                       ),
@@ -94,7 +98,7 @@ class LeaveReportDetailsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(width: 130, child: Text(tr("attachment"))),
+                    SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(tr("attachment"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),)),
                   ],
                 ),
               ),

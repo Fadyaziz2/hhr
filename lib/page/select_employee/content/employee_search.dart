@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/res/common/debouncer.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class EmployeeSearch extends StatelessWidget {
   final Bloc? bloc;
@@ -15,8 +17,8 @@ class EmployeeSearch extends StatelessWidget {
       padding:
           const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
       child: TextField(
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.search),
+        decoration:  const InputDecoration(
+          prefixIcon: Icon(Icons.search,size: 24,),
           hintText: "Search",
           filled: true,
           contentPadding: EdgeInsets.all(0),

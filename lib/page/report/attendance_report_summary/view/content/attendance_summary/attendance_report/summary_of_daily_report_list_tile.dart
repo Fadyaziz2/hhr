@@ -25,9 +25,10 @@ class SummaryOfDailyReportListTile extends StatelessWidget {
           dailyReport: dailyReport,
         );
       case "...":
-        return isReportSummary == true
-            ? const SizedBox()
-            : PendingAttendanceToday(dailyReport: dailyReport);
+        return PendingAttendanceToday(dailyReport: dailyReport);
+        // return isReportSummary == true
+        //     ? const SizedBox()
+        //     : PendingAttendanceToday(dailyReport: dailyReport);
       default:
         return const SizedBox.shrink();
     }

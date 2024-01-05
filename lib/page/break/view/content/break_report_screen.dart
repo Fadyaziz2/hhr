@@ -20,7 +20,7 @@ class BreakReportScreen extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
             child: AppBar(
-              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
               title: Text(tr("break_time_report"),style: Theme.of(context).textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor,fontSize: DeviceUtil.isTablet ? 16.sp : 16)).tr(),
               actions: [

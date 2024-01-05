@@ -25,6 +25,7 @@ class BreakReportSummary extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight( DeviceUtil.isTablet ? 80 : 55),
             child: AppBar(
+              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(

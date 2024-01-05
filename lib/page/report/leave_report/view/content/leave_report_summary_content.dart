@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class LeaveReportSummaryContent extends StatelessWidget {
@@ -20,21 +22,19 @@ class LeaveReportSummaryContent extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
             child: Card(
-              child: ListTile(
-                  leading:
-                      Text(state.leaveReportSummaryModel?.data?.date ?? ''),
-                  trailing: IconButton(
-                    onPressed: () {
-                      context
-                          .read<LeaveReportBloc>()
-                          .add(SelectDatePicker(context));
-                    },
-                    icon: const Icon(
-                      Icons.calendar_month,
-                    ),
-                  )),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ListTile(
+                    leading: Text(state.leaveReportSummaryModel?.data?.date ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
+                    trailing: IconButton(
+                      onPressed: () {
+                        context.read<LeaveReportBloc>().add(SelectDatePicker(context));
+                      },
+                      icon: Icon(Icons.calendar_month,size: DeviceUtil.isTablet ? 24.sp : 24,),
+                    )),
+              ),
             ),
           ),
           state.leaveReportSummaryModel != null
@@ -43,12 +43,9 @@ class LeaveReportSummaryContent extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 8),
                     child: state.leaveReportSummaryModel?.data?.leaveTypes?.isNotEmpty ==true ? ListView.builder(
-                      itemCount: state.leaveReportSummaryModel?.data?.leaveTypes
-                              ?.length ??
-                          0,
+                      itemCount: state.leaveReportSummaryModel?.data?.leaveTypes?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
-                        final data = state
-                            .leaveReportSummaryModel?.data?.leaveTypes?[index];
+                        final data = state.leaveReportSummaryModel?.data?.leaveTypes?[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
                           child: Card(
@@ -60,12 +57,10 @@ class LeaveReportSummaryContent extends StatelessWidget {
                                   horizontal: 10.0, vertical: 4),
                               child: ListTile(
                                 onTap: () {
-                                  NavUtil.navigateScreen(
-                                    context,
+                                  NavUtil.navigateScreen(context,
                                     BlocProvider.value(
                                       value: context.read<LeaveReportBloc>(),
-                                      child: LeaveTypeWiseSummary(
-                                          leaveData: data!),
+                                      child: LeaveTypeWiseSummary(leaveData: data!),
                                     ),
                                   );
                                 },
@@ -74,17 +69,16 @@ class LeaveReportSummaryContent extends StatelessWidget {
                                 title: Text(
                                   tr(data?.name ?? ''),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DeviceUtil.isTablet ? 14.sp : 14,
                                     color: Colors.black.withOpacity(0.7),
                                   ),
                                 ),
                                 trailing: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                   child: Text(
                                     data?.count.toString() ?? '',
-                                    style: const TextStyle(
-                                        fontSize: 14,
+                                    style:  TextStyle(
+                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ),
@@ -98,7 +92,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
                 )
               : Expanded(child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return const TileShimmer();
+                     const TileShimmer();
                   },
                 )),
           ElevatedButton(
@@ -114,11 +108,8 @@ class LeaveReportSummaryContent extends StatelessWidget {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 16),
-              child: Text(
-                tr(
-                  'search_all',
-                ),
-                style: const TextStyle(color: Colors.white),
+              child: Text(tr('search_all'),
+                style: TextStyle(color: Colors.white,fontSize: DeviceUtil.isTablet ? 16.sp : 16),
               ),
             ),
           ),
