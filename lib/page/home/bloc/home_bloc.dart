@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,6 +105,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     await notificationPlugin.unSubscribeScheduleAll();
     ///looping all schedule and set that schedule as active
     for (var dateString in startTime) {
+      final uuid = Random().nextInt(200);
       var splitMinute = dateString.split(" ")[1].split(":");
       DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
 
@@ -114,9 +116,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
         /// Schedule the notification
         await notificationPlugin.scheduleNotification(
-          id: day + hour,
+          id: uuid,
           title: "Check In Alert",
-          body: "Good morning have you checked in office yet",
+          body: "Good morning have you checked in office yet from onesttech",
           day: day,
           hour: hour,
           minute: minute,
@@ -127,6 +129,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future checkOutScheduleNotification(outTime) async {
     for (var dateString in outTime) {
+      final uuid = Random().nextInt(200);
       var splitMinute = dateString.split(" ")[1].split(":");
       DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
         /// Extract date and time components
@@ -136,9 +139,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
         /// Schedule the notification
         await notificationPlugin.scheduleNotification(
-          id: day + hour,
+          id: uuid,
           title: "Check Out Alert",
-          body: "Good evening, have you checked out office yet",
+          body: "Good evening, have you checked out office yet from onesttech",
           day: day,
           hour: hour,
           minute: minute,
