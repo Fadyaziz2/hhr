@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesthrm/page/report/break_report_summary/break_report.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class BreakReportList extends StatelessWidget {
   const BreakReportList({
@@ -17,8 +19,15 @@ class BreakReportList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(tr('break_time_report')),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+        child: AppBar(
+          iconTheme:  IconThemeData(
+              size: DeviceUtil.isTablet ? 40 : 30,
+              color: Colors.white
+          ),
+          title: Text(tr('break_time_report'),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+        ),
       ),
       body: FutureBuilder(
         future: context
@@ -33,14 +42,15 @@ class BreakReportList extends StatelessWidget {
                 Container(
                   color: const Color(0xff6AB026),
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 10.h : 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(
+                       Icon(
                         Icons.timer,
                         color: Colors.white,
+                        size: DeviceUtil.isTablet ? 20.r : 24,
                       ),
                       const SizedBox(
                         width: 10,
@@ -48,17 +58,17 @@ class BreakReportList extends StatelessWidget {
                       Text(
                         "${tr('total_break_time')}:",
                         style: GoogleFonts.nunitoSans(
-                            fontSize: 16, color: Colors.white),
+                            fontSize: DeviceUtil.isTablet ? 16.sp : 16, color: Colors.white),
                       ),
                       // ),
-                      const SizedBox(
-                        width: 5,
+                       SizedBox(
+                        width: DeviceUtil.isTablet ? 5.w :5,
                       ),
                       Text(
                         snapshot.data?.data?.totalBreakTime ?? '',
-                        style: const TextStyle(
+                        style:  TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: DeviceUtil.isTablet ? 14.sp : 20,
                             fontWeight: FontWeight.w500,
                             fontFamily: "digitalNumber"),
                       ),
@@ -69,7 +79,7 @@ class BreakReportList extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -92,14 +102,15 @@ class BreakReportList extends StatelessWidget {
                                 child: Text(
                                   data?.breakTimeDuration ?? '',
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14)
                                 ),
                               ),
                               const SizedBox(
                                 width: 10,
                               ),
                               Container(
-                                height: 40,
-                                width: 3,
+                                height: DeviceUtil.isTablet ? 40.h : 40,
+                                width: DeviceUtil.isTablet ?  3.h : 3,
                                 color: colorPrimary,
                               ),
                               const SizedBox(
@@ -108,16 +119,17 @@ class BreakReportList extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                   Text(
                                     "break",
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14)
                                   ).tr(),
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Text(data?.breakBackTime ?? ''),
+                                  Text(data?.breakBackTime ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),),
                                 ],
                               )
                             ],

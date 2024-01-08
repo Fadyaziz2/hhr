@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/view/content/attendance_summary/attendance_summary.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import '../../../bloc/report_bloc.dart';
@@ -17,8 +19,12 @@ class BodyToListDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final reportBloc = context.read<ReportBloc>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('attendance_$title').tr(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+        child: AppBar(
+          iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+          title: Text('attendance_$title',style: TextStyle(fontSize: 16.sp),).tr(),
+        ),
       ),
       body: FutureBuilder(
         future: reportBloc.getSummaryToList(type: type),
@@ -39,45 +45,30 @@ class BodyToListDetails extends StatelessWidget {
                               return Card(
                                 child: ListTile(
                                   onTap: () {
-                                    NavUtil.navigateScreen(
-                                      context,
+                                    NavUtil.navigateScreen(context,
                                       BlocProvider.value(
                                         value: context.read<ReportBloc>(),
-                                        child: ProfileDetails(
-                                            userId: data!.userId!),
+                                        child: ProfileDetails(userId: data!.userId!),
                                       ),
                                     );
                                   },
                                   leading: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage('${data?.avatar}'),
+                                    backgroundImage: NetworkImage('${data?.avatar}'),
                                   ),
-                                  title: Text(
-                                    data?.name ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                  title: Text(data?.name ?? '',
+                                    style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16)
                                   ),
                                   subtitle: Text(data?.designation ?? '',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall),
+                                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12)),
                                   trailing: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        data?.checkIn ?? '',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(color: Colors.green),
+                                      Text(data?.checkIn ?? '',
+                                        style: Theme.of(context).textTheme.titleMedium!
+                                            .copyWith(color: Colors.green,fontSize: DeviceUtil.isTablet ? 8.sp : 10),
                                       ),
-                                      Text(
-                                        data?.checkOut ?? '',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(color: Colors.red),
+                                      Text(data?.checkOut ?? '',
+                                        style: TextStyle(color: Colors.red,fontSize: DeviceUtil.isTablet ? 8.sp : 10),
                                       ),
                                     ],
                                   ),

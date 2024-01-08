@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class ProfileMenuTile extends StatelessWidget {
   final IconData iconData;
@@ -17,7 +19,7 @@ class ProfileMenuTile extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(DeviceUtil.isTablet ? 8.0.sp : 8.0),
         decoration: BoxDecoration(
             color: bgColor, borderRadius: BorderRadius.circular(12.0)),
         child: Icon(

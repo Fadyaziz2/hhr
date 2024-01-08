@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class LeaveInfoListTile extends StatelessWidget {
@@ -18,7 +20,7 @@ class LeaveInfoListTile extends StatelessWidget {
     return Visibility(
       visible: leaveAvailable?.isNotEmpty ?? false,
       child: SizedBox(
-        height: 100,
+        height: DeviceUtil.isTablet ?  100.h : 100,
         child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -30,25 +32,25 @@ class LeaveInfoListTile extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 60,
-                      width: 60,
+                      height: DeviceUtil.isTablet ? 60.h : 60,
+                      width: DeviceUtil.isTablet ? 60.w : 60,
                       child: SfRadialGauge(axes: <RadialAxis>[
                         RadialAxis(
                             minimum: 0,
-                            maximum: 100,
+                            maximum: DeviceUtil.isTablet ? 100.h : 100,
                             showLabels: false,
                             showTicks: false,
                             startAngle: 270,
                             endAngle: 270,
-                            axisLineStyle: const AxisLineStyle(
-                              thickness: 0.1,
-                              color: Color(0xFFE8E8E9),
+                            axisLineStyle:  AxisLineStyle(
+                              thickness: DeviceUtil.isTablet ? 0.1.sp : 0.1,
+                              color: const Color(0xFFE8E8E9),
                               thicknessUnit: GaugeSizeUnit.factor,
                             ),
                             pointers: <GaugePointer>[
                               RangePointer(
                                   value: data?.leftDays?.toDouble() ?? 0,
-                                  width: 0.1,
+                                  width: DeviceUtil.isTablet ? 0.1.sp : 0.1,
                                   sizeUnit: GaugeSizeUnit.factor,
                                   color: const Color(0xFF4358BE),
                                   cornerStyle: CornerStyle.bothCurve),
@@ -56,10 +58,10 @@ class LeaveInfoListTile extends StatelessWidget {
                             annotations: <GaugeAnnotation>[
                               GaugeAnnotation(
                                 widget: Text(data?.leftDays.toString() ?? "0",
-                                    style: const TextStyle(
-                                        fontSize: 20,
+                                    style:  TextStyle(
+                                        fontSize: DeviceUtil.isTablet ? 20.sp : 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFF414F5D))),
+                                        color: const Color(0xFF414F5D))),
                                 positionFactor: 0,
                                 axisValue: 70,
                               )
@@ -70,8 +72,8 @@ class LeaveInfoListTile extends StatelessWidget {
                       height: 10,
                     ),
                     Text(data?.type ?? "sick",
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.grey))
+                            style: TextStyle(
+                                fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey))
                         .tr(),
                   ],
                 ),

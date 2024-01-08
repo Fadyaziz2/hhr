@@ -4,9 +4,11 @@ import 'package:chat/chat.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/bloc/report_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'profile_menu_tile.dart';
@@ -19,8 +21,12 @@ class ProfileDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('profile_details').tr(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 :55),
+        child: AppBar(
+          iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
+          title: Text('profile_details',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),).tr(),
+        ),
       ),
       body: FutureBuilder(
         future: context
@@ -54,15 +60,15 @@ class ProfileDetails extends StatelessWidget {
                   ),
                   Text(
                     profile?.name ?? "N/A",
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style:  TextStyle(
+                      fontSize: DeviceUtil.isTablet ? 18.0.sp : 18.0,
                       height: 1.6,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
                     profile?.designation ?? "N/A",
-                    style: const TextStyle(fontSize: 16, height: 1.6),
+                    style:  TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16, height: 1.6),
                   ),
                   const SizedBox(
                     height: 15,
@@ -175,18 +181,18 @@ class ProfileDetails extends StatelessWidget {
 
   Container buildProfileDetails({String? title, description}) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      padding:  EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 16.sp : 16, horizontal: DeviceUtil.isTablet ? 12.sp : 12),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey.shade300))),
       child: Row(
         children: [
           Expanded(
             flex: 1,
-            child: Text(title!).tr(),
+            child: Text(title!,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
           ),
           Expanded(
             flex: 2,
-            child: Text(description),
+            child: Text(description,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
           )
         ],
       ),

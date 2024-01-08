@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesthrm/page/report/break_report_summary/break_report.dart';
 import 'package:onesthrm/page/select_employee/view/select_employee.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class BreakReportSearch extends StatelessWidget {
@@ -18,15 +20,22 @@ class BreakReportSearch extends StatelessWidget {
         final reportBreakData =
             state.reportBreakListModel?.data?.breakHistory?.todayHistory;
         return Scaffold(
-          appBar: AppBar(
-            title: Text(tr('break_time_report')),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    context.read<BreakBloc>().add(SelectDate(context, true));
-                  },
-                  icon: const Icon(Icons.calendar_month))
-            ],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+            child: AppBar(
+              iconTheme:  IconThemeData(
+                  size: DeviceUtil.isTablet ? 40 : 30,
+                  color: Colors.white
+              ),
+              title: Text(tr('break_time_report'),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context.read<BreakBloc>().add(SelectDate(context, true));
+                    },
+                    icon: const Icon(Icons.calendar_month))
+              ],
+            ),
           ),
           body: Column(
             children: [
@@ -45,13 +54,7 @@ class BreakReportSearch extends StatelessWidget {
                         }
                       });
                     },
-                    title: Text(context
-                                .watch<BreakBloc>()
-                                .state
-                                .selectEmployee
-                                ?.name! ??
-                            'select_employee')
-                        .tr(),
+                    title: Text(context.watch<BreakBloc>().state.selectEmployee?.name! ?? 'select_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(context
                               .watch<BreakBloc>()
@@ -60,7 +63,7 @@ class BreakReportSearch extends StatelessWidget {
                               ?.avatar ??
                           'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
                     ),
-                    trailing: const Icon(Icons.search),
+                    trailing: Icon(Icons.search,size: DeviceUtil.isTablet ? 24.sp : 24,),
                   ),
                 ),
               ),
@@ -82,16 +85,16 @@ class BreakReportSearch extends StatelessWidget {
                     Text(
                       "${tr('total_break_time')}:",
                       style: GoogleFonts.nunitoSans(
-                          fontSize: 16, color: Colors.white),
+                          fontSize: DeviceUtil.isTablet ? 16.sp : 16, color: Colors.white),
                     ),
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
                       state.reportBreakListModel?.data?.totalBreakTime ?? '',
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: DeviceUtil.isTablet ? 20.sp : 20,
                           fontWeight: FontWeight.w500,
                           fontFamily: "digitalNumber"),
                     ),
@@ -124,18 +127,18 @@ class BreakReportSearch extends StatelessWidget {
                                       width: 10,
                                     ),
                                     SizedBox(
-                                      width: 100,
+                                      width: DeviceUtil.isTablet ? 100.w : 100,
                                       child: Text(
                                         data?.breakTimeDuration ?? '',
-                                        textAlign: TextAlign.center,
+                                        textAlign: TextAlign.center,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
                                       ),
                                     ),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Container(
-                                      height: 40,
-                                      width: 3,
+                                      height: DeviceUtil.isTablet ? 40.h : 40,
+                                      width: DeviceUtil.isTablet ? 3.w : 3,
                                       color: colorPrimary,
                                     ),
                                     const SizedBox(
@@ -145,16 +148,17 @@ class BreakReportSearch extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
+                                         Text(
                                           "break",
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                          fontSize: DeviceUtil.isTablet ? 14.sp : 14),
                                         ).tr(),
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Text(data?.breakBackTime ?? ''),
+                                        Text(data?.breakBackTime ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),),
                                       ],
                                     )
                                   ],

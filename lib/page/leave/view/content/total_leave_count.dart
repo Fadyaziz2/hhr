@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/const.dart';
 
+import '../../../../res/widgets/device_util.dart';
 import '../../bloc/leave_bloc.dart';
 
 class TotalLeaveCount extends StatelessWidget {
@@ -30,21 +32,17 @@ class TotalLeaveCount extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      "total_leaves".tr(),
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ).tr()
+                    Text("total_leaves".tr(),
+                      style:  TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey)).tr()
                   ],
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 Text(
-                  state.leaveSummaryModel?.leaveSummaryData?.totalLeave
-                          .toString() ??
-                      "0",
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold),
+                  state.leaveSummaryModel?.leaveSummaryData?.totalLeave.toString() ?? "0",
+                  style: TextStyle(
+                      fontSize: DeviceUtil.isTablet ? 25.sp : 25, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -56,17 +54,14 @@ class TotalLeaveCount extends StatelessWidget {
                     Container(
                       width: 10.0,
                       height: 10.0,
-                      decoration: const BoxDecoration(
-                        color: colorPrimary,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: const BoxDecoration(color: colorPrimary, shape: BoxShape.circle),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
                       "leaves_used".tr(),
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey),
                     ).tr()
                   ],
                 ),
@@ -74,11 +69,9 @@ class TotalLeaveCount extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  state.leaveSummaryModel?.leaveSummaryData?.totalUsed
-                          .toString() ??
-                      "0",
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold),
+                  state.leaveSummaryModel?.leaveSummaryData?.totalUsed.toString() ?? "0",
+                  style: TextStyle(
+                      fontSize: DeviceUtil.isTablet ? 25.sp : 25, fontWeight: FontWeight.bold),
                 )
               ],
             ),

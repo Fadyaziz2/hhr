@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:onesthrm/page/upload_file/bloc/upload_file_event.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_state.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class UploadDocContent extends StatelessWidget {
   final Function(FileUpload? data) onFileUpload;
@@ -40,7 +42,7 @@ class UploadDocContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 child: state.networkStatus != NetworkStatus.loading
                     ? CachedNetworkImage(
-                        height: 200,
+                        height: DeviceUtil.isTablet ? 200.h : 200,
                         width: double.infinity,
                         fit: BoxFit.cover,
                         imageUrl:
@@ -66,7 +68,7 @@ class UploadDocContent extends StatelessWidget {
                       .add(SelectFile(context: context));
                 },
                 child: Container(
-                  height: 45,
+                  height: DeviceUtil.isTablet ? 45.h : 45,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.green,
@@ -83,25 +85,27 @@ class UploadDocContent extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 16),
                     strokeWidth: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.upload_file,
-                          color: Colors.grey,
-                          size: 16,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          tr("add_file"),
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.upload_file,
+                            color: Colors.grey,
+                            size: DeviceUtil.isTablet ? 16.r : 16,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            tr("add_file"),
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: DeviceUtil.isTablet ? 12.sp : 12,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

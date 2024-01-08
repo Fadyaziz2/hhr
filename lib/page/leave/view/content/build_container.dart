@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class BuildContainer extends StatelessWidget {
   final String? title;
@@ -8,12 +10,11 @@ class BuildContainer extends StatelessWidget {
   final bool iconVisibility;
 
   const BuildContainer(
-      {Key? key,
+      {super.key,
       this.title,
       this.titleValue,
       this.onPressed,
-      this.iconVisibility = false})
-      : super(key: key);
+      this.iconVisibility = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class BuildContainer extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: 130, child: Text(title ?? '')),
+          SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(title ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),)),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +36,7 @@ class BuildContainer extends StatelessWidget {
                 Expanded(
                   child: Text(
                     titleValue ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(fontWeight: FontWeight.w600,fontSize: DeviceUtil.isTablet ? 16.sp : 14),
                     maxLines: 1,
                   ).tr(),
                 ),

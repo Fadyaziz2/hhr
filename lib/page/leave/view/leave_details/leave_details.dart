@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/build_container.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../../res/const.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../content/leave_status.dart';
@@ -25,9 +27,7 @@ class LeaveDetails extends StatefulWidget {
 class _LeaveDetailsState extends State<LeaveDetails> {
   @override
   void initState() {
-    context
-        .read<LeaveBloc>()
-        .add(LeaveDetailsEvent(widget.requestId, widget.userId));
+    context.read<LeaveBloc>().add(LeaveDetailsEvent(widget.requestId, widget.userId));
     super.initState();
   }
 
@@ -35,15 +35,17 @@ class _LeaveDetailsState extends State<LeaveDetails> {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return Scaffold(
-      appBar: AppBar(title: Text("leave_details".tr())),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+          child: AppBar(
+              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+              title: Text("leave_details".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),))),
       body: BlocBuilder<LeaveBloc, LeaveState>(
         builder: (context, state) {
           LeaveDetailsData? leaveDetailsData =
               state.leaveDetailsModel?.leaveDetailsData;
-          if (state.status == NetworkStatus.loading &&
-              state.isCancelled == false) {
-            return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+          if (state.status == NetworkStatus.loading && state.isCancelled == false) {
+            return const Padding(padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: LeaveListShimmer());
           } else if (state.status == NetworkStatus.success ||
               state.isCancelled == true) {
@@ -68,7 +70,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                         ),
                         child: Row(
                           children: [
-                            SizedBox(width: 130, child: Text(tr("status"))),
+                            SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(tr("status"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),)),
                             LeaveStatus(
                               leaveDetailsData: leaveDetailsData,
                             )
@@ -103,25 +105,23 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 8),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(width: 130, child: Text(tr("attachment"))),
+                            SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(tr("attachment"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :14),)),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: CachedNetworkImage(
-                          height: 200,
+                          height: DeviceUtil.isTablet ? 200.w : 200,
                           width: double.infinity,
                           fit: BoxFit.cover,
                           imageUrl: "${leaveDetailsData?.imageUrl}",
                           placeholder: (context, url) => Center(
-                            child: Image.asset(
-                                "assets/images/placeholder_image.png"),
+                            child: Image.asset("assets/images/placeholder_image.png"),
                           ),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),

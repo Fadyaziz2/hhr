@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class LeaveSummeryScreen extends StatelessWidget {
   const LeaveSummeryScreen({super.key});
@@ -20,8 +22,12 @@ class LeaveSummeryScreen extends StatelessWidget {
           metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}', companyUrl: baseUrl))
         ..add(GetLeaveReportSummary()),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(tr('leave_summery')),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+          child: AppBar(
+            iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+            title: Text(tr('leave_summery'),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),),
+          ),
         ),
         body: const LeaveReportSummaryContent(),
       ),

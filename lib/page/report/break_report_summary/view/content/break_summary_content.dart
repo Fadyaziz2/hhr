@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/break_report_summary/break_report.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class BreakSummaryContent extends StatelessWidget {
@@ -27,16 +29,14 @@ class BreakSummaryContent extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       state.breakSummaryModel?.data?.date ?? '',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
                     ),
                   ),
                   IconButton(
                       onPressed: () {
-                        context
-                            .read<BreakBloc>()
-                            .add(SelectDate(context, false));
+                        context.read<BreakBloc>().add(SelectDate(context, false));
                       },
-                      icon: const Icon(Icons.calendar_month))
+                      icon: Icon(Icons.calendar_month,size: DeviceUtil.isTablet ? 30.sp : 30,))
                 ],
               ),
               breakList?.isNotEmpty == true
@@ -70,20 +70,20 @@ class BreakSummaryContent extends StatelessWidget {
                               ),
                               title: Text(
                                 data?.name ?? '',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 16,
+                                    fontSize: DeviceUtil.isTablet ? 16.sp : 16,
                                     fontWeight: FontWeight.w500),
                               ),
                               subtitle: Text(data?.designation ?? '',
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 14)),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: DeviceUtil.isTablet ? 12.sp : 12)),
                               trailing: Text(
                                 data?.totalBreakTime ?? '',
-                                style: const TextStyle(
+                                style:  TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 16),
+                                    fontSize: DeviceUtil.isTablet ? 16.sp : 16),
                               ),
                             ),
                           ),
@@ -114,16 +114,18 @@ class BreakSummaryContent extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                           Icon(
                             Icons.search,
                             color: Colors.white,
+                             size: DeviceUtil.isTablet ? 24.sp :24,
+
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           Text(
                             tr('search_all_break_report'),
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: DeviceUtil.isTablet ? 14.sp : 14 ),
                           ),
                         ],
                       ),
@@ -136,9 +138,9 @@ class BreakSummaryContent extends StatelessWidget {
         }
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TileShimmer(
+            return  Padding(
+              padding: EdgeInsets.all(DeviceUtil.isTablet ? 8.0.r : 8.0),
+              child: const TileShimmer(
                 isSubTitle: true,
               ),
             );

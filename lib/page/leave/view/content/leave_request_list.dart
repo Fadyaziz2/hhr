@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 import '../../../../res/const.dart';
 import '../../../../res/enum.dart';
+import '../../../../res/widgets/device_util.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
 import '../../bloc/leave_bloc.dart';
 import 'build_leave_title.dart';
@@ -23,18 +25,13 @@ class LeaveRequestList extends StatelessWidget {
           child: LeaveListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
-        return state.leaveRequestModel?.leaveRequestData?.leaveRequests
-                    ?.isNotEmpty ==
-                true
+        return state.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty == true
             ? ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: state.leaveRequestModel?.leaveRequestData
-                        ?.leaveRequests?.length ??
-                    0,
+                itemCount: state.leaveRequestModel?.leaveRequestData?.leaveRequests?.length ?? 0,
                 itemBuilder: (context, index) {
-                  LeaveRequestValue? leaveRequest = state.leaveRequestModel
-                      ?.leaveRequestData?.leaveRequests?[index];
+                  LeaveRequestValue? leaveRequest = state.leaveRequestModel?.leaveRequestData?.leaveRequests?[index];
                   return BuildLeaveTitle(
                     leaveRequestValue: leaveRequest,
                     userId: userId,
@@ -53,7 +50,7 @@ class LeaveRequestList extends StatelessWidget {
             "failed_to_load_leave_list".tr(),
             style: TextStyle(
                 color: colorPrimary.withOpacity(0.4),
-                fontSize: 18,
+                fontSize: DeviceUtil.isTablet ? 18.sp : 18,
                 fontWeight: FontWeight.w500),
           ),
         );

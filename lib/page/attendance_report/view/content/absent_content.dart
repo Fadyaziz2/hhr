@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 class AbsentContent extends StatelessWidget {
 
@@ -15,18 +17,16 @@ class AbsentContent extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 100,
+            width: DeviceUtil.isTablet ? 100.w : 100,
             child: Column(
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style:
-                  const TextStyle(color: Colors.black54, fontSize: 12),
+                  style: TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 12.sp : 12),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style:
-                  const TextStyle(color: Colors.black54, fontSize: 20),
+                  style:  TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 20.sp : 20),
                 ),
               ],
             ),
@@ -59,9 +59,9 @@ class AbsentContent extends StatelessWidget {
                           strokeWidth: 1,
                           child: Text(
                             dailyReport.status ?? "",
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: DeviceUtil.isTablet ? 12.sp  :12,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

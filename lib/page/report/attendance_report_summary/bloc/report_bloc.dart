@@ -32,6 +32,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       lastDate: DateTime(DateTime.now().year + 1, 9),
       initialDate: DateTime.now(),
       locale: const Locale("en"),
+
     );
     if(date != null){
       String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);

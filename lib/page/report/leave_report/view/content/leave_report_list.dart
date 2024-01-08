@@ -2,10 +2,12 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/leave_report/bloc/leave_report_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/view/view.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import 'leave_report_details.dart';
@@ -61,8 +63,8 @@ class LeaveReportList extends StatelessWidget {
                                         children: [
                                           Text(
                                             data?.type ?? "${tr('leave')}: ",
-                                            style: const TextStyle(
-                                                fontSize: 12,
+                                            style:  TextStyle(
+                                                fontSize: DeviceUtil.isTablet ? 12.sp : 12,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500),
                                           ).tr(),
@@ -71,8 +73,8 @@ class LeaveReportList extends StatelessWidget {
                                           ),
                                           Text(
                                             data?.days.toString() ?? tr('days'),
-                                            style: const TextStyle(
-                                                fontSize: 12,
+                                            style:  TextStyle(
+                                                fontSize: DeviceUtil.isTablet ? 12.sp : 12,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w700),
                                           ),
@@ -83,13 +85,13 @@ class LeaveReportList extends StatelessWidget {
                                       ),
                                       Text(
                                         data?.applyDate ?? '',
-                                        style: const TextStyle(fontSize: 10),
+                                        style:  TextStyle(fontSize: DeviceUtil.isTablet ? 10.sp : 10),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Container(
-                                  width: 80,
+                                  width: DeviceUtil.isTablet ? 80.sp : 80,
                                   decoration: BoxDecoration(
                                     color:
                                         Color(int.parse(data?.colorCode ?? '')),
@@ -99,15 +101,15 @@ class LeaveReportList extends StatelessWidget {
                                     color: Colors.white,
                                     borderType: BorderType.RRect,
                                     radius: const Radius.circular(5),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 5),
+                                    padding:  EdgeInsets.symmetric(
+                                        horizontal: DeviceUtil.isTablet ? 8.w :8, vertical: DeviceUtil.isTablet ? 5.h : 5),
                                     strokeWidth: 1,
                                     child: Center(
                                       child: Text(
                                         data?.status ?? '',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 10,
+                                            fontSize: DeviceUtil.isTablet ? 10.sp : 10,
                                             fontWeight: FontWeight.w600),
                                       ).tr(),
                                     ),

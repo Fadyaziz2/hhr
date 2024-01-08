@@ -26,12 +26,9 @@ class AttendanceReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
-    return user != null
-        ? BlocProvider(
+    return user != null ? BlocProvider(
             create: (context) => AttendanceReportBloc(
-                user: user,
-                metaClubApiClient:
-                    MetaClubApiClient(token: '${user.user?.token}', companyUrl: baseUrl))
+                user: user, metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}', companyUrl: baseUrl))
               ..add(GetAttendanceReportData()),
             child: BlocBuilder<AttendanceReportBloc, AttendanceReportState>(
               builder: (context, state) {
@@ -41,9 +38,7 @@ class AttendanceReportPage extends StatelessWidget {
                     actions: [
                       IconButton(
                           onPressed: () {
-                            context
-                                .read<AttendanceReportBloc>()
-                                .add(SelectDatePicker(context));
+                            context.read<AttendanceReportBloc>().add(SelectDatePicker(context));
                           },
                           icon: const Icon(Icons.calendar_month))
                     ],

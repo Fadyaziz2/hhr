@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 import '../../../bloc/report_bloc.dart';
 import 'attendance_report/attendance_report_employee.dart';
@@ -20,30 +22,36 @@ class AttendanceSummaryBody extends StatelessWidget {
       builder: (BuildContext context, state) {
         final summaryData = state.attendanceSummary?.data;
         return Scaffold(
-          appBar: AppBar(
-            title: Text('attendance_summary'.tr()),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    context.read<ReportBloc>().add(SelectDate(context, false));
-                  },
-                  icon: const Icon(Icons.calendar_month))
-            ],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
+            child: AppBar(
+              iconTheme:  IconThemeData(
+                  size: DeviceUtil.isTablet ? 40 : 30,
+                  color: Colors.white
+              ),
+              title: Text('attendance_summary'.tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context.read<ReportBloc>().add(SelectDate(context, false));
+                    },
+                    icon: const Icon(Icons.calendar_month))
+              ],
+            ),
           ),
           body: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                summaryData != null
-                    ? ListTile(
+                summaryData != null ? ListTile(
                         title: Text(
                           summaryData.date ?? "",
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16)
                         ),
                       )
-                    : const TileShimmer(
-                        titleHeight: 16,
+                    : TileShimmer(
+                        titleHeight: DeviceUtil.isTablet ?  16.sp : 16,
                       ),
                 Card(
                   child: Column(
@@ -51,10 +59,8 @@ class AttendanceSummaryBody extends StatelessWidget {
                     children: [
                       SummeryTile(
                           onTap: () {
-                            NavUtil.navigateScreen(
-                              context,
-                              BlocProvider.value(
-                                value: context.read<ReportBloc>(),
+                            NavUtil.navigateScreen(context,
+                              BlocProvider.value(value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
                                     title: 'On_time', type: 'on_time_in'),
                               ),
@@ -108,8 +114,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                           color: Colors.red),
                       SummeryTile(
                           onTap: () {
-                            NavUtil.navigateScreen(
-                              context,
+                            NavUtil.navigateScreen(context,
                               BlocProvider.value(
                                 value: context.read<ReportBloc>(),
                                 child: const BodyToListDetails(
@@ -155,28 +160,33 @@ class AttendanceSummaryBody extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    NavUtil.navigateScreen(
-                      context,
-                      BlocProvider.value(
-                          value: context.read<ReportBloc>(),
-                          child: const AttendanceReportEmployeeContent()),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.white,
+                SizedBox(
+                  height: DeviceUtil.isTablet ? 40.sp : 50,
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      NavUtil.navigateScreen(
+                        context,
+                        BlocProvider.value(
+                            value: context.read<ReportBloc>(),
+                            child: const AttendanceReportEmployeeContent()),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: DeviceUtil.isTablet ? 24.r : 24,
+                    ),
+                    //icon data for elevated button
+                    label:  Text(
+                      "search_all_employee_attendance",
+                      style: TextStyle(color: Colors.white,fontSize: DeviceUtil.isTablet ? 14.sp :14),
+                    ).tr(),
+                    //label text
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(400, 50),
+                        backgroundColor: Colors.blueAccent),
                   ),
-                  //icon data for elevated button
-                  label: const Text(
-                    "search_all_employee_attendance",
-                    style: TextStyle(color: Colors.white),
-                  ).tr(),
-                  //label text
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(400, 50),
-                      backgroundColor: Colors.blueAccent),
                 ),
               ],
             ),
