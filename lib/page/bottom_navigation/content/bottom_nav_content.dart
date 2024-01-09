@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/daily_leave/daily_leave.dart';
 import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
@@ -19,7 +20,7 @@ class BottomNavContent extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime timeBackPressed = DateTime.now();
     final selectedTab =
-    context.select((BottomNavCubit cubit) => cubit.state.tab);
+        context.select((BottomNavCubit cubit) => cubit.state.tab);
 
     return UpgradeAlert(
       upgrader: Upgrader(
@@ -78,24 +79,43 @@ class BottomNavContent extends StatelessWidget {
                   ],
                 )),
           ),
-          floatingActionButton: FloatingActionButton(
-              backgroundColor: selectedTab == BottomNavTab.menu
-                  ? colorPrimary
-                  : Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Image.asset(
-                  'assets/home_icon/FavLogo.png',
-                  color: selectedTab == BottomNavTab.menu
-                      ? Colors.white
-                      : colorPrimary,
-                ),
-              ),
-              onPressed: () {
-                context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
-                // myPage.jumpToPage(2);
-              }),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: DeviceUtil.isTablet
+              ? FloatingActionButton.large(
+                  backgroundColor: selectedTab == BottomNavTab.menu
+                      ? colorPrimary
+                      : Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      'assets/home_icon/FavLogo.png',
+                      color: selectedTab == BottomNavTab.menu
+                          ? Colors.white
+                          : colorPrimary,
+                    ),
+                  ),
+                  onPressed: () {
+                    context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
+                    // myPage.jumpToPage(2);
+                  })
+              : FloatingActionButton(
+                  backgroundColor: selectedTab == BottomNavTab.menu
+                      ? colorPrimary
+                      : Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      'assets/home_icon/FavLogo.png',
+                      color: selectedTab == BottomNavTab.menu
+                          ? Colors.white
+                          : colorPrimary,
+                    ),
+                  ),
+                  onPressed: () {
+                    context.read<BottomNavCubit>().setTab(BottomNavTab.menu);
+                    // myPage.jumpToPage(2);
+                  }),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           body: IndexedStack(
             index: selectedTab.index,
             children: const [

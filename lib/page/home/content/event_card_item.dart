@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 
 class EventCardItem extends StatelessWidget {
 
-  const EventCardItem({Key? key,required this.upcomingItems, this.viewAllPressed}) : super(key: key);
+  const EventCardItem({super.key,required this.upcomingItems, this.viewAllPressed});
 
   final UpcomingEvent upcomingItems;
 
@@ -27,15 +28,15 @@ class EventCardItem extends StatelessWidget {
                 children: [
                   Text('${upcomingItems.date}',
                       maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 14,
+                      style:  TextStyle(
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           height: 1.5,
                           letterSpacing: 0.5)),
                   Text('${upcomingItems.day}',
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFF555555),
+                      style:  TextStyle(
+                          fontSize: 12.sp,
+                          color: const Color(0xFF555555),
                           fontWeight: FontWeight.w400,
                           height: 1.4,
                           letterSpacing: 0.5)),
@@ -59,9 +60,9 @@ class EventCardItem extends StatelessWidget {
                     '${upcomingItems.title}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF222222),
+                    style:  TextStyle(
+                        fontSize: 14.sp,
+                        color: const Color(0xFF222222),
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),

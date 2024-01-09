@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
 import 'event_card.dart';
@@ -10,11 +11,10 @@ class HomeBottom extends StatelessWidget {
   final DashboardModel? dashboardModel;
 
   const HomeBottom(
-      {Key? key,
+      {super.key,
       required this.settings,
       required this.user,
-      required this.dashboardModel})
-      : super(key: key);
+      required this.dashboardModel});
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +24,23 @@ class HomeBottom extends StatelessWidget {
         UpcomingEventCard(
           events: dashboardModel?.data?.upcomingEvents ?? [],
         ),
-        const SizedBox(
-          height: 16.0,
+         SizedBox(
+          height: 16.0.h,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             'current_month_summary'.tr(),
-            style: const TextStyle(
-                fontSize: 16,
+            style: TextStyle(
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
                 height: 1.5,
                 color: Colors.black,
                 letterSpacing: 0.5),
           ),
         ),
-        const SizedBox(
-          height: 8.0,
+         SizedBox(
+          height: 8.0.h,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -53,6 +53,9 @@ class HomeBottom extends StatelessWidget {
               onPressed: () => null,
             ),
           )),
+        ),
+        SizedBox(
+          height: 12.0.h
         ),
       ],
     );

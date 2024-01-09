@@ -7,8 +7,7 @@ import 'event_card_item.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard(
-      {Key? key, required this.data, this.days = false, this.onPressed})
-      : super(key: key);
+      {super.key, required this.data, this.days = false, this.onPressed});
 
   final TodayData? data;
   final bool? days;
@@ -65,8 +64,8 @@ class EventCard extends StatelessWidget {
                         height: 1.5,
                         letterSpacing: 0.5),
                   ).tr(),
-                  const SizedBox(
-                    height: 6,
+                   SizedBox(
+                    height: 6.h,
                   )
                 ],
               ),
@@ -80,8 +79,7 @@ class EventCard extends StatelessWidget {
 
 class EventCard2 extends StatelessWidget {
   const EventCard2(
-      {Key? key, required this.data, this.days = false, this.onPressed})
-      : super(key: key);
+      {super.key, required this.data, this.days = false, this.onPressed});
 
   final CurrentMonthData? data;
   final bool? days;
@@ -152,7 +150,7 @@ class EventCard2 extends StatelessWidget {
 }
 
 class UpcomingEventCard extends StatelessWidget {
-  const UpcomingEventCard({Key? key, required this.events}) : super(key: key);
+  const UpcomingEventCard({super.key, required this.events});
 
   final List<UpcomingEvent> events;
 
@@ -178,25 +176,25 @@ class UpcomingEventCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('upcoming_events'.tr(),
-                      style: const TextStyle(
-                          fontSize: 16,
+                      style: TextStyle(
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                           height: 1.5,
                           letterSpacing: 0.5)),
                   Text('public_holiday_and_even'.tr(),
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style:  TextStyle(
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
                           height: 1.5,
-                          color: Color(0xFF555555),
+                          color: const Color(0xFF555555),
                           letterSpacing: 0.5)),
-                  const SizedBox(
-                    height: 6,
+                   SizedBox(
+                    height: 6.h,
                   ),
                   Column(
                     children: events
