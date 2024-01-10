@@ -69,7 +69,8 @@ class ShowCurrentLocation extends StatelessWidget {
                             ),
                             Text(
                               'refresh'.tr(),
-                              style: const TextStyle(
+                              style:  TextStyle(
+                                fontSize: 12.sp,
                                   color: colorPrimary,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -116,6 +117,8 @@ class ShowCurrentLocation extends StatelessWidget {
                   FontAwesomeIcons.building
                 ],
                 totalSwitches: 2,
+                fontSize: 14.sp,
+                iconSize: 17.r,
                 labels: ['home'.tr(), 'office'.tr()],
                 radiusStyle: true,
                 onToggle: (index) {

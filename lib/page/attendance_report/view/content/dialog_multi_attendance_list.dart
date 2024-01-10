@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance_report/view/content/attendance_report_out.dart';
 import 'package:onesthrm/res/widgets/check_status_color.dart';
@@ -15,8 +16,8 @@ class DialogMultiAttendanceList extends StatelessWidget {
     String? checkInColor;
     String? checkOutColor;
     return SizedBox(
-        height: 300.0, // Change as per your requirement
-        width: 300.0, // Change as per your requirement
+        height: 300.0.h, // Change as per your requirement
+        width: 300.0.w, // Change as per your requirement
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: dailyReport?.multipleAttendance?.dateWiseReport?.length ?? 0,

@@ -18,9 +18,10 @@ class CheckInCheckOutTime extends StatelessWidget {
       children: [
         Column(
           children: [
-            const Icon(
+            Icon(
               Icons.watch_later_outlined,
               color: colorPrimary,
+              size: 22.r,
             ),
             SizedBox(
               height: 5.h,
@@ -40,9 +41,10 @@ class CheckInCheckOutTime extends StatelessWidget {
         ),
         Column(
           children: [
-            const Icon(
+             Icon(
               Icons.watch_later_outlined,
               color: colorPrimary,
+               size: 22.r,
             ),
             SizedBox(
               height: 5.h,
@@ -62,9 +64,10 @@ class CheckInCheckOutTime extends StatelessWidget {
         ),
         Column(
           children: [
-            const Icon(
+             Icon(
               Icons.history,
               color: colorPrimary,
+               size: 22.r,
             ),
             SizedBox(
               height: 5.h,

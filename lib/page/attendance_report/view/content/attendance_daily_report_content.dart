@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
@@ -24,15 +25,15 @@ class AttendanceDailyReportContent extends StatelessWidget {
     final listOfDailyReport =
         bloc.state.attendanceReport?.reportData?.dailyReport;
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding:  EdgeInsets.all(20.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
               child: Text(
             tr("daily_report"),
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
+            style:  TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16.sp),
           )),
           const SizedBox(
             height: 20,
@@ -55,10 +56,10 @@ class AttendanceDailyReportContent extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                    return  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TileShimmer(
-                        titleHeight: 30,
+                        titleHeight: 30.h,
                         isSubTitle: true,
                       ),
                     );
