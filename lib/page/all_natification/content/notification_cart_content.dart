@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class NotificationCartContent extends StatelessWidget {
@@ -22,8 +23,8 @@ class NotificationCartContent extends StatelessWidget {
             children: [
               ClipOval(
                 child: CachedNetworkImage(
-                  height: 50,
-                  width: 50,
+                  height: 50.h,
+                  width: 50.w,
                   fit: BoxFit.cover,
                   imageUrl:
                       data?.image ?? "assets/images/placeholder_image.png",
@@ -43,7 +44,7 @@ class NotificationCartContent extends StatelessWidget {
                 children: [
                   Text(
                     data?.title ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
                   ),
                   const SizedBox(
                     height: 5,
@@ -51,13 +52,14 @@ class NotificationCartContent extends StatelessWidget {
                   Text(
                     "${data?.body}",
                     maxLines: 3,
+                    style: TextStyle(fontSize: 12.sp),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
                     "${data?.date} ",
-                    style: const TextStyle(color: Colors.black54),
+                    style:  TextStyle(color: Colors.black54, fontSize: 10.sp),
                   )
                 ],
               )),
