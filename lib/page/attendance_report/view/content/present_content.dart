@@ -32,7 +32,7 @@ class DailyReportTile extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: DeviceUtil.isTablet ?  100.w : 100,
+            width: 80.w,
             child: Column(
               children: [
                 Text(
@@ -146,8 +146,8 @@ class DailyReportTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: 8.h,
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 10),
@@ -260,8 +260,8 @@ class DailyReportTile extends StatelessWidget {
                   },
                   child: Lottie.asset(
                     'assets/images/report_one.json',
-                    height: 45,
-                    width: 45,
+                    height: 45.h,
+                    width: 45.w,
                   ),
                 ),
               ],

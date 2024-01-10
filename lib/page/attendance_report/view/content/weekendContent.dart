@@ -10,7 +10,7 @@ class WeekendContent extends StatelessWidget {
 
   final DailyReport dailyReport;
 
-  const WeekendContent({Key? key,required this.dailyReport}) : super(key: key);
+  const WeekendContent({super.key,required this.dailyReport});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class WeekendContent extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: DeviceUtil.isTablet ? 100.w : 100,
+            width: 80.w,
             child: Column(
               children: [
                 Text(
@@ -38,8 +38,8 @@ class WeekendContent extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 25),
+                  padding:  EdgeInsets.symmetric(
+                      horizontal: 16.w, vertical: 16.h),
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
