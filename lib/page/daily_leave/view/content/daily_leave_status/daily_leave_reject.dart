@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/model/leave_list_model.dart';
@@ -20,19 +21,19 @@ class DailyLeaveReject extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 10,
+         SizedBox(
+          height: 10.h,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
           child: Text(
             "rejected_leave".tr(),
-            style: const TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+            style:  TextStyle(
+                fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
-        const SizedBox(
-          height: 8,
+         SizedBox(
+          height: 8.h,
         ),
         DailyLeaveTile(
           onTap: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
 class LeaveListShimmer extends StatelessWidget {
@@ -6,42 +7,42 @@ class LeaveListShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return  SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           RectangularCardShimmer(
-            height: 80.0,
+            height: 20.h,
             width: double.infinity,
           ),
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           RectangularCardShimmer(
-            height: 80.0,
+            height: 80.0.h,
             width: double.infinity,
           ),
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           RectangularCardShimmer(
-            height: 80.0,
+            height: 80.0.h,
             width: double.infinity,
           ),
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           RectangularCardShimmer(
-            height: 80.0,
+            height: 80.0.h,
             width: double.infinity,
           ),
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           RectangularCardShimmer(
-            height: 80.0,
+            height: 80.0.h,
             width: double.infinity,
           ),
         ],

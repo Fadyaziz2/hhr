@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
@@ -23,19 +24,19 @@ class DailyLeaveApproved extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 12,
+         SizedBox(
+          height: 12.h,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
-          child: const Text(
+          child:  Text(
             "approved_leave",
             style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black),
           ).tr(),
         ),
-        const SizedBox(
-          height: 8,
+         SizedBox(
+          height: 8.h,
         ),
         DailyLeaveTile(
           onTap: () {

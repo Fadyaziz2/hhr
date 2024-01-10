@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DailyLeaveTile extends StatelessWidget {
   const DailyLeaveTile(
@@ -17,20 +18,22 @@ class DailyLeaveTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.h),
         onTap: onTap,
         leading: Container(
-          height: 20,
-          width: 20,
+          height: 20.h,
+          width: 20.w,
           decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(100)),
+            shape: BoxShape.circle,
+              color: color),
         ),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.black87, fontSize: 14),
+          style:  TextStyle(color: Colors.black87, fontSize: 14.sp),
         ),
         trailing: Text(
           value,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 14.sp),
         ),
       ),
     );
