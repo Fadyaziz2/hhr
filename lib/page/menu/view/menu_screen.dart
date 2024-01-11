@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
@@ -64,7 +65,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [colorPrimary, colorPrimaryGradient])),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+                  padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
                   child: Column(
                     children: [
                       InkWell(
@@ -74,18 +75,18 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10.0.r),
                           ),
                           elevation: 4,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 20),
+                            padding:  EdgeInsets.symmetric(
+                                horizontal: 16.0.w, vertical: 20.h),
                             child: Row(
                               children: [
                                 ClipOval(
                                   child: CachedNetworkImage(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.h,
+                                    width: 50.w,
                                     fit: BoxFit.cover,
                                     imageUrl: "${user?.user?.avatar}",
                                     placeholder: (context, url) => Center(
@@ -96,8 +97,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                         const Icon(Icons.error),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 16,
+                                 SizedBox(
+                                  width: 16.w,
                                 ),
                                 Expanded(
                                   child: Column(
@@ -108,17 +109,17 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                         user?.user?.name ?? "",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
+                                        style:  TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 16),
+                                            fontSize: 16.sp),
                                       ),
-                                      const SizedBox(
-                                        height: 5,
+                                       SizedBox(
+                                        height: 5.h,
                                       ),
                                        Text(
                                         "view_profile".tr(),
-                                        style: const TextStyle(
-                                            fontSize: 14, color: colorPrimary),
+                                        style: TextStyle(
+                                            fontSize: 14.sp, color: colorPrimary),
                                       ),
                                     ],
                                   ),
@@ -134,9 +135,10 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                             ?.openEndDrawer();
                                       }
                                     },
-                                    icon: const Icon(
+                                    icon:  Icon(
                                       Icons.menu,
                                       color: colorPrimary,
+                                      size: 25.r,
                                     ))
                               ],
                             ),

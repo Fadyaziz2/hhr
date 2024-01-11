@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
@@ -30,7 +31,7 @@ class LeaveTypeViewScreen extends StatelessWidget {
           return Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding:  EdgeInsets.all(12.0.r),
                 child: Column(
                   children: [
                     Expanded(
@@ -113,11 +114,12 @@ class LeaveTypeViewScreen extends StatelessWidget {
                               },
                               title: Text(
                                 'approved'.tr(),
-                                style: const TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.white, fontSize: 12.sp),
                               ),
                               bgColor: colorPrimary,
                             ),
                           ),
+                          SizedBox(height: 4.h),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
@@ -130,9 +132,9 @@ class LeaveTypeViewScreen extends StatelessWidget {
                                   context: context,
                                 ));
                               },
-                              title: const Text(
+                              title:  Text(
                                 'reject',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.white, fontSize: 12.sp),
                               ).tr(),
                               bgColor: Colors.red,
                             ),

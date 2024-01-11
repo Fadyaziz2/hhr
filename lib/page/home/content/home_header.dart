@@ -28,7 +28,7 @@ class HomeHeader extends StatelessWidget {
           left: 0,
           child: Image.asset(
             'assets/images/home_background_one.png',
-            height: 200.0,
+            height: 200.0.h,
             fit: BoxFit.cover,
             color: colorPrimary,
           ),
@@ -74,8 +74,8 @@ class HomeHeader extends StatelessWidget {
                           settings?.data?.timeWish?.subTitle ??
                               dashboardModel?.data?.config?.timeWish?.wish ??
                               '',
-                          style: const TextStyle(
-                              fontSize: 14,
+                          style: TextStyle(
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               height: 1.5,
                               color: Colors.white),
@@ -88,8 +88,8 @@ class HomeHeader extends StatelessWidget {
                   SvgPicture.network(
                     settings?.data?.timeWish?.image ?? dashboardModel?.data?.config?.timeWish?.image ?? '',
                     semanticsLabel: 'sun',
-                    height: 60,
-                    width: 60,
+                    height: 60.h,
+                    width: 60.w,
                     placeholderBuilder: (BuildContext context) => const SizedBox(),
                   ),
                 const SizedBox(
@@ -98,7 +98,7 @@ class HomeHeader extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20.0.h,
+              height: 16.0.h,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

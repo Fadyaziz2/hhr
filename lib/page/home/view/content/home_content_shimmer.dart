@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../res/const.dart';
 import '../../../../res/shimmers.dart';
 
@@ -15,44 +16,44 @@ class HomeContentShimmer extends StatelessWidget {
           left: 0,
           child: Image.asset(
             'assets/images/home_background_one.png',
-            height: 200.0,
+            height: 200.0.h,
             fit: BoxFit.cover,
             color: colorPrimary,
           ),
         ),
-        const SingleChildScrollView(
+         SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40.0),
+              SizedBox(height: 40.0.h),
               Row(
                 children: [
                   Expanded(
                       child: TileShimmer(
-                    titleHeight: 12.0,
+                    titleHeight: 12.0.h,
                   )),
                   SizedBox(
-                    width: 120.0,
+                    width: 120.0.w,
                   )
                 ],
               ),
-              TileShimmer(
+              const TileShimmer(
                 isTrailing: true,
                 isSubTitle: true,
               ),
-              HorizontalListShimmer(),
+              const HorizontalListShimmer(),
               SizedBox(
-                height: 16.0,
+                height: 16.0.h,
               ),
               RectangularCardShimmer(
-                height: 200.0,
+                height: 150.0.h,
                 width: double.infinity,
               ),
               SizedBox(
-                height: 16.0,
+                height: 16.0.h,
               ),
               RectangularCardShimmer(
-                height: 200.0,
+                height: 150.0.h,
                 width: double.infinity,
               )
             ],

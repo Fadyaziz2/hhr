@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
@@ -15,6 +16,7 @@ class ApplyDailySelectEmployee extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         onTap: () async {
           await Navigator.push(
               context,
@@ -27,9 +29,9 @@ class ApplyDailySelectEmployee extends StatelessWidget {
           });
         },
         title: Text(
-            context.watch<DailyLeaveBloc>().state.selectEmployee?.name! ??
-                'select_employee'.tr()),
+            context.watch<DailyLeaveBloc>().state.selectEmployee?.name! ?? 'select_employee'.tr(),  style: TextStyle(fontSize: 14.sp)),
         leading: CircleAvatar(
+          radius: 22.r,
           backgroundImage: NetworkImage(context
                   .watch<DailyLeaveBloc>()
                   .state

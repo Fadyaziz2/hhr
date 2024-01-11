@@ -42,18 +42,12 @@ class HomeMarsContent extends StatelessWidget {
                           child: Align(
                               alignment: Alignment.bottomRight,
                               child: CupertinoSwitch(
-                                  value:
-                                      context.read<HomeBloc>().state.isSwitched,
+                                  value: context.read<HomeBloc>().state.isSwitched,
                                   onChanged: (_) {
                                     context.read<HomeBloc>().add(
                                         OnSwitchPressed(
-                                            user: context
-                                                .read<AuthenticationBloc>()
-                                                .state
-                                                .data
-                                                ?.user,
-                                            locationProvider:
-                                                locationServiceProvider));
+                                            user: context.read<AuthenticationBloc>().state.data?.user,
+                                            locationProvider: locationServiceProvider));
                                   })),
                         ),
 

@@ -4,8 +4,7 @@ import 'package:onesthrm/res/const.dart';
 import '../../bloc/bloc.dart';
 
 class AttendanceReportContent extends StatelessWidget {
-  const AttendanceReportContent({Key? key, required this.bloc})
-      : super(key: key);
+  const AttendanceReportContent({super.key, required this.bloc});
   final AttendanceReportBloc bloc;
 
   @override

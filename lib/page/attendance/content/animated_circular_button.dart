@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as m;
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
+
 class AnimatedCircularButton extends StatefulWidget {
   final VoidCallback? onComplete;
   final bool isCheckedIn;
@@ -8,12 +11,11 @@ class AnimatedCircularButton extends StatefulWidget {
   final Color color;
 
   const AnimatedCircularButton(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.color,
       this.onComplete,
-      this.isCheckedIn = false})
-      : super(key: key);
+      this.isCheckedIn = false});
 
   @override
   State<AnimatedCircularButton> createState() => _AnimatedCircularButtonState();
@@ -57,7 +59,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 2.0,
+      aspectRatio: DeviceUtil.isTablet ? 1.2.r : 1.9,
       child: ClipRRect(
         child: GestureDetector(
           onLongPressStart: _onLongPressStart,
@@ -68,9 +70,9 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                 return CustomPaint(
                   painter: ArcShapePainter(
                     progress: animation.value,
-                    radius: MediaQuery.of(context).size.width,
+                    radius: 90.r,
                     color: widget.color,
-                    strokeWidth: 5.0,
+                    strokeWidth: 5.0.r,
                   ),
                   //Logo and text
                   child: Column(
@@ -83,15 +85,15 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
                         child: Image.asset(
                           "assets/images/tap_figer.png",
                           color: Colors.white,
-                          height: 45,
-                          width: 45,
+                          height: 45.h,
+                          width: 45.w,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           widget.title,
-                          style: const TextStyle(color: Colors.white),
+                          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
                         ),
                       ),
                     ],
@@ -146,12 +148,12 @@ class ArcShapePainter extends CustomPainter {
     Offset center = Offset(size.width / 2, size.height / 2);
 
     //Draw the line arc
-    canvas.drawArc(Rect.fromCircle(center: center, radius: 85.0), -m.pi / 2,
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -m.pi / 2,
         progressAngle, false, _activePaint);
 
-    canvas.drawCircle(center, 85.0, _inActivePaint);
+    canvas.drawCircle(center, radius, _inActivePaint);
 
-    canvas.drawCircle(center, 80.0, _solidPaint);
+    canvas.drawCircle(center, radius - 8.0.r, _solidPaint);
   }
 
   @override

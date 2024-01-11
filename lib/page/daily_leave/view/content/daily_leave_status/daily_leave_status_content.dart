@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
@@ -22,10 +23,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
     return BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
         builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0.0),
-          child: LeaveListShimmer(),
-        );
+        return const LeaveListShimmer();
       } else if (state.status == NetworkStatus.success) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -45,6 +43,8 @@ class DailyLeaveStatusContent extends StatelessWidget {
 
               /// Rejected Leave ===============
               const DailyLeaveReject(),
+
+              SizedBox(height: 20.h)
             ],
           ),
         );
@@ -54,7 +54,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
             "failed_to_load_leave_list".tr(),
             style: TextStyle(
                 color: colorPrimary.withOpacity(0.4),
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w500),
           ),
         );

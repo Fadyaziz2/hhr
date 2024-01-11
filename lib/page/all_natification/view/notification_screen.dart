@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/all_natification/content/notification_cart_content.dart';
@@ -47,9 +48,10 @@ class NotificationScreen extends StatelessWidget {
                           children: [
                             Text(
                               tr("clear_all"),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                              fontSize: 10.sp),
                             ),
                             const SizedBox(
                               width: 16,

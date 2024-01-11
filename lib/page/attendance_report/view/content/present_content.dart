@@ -32,16 +32,16 @@ class DailyReportTile extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: DeviceUtil.isTablet ?  100.w : 100,
+            width: 80.w,
             child: Column(
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style: const TextStyle(color: Colors.black54, fontSize: 12),
+                  style:  TextStyle(color: Colors.black54, fontSize: 12.sp),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style: const TextStyle(color: Colors.black54, fontSize: 20),
+                  style: TextStyle(color: Colors.black54, fontSize: 20.sp),
                 ),
               ],
             ),
@@ -54,16 +54,16 @@ class DailyReportTile extends StatelessWidget {
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                       Padding(
+                        padding:  EdgeInsets.all(8.0.r),
                         child: Text(
                           "IN",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 10.sp,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 20.0),
+                       SizedBox(width: 20.0.w),
                       Visibility(
                         visible: dailyReport.checkIn?.isNotEmpty == true,
                         child: Row(
@@ -74,24 +74,24 @@ class DailyReportTile extends StatelessWidget {
                                   color: Color(int.parse(getInOutColor(
                                       status: dailyReport.checkInStatus))),
                                   style: BorderStyle.solid,
-                                  width: 3.0,
+                                  width: 3.0.w,
                                 ),
                                 color: Color(int.parse(getInOutColor(
                                     status: dailyReport.checkInStatus))),
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(8.0.r),
                               ),
                               child: DottedBorder(
                                 color: Colors.white,
                                 borderType: BorderType.RRect,
-                                radius: const Radius.circular(5),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 3),
-                                strokeWidth: 1,
+                                radius:  Radius.circular(5.r),
+                                padding:  EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 3.h),
+                                strokeWidth: 1.r,
                                 child: Text(
                                   dailyReport.checkIn ?? "",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12.sp,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -107,17 +107,17 @@ class DailyReportTile extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  width: 16,
-                                  height: 16,
+                                  width: 16.w,
+                                  height: 16.h,
                                   decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.blueAccent),
                                   child: Center(
                                       child: Text(
                                         remoteModeIn ,
-                                    style: const TextStyle(
+                                    style:  TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10,
+                                        fontSize: 10.sp,
                                         fontWeight: FontWeight.bold),
                                   )),
                                 ),
@@ -130,12 +130,12 @@ class DailyReportTile extends StatelessWidget {
                                 onTap: () {
                                   getReasonIn(dailyReport.checkInReason);
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(0.0),
+                                child:  Padding(
+                                  padding: const EdgeInsets.all(0.0),
                                   child: Icon(
                                     Icons.article_outlined,
                                     color: Colors.blue,
-                                    size: 18,
+                                    size: 18.r,
                                   ),
                                 ),
                               ),
@@ -146,20 +146,20 @@ class DailyReportTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: 8.h,
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 10),
                   color: const Color(0xffFCF6FF),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                       Padding(
+                        padding:  EdgeInsets.all(8.0.r),
                         child: Text(
                           "OUT",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 10.sp,
                           ),
                         ),
                       ),
@@ -167,8 +167,8 @@ class DailyReportTile extends StatelessWidget {
                         visible: dailyReport.checkOut?.isNotEmpty == true,
                         child: Row(
                           children: [
-                            const SizedBox(
-                              width: 10,
+                             SizedBox(
+                              width: 10.w,
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -176,24 +176,24 @@ class DailyReportTile extends StatelessWidget {
                                   color: Color(int.parse(getInOutColor(
                                       status: dailyReport.checkOutStatus))),
                                   style: BorderStyle.solid,
-                                  width: 3.0,
+                                  width: 3.0.w,
                                 ),
                                 color: Color(int.parse(getInOutColor(
                                     status: dailyReport.checkOutStatus))),
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(8.0.r),
                               ),
                               child: DottedBorder(
                                 color: Colors.white,
                                 borderType: BorderType.RRect,
-                                radius: const Radius.circular(5),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 3),
-                                strokeWidth: 1,
+                                radius:  Radius.circular(5.r),
+                                padding:  EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 3.h),
+                                strokeWidth: 1.r,
                                 child: Text(
                                   dailyReport.checkOut ?? "",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12,
+                                      fontSize: 12.sp,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -211,17 +211,17 @@ class DailyReportTile extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    width: 16,
-                                    height: 16,
+                                    width: 16.w,
+                                    height: 16.h,
                                     decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Colors.blueAccent),
                                     child: Center(
                                         child: Text(
                                           remoteModeOut,
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                           color: Colors.white,
-                                          fontSize: 10,
+                                          fontSize: 10.sp,
                                           fontWeight: FontWeight.bold),
                                     )),
                                   ),
@@ -234,13 +234,10 @@ class DailyReportTile extends StatelessWidget {
                                 onTap: () {
                                   getReasonIn(dailyReport.checkOutReason);
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(0.0),
-                                  child: Icon(
-                                    Icons.article_outlined,
-                                    color: Colors.blue,
-                                    size: 18,
-                                  ),
+                                child: Icon(
+                                  Icons.article_outlined,
+                                  color: Colors.blue,
+                                  size: 18.r,
                                 ),
                               ),
                             ),
@@ -263,8 +260,8 @@ class DailyReportTile extends StatelessWidget {
                   },
                   child: Lottie.asset(
                     'assets/images/report_one.json',
-                    height: 45,
-                    width: 45,
+                    height: 45.h,
+                    width: 45.w,
                   ),
                 ),
               ],

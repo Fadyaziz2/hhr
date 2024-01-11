@@ -27,7 +27,7 @@ class CheckInOutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+      margin:  EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {

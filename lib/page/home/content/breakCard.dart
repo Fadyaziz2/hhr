@@ -24,7 +24,7 @@ class BreakCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
+      margin:  EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
@@ -32,7 +32,7 @@ class BreakCard extends StatelessWidget {
                 .push(BreakScreen.route(bloc: context.read<HomeBloc>()));
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: EdgeInsets.symmetric(vertical: 5.0.h),
             child: Row(
               children: [
                 Expanded(

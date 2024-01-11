@@ -10,7 +10,7 @@ class HolidayContent extends StatelessWidget {
 
   final DailyReport dailyReport;
 
-  const HolidayContent({Key? key,required this.dailyReport}) : super(key: key);
+  const HolidayContent({super.key,required this.dailyReport});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class HolidayContent extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: DeviceUtil.isTablet ? 100.w : 100,
+            width: 80.w,
             child: Column(
               children: [
                 Text(

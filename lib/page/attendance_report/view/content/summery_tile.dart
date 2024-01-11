@@ -24,24 +24,24 @@ class SummeryTile extends StatelessWidget {
         ListTile(
           onTap: onTap,
           dense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 2.h : 2, horizontal: DeviceUtil.isTablet ? 16.w : 16),
+          contentPadding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
           leading: Container(
-            width: DeviceUtil.isTablet ? 16.sp : 16,
-            height:DeviceUtil.isTablet ? 16.sp : 16,
+            width: 16.w,
+            height:16.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: color,
             ),
           ),
-          title: Text(title,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
+          title: Text(title,style: TextStyle(fontSize: 12.sp),).tr(),
           trailing: titleValue != null ? Text(
             titleValue!,
-            style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
-          ) : RectangularCardShimmer(height: DeviceUtil.isTablet ? 30.h : 30,width: DeviceUtil.isTablet ? 20.w : 20,),
+            style: TextStyle(fontSize: 14.sp),
+          ) : RectangularCardShimmer(height: 30.h,width:20.w,),
         ),
          Divider(
           height: 0.0,
-          thickness: DeviceUtil.isTablet ? 1.w : 1,
+          thickness: 1.r,
         )
       ],
     );

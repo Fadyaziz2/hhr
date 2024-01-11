@@ -116,8 +116,8 @@ class _AttendanceState extends State<AttendanceView>
                     },
                     child: Lottie.asset(
                       'assets/images/ic_report_lottie.json',
-                      height: 40,
-                      width: 40,
+                      height: 40.h,
+                      width: 40.w,
                     ),
                   ),
                 ),
@@ -141,12 +141,13 @@ class _AttendanceState extends State<AttendanceView>
                             baseColor: const Color(0xFFE8E8E8),
                             highlightColor: Colors.white,
                             child: Container(
-                                height: 184,
-                                width: 184,
+                                height: 184.h,
+                                width: 184.w,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFE8E8E8),
+                                  shape: BoxShape.circle,
                                   borderRadius: BorderRadius.circular(
-                                      100), // radius of 10// green as background color
+                                      100.r), // radius of 10// green as background color
                                 )),
                           )
                         : AnimatedCircularButton(
@@ -169,12 +170,12 @@ class _AttendanceState extends State<AttendanceView>
                       NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(),
                           child: const AttendanceReason()));
                     },
-                    child: const Padding(padding: EdgeInsets.all(8.0),
+                    child:  Padding(padding: EdgeInsets.all(8.0.r),
                       child: Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.note_add_outlined,color: colorPrimary,),
-                          SizedBox(width: 5,),
-                          Text("Add Reason",style: TextStyle(color: colorPrimary,fontSize: 16),),
+                           Icon(Icons.note_add_outlined,color: colorPrimary,size: 25.r,),
+                          SizedBox(width: 5.w,),
+                          Text("Add Reason",style: TextStyle(color: colorPrimary,fontSize: 16.sp),),
                         ],
                       ),
                     ),
