@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/notice_list/bloc/notice_list_bloc.dart';
@@ -24,11 +25,15 @@ class NoticeListScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => NotificationListBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(LoadNotificationListData()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(tr("notice")),
+          title: Text(
+            tr("notice"),
+            style: TextStyle(fontSize: 18.r),
+          ),
         ),
         body: BlocBuilder<NotificationListBloc, NoticeListState>(
             builder: (context, state) {

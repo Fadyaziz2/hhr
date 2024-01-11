@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
@@ -20,7 +21,8 @@ class SupportPage extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => SupportBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(GetSupportData()),
       child: BlocBuilder<SupportBloc, SupportState>(
         builder: (context, state) {
@@ -42,6 +44,7 @@ class SupportPage extends StatelessWidget {
               ),
             ),
             appBar: AppBar(
+              iconTheme: IconThemeData(size: 20.r, color: Colors.white),
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -57,17 +60,22 @@ class SupportPage extends StatelessWidget {
               ),
               title: Text(
                 tr("all_support_tickets"),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                    fontSize: 16.r),
               ),
               actions: [
                 IconButton(
                     onPressed: () {
-                      context.read<SupportBloc>().add(SelectDatePicker(context));
+                      context
+                          .read<SupportBloc>()
+                          .add(SelectDatePicker(context));
                     },
-                    icon: const Icon(Icons.calendar_month_outlined))
+                    icon: Icon(
+                      Icons.calendar_month_outlined,
+                      size: 18.r,
+                    ))
               ],
             ),
             body: const SupportListContent(),

@@ -24,7 +24,7 @@ class BreakCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin:  EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 18.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
@@ -52,7 +52,7 @@ class BreakCard extends StatelessWidget {
                               ? "you're_in_break".tr()
                               : "take_coffee".tr(),
                           style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16.r,
                               fontWeight: FontWeight.w500,
                               height: 1.5,
                               letterSpacing: 0.5)),
@@ -64,7 +64,7 @@ class BreakCard extends StatelessWidget {
                             : 'break'.tr(),
                         style: TextStyle(
                             color: colorPrimary,
-                            fontSize: 16.sp,
+                            fontSize: 16.r,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),

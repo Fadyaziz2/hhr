@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_create.dart';
@@ -26,10 +27,10 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
           appBar: AppBar(
             title: Text(
               tr("expense_log"),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16.r),
             ),
           ),
           body: Padding(
@@ -39,8 +40,8 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
               children: [
                 Text(
                   tr("select_type_of_expense"),
-                  style: const TextStyle(
-                      fontSize: 14,
+                  style: TextStyle(
+                      fontSize: 14.r,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 
 class ExpenseDropDownContent extends StatelessWidget {
@@ -28,7 +29,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 isExpanded: true,
                 hint: Text(
                   tr("select_payment"),
-                  style: const TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14.r),
                 ),
                 value: state?.paymentTypeName,
                 icon: const Icon(
@@ -48,7 +49,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                     value: value,
                     child: Text(
                       value,
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14.r),
                     ),
                   );
                 }).toList(),
@@ -76,7 +77,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                 isExpanded: true,
                 hint: Text(
                   tr("expanse_status"),
-                  style: const TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14.r),
                 ),
                 value: state?.statusTypeName,
                 icon: const Icon(
@@ -96,7 +97,7 @@ class ExpenseDropDownContent extends StatelessWidget {
                     value: value,
                     child: Text(
                       value,
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14.r),
                     ),
                   );
                 }).toList(),

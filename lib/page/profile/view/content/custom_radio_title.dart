@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class CustomRadioTitle extends StatelessWidget {
@@ -25,10 +26,10 @@ class CustomRadioTitle extends StatelessWidget {
           value: value,
           title: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black45,
-                fontSize: 14),
+                fontSize: 14.r),
           ),
           groupValue: groupValue,
           onChanged: onChanged),

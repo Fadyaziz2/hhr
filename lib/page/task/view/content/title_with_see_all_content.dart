@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TitleWithSeeAll extends StatelessWidget {
   final BuildContext context;
@@ -39,9 +40,9 @@ class TitleWithSeeAll extends StatelessWidget {
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: const Text(
+              child: Text(
                 "see_all",
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 14.0.r),
               ).tr(),
             ),
           )

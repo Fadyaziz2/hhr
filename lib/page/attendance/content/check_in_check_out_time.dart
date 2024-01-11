@@ -35,16 +35,16 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               "check_in".tr(),
-              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              style: TextStyle(fontSize: 12.r, color: Colors.grey),
             ),
           ],
         ),
         Column(
           children: [
-             Icon(
+            Icon(
               Icons.watch_later_outlined,
               color: colorPrimary,
-               size: 22.r,
+              size: 22.r,
             ),
             SizedBox(
               height: 5.h,
@@ -58,16 +58,16 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               "check_out".tr(),
-              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              style: TextStyle(fontSize: 12.r, color: Colors.grey),
             ),
           ],
         ),
         Column(
           children: [
-             Icon(
+            Icon(
               Icons.history,
               color: colorPrimary,
-               size: 22.r,
+              size: 22.r,
             ),
             SizedBox(
               height: 5.h,
@@ -81,7 +81,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               "working_hr".tr(),
-              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              style: TextStyle(fontSize: 12.r, color: Colors.grey),
             )
           ],
         ),

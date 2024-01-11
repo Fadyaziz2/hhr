@@ -28,7 +28,12 @@ class BuildContainer extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: DeviceUtil.isTablet ? 130.w : 130, child: Text(title ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),)),
+          SizedBox(
+              width: DeviceUtil.isTablet ? 130.w : 130,
+              child: Text(
+                title ?? '',
+                style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.r : 14),
+              )),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,7 +41,9 @@ class BuildContainer extends StatelessWidget {
                 Expanded(
                   child: Text(
                     titleValue ?? '',
-                    style: TextStyle(fontWeight: FontWeight.w600,fontSize: DeviceUtil.isTablet ? 16.sp : 14),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: DeviceUtil.isTablet ? 16.r : 14),
                     maxLines: 1,
                   ).tr(),
                 ),

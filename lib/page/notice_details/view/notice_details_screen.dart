@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class NoticeDetailsScreen extends StatelessWidget {
@@ -31,7 +32,7 @@ class NoticeDetailsScreen extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              ?.copyWith(color: Colors.white, fontSize: 16.r),
         ),
       ),
       body: Column(
@@ -46,7 +47,7 @@ class NoticeDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
               child: CachedNetworkImage(
                 width: double.infinity,
-                height: 240,
+                height: 240.h,
                 fit: BoxFit.cover,
                 imageUrl: image ?? "assets/images/placeholder_image.png",
                 placeholder: (context, url) => Center(
@@ -69,8 +70,7 @@ class NoticeDetailsScreen extends StatelessWidget {
                   title ??
                       // provider.noticeDetails?.data?.subject ??
                       "",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
                 ),
                 const SizedBox(
                   height: 5,
@@ -79,7 +79,7 @@ class NoticeDetailsScreen extends StatelessWidget {
                   date ??
                       // provider.noticeDetails?.data?.date ??
                       "",
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style: TextStyle(fontSize: 12.r, color: Colors.grey),
                 ),
                 const SizedBox(
                   height: 10,
@@ -88,7 +88,7 @@ class NoticeDetailsScreen extends StatelessWidget {
                   body ??
                       // provider.noticeDetails?.data?.description ??
                       "",
-                  style: const TextStyle(fontSize: 14, height: 1.4),
+                  style: TextStyle(fontSize: 14.r, height: 1.4),
                   textAlign: TextAlign.justify,
                 ),
               ],

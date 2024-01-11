@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 import 'content.dart';
@@ -106,10 +107,10 @@ class TaskListCard extends StatelessWidget {
                     child: Text(
                       taskName ?? "".tr(),
                       maxLines: 3,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
+                          fontSize: 16.0.r),
                     ),
                   ),
                 ],

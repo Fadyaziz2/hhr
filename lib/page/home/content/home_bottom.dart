@@ -24,7 +24,7 @@ class HomeBottom extends StatelessWidget {
         UpcomingEventCard(
           events: dashboardModel?.data?.upcomingEvents ?? [],
         ),
-         SizedBox(
+        SizedBox(
           height: 16.0.h,
         ),
         Padding(
@@ -32,14 +32,14 @@ class HomeBottom extends StatelessWidget {
           child: Text(
             'current_month_summary'.tr(),
             style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 16.r,
                 fontWeight: FontWeight.bold,
                 height: 1.5,
                 color: Colors.black,
                 letterSpacing: 0.5),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 8.0.h,
         ),
         SingleChildScrollView(
@@ -54,9 +54,7 @@ class HomeBottom extends StatelessWidget {
             ),
           )),
         ),
-        SizedBox(
-          height: 12.0.h
-        ),
+        SizedBox(height: 12.0.h),
       ],
     );
   }

@@ -20,7 +20,6 @@ class ShowCurrentLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Container(
@@ -30,13 +29,15 @@ class ShowCurrentLocation extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/images/map_marker_icon.json', height: 30.h, width: 30.w),
+                Lottie.asset('assets/images/map_marker_icon.json',
+                    height: 30.h, width: 30.w),
                 Expanded(
                   child: Text(
-                    context.read<AttendanceBloc>().state.location ?? locationServiceProvider.place,
+                    context.read<AttendanceBloc>().state.location ??
+                        locationServiceProvider.place,
                     style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
+                        fontSize: 12.r,
                         color: const Color(0xFF404A58)),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -47,35 +48,42 @@ class ShowCurrentLocation extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    if(context.read<AttendanceBloc>().state.locationLoaded) {
-                      context.read<AttendanceBloc>().add(OnLocationRefreshEvent());
+                    if (context.read<AttendanceBloc>().state.locationLoaded) {
+                      context
+                          .read<AttendanceBloc>()
+                          .add(OnLocationRefreshEvent());
                     }
                   },
                   child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 10.r,
-                              backgroundColor: colorPrimary,
-                              child: Center(
-                                child:  context.read<AttendanceBloc>().state.locationLoaded ? Lottie.asset(
+                    children: [
+                      CircleAvatar(
+                        radius: 10.r,
+                        backgroundColor: colorPrimary,
+                        child: Center(
+                          child: context
+                                  .read<AttendanceBloc>()
+                                  .state
+                                  .locationLoaded
+                              ? Lottie.asset(
                                   'assets/images/Refresh.json',
                                   height: 24.h,
                                   width: 24.w,
-                                ) : const CircularProgressIndicator(),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              'refresh'.tr(),
-                              style:  TextStyle(
-                                fontSize: 12.sp,
-                                  color: colorPrimary,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                                )
+                              : const CircularProgressIndicator(),
                         ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(
+                        'refresh'.tr(),
+                        style: TextStyle(
+                            fontSize: 12.r,
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -86,7 +94,7 @@ class ShowCurrentLocation extends StatelessWidget {
         ),
         Text("choose_your_remote_mode".tr(),
             style: GoogleFonts.nunitoSans(
-                fontSize: 13.sp,
+                fontSize: 13.r,
                 color: Colors.black87,
                 fontWeight: FontWeight.bold)),
         SizedBox(
@@ -117,7 +125,7 @@ class ShowCurrentLocation extends StatelessWidget {
                   FontAwesomeIcons.building
                 ],
                 totalSwitches: 2,
-                fontSize: 14.sp,
+                fontSize: 14.r,
                 iconSize: 17.r,
                 labels: ['home'.tr(), 'office'.tr()],
                 radiusStyle: true,

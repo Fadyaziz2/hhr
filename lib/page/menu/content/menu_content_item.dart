@@ -38,13 +38,15 @@ class MenuContentItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
-                        DynamicImageViewer(image:  menu.icon ?? "",),
-                         SizedBox(width: 10.0.w),
+                        DynamicImageViewer(
+                          image: menu.icon ?? "",
+                        ),
+                        SizedBox(width: 10.0.w),
                         Expanded(
                           child: Text(
                             menu.name ?? '',
                             maxLines: 2,
-                            style:  TextStyle(fontSize: 12.sp),
+                            style: TextStyle(fontSize: 12.r),
                           ).tr(),
                         ),
                       ],

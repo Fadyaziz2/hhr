@@ -29,14 +29,16 @@ class CustomTextField extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-              color: Colors.black, fontSize: DeviceUtil.isTablet ? 12.sp : 12, fontWeight: FontWeight.bold),
+              color: Colors.black,
+              fontSize: DeviceUtil.isTablet ? 12.r : 12,
+              fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: sizedBoxHeight,
         ),
         TextFormField(
           maxLines: maxLine,
-          style: TextStyle(fontSize: DeviceUtil.isTablet ?  14.sp : 14),
+          style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.r : 14),
           keyboardType: TextInputType.name,
           onChanged: onData,
           validator: (val) => val!.isEmpty ? errorMsg : null,
@@ -46,7 +48,7 @@ class CustomTextField extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
               hintText: hints,
-              hintStyle: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),
+              hintStyle: TextStyle(fontSize: DeviceUtil.isTablet ? 12.r : 12),
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue, width: 2),
               ),

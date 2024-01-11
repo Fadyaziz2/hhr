@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,12 +26,15 @@ class CheckInOutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      margin:  EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
+      margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
           onTap: () {
-            context.read<HomeBloc>().add(OnLocationRefresh(user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
-            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            context.read<HomeBloc>().add(OnLocationRefresh(
+                user: context.read<AuthenticationBloc>().state.data?.user,
+                locationProvider: locationServiceProvider));
+            Navigator.push(context,
+                AttendancePage.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
@@ -59,7 +61,7 @@ class CheckInOutCard extends StatelessWidget {
                               ? "start_time".tr()
                               : "done_for_today".tr(),
                           style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16.r,
                               fontWeight: FontWeight.w500,
                               height: 1.5,
                               letterSpacing: 0.5)),
@@ -69,7 +71,7 @@ class CheckInOutCard extends StatelessWidget {
                             : "check_out".tr(),
                         style: TextStyle(
                             color: colorPrimary,
-                            fontSize: 16.sp,
+                            fontSize: 16.r,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),

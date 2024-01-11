@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../bloc/bloc.dart';
@@ -44,6 +45,7 @@ class BarStatusWidget extends StatelessWidget {
                 backgroundColor: Colors.white,
                 selectedColor: const Color(0xFF5DB226),
                 labelStyle: TextStyle(
+                  fontSize: 13.r,
                   color: selectedIndex == index
                       ? Colors.white
                       : const Color(0xFF5DB226),

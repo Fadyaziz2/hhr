@@ -25,12 +25,18 @@ class LeaveSummaryContent extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
         child: AppBar(
-          iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
-          title: Text("leave_summary".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),),
+          iconTheme: IconThemeData(
+              size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
+          title: Text(
+            "leave_summary".tr(),
+            style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.r : 16),
+          ),
           actions: [
             IconButton(
                 onPressed: () {
-                  context.read<LeaveBloc>().add(SelectDatePicker(user!.user!.id!, context));
+                  context
+                      .read<LeaveBloc>()
+                      .add(SelectDatePicker(user!.user!.id!, context));
                 },
                 icon: const Icon(Icons.calendar_month_outlined))
           ],
@@ -43,38 +49,49 @@ class LeaveSummaryContent extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            DeviceUtil.isTablet ? TabAnimatedCircularButton(
-              onComplete: () {
-                NavUtil.navigateScreen(context,
-                    BlocProvider.value(value: context.read<LeaveBloc>(),
-                        child: const LeaveRequestType()));
-              },
-              title: "apply_leave".tr(),
-              color: colorPrimary,
-            ) : AnimatedCircularButton(
-              onComplete: () {
-                NavUtil.navigateScreen(context,
-                    BlocProvider.value(value: context.read<LeaveBloc>(),
-                        child: const LeaveRequestType()));
-              },
-              title: "apply_leave".tr(),
-              color: colorPrimary,
-            ),
+            DeviceUtil.isTablet
+                ? TabAnimatedCircularButton(
+                    onComplete: () {
+                      NavUtil.navigateScreen(
+                          context,
+                          BlocProvider.value(
+                              value: context.read<LeaveBloc>(),
+                              child: const LeaveRequestType()));
+                    },
+                    title: "apply_leave".tr(),
+                    color: colorPrimary,
+                  )
+                : AnimatedCircularButton(
+                    onComplete: () {
+                      NavUtil.navigateScreen(
+                          context,
+                          BlocProvider.value(
+                              value: context.read<LeaveBloc>(),
+                              child: const LeaveRequestType()));
+                    },
+                    title: "apply_leave".tr(),
+                    color: colorPrimary,
+                  ),
             const SizedBox(
               height: 8,
             ),
             Center(
                 child: Text(
               "tab_to_apply_for_leave".tr(),
-              style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey),
+              style: TextStyle(
+                  fontSize: DeviceUtil.isTablet ? 12.r : 12,
+                  color: Colors.grey),
             ).tr()),
             const SizedBox(
               height: 25.0,
             ),
             const TotalLeaveCount(),
-            Center(child: Text("leave_request".tr(),
-                    style:  TextStyle(color: Colors.black54, fontWeight: FontWeight.w500,
-                        fontSize: DeviceUtil.isTablet ? 20.0.sp : 20.0))),
+            Center(
+                child: Text("leave_request".tr(),
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w500,
+                        fontSize: DeviceUtil.isTablet ? 20.0.r : 20.0))),
             const SizedBox(
               height: 25.0,
             ),

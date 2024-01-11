@@ -18,7 +18,8 @@ class TabAnimatedCircularButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<TabAnimatedCircularButton> createState() => _AnimatedCircularButtonState();
+  State<TabAnimatedCircularButton> createState() =>
+      _AnimatedCircularButtonState();
 }
 
 class _AnimatedCircularButtonState extends State<TabAnimatedCircularButton>
@@ -70,7 +71,7 @@ class _AnimatedCircularButtonState extends State<TabAnimatedCircularButton>
                 return CustomPaint(
                   painter: ArcShapePainter(
                     progress: animation.value,
-                    radius: MediaQuery.of(context).size.width/4,
+                    radius: MediaQuery.of(context).size.width / 4,
                     color: widget.color,
                     strokeWidth: 8.0,
                   ),
@@ -93,7 +94,7 @@ class _AnimatedCircularButtonState extends State<TabAnimatedCircularButton>
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           widget.title,
-                          style:  TextStyle(color: Colors.white,fontSize: 16.sp),
+                          style: TextStyle(color: Colors.white, fontSize: 16.r),
                         ),
                       ),
                     ],

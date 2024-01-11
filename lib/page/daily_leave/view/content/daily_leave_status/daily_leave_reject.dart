@@ -21,18 +21,20 @@ class DailyLeaveReject extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         SizedBox(
+        SizedBox(
           height: 10.h,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
           child: Text(
             "rejected_leave".tr(),
-            style:  TextStyle(
-                fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(
+                fontSize: 16.r,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 8.h,
         ),
         DailyLeaveTile(

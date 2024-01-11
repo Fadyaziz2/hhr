@@ -4,8 +4,8 @@ import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 
 class EventCardItem extends StatelessWidget {
-
-  const EventCardItem({super.key,required this.upcomingItems, this.viewAllPressed});
+  const EventCardItem(
+      {super.key, required this.upcomingItems, this.viewAllPressed});
 
   final UpcomingEvent upcomingItems;
 
@@ -17,8 +17,8 @@ class EventCardItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey.shade300),
-          )),
+        bottom: BorderSide(color: Colors.grey.shade300),
+      )),
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -28,14 +28,14 @@ class EventCardItem extends StatelessWidget {
                 children: [
                   Text('${upcomingItems.date}',
                       maxLines: 1,
-                      style:  TextStyle(
-                          fontSize: 14.sp,
+                      style: TextStyle(
+                          fontSize: 14.r,
                           fontWeight: FontWeight.w500,
                           height: 1.5,
                           letterSpacing: 0.5)),
                   Text('${upcomingItems.day}',
-                      style:  TextStyle(
-                          fontSize: 12.sp,
+                      style: TextStyle(
+                          fontSize: 12.r,
                           color: const Color(0xFF555555),
                           fontWeight: FontWeight.w400,
                           height: 1.4,
@@ -60,8 +60,8 @@ class EventCardItem extends StatelessWidget {
                     '${upcomingItems.title}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style:  TextStyle(
-                        fontSize: 14.sp,
+                    style: TextStyle(
+                        fontSize: 14.r,
                         color: const Color(0xFF222222),
                         fontWeight: FontWeight.w500,
                         height: 1.5,
