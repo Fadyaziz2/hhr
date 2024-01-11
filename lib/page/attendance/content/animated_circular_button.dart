@@ -59,7 +59,7 @@ class _AnimatedCircularButtonState extends State<AnimatedCircularButton>
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: DeviceUtil.isTablet ? 1.2.r : 2.0,
+      aspectRatio: DeviceUtil.isTablet ? 1.2.r : 1.9,
       child: ClipRRect(
         child: GestureDetector(
           onLongPressStart: _onLongPressStart,

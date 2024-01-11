@@ -54,7 +54,7 @@ class ShowCurrentLocation extends StatelessWidget {
                   child: Row(
                           children: [
                             CircleAvatar(
-                              radius: 14,
+                              radius: 10.r,
                               backgroundColor: colorPrimary,
                               child: Center(
                                 child:  context.read<AttendanceBloc>().state.locationLoaded ? Lottie.asset(
