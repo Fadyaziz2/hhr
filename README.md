@@ -1,4 +1,4 @@
-# club_application
+# Human Resource Management Application
 
 A new Flutter project.
 
