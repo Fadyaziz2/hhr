@@ -70,20 +70,31 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      DashboardModel? dashboardModel =
+          await _metaClubApiClient.getDashboardData();
+
       ///Schedule check-in notification
-      await checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime);
+      await checkInScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime,
+          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
+
+      // await testScheduleNotification();
+
       ///Schedule check-out notification
-      await checkOutScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
+      // await checkOutScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
       globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
-      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(
+          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(
+          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(
+          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(
+          isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour,
@@ -93,61 +104,104 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(sec,
           '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
       final bool isLocationEnabled = globalState.get(isLocation);
-      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
+      emit(state.copy(
+          dashboardModel: dashboardModel,
+          status: NetworkStatus.success,
+          isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
+  Future testScheduleNotification()async{
+    await notificationPlugin.scheduleNotification(
+      id: 333,
+      title: "Check In Alert",
+      body: "Good morning have you checked in office yet from onesttech",
+      day: 12,
+      hour: 11,
+      minute: 2,
+      second: 0,
+    );
+  }
 
-  Future checkInScheduleNotification(startTime) async {
+  Future checkInScheduleNotification(startTime, outTime) async {
     ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
+
     ///looping all schedule and set that schedule as active
     for (var dateString in startTime) {
       final uuid = Random().nextInt(200);
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse('$dateString')
+          : DateTime.parse('${dateString}0');
 
-        /// Extract date and time components
-        int day = dateTime.day;
-        int hour = dateTime.hour;
-        int minute = dateTime.minute;
+      /// Extract date and time components
+      int day = dateTime.day;
+      int hour = dateTime.hour;
+      int minute = dateTime.minute;
 
-        /// Schedule the notification
-        await notificationPlugin.scheduleNotification(
-          id: uuid,
-          title: "Check In Alert",
-          body: "Good morning have you checked in office yet from onesttech",
-          day: day,
-          hour: hour,
-          minute: minute,
-          second: 0,
-        );
-      }
+      /// Schedule the notification
+      await notificationPlugin.scheduleNotification(
+        id: uuid,
+        title: "Check In Alert",
+        body: "Good morning have you checked in office yet from onesttech",
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: 0,
+      );
+    }
+    for (var dateString in outTime) {
+      final uuid = Random().nextInt(200) + 100;
+      var splitMinute = dateString.split(" ")[1].split(":");
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse('$dateString')
+          : DateTime.parse('${dateString}0');
+
+      /// Extract date and time components
+      int day = dateTime.day;
+      int hour = dateTime.hour;
+      int minute = dateTime.minute;
+
+      /// Schedule the notification
+      await notificationPlugin.scheduleNotification(
+        id: uuid,
+        title: "Check Out Alert",
+        body: "Good evening, have you checked out office yet from onesttech",
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: 0,
+      );
+    }
   }
 
   Future checkOutScheduleNotification(outTime) async {
     for (var dateString in outTime) {
       final uuid = Random().nextInt(200);
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute[1].contains("00") ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
-        /// Extract date and time components
-        int day = dateTime.day;
-        int hour = dateTime.hour;
-        int minute = dateTime.minute;
+      DateTime dateTime = splitMinute[1].contains("00")
+          ? DateTime.parse('$dateString')
+          : DateTime.parse('${dateString}0');
 
-        /// Schedule the notification
-        await notificationPlugin.scheduleNotification(
-          id: uuid,
-          title: "Check Out Alert",
-          body: "Good evening, have you checked out office yet from onesttech",
-          day: day,
-          hour: hour,
-          minute: minute,
-          second: 0,
-        );
-      }
+      /// Extract date and time components
+      int day = dateTime.day;
+      int hour = dateTime.hour;
+      int minute = dateTime.minute;
+
+      /// Schedule the notification
+      await notificationPlugin.scheduleNotification(
+        id: uuid,
+        title: "Check Out Alert",
+        body: "Good evening, have you checked out office yet from onesttech",
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: 0,
+      );
+    }
   }
 
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
