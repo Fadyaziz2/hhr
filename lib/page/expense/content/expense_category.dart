@@ -63,7 +63,10 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                               child: Card(
                                 elevation: 4,
                                 child: RadioListTile<Category?>(
-                                  title: Text(data?.name ?? ''),
+                                  title: Text(
+                                    data?.name ?? '',
+                                    style: TextStyle(fontSize: 16.r),
+                                  ),
                                   value: data,
                                   groupValue: state.selectedCategory,
                                   onChanged: (Category? newValue) {
@@ -108,10 +111,10 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                       ),
                     ),
                     child: Text(tr("next"),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 16.0.r,
                         )),
                   ),
                 ),
