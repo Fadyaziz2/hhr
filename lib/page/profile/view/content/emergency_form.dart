@@ -92,9 +92,7 @@ class _EmergencyFormState extends State<EmergencyForm> {
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
           textSize: 14.r,
         ),
-        const SizedBox(
-          height: 30,
-        ),
+        const SizedBox(height: 30),
       ],
     );
   }
