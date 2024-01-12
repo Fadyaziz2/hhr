@@ -30,7 +30,7 @@ class CustomTextField extends StatelessWidget {
           title,
           style: TextStyle(
               color: Colors.black,
-              fontSize: DeviceUtil.isTablet ? 12.r : 12,
+              fontSize: 14.r,
               fontWeight: FontWeight.bold),
         ),
         SizedBox(
@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
         ),
         TextFormField(
           maxLines: maxLine,
-          style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.r : 14),
+          style: TextStyle(fontSize: 14.r),
           keyboardType: TextInputType.name,
           onChanged: onData,
           validator: (val) => val!.isEmpty ? errorMsg : null,

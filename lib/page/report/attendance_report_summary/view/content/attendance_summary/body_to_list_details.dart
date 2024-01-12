@@ -56,10 +56,10 @@ class BodyToListDetails extends StatelessWidget {
                                     backgroundImage: NetworkImage('${data?.avatar}'),
                                   ),
                                   title: Text(data?.name ?? '',
-                                    style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16)
+                                    style: TextStyle(fontSize: 14.r)
                                   ),
                                   subtitle: Text(data?.designation ?? '',
-                                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12)),
+                                      style: TextStyle(fontSize: 12.r)),
                                   trailing: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [

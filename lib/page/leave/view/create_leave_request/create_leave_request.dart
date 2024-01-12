@@ -26,17 +26,17 @@ class CreateLeaveRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     BodyCreateLeaveModel bodyCreateLeave = BodyCreateLeaveModel();
     final formKey = GlobalKey<FormState>();
-    return Form(
-      key: formKey,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
-          child: AppBar(
-            iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
-            title: Text(tr("request_leave"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
-          ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.r),
+        child: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: Text(tr("request_leave"),style: TextStyle(fontSize: 16.r),),
         ),
-        body: Padding(
+      ),
+      body: Form(
+        key: formKey,
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -74,7 +74,7 @@ class CreateLeaveRequest extends StatelessWidget {
                       children: [
                         Text(
                           tr("substitute"),
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 14.r),),
                         const SizedBox(
                           height: 8,
                         ),
@@ -87,22 +87,22 @@ class CreateLeaveRequest extends StatelessWidget {
                               context.read<LeaveBloc>().add(SelectEmployee(employee));
                             },
                             title: Text(state.selectedEmployee?.name! ??
-                                tr("add_a_Substitute"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp :14),),
+                                tr("add_a_Substitute"),style: TextStyle(fontSize: 14.r),),
                             subtitle: Text(
                                 state.selectedEmployee?.designation! ??
-                                    tr("add_a_Designation"),style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp :12)),
+                                    tr("add_a_Designation"),style: TextStyle(fontSize: 12.r)),
                             leading : ClipOval(
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
                                 imageUrl:  state.selectedEmployee?.avatar ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
                                 placeholder: (context, url) => Center(
-                                child: Image.asset("assets/images/app_icon.png"),
+                                child: Image.asset("assets/images/app_icon.png",),
                                 ),
                                 errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                                 ),
                             ),
-                            trailing: Icon(Icons.edit,size: DeviceUtil.isTablet ? 16.sp : 24,),
+                            trailing: Icon(Icons.edit,size: 16.r,),
                           ),
                         ),
                         const SizedBox(

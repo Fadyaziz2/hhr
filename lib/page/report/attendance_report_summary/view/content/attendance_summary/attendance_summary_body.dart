@@ -29,7 +29,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                   size: DeviceUtil.isTablet ? 40 : 30,
                   color: Colors.white
               ),
-              title: Text('attendance_summary'.tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+              title: Text('attendance_summary'.tr(),style: TextStyle(fontSize: 14.r),),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -47,7 +47,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                 summaryData != null ? ListTile(
                         title: Text(
                           summaryData.date ?? "",
-                          style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16)
+                          style: TextStyle(fontSize: 14.r)
                         ),
                       )
                     : TileShimmer(
@@ -161,7 +161,7 @@ class AttendanceSummaryBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
-                  height: DeviceUtil.isTablet ? 40.sp : 50,
+                  height: 40.r,
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
@@ -175,16 +175,16 @@ class AttendanceSummaryBody extends StatelessWidget {
                     icon: Icon(
                       Icons.search,
                       color: Colors.white,
-                      size: DeviceUtil.isTablet ? 24.r : 24,
+                      size: 24.r,
                     ),
                     //icon data for elevated button
                     label:  Text(
                       "search_all_employee_attendance",
-                      style: TextStyle(color: Colors.white,fontSize: DeviceUtil.isTablet ? 14.sp :14),
+                      style: TextStyle(color: Colors.white,fontSize: 14.r),
                     ).tr(),
                     //label text
                     style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(400, 50),
+                        fixedSize:  Size(400.r, 50.r),
                         backgroundColor: Colors.blueAccent),
                   ),
                 ),

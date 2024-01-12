@@ -23,7 +23,7 @@ class DailyLeaveReason extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
           hintText: 'write_reason'.tr(),
-          hintStyle:  TextStyle(fontSize: 12.sp),
+          hintStyle:  TextStyle(fontSize: 12.r),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2),
             borderRadius: BorderRadius.all(Radius.circular(12.0)),

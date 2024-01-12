@@ -27,11 +27,22 @@ class DailyLeaveApply extends StatelessWidget {
                   ...List.generate(
                     context.read<DailyLeaveBloc>().leave?.length ?? 0,
                     (index) => Card(
-                      margin:  EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 4.h),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16.r, vertical: 4.r),
                       child: RadioListTile(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                          title: Text(context.watch<DailyLeaveBloc>().leave?[index].title ??'', style: Theme.of(context).textTheme.titleMedium,).tr(),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 4.h),
+                          title: Text(
+                                  context
+                                          .watch<DailyLeaveBloc>()
+                                          .leave?[index]
+                                          .title ??
+                                      '',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(fontSize: 14.r))
+                              .tr(),
                           value: context.watch<DailyLeaveBloc>().leave?[index],
                           groupValue: state.leaveTypeModel,
                           onChanged: (value) {

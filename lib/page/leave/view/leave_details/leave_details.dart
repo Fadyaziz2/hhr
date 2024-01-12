@@ -84,8 +84,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                                 child: Text(
                                   tr("status"),
                                   style: TextStyle(
-                                      fontSize:
-                                          DeviceUtil.isTablet ? 16.r : 14),
+                                      fontSize: 14.r),
                                 )),
                             LeaveStatus(
                               leaveDetailsData: leaveDetailsData,
@@ -131,8 +130,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                                 child: Text(
                                   tr("attachment"),
                                   style: TextStyle(
-                                      fontSize:
-                                          DeviceUtil.isTablet ? 16.r : 14),
+                                      fontSize:14.r),
                                 )),
                           ],
                         ),

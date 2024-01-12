@@ -32,7 +32,7 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
-            minimumSize: Size.fromHeight(DeviceUtil.isTablet ? 40.r : 50),
+            minimumSize: Size.fromHeight(40.r),
             backgroundColor: backgroundColor),
         child: isLoading
             ? const CircularProgressIndicator(backgroundColor: Colors.white)
@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: DeviceUtil.isTablet ? 12.r : 12.0))
+                        fontSize: 14.r))
                 .tr(),
       ),
     );

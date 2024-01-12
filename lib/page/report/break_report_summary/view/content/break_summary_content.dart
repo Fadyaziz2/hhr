@@ -29,14 +29,14 @@ class BreakSummaryContent extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       state.breakSummaryModel?.data?.date ?? '',
-                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                      style: TextStyle(fontSize: 14.r),
                     ),
                   ),
                   IconButton(
                       onPressed: () {
                         context.read<BreakBloc>().add(SelectDate(context, false));
                       },
-                      icon: Icon(Icons.calendar_month,size: DeviceUtil.isTablet ? 30.sp : 30,))
+                      icon: Icon(Icons.calendar_month,size: 22.r,))
                 ],
               ),
               breakList?.isNotEmpty == true
@@ -72,18 +72,18 @@ class BreakSummaryContent extends StatelessWidget {
                                 data?.name ?? '',
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: DeviceUtil.isTablet ? 16.sp : 16,
+                                    fontSize: 16.r,
                                     fontWeight: FontWeight.w500),
                               ),
                               subtitle: Text(data?.designation ?? '',
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: DeviceUtil.isTablet ? 12.sp : 12)),
+                                      color: Colors.black, fontSize: 12.r)),
                               trailing: Text(
                                 data?.totalBreakTime ?? '',
                                 style:  TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: DeviceUtil.isTablet ? 16.sp : 16),
+                                    fontSize: 16.r),
                               ),
                             ),
                           ),

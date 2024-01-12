@@ -25,8 +25,8 @@ class LeaveInfoContent extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: DeviceUtil.isTablet ? 10.0.w : 10,
-                              height: DeviceUtil.isTablet ? 10.0.h : 10,
+                              width:10.r,
+                              height: 10.r,
                               decoration: const BoxDecoration(
                                 color: Colors.grey,
                                 shape: BoxShape.circle,
@@ -38,7 +38,7 @@ class LeaveInfoContent extends StatelessWidget {
                             Text(
                               tr('total_leaves'),
                               style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 12.sp : 12 , color: Colors.grey),
+                                  fontSize: 12.r , color: Colors.grey),
                             )
                           ],
                         ),
@@ -51,7 +51,7 @@ class LeaveInfoContent extends StatelessWidget {
                                   .toString() ??
                               '0',
                           style: TextStyle(
-                              fontSize: DeviceUtil.isTablet ? 25.sp :25, fontWeight: FontWeight.bold),
+                              fontSize: 25.r, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -61,8 +61,8 @@ class LeaveInfoContent extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: DeviceUtil.isTablet ? 10.0.w : 10,
-                              height: DeviceUtil.isTablet ? 10.0.h : 10,
+                              width: 10.r,
+                              height: 10.0.r,
                               decoration: const BoxDecoration(
                                 color: Color(0xFF4358BE),
                                 shape: BoxShape.circle,
@@ -74,7 +74,7 @@ class LeaveInfoContent extends StatelessWidget {
                             Text(
                               tr("leaves_used"),
                               style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey),
+                                  fontSize: 12.r, color: Colors.grey),
                             )
                           ],
                         ),
@@ -87,7 +87,7 @@ class LeaveInfoContent extends StatelessWidget {
                                   .toString() ??
                               '0',
                           style: TextStyle(
-                              fontSize: DeviceUtil.isTablet ? 25.sp : 25, fontWeight: FontWeight.bold),
+                              fontSize: 25.r, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -99,13 +99,13 @@ class LeaveInfoContent extends StatelessWidget {
                 child: Row(
                   children: [
                     RectangularCardShimmer(
-                      height: DeviceUtil.isTablet ? 65.h : 65,
-                      width: DeviceUtil.isTablet ? 150.w : 150,
+                      height: 65.h ,
+                      width: 150.w,
                     ),
                     const Spacer(),
                     RectangularCardShimmer(
-                      height: DeviceUtil.isTablet ? 65.h : 65,
-                      width: DeviceUtil.isTablet ? 150.w : 150,
+                      height: 65.h,
+                      width: 150.w ,
                     ),
                   ],
                 ),
@@ -122,15 +122,15 @@ class LeaveInfoContent extends StatelessWidget {
                 child: Row(
                   children: [
                     RectangularCardShimmer(
-                      height: DeviceUtil.isTablet ? 55.sp : 55,
-                      width: DeviceUtil.isTablet ? 100.sp : 100,
+                      height:55.r,
+                      width: 100.r ,
                     ),
                     const SizedBox(
                       width: 20,
                     ),
                     RectangularCardShimmer(
-                      height: DeviceUtil.isTablet ? 55.h : 55,
-                      width: DeviceUtil.isTablet ? 100.w : 100,
+                      height:55.r,
+                      width: 100.r ,
                     ),
                   ],
                 ),

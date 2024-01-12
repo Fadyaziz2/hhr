@@ -22,17 +22,17 @@ class LeaveReportSummaryContent extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8).r,
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 6.0).r,
                 child: ListTile(
-                    leading: Text(state.leaveReportSummaryModel?.data?.date ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
+                    leading: Text(state.leaveReportSummaryModel?.data?.date ?? '',style: TextStyle(fontSize: 14.r),),
                     trailing: IconButton(
                       onPressed: () {
                         context.read<LeaveReportBloc>().add(SelectDatePicker(context));
                       },
-                      icon: Icon(Icons.calendar_month,size: DeviceUtil.isTablet ? 24.sp : 24,),
+                      icon: Icon(Icons.calendar_month,size: 24.r,),
                     )),
               ),
             ),
@@ -46,41 +46,38 @@ class LeaveReportSummaryContent extends StatelessWidget {
                       itemCount: state.leaveReportSummaryModel?.data?.leaveTypes?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         final data = state.leaveReportSummaryModel?.data?.leaveTypes?[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 4),
-                              child: ListTile(
-                                onTap: () {
-                                  NavUtil.navigateScreen(context,
-                                    BlocProvider.value(
-                                      value: context.read<LeaveReportBloc>(),
-                                      child: LeaveTypeWiseSummary(leaveData: data!),
-                                    ),
-                                  );
-                                },
-                                dense: true,
-                                contentPadding: EdgeInsets.zero,
-                                title: Text(
-                                  tr(data?.name ?? ''),
-                                  style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 14.sp : 14,
-                                    color: Colors.black.withOpacity(0.7),
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 4).r,
+                            child: ListTile(
+                              onTap: () {
+                                NavUtil.navigateScreen(context,
+                                  BlocProvider.value(
+                                    value: context.read<LeaveReportBloc>(),
+                                    child: LeaveTypeWiseSummary(leaveData: data!),
                                   ),
+                                );
+                              },
+                              dense: true,
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                tr(data?.name ?? ''),
+                                style: TextStyle(
+                                  fontSize: 14.r,
+                                  color: Colors.black.withOpacity(0.7),
                                 ),
-                                trailing: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                  child: Text(
-                                    data?.count.toString() ?? '',
-                                    style:  TextStyle(
-                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                              ),
+                              trailing: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Text(
+                                  data?.count.toString() ?? '',
+                                  style:  TextStyle(
+                                      fontSize: 14.r,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),

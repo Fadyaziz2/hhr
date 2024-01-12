@@ -24,7 +24,7 @@ class SummeryTile extends StatelessWidget {
         ListTile(
           onTap: onTap,
           dense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
+          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16).r,
           leading: Container(
             width: 16.w,
             height:16.h,
@@ -36,7 +36,7 @@ class SummeryTile extends StatelessWidget {
           title: Text(title,style: TextStyle(fontSize: 12.sp),).tr(),
           trailing: titleValue != null ? Text(
             titleValue!,
-            style: TextStyle(fontSize: 14.sp),
+            style: TextStyle(fontSize: 14.r),
           ) : RectangularCardShimmer(height: 30.h,width:20.w,),
         ),
          Divider(
