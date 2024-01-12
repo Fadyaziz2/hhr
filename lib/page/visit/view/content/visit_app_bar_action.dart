@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 import '../../../../res/const.dart';
@@ -20,15 +21,15 @@ class VisitAppBarAction extends StatelessWidget {
                 value: context.read<VisitBloc>(),
                 child:  UpdateVisit(visitID: visitID,)));
       },
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
+      child:  Padding(
+        padding: const EdgeInsets.all(8.0).r,
         child: CircleAvatar(
           radius: 12,
           backgroundColor: Colors.white,
           child: ClipOval(
               child: Icon(
             Icons.edit,
-            size: 20,
+            size: 12.r,
             color: colorPrimary,
           )),
         ),

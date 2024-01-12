@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class VisitScheduleItem extends StatelessWidget {
@@ -14,7 +15,7 @@ class VisitScheduleItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            schedule?.title ?? "",
+            schedule?.title ?? "",style: TextStyle(fontSize: 12.r),
           ).tr(),
           Text(
             schedule?.dateTime ?? "",
