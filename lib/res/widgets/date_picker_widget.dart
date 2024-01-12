@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../dialogs/custom_dialogs.dart';
 
 class CustomDatePicker extends StatelessWidget {
@@ -36,7 +37,7 @@ class CustomDatePicker extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14.r),
               ),
               const Icon(Icons.date_range_outlined)
             ],

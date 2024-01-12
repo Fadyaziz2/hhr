@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
@@ -21,7 +22,8 @@ class AppointmentScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => AppointmentBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(GetAppointmentData()),
       child: BlocBuilder<AppointmentBloc, AppointmentState>(
         builder: (context, state) {
@@ -37,7 +39,12 @@ class AppointmentScreen extends StatelessWidget {
               child: const Icon(Icons.add),
             ),
             appBar: AppBar(
-              title: Text(tr("appointments")),
+              title: Text(
+                tr(
+                  "appointments",
+                ),
+                style: TextStyle(fontSize: 18.r),
+              ),
               actions: [
                 IconButton(
                     onPressed: () {

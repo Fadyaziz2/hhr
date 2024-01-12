@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
@@ -89,6 +90,7 @@ class _EmergencyFormState extends State<EmergencyForm> {
           text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
+          textSize: 14.r,
         ),
         const SizedBox(
           height: 30,

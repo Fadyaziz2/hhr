@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/custom_build_profile_details.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
@@ -42,6 +43,7 @@ class FinancialProfileContent extends StatelessWidget {
                   profile: profile));
             },
             text: 'editFinancial_info'.tr(),
+            textSize: 14.r,
           ),
           const SizedBox(
             height: 24.0,

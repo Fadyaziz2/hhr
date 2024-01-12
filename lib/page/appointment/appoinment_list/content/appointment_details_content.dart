@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class AppointmentDetailsScreen extends StatelessWidget {
@@ -11,7 +12,10 @@ class AppointmentDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr("appointment_details")),
+        title: Text(
+          tr("appointment_details"),
+          style: TextStyle(fontSize: 18.r),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,7 +37,10 @@ class AppointmentDetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ExpansionTile(
-                title: Text(data?.appointmentWith ?? ''),
+                title: Text(
+                  data?.appointmentWith ?? '',
+                  style: TextStyle(fontSize: 12.r),
+                ),
                 children: [
                   buildContainer(
                       title: tr("agree"),
@@ -76,7 +83,12 @@ class AppointmentDetailsScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: 130, child: Text(title ?? '')),
+          SizedBox(
+              width: 130,
+              child: Text(
+                title ?? '',
+                style: TextStyle(fontSize: 12.r),
+              )),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +96,8 @@ class AppointmentDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: Text(
                     titleValue ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 12.r),
                     maxLines: 1,
                   ),
                 ),
