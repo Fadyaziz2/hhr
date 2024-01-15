@@ -20,7 +20,6 @@ class ApprovalScreenContent extends StatelessWidget {
           ),
           body: state.status == NetworkStatus.loading
               ? ListView.builder(
-                  itemCount: 3,
                   itemBuilder: (BuildContext context, int index) {
                     return const Padding(
                       padding: EdgeInsets.all(12.0),

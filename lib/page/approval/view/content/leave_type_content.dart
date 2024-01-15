@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class LeaveTypeContent extends StatelessWidget {
@@ -15,7 +16,7 @@ class LeaveTypeContent extends StatelessWidget {
     TextStyle? textStyle = Theme.of(context).textTheme.labelSmall;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12.0).r,
         child: Column(
           children: [
             Row(
@@ -27,10 +28,10 @@ class LeaveTypeContent extends StatelessWidget {
                     children: [
                       Text('leave_type',
                               style: textStyle!
-                                  .copyWith(color: const Color(0xFF6B6A70)))
+                                  .copyWith(color: const Color(0xFF6B6A70), fontSize: 12.r))
                           .tr(),
                       Chip(
-                        label: Text(data?.type ?? '', style: textStyle),
+                        label: Text(data?.type ?? '', style: textStyle.copyWith(fontSize: 10.r)),
                         shape: const StadiumBorder(),
                       )
                     ],
@@ -43,7 +44,7 @@ class LeaveTypeContent extends StatelessWidget {
                     children: [
                       Text('leave_status',
                               style: textStyle.copyWith(
-                                  color: const Color(0xFF6B6A70)))
+                                  color: const Color(0xFF6B6A70), fontSize: 12.r))
                           .tr(),
                       Chip(
                         backgroundColor: Color(
@@ -51,7 +52,7 @@ class LeaveTypeContent extends StatelessWidget {
                         ),
                         label: Text(
                           data?.status ?? '',
-                          style: textStyle.copyWith(color: Colors.white),
+                          style: textStyle.copyWith(color: Colors.white, fontSize: 10.r),
                         ).tr(),
                         shape: const StadiumBorder(),
                       )
@@ -72,10 +73,10 @@ class LeaveTypeContent extends StatelessWidget {
                     children: [
                       Text('form_-_to',
                               style: textStyle.copyWith(
-                                  color: const Color(0xFF6B6A70)))
+                                  color: const Color(0xFF6B6A70), fontSize: 12.r))
                           .tr(),
                       Chip(
-                        label: Text(data?.period ?? '', style: textStyle),
+                        label: Text(data?.period ?? '', style: textStyle.copyWith(fontSize: 10.r)),
                         shape: const StadiumBorder(),
                       )
                     ],
@@ -88,12 +89,12 @@ class LeaveTypeContent extends StatelessWidget {
                     children: [
                       Text('leave_balance',
                               style: textStyle.copyWith(
-                                  color: const Color(0xFF6B6A70)))
+                                  color: const Color(0xFF6B6A70), fontSize: 12.r))
                           .tr(),
                       Chip(
                         label: Text(
                             '${data?.totalUsed} / ${data?.availableLeave} Days',
-                            style: textStyle),
+                            style: textStyle.copyWith(fontSize: 10.r)),
                         shape: const StadiumBorder(),
                       )
                     ],
