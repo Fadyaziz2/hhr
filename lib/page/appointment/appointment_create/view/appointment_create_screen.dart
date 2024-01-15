@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
@@ -15,10 +16,7 @@ import 'package:onesthrm/res/enum.dart';
 class AppointmentCreateScreen extends StatefulWidget {
   final AppointmentBloc? appointmentBloc;
 
-
-  const AppointmentCreateScreen(
-      {super.key, this.appointmentBloc});
-
+  const AppointmentCreateScreen({super.key, this.appointmentBloc});
 
   @override
   State<AppointmentCreateScreen> createState() =>
@@ -35,11 +33,15 @@ class _AppointmentCreateScreenState extends State<AppointmentCreateScreen> {
     return BlocProvider(
       create: (context) => AppointmentCreateBloc(
           appointmentBloc: widget.appointmentBloc,
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(LoadAppointmentCreateData()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(tr("appointment_create")),
+          title: Text(
+            tr("appointment_create"),
+            style: TextStyle(fontSize: 18.r),
+          ),
         ),
         body: BlocBuilder<AppointmentCreateBloc, AppointmentCreateState>(
           builder: (context, state) {
@@ -100,10 +102,10 @@ class _AppointmentCreateScreenState extends State<AppointmentCreateScreen> {
                               ),
                             ),
                             child: Text(tr("create"),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
+                                  fontSize: 16.0.r,
                                 )),
                           ),
                         )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../const.dart';
 
@@ -26,7 +27,7 @@ class CustomButton1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30),
-      height: 50.0,
+      height: 38.0.h,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: asyncCall ? null : onTap,
@@ -37,8 +38,10 @@ class CustomButton1 extends StatelessWidget {
           ),
         ),
         child: asyncCall
-            ?  Center(
-                child: CircularProgressIndicator(color: textColor,),
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: textColor,
+                ),
               )
             : Text(text,
                 style: TextStyle(

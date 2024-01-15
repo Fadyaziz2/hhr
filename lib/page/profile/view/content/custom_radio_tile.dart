@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomRadioTile extends StatelessWidget {
   final Function(String?) onChanged;
@@ -22,13 +23,13 @@ class CustomRadioTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Radio<String>(
-                  value: title,
-                  groupValue: initialData,
-                  onChanged: onChanged),
+                  value: title, groupValue: initialData, onChanged: onChanged),
               Text(
                 title,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black45),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black45,
+                    fontSize: 12.r),
               )
             ],
           ),

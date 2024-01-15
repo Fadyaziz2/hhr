@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
@@ -26,7 +27,8 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => ProfileBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl))
         ..add(ProfileLoadRequest()),
       child: DefaultTabController(
           length: 4,
@@ -34,14 +36,17 @@ class ProfileScreen extends StatelessWidget {
           child: Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
-                title: Text('profile'.tr()),
+                title: Text(
+                  'profile'.tr(),
+                  style: TextStyle(fontSize: 18.r),
+                ),
                 backgroundColor: mainColor,
                 bottom: TabBar(
                   isScrollable: false,
                   labelColor: Colors.white,
                   indicatorColor: Colors.white,
-                  labelStyle: const TextStyle(
-                    fontSize: 12,
+                  labelStyle: TextStyle(
+                    fontSize: 11.r,
                   ),
                   labelPadding: const EdgeInsets.symmetric(
                       vertical: 12.0, horizontal: 16.0),

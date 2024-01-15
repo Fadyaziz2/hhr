@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class ProfileDropDown extends StatelessWidget {
-
   final List<Department> items;
   final Department? item;
   final String title;
   final Function(Department?) onChange;
 
-  const ProfileDropDown({Key? key,required this.items,required this.title,required this.onChange, this.item}) : super(key: key);
+  const ProfileDropDown(
+      {Key? key,
+      required this.items,
+      required this.title,
+      required this.onChange,
+      this.item})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +23,8 @@ class ProfileDropDown extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: 12.r, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 8.0,
@@ -39,7 +43,7 @@ class ProfileDropDown extends StatelessWidget {
               isExpanded: true,
               hint: Text(
                 title,
-                style: const TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14.r),
               ),
               value: item,
               icon: const Icon(
@@ -49,12 +53,13 @@ class ProfileDropDown extends StatelessWidget {
               iconSize: 24,
               elevation: 16,
               onChanged: onChange,
-              items: items.map<DropdownMenuItem<Department>>((Department value) {
+              items:
+                  items.map<DropdownMenuItem<Department>>((Department value) {
                 return DropdownMenuItem<Department>(
                   value: value,
                   child: Text(
                     '${value.title}',
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14.r),
                   ),
                 );
               }).toList(),
@@ -66,15 +71,19 @@ class ProfileDropDown extends StatelessWidget {
   }
 }
 
-
 class SimpleDropDown extends StatelessWidget {
-
   final List<String> items;
   final String title;
   final String? initialData;
   final Function(String?) onChanged;
 
-  const SimpleDropDown({Key? key,required this.items,required this.title,required this.onChanged,required this.initialData}) : super(key: key);
+  const SimpleDropDown(
+      {Key? key,
+      required this.items,
+      required this.title,
+      required this.onChanged,
+      required this.initialData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +92,8 @@ class SimpleDropDown extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: 12.r, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 8.0,
@@ -114,13 +121,13 @@ class SimpleDropDown extends StatelessWidget {
               ),
               iconSize: 24,
               elevation: 16,
-              onChanged:onChanged,
+              onChanged: onChanged,
               items: items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
                     value,
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14.r),
                   ),
                 );
               }).toList(),
