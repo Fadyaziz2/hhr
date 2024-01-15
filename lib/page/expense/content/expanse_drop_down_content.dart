@@ -32,11 +32,11 @@ class ExpenseDropDownContent extends StatelessWidget {
                   style: TextStyle(fontSize: 14.r),
                 ),
                 value: state?.paymentTypeName,
-                icon: const Icon(
+                icon:  Icon(
                   Icons.arrow_downward,
-                  size: 20,
+                  size: 18.r,
                 ),
-                iconSize: 24,
+                iconSize: 24.r,
                 elevation: 16,
                 onChanged: (String? newValue) {
                   context
@@ -80,11 +80,11 @@ class ExpenseDropDownContent extends StatelessWidget {
                   style: TextStyle(fontSize: 14.r),
                 ),
                 value: state?.statusTypeName,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_downward,
-                  size: 20,
+                  size: 18.r,
                 ),
-                iconSize: 24,
+                iconSize: 24.r,
                 elevation: 16,
                 onChanged: (String? newValue) {
                   context

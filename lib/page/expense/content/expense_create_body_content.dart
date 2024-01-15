@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/attachment_content.dart';
@@ -37,20 +38,21 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                     Container(
                       color: Colors.blue[50],
                       child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6).r,
                         onTap: () => NavUtil.replaceScreen(
                             context,
                             BlocProvider.value(
                                 value: context.read<ExpenseBloc>(),
                                 child: const ExpenseCategoryListPage())),
-                        leading: const Icon(Icons.list_alt),
+                        leading: Icon(Icons.list_alt, size: 18.r,),
                         trailing: Text(
                           tr("change"),
-                          style: const TextStyle(
-                              fontSize: 16,
+                          style:  TextStyle(
+                              fontSize: 14.r,
                               fontWeight: FontWeight.bold,
                               color: Colors.blue),
                         ),
-                        title: Center(child: Text(categoryName ?? '')),
+                        title: Center(child: Text(categoryName ?? '', style: TextStyle(fontSize: 14.r),)),
                       ),
                     ),
                     Padding(
@@ -80,7 +82,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                           ),
                           Text(
                             "date_schedule".tr(),
-                            style: const TextStyle(
+                            style:  TextStyle(
+                              fontSize: 12.r,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -99,7 +102,7 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                        state.selectDate ?? 'select_date'.tr()),
+                                        state.selectDate ?? 'select_date'.tr(), style: TextStyle(fontSize: 14.r),),
                                     const Icon(
                                       Icons.arrow_drop_down_sharp,
                                       color: Colors.grey,
@@ -125,8 +128,8 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                           ExpenseAttachmentContent(
                             expenseCreateBody: expenseCreateBody,
                           ),
-                          const SizedBox(
-                            height: 50,
+                           SizedBox(
+                            height: 50.h,
                           ),
                         ],
                       ),
@@ -140,7 +143,7 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                 bottom: 0,
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 55,
+                  height: 45.h,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
@@ -166,10 +169,10 @@ class ExpenseCreateBodyContent extends StatelessWidget {
                             backgroundColor: Colors.white,
                           )
                         : Text(tr("submit"),
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
+                              fontSize: 14.0.r,
                             )),
                   ),
                 ),

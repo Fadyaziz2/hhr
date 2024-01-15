@@ -34,7 +34,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20).r,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -59,7 +59,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                                 .expenseCategoryData?.data?.categories?[index];
                             return Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 3.0),
+                                   EdgeInsets.symmetric(vertical: 3.0.r),
                               child: Card(
                                 elevation: 4,
                                 child: RadioListTile<Category?>(
@@ -86,7 +86,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 45.h,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
