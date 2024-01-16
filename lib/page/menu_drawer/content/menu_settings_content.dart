@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onesthrm/page/language/view/language_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -22,9 +23,9 @@ class MenuSettingsContent extends StatelessWidget {
             const SizedBox(
               height: 10.0,
             ),
-            const Text(
+             Text(
               'setting',
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey, fontSize: 14.r),
             ).tr(),
             const Divider(),
             ListTile(
@@ -36,7 +37,7 @@ class MenuSettingsContent extends StatelessWidget {
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
                   'assets/menu_drawer_icons/language-change.svg'),
-              title: const Text("language_change").tr(),
+              title:  Text("language_change", style: TextStyle(fontSize: 12.r),).tr(),
             ),
           ],
         );

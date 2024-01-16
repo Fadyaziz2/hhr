@@ -151,11 +151,11 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                       ),
                       Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.only(bottom: 55.0),
+                          padding: const EdgeInsets.only(bottom: 55.0).r,
                           itemCount: homeData?.data?.menus?.length ?? 0,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, childAspectRatio: 2),
+                               SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 1.7.r),
                           itemBuilder: (BuildContext context, int index) {
                             ///List length
                             int length = homeData?.data?.menus?.length ?? 0;

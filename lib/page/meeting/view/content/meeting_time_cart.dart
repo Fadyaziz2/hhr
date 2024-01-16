@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 
 import '../../../../res/const.dart';
@@ -18,7 +19,9 @@ class MeetingTimeCart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(tr("start_time"),
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 14.r,
+                    color: Colors.black, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10,),
               Card(
@@ -30,12 +33,12 @@ class MeetingTimeCart extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 16),
+                        vertical: 12.0, horizontal: 16).r,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(meetingState?.startTime ?? tr("start_time")),
-                        const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
+                        Text(meetingState?.startTime ?? tr("start_time"), style: TextStyle(fontSize: 12.r)),
+                         Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,size: 18.r,)
                       ],
                     ),
                   ),
@@ -49,7 +52,7 @@ class MeetingTimeCart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(tr("end_time"),
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style:  TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.r),
               ),
               const SizedBox(height: 10),
               Card(
@@ -60,12 +63,12 @@ class MeetingTimeCart extends StatelessWidget {
                     context.read<MeetingBloc>().add(SelectEndTime(context));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16).r,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(meetingState?.endTime ?? tr("end_time")),
-                        const Icon(Icons.arrow_drop_down_sharp, color: Colors.grey,)
+                        Text(meetingState?.endTime ?? tr("end_time"),  style: TextStyle(fontSize: 12.r),),
+                         Icon(Icons.arrow_drop_down_sharp, color: Colors.grey, size: 18.r)
                       ],
                     ),
                   ),

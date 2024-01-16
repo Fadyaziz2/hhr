@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/content/menu_settings_content.dart';
@@ -41,14 +42,14 @@ class MenuDrawer extends StatelessWidget {
                 user?.user?.name ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style:  TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14.r,
                     color: Colors.white),
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 1,
-                margin: const EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 18).h,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 decoration: const BoxDecoration(

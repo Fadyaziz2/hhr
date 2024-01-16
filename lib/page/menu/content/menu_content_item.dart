@@ -25,12 +25,10 @@ class MenuContentItem extends StatelessWidget {
           return FadeTransition(
             opacity: kAlwaysCompleteAnimation,
             child: Transform(
-              transform: Matrix4.translationValues(
-                  0.0, 50.0 * (1.0 - animation.value), 0.0),
+              transform: Matrix4.translationValues(0.0, 50.0 * (1.0 - animation.value), 0.0),
               child: Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0).r,
                 ),
                 child: TextButton(
                   onPressed: onPressed,
