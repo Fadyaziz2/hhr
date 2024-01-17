@@ -78,10 +78,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime,
           dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
 
-      // await testScheduleNotification();
-
-      ///Schedule check-out notification
-      // await checkOutScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
       globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
@@ -113,17 +109,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       throw NetworkRequestFailure(e.toString());
     }
   }
-  Future testScheduleNotification()async{
-    await notificationPlugin.scheduleNotification(
-      id: 333,
-      title: "Check In Alert",
-      body: "Good morning have you checked in office yet from onesttech",
-      day: 12,
-      hour: 11,
-      minute: 2,
-      second: 0,
-    );
-  }
 
   Future checkInScheduleNotification(startTime, outTime) async {
     ///unsubscribe * previous subscription if any
@@ -133,9 +118,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     for (var dateString in startTime) {
       final uuid = Random().nextInt(200);
       var splitMinute = dateString.split(" ")[1].split(":");
-      DateTime dateTime = splitMinute[1].contains("00")
-          ? DateTime.parse('$dateString')
-          : DateTime.parse('${dateString}0');
+      DateTime dateTime = splitMinute[1].length == 2 ? DateTime.parse('$dateString') : DateTime.parse('${dateString}0');
 
       /// Extract date and time components
       int day = dateTime.day;
