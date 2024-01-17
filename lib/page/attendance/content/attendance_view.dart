@@ -146,8 +146,7 @@ class _AttendanceState extends State<AttendanceView>
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFE8E8E8),
                                   shape: BoxShape.circle,
-                                  borderRadius: BorderRadius.circular(
-                                      100.r), // radius of 10// green as background color
+                                  borderRadius: BorderRadius.circular(100.r), // radius of 10// green as background color
                                 )),
                           )
                         : AnimatedCircularButton(

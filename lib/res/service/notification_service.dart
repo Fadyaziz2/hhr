@@ -123,43 +123,50 @@ class NotificationService {
       required int second}) async {
     tz.initializeTimeZones();
 
-    final scheduleTime = DateTime.now();
+    final now = DateTime.now();
 
-    Duration offsetTime = DateTime.now().timeZoneOffset;
+    Duration offsetTime = now.timeZoneOffset;
+
+    tz.TZDateTime tzDateLocalTime = tz.TZDateTime.local(now.year, now.month, day, hour, minute, second, 0, 0);
 
     if (kDebugMode) {
-      print('hour : $hour  min : $minute  sec : $second');
+      print('schedule ID : $id');
     }
 
     if (kDebugMode) {
-      print('schedule : ${scheduleTime.toString()}');
+      print('Timezone name : ${tzDateLocalTime.timeZoneName}');
+    }
+
+    if (kDebugMode) {
+      print('Local schedule time : ${tzDateLocalTime.toString()}');
+    }
+
+    if (kDebugMode) {
+      print('current time : ${now.toString()}');
     }
 
     if (kDebugMode) {
       print('offsetTime : ${offsetTime.toString()}');
     }
 
-    tz.TZDateTime tzDateTime = tz.TZDateTime.local(scheduleTime.year,
-            scheduleTime.month, day, hour, minute, second, 0, 0)
-        .subtract(offsetTime);
-    if (tzDateTime.isBefore(scheduleTime)) {
+    tz.TZDateTime tzDateTime = tzDateLocalTime.subtract(offsetTime);
+
+    if (kDebugMode) {
+      print('UTC TZDateTime : ${tzDateTime.toString()}');
+    }
+
+    if (tzDateTime.isBefore(now)) {
       tzDateTime = tzDateTime.add(const Duration(days: 1));
     }
 
     NotificationDataModel notificationData = NotificationDataModel(
-        id: "${id++}",
-        body: '',
-        title: '',
-        type: 'check-in',
-        image: null,
-        url: '');
+        id: "$id", body: '', title: '', type: 'check-in', image: null, url: '');
 
     String payload = json.encode(notificationData.toJson());
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id++, title, body, tzDateTime, notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+        id, title, body, tzDateTime, notificationDetails,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
         payload: payload);
   }
@@ -172,7 +179,8 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 
-  Future<void> showNotificationWithAttachment({title, body, image, payload = 'payload'}) async {
+  Future<void> showNotificationWithAttachment(
+      {title, body, image, payload = 'payload'}) async {
     final bigPicture = await _downloadAndSaveFile('$image', 'bigPicture');
     final largeIcon = await _downloadAndSaveFile('$image', 'largeIcon');
     final iosPlatformSpecifies = DarwinNotificationDetails(
