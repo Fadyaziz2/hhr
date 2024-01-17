@@ -12,7 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EmployeeList extends StatelessWidget {
-  const EmployeeList({Key? key}) : super(key: key);
+  const EmployeeList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,6 @@ class EmployeeList extends StatelessWidget {
                                   onTap: () async {
                                     var allUserData = state.phoneBookUsers?[index];
                                     Navigator.pop(context, allUserData);
-                                    print(allUserData?.id);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -90,8 +89,8 @@ class EmployeeList extends StatelessWidget {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                          state.phoneBookUsers?[index].name ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
-                                      subtitle: Text(state.phoneBookUsers?[index].designation ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),),
+                                          state.phoneBookUsers?[index].name ?? "",style: TextStyle(fontSize: 14.r),),
+                                      subtitle: Text(state.phoneBookUsers?[index].designation ?? "",style: TextStyle(fontSize:12.sp),),
                                       leading: ClipOval(
                                         child: CachedNetworkImage(
                                           height: DeviceUtil.isTablet ? 70 : 40,
@@ -107,23 +106,6 @@ class EmployeeList extends StatelessWidget {
                                               const Icon(Icons.error),
                                         ),
                                       ),
-                                      // trailing: InkWell(
-                                      //   onTap: () {
-                                      //     /// Dial
-                                      //     context.read<PhonebookBloc>().add(
-                                      //         DirectPhoneCall(
-                                      //             state.phonebookUsers?[index].phone ??
-                                      //                 ''));
-                                      //   },
-                                      //   child: const Padding(
-                                      //     padding: EdgeInsets.all(8.0),
-                                      //     child: Icon(
-                                      //       Icons.phone,
-                                      //       size: 20,
-                                      //       color: Colors.grey,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ),
                                   ),
                                 );

@@ -29,6 +29,7 @@ class CommonTextFiledWithTitle extends StatelessWidget {
           maxLines: 1,
           onChanged: onChanged,
           controller: controller,
+          style: TextStyle(fontSize: 12.r),
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xffF3F9FE).withOpacity(1),

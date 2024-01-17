@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/view/content/hitory_item.dart';
 
@@ -28,16 +29,17 @@ class HistoryListPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.calendar_month,
                 color: colorPrimary,
+                size: 22.r,
               ),
-              const SizedBox(
-                width: 5,
+               SizedBox(
+                width: 5.w,
               ),
               Text(
                 "select_month".tr(),
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12.r, fontWeight: FontWeight.bold),
               ),
             ],
           ),

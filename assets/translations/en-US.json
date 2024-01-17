@@ -407,7 +407,7 @@
   "December": "December",
   "leave_request_create_successfully": "Leave Request create successfully",
   "failed_to_load_leave_list": "Failed to load Leave list",
-  "response_can't_be_empty": "response_can't_be_empty",
+  "response_can't_be_empty": "Reasons can't be empty",
   "leave_request_cancelled": "Leave Request Cancelled",
   "cancel_leave_request": "Cancel Leave Request",
   "leave_request_type": "Leave Request Type",

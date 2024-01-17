@@ -86,13 +86,15 @@ class CreateLeaveRequest extends StatelessWidget {
                               // ignore: use_build_context_synchronously
                               context.read<LeaveBloc>().add(SelectEmployee(employee));
                             },
-                            title: Text(state.selectedEmployee?.name! ??
+                            title: Text(state.selectedEmployee?.name ??
                                 tr("add_a_Substitute"),style: TextStyle(fontSize: 14.r),),
                             subtitle: Text(
-                                state.selectedEmployee?.designation! ??
+                                state.selectedEmployee?.designation ??
                                     tr("add_a_Designation"),style: TextStyle(fontSize: 12.r)),
                             leading : ClipOval(
                               child: CachedNetworkImage(
+                                height: 35.r,
+                                width: 35.r,
                                 fit: BoxFit.cover,
                                 imageUrl:  state.selectedEmployee?.avatar ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
                                 placeholder: (context, url) => Center(
