@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,7 +22,6 @@ import '../../support/view/support_page.dart';
 import '../view/content/home_earth_content.dart';
 
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
@@ -116,7 +114,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     /// Schedule the notification
     ///looping all schedule and set that schedule as active
     for (var inTime in startTime) {
-      final uuid = Random().nextInt(1000000);
       DateTime dateTime = formatter.parse(inTime.date);
       /// Extract date and time components
       int day = dateTime.day;
@@ -139,7 +136,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       );
     }
     for (var outTime in endTime) {
-      final uuid = Random().nextInt(1000000);
       DateTime dateTime = formatter.parse(outTime.date);
 
       /// Extract date and time components
