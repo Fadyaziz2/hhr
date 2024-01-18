@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../bloc/visit_bloc.dart';
@@ -22,7 +23,7 @@ class VisitDetailsGoogleMap extends StatelessWidget {
               const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
               child: Text(
                 tr("location"),
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 12.r),
               ),
             ),
             Padding(
@@ -32,7 +33,7 @@ class VisitDetailsGoogleMap extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
                 child: SizedBox(
-                  height: 220,
+                  height: 180.h,
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),

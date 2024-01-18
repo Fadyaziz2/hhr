@@ -15,14 +15,15 @@ class EmployeeSearch extends StatelessWidget {
 
     return Padding(
       padding:
-          const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0),
+          const EdgeInsets.only(left: 16.0, right: 8.0, top: 10, bottom: 10.0).r,
       child: TextField(
-        decoration:  const InputDecoration(
-          prefixIcon: Icon(Icons.search,size: 24,),
+        decoration:  InputDecoration(
+          prefixIcon: Icon(Icons.search,size: 18.r,),
           hintText: "Search",
+          hintStyle: TextStyle(fontSize: 14.r),
           filled: true,
-          contentPadding: EdgeInsets.all(0),
-          border: OutlineInputBorder(
+          contentPadding:  EdgeInsets.symmetric(vertical: 8.h),
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50.0),
             ),

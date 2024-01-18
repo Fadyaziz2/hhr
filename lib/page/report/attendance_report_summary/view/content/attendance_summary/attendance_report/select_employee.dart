@@ -16,6 +16,7 @@ class SelectEmployeeForAttendance extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).r,
         onTap: () async {
           await Navigator.push(
               context,
@@ -28,7 +29,7 @@ class SelectEmployeeForAttendance extends StatelessWidget {
           });
         },
         title: Text(context.watch<ReportBloc>().state.selectEmployee?.name! ??
-                'select_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),).tr(),
+                'select_employee',style: TextStyle(fontSize: 14.r),).tr(),
         leading: CircleAvatar(
           backgroundImage: NetworkImage(context.watch<ReportBloc>().state.selectEmployee?.avatar ??
               'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),

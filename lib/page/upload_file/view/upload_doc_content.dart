@@ -27,7 +27,8 @@ class UploadDocContent extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider<UploadFileBloc>(
       create: (context) => UploadFileBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: BlocListener<UploadFileBloc, UploadFileState>(
         listener: (context, state) {
           if (state.networkStatus == NetworkStatus.success) {
@@ -54,9 +55,9 @@ class UploadDocContent extends StatelessWidget {
                             const Icon(Icons.error),
                       )
                     : const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
               ),
               const SizedBox(
                 height: 16,
@@ -101,7 +102,7 @@ class UploadDocContent extends StatelessWidget {
                             tr("add_file"),
                             style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: DeviceUtil.isTablet ? 12.sp : 12,
+                                fontSize: DeviceUtil.isTablet ? 12.r : 12,
                                 fontWeight: FontWeight.w600),
                           ),
                         ],

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/res/widgets/card_tile_with_content.dart';
 import 'package:onesthrm/page/approval/view/content/substitute_content.dart';
@@ -59,6 +60,7 @@ class ApprovalDetailsScreen extends StatelessWidget {
                           CardTileWithContent(
                               title: 'approves',
                               value: data?.apporover ?? 'N/A'),
+                          SizedBox(height: 6.h),
                           Visibility(
                             visible: isStatus,
                             child: Column(
@@ -79,12 +81,13 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                         return;
                                       }
                                     },
-                                    title: const Text(
+                                    title:  Text(
                                       'approved',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: Colors.white, fontSize: 14.r),
                                     ).tr(),
                                   ),
                                 ),
+                                SizedBox(height: 4.h),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -101,9 +104,9 @@ class ApprovalDetailsScreen extends StatelessWidget {
                                         return;
                                       }
                                     },
-                                    title: const Text(
+                                    title: Text(
                                       'reject',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: Colors.white, fontSize: 14.r),
                                     ).tr(),
                                     bgColor: Colors.red,
                                   ),

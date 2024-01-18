@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 
@@ -20,7 +21,7 @@ class VisitHeader extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Text(data?.date ?? ""),
+                  Text(data?.date ?? "", style: TextStyle(fontSize: 12.r),),
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
@@ -43,9 +44,9 @@ class VisitHeader extends StatelessWidget {
                       strokeWidth: 1,
                       child: Text(
                         data?.status ?? "",
-                        style: const TextStyle(
+                        style:  TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: 10.r,
                             fontWeight: FontWeight.w600),
                       ).tr(),
                     ),
@@ -57,7 +58,7 @@ class VisitHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 data?.title ?? "",
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 14.r),
               ),
             ),
             const SizedBox(
@@ -67,7 +68,7 @@ class VisitHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 data?.description ?? "",
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                style:  TextStyle(fontSize: 12.r, color: Colors.grey),
               ),
             ),
             const SizedBox(

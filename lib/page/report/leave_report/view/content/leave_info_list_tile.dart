@@ -32,25 +32,25 @@ class LeaveInfoListTile extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: DeviceUtil.isTablet ? 60.h : 60,
-                      width: DeviceUtil.isTablet ? 60.w : 60,
+                      height: 55.h,
+                      width: 60.w,
                       child: SfRadialGauge(axes: <RadialAxis>[
                         RadialAxis(
                             minimum: 0,
-                            maximum: DeviceUtil.isTablet ? 100.h : 100,
+                            maximum:100.h ,
                             showLabels: false,
                             showTicks: false,
                             startAngle: 270,
                             endAngle: 270,
                             axisLineStyle:  AxisLineStyle(
-                              thickness: DeviceUtil.isTablet ? 0.1.sp : 0.1,
+                              thickness: 0.1.r ,
                               color: const Color(0xFFE8E8E9),
                               thicknessUnit: GaugeSizeUnit.factor,
                             ),
                             pointers: <GaugePointer>[
                               RangePointer(
                                   value: data?.leftDays?.toDouble() ?? 0,
-                                  width: DeviceUtil.isTablet ? 0.1.sp : 0.1,
+                                  width: 0.1.r,
                                   sizeUnit: GaugeSizeUnit.factor,
                                   color: const Color(0xFF4358BE),
                                   cornerStyle: CornerStyle.bothCurve),
@@ -59,7 +59,7 @@ class LeaveInfoListTile extends StatelessWidget {
                               GaugeAnnotation(
                                 widget: Text(data?.leftDays.toString() ?? "0",
                                     style:  TextStyle(
-                                        fontSize: DeviceUtil.isTablet ? 20.sp : 20,
+                                        fontSize: 20.r,
                                         fontWeight: FontWeight.bold,
                                         color: const Color(0xFF414F5D))),
                                 positionFactor: 0,
@@ -73,7 +73,7 @@ class LeaveInfoListTile extends StatelessWidget {
                     ),
                     Text(data?.type ?? "sick",
                             style: TextStyle(
-                                fontSize: DeviceUtil.isTablet ? 12.sp : 12, color: Colors.grey))
+                                fontSize: 12.r, color: Colors.grey))
                         .tr(),
                   ],
                 ),

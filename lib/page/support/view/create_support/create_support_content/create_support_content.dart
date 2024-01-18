@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/custom_text_field_with_title.dart';
 import 'package:onesthrm/page/support/content/priority_id_widget.dart';
@@ -26,9 +27,9 @@ class CreateSupportListContent extends StatelessWidget {
               children: [
                 Text(
                   tr("priority"),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

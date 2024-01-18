@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/emergency_profile_content.dart';
 import 'package:onesthrm/page/profile/view/content/finalcial_profile_content.dart';
@@ -79,7 +80,7 @@ class ProfileContent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 45.0,
+                    height: 40.0.h,
                     child: ElevatedButton(
                       onPressed: () => showDialog(
                         context: context,
@@ -109,8 +110,8 @@ class ProfileContent extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8.0),
                           )),
                       child: Text('delete_account'.tr(),
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.white)),
+                          style:  TextStyle(
+                              fontSize: 14.r, color: Colors.white)),
                     ),
                   ),
                 );

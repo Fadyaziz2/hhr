@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
@@ -64,9 +65,9 @@ class VisitReschedule extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
               child: Text(
                 tr("date*"),
-                style: const TextStyle(
+                style:  TextStyle(
                     color: Colors.black,
-                    fontSize: 12,
+                    fontSize: 12.r,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -83,7 +84,7 @@ class VisitReschedule extends StatelessWidget {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 10),
+                          horizontal: 8, vertical: 10).r,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.grey)),
@@ -94,9 +95,9 @@ class VisitReschedule extends StatelessWidget {
                             state.currentDate?.isEmpty == true
                                 ? "selected_date".tr()
                                 : state.currentDate ?? "selected_date".tr(),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 12,
+                                fontSize: 12.r,
                                 fontWeight: FontWeight.bold),
                           ),
                           const Icon(Icons.date_range_outlined)
@@ -118,8 +119,8 @@ class VisitReschedule extends StatelessWidget {
                 ],
               );
             }),
-            const SizedBox(
-              height: 10,
+             SizedBox(
+              height: 10.h,
             ),
             CustomTextField(
               title: tr("Note_(Optional)"),

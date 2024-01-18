@@ -46,6 +46,7 @@ class EmployeeLeaveHistory extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4).r,
                     onTap: () async {
                       await Navigator.push(
                           context,
@@ -58,12 +59,12 @@ class EmployeeLeaveHistory extends StatelessWidget {
                       });
                     },
                     title: Text(context.watch<LeaveReportBloc>().state.selectedEmployee?.name ??
-                        user!.user!.name!,style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+                        user!.user!.name!,style: TextStyle(fontSize: 16.r),),
                     leading: const CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
                     ),
-                    trailing: Icon(Icons.search,size: DeviceUtil.isTablet ? 24.sp : 24,),
+                    trailing: Icon(Icons.search,size: 24.r,),
                   ),
                 ),
               ),

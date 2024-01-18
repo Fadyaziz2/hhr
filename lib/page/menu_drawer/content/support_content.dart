@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/content/privacy_policy_content.dart';
@@ -23,9 +24,9 @@ class SupportContent extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+             Text(
               'support',
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey, fontSize: 14.r),
             ).tr(),
             const Divider(),
             ListTile(
@@ -42,7 +43,7 @@ class SupportContent extends StatelessWidget {
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
                   "assets/menu_drawer_icons/support-policy.svg"),
-              title: const Text('support_policy').tr(),
+              title:  Text('support_policy',  style: TextStyle(fontSize: 12.r)).tr(),
             ),
             ListTile(
               onTap: () {
@@ -58,7 +59,7 @@ class SupportContent extends StatelessWidget {
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
                   "assets/menu_drawer_icons/privacy-policy.svg"),
-              title: const Text('privacy_policy').tr(),
+              title:  Text('privacy_policy',  style: TextStyle(fontSize: 12.r)).tr(),
             ),
             ListTile(
               onTap: () {
@@ -74,7 +75,7 @@ class SupportContent extends StatelessWidget {
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
                   "assets/menu_drawer_icons/terms-condition.svg"),
-              title: const Text('terms_conditions').tr(),
+              title:  Text('terms_conditions',  style: TextStyle(fontSize: 12.r)).tr(),
             ),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
@@ -101,7 +102,7 @@ class SupportContent extends StatelessWidget {
                 horizontalTitleGap: 8,
                 leading:
                     SvgPicture.asset("assets/menu_drawer_icons/logout.svg"),
-                title: const Text('logout').tr(),
+                title:  Text('logout',  style: TextStyle(fontSize: 12.r)).tr(),
               );
             })
           ],

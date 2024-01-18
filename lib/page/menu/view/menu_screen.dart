@@ -49,7 +49,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
     return BlocProvider(
         create: (context) => MenuBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
+            metaClubApiClient: MetaClubApiClient(
+                token: '${user?.user?.token}', companyUrl: baseUrl),
             setting: settings!,
             loginData: user!,
             color: colorPrimary)
@@ -58,14 +59,16 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
             key: MenuScreen._scaffoldKey,
             endDrawer: const MenuDrawer(),
             extendBody: true,
-            body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
+            body: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
               return Container(
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [colorPrimary, colorPrimaryGradient])),
-                  padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
                   child: Column(
                     children: [
                       InkWell(
@@ -79,7 +82,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           ),
                           elevation: 4,
                           child: Padding(
-                            padding:  EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 16.0.w, vertical: 20.h),
                             child: Row(
                               children: [
@@ -97,7 +100,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                         const Icon(Icons.error),
                                   ),
                                 ),
-                                 SizedBox(
+                                SizedBox(
                                   width: 16.w,
                                 ),
                                 Expanded(
@@ -109,17 +112,18 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                         user?.user?.name ?? "",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style:  TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 16.sp),
+                                            fontSize: 16.r),
                                       ),
-                                       SizedBox(
+                                      SizedBox(
                                         height: 5.h,
                                       ),
-                                       Text(
+                                      Text(
                                         "view_profile".tr(),
                                         style: TextStyle(
-                                            fontSize: 14.sp, color: colorPrimary),
+                                            fontSize: 14.r,
+                                            color: colorPrimary),
                                       ),
                                     ],
                                   ),
@@ -135,7 +139,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                             ?.openEndDrawer();
                                       }
                                     },
-                                    icon:  Icon(
+                                    icon: Icon(
                                       Icons.menu,
                                       color: colorPrimary,
                                       size: 25.r,
@@ -147,11 +151,11 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                       ),
                       Expanded(
                         child: GridView.builder(
-                          padding: const EdgeInsets.only(bottom: 55.0),
+                          padding: const EdgeInsets.only(bottom: 55.0).r,
                           itemCount: homeData?.data?.menus?.length ?? 0,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, childAspectRatio: 2),
+                               SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 1.7.r),
                           itemBuilder: (BuildContext context, int index) {
                             ///List length
                             int length = homeData?.data?.menus?.length ?? 0;
@@ -178,7 +182,9 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           },
                         ),
                       ),
-                      const SizedBox(height: 36.0,)
+                      const SizedBox(
+                        height: 36.0,
+                      )
                     ],
                   ));
             })));

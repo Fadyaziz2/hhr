@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_list_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -46,9 +47,11 @@ class VisitContent extends StatelessWidget {
                   indicatorColor: Colors.green,
                   automaticIndicatorColorAdjustment: true,
                   indicatorSize: TabBarIndicatorSize.tab,
+                  labelStyle: TextStyle(fontSize: 14.r),
                   tabs: [
                     Tab(
                       text: "my_visit".tr(),
+                      height: 40.r,
                     ),
                     Tab(
                       text: "history".tr(),

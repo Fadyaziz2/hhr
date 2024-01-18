@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,16 +9,14 @@ class LoginData {
   final bool? result;
   final String? message;
 
-  LoginData({this.token, this.user,this.result,this.message});
+  LoginData({this.token, this.user, this.result, this.message});
 
   factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
         token: json['token'],
-        user: User.fromJson(json['data']
-        ),
+        user: User.fromJson(json['data']),
         result: json['result'],
-        message: json["message"]
-    );
+        message: json["message"]);
   }
 }
 
@@ -52,39 +51,38 @@ class User extends Equatable {
   final String? userGroup;
   final String? message;
 
-
   // final String? avatar;
 
   const User(
       {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.anniversary,
-        this.isActive,
-        this.isRejected,
-        this.isVerified,
-        this.bloodGroup,
-        this.organization,
-        this.roleId,
-        this.mailingAddress,
-        this.permanentAddress,
-        this.gender,
-        this.birth_date,
-        this.fatherName,
-        this.motherName,
-        this.nationality,
-        this.passportNumber,
-        this.religion,
-        this.maritalStatus,
-        this.tin,
-        this.bankName,
-        this.bankAccount,
-        this.emergencyName,
-        this.emergencyMobileNumber,
-        this.emergencyMobileRelationship,
-        this.message = 'Your registration process on pending',
-        this.userGroup});
+      this.name,
+      this.email,
+      this.phone,
+      this.anniversary,
+      this.isActive,
+      this.isRejected,
+      this.isVerified,
+      this.bloodGroup,
+      this.organization,
+      this.roleId,
+      this.mailingAddress,
+      this.permanentAddress,
+      this.gender,
+      this.birth_date,
+      this.fatherName,
+      this.motherName,
+      this.nationality,
+      this.passportNumber,
+      this.religion,
+      this.maritalStatus,
+      this.tin,
+      this.bankName,
+      this.bankAccount,
+      this.emergencyName,
+      this.emergencyMobileNumber,
+      this.emergencyMobileRelationship,
+      this.message = 'Your registration process on pending',
+      this.userGroup});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -116,8 +114,7 @@ class User extends Equatable {
         emergencyMobileNumber: json['emergency_mobile_number'],
         emergencyMobileRelationship: json['emergency_mobile_relationship'],
         userGroup: json['user_group'],
-        message: json['error']
-    );
+        message: json['error']);
   }
 
   Map<String, dynamic> toJson() {
@@ -156,32 +153,32 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    email,
-    phone,
-    isActive,
-    roleId,
-    organization,
-    bloodGroup,
-    anniversary,
-    mailingAddress,
-    permanentAddress,
-    gender,
-    birth_date,
-    fatherName,
-    nationality,
-    passportNumber,
-    religion,
-    maritalStatus,
-    tin,
-    bankName,
-    bankAccount,
-    emergencyName,
-    emergencyMobileNumber,
-    emergencyMobileRelationship,
-    userGroup
-  ];
+        id,
+        name,
+        email,
+        phone,
+        isActive,
+        roleId,
+        organization,
+        bloodGroup,
+        anniversary,
+        mailingAddress,
+        permanentAddress,
+        gender,
+        birth_date,
+        fatherName,
+        nationality,
+        passportNumber,
+        religion,
+        maritalStatus,
+        tin,
+        bankName,
+        bankAccount,
+        emergencyName,
+        emergencyMobileNumber,
+        emergencyMobileRelationship,
+        userGroup
+      ];
 }
 
 class RegistrationData {
@@ -190,15 +187,19 @@ class RegistrationData {
 
   RegistrationData({this.result, this.error});
 
-  factory RegistrationData.fromJson(Map<String,dynamic> json){
-    return RegistrationData(result: json['result'],error: json['error'] != null ? json['error'] : null);
+  factory RegistrationData.fromJson(Map<String, dynamic> json) {
+    return RegistrationData(
+        result: json['result'],
+        error: json['error'] != null ? json['error'] : null);
   }
-
 }
 
-
 class EventWidgets extends StatelessWidget {
-  const EventWidgets({super.key, required this.data, this.isAppointment = false, this.viewAllPressed});
+  const EventWidgets(
+      {super.key,
+      required this.data,
+      this.isAppointment = false,
+      this.viewAllPressed});
 
   final MeetingsItem? data;
   final bool? isAppointment;
@@ -212,48 +213,84 @@ class EventWidgets extends StatelessWidget {
     final subStringData = month?.substring(0, 3);
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade300),)),
+        decoration: BoxDecoration(
+            border: Border(
+          bottom: BorderSide(color: Colors.grey.shade300),
+        )),
         child: Row(children: [
           Card(
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                  decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8)), color: Colors.blue,),
-                  child: Text('$subStringData'.toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8)),
+                    color: Colors.blue,
+                  ),
+                  child: Text(
+                    '$subStringData'.toUpperCase(),
+                    style: TextStyle(color: Colors.white, fontSize: 12.r),
                   ),
                 ),
-                Padding(padding: const EdgeInsets.all(6.0),
-                  child: Text('$date', style: const TextStyle(fontSize: 14),),
+                Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Text(
+                    '$date',
+                    style: TextStyle(fontSize: 14.r),
+                  ),
                 )
               ],
             ),
           ),
-          const SizedBox(width: 12.0,),
+          const SizedBox(
+            width: 12.0,
+          ),
           Expanded(
             flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${data?.title}', maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF222222),
-                      fontWeight: FontWeight.w500, height: 1.5, letterSpacing: 0.5),
+                Text(
+                  '${data?.title}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 14.r,
+                      color: Color(0xFF222222),
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                      letterSpacing: 0.5),
                 ),
                 Visibility(
                   visible: isAppointment!,
                   child: Row(
                     children: [
                       Text(
-                        '${data?.time},', style: const TextStyle(fontSize: 12, color: Color(0xFF555555),
-                            fontWeight: FontWeight.w400, height: 1.4, letterSpacing: 0.5),
+                        '${data?.time},',
+                        style: TextStyle(
+                            fontSize: 12.r,
+                            color: Color(0xFF555555),
+                            fontWeight: FontWeight.w400,
+                            height: 1.4,
+                            letterSpacing: 0.5),
                       ),
                       Expanded(
-                        child: Text(' ${data?.location}', maxLines: 1, overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF555555), height: 1.4, letterSpacing: 0.5),
+                        child: Text(
+                          ' ${data?.location}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12.r,
+                              color: Color(0xFF555555),
+                              height: 1.4,
+                              letterSpacing: 0.5),
                         ),
                       ),
                     ],

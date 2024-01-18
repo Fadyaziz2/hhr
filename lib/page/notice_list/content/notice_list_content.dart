@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/notice_details/view/notice_details_screen.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -59,7 +60,8 @@ class NoticeListContent extends StatelessWidget {
                   children: [
                     Text(
                       data?.subject ?? '',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.r),
                     ),
                     // Text("${data?.body}"),
                   ],
@@ -69,7 +71,7 @@ class NoticeListContent extends StatelessWidget {
                 ),
                 Text(
                   "${data?.date} ",
-                  style: const TextStyle(color: Colors.black54),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.r),
                 )
               ],
             )),

@@ -38,7 +38,7 @@ class EventCard extends StatelessWidget {
                       Text(
                         '${data?.number}',
                         style: TextStyle(
-                            fontSize: 20.sp,
+                            fontSize: 20.r,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
@@ -59,12 +59,12 @@ class EventCard extends StatelessWidget {
                     data?.title ?? '',
                     maxLines: 1,
                     style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 12.r,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
                   ).tr(),
-                   SizedBox(
+                  SizedBox(
                     height: 6.h,
                   )
                 ],
@@ -110,7 +110,7 @@ class EventCard2 extends StatelessWidget {
                       Text(
                         '${data?.number}',
                         style: TextStyle(
-                            fontSize: 20.sp,
+                            fontSize: 20.r,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
                             letterSpacing: 0.5),
@@ -120,7 +120,7 @@ class EventCard2 extends StatelessWidget {
                           'days'.tr(),
                           style: TextStyle(
                               color: const Color(0xFF777777),
-                              fontSize: 12.sp,
+                              fontSize: 12.r,
                               fontWeight: FontWeight.w500,
                               height: 4,
                               letterSpacing: 0.5),
@@ -131,7 +131,7 @@ class EventCard2 extends StatelessWidget {
                     data?.title ?? '',
                     maxLines: 1,
                     style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14.r,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                         letterSpacing: 0.5),
@@ -182,18 +182,18 @@ class UpcomingEventCard extends StatelessWidget {
                 children: [
                   Text('upcoming_events'.tr(),
                       style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 16.r,
                           fontWeight: FontWeight.w600,
                           height: 1.5,
                           letterSpacing: 0.5)),
                   Text('public_holiday_and_even'.tr(),
-                      style:  TextStyle(
-                          fontSize: 12.sp,
+                      style: TextStyle(
+                          fontSize: 12.r,
                           fontWeight: FontWeight.w400,
                           height: 1.5,
                           color: const Color(0xFF555555),
                           letterSpacing: 0.5)),
-                   SizedBox(
+                  SizedBox(
                     height: 6.h,
                   ),
                   Column(

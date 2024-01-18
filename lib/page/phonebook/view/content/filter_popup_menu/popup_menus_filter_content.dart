@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/filter_bottom_sheet_list.dart';
 
@@ -20,11 +21,11 @@ class PopupMenusFilerContent extends StatelessWidget {
   Widget build(BuildContext context) {
     PhonebookFilterType? selectedMenu;
     return Container(
-      margin: const EdgeInsets.only(right: 16.0),
+      margin: const EdgeInsets.only(right: 12.0).r,
       decoration:
           BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
       child: PopupMenuButton<PhonebookFilterType>(
-        icon: const Icon(Icons.filter_alt_outlined),
+        icon:  Icon(Icons.filter_alt_outlined, size: 26.r,),
         initialValue: selectedMenu,
         onSelected: (PhonebookFilterType item) {
           _onChoiceSelectedModelSheet(
@@ -37,11 +38,11 @@ class PopupMenusFilerContent extends StatelessWidget {
             <PopupMenuEntry<PhonebookFilterType>>[
           PopupMenuItem<PhonebookFilterType>(
             value: PhonebookFilterType.department,
-            child: const Text('department').tr(),
+            child:  Text('department', style: TextStyle(fontSize: 12.r),).tr(),
           ),
           PopupMenuItem<PhonebookFilterType>(
             value: PhonebookFilterType.designation,
-            child: const Text('designation').tr(),
+            child:  Text('designation', style: TextStyle(fontSize: 12.r)).tr(),
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class PopupMenusFilerContent extends StatelessWidget {
             ListTile(
               title: Text(
                 item.name.toUpperCase(),
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 12.r),
               ).tr(),
             ),
             Expanded(

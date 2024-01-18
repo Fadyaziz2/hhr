@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/attachment_content.dart';
@@ -58,7 +59,8 @@ class MeetingCreateContent extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
             "date_schedule".tr(),
-            style: const TextStyle(
+            style: TextStyle(
+              fontSize: 14.r,
                 color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
@@ -71,14 +73,15 @@ class MeetingCreateContent extends StatelessWidget {
             },
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16).r,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(state?.currentMonthSchedule ?? 'select_date'.tr()),
-                  const Icon(
+                  Text(state?.currentMonthSchedule ?? 'select_date'.tr(), style: TextStyle(fontSize: 12.r),),
+                   Icon(
                     Icons.arrow_drop_down_sharp,
                     color: Colors.grey,
+                     size: 18.r,
                   )
                 ],
               ),
@@ -89,13 +92,14 @@ class MeetingCreateContent extends StatelessWidget {
         MeetingTimeCart(meetingState: state),
         const SizedBox(height: 26),
         Text(tr("Add Member"),
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style:  TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.r),
         ),
         const SizedBox(height: 10,),
         Card(
           color: colorCardBackground,
           elevation: 0,
           child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).r,
             onTap: () async {
               if (state?.selectedNames.isNotEmpty == true) {
                 state?.selectedNames.clear();
@@ -113,7 +117,7 @@ class MeetingCreateContent extends StatelessWidget {
                     ),
                   ));
             },
-            title: Text(tr("add_meeting_member")),
+            title: Text(tr("add_meeting_member"),  style: TextStyle(fontSize: 12.r),),
             leading: const CircleAvatar(
               backgroundImage: NetworkImage(
                   'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),

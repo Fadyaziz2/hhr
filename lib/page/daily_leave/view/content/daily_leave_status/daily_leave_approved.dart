@@ -24,18 +24,20 @@ class DailyLeaveApproved extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         SizedBox(
+        SizedBox(
           height: 12.h,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
-          child:  Text(
+          child: Text(
             "approved_leave",
             style: TextStyle(
-                fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 16.r,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
           ).tr(),
         ),
-         SizedBox(
+        SizedBox(
           height: 8.h,
         ),
         DailyLeaveTile(

@@ -24,7 +24,7 @@ class LeaveRequestType extends StatelessWidget {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
               child: AppBar(
-                title: Text("leave_request_type".tr(),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),),
+                title: Text("leave_request_type".tr(),style: TextStyle(fontSize: 16.r),),
                 iconTheme:  IconThemeData(
                     size: DeviceUtil.isTablet ? 40 : 30,
                     color: Colors.white
@@ -32,10 +32,10 @@ class LeaveRequestType extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(color: Colors.grey[100],borderRadius: BorderRadius.circular(0)),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:  EdgeInsets.all(8.0.r),
                 child: CustomButton(
                   title: "next".tr(),
                   padding: 16,
@@ -53,22 +53,23 @@ class LeaveRequestType extends StatelessWidget {
             body: state.leaveRequestType?.leaveRequestType?.availableLeave != null
                 ? state.leaveRequestType?.leaveRequestType?.availableLeave?.isNotEmpty == true
                     ? ListView.separated(
-                        padding: const EdgeInsets.all(12),
+                        padding:  EdgeInsets.all(12.0.r),
                         shrinkWrap: true,
                         itemCount: state.leaveRequestType?.leaveRequestType?.availableLeave?.length ?? 0,
                         itemBuilder: (context, index) {
                           AvailableLeaveType? availableLeave = state.leaveRequestType?.leaveRequestType?.availableLeave?[index];
                           return Card(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                            elevation: 4,
+                            elevation: 4.r,
                             child: RadioListTile<AvailableLeaveType>(
+                              contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 12.0.r),
                               value: availableLeave!,
                               title: Row(
                                 children: [
                                   Text(
                                     "${availableLeave.type}",
                                     style:  TextStyle(
-                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
+                                        fontSize: 14.r,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ).tr(),
@@ -76,7 +77,7 @@ class LeaveRequestType extends StatelessWidget {
                                   Text(
                                     '${availableLeave.leftDays} ${tr("days_left")}',
                                     style: TextStyle(
-                                        fontSize: DeviceUtil.isTablet ? 14.sp : 14,
+                                        fontSize: 14.r,
                                         fontWeight: FontWeight.w500),
                                   ).tr(),
                                 ],

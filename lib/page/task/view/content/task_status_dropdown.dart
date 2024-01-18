@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/task/model/status_model.dart';
 
 import '../../task.dart';
@@ -16,7 +17,7 @@ class TaskStatusDropdown extends StatelessWidget {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          width: 150,
+          width: 150.w,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: Colors.white,
@@ -46,7 +47,7 @@ class TaskStatusDropdown extends StatelessWidget {
                   value: value,
                   child: Text(
                     value.title ?? ''.tr(),
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14.r),
                   ).tr(),
                 );
               }).toList(),

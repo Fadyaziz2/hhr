@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/profile/bloc/profile/profile_bloc.dart';
@@ -38,29 +39,29 @@ class EditOfficialInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (_) => UpdateProfileBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
+      create: (_) => UpdateProfileBloc(
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl)),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('Update $pageName data'.tr()),
+          title: Text(
+            'Update $pageName data'.tr(),
+            style: TextStyle(fontSize: 18.r),
+          ),
         ),
         body: BlocListener<UpdateProfileBloc, UpdateProfileState>(
           listener: (context, state) {
-            if(state.status == NetworkStatus.success){
+            if (state.status == NetworkStatus.success) {
               profileBloc.add(ProfileLoadRequest());
               Navigator.of(context).pop();
             }
-            if(state.status == NetworkStatus.failure){
-
-            }
-            if(state.status == NetworkStatus.loading){
-
-            }
+            if (state.status == NetworkStatus.failure) {}
+            if (state.status == NetworkStatus.loading) {}
           },
           child: EditProfileContent(
             pageName: pageName,

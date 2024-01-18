@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_create.dart';
@@ -26,21 +27,21 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
           appBar: AppBar(
             title: Text(
               tr("expense_log"),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16.r),
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20).r,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   tr("select_type_of_expense"),
-                  style: const TextStyle(
-                      fontSize: 14,
+                  style: TextStyle(
+                      fontSize: 14.r,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
@@ -58,11 +59,14 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                                 .expenseCategoryData?.data?.categories?[index];
                             return Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 3.0),
+                                   EdgeInsets.symmetric(vertical: 3.0.r),
                               child: Card(
                                 elevation: 4,
                                 child: RadioListTile<Category?>(
-                                  title: Text(data?.name ?? ''),
+                                  title: Text(
+                                    data?.name ?? '',
+                                    style: TextStyle(fontSize: 16.r),
+                                  ),
                                   value: data,
                                   groupValue: state.selectedCategory,
                                   onChanged: (Category? newValue) {
@@ -82,7 +86,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 45.h,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
@@ -107,10 +111,10 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> {
                       ),
                     ),
                     child: Text(tr("next"),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 16.0.r,
                         )),
                   ),
                 ),

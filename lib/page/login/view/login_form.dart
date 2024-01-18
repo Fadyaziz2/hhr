@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
@@ -75,9 +76,9 @@ class LoginForm extends StatelessWidget {
                         padding: const EdgeInsets.all(6.0),
                         child: Text(
                           tr("forgot_password"),
-                          style: const TextStyle(
+                          style:  TextStyle(
                               color: colorPrimary,
-                              fontSize: 10,
+                              fontSize: 10.r,
                               fontWeight: FontWeight.bold),
                         ).tr(),
                       ),
@@ -113,8 +114,10 @@ class _EmailInput extends StatelessWidget {
               context.read<LoginBloc>().add(LoginEmailChange(email: phone)),
           validator: (value) => state.email.validator(value ?? '')?.text(),
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          style: TextStyle(fontSize: 12.r),
           decoration: InputDecoration(
             labelText: 'Email',
+            labelStyle: TextStyle(fontSize: 12.r),
             fillColor: Colors.white,
             filled: true,
             border: const OutlineInputBorder(
@@ -146,8 +149,10 @@ class _PasswordInput extends StatelessWidget {
           validator: (value) => state.password.validator(value ?? '')?.text(),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: state.isObscure,
+          style: TextStyle(fontSize: 12.r),
           decoration: InputDecoration(
             labelText: 'Password',
+            labelStyle: TextStyle(fontSize: 12.r),
             fillColor: Colors.white,
             filled: true,
             border: const OutlineInputBorder(
@@ -184,7 +189,7 @@ class _LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : SizedBox(
                 width: double.infinity,
-                height: 45.0,
+                height: 40.0.r,
                 child: ElevatedButton(
                   onPressed: () {
                     if (context
@@ -197,9 +202,9 @@ class _LoginButton extends StatelessWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
-                  child: const Text(
+                  child: Text(
                     'Login',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 14.r),
                   ),
                 ),
               );

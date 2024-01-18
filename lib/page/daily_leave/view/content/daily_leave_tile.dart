@@ -23,17 +23,16 @@ class DailyLeaveTile extends StatelessWidget {
         leading: Container(
           height: 20.h,
           width: 20.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-              color: color),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
         ),
         title: Text(
           title,
-          style:  TextStyle(color: Colors.black87, fontSize: 14.sp),
+          style: TextStyle(color: Colors.black87, fontSize: 14.r),
         ),
         trailing: Text(
           value,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 14.sp),
+          style:
+              Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 14.r),
         ),
       ),
     );

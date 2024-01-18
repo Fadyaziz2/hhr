@@ -21,11 +21,11 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
             child: AppBar(
-              iconTheme:  IconThemeData(
-                  size: DeviceUtil.isTablet ? 40 : 30,
+              iconTheme:  const IconThemeData(
+
                   color: Colors.white
               ),
-              title:  Text('attendance_of_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),).tr(),
+              title:  Text('attendance_of_employee',style: TextStyle(fontSize: 14.r),).tr(),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -51,7 +51,7 @@ class AttendanceReportEmployeeContent extends StatelessWidget {
                     style:  TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
-                        fontSize: DeviceUtil.isTablet ? 16.sp : 16),
+                        fontSize: 14.r),
                   )),
                   const SizedBox(
                     height: 20,

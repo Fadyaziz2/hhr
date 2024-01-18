@@ -44,7 +44,8 @@ class NotificationCartContent extends StatelessWidget {
                 children: [
                   Text(
                     data?.title ?? '',
-                    style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 12.r),
                   ),
                   const SizedBox(
                     height: 5,
@@ -52,14 +53,14 @@ class NotificationCartContent extends StatelessWidget {
                   Text(
                     "${data?.body}",
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12.sp),
+                    style: TextStyle(fontSize: 12.r),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
                     "${data?.date} ",
-                    style:  TextStyle(color: Colors.black54, fontSize: 10.sp),
+                    style: TextStyle(color: Colors.black54, fontSize: 10.r),
                   )
                 ],
               )),

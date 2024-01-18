@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../res/const.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/nav_utail.dart';
@@ -22,7 +23,7 @@ class VisitNoteContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: Text(
             tr("visit_notes"),
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style:  TextStyle(fontSize: 12.r, fontWeight: FontWeight.bold),
           ),
         ),
         BlocBuilder<VisitBloc, VisitState>(
@@ -40,7 +41,7 @@ class VisitNoteContent extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 10),
+                              horizontal: 16.0, vertical: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -48,8 +49,8 @@ class VisitNoteContent extends StatelessWidget {
                                 state.visitDetailsResponse?.data?.notes?[index]
                                         .note ??
                                     "",
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.black45),
+                                style:  TextStyle(
+                                    fontSize: 10.r, color: Colors.black45),
                               ),
                             ],
                           ),
@@ -95,13 +96,13 @@ class VisitNoteContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10).r,
                 child: Row(
                   children: [
                     Text(
                       tr("visit_notes"),
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: 12.r, fontWeight: FontWeight.bold),
                     ),
                     const Spacer(),
                     const Icon(Icons.add)

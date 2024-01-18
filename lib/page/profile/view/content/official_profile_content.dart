@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/password_change/view/password_change_page.dart';
 import 'package:onesthrm/page/profile/view/content/edit_profile_info.dart';
@@ -63,6 +64,7 @@ class OfficialProfileContent extends StatelessWidget {
             },
             text: 'edit_official_info'.tr(),
             radius: 4,
+            textSize: 14.r,
           ),
           const SizedBox(
             height: 10,

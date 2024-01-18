@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Container buildProfileDetails({String? title, String? description}) {
   return Container(
@@ -11,9 +12,17 @@ Container buildProfileDetails({String? title, String? description}) {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.only(right: 5.0),
-              child: Text("$title"),
+              child: Text(
+                "$title",
+                style: TextStyle(fontSize: 14.r),
+              ),
             )),
-        Expanded(flex: 2, child: Text("$description")),
+        Expanded(
+            flex: 2,
+            child: Text(
+              "$description",
+              style: TextStyle(fontSize: 14.r),
+            )),
       ],
     ),
   );

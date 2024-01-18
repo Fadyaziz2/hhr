@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 import '../../../../res/widgets/card_tile_with_content.dart';
@@ -32,7 +33,7 @@ class SubstituteContent extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
-                              .copyWith(color: const Color(0xFF6B6A70)))
+                              .copyWith(color: const Color(0xFF6B6A70), fontSize: 12.r))
                       .tr(),
                 ),
                 const SizedBox(
@@ -40,13 +41,15 @@ class SubstituteContent extends StatelessWidget {
                 ),
                 Card(
                   child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).r,
                     leading: CircleAvatar(
                       backgroundImage:
                           NetworkImage(data?.substitute?.avatar ?? ''),
                     ),
                     title: Text(data?.substitute?.name ?? '',
-                        style: Theme.of(context).textTheme.bodySmall),
-                    subtitle: Text(data?.substitute?.designation ?? ''),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 12.r)),
+                    subtitle: Text(data?.substitute?.designation ?? '',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10.r)),
                   ),
                 )
               ],

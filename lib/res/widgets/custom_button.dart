@@ -30,13 +30,18 @@ class CustomButton extends StatelessWidget {
           if (clickButton != null) clickButton!();
         },
         style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-            minimumSize: Size.fromHeight(DeviceUtil.isTablet ? 40.sp : 50),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            minimumSize: Size.fromHeight(40.r),
             backgroundColor: backgroundColor),
         child: isLoading
             ? const CircularProgressIndicator(backgroundColor: Colors.white)
-            : Text("$title", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
-                  fontSize: DeviceUtil.isTablet ? 12.sp : 12.0)).tr(),
+            : Text("$title",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.r))
+                .tr(),
       ),
     );
   }

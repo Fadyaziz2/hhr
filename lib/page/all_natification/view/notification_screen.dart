@@ -19,13 +19,17 @@ class NotificationScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (context) => NotificationBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+            metaClubApiClient: MetaClubApiClient(
+                token: '${user?.user?.token}', companyUrl: baseUrl))
           ..add(LoadNotificationData()),
         child: BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
           return Scaffold(
               appBar: AppBar(
-                title: Text(tr("notifications")),
+                title: Text(
+                  tr("notifications"),
+                  style: TextStyle(fontSize: 16.r),
+                ),
                 actions: [
                   Visibility(
                     visible: state.notificationResponse?.data?.notifications
@@ -51,7 +55,7 @@ class NotificationScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                              fontSize: 10.sp),
+                                  fontSize: 10.r),
                             ),
                             const SizedBox(
                               width: 16,

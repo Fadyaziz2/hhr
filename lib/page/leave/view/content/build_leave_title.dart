@@ -15,13 +15,20 @@ class BuildLeaveTitle extends StatelessWidget {
   final LeaveRequestValue? leaveRequestValue;
   final int userId;
 
-  const BuildLeaveTitle({Key? key, required this.leaveRequestValue,required this.userId}) : super(key: key);
+  const BuildLeaveTitle(
+      {Key? key, required this.leaveRequestValue, required this.userId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<LeaveBloc>(),child: LeaveDetails(requestId: leaveRequestValue!.id!,userId: userId)));
+      onTap: () {
+        NavUtil.navigateScreen(
+            context,
+            BlocProvider.value(
+                value: context.read<LeaveBloc>(),
+                child: LeaveDetails(
+                    requestId: leaveRequestValue!.id!, userId: userId)));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
@@ -29,12 +36,14 @@ class BuildLeaveTitle extends StatelessWidget {
           children: [
             Card(
               elevation: 2.0,
-              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
               child: Column(
                 children: [
                   Container(
-                    padding:
-                         EdgeInsets.symmetric(horizontal: DeviceUtil.isTablet ? 10.sp : 12, vertical: 2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: DeviceUtil.isTablet ? 10.r : 12,
+                        vertical: 2),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(8),
@@ -42,15 +51,23 @@ class BuildLeaveTitle extends StatelessWidget {
                       color: colorPrimary,
                     ),
                     child: Text(
-                      leaveRequestValue?.applyDate.toString().split(" ")[0].toUpperCase() ?? "",
-                      style: TextStyle(color: Colors.white, fontSize: DeviceUtil.isTablet ? 12.sp : 12),
+                      leaveRequestValue?.applyDate
+                              .toString()
+                              .split(" ")[0]
+                              .toUpperCase() ??
+                          "",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: DeviceUtil.isTablet ? 12.r : 12),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Text(
-                      leaveRequestValue?.applyDate.toString().split(" ")[1] ?? "",
-                      style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp :14),
+                      leaveRequestValue?.applyDate.toString().split(" ")[1] ??
+                          "",
+                      style:
+                          TextStyle(fontSize: DeviceUtil.isTablet ? 14.r : 14),
                     ),
                   )
                 ],
@@ -64,16 +81,17 @@ class BuildLeaveTitle extends StatelessWidget {
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      Text("${leaveRequestValue?.type} ",
-                        style:  TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 12.sp : 12,
+                      Text(
+                        "${leaveRequestValue?.type} ",
+                        style: TextStyle(
+                            fontSize: DeviceUtil.isTablet ? 12.r : 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w500),
                       ).tr(),
                       Text(
                         '${leaveRequestValue?.days} ${tr('days')}',
-                        style:  TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 12.sp : 12,
+                        style: TextStyle(
+                            fontSize: DeviceUtil.isTablet ? 12.r : 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w700),
                       ).tr(),
@@ -83,29 +101,31 @@ class BuildLeaveTitle extends StatelessWidget {
                     height: 6,
                   ),
                   Container(
-                    width: DeviceUtil.isTablet ? 120 :80,
+                    width: DeviceUtil.isTablet ? 120 : 80,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color(int.parse(leaveRequestValue?.colorCode ?? "")),
+                        color: Color(
+                            int.parse(leaveRequestValue?.colorCode ?? "")),
                         style: BorderStyle.solid,
                         width: 3.0,
                       ),
-                      color: Color(int.parse(leaveRequestValue?.colorCode ?? "")),
+                      color:
+                          Color(int.parse(leaveRequestValue?.colorCode ?? "")),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: DottedBorder(
                       color: Colors.white,
                       borderType: BorderType.RRect,
                       radius: const Radius.circular(5),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 3),
                       strokeWidth: 1,
                       child: Center(
                         child: Text(
                           '${leaveRequestValue?.status}',
-                          style:  TextStyle(
+                          style: TextStyle(
                               color: Colors.white,
-                              fontSize: DeviceUtil.isTablet ? 10.sp : 10,
+                              fontSize: DeviceUtil.isTablet ? 10.r : 10,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -116,10 +136,12 @@ class BuildLeaveTitle extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: colorPrimary.withOpacity(0.1)),
-              child:  Icon(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: colorPrimary.withOpacity(0.1)),
+              child: Icon(
                 Icons.arrow_forward_ios,
-                size: DeviceUtil.isTablet ? 18.sp : 18,
+                size: DeviceUtil.isTablet ? 18.r : 18,
               ),
             )
           ],

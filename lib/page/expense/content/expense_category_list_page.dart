@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_create.dart';
@@ -32,7 +33,7 @@ class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14.r),
             ),
           ),
           body: Padding(
@@ -42,8 +43,8 @@ class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
               children: [
                 Text(
                   tr("select_type_of_expense"),
-                  style: const TextStyle(
-                      fontSize: 14,
+                  style:  TextStyle(
+                      fontSize: 14.r,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
@@ -65,7 +66,8 @@ class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
                               child: Card(
                                 elevation: 4,
                                 child: RadioListTile<Category?>(
-                                  title: Text(data?.name ?? ''),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6).r,
+                                  title: Text(data?.name ?? '', style: TextStyle(fontSize: 14.r),),
                                   value: data,
                                   groupValue: state.selectedCategory,
                                   onChanged: (Category? newValue) {
@@ -85,7 +87,7 @@ class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 45.r,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
@@ -110,10 +112,10 @@ class _ExpenseCategoryListPageState extends State<ExpenseCategoryListPage> {
                       ),
                     ),
                     child: Text(tr("Back"),
-                        style: const TextStyle(
+                        style:  TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 14.0.r,
                         )),
                   ),
                 ),

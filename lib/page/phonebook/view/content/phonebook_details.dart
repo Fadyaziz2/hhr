@@ -2,6 +2,7 @@ import 'package:chat/chat.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -12,6 +13,7 @@ import '../../bloc/phonebook_bloc.dart';
 class PhoneBookDetailsScreen extends StatelessWidget {
   const PhoneBookDetailsScreen(
       {super.key, required this.userId, required this.bloc});
+
   final String userId;
   final PhoneBookBloc bloc;
 
@@ -54,21 +56,22 @@ class PhoneBookDetailsScreen extends StatelessWidget {
                     snapshot.data?.data?.avatar ?? '',
                     height: 150,
                     width: 150,
+                    fit: BoxFit.cover,
                   )),
                   const SizedBox(
                     height: 15,
                   ),
                   Text(
                     snapshot.data?.data?.name ?? "N/A",
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                      fontSize: 18.r,
                       height: 1.6,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
                     snapshot.data?.data?.designation ?? "N/A",
-                    style: const TextStyle(fontSize: 16, height: 1.6),
+                    style: TextStyle(fontSize: 16.r, height: 1.6),
                   ),
                   const SizedBox(
                     height: 15,
@@ -166,13 +169,14 @@ class PhoneBookDetailsScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0).r,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
             color: bgColor, borderRadius: BorderRadius.circular(12.0)),
         child: Icon(
           iconData,
           color: Colors.white,
+          size: 22.r,
         ),
       ),
     );
@@ -187,11 +191,14 @@ class PhoneBookDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Text(title!).tr(),
+            child: Text(
+              title!,
+              style: TextStyle(fontSize: 12.r),
+            ).tr(),
           ),
           Expanded(
             flex: 2,
-            child: Text(description),
+            child: Text(description, style: TextStyle(fontSize: 14.r)),
           )
         ],
       ),

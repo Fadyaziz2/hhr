@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_create_bloc.dart';
 
 class AppointmentTimeCart extends StatelessWidget {
@@ -17,8 +18,10 @@ class AppointmentTimeCart extends StatelessWidget {
             children: [
               Text(
                 tr("start_time"),
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.r),
               ),
               const SizedBox(
                 height: 10,
@@ -36,7 +39,10 @@ class AppointmentTimeCart extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(state?.startTime ?? tr("start_time")),
+                        Text(
+                          state?.startTime ?? tr("start_time"),
+                          style: TextStyle(fontSize: 14.r),
+                        ),
                         const Icon(
                           Icons.arrow_drop_down_sharp,
                           color: Colors.grey,
@@ -55,8 +61,10 @@ class AppointmentTimeCart extends StatelessWidget {
             children: [
               Text(
                 tr("end_time"),
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.r),
               ),
               const SizedBox(
                 height: 10,
@@ -74,7 +82,10 @@ class AppointmentTimeCart extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(state?.endTime ?? tr("end_time")),
+                        Text(
+                          state?.endTime ?? tr("end_time"),
+                          style: TextStyle(fontSize: 14.r),
+                        ),
                         const Icon(
                           Icons.arrow_drop_down_sharp,
                           color: Colors.grey,

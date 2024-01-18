@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_menus_filter_content.dart';
@@ -42,7 +43,7 @@ class FilterBottomSheetList extends StatelessWidget {
             bloc?.add(SelectDesignationValue(data!));
             Navigator.pop(context);
           },
-          title: Text(data?.title ?? ''),
+          title: Text(data?.title ?? '',style: TextStyle(fontSize: 12.r),),
         );
       },
     );
@@ -65,7 +66,7 @@ class FilterBottomSheetList extends StatelessWidget {
             bloc?.add(SelectDepartmentValue(data!));
             Navigator.pop(context);
           },
-          title: Text(data?.title ?? ''),
+          title: Text(data?.title ?? '', style: TextStyle(fontSize: 12.r),),
         );
       },
     );

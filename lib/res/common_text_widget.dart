@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommonTextFiledWithTitle extends StatelessWidget {
   final void Function(String)? onChanged;
@@ -18,18 +19,22 @@ class CommonTextFiledWithTitle extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
             title ?? '',
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 14.r),
           ),
         ),
         TextFormField(
           maxLines: 1,
           onChanged: onChanged,
           controller: controller,
+          style: TextStyle(fontSize: 12.r),
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xffF3F9FE).withOpacity(1),
             hintText: labelText ?? '',
+            hintStyle: TextStyle(fontSize: 14.r),
             labelStyle: TextStyle(color: Colors.black.withOpacity(0.6)),
             border: const OutlineInputBorder(
               borderSide: BorderSide.none,

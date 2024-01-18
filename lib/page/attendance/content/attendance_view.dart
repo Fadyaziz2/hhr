@@ -102,7 +102,10 @@ class _AttendanceState extends State<AttendanceView>
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              title: Text('attendance'.tr()),
+              title: Text(
+                'attendance'.tr(),
+                style: TextStyle(fontSize: 18.r),
+              ),
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -165,16 +168,31 @@ class _AttendanceState extends State<AttendanceView>
                                 : colorDeepRed,
                           ),
                   InkWell(
-                    onTap: (){
-                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(),
-                          child: const AttendanceReason()));
+                    onTap: () {
+                      NavUtil.navigateScreen(
+                          context,
+                          BlocProvider.value(
+                              value: context.read<AttendanceBloc>(),
+                              child: const AttendanceReason()));
                     },
-                    child:  Padding(padding: EdgeInsets.all(8.0.r),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.r),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Icon(Icons.note_add_outlined,color: colorPrimary,size: 25.r,),
-                          SizedBox(width: 5.w,),
-                          Text("Add Reason",style: TextStyle(color: colorPrimary,fontSize: 16.sp),),
+                          Icon(
+                            Icons.note_add_outlined,
+                            color: colorPrimary,
+                            size: 25.r,
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            "Add Reason",
+                            style:
+                                TextStyle(color: colorPrimary, fontSize: 16.r),
+                          ),
                         ],
                       ),
                     ),

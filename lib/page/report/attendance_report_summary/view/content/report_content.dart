@@ -31,13 +31,13 @@ class ReportContent extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/menu_report/report_attendance.png',
-                      height: DeviceUtil.isTablet ? 30.h : 30,
+                      height: 28.r,
                     ),
                     const SizedBox(width: 16),
                     Text(
                       tr('attendance'),
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 16.sp : 16),
+                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: 14.r),
                     )
                   ],
                 ),
@@ -62,7 +62,7 @@ class ReportContent extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/menu_report/report_break.png',
-                      height: DeviceUtil.isTablet ? 30.h : 30,
+                      height: 30.r,
                     ),
                     const SizedBox(
                       width: 16,
@@ -70,7 +70,7 @@ class ReportContent extends StatelessWidget {
                     Text(
                       tr("break"),
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                          color: Colors.black, fontWeight: FontWeight.w500,fontSize: 14.r),
                     )
                   ],
                 ),
@@ -97,7 +97,7 @@ class ReportContent extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/menu_report/report_leave.png',
-                        height: DeviceUtil.isTablet ? 30.h : 30,
+                        height: 28.r,
                       ),
                       const SizedBox(
                         width: 16,
@@ -105,7 +105,7 @@ class ReportContent extends StatelessWidget {
                       Text(
                         tr('leave'),
                         style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w500,fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                            color: Colors.black, fontWeight: FontWeight.w500,fontSize: 14.r),
                       )
                     ],
                   ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/profile_dropdown.dart';
 import '../../../../res/date_utils.dart';
@@ -92,8 +93,8 @@ class _OfficialFormState extends State<OfficialForm> {
         ),
         Text(
           'date_of_joining'.tr(),
-          style: const TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: 12.r, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
@@ -115,7 +116,7 @@ class _OfficialFormState extends State<OfficialForm> {
         Text(
           'employee_id'.tr(),
           style: TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+              color: Colors.black, fontSize: 12.r, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
@@ -132,7 +133,7 @@ class _OfficialFormState extends State<OfficialForm> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
             hintText: 'enter_employee_id'.tr(),
-            hintStyle: const TextStyle(fontSize: 12),
+            hintStyle: TextStyle(fontSize: 12.r),
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
@@ -149,6 +150,7 @@ class _OfficialFormState extends State<OfficialForm> {
           text: 'save'.tr(),
           radius: 8.0,
           asyncCall: widget.bloc.state.status == NetworkStatus.loading,
+          textSize: 14.r,
         ),
         const SizedBox(
           height: 30,

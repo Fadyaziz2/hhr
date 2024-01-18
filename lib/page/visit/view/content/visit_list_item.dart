@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/visit/view/visit_details_page/visit_details_page.dart';
@@ -63,8 +64,8 @@ class VisitListItem extends StatelessWidget {
                       children: [
                         Text(
                           myVisit?.title ?? "",
-                          style: const TextStyle(
-                              fontSize: 12,
+                          style:  TextStyle(
+                              fontSize: 12.r,
                               color: Colors.black,
                               fontWeight: FontWeight.w600),
                         ).tr(),
@@ -75,7 +76,7 @@ class VisitListItem extends StatelessWidget {
                           children: [
                             Text(
                               myVisit?.date ?? "",
-                              style: const TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 10.r),
                             ),
                             const SizedBox(
                               width: 10,
@@ -101,9 +102,9 @@ class VisitListItem extends StatelessWidget {
                                 strokeWidth: 1,
                                 child: Text(
                                   myVisit?.status ?? "",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       color: Colors.white,
-                                      fontSize: 10,
+                                      fontSize: 10.r,
                                       fontWeight: FontWeight.w600),
                                 ).tr(),
                               ),

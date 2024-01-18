@@ -53,7 +53,7 @@ class HomeHeader extends StatelessWidget {
                                 dashboardModel?.data?.config?.timeWish?.wish ??
                                 '',
                             style: TextStyle(
-                                fontSize: 20.sp,
+                                fontSize: 20.r,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold)),
                       ),
@@ -62,7 +62,7 @@ class HomeHeader extends StatelessWidget {
                         child: Text(
                           '${user?.user?.name}',
                           style: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 14.r,
                               fontWeight: FontWeight.bold,
                               height: 1.5,
                               color: Colors.white),
@@ -75,7 +75,7 @@ class HomeHeader extends StatelessWidget {
                               dashboardModel?.data?.config?.timeWish?.wish ??
                               '',
                           style: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 14.r,
                               fontWeight: FontWeight.w400,
                               height: 1.5,
                               color: Colors.white),
@@ -84,13 +84,17 @@ class HomeHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (settings?.data?.timeWish != null || dashboardModel?.data?.config?.timeWish != null)
+                if (settings?.data?.timeWish != null ||
+                    dashboardModel?.data?.config?.timeWish != null)
                   SvgPicture.network(
-                    settings?.data?.timeWish?.image ?? dashboardModel?.data?.config?.timeWish?.image ?? '',
+                    settings?.data?.timeWish?.image ??
+                        dashboardModel?.data?.config?.timeWish?.image ??
+                        '',
                     semanticsLabel: 'sun',
                     height: 60.h,
                     width: 60.w,
-                    placeholderBuilder: (BuildContext context) => const SizedBox(),
+                    placeholderBuilder: (BuildContext context) =>
+                        const SizedBox(),
                   ),
                 const SizedBox(
                   width: 10,
@@ -105,7 +109,7 @@ class HomeHeader extends StatelessWidget {
               child: Text(
                 'today_summary'.tr(),
                 style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 16.r,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
                     color: Colors.white,

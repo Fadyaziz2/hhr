@@ -24,15 +24,17 @@ class DailyLeavePending extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         SizedBox(
+        SizedBox(
           height: 10.h,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
-          child:  Text(
+          child: Text(
             "pending_leave",
             style: TextStyle(
-                fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 16.r,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
           ).tr(),
         ),
         const SizedBox(

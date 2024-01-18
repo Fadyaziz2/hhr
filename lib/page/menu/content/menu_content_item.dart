@@ -25,12 +25,10 @@ class MenuContentItem extends StatelessWidget {
           return FadeTransition(
             opacity: kAlwaysCompleteAnimation,
             child: Transform(
-              transform: Matrix4.translationValues(
-                  0.0, 50.0 * (1.0 - animation.value), 0.0),
+              transform: Matrix4.translationValues(0.0, 50.0 * (1.0 - animation.value), 0.0),
               child: Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0).r,
                 ),
                 child: TextButton(
                   onPressed: onPressed,
@@ -38,13 +36,15 @@ class MenuContentItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
-                        DynamicImageViewer(image:  menu.icon ?? "",),
-                         SizedBox(width: 10.0.w),
+                        DynamicImageViewer(
+                          image: menu.icon ?? "",
+                        ),
+                        SizedBox(width: 10.0.w),
                         Expanded(
                           child: Text(
                             menu.name ?? '',
                             maxLines: 2,
-                            style:  TextStyle(fontSize: 12.sp),
+                            style: TextStyle(fontSize: 12.r),
                           ).tr(),
                         ),
                       ],

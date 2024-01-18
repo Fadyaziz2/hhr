@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 
 import '../../../../res/const.dart';
@@ -19,7 +20,12 @@ class DailyLeaveContent extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr("daily_leave")),
+        title: Text(
+          tr(
+            "daily_leave",
+          ),
+          style: TextStyle(fontSize: 16.r),
+        ),
         actions: [
           IconButton(
               onPressed: () {

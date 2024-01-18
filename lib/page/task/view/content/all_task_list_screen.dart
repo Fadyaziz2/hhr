@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
@@ -16,7 +17,10 @@ class AllTaskListScreen extends StatelessWidget {
     final bloc = context.read<TaskBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('All ${bloc.state.taskSelectedDropdownValue?.title ?? ''} Task'),
+        title: Text(
+          'All ${bloc.state.taskSelectedDropdownValue?.title ?? ''} Task',
+          style: TextStyle(fontSize: 18.r),
+        ),
       ),
       body: taskCollection?.isNotEmpty == true
           ? ListView.builder(

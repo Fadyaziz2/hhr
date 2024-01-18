@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/visit/view/visit_cancel_page/visit_cancel_page.dart';
 import 'package:onesthrm/page/visit/view/visit_reschedule/visit_reschedule.dart';
 import 'package:onesthrm/res/const.dart';
@@ -19,7 +20,7 @@ class RescheduleCancelButton extends StatelessWidget {
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(left: 16),
-            height: 45,
+            height: 45.h,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -37,11 +38,11 @@ class RescheduleCancelButton extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const Text('reschedule',
+              child: Text('reschedule',
                   style: TextStyle(
                     color: colorPrimary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+                    fontSize: 14.0.r,
                   )).tr(),
             ),
           ),
@@ -52,7 +53,7 @@ class RescheduleCancelButton extends StatelessWidget {
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(right: 16),
-            height: 45,
+            height: 45.h,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -72,11 +73,11 @@ class RescheduleCancelButton extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const Text('cancel',
+              child:  Text('cancel',
                   style: TextStyle(
                     color: colorPrimary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+                    fontSize: 14.0.r,
                   )).tr(),
             ),
           ),

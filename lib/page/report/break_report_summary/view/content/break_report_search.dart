@@ -43,6 +43,7 @@ class BreakReportSearch extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 12.r),
                     onTap: () async {
                       await Navigator.push(
                           context,
@@ -54,7 +55,7 @@ class BreakReportSearch extends StatelessWidget {
                         }
                       });
                     },
-                    title: Text(context.watch<BreakBloc>().state.selectEmployee?.name! ?? 'select_employee',style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
+                    title: Text(context.watch<BreakBloc>().state.selectEmployee?.name! ?? 'select_employee',style: TextStyle(fontSize: 14.r ),).tr(),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(context
                               .watch<BreakBloc>()
@@ -63,7 +64,7 @@ class BreakReportSearch extends StatelessWidget {
                               ?.avatar ??
                           'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
                     ),
-                    trailing: Icon(Icons.search,size: DeviceUtil.isTablet ? 24.sp : 24,),
+                    trailing: Icon(Icons.search,size: 24.r,),
                   ),
                 ),
               ),
@@ -75,9 +76,10 @@ class BreakReportSearch extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.timer,
                       color: Colors.white,
+                      size: 22.r,
                     ),
                     const SizedBox(
                       width: 10,
@@ -85,7 +87,7 @@ class BreakReportSearch extends StatelessWidget {
                     Text(
                       "${tr('total_break_time')}:",
                       style: GoogleFonts.nunitoSans(
-                          fontSize: DeviceUtil.isTablet ? 16.sp : 16, color: Colors.white),
+                          fontSize: 14.r, color: Colors.white),
                     ),
                     const SizedBox(
                       width: 5,
@@ -94,7 +96,7 @@ class BreakReportSearch extends StatelessWidget {
                       state.reportBreakListModel?.data?.totalBreakTime ?? '',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: DeviceUtil.isTablet ? 20.sp : 20,
+                          fontSize: 18.r,
                           fontWeight: FontWeight.w500,
                           fontFamily: "digitalNumber"),
                     ),
@@ -130,15 +132,15 @@ class BreakReportSearch extends StatelessWidget {
                                       width: DeviceUtil.isTablet ? 100.w : 100,
                                       child: Text(
                                         data?.breakTimeDuration ?? '',
-                                        textAlign: TextAlign.center,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                                        textAlign: TextAlign.center,style: TextStyle(fontSize: 14.r),
                                       ),
                                     ),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Container(
-                                      height: DeviceUtil.isTablet ? 40.h : 40,
-                                      width: DeviceUtil.isTablet ? 3.w : 3,
+                                      height: 40.h,
+                                      width:  3.r,
                                       color: colorPrimary,
                                     ),
                                     const SizedBox(
@@ -153,12 +155,12 @@ class BreakReportSearch extends StatelessWidget {
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
-                                          fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                                          fontSize: 14.r),
                                         ).tr(),
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Text(data?.breakBackTime ?? '',style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 12),),
+                                        Text(data?.breakBackTime ?? '',style: TextStyle(fontSize: 12.r ),),
                                       ],
                                     )
                                   ],
