@@ -75,7 +75,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
 
       ///Schedule check-in notification
-       checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime, dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
+       checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [], dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
@@ -109,7 +109,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  Future checkInScheduleNotification(startTime, endTime) async {
+  Future checkInScheduleNotification(List<CheckTime> startTime, List<CheckTime> endTime) async {
     ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
     final formatter = DateFormat('yyyy-MM-dd hh:mm');
@@ -117,7 +117,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     ///looping all schedule and set that schedule as active
     for (var inTime in startTime) {
       final uuid = Random().nextInt(1000000);
-      DateTime dateTime = formatter.parse(inTime);
+      DateTime dateTime = formatter.parse(inTime.date);
       /// Extract date and time components
       int day = dateTime.day;
       int year = dateTime.year;
@@ -127,7 +127,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       /// Schedule the notification
       await notificationPlugin.scheduleNotification(
-        id: uuid,
+        id: inTime.id,
         title: "Check In Alert",
         body: "Good morning have you checked in office yet from onesttech",
         day: day,
@@ -140,7 +140,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
     for (var outTime in endTime) {
       final uuid = Random().nextInt(1000000);
-      DateTime dateTime = formatter.parse(outTime);
+      DateTime dateTime = formatter.parse(outTime.date);
 
       /// Extract date and time components
       int day = dateTime.day;
@@ -151,7 +151,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       /// Schedule the notification
       await notificationPlugin.scheduleNotification(
-        id: uuid,
+        id: outTime.id,
         title: "Check Out Alert",
         body: "Good evening, have you checked out office yet from onesttech",
         day: day,

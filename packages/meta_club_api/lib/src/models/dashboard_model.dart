@@ -545,17 +545,31 @@ class BreakData {
       };
 }
 
+class CheckTime {
+  final int id;
+  final String date;
+
+  CheckTime({required this.id, required this.date});
+
+  factory CheckTime.fromJson(Map<String, dynamic> json) => CheckTime(
+        id: json['id'] != "" ? json["id"] : 0,
+        date: json['datetime'] != "" ? json["datetime"] : null,
+      );
+
+  Map<String, dynamic> toJson() => {"id": id, "datetime": date};
+}
+
 class DutyScheduleData {
   final TimeData? startTime;
   final TimeData? endTime;
-  List<String>? listOfStartDatetime;
-  List<String>? listOfEndDatetime;
+  List<CheckTime> listOfStartDatetime;
+  List<CheckTime> listOfEndDatetime;
 
   DutyScheduleData(
       {this.startTime,
       this.endTime,
-      this.listOfStartDatetime,
-      this.listOfEndDatetime});
+      this.listOfStartDatetime = const [],
+      this.listOfEndDatetime = const []});
 
   factory DutyScheduleData.fromJson(Map<String, dynamic> json) =>
       DutyScheduleData(
@@ -563,21 +577,19 @@ class DutyScheduleData {
         endTime: TimeData.fromJson(json["end_time"]),
         listOfStartDatetime: json["list_of_start_datetime"] == null
             ? []
-            : List<String>.from(json["list_of_start_datetime"]!.map((x) => x)),
+            : List<CheckTime>.from(json["list_of_start_datetime"]!
+                .map((x) => CheckTime.fromJson(x))),
         listOfEndDatetime: json["list_of_end_datetime"] == null
             ? []
-            : List<String>.from(json["list_of_end_datetime"]!.map((x) => x)),
+            : List<CheckTime>.from(json["list_of_end_datetime"]!
+                .map((x) => CheckTime.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "start_time": startTime,
         "end_time": endTime,
-        "list_of_start_datetime": listOfStartDatetime == null
-            ? []
-            : List<dynamic>.from(listOfStartDatetime!.map((x) => x)),
-        "list_of_end_datetime": listOfEndDatetime == null
-            ? []
-            : List<dynamic>.from(listOfEndDatetime!.map((x) => x)),
+        "list_of_start_datetime":  List<dynamic>.from(listOfStartDatetime.map((x) => x.toJson())),
+        "list_of_end_datetime": List<dynamic>.from(listOfEndDatetime.map((x) => x.toJson())),
       };
 }
 
