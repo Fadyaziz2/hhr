@@ -118,6 +118,8 @@ class NotificationService {
       required String title,
       required String body,
       required int day,
+      required int year,
+      required int month,
       required int hour,
       required int minute,
       required int second}) async {
@@ -127,7 +129,11 @@ class NotificationService {
 
     Duration offsetTime = now.timeZoneOffset;
 
-    tz.TZDateTime tzDateLocalTime = tz.TZDateTime.local(now.year, now.month, day, hour, minute, second, 0, 0);
+    tz.TZDateTime tzDateLocalTime = tz.TZDateTime.local(year, month, day, hour, minute, second, 0, 0);
+
+    if (kDebugMode) {
+      print('schedule year $year month $month day $day hour $hour min $minute');
+    }
 
     if (kDebugMode) {
       print('schedule ID : $id');
@@ -142,11 +148,11 @@ class NotificationService {
     }
 
     if (kDebugMode) {
-      print('current time : ${now.toString()}');
+      print('Local current time : ${now.toString()}');
     }
 
     if (kDebugMode) {
-      print('offsetTime : ${offsetTime.toString()}');
+      print('offsetTime (Difference between local and UTC time) : ${offsetTime.toString()}');
     }
 
     tz.TZDateTime tzDateTime = tzDateLocalTime.subtract(offsetTime);

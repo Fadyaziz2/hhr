@@ -71,13 +71,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
     try {
-      DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
+
+      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
 
       ///Schedule check-in notification
-      await checkInScheduleNotification(
-          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime,
-          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
+       checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime, dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime);
 
       ///Initialize attendance data at global state
       globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
@@ -115,12 +113,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
     final formatter = DateFormat('yyyy-MM-dd hh:mm');
+    /// Schedule the notification
     ///looping all schedule and set that schedule as active
     for (var inTime in startTime) {
-      final uuid = Random().nextInt(200);
+      final uuid = Random().nextInt(1000000);
       DateTime dateTime = formatter.parse(inTime);
-      debugPrint('inTime ${dateTime.toString()}');
-
       /// Extract date and time components
       int day = dateTime.day;
       int year = dateTime.year;
@@ -134,15 +131,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         title: "Check In Alert",
         body: "Good morning have you checked in office yet from onesttech",
         day: day,
+        year: year,
+        month: month,
         hour: hour,
         minute: minute,
         second: 0,
       );
     }
     for (var outTime in endTime) {
-      final uuid = Random().nextInt(200);
-      DateTime dateTime = formatter.parse(inTime);
-      debugPrint('outTime $outTime');
+      final uuid = Random().nextInt(1000000);
+      DateTime dateTime = formatter.parse(outTime);
 
       /// Extract date and time components
       int day = dateTime.day;
@@ -157,6 +155,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         title: "Check Out Alert",
         body: "Good evening, have you checked out office yet from onesttech",
         day: day,
+        year: year,
+        month: month,
         hour: hour,
         minute: minute,
         second: 0,
