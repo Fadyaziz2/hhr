@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/payroll/payroll.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
@@ -39,7 +40,7 @@ class PayrollScreenContent extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       'Year ${getDateAsString(format: 'y', dateTime: state.dateTime)}',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14.r),
                     ),
                   ),
                   Flexible(
@@ -79,18 +80,18 @@ class PayrollScreenContent extends StatelessWidget {
                               return TableRow(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0).r,
                                     child: Text(
                                       data?.month ?? '',
-                                      style: const TextStyle(
-                                          fontStyle: FontStyle.italic),
+                                      style:  TextStyle(
+                                          fontStyle: FontStyle.italic, fontSize: 12.r),
                                     ).tr(),
                                   ),
                                   Center(
                                     child: Text(
                                       data?.salary.toString() ?? '',
-                                      style: const TextStyle(
-                                          fontStyle: FontStyle.italic),
+                                      style:  TextStyle(
+                                          fontStyle: FontStyle.italic ,fontSize: 12.r),
                                     ),
                                   ),
                                   Center(
@@ -100,14 +101,16 @@ class PayrollScreenContent extends StatelessWidget {
                                                 .read<PayrollBloc>()
                                                 .getPaySlip(data!.payslipLink!),
                                             child: Text('download'.tr(),
-                                                style: const TextStyle(
+                                                style:  TextStyle(
+                                                    fontSize: 12.r,
                                                     fontStyle: FontStyle.italic,
                                                     decoration: TextDecoration
                                                         .underline)),
                                           )
-                                        : const Text(
+                                        :  Text(
                                             '',
                                             style: TextStyle(
+                                                fontSize: 12.r,
                                                 fontStyle: FontStyle.italic,
                                                 decoration:
                                                     TextDecoration.underline),
@@ -121,7 +124,8 @@ class PayrollScreenContent extends StatelessWidget {
                                                 .sharePaySlip(
                                                     data!.payslipLink!),
                                             child: Text('share'.tr(),
-                                                style: const TextStyle(
+                                                style:  TextStyle(
+                                                    fontSize: 12.r,
                                                     fontStyle: FontStyle.italic,
                                                     decoration: TextDecoration
                                                         .underline)),

@@ -9,7 +9,7 @@ import 'package:onesthrm/res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class PayrollScreen extends StatelessWidget {
-  const PayrollScreen({Key? key}) : super(key: key);
+  const PayrollScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
