@@ -22,8 +22,7 @@ class BottomNavigationPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => BottomNavCubit()),
-        BlocProvider(
-            create: (_) => HomeBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}',companyUrl: baseUrl))..add(LoadSettings())..add(LoadHomeData())),
+        BlocProvider(create: (_) => HomeBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}',companyUrl: baseUrl))..add(LoadSettings())..add(LoadHomeData())),
       ],
       child: const BottomNavContent(),
     );

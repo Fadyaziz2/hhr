@@ -33,15 +33,8 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (_) => OnboardingBloc(
-                  metaClubApiClient:
-                      MetaClubApiClient(token: "", companyUrl: ''))
-                ..add(CompanyListEvent())),
-          BlocProvider(
-              create: (_) => AuthenticationBloc(
-                  authenticationRepository: authenticationRepository,
-                  userRepository: userRepository)),
+          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))..add(CompanyListEvent())),
+          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc())
         ],
@@ -66,7 +59,8 @@ class _AppViewState extends State<AppView> {
   @override
   void initState() {
     ///channel wise notification setup
-    FirebaseMessaging.instance.subscribeToTopic('onesthrm'); // todo for IOS run comment this line
+    FirebaseMessaging.instance
+        .subscribeToTopic('onesthrm'); // todo for IOS run comment this line
     super.initState();
   }
 
