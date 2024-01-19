@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../leave/view/content/leave_list_shimmer.dart';
@@ -38,10 +39,11 @@ class MultiSelectEmployeeList extends StatelessWidget {
                         border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
                       ),
                       child: ListTile(
-                        title: Text(state.phoneBookUsers?[index].name ?? ""),
-                        subtitle: Text(state.phoneBookUsers?[index].designation ?? ""),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 4.r),
+                        title: Text(state.phoneBookUsers?[index].name ?? "", style: TextStyle(fontSize: 14.r),),
+                        subtitle: Text(state.phoneBookUsers?[index].designation ?? "", style: TextStyle(fontSize: 12.r),),
                         leading: ClipOval(
-                          child: CachedNetworkImage(height: 40, width: 40,
+                          child: CachedNetworkImage(height: 40.r, width: 40.r,
                             fit: BoxFit.cover,
                             imageUrl: "${state.phoneBookUsers?[index].avatar}",
                             placeholder: (context, url) => Center(
@@ -55,7 +57,7 @@ class MultiSelectEmployeeList extends StatelessWidget {
                           child: Icon(state.selectedItems.contains(state.phoneBookUsers![index])
                                 ? Icons.check_circle
                                 : Icons.radio_button_unchecked,
-                            size: 26,
+                            size: 26.r,
                             color: const Color(0xFF5DB226),
                           ),
                         ),

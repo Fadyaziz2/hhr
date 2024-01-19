@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../res/const.dart';
 import '../../bloc/meeting_bloc.dart';
@@ -36,7 +37,8 @@ class MeetingNameList extends StatelessWidget {
                   ),
                   child: Text(
                     state?.selectedNames[index] ?? "",
-                    style: const TextStyle(
+                    style: TextStyle(
+                        fontSize: 12.r,
                         color: Colors.white, fontWeight: FontWeight.w500),
                   )))),
     );
