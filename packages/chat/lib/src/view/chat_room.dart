@@ -1,6 +1,7 @@
 import 'package:chat/src/models/friend.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../chat.dart';
 import 'content/no_data_found_widget.dart';
 
@@ -74,9 +75,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                   border: Border.all(color: widget.primaryColor)
                               ),
                               child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                                 leading: SizedBox(
-                                  height: 50,
-                                  width: 50,
+                                  height: 50.r,
+                                  width: 50.r,
                                   child: CircleAvatar(
                                     backgroundColor:
                                     Colors.transparent,
@@ -88,13 +90,14 @@ class _ChatRoomState extends State<ChatRoom> {
                                   '${profile?.name}',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
+                                      .titleMedium!.copyWith(
+                                      fontSize: 14.r,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(
                                   '$lastMessage',
-                                  style: const TextStyle(
+                                  style:  TextStyle(
+                                      fontSize: 12.r,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
