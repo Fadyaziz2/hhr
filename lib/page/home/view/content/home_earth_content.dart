@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:onesthrm/page/home/content/home_bottom.dart';
-import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/home_bloc.dart';
@@ -24,42 +23,33 @@ class HomeEarthContent extends StatelessWidget {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
 
         if (user?.user != null) {
-          context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
+          context.read<HomeBloc>().add(OnLocationEnabled(
+              user: user!.user!, locationProvider: locationServiceProvider));
         }
 
-        return homeData != null
-            ? BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
-                  return ListView(
-                    children: [
-                      ///top-header
-                      HomeHeader(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
+        return BlocBuilder<LanguageBloc, LanguageState>(
+          builder: (context, state) {
+            return ListView(
+              children: [
+                ///top-header
+                HomeHeader(
+                    settings: settings, user: user, dashboardModel: homeData),
 
-                      ///check-in-out card
-                      CheckInOutCard(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
+                ///check-in-out card
+                CheckInOutCard(
+                    settings: settings, user: user, dashboardModel: homeData),
 
-                      ///breakTime
-                      BreakCard(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
+                ///breakTime
+                BreakCard(
+                    settings: settings, user: user, dashboardModel: homeData),
 
-                      ///bottom-header
-                      HomeBottom(
-                          settings: settings,
-                          user: user,
-                          dashboardModel: homeData),
-                    ],
-                  );
-                },
-              )
-            : const HomeContentShimmer();
+                ///bottom-header
+                HomeBottom(
+                    settings: settings, user: user, dashboardModel: homeData),
+              ],
+            );
+          },
+        );
       },
     );
   }

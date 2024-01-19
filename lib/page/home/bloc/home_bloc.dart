@@ -28,9 +28,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
   late StreamSubscription locationSubscription;
 
-  HomeBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const HomeState()) {
+  HomeBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const HomeState()) {
+    ///Assign the appTheme at init contractor so that
+    ///view can load more first(data from last state)
+    globalState.set(dashboardStyleId, state.settings?.data?.appTheme);
+    ///-----------------------------------------------------------///
     on<LoadSettings>(_onSettingsLoad);
     on<LoadHomeData>(_onHomeDataLoad);
     on<OnSwitchPressed>(_onSwitchPressed);
@@ -41,7 +43,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
-    emit(state.copy(status: NetworkStatus.loading));
+    if(state.settings == null && state.dashboardModel ==null){
+      emit(state.copy(status: NetworkStatus.loading));
+    }
     try {
       Settings? settings = await _metaClubApiClient.getSettings();
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
@@ -67,7 +71,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   }
 
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
-    emit(state.copy(status: NetworkStatus.loading));
+    if(state.settings == null && state.dashboardModel == null){
+      emit(state.copy(status: NetworkStatus.loading));
+    }
     try {
 
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
