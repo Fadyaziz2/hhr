@@ -60,7 +60,7 @@ class _AnimatedCircularButtonState extends State<TabAnimatedCircularButton>
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.7,
+      aspectRatio: 1.9,
       child: ClipRRect(
         child: GestureDetector(
           onLongPressStart: _onLongPressStart,
@@ -71,7 +71,7 @@ class _AnimatedCircularButtonState extends State<TabAnimatedCircularButton>
                 return CustomPaint(
                   painter: ArcShapePainter(
                     progress: animation.value,
-                    radius: MediaQuery.of(context).size.width / 4,
+                    radius: 90.r,
                     color: widget.color,
                     strokeWidth: 8.0,
                   ),
