@@ -111,6 +111,9 @@ class _AppViewState extends State<AppView> {
             scaffoldBackgroundColor: Colors.white,
             useMaterial3: true,
             primaryColor: colorPrimary,
+            inputDecorationTheme: InputDecorationTheme(
+              errorStyle: TextStyle(fontSize: 12.r)
+            ),
             appBarTheme: AppBarTheme(
                 backgroundColor: colorPrimary,
                 systemOverlayStyle:
