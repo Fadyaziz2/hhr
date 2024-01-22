@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/task/task.dart';
 
 class TaskScreenDetails extends StatelessWidget {
-  const TaskScreenDetails({Key? key, this.bloc, required this.taskId})
-      : super(key: key);
+  const TaskScreenDetails({super.key, this.bloc, required this.taskId});
   final TaskBloc? bloc;
   final String taskId;
 
@@ -44,10 +44,10 @@ class TaskScreenDetails extends StatelessWidget {
                       ),
                       Text(
                         "description".tr(),
-                        style: const TextStyle(
+                        style:  TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
-                            fontSize: 14.0),
+                            fontSize: 14.0.r),
                       ),
                       const SizedBox(
                         height: 6.0,
@@ -56,8 +56,8 @@ class TaskScreenDetails extends StatelessWidget {
                         data.description ?? "",
                         maxLines: 5,
                         textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                            color: Color(0xff8A8A8A), fontSize: 14.0),
+                        style: TextStyle(
+                            color: const Color(0xff8A8A8A), fontSize: 14.0.r),
                       ),
                       buildTitleAndValue(
                           title: "priority".tr(), data: data.priority),
@@ -70,10 +70,10 @@ class TaskScreenDetails extends StatelessWidget {
                         children: [
                           Text(
                             "deadline".tr(),
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14.0),
+                                fontSize: 14.0.r),
                           ),
                           data.status != "Completed"
                               ? InkWell(
@@ -86,7 +86,7 @@ class TaskScreenDetails extends StatelessWidget {
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: 10, vertical: 5).r,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                           // color: AppColors.colorPrimary,
@@ -95,8 +95,8 @@ class TaskScreenDetails extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Text(
                                       "update_status".tr(),
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 14.0),
+                                      style:  TextStyle(
+                                          color: Colors.black, fontSize: 12.0.r),
                                     ),
                                   ),
                                 )
@@ -104,9 +104,9 @@ class TaskScreenDetails extends StatelessWidget {
                                   children: [
                                      Text(
                                       "task_complete".tr(),
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                           color: Colors.black,
-                                          fontSize: 16.0,
+                                          fontSize: 14.0.r,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
@@ -114,8 +114,8 @@ class TaskScreenDetails extends StatelessWidget {
                                     ),
                                     Image.asset(
                                       "assets/task/check.png",
-                                      height: 24.0,
-                                      width: 24.0,
+                                      height: 18.0.r,
+                                      width: 18.0.r,
                                     )
                                   ],
                                 )
@@ -136,10 +136,10 @@ class TaskScreenDetails extends StatelessWidget {
                           ),
                           Text(
                             data.startDate ?? "",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14.0),
+                                fontSize: 12.0.r),
                           ),
                           const SizedBox(
                             width: 23.0,
@@ -154,10 +154,10 @@ class TaskScreenDetails extends StatelessWidget {
                           ),
                           Text(
                             data.endDate ?? "",
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14.0),
+                                fontSize: 12.0.r),
                           ),
                         ],
                       ),
@@ -184,8 +184,8 @@ class TaskScreenDetails extends StatelessWidget {
                       Text(
                         "assignee".tr(),
                         textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                            color: Color(0xff8A8A8A), fontSize: 14.0),
+                        style: TextStyle(
+                            color: const Color(0xff8A8A8A), fontSize: 14.0.r),
                       ),
                       const SizedBox(
                         height: 6.0,
@@ -207,8 +207,8 @@ class TaskScreenDetails extends StatelessWidget {
                                             );
                                           },
                                           child: Container(
-                                            height: 36.0,
-                                            width: 36.0,
+                                            height: 36.0.r,
+                                            width: 36.0.r,
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                     image:
@@ -237,74 +237,78 @@ class TaskScreenDetails extends StatelessWidget {
   AlertDialog buildAlertDialog(
       TaskDetails? data, TaskBloc bloc, BuildContext context) {
     return AlertDialog(
-      title: Text("${data?.title} "),
+      insetPadding: EdgeInsets.zero,
+      title: Text("${data?.title} ", style: TextStyle(fontSize: 16.r)),
       content: StatefulBuilder(
         builder: (context, void Function(void Function()) setState) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text("your_task_status").tr(),
-              RadioListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                title: const Text("not_started").tr(),
-                value: 24,
-                groupValue: bloc.state.taskDetailsRadioValueSelect,
-                onChanged: (int? value) {
-                  setState(() {
-                    bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
-                  });
-                },
-              ),
-              RadioListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                title: const Text("on_hold").tr(),
-                value: 25,
-                groupValue: bloc.state.taskDetailsRadioValueSelect,
-                onChanged: (int? value) {
-                  setState(() {
-                    bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
-                  });
-                },
-              ),
-              RadioListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                title: const Text("in_progress").tr(),
-                value: 26,
-                groupValue: bloc.state.taskDetailsRadioValueSelect,
-                onChanged: (int? value) {
-                  setState(() {
-                    bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
-                  });
-                },
-              ),
-              RadioListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                title: const Text("completed").tr(),
-                value: 27,
-                groupValue: bloc.state.taskDetailsRadioValueSelect,
-                onChanged: (int? value) {
-                  setState(() {
-                    bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
-                  });
-                },
-              ),
-              Slider(
-                value: bloc.state.currentSliderValue ?? 0.0,
-                max: 100,
-                divisions: 5,
-                label: bloc.state.currentSliderValue?.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    bloc.add(TaskDetailsSliderValueSet(sliderValue: value));
-                  });
-                },
-              ),
-            ],
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.35.r,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("your_task_status", style: TextStyle(fontSize: 14.r),).tr(),
+                RadioListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  title: Text("not_started", style: TextStyle(fontSize: 14.r)).tr(),
+                  value: 24,
+                  groupValue: bloc.state.taskDetailsRadioValueSelect,
+                  onChanged: (int? value) {
+                    setState(() {
+                      bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
+                    });
+                  },
+                ),
+                RadioListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  title:  Text("on_hold", style: TextStyle(fontSize: 14.r)).tr(),
+                  value: 25,
+                  groupValue: bloc.state.taskDetailsRadioValueSelect,
+                  onChanged: (int? value) {
+                    setState(() {
+                      bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
+                    });
+                  },
+                ),
+                RadioListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  title:  Text("in_progress", style: TextStyle(fontSize: 14.r)).tr(),
+                  value: 26,
+                  groupValue: bloc.state.taskDetailsRadioValueSelect,
+                  onChanged: (int? value) {
+                    setState(() {
+                      bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
+                    });
+                  },
+                ),
+                RadioListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  title:  Text("completed", style: TextStyle(fontSize: 14.r)).tr(),
+                  value: 27,
+                  groupValue: bloc.state.taskDetailsRadioValueSelect,
+                  onChanged: (int? value) {
+                    setState(() {
+                      bloc.add(TaskDetailsStatusRadioValueSet(statusId: value!));
+                    });
+                  },
+                ),
+                Slider(
+                  value: bloc.state.currentSliderValue ?? 0.0,
+                  max: 100,
+                  divisions: 5,
+                  label: bloc.state.currentSliderValue?.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      bloc.add(TaskDetailsSliderValueSet(sliderValue: value));
+                    });
+                  },
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -325,7 +329,7 @@ class TaskScreenDetails extends StatelessWidget {
             },
             child: Text(
               'okay'.tr(),
-              style: const TextStyle(color: Colors.white),
+              style:  TextStyle(color: Colors.white, fontSize: 12.r),
             ),
           ),
         ),
@@ -339,10 +343,10 @@ class TaskScreenDetails extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       leading: Text(
         '$title :',
-        style: const TextStyle(
-            color: Colors.black, fontWeight: FontWeight.w700, fontSize: 14.0),
+        style:  TextStyle(
+            color: Colors.black, fontWeight: FontWeight.w700, fontSize: 12.0.r),
       ),
-      title: Text(data ?? ""),
+      title: Text(data ?? "", style: TextStyle(fontSize: 14.r),),
     );
   }
 }

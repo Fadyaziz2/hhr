@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressIndicatorWithPercentage extends StatelessWidget {
   const ProgressIndicatorWithPercentage(
@@ -51,7 +52,7 @@ class ProgressIndicatorWithPercentage extends StatelessWidget {
             percentage ?? "",
             style: TextStyle(
                 color: Colors.black,
-                fontSize: percentageTextHeight ?? 11.0,
+                fontSize: percentageTextHeight ?? 11.0.r,
                 fontWeight: FontWeight.bold),
           )
         ],

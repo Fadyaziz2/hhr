@@ -7,15 +7,14 @@ import 'content.dart';
 
 class TaskListCard extends StatelessWidget {
   const TaskListCard(
-      {Key? key,
+      {super.key,
       this.tapButtonColor,
       this.taskEndDate,
       this.taskName,
       this.userCount,
       required this.onTap,
       this.taskStartDate,
-      this.taskListData})
-      : super(key: key);
+      this.taskListData});
 
   final String? taskName, taskStartDate, taskEndDate;
   final int? userCount;
@@ -120,9 +119,9 @@ class TaskListCard extends StatelessWidget {
               ),
               Text(
                 "assignee".tr(),
-                style: const TextStyle(
-                    color: Color(0xff8A8A8A),
-                    fontSize: 12.0,
+                style:  TextStyle(
+                    color: const Color(0xff8A8A8A),
+                    fontSize: 12.0.r,
                     fontWeight: FontWeight.w400),
               ),
               const SizedBox(
@@ -131,8 +130,8 @@ class TaskListCard extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 25.0 * assigns.length,
-                    height: 40.0,
+                    width: 25.0.r * assigns.length,
+                    height: 40.0.r,
                     child: Stack(children: assigns),
                   ),
                   userCount == 0
@@ -140,9 +139,9 @@ class TaskListCard extends StatelessWidget {
                       : Text(
                           '${userCount ?? 0}+',
                           textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              color: Color(0xff8A8A8A),
-                              fontSize: 14.0,
+                          style:  TextStyle(
+                              color: const Color(0xff8A8A8A),
+                              fontSize: 14.0.r,
                               fontWeight: FontWeight.w400),
                         ),
                   const Spacer(),

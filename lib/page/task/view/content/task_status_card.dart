@@ -15,7 +15,7 @@ class TaskStatusCard extends StatelessWidget {
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: Container(
-        height: 130,
+        height: 130.r,
         width: MediaQuery.of(context).size.width / 2.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -30,8 +30,8 @@ class TaskStatusCard extends StatelessWidget {
             ),
             Image.asset(
               image ?? "",
-              height: 24,
-              width: 24,
+              height: 24.r,
+              width: 24.r,
             ),
             const SizedBox(
               height: 10,
