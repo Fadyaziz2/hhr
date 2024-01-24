@@ -20,8 +20,8 @@ class MenuSettingsContent extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 10.0,
+             SizedBox(
+              height: 10.0.r,
             ),
              Text(
               'setting',
@@ -34,10 +34,10 @@ class MenuSettingsContent extends StatelessWidget {
               },
               dense: true,
               contentPadding: EdgeInsets.zero,
-              horizontalTitleGap: 8,
+              horizontalTitleGap: 8.r,
               leading: SvgPicture.asset(
-                  'assets/menu_drawer_icons/language-change.svg'),
-              title:  Text("language_change", style: TextStyle(fontSize: 12.r),).tr(),
+                  'assets/menu_drawer_icons/language-change.svg',height: 20.r,width: 20.r,),
+              title:  Text("language_change", style: TextStyle(fontSize: 14.r),).tr(),
             ),
           ],
         );

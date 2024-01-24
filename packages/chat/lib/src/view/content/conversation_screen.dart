@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../chat.dart';
 import '../../service/image_picker_service.dart';
@@ -96,7 +97,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                          padding:  EdgeInsets.symmetric(vertical: 8.0.r, horizontal: 16),
                           decoration: const BoxDecoration(color: Colors.black54,),
                           child: Row(
                             children: <Widget>[
@@ -108,9 +109,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 1.0),
                                     child: IconButton(
-                                      icon: const Icon(
+                                      icon:  Icon(
                                         Icons.image,
                                         color: Colors.white,
+                                        size: 24.r,
                                       ),
                                       onPressed: () async {
                                         imageFile = await getImage();
@@ -160,10 +162,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   keyboardType: TextInputType.multiline,
                                   textInputAction: TextInputAction.newline,
                                   maxLines: null,
-                                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
-                                  decoration: const InputDecoration(
+                                  style: TextStyle(color: Colors.white, fontSize: 16.0.r),
+                                  decoration: InputDecoration(
                                     hintText: 'Message...',
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle: TextStyle(color: Colors.white,fontSize: 14.r),
                                     border: InputBorder.none,
                                   ),
                                 ),
@@ -204,11 +206,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 child: Padding(
                                   padding: EdgeInsets.all(2.0),
                                   child: CircleAvatar(
-                                      radius: 25.0,
+                                      radius: 25.0.r,
                                       backgroundColor: widget.primaryColor,
                                       child: Icon(
                                         Icons.send,
                                         color: Colors.white,
+                                        size: 24.r,
                                       )),
                                 ),
                               ),

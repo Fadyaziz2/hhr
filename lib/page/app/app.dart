@@ -107,7 +107,7 @@ class _AppViewState extends State<AppView> {
             );
           },
           theme: ThemeData(
-            dialogTheme: const DialogTheme(backgroundColor: Colors.white),
+            dialogTheme:  const DialogTheme(backgroundColor: Colors.white),
             scaffoldBackgroundColor: Colors.white,
             useMaterial3: true,
             primaryColor: colorPrimary,
@@ -115,14 +115,15 @@ class _AppViewState extends State<AppView> {
               errorStyle: TextStyle(fontSize: 12.r)
             ),
             appBarTheme: AppBarTheme(
+              toolbarHeight: 50.r,
                 backgroundColor: colorPrimary,
                 systemOverlayStyle:
                     const SystemUiOverlayStyle(statusBarColor: colorPrimary),
-                iconTheme: const IconThemeData(color: Colors.white),
+                iconTheme:  IconThemeData(color: Colors.white,size: 18.r),
                 titleTextStyle: Theme.of(context)
                     .textTheme
                     .titleLarge
-                    ?.copyWith(color: Colors.white)),
+                    ?.copyWith(color: Colors.white,fontSize: 16.r)),
             colorScheme: Theme.of(context)
                 .colorScheme
                 .copyWith(primary: colorPrimary, background: Colors.white),

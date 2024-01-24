@@ -83,7 +83,7 @@ class _ChatLineState extends State<ChatLine> {
                   : widget.message.message!.length < 30
                       ? Container(
                           padding: const EdgeInsets.all(8.0).r,
-                          margin: const EdgeInsets.only(left: 8),
+                          margin: const EdgeInsets.only(left: 8,bottom: 8).r,
                           decoration: BoxDecoration(
                             color: Colors.blue.shade100,
                             borderRadius: BorderRadius.circular(10.0),
@@ -91,7 +91,7 @@ class _ChatLineState extends State<ChatLine> {
                           child: Text('${widget.message.message}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                  fontSize: 12.r
+                                  fontSize: 14.r
                               )),
                         )
                       : Expanded(
@@ -166,7 +166,7 @@ class _ChatLineState extends State<ChatLine> {
                     )
                   : widget.message.message!.length < 30
                       ? Container(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0).r,
                           margin: const EdgeInsets.only(left: 8),
                           decoration: BoxDecoration(
                             color: Colors.red.shade100,
@@ -174,7 +174,7 @@ class _ChatLineState extends State<ChatLine> {
                               Radius.circular(24.0),
                             ),
                           ),
-                          child: Text('${widget.message.message}', style:  TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('${widget.message.message}', style:  TextStyle(fontWeight: FontWeight.bold,fontSize: 14.r)),
                         )
                       : Expanded(
                           child: Container(

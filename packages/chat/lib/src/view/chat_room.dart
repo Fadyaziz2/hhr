@@ -23,7 +23,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       appBar: AppBar(
         title:  Text("chat_room".tr(),
-          style: TextStyle(color: Color(0xffeeeeee)),
+          style: const TextStyle(color: Color(0xffeeeeee)),
         ),
       ),
       body: StreamBuilder<List<Friend>>(
@@ -31,7 +31,7 @@ class _ChatRoomState extends State<ChatRoom> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return  NoDataFoundWidget(title: "no_data_found",);
+              return const NoDataFoundWidget(title: "no_data_found",);
             }
 
             return ListView.builder(

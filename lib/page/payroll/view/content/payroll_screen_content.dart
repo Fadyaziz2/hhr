@@ -22,7 +22,7 @@ class PayrollScreenContent extends StatelessWidget {
                 onPressed: () {
                   context.read<PayrollBloc>().add(SelectDatePicker(context));
                 },
-                icon: const Icon(Icons.calendar_month))
+                icon: Icon(Icons.calendar_month,size: 24.r,))
           ],
         ),
         body: Stack(
