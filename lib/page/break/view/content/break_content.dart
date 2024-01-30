@@ -44,7 +44,8 @@ class BreakContentState extends State<BreakContent>
 
     WidgetsBinding.instance.addObserver(this);
 
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     controllerBreakTimer = CustomTimerController(
         vsync: this,
@@ -119,12 +120,10 @@ class BreakContentState extends State<BreakContent>
     return DeviceOfflineView(
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
+          preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
           child: AppBar(
-            iconTheme:  IconThemeData(
-                size: DeviceUtil.isTablet ? 40 : 30,
-                color: Colors.white
-            ),
+            iconTheme: IconThemeData(
+                size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
             flexibleSpace: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -136,17 +135,27 @@ class BreakContentState extends State<BreakContent>
               ),
             ),
             title: Text("break_time",
-              style: Theme.of(context).textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor,fontSize: DeviceUtil.isTablet ? 16.sp : 16)).tr(),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: appBarColor,
+                        fontSize: 16.r))
+                .tr(),
             actions: [
               InkWell(
                 onTap: () {
-                  NavUtil.navigateScreen(context,
-                      BlocProvider.value(value: context.read<BreakBloc>(), child: const BreakReportScreen()));
+                  NavUtil.navigateScreen(
+                      context,
+                      BlocProvider.value(
+                          value: context.read<BreakBloc>(),
+                          child: const BreakReportScreen()));
                 },
                 child: Row(
                   children: [
-                    Lottie.asset('assets/images/ic_report_lottie.json', height: DeviceUtil.isTablet ? 40.h : 40, width: DeviceUtil.isTablet ? 40.w : 40,),
+                    Lottie.asset(
+                      'assets/images/ic_report_lottie.json',
+                      height: DeviceUtil.isTablet ? 40.h : 40,
+                      width: DeviceUtil.isTablet ? 40.w : 40,
+                    ),
                     const SizedBox(width: 20),
                   ],
                 ),
@@ -160,6 +169,7 @@ class BreakContentState extends State<BreakContent>
           listener: (context, state) {
             if (globalState.get(breakStatus) == 'break_in') {
               controllerBreakTimer.start();
+
               ///current time of milliseconds
               SharedUtil.setValue(
                   breakTime, '${DateTime.now().millisecondsSinceEpoch}');
@@ -195,7 +205,9 @@ class BreakContentState extends State<BreakContent>
                   const SizedBox(
                     height: 8.0,
                   ),
-                  BreakHeader(timerController: controllerBreakTimer, dashboardModel: dashboard),
+                  BreakHeader(
+                      timerController: controllerBreakTimer,
+                      dashboardModel: dashboard),
                   state.status == NetworkStatus.loading
                       ? Shimmer.fromColors(
                           baseColor: const Color(0xFFE8E8E8),

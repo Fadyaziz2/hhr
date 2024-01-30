@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/support/content/priority_type.dart';
 import 'package:onesthrm/page/support/content/type_name_widget.dart';
@@ -44,8 +45,8 @@ class SupportTicketItem extends StatelessWidget {
                   children: [
                     Text(
                       supportModel.subject ?? "",
-                      style: const TextStyle(
-                          fontSize: 12,
+                      style: TextStyle(
+                          fontSize: 12.r,
                           color: Colors.black,
                           fontWeight: FontWeight.w600),
                     ).tr(),
@@ -53,7 +54,7 @@ class SupportTicketItem extends StatelessWidget {
                       children: [
                         Text(
                           supportModel.date ?? "",
-                          style: const TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 10.r),
                         ),
                         const SizedBox(
                           width: 10,

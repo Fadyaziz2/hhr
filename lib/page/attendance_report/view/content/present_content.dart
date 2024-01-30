@@ -22,10 +22,12 @@ class DailyReportTile extends StatelessWidget {
     String? remoteModeOut;
 
     // remote mode In -> Home or Office
-    remoteModeIn = (int.tryParse(dailyReport.remoteModeIn ?? "1") == 0) ? "H" : "V";
+    remoteModeIn =
+        (int.tryParse(dailyReport.remoteModeIn ?? "1") == 0) ? "H" : "V";
 
 // remote mode Out -> Home or Office
-    remoteModeOut = (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
+    remoteModeOut =
+        (int.tryParse(dailyReport.remoteModeOut ?? "0") == 0) ? "H" : "V";
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
@@ -37,11 +39,11 @@ class DailyReportTile extends StatelessWidget {
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style:  TextStyle(color: Colors.black54, fontSize: 12.sp),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.r),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style: TextStyle(color: Colors.black54, fontSize: 20.sp),
+                  style: TextStyle(color: Colors.black54, fontSize: 20.r),
                 ),
               ],
             ),
@@ -54,8 +56,8 @@ class DailyReportTile extends StatelessWidget {
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
-                       Padding(
-                        padding:  EdgeInsets.all(8.0.r),
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
                         child: Text(
                           "IN",
                           style: TextStyle(
@@ -63,7 +65,7 @@ class DailyReportTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                       SizedBox(width: 20.0.w),
+                      SizedBox(width: 20.0.w),
                       Visibility(
                         visible: dailyReport.checkIn?.isNotEmpty == true,
                         child: Row(
@@ -83,15 +85,15 @@ class DailyReportTile extends StatelessWidget {
                               child: DottedBorder(
                                 color: Colors.white,
                                 borderType: BorderType.RRect,
-                                radius:  Radius.circular(5.r),
-                                padding:  EdgeInsets.symmetric(
+                                radius: Radius.circular(5.r),
+                                padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 3.h),
                                 strokeWidth: 1.r,
                                 child: Text(
                                   dailyReport.checkIn ?? "",
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.sp,
+                                      fontSize: 12.r,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -114,10 +116,10 @@ class DailyReportTile extends StatelessWidget {
                                       color: Colors.blueAccent),
                                   child: Center(
                                       child: Text(
-                                        remoteModeIn ,
-                                    style:  TextStyle(
+                                    remoteModeIn,
+                                    style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 10.sp,
+                                        fontSize: 10.r,
                                         fontWeight: FontWeight.bold),
                                   )),
                                 ),
@@ -130,7 +132,7 @@ class DailyReportTile extends StatelessWidget {
                                 onTap: () {
                                   getReasonIn(dailyReport.checkInReason);
                                 },
-                                child:  Padding(
+                                child: Padding(
                                   padding: const EdgeInsets.all(0.0),
                                   child: Icon(
                                     Icons.article_outlined,
@@ -146,7 +148,7 @@ class DailyReportTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 8.h,
                 ),
                 Container(
@@ -154,8 +156,8 @@ class DailyReportTile extends StatelessWidget {
                   color: const Color(0xffFCF6FF),
                   child: Row(
                     children: [
-                       Padding(
-                        padding:  EdgeInsets.all(8.0.r),
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
                         child: Text(
                           "OUT",
                           style: TextStyle(
@@ -167,7 +169,7 @@ class DailyReportTile extends StatelessWidget {
                         visible: dailyReport.checkOut?.isNotEmpty == true,
                         child: Row(
                           children: [
-                             SizedBox(
+                            SizedBox(
                               width: 10.w,
                             ),
                             Container(
@@ -185,15 +187,15 @@ class DailyReportTile extends StatelessWidget {
                               child: DottedBorder(
                                 color: Colors.white,
                                 borderType: BorderType.RRect,
-                                radius:  Radius.circular(5.r),
-                                padding:  EdgeInsets.symmetric(
+                                radius: Radius.circular(5.r),
+                                padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 3.h),
                                 strokeWidth: 1.r,
                                 child: Text(
                                   dailyReport.checkOut ?? "",
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.sp,
+                                      fontSize: 12.r,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -218,8 +220,8 @@ class DailyReportTile extends StatelessWidget {
                                         color: Colors.blueAccent),
                                     child: Center(
                                         child: Text(
-                                          remoteModeOut,
-                                      style:  TextStyle(
+                                      remoteModeOut,
+                                      style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 10.sp,
                                           fontWeight: FontWeight.bold),
@@ -229,7 +231,8 @@ class DailyReportTile extends StatelessWidget {
                               ),
                             ),
                             Visibility(
-                              visible: dailyReport.checkOutReason?.isNotEmpty == true,
+                              visible: dailyReport.checkOutReason?.isNotEmpty ==
+                                  true,
                               child: InkWell(
                                 onTap: () {
                                   getReasonIn(dailyReport.checkOutReason);
@@ -256,7 +259,11 @@ class DailyReportTile extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    context.read<AttendanceReportBloc>().add(MultiAttendanceEvent(date: dailyReport.fullDate!,context: context,dailyReport: dailyReport));
+                    context.read<AttendanceReportBloc>().add(
+                        MultiAttendanceEvent(
+                            date: dailyReport.fullDate!,
+                            context: context,
+                            dailyReport: dailyReport));
                   },
                   child: Lottie.asset(
                     'assets/images/report_one.json',

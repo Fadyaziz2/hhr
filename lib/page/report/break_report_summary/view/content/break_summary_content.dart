@@ -34,9 +34,14 @@ class BreakSummaryContent extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        context.read<BreakBloc>().add(SelectDate(context, false));
+                        context
+                            .read<BreakBloc>()
+                            .add(SelectDate(context, false));
                       },
-                      icon: Icon(Icons.calendar_month,size: 22.r,))
+                      icon: Icon(
+                        Icons.calendar_month,
+                        size: 22.r,
+                      ))
                 ],
               ),
               breakList?.isNotEmpty == true
@@ -80,7 +85,7 @@ class BreakSummaryContent extends StatelessWidget {
                                       color: Colors.black, fontSize: 12.r)),
                               trailing: Text(
                                 data?.totalBreakTime ?? '',
-                                style:  TextStyle(
+                                style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16.r),
@@ -114,18 +119,18 @@ class BreakSummaryContent extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Icon(
+                          Icon(
                             Icons.search,
                             color: Colors.white,
-                             size: DeviceUtil.isTablet ? 24.sp :24,
-
+                            size: 20.r,
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           Text(
                             tr('search_all_break_report'),
-                            style: TextStyle(color: Colors.white, fontSize: DeviceUtil.isTablet ? 14.sp : 14 ),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.r),
                           ),
                         ],
                       ),
@@ -138,7 +143,7 @@ class BreakSummaryContent extends StatelessWidget {
         }
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return  Padding(
+            return Padding(
               padding: EdgeInsets.all(DeviceUtil.isTablet ? 8.0.r : 8.0),
               child: const TileShimmer(
                 isSubTitle: true,

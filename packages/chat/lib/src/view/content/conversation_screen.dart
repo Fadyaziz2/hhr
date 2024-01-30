@@ -14,7 +14,11 @@ class ConversationScreen extends StatefulWidget {
   final String uid;
   final Color primaryColor;
 
-  const ConversationScreen({super.key,required this.user,required this.uid,required this.primaryColor});
+  const ConversationScreen(
+      {super.key,
+      required this.user,
+      required this.uid,
+      required this.primaryColor});
 
   @override
   State<ConversationScreen> createState() => _ConversationScreenState();
@@ -38,7 +42,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     ChatService database = ChatService();
@@ -53,17 +56,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24.0),
+                  borderRadius: BorderRadius.circular(24.0.r),
                   child: widget.user.avatar == null || widget.user.avatar == ''
                       ? Image.network(
                           'https://support.hubstaff.com/wp-content/uploads/2019/08/good-pic.png',
-                          width: 45.0,
-                          height: 45.0,
+                          width: 45.0.r,
+                          height: 45.0.r,
                           fit: BoxFit.cover,
                         )
                       : CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(widget.user.avatar?.toString() ?? ""),
+                          backgroundImage: NetworkImage(
+                              widget.user.avatar?.toString() ?? ""),
                         ),
                 ),
               ),
@@ -97,8 +101,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           ),
                         ),
                         Container(
-                          padding:  EdgeInsets.symmetric(vertical: 8.0.r, horizontal: 16),
-                          decoration: const BoxDecoration(color: Colors.black54,),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0.r, horizontal: 16),
+                          decoration: const BoxDecoration(
+                            color: Colors.black54,
+                          ),
                           child: Row(
                             children: <Widget>[
                               Container(
@@ -109,7 +116,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 1.0),
                                     child: IconButton(
-                                      icon:  Icon(
+                                      icon: Icon(
                                         Icons.image,
                                         color: Colors.white,
                                         size: 24.r,
@@ -118,31 +125,41 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                         imageFile = await getImage();
 
                                         ///read the file asynchronously as the image can be very large which may cause blocking of main thread
-                                        String? base64Image = base64Encode(await imageFile!.readAsBytes());
+                                        String? base64Image = base64Encode(
+                                            await imageFile!.readAsBytes());
 
                                         Map<String, dynamic> map = {
                                           'type': 'image',
                                           'message': base64Image,
                                           'status': 'not seen',
                                           'from': '${widget.uid}',
-                                          'timestamp': '${Timestamp.now().seconds}'
+                                          'timestamp':
+                                              '${Timestamp.now().seconds}'
                                         };
 
                                         ///create chat room for current user
-                                        database.createChatRoom(widget.uid, chatUid, map);
+                                        database.createChatRoom(
+                                            widget.uid, chatUid, map);
 
                                         ///create chat room for chat user
-                                        database.createChatRoom(chatUid, widget.uid, map);
+                                        database.createChatRoom(
+                                            chatUid, widget.uid, map);
 
                                         ///update friend list for current user
-                                        database.createFriend(widget.uid, chatUid, 'photo');
+                                        database.createFriend(
+                                            widget.uid, chatUid, 'photo');
 
                                         ///update friend list for chat user
-                                        database.createFriend(chatUid, widget.uid, 'photo');
+                                        database.createFriend(
+                                            chatUid, widget.uid, 'photo');
 
-                                        debugPrint('current uid ${widget.uid}   chat uid : $chatUid');
+                                        debugPrint(
+                                            'current uid ${widget.uid}   chat uid : $chatUid');
 
-                                        listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+                                        listScrollController.animateTo(0.0,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.easeOut);
 
                                         database.sendNotificationWithTopic(
                                             topic: 'user$chatUid',
@@ -162,10 +179,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   keyboardType: TextInputType.multiline,
                                   textInputAction: TextInputAction.newline,
                                   maxLines: null,
-                                  style: TextStyle(color: Colors.white, fontSize: 16.0.r),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.0.r),
                                   decoration: InputDecoration(
                                     hintText: 'Message...',
-                                    hintStyle: TextStyle(color: Colors.white,fontSize: 14.r),
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 14.r),
                                     border: InputBorder.none,
                                   ),
                                 ),
@@ -181,18 +200,26 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   };
 
                                   ///create chat room for current user
-                                  database.createChatRoom(widget.uid, chatUid, map);
+                                  database.createChatRoom(
+                                      widget.uid, chatUid, map);
 
                                   ///create chat room for chat user
-                                  database.createChatRoom('$chatUid', widget.uid, map);
+                                  database.createChatRoom(
+                                      '$chatUid', widget.uid, map);
 
                                   ///update chat friend list for current user
-                                  database.createFriend(widget.uid, '$chatUid', _messageController.text);
+                                  database.createFriend(widget.uid, '$chatUid',
+                                      _messageController.text);
 
                                   ///update chat friend list for chat user
-                                  database.createFriend('$chatUid', widget.uid, _messageController.text);
-                                  debugPrint('current uid ${widget.uid}   chat uid : $chatUid');
-                                  listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+                                  database.createFriend('$chatUid', widget.uid,
+                                      _messageController.text);
+                                  debugPrint(
+                                      'current uid ${widget.uid}   chat uid : $chatUid');
+                                  listScrollController.animateTo(0.0,
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.easeOut);
 
                                   database.sendNotificationWithTopic(
                                       topic: 'user$chatUid',
@@ -244,8 +271,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                          decoration: const BoxDecoration(color: Colors.black54,),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
+                          decoration: const BoxDecoration(
+                            color: Colors.black54,
+                          ),
                           child: Row(
                             children: <Widget>[
                               Container(
@@ -306,7 +336,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                             body: 'Attachment',
                                             map: widget.uid,
                                             status: 'message');
-
                                       },
                                       color: Colors.white,
                                     ),
@@ -353,11 +382,16 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                       _messageController.text);
 
                                   ///update chat friend list for chat user
-                                  database.createFriend(chatUid, widget.uid, _messageController.text);
+                                  database.createFriend(chatUid, widget.uid,
+                                      _messageController.text);
                                   if (kDebugMode) {
-                                    print('current uid ${widget.uid}   chat uid : $chatUid');
+                                    print(
+                                        'current uid ${widget.uid}   chat uid : $chatUid');
                                   }
-                                  listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+                                  listScrollController.animateTo(0.0,
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.easeOut);
 
                                   database.sendNotificationWithTopic(
                                       topic: 'user$chatUid',

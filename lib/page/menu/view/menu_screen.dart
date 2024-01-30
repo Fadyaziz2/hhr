@@ -88,8 +88,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                               children: [
                                 ClipOval(
                                   child: CachedNetworkImage(
-                                    height: 50.h,
-                                    width: 50.w,
+                                    height: 50.r,
+                                    width: 50.r,
                                     fit: BoxFit.cover,
                                     imageUrl: "${user?.user?.avatar}",
                                     placeholder: (context, url) => Center(
@@ -154,7 +154,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(bottom: 55.0).r,
                           itemCount: homeData?.data?.menus?.length ?? 0,
                           gridDelegate:
-                               SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2, childAspectRatio: 1.7.r),
                           itemBuilder: (BuildContext context, int index) {
                             ///List length

@@ -47,7 +47,7 @@ class BreakHistoryContent extends StatelessWidget {
       return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text("last_breaks",
                 style: TextStyle(
-                    fontSize: DeviceUtil.isTablet ? 18.sp : 18,
+                    fontSize: 18.r,
                     fontWeight: FontWeight.bold,
                     color: Colors.black))
             .tr(),
@@ -68,27 +68,37 @@ class BreakHistoryContent extends StatelessWidget {
                       child: Text(
                     todayHistory?.breakTimeDuration ?? "",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),
+                    style: TextStyle(fontSize: 14.r),
                   )),
                   Container(
                     height: DeviceUtil.isTablet ? 50 : 40,
                     width: DeviceUtil.isTablet ? 5 : 3,
-                    color: globalState.get(breakStatus) == 'break_in' ? const Color(0xFFE8356C) : colorPrimary,
+                    color: globalState.get(breakStatus) == 'break_in'
+                        ? const Color(0xFFE8356C)
+                        : colorPrimary,
                   ),
-                   SizedBox(
+                  SizedBox(
                     width: DeviceUtil.isTablet ? 35.w : 35.0,
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(todayHistory?.reason ?? "",
-                          style:  TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: DeviceUtil.isTablet ? 16.sp : 14),
+                        Text(
+                          todayHistory?.reason ?? "",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.r),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        Text(todayHistory?.breakBackTime ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 14),),
+                        Text(
+                          todayHistory?.breakBackTime ?? "",
+                          style: TextStyle(
+                              fontSize: DeviceUtil.isTablet ? 12.sp : 14),
+                        ),
                       ],
                     ),
                   )
@@ -98,7 +108,9 @@ class BreakHistoryContent extends StatelessWidget {
             separatorBuilder: (context, index) {
               return const Divider();
             },
-            itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory?.length ?? 0),
+            itemCount: state.breakReportModel?.data?.breakHistory?.todayHistory
+                    ?.length ??
+                0),
       ]);
     } else if (state.status == NetworkStatus.failure) {
       return Center(

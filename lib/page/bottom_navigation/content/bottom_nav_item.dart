@@ -6,12 +6,15 @@ import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 import '../../../res/const.dart';
 
 class BottomNavItem extends StatelessWidget {
-
   final String icon;
   final bool isSelected;
   final BottomNavTab tab;
 
-  const BottomNavItem({super.key,required this.icon,required this.isSelected, required this.tab});
+  const BottomNavItem(
+      {super.key,
+      required this.icon,
+      required this.isSelected,
+      required this.tab});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class BottomNavItem extends StatelessWidget {
       icon: SvgPicture.asset(
         icon,
         height: 20.h,
-        color: isSelected ? colorPrimary: const Color(0xFF555555),
+        color: isSelected ? colorPrimary : const Color(0xFF555555),
       ),
       onPressed: () => context.read<BottomNavCubit>().setTab(tab),
     );

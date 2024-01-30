@@ -1,11 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class TypeNameWidget extends StatelessWidget {
   const TypeNameWidget({
     super.key,
-     this.supportModel,
+    this.supportModel,
   });
 
   final SupportModel? supportModel;
@@ -13,39 +14,25 @@ class TypeNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-      BoxDecoration(
+      decoration: BoxDecoration(
         border: Border.all(
-          color: Color(int
-              .parse(supportModel?.typeColor ?? "0xFF000000")),
-          style: BorderStyle
-              .solid,
+          color: Color(int.parse(supportModel?.typeColor ?? "0xFF000000")),
+          style: BorderStyle.solid,
           width: 3.0,
         ),
         color: Color(int.parse(supportModel?.typeColor ?? "0xFF000000")),
-        borderRadius:
-        BorderRadius
-            .circular(
-            8.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: DottedBorder(
         color: Colors.white,
-        borderType:
-        BorderType.RRect,
-        radius: const Radius
-            .circular(5),
-        padding:
-        const EdgeInsets
-            .symmetric(
-            horizontal:
-            10,
-            vertical: 3),
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         strokeWidth: 1,
         child: Text(
           supportModel?.typeName ?? "",
-          style: const TextStyle(
-              color: Colors.white,
-              fontSize: 10, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 10.r, fontWeight: FontWeight.w600),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(inTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             SizedBox(
               height: 5.h,
@@ -51,7 +51,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(outTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(
               height: 5,
@@ -74,7 +74,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(stayTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(
               height: 5,
