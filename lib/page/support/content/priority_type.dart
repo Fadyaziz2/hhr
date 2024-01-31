@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
 class PriorityType extends StatelessWidget {
@@ -30,8 +31,8 @@ class PriorityType extends StatelessWidget {
         strokeWidth: 1,
         child: Text(
           supportModel?.priorityName ?? "",
-          style: const TextStyle(
-              color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 10.r, fontWeight: FontWeight.w600),
         ),
       ),
     );

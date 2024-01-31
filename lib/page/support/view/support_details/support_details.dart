@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/support/content/priority_type.dart';
 import 'package:onesthrm/page/support/content/type_name_widget.dart';
@@ -16,10 +17,8 @@ class SupportDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           tr('support_ticket_details'),
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.r),
         ),
       ),
       body: Padding(
@@ -30,7 +29,7 @@ class SupportDetails extends StatelessWidget {
           children: [
             Text(
               tr("id"),
-              style: const TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 12.r),
             ),
             const SizedBox(
               height: 8,
@@ -40,14 +39,14 @@ class SupportDetails extends StatelessWidget {
               children: [
                 Text(
                   supportModel?.subject ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.r),
                 ),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 10.w,
                 ),
                 PriorityType(supportModel: supportModel),
-                const SizedBox(
-                  width: 8,
+                SizedBox(
+                  width: 8.w,
                 ),
                 TypeNameWidget(supportModel: supportModel),
               ],
@@ -57,36 +56,35 @@ class SupportDetails extends StatelessWidget {
             ),
             Text(
               tr("created_on"),
-              style: const TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 12.r),
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
               supportModel?.date ?? "",
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.r),
             ),
             const SizedBox(
               height: 25,
             ),
             Text(
               tr("details"),
-              style: const TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 12.r),
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
-              supportModel?.description ??
-                  "".tr(),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              supportModel?.description ?? "".tr(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.r),
             ),
             const SizedBox(
               height: 18,
             ),
             Text(
               tr("photos"),
-              style: const TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.black54, fontSize: 12.r),
             ),
             const SizedBox(
               height: 10,
@@ -94,7 +92,7 @@ class SupportDetails extends StatelessWidget {
             ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
-                  height: 200,
+                  height: 200.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   imageUrl: supportModel?.imageUrl ??

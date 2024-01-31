@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
@@ -31,20 +32,24 @@ class AttendanceReportBloc
 
   FutureOr<void> _onMultiAttendance(
       MultiAttendanceEvent event, Emitter<AttendanceReportState> emit) async {
-
     try {
-      if(isDialogOpen == true) {
+      if (isDialogOpen == true) {
         state.copyWith(isDialogOpen: isDialogOpen = false);
-       await showDialog(
+        await showDialog(
             barrierDismissible: false,
             context: event.context!,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(event.dailyReport.multipleAttendance?.date ?? "No Date Found"),
-                content: DialogMultiAttendanceList(dailyReport: event.dailyReport),
+                title: Text(event.dailyReport.multipleAttendance?.date ??
+                    "No Date Found"),
+                content:
+                    DialogMultiAttendanceList(dailyReport: event.dailyReport),
                 actions: <Widget>[
                   TextButton(
-                    child: const Text('Cancel',style: TextStyle(color: Colors.red),),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.red, fontSize: 12.r),
+                    ),
                     onPressed: () {
                       state.copyWith(isDialogOpen: isDialogOpen = true);
                       Navigator.of(context).pop();
@@ -53,7 +58,7 @@ class AttendanceReportBloc
                 ],
               );
             });
-      }else {
+      } else {
         state.copyWith(isDialogOpen: isDialogOpen = true);
       }
     } on Exception catch (e) {

@@ -8,7 +8,7 @@ class SummeryTile extends StatelessWidget {
   const SummeryTile(
       {super.key,
       required this.title,
-       this.titleValue,
+      this.titleValue,
       required this.color,
       this.onTap});
 
@@ -24,22 +24,31 @@ class SummeryTile extends StatelessWidget {
         ListTile(
           onTap: onTap,
           dense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16).r,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 6, horizontal: 16).r,
           leading: Container(
             width: 16.w,
-            height:16.h,
+            height: 16.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: color,
             ),
           ),
-          title: Text(title,style: TextStyle(fontSize: 12.sp),).tr(),
-          trailing: titleValue != null ? Text(
-            titleValue!,
-            style: TextStyle(fontSize: 14.r),
-          ) : RectangularCardShimmer(height: 30.h,width:20.w,),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 12.r),
+          ).tr(),
+          trailing: titleValue != null
+              ? Text(
+                  titleValue!,
+                  style: TextStyle(fontSize: 14.r),
+                )
+              : RectangularCardShimmer(
+                  height: 30.h,
+                  width: 20.w,
+                ),
         ),
-         Divider(
+        Divider(
           height: 0.0,
           thickness: 1.r,
         )

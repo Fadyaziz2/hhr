@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/res/const.dart';
@@ -44,18 +45,18 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     const SizedBox(
                       height: 25,
                     ),
-                    const Text('choose_your_preferred_language',
+                     Text('choose_your_preferred_language',
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16.r,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black54))
                         .tr(),
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
+                     Text(
                       "please_select_your_language",
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 14.r, color: Colors.grey),
                     ).tr(),
                     const SizedBox(
                       height: 10,
@@ -79,8 +80,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                               children: [
                                 ClipOval(
                                   child: CachedNetworkImage(
-                                    height: 30,
-                                    width: 30,
+                                    height: 30.r,
+                                    width: 30.r,
                                     fit: BoxFit.cover,
                                     imageUrl: "${languages[index]['image']}",
                                     placeholder: (context, url) => Center(
@@ -91,12 +92,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
                                         const Icon(Icons.error),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 16,
+                                 SizedBox(
+                                  width: 16.w,
                                 ),
                                 Text(
                                   languages[index]['name'] ?? "",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
+                                      fontSize: 12.r,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.w500),
                                 ),

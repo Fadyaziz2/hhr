@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/res/widgets/device_util.dart';
 
 import 'content.dart';
 
@@ -11,6 +13,7 @@ class TaskDashboardCard extends StatelessWidget {
       this.titleColor,
       this.titleAsset,
       this.onTap});
+
   final String? title, count, titleAsset;
   final CustomPainter? customPainter;
   final Color? titleColor;
@@ -22,8 +25,8 @@ class TaskDashboardCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-          width: MediaQuery.of(context).size.width / 2.25,
-          height: 185,
+          width: 72.r,
+          height: 155.r,
           child: Stack(
             children: [
               Positioned(
@@ -35,23 +38,25 @@ class TaskDashboardCard extends StatelessWidget {
                     title: title,
                     textColor: titleColor ?? Colors.black,
                   )),
-              CustomPaint(
-                size: Size(
-                    140,
-                    (140 * 0.5555555555555556)
-                        .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                painter: customPainter,
+              Positioned(
+                top: 0,
+                left: 0,
+                child: CustomPaint(
+                  size: Size(120.r, 55.r),
+                  //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                  painter: customPainter,
+                ),
               ),
               Positioned(
-                  top: 13,
+                  top: 8.r,
                   right: 0,
-                  left: 53,
+                  left: 53.r,
                   child: Text(
                     count ?? "0",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18.r),
                   ))
             ],
           ),

@@ -19,12 +19,10 @@ class CardTileWithContent extends StatelessWidget {
       child: ListTile(
         title: Text(
           title,
-          style: style!.copyWith(
-            color: const Color(0xFF6B6A70),
-            fontSize: 10.sp
-          ),
+          style:
+              style!.copyWith(color: const Color(0xFF6B6A70), fontSize: 10.r),
         ).tr(),
-        subtitle: Text(value, style: style.copyWith(fontSize: 12.sp)).tr(),
+        subtitle: Text(value, style: style.copyWith(fontSize: 12.r)).tr(),
       ),
     );
   }

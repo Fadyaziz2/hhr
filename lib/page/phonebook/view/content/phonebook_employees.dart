@@ -80,16 +80,20 @@ class PhoneBookEmployees extends StatelessWidget {
                                         color: Colors.grey.shade300)),
                               ),
                               child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12.w, vertical: 8.h),
                                 title: Text(
-                                    state.phoneBookUsers?[index].name ?? "", style: TextStyle(fontSize: 14.r),),
+                                  state.phoneBookUsers?[index].name ?? "",
+                                  style: TextStyle(fontSize: 14.r),
+                                ),
                                 subtitle: Text(
                                     state.phoneBookUsers?[index].designation ??
-                                        "", style: TextStyle(fontSize: 13.r)),
+                                        "",
+                                    style: TextStyle(fontSize: 13.r)),
                                 leading: ClipOval(
                                   child: CachedNetworkImage(
                                     height: 40.r,
-                                    width: 40.r,
+                                    width: 35.r,
                                     fit: BoxFit.cover,
                                     imageUrl:
                                         "${state.phoneBookUsers?[index].avatar}",
@@ -109,7 +113,7 @@ class PhoneBookEmployees extends StatelessWidget {
                                                 .phoneBookUsers?[index].phone ??
                                             ''));
                                   },
-                                  child:  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.phone,

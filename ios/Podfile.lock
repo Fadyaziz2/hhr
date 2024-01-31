@@ -746,6 +746,8 @@ PODS:
   - flutter_face_core (5.2.0):
     - FaceCoreSDK (= 5.2.383)
     - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
@@ -893,6 +895,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_face_api (from `.symlinks/plugins/flutter_face_api/ios`)
   - flutter_face_core (from `.symlinks/plugins/flutter_face_core/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
@@ -960,6 +963,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_face_api/ios"
   flutter_face_core:
     :path: ".symlinks/plugins/flutter_face_core/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   geocoding_ios:
@@ -1012,9 +1017,10 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: a7fcc7a5941faa7e09248e91c8797340aa4c85f6
   FirebaseSessions: e5f4caa188dc8bc6142abc974355be75b042215e
   FirebaseSharedSwift: f34eeb7d3ea87a34497629b6ca41657beadef76a
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_face_api: c1778570d5534de359129898476bee47f53bbd99
   flutter_face_core: 2a474c3234ed37c8ba0fc79aabe02a948b4034d0
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
@@ -1042,6 +1048,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b
 
-PODFILE CHECKSUM: 73a5b62c6b457a7cadc26e7af83885737e55d250
+PODFILE CHECKSUM: 25d19a3acedc43a20061ac74e0db3eb0e777f2d0
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.14.3

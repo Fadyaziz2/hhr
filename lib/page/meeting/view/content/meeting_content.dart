@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/upcoming_event_widgetg.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/meeting_create_page/meeting_create_page.dart';
@@ -34,7 +35,7 @@ class MeetingContent extends StatelessWidget {
                 onPressed: () {
                   context.read<MeetingBloc>().add(SelectDatePicker(context));
                 },
-                icon: const Icon(Icons.calendar_month_outlined))
+                icon: Icon(Icons.calendar_month_outlined,size: 24.r,))
           ],
         ),
         body: BlocBuilder<MeetingBloc, MeetingState>(
