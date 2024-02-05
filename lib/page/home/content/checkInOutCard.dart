@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/attendance_qr/attendance_qr.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
@@ -33,8 +34,11 @@ class CheckInOutCard extends StatelessWidget {
             context.read<HomeBloc>().add(OnLocationRefresh(
                 user: context.read<AuthenticationBloc>().state.data?.user,
                 locationProvider: locationServiceProvider));
-            Navigator.push(context,
-                AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            // Navigator.push(context,
+            //     AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return const AttendanceQRView();
+            }));
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
