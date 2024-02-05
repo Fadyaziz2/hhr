@@ -18,14 +18,16 @@ class BreakReportSummary extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (BuildContext context) => BreakBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user?.user?.token}', companyUrl: baseUrl),
           userId: user!.user!.id!)
         ..add(GetBreakInitialData()),
       child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight( DeviceUtil.isTablet ? 80 : 55),
+            preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
             child: AppBar(
-              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
+              iconTheme: IconThemeData(
+                  size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -41,10 +43,10 @@ class BreakReportSummary extends StatelessWidget {
               ),
               title: Text(
                 tr('break_summary'),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor,fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                    fontSize: 16.r),
               ),
             ),
           ),

@@ -25,11 +25,13 @@ class PendingAttendanceToday extends StatelessWidget {
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style:TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 12.sp : 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.r),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style:TextStyle(color: Colors.black54, fontSize:  DeviceUtil.isTablet ? 20.sp : 20),
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: DeviceUtil.isTablet ? 20.sp : 20),
                 ),
               ],
             ),
@@ -38,8 +40,8 @@ class PendingAttendanceToday extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding:  EdgeInsets.symmetric(
-                      horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
@@ -64,9 +66,9 @@ class PendingAttendanceToday extends StatelessWidget {
                             strokeWidth: 1,
                             child: Text(
                               dailyReport.status ?? "",
-                              style:  TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
-                                  fontSize:  DeviceUtil.isTablet ? 20.sp : 20,
+                                  fontSize: DeviceUtil.isTablet ? 20.sp : 20,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),

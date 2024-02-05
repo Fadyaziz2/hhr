@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,10 +6,9 @@ import 'package:meta_club_api/meta_club_api.dart';
 import '../../../../res/widgets/device_util.dart';
 
 class WeekendContent extends StatelessWidget {
-
   final DailyReport dailyReport;
 
-  const WeekendContent({super.key,required this.dailyReport});
+  const WeekendContent({super.key, required this.dailyReport});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +22,13 @@ class WeekendContent extends StatelessWidget {
               children: [
                 Text(
                   dailyReport.weekDay ?? "",
-                  style:
-                   TextStyle(color: Colors.black54, fontSize:  DeviceUtil.isTablet ? 12.sp : 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.r),
                 ),
                 Text(
                   dailyReport.date ?? "",
-                  style: TextStyle(color: Colors.black54, fontSize: DeviceUtil.isTablet ? 20.sp : 20),
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: DeviceUtil.isTablet ? 20.sp : 20),
                 ),
               ],
             ),
@@ -38,8 +37,8 @@ class WeekendContent extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding:  EdgeInsets.symmetric(
-                      horizontal: 16.w, vertical: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   color: const Color(0xffF2F8FF),
                   child: Row(
                     children: [
@@ -62,9 +61,9 @@ class WeekendContent extends StatelessWidget {
                           strokeWidth: 1,
                           child: Text(
                             dailyReport.status ?? "",
-                            style:  TextStyle(
+                            style: TextStyle(
                                 color: Colors.white,
-                                fontSize:  DeviceUtil.isTablet ? 12.sp : 12,
+                                fontSize: 12.r,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

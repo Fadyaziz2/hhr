@@ -25,15 +25,17 @@ class AttendanceDailyReportContent extends StatelessWidget {
     final listOfDailyReport =
         bloc.state.attendanceReport?.reportData?.dailyReport;
     return Padding(
-      padding:  EdgeInsets.all(20.r),
+      padding: EdgeInsets.all(20.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
               child: Text(
             tr("daily_report"),
-            style:  TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16.sp),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.r),
           )),
           const SizedBox(
             height: 20,
@@ -56,7 +58,7 @@ class AttendanceDailyReportContent extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
-                    return  Padding(
+                    return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TileShimmer(
                         titleHeight: 30.h,
@@ -83,18 +85,18 @@ class AttendanceDailyReportContent extends StatelessWidget {
                   child: Center(
                       child: Text(
                     tr("h"),
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
+                        fontSize: 10.r,
                         fontWeight: FontWeight.bold),
                   )),
                 ),
-                const SizedBox(
-                  width: 16,
+                SizedBox(
+                  width: 10.w,
                 ),
                 Text(
                   tr("check_in_check_out_from_home"),
-                  style: const TextStyle(fontSize: 10, color: Colors.black),
+                  style: TextStyle(fontSize: 10.r, color: Colors.black),
                 ),
               ],
             ),
@@ -111,18 +113,18 @@ class AttendanceDailyReportContent extends StatelessWidget {
                   child: Center(
                       child: Text(
                     tr("v"),
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
+                        fontSize: 10.r,
                         fontWeight: FontWeight.bold),
                   )),
                 ),
-                const SizedBox(
-                  width: 16,
+                SizedBox(
+                  width: 10.w,
                 ),
                 Text(
                   tr("check_in_check_out_from_office"),
-                  style: const TextStyle(fontSize: 10, color: Colors.black),
+                  style: TextStyle(fontSize: 10.r, color: Colors.black),
                 ),
               ],
             ),
@@ -131,13 +133,13 @@ class AttendanceDailyReportContent extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
             child: Row(
               children: [
                 IconButton(
-                    icon: const FaIcon(
+                    icon: FaIcon(
                       FontAwesomeIcons.fileLines,
-                      size: 15,
+                      size: 15.r,
                       color: Colors.blueAccent,
                     ),
                     padding: EdgeInsets.zero,
@@ -147,12 +149,12 @@ class AttendanceDailyReportContent extends StatelessWidget {
                         print("Pressed");
                       }
                     }),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 4.w,
                 ),
                 Text(
                   tr("reason_for_late_check_in_early_check_out"),
-                  style: const TextStyle(fontSize: 10, color: Colors.black),
+                  style: TextStyle(fontSize: 10.r, color: Colors.black),
                 ),
               ],
             ),

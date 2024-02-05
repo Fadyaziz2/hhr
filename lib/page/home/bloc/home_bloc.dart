@@ -38,7 +38,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
-  }
+  }   
 
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 

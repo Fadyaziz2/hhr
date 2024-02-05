@@ -19,14 +19,19 @@ class LeaveSummeryScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => LeaveReportBloc(
           userId: user!.user!.id!,
-          metaClubApiClient: MetaClubApiClient(token: '${user.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(
+              token: '${user.user?.token}', companyUrl: baseUrl))
         ..add(GetLeaveReportSummary()),
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
           child: AppBar(
-            iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30,   color: Colors.white),
-            title: Text(tr('leave_summery'),style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),),
+            iconTheme: IconThemeData(
+                size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
+            title: Text(
+              tr('leave_summery'),
+              style: TextStyle(fontSize: 16.r),
+            ),
           ),
         ),
         body: const LeaveReportSummaryContent(),

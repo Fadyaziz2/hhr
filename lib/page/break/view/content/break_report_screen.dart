@@ -20,9 +20,13 @@ class BreakReportScreen extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80.0 : 50),
             child: AppBar(
-              iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
-              title: Text(tr("break_time_report"),style: Theme.of(context).textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.bold, color: appBarColor,fontSize: DeviceUtil.isTablet ? 16.sp : 16)).tr(),
+              iconTheme: IconThemeData(size: 20.r, color: Colors.white),
+              title: Text(tr("break_time_report"),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                          fontSize: 16.r))
+                  .tr(),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -37,15 +41,16 @@ class BreakReportScreen extends StatelessWidget {
               Container(
                 color: const Color(0xff6AB026),
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 10.h : 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: DeviceUtil.isTablet ? 10.h : 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                     Icon(
+                    Icon(
                       Icons.timer,
                       color: Colors.white,
-                      size: DeviceUtil.isTablet ? 20.r : 24,
+                      size: 20.r,
                     ),
                     const SizedBox(
                       width: 10,
@@ -53,17 +58,17 @@ class BreakReportScreen extends StatelessWidget {
                     Text(
                       tr("total_break_time"),
                       style: GoogleFonts.nunitoSans(
-                          fontSize: DeviceUtil.isTablet ? 16.sp : 16, color: Colors.white),
+                          fontSize: 16.r, color: Colors.white),
                     ),
-                     SizedBox(
-                      width: DeviceUtil.isTablet ? 5.w :5,
+                    SizedBox(
+                      width: DeviceUtil.isTablet ? 5.w : 5,
                     ),
                     Text(
                       state.breakReportModel?.data?.totalBreakTime ??
                           "00:00:00",
-                      style:  TextStyle(
+                      style: TextStyle(
                           color: Colors.white,
-                          fontSize: DeviceUtil.isTablet ? 14.sp : 20,
+                          fontSize: 18.r,
                           fontWeight: FontWeight.w500,
                           fontFamily: "digitalNumber"),
                     ),
@@ -93,15 +98,22 @@ class BreakReportScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 100,
                                     child: Text(
-                                      state.breakReportModel?.data?.breakHistory?.todayHistory?[index].breakTimeDuration ??"",
-                                      textAlign: TextAlign.center,style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 14),
+                                      state
+                                              .breakReportModel
+                                              ?.data
+                                              ?.breakHistory
+                                              ?.todayHistory?[index]
+                                              .breakTimeDuration ??
+                                          "",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 14.r),
                                     ),
                                   ),
                                   const SizedBox(
                                     width: 10,
                                   ),
                                   Container(
-                                    height:DeviceUtil.isTablet ? 60 : 40,
+                                    height: DeviceUtil.isTablet ? 60 : 40,
                                     width: DeviceUtil.isTablet ? 5 : 3,
                                     color: colorPrimary,
                                   ),
@@ -113,16 +125,31 @@ class BreakReportScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        state.breakReportModel?.data?.breakHistory?.todayHistory?[index].reason ?? "",
-                                        style:  TextStyle(
+                                        state
+                                                .breakReportModel
+                                                ?.data
+                                                ?.breakHistory
+                                                ?.todayHistory?[index]
+                                                .reason ??
+                                            "",
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                        fontSize: DeviceUtil.isTablet ? 16.sp : 14),
+                                            fontSize: 14.r),
                                       ).tr(),
                                       const SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text(state.breakReportModel?.data?.breakHistory?.todayHistory?[index].breakBackTime ?? "",style: TextStyle(fontSize: DeviceUtil.isTablet ? 12.sp : 14),),
+                                      Text(
+                                        state
+                                                .breakReportModel
+                                                ?.data
+                                                ?.breakHistory
+                                                ?.todayHistory?[index]
+                                                .breakBackTime ??
+                                            "",
+                                        style: TextStyle(fontSize: 14.r),
+                                      ),
                                     ],
                                   )
                                 ],

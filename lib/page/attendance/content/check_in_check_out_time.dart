@@ -8,8 +8,7 @@ import '../../app/global_state.dart';
 class CheckInCheckOutTime extends StatelessWidget {
   final DashboardModel homeData;
 
-  const CheckInCheckOutTime({Key? key, required this.homeData})
-      : super(key: key);
+  const CheckInCheckOutTime({super.key, required this.homeData});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(inTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             SizedBox(
               height: 5.h,
@@ -51,7 +50,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(outTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(
               height: 5,
@@ -74,7 +73,7 @@ class CheckInCheckOutTime extends StatelessWidget {
             ),
             Text(
               globalState.get(stayTime) ?? "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(
               height: 5,

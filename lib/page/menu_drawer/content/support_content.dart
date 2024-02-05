@@ -42,8 +42,11 @@ class SupportContent extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
-                  "assets/menu_drawer_icons/support-policy.svg"),
-              title:  Text('support_policy',  style: TextStyle(fontSize: 12.r)).tr(),
+                  "assets/menu_drawer_icons/support-policy.svg",height: 20.r,width: 20.r,),
+              title:  Text('support_policy',  style: TextStyle(fontSize: 14.r)).tr(),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             ListTile(
               onTap: () {
@@ -58,8 +61,11 @@ class SupportContent extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
-                  "assets/menu_drawer_icons/privacy-policy.svg"),
-              title:  Text('privacy_policy',  style: TextStyle(fontSize: 12.r)).tr(),
+                  "assets/menu_drawer_icons/privacy-policy.svg",height: 20.r,width: 20.r,),
+              title:  Text('privacy_policy',  style: TextStyle(fontSize: 14.r)).tr(),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             ListTile(
               onTap: () {
@@ -74,8 +80,11 @@ class SupportContent extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 8,
               leading: SvgPicture.asset(
-                  "assets/menu_drawer_icons/terms-condition.svg"),
-              title:  Text('terms_conditions',  style: TextStyle(fontSize: 12.r)).tr(),
+                  "assets/menu_drawer_icons/terms-condition.svg",height: 20.r,width: 20.r,),
+              title:  Text('terms_conditions',  style: TextStyle(fontSize: 14.r)).tr(),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
@@ -101,8 +110,8 @@ class SupportContent extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 horizontalTitleGap: 8,
                 leading:
-                    SvgPicture.asset("assets/menu_drawer_icons/logout.svg"),
-                title:  Text('logout',  style: TextStyle(fontSize: 12.r)).tr(),
+                    SvgPicture.asset("assets/menu_drawer_icons/logout.svg",height: 20.r,width: 20.r,),
+                title:  Text('logout',  style: TextStyle(fontSize: 14.r)).tr(),
               );
             })
           ],

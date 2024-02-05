@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../chat.dart';
 import '../../service/download_service.dart';
 import 'image_preview_screen.dart';
@@ -8,7 +9,7 @@ class ChatLine extends StatefulWidget {
   final Message message;
   final String currentUser;
 
-  const ChatLine({super.key, required this.message,required this.currentUser});
+  const ChatLine({super.key, required this.message, required this.currentUser});
 
   @override
   State<ChatLine> createState() => _ChatLineState();
@@ -29,7 +30,9 @@ class _ChatLineState extends State<ChatLine> {
               child: Icon(Icons.person, color: Colors.white),
             ),
           ),
-          widget.message.type == 'call' || widget.message.type == 'call_end' || widget.message.type == 'audio_call'
+          widget.message.type == 'call' ||
+                  widget.message.type == 'call_end' ||
+                  widget.message.type == 'audio_call'
               ? Container(
                   padding: const EdgeInsets.all(24.0),
                   margin: const EdgeInsets.only(left: 8),
@@ -42,6 +45,7 @@ class _ChatLineState extends State<ChatLine> {
                     children: <Widget>[
                       Text('${widget.message.message}',
                           style: TextStyle(
+                            fontSize: 12.r,
                             color: Colors.blue.shade500,
                             fontWeight: FontWeight.bold,
                           )),
@@ -68,7 +72,7 @@ class _ChatLineState extends State<ChatLine> {
                           child: Hero(
                             tag: 'imagePreview',
                             child: Image.memory(
-                              base64Decode(widget.message.message??''),
+                              base64Decode(widget.message.message ?? ''),
                               scale: 5,
                               height: 200.0,
                               width: 200.0,
@@ -80,16 +84,15 @@ class _ChatLineState extends State<ChatLine> {
                     )
                   : widget.message.message!.length < 30
                       ? Container(
-                          padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.all(8.0).r,
+                          margin: const EdgeInsets.only(left: 8, bottom: 8).r,
                           decoration: BoxDecoration(
                             color: Colors.blue.shade100,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Text('${widget.message.message}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.r)),
                         )
                       : Expanded(
                           child: Container(
@@ -100,9 +103,9 @@ class _ChatLineState extends State<ChatLine> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Text('${widget.message.message}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.r)),
                           ),
                         ),
         ],
@@ -163,7 +166,7 @@ class _ChatLineState extends State<ChatLine> {
                     )
                   : widget.message.message!.length < 30
                       ? Container(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0).r,
                           margin: const EdgeInsets.only(left: 8),
                           decoration: BoxDecoration(
                             color: Colors.red.shade100,
@@ -171,7 +174,9 @@ class _ChatLineState extends State<ChatLine> {
                               Radius.circular(24.0),
                             ),
                           ),
-                          child: Text('${widget.message.message}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('${widget.message.message}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.r)),
                         )
                       : Expanded(
                           child: Container(

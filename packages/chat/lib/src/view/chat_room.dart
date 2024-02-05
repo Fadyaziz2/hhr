@@ -1,6 +1,7 @@
 import 'package:chat/src/models/friend.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../chat.dart';
 import 'content/no_data_found_widget.dart';
 
@@ -22,7 +23,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       appBar: AppBar(
         title:  Text("chat_room".tr(),
-          style: TextStyle(color: Color(0xffeeeeee)),
+          style: const TextStyle(color: Color(0xffeeeeee)),
         ),
       ),
       body: StreamBuilder<List<Friend>>(
@@ -30,7 +31,7 @@ class _ChatRoomState extends State<ChatRoom> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return  NoDataFoundWidget(title: "no_data_found",);
+              return const NoDataFoundWidget(title: "no_data_found",);
             }
 
             return ListView.builder(
@@ -74,9 +75,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                   border: Border.all(color: widget.primaryColor)
                               ),
                               child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                                 leading: SizedBox(
-                                  height: 50,
-                                  width: 50,
+                                  height: 50.r,
+                                  width: 50.r,
                                   child: CircleAvatar(
                                     backgroundColor:
                                     Colors.transparent,
@@ -88,13 +90,14 @@ class _ChatRoomState extends State<ChatRoom> {
                                   '${profile?.name}',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
+                                      .titleMedium!.copyWith(
+                                      fontSize: 14.r,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(
                                   '$lastMessage',
-                                  style: const TextStyle(
+                                  style:  TextStyle(
+                                      fontSize: 12.r,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),

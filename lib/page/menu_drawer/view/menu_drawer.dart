@@ -16,6 +16,7 @@ class MenuDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
     return Drawer(
+      width: 270.r,
       backgroundColor: Colors.white,
       child: SingleChildScrollView(
         child: Container(
@@ -49,6 +50,7 @@ class MenuDrawer extends StatelessWidget {
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 1,
+                width: 500,
                 margin: const EdgeInsets.only(top: 18).h,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 20),

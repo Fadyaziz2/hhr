@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MeetingDetailsItems extends StatelessWidget {
   final String? title;
@@ -18,7 +19,12 @@ class MeetingDetailsItems extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: 130, child: Text(title ?? '').tr()),
+          SizedBox(
+              width: 130,
+              child: Text(
+                title ?? '',
+                style: TextStyle(fontSize: 12.r),
+              ).tr()),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,7 +32,8 @@ class MeetingDetailsItems extends StatelessWidget {
                 Expanded(
                   child: Text(
                     subTitle ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 12.r),
                     maxLines: 1,
                   ),
                 ),
