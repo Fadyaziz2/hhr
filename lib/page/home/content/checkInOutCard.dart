@@ -37,7 +37,7 @@ class CheckInOutCard extends StatelessWidget {
             // Navigator.push(context,
             //     AttendancePage.route(homeBloc: context.read<HomeBloc>()));
             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-              return const AttendanceQRView();
+              return const QRAttendanceScreen();
             }));
           },
           child: Padding(
