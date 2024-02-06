@@ -95,6 +95,7 @@ dependencies:
   http: ^1.1.2
   rxdart: ^0.27.7
   geocoding: ^2.1.1
+  camera: ^0.10.5+9
 
 
 dev_dependencies:
