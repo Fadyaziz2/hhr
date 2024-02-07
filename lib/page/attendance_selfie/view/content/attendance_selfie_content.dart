@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'selfie_preview_screen.dart';
+
 class AttendanceSelfieContent extends StatefulWidget {
   final List<CameraDescription>? cameras;
 
@@ -12,18 +14,6 @@ class AttendanceSelfieContent extends StatefulWidget {
 
 class _SelfieScreenState extends State<AttendanceSelfieContent> {
   late CameraController controller;
-
-  // Future initCamera(CameraDescription cameraDescription) async {
-  //   _cameraController = CameraController(cameraDescription, ResolutionPreset.high);
-  //   try {
-  //     await _cameraController.initialize().then((_) {
-  //       if (!mounted) return;
-  //       setState(() {});
-  //     });
-  //   } on CameraException catch (e) {
-  //     debugPrint("camera error $e");
-  //   }
-  // }
 
   @override
   void initState() {
@@ -39,10 +29,10 @@ class _SelfieScreenState extends State<AttendanceSelfieContent> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-          // Handle access errors here.
+            // Handle access errors here.
             break;
           default:
-          // Handle other errors here.
+            // Handle other errors here.
             break;
         }
       }
@@ -63,17 +53,15 @@ class _SelfieScreenState extends State<AttendanceSelfieContent> {
           (controller.value.isInitialized)
               ? CameraPreview(controller)
               : Container(
-              color: Colors.black,
-              child: const Center(child: CircularProgressIndicator())),
+                  color: Colors.black,
+                  child: const Center(child: CircularProgressIndicator())),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.18,
               width: double.infinity,
-              decoration: const BoxDecoration(
-                  color: Colors.black),
-              child:
-              IconButton(
+              decoration: const BoxDecoration(color: Colors.black),
+              child: IconButton(
                 onPressed: takePicture,
                 iconSize: 80,
                 padding: EdgeInsets.zero,
@@ -98,15 +86,17 @@ class _SelfieScreenState extends State<AttendanceSelfieContent> {
       await controller.setFlashMode(FlashMode.off);
       XFile picture = await controller.takePicture();
       if (mounted) {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => PreviewPage(
-        //           picture: picture,
-        //         )));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SelfiePreviewScreen(
+              picture: picture,
+            ),
+          ),
+        );
       }
     } on CameraException catch (e) {
-      debugPrint('Error occured while taking picture: $e');
+      debugPrint('Error occurred while taking picture: $e');
       return null;
     }
   }
