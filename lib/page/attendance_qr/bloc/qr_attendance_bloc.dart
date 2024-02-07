@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
@@ -18,7 +19,8 @@ class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
   final MetaClubApiClient metaClubApiClient;
   final Debounce debounce = Debounce(milliseconds: 400);
 
-  QRAttendanceBloc({required this.metaClubApiClient}) : super(const QRAttendanceState(status: NetworkStatus.initial)) {
+  QRAttendanceBloc({required this.metaClubApiClient})
+      : super(const QRAttendanceState(status: NetworkStatus.initial)) {
     on<QRScanData>(_onGetQrScanData);
   }
 
@@ -36,11 +38,13 @@ class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
           state.copyWith(
               status: NetworkStatus.failure,
               isSuccess: false,
-              onErrorMessage: "The QR code doesn't match, retry"),
+              onErrorMessage: "The QR code doesn't match, please retry"),
         );
-        ScaffoldMessenger.of(event.context!).showSnackBar(
-          SnackBar(content: Text(state.onErrorMessage ?? '')),
-        );
+        Fluttertoast.showToast(
+            msg: state.onErrorMessage ?? '',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.TOP);
+
         Navigator.pushReplacement(event.context!,
             MaterialPageRoute(builder: (_) {
           return BlocProvider.value(
