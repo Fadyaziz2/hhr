@@ -1660,16 +1660,16 @@ class MetaClubApiClient {
   }
 
   /// Check QR Code validations  ------------------
-  Future checkQRValidations(data) async {
+  Future<bool> checkQRValidations(data) async {
     const String api = 'user/attendance/qr-status';
     try {
       Response response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
       if (response.statusCode == 200) {
-        return response.data;
+        return true;
       }
-      return null;
+      return false;
     } catch (_) {
-      return null;
+      return false;
     }
   }
 }

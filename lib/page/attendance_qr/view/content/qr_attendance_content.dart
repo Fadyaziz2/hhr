@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:onesthrm/page/attendance_qr/attendance_qr.dart';
+import 'package:onesthrm/res/enum.dart';
+
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRAttendanceContent extends StatefulWidget {
   const QRAttendanceContent({super.key});
@@ -13,92 +16,99 @@ class QRAttendanceContent extends StatefulWidget {
 
 class _QRAttendanceContentState extends State<QRAttendanceContent>
     with SingleTickerProviderStateMixin {
-  String? barcode;
 
-  MobileScannerController controller = MobileScannerController(
-    torchEnabled: false,
-  );
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  bool isStarted = true;
-
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QRAttendanceBloc, QRAttendanceState>(
       builder: (context, state) {
-        return Builder(
-          builder: (context) {
-            return Stack(
+        return Stack(
+          children: [
+            Column(
               children: [
-                MobileScanner(
-                  controller: controller,
-                  fit: BoxFit.contain,
-                  onDetect: (BarcodeCapture capture) {
-                    final List<Barcode> barcodes = capture.barcodes;
-
-                    context
-                        .read<QRAttendanceBloc>()
-                        .add(QRScanData(qrData: barcodes.first.rawValue));
-
-                  },
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 100,
-                    color: Colors.black.withOpacity(0.4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        onPressed: () async {
+                          await controller?.resumeCamera();
+                        },
+                        icon: const Icon(
+                          Icons.refresh,
                           color: Colors.white,
-                          icon: ValueListenableBuilder(
-                            valueListenable: controller.torchState,
-                            builder: (context, state, child) {
-                              if (state == null) {
-                                return const Icon(
-                                  CupertinoIcons.lightbulb_fill,
-                                  color: Colors.grey,
-                                );
-                              }
-                              switch (state as TorchState) {
-                                case TorchState.off:
-                                  return const Icon(
-                                    CupertinoIcons.lightbulb_slash,
-                                    color: Colors.grey,
-                                  );
-                                case TorchState.on:
-                                  return const Icon(
-                                    CupertinoIcons.lightbulb_fill,
-                                    color: Colors.yellow,
-                                  );
-                              }
-                            },
-                          ),
-                          iconSize: 32.0,
-                          onPressed: () => controller.toggleTorch(),
-                        ),
-                      ],
-                    ),
+                        )),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Opacity(
-                    opacity: 0.7,
-                    child: Image.asset(
-                      "assets/images/face.png",
-                      fit: BoxFit.fill,
-                      width: double.infinity,
-                    ),
-                  ),
-                ),
+                Expanded(flex: 4, child: _buildQrView(context)),
               ],
-            );
-          },
+            ),
+             Visibility(
+              visible: state.status == NetworkStatus.loading,
+                child: const Center(child: CircularProgressIndicator(),))
+          ],
         );
       },
     );
+  }
+
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 150.0
+        : 300.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      context
+          .read<QRAttendanceBloc>()
+          .add(QRScanData(qrData: scanData.code, context: context));
+      controller.pauseCamera();
+    });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

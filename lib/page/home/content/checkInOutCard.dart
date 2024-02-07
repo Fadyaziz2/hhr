@@ -7,6 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance_qr/attendance_qr.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -36,8 +37,14 @@ class CheckInOutCard extends StatelessWidget {
                 locationProvider: locationServiceProvider));
             // Navigator.push(context,
             //     AttendancePage.route(homeBloc: context.read<HomeBloc>()));
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-              return const QRAttendanceScreen();
+            // NavUtil.replaceScreen(context,BlocProvider.value(
+            //     value: context.read<HomeBloc>(),
+            //     child: const QRAttendanceScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) {
+              return BlocProvider.value(
+                  value: context.read<HomeBloc>(),
+                  child: const QRAttendanceScreen());
             }));
           },
           child: Padding(
