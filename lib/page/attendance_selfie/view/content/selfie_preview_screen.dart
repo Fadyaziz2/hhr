@@ -2,9 +2,13 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/attendance/attendance.dart';
 import 'dart:math' as math;
 
 import 'package:onesthrm/res/widgets/custom_button.dart';
+
+import '../../../home/home.dart';
 
 class SelfiePreviewScreen extends StatelessWidget {
   const SelfiePreviewScreen({super.key, required this.picture});
@@ -28,20 +32,15 @@ class SelfiePreviewScreen extends StatelessWidget {
               child: Image.file(File(picture.path), fit: BoxFit.cover)),
         ),
         const SizedBox(height: 24),
-        const CustomButton(title: "Next",),
-       /* ElevatedButton(
-            onPressed: () {
-              // NavUtil.navigateScreen(
-              //     context,
-              //     Attendance(
-              //       navigationMenu: false,
-              //       selfie: widget.picture.path,
-              //     ));
-            },
-            child: const Text(
-              "Next",
-              style: TextStyle(color: Colors.white),
-            ))*/
+        CustomButton(
+          title: "Next",
+          clickButton: () {
+            Navigator.pushReplacement(
+                context,
+                AttendancePage.route(
+                    homeBloc: context.read<HomeBloc>(), selfie: picture.path));
+          },
+        ),
       ]),
     );
   }
