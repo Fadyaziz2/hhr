@@ -1658,4 +1658,18 @@ class MetaClubApiClient {
       return null;
     }
   }
+
+  /// Check QR Code validations  ------------------
+  Future<bool> checkQRValidations(data) async {
+    const String api = 'user/attendance/qr-status';
+    try {
+      Response response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
 }

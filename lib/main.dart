@@ -25,8 +25,7 @@ void main() async {
   await Firebase.initializeApp();
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
-  final authenticationRepository =
-      AuthenticationRepository(apiClient: apiClient);
+  final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
   ///openBox for location hive

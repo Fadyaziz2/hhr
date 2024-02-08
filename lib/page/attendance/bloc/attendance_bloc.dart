@@ -11,11 +11,13 @@ import '../../../res/const.dart';
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;
   final LocationServiceProvider _locationServices;
+  final AttendanceType attendanceType;
   AttendanceBody body = AttendanceBody();
   final String? _selfie;
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
+      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal})
       required LocationServiceProvider locationServices,
       String? selfie})
       : _metaClubApiClient = metaClubApiClient,
@@ -28,14 +30,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnAttendance>(_onAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
+
+    if(attendanceType == AttendanceType.qr){
+      add(OnAttendance());
+    }
+
+
   }
 
-  void _onReason(ReasonEvent event, Emitter<AttendanceState> emit) async {
+  void _onReason(ReasonEvent event,Emitter<AttendanceState> emit)async {
     body.reason = event.reasonData;
   }
-
-  void _onLocationInit(
-      OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
+  void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
 
@@ -48,35 +54,28 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     add(OnLocationRefreshEvent());
   }
 
-  void _onLocationUpdated(
-      OnLocationUpdated event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(
-        location: event.place, actionStatus: ActionStatus.location));
+  void _onLocationUpdated(OnLocationUpdated event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(location: event.place,actionStatus: ActionStatus.location));
   }
 
-  void _onLocationRefresh(
-      OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(
-        locationLoaded: false, actionStatus: ActionStatus.refresh));
+  void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(locationLoaded: false,actionStatus: ActionStatus.refresh));
     _locationServices.placeStream.listen((location) async {
       body.latitude = '${_locationServices.userLocation.latitude}';
       body.longitude = '${_locationServices.userLocation.longitude}';
       add(OnLocationUpdated(place: location));
     });
     await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(
-        locationLoaded: true, actionStatus: ActionStatus.refresh));
+    emit(state.copyWith(locationLoaded: true,actionStatus: ActionStatus.refresh));
   }
 
-  void _onRemoteModeUpdate(
-      OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
+  void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
     body.mode = event.mode;
     SharedUtil.setRemoteModeType(event.mode);
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(
-        status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
+    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';

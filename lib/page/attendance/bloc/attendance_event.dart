@@ -47,10 +47,9 @@ class OnRemoteModeChanged extends AttendanceEvent{
 }
 
 class OnAttendance extends AttendanceEvent{
-  final DashboardModel homeData;
 
-  OnAttendance({required this.homeData});
+  OnAttendance();
 
   @override
-  List<Object?> get props => [homeData];
+  List<Object?> get props => [];
 }
