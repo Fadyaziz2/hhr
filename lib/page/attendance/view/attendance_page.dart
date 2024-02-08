@@ -13,34 +13,39 @@ class AttendancePage extends StatelessWidget {
   final AttendanceType attendanceType;
   final String? selfie;
 
-  const AttendancePage({super.key, required this.homeBloc, this.attendanceType = AttendanceType.normal});
-  const AttendancePage({super.key, required this.homeBloc, this.selfie});
+  const AttendancePage(
+      {super.key,
+      required this.homeBloc,
+      this.attendanceType = AttendanceType.normal,
+      this.selfie});
 
-  static Route route({required HomeBloc homeBloc,AttendanceType attendanceType = AttendanceType.normal}) {
-    return MaterialPageRoute(builder: (_) => BlocProvider.value(value: homeBloc,child: AttendancePage(homeBloc: homeBloc,attendanceType: attendanceType,)));
-  static Route route({required HomeBloc homeBloc, String? selfie}) {
+  static Route route(
+      {required HomeBloc homeBloc,
+      AttendanceType attendanceType = AttendanceType.normal,
+      String? selfie}) {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider.value(
-            value: homeBloc,
-            child: AttendancePage(
-              homeBloc: homeBloc,
-              selfie: selfie,
-            )));
+      builder: (_) => BlocProvider.value(
+        value: homeBloc,
+        child: AttendancePage(
+          homeBloc: homeBloc,
+          attendanceType: attendanceType,
+          selfie: selfie,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (BuildContext context) => AttendanceBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
-          locationServices: locationServiceProvider,attendanceType: attendanceType)..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
           metaClubApiClient: MetaClubApiClient(
               token: '${user?.user?.token}', companyUrl: baseUrl),
           locationServices: locationServiceProvider,
+          attendanceType: attendanceType,
           selfie: selfie)
         ..add(
             OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),

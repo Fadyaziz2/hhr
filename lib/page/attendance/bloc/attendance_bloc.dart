@@ -17,9 +17,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
-      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal})
-      required LocationServiceProvider locationServices,
-      String? selfie})
+      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal, String? selfie})
       : _metaClubApiClient = metaClubApiClient,
         _locationServices = locationServices,
         _selfie = selfie ?? '',
@@ -81,6 +79,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     body.selfie = _selfie;
+
     final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
     globalState.set(
         attendanceId,

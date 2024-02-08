@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/view/attendance_page.dart';
+import 'package:onesthrm/page/attendance_selfie/attendance_selfie.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:qr_attendance/qr_attendance.dart';
@@ -35,23 +37,34 @@ class CheckInOutCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-          onTap: () {
+          onTap: () async{
             context.read<HomeBloc>().add(OnLocationRefresh(
                 user: context.read<AuthenticationBloc>().state.data?.user,
                 locationProvider: locationServiceProvider));
 
-            ///navigate into QR feature
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return BlocProvider.value(
-                  value: context.read<HomeBloc>(),
-                  child: QRAttendanceScreen(
-                    token: user!.user!.token!,
-                    baseUrl: baseUrl,
-                    callBackRoute: AttendancePage.route(
-                        homeBloc: context.read<HomeBloc>(),
-                        attendanceType: AttendanceType.qr),
-                  ));
-            }));
+            // ///navigate into QR feature
+            // Navigator.push(context, MaterialPageRoute(builder: (_) {
+            //   return BlocProvider.value(
+            //       value: context.read<HomeBloc>(),
+            //       child: QRAttendanceScreen(
+            //         token: user!.user!.token!,
+            //         baseUrl: baseUrl,
+            //         callBackRoute: AttendancePage.route(
+            //             homeBloc: context.read<HomeBloc>(),
+            //             attendanceType: AttendanceType.qr),
+            //       ));
+            // }));
+
+            await availableCameras().then(
+                  (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                      value: context.read<HomeBloc>(),
+                      child: AttendanceSelfieScreen(cameras: value)),
+                ),
+              ),
+            );
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
