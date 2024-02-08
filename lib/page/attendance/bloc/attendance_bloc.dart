@@ -11,20 +11,28 @@ import '../../../res/const.dart';
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;
   final LocationServiceProvider _locationServices;
+  final AttendanceType attendanceType;
   AttendanceBody body = AttendanceBody();
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
-      required LocationServiceProvider locationServices})
+      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal})
       : _metaClubApiClient = metaClubApiClient,
         _locationServices = locationServices,
         super(const AttendanceState(status: NetworkStatus.initial)) {
+
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
     on<OnAttendance>(_onAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
+
+    if(attendanceType == AttendanceType.qr){
+      add(OnAttendance());
+    }
+
+
   }
 
   void _onReason(ReasonEvent event,Emitter<AttendanceState> emit)async {

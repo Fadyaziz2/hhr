@@ -7,10 +7,6 @@ enum NetworkStatus {
   errorDialog
 }
 
-enum ActionStatus { refresh, checkInOut, mode, location }
-
-enum Filter { open, close, all }
-
 enum InternetStatus { initial, online, offline }
 
 enum AttendanceType { normal, qr, face }

@@ -4,22 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/attendance/attendance.dart';
-import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/res/common/debouncer.dart';
-import 'package:onesthrm/res/enum.dart';
-
-import '../view/qr_attendance_screen.dart';
+import 'package:qr_attendance/src/res/enum.dart';
 
 part 'qr_attendance_event.dart';
-
 part 'qr_attendance_state.dart';
 
 class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
   final MetaClubApiClient metaClubApiClient;
-  final Debounce debounce = Debounce(milliseconds: 400);
+  final Route callBackRoute;
 
-  QRAttendanceBloc({required this.metaClubApiClient})
+  QRAttendanceBloc({required this.metaClubApiClient, required this.callBackRoute})
       : super(const QRAttendanceState(status: NetworkStatus.initial)) {
     on<QRScanData>(_onGetQrScanData);
   }
@@ -31,8 +25,7 @@ class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
     await metaClubApiClient.checkQRValidations(data).then((isSuccess) {
       if (isSuccess) {
         emit(state.copyWith(status: NetworkStatus.success));
-        Navigator.pushReplacement(event.context!,
-            AttendancePage.route(homeBloc: event.context!.read<HomeBloc>()));
+        Navigator.pushReplacement(event.context!, callBackRoute);
       } else {
         emit(
           state.copyWith(
@@ -45,12 +38,11 @@ class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.TOP);
 
-        Navigator.pushReplacement(event.context!,
-            MaterialPageRoute(builder: (_) {
-          return BlocProvider.value(
-              value: event.context!.read<HomeBloc>(),
-              child: const QRAttendanceScreen());
-        }));
+        // Navigator.pushReplacement(event.context!, MaterialPageRoute(builder: (_) {
+        //   return BlocProvider.value(
+        //       value: event.context!.read<HomeBloc>(),
+        //       child: const QRAttendanceScreen());
+        // }));
       }
     });
   }

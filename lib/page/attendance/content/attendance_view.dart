@@ -153,9 +153,7 @@ class _AttendanceState extends State<AttendanceView>
                           )
                         : AnimatedCircularButton(
                             onComplete: () {
-                              context
-                                  .read<AttendanceBloc>()
-                                  .add(OnAttendance(homeData: homeData));
+                              context.read<AttendanceBloc>().add(OnAttendance());
                             },
                             isCheckedIn:
                                 homeData.data?.attendanceData?.id != null,
@@ -168,11 +166,7 @@ class _AttendanceState extends State<AttendanceView>
                           ),
                   InkWell(
                     onTap: () {
-                      NavUtil.navigateScreen(
-                          context,
-                          BlocProvider.value(
-                              value: context.read<AttendanceBloc>(),
-                              child: const AttendanceReason()));
+                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8.0.r),

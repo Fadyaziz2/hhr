@@ -57,6 +57,8 @@ dependencies:
     path: packages/user_repository
   location_track:
     path: packages/location_track
+  qr_attendance:
+    path: packages/qr_attendance
   chat:
     path: packages/chat
   lottie: ^2.4.0
@@ -95,9 +97,6 @@ dependencies:
   http: ^1.1.2
   rxdart: ^0.27.7
   geocoding: ^2.1.1
-  qr_code_scanner: ^1.0.1
-#  mobile_scanner: ^4.0.0
-#  simple_barcode_scanner: ^0.0.8
 
 
 dev_dependencies:

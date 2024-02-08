@@ -5,15 +5,17 @@ import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class AttendancePage extends StatelessWidget {
   final HomeBloc homeBloc;
+  final AttendanceType attendanceType;
 
-  const AttendancePage({super.key, required this.homeBloc});
+  const AttendancePage({super.key, required this.homeBloc, this.attendanceType = AttendanceType.normal});
 
-  static Route route({required HomeBloc homeBloc}) {
-    return MaterialPageRoute(builder: (_) => BlocProvider.value(value: homeBloc,child: AttendancePage(homeBloc: homeBloc,)));
+  static Route route({required HomeBloc homeBloc,AttendanceType attendanceType = AttendanceType.normal}) {
+    return MaterialPageRoute(builder: (_) => BlocProvider.value(value: homeBloc,child: AttendancePage(homeBloc: homeBloc,attendanceType: attendanceType,)));
   }
 
   @override
@@ -25,7 +27,7 @@ class AttendancePage extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => AttendanceBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
-          locationServices: locationServiceProvider)..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
+          locationServices: locationServiceProvider,attendanceType: attendanceType)..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
       child: const Scaffold(
         body: AttendanceView(),
       ),
