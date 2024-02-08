@@ -134,7 +134,7 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
+  Future<CheckData?> checkInOut({required body}) async {
     const String api = 'user/attendance';
 
     try {

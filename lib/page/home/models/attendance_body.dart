@@ -1,10 +1,12 @@
+import 'package:dio/dio.dart';
+
 class AttendanceBody {
   String? latitude;
   String? longitude;
   String? reason;
   int? mode;
   int? attendanceId;
-  String? selfie;
+  MultipartFile? selfieImage;
 
   Map<String, dynamic> toJson() => {
         'latitude': latitude,
@@ -12,6 +14,6 @@ class AttendanceBody {
         'reason': reason,
         'remote_mode': mode,
         'attendance_id': attendanceId,
-        'selfie': selfie
+        'selfie_image': selfieImage,
       };
 }

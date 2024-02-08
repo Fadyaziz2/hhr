@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -78,9 +79,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    body.selfie = _selfie;
-
-    final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
+    body.selfieImage =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
+    final checkInOutDataModel = FormData.fromMap(body.toJson());
+    final checkInOut = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
     globalState.set(
         attendanceId,
         checkInOut?.checkInOut?.checkOut == null
