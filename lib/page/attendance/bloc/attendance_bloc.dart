@@ -12,7 +12,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;
   final LocationServiceProvider _locationServices;
   AttendanceBody body = AttendanceBody();
-  String? _selfie;
+  final String? _selfie;
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
