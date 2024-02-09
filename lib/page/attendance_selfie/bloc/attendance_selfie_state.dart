@@ -1,1 +1,0 @@
-part of 'attendance_selfie_bloc.dart';
