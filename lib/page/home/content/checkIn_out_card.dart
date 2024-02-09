@@ -10,7 +10,9 @@ import 'package:onesthrm/page/attendance/view/attendance_page.dart';
 import 'package:onesthrm/page/attendance_selfie/attendance_selfie.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/widgets/custom_button.dart';
 import 'package:qr_attendance/qr_attendance.dart';
+import 'package:selfie_attendance/selfie_attendance.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -37,7 +39,7 @@ class CheckInOutCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-          onTap: () async{
+          onTap: () async {
             context.read<HomeBloc>().add(OnLocationRefresh(
                 user: context.read<AuthenticationBloc>().state.data?.user,
                 locationProvider: locationServiceProvider));
@@ -55,7 +57,35 @@ class CheckInOutCard extends StatelessWidget {
             //       ));
             // }));
 
+            var selfiePath;
+
             await availableCameras().then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                      value: context.read<HomeBloc>(),
+                      child: AttendanceSelfieScreen(
+                        cameras: value,
+                        onSelfieCaptured: (XFile selfie) {
+                          selfiePath = selfie.path;
+                        },
+                        callBackButton: CustomButton(
+                          title: "Next",
+                          clickButton: () => Navigator.pushReplacement(
+                            context,
+                            AttendancePage.route(
+                                homeBloc: context.read<HomeBloc>(),
+                                attendanceType: AttendanceType.face,
+                            selfie: selfiePath),
+                          ),
+                        ),
+                      )),
+                ),
+              ),
+            );
+
+            /* await availableCameras().then(
                   (value) => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -64,7 +94,7 @@ class CheckInOutCard extends StatelessWidget {
                       child: AttendanceSelfieScreen(cameras: value)),
                 ),
               ),
-            );
+            );*/
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
