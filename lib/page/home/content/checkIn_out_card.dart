@@ -57,10 +57,11 @@ class CheckInOutCard extends StatelessWidget {
             //       ));
             // }));
 
-            var selfiePath;
+            String selfiePath = '';
 
             await availableCameras().then(
-              (value) => Navigator.push(
+              (value) {
+                return Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
@@ -82,19 +83,9 @@ class CheckInOutCard extends StatelessWidget {
                         ),
                       )),
                 ),
-              ),
+              );
+              },
             );
-
-            /* await availableCameras().then(
-                  (value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => BlocProvider.value(
-                      value: context.read<HomeBloc>(),
-                      child: AttendanceSelfieScreen(cameras: value)),
-                ),
-              ),
-            );*/
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
