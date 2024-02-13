@@ -16,8 +16,14 @@ class QRAttendanceScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => QRAttendanceBloc(metaClubApiClient: MetaClubApiClient(token: token, companyUrl: baseUrl),callBackRoute: callBackRoute),
-      child: const Scaffold(
-          backgroundColor: Colors.black, body: QRAttendanceContent()),
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'QR Attendance',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          backgroundColor: Colors.black, body: const QRAttendanceContent()),
     );
   }
 }

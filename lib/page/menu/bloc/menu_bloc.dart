@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
-import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';
 import 'package:onesthrm/page/conference/conference.dart';
@@ -57,7 +56,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const SupportPage());
         break;
       case 'attendance':
-        Navigator.push(event.context, AttendanceMethodScreen.route(homeBloc: event.context.read<HomeBloc>()));
+        Navigator.push(
+            event.context,
+            AttendanceMethodScreen.route(
+                homeBloc: event.context.read<HomeBloc>()));
         break;
       case 'notice':
         NavUtil.navigateScreen(event.context, const NoticeListScreen());
@@ -90,8 +92,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const ConferencePage());
         break;
       case 'visit':
-      NavUtil.navigateScreen(event.context, const VisitPage());
-      break;
+        NavUtil.navigateScreen(event.context, const VisitPage());
+        break;
       case 'meeting':
         NavUtil.navigateScreen(event.context, const MeetingPage());
         break;
