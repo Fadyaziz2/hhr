@@ -14,7 +14,7 @@ class YearSelector extends StatefulWidget {
   final Locale? locale;
 
   const YearSelector({
-    Key? key,
+    super.key,
     required DateTime this.initialDate,
     required this.onYearSelected,
     required this.upDownPageLimitPublishSubject,
@@ -22,11 +22,7 @@ class YearSelector extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.locale,
-  })  : assert(initialDate != null),
-        assert(onYearSelected != null),
-        assert(upDownPageLimitPublishSubject != null),
-        assert(upDownButtonEnableStatePublishSubject != null),
-        super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => YearSelectorState();

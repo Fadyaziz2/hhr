@@ -19,7 +19,9 @@ Future<DateTime?> showMonthPicker({
   DateTime? lastDate,
   Locale? locale,
 }) async {
-  final localizations = locale == null ? MaterialLocalizations.of(context) : await GlobalMaterialLocalizations.delegate.load(locale);
+// ignore: use_build_context_synchronously
+final localizations = locale == null ? MaterialLocalizations.of(context) : await GlobalMaterialLocalizations.delegate.load(locale);
+// ignore: use_build_context_synchronously
   return await showDialog<DateTime>(
     context: context,
     builder: (context) => _MonthPickerDialog(
@@ -38,13 +40,12 @@ class _MonthPickerDialog extends StatefulWidget {
   final Locale? locale;
 
   const _MonthPickerDialog({
-    Key? key,
     required this.initialDate,
     required this.localizations,
     this.firstDate,
     this.lastDate,
     this.locale,
-  }) : super(key: key);
+  });
 
   @override
   _MonthPickerDialogState createState() => _MonthPickerDialogState();

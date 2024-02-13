@@ -6,7 +6,7 @@ class Profile extends Equatable {
   final Financial? financial;
   final Emergency? emergency;
 
-  Profile({this.official, this.personal, this.financial, this.emergency});
+  const Profile({this.official, this.personal, this.financial, this.emergency});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
@@ -41,7 +41,7 @@ class Official extends Equatable {
   final String? employeeType;
   final String? employeeId;
 
-  Official(
+  const Official(
       {this.name,
       this.email,
       this.phone,
@@ -105,7 +105,7 @@ class Personal extends Equatable {
   final String? maritalStatus;
   final String? bloodGroup;
 
-  Personal(
+  const Personal(
       {this.department,
       this.name,
       this.gender,
@@ -163,7 +163,7 @@ class Financial extends Equatable {
   final String? bankAccount;
   final String? avatar;
 
-  Financial({this.tin, this.bankName, this.bankAccount, this.avatar});
+  const Financial({this.tin, this.bankName, this.bankAccount, this.avatar});
 
   factory Financial.fromJson(Map<String, dynamic> json) {
     return Financial(
@@ -190,7 +190,7 @@ class Emergency extends Equatable {
   final String? relationship;
   final String? avatar;
 
-  Emergency({this.name, this.mobile, this.relationship, this.avatar});
+  const Emergency({this.name, this.mobile, this.relationship, this.avatar});
 
   factory Emergency.fromJson(Map<String, dynamic> json) {
     return Emergency(

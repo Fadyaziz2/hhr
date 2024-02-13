@@ -5,13 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/view/attendance_page.dart';
-import 'package:onesthrm/page/attendance_selfie/attendance_selfie.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
-import 'package:qr_attendance/qr_attendance.dart';
 import 'package:selfie_attendance/selfie_attendance.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
@@ -31,8 +28,8 @@ class CheckInOutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
 
     return Card(
       elevation: 2,

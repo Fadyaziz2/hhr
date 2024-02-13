@@ -16,7 +16,7 @@ main() {
 
     late MetaClubApiClient metaClubApiClient;
     late HomeBloc homeBloc;
-    DashboardModel? dashboardModel;
+    // DashboardModel? dashboardModel;
     late Settings settings;
 
     setUp(() async {

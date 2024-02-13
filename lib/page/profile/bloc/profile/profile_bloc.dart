@@ -49,7 +49,7 @@ ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   _onAuthenticationDeleteRequest(ProfileDeleteRequest event,Emitter<ProfileState> emit) async {
-    final isDeleted = await metaClubApiClient.deleteAccount();
+    // final isDeleted = await metaClubApiClient.deleteAccount();
   }
 
   _onAvatarUpdate(ProfileAvatarUpdate event,Emitter<ProfileState> emit) async {

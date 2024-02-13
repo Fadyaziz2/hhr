@@ -79,7 +79,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
-  MultiSelectBottomSheet({
+  MultiSelectBottomSheet({super.key,
     required this.items,
     required this.initialValue,
     this.title,
@@ -107,8 +107,7 @@ class MultiSelectBottomSheet<T> extends StatefulWidget
   });
 
   @override
-  _MultiSelectBottomSheetState<T> createState() =>
-      _MultiSelectBottomSheetState<T>(items);
+  _MultiSelectBottomSheetState<T> createState() => _MultiSelectBottomSheetState<T>(items);
 }
 
 class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
@@ -271,15 +270,15 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                             ),
                           )
                         : widget.title ??
-                            Text(
+                            const Text(
                               "Select",
                               style: TextStyle(fontSize: 18),
                             ),
                     widget.searchable
                         ? IconButton(
                             icon: _showSearch
-                                ? widget.closeSearchIcon ?? Icon(Icons.close)
-                                : widget.searchIcon ?? Icon(Icons.search),
+                                ? widget.closeSearchIcon ?? const Icon(Icons.close)
+                                : widget.searchIcon ?? const Icon(Icons.search),
                             onPressed: () {
                               setState(() {
                                 _showSearch = !_showSearch;
@@ -294,7 +293,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                               });
                             },
                           )
-                        : Padding(
+                        : const Padding(
                             padding: EdgeInsets.all(15),
                           ),
                   ],
@@ -302,7 +301,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
               ),
               Expanded(
                 child: widget.listType == null ||
-                        widget.listType == MultiSelectListType.LIST
+                        widget.listType == MultiSelectListType.list
                     ? ListView.builder(
                         controller: scrollController,
                         itemCount: _items.length,
@@ -313,7 +312,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                     : SingleChildScrollView(
                         controller: scrollController,
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Wrap(
                             children: _items.map(_buildChipItem).toList(),
                           ),
@@ -321,7 +320,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                       ),
               ),
               Container(
-                padding: EdgeInsets.all(2),
+                padding: const EdgeInsets.all(2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -343,7 +342,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                             ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: TextButton(
                         onPressed: () {

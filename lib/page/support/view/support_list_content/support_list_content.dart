@@ -3,7 +3,7 @@ import 'package:onesthrm/page/support/content/bar_status_widget.dart';
 import 'package:onesthrm/page/support/content/support_list_widget.dart';
 
 class SupportListContent extends StatelessWidget {
-  const SupportListContent({Key? key}) : super(key: key);
+  const SupportListContent({super.key});
 
   @override
   Widget build(BuildContext context) {

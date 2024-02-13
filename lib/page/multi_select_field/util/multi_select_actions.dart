@@ -51,14 +51,14 @@ class MultiSelectActions<T> {
   }
 
   List<MultiSelectItem<T>> separateSelected(List<MultiSelectItem<T>> list) {
-    List<MultiSelectItem<T>> _selectedItems = [];
-    List<MultiSelectItem<T>> _nonSelectedItems = [];
+    List<MultiSelectItem<T>> selectedItems = [];
+    List<MultiSelectItem<T>> nonSelectedItems = [];
 
-    _nonSelectedItems.addAll(list.where((element) => !element.selected));
-    _nonSelectedItems.sort((a, b) => a.label.compareTo(b.label));
-    _selectedItems.addAll(list.where((element) => element.selected));
-    _selectedItems.sort((a, b) => a.label.compareTo(b.label));
+    nonSelectedItems.addAll(list.where((element) => !element.selected));
+    nonSelectedItems.sort((a, b) => a.label.compareTo(b.label));
+    selectedItems.addAll(list.where((element) => element.selected));
+    selectedItems.sort((a, b) => a.label.compareTo(b.label));
 
-    return [..._selectedItems, ..._nonSelectedItems];
+    return [...selectedItems, ...nonSelectedItems];
   }
 }

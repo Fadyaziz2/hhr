@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final responseQualification = responseQualificationFromJson(jsonString);
-
 import 'dart:convert';
 
 ResponseQualification responseQualificationFromJson(String str) => ResponseQualification.fromJson(json.decode(str));

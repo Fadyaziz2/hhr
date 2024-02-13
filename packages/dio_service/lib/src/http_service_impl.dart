@@ -106,7 +106,7 @@ class HttpServiceImpl implements HttpService {
     try {
       response = await _dio!.delete(url,
           options: Options(headers: {"Authorization": "Bearer $token"}));
-    } on SocketException catch (e) {
+    } on SocketException {
       throw const SocketException('No internet connection');
     } on FormatException catch (e) {
       throw FormatException(e.message);

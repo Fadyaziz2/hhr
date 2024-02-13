@@ -10,7 +10,7 @@ import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../../res/widgets/date_picker_widget.dart';
 import '../../bloc/update/update_profile_bloc.dart';
-import '../../model/UpdateOfficialData.dart';
+import '../../model/update_official_data.dart';
 import 'custom_text_field_with_title.dart';
 import 'gender_content.dart';
 
@@ -21,12 +21,11 @@ class PersonalForm extends StatefulWidget {
   final Function(BodyPersonalInfo) onPersonalUpdate;
 
   const PersonalForm(
-      {Key? key,
+      {super.key,
       required this.profile,
       required this.bloc,
       required this.onPersonalUpdate,
-      required this.settings})
-      : super(key: key);
+      required this.settings});
 
   @override
   State<PersonalForm> createState() => _PersonalFormState();

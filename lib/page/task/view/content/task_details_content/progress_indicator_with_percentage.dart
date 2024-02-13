@@ -3,15 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressIndicatorWithPercentage extends StatelessWidget {
   const ProgressIndicatorWithPercentage(
-      {Key? key,
+      {super.key,
       this.activeContainerWidth,
       this.deActivateContainerWidth,
       this.percentageTextHeight,
       this.containerHeight,
       this.percentageActiveColor,
       this.percentageDisableColor,
-      this.percentage})
-      : super(key: key);
+      this.percentage});
 
   final Color? percentageActiveColor, percentageDisableColor;
   final double? activeContainerWidth,

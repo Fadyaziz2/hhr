@@ -257,20 +257,22 @@ class _MultiSelectChipFieldView<V> extends StatefulWidget
 
 class __MultiSelectChipFieldViewState<V>
     extends State<_MultiSelectChipFieldView<V?>> {
-  List<V?> _selectedValues = [];
+  final List<V?> _selectedValues = [];
   bool _showSearch = false;
   List<MultiSelectItem> _items;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   __MultiSelectChipFieldViewState(this._items);
 
+  @override
   void initState() {
     super.initState();
     if (widget.initialValue != null) {
       _selectedValues.addAll(widget.initialValue!);
     }
-    if (widget.scrollControl != null && widget.scroll)
-      WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToPosition());
+    if (widget.scrollControl != null && widget.scroll) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToPosition());
+    }
   }
 
   _scrollToPosition() {
@@ -483,7 +485,7 @@ class __MultiSelectChipFieldViewState<V>
         label: SizedBox(
           width: widget.chipWidth,
           child: Text(
-            item.label ?? "",
+            item.label,
             overflow: TextOverflow.ellipsis,
             style: _selectedValues.contains(item.value)
                 ? TextStyle(

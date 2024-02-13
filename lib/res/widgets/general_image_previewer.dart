@@ -11,7 +11,7 @@ class GeneralImagePreviewScreen extends StatelessWidget {
     return Scaffold(
       body: PhotoView(
         imageProvider: CachedNetworkImageProvider(imageUrl),
-        heroAttributes: PhotoViewHeroAttributes(tag: imageUrl??''),
+        heroAttributes: PhotoViewHeroAttributes(tag: imageUrl),
       ),
     );
   }

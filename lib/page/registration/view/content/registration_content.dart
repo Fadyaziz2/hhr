@@ -13,7 +13,7 @@ import 'custom_input_field.dart';
 BodyRegistration bodyRegistration = BodyRegistration(qualifications: []);
 
 class RegistrationContent extends StatelessWidget {
-  const RegistrationContent({Key? key}) : super(key: key);
+  const RegistrationContent({super.key});
 
   @override
   Widget build(BuildContext context) {

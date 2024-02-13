@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class RegistrationHeader extends StatelessWidget {
 
-  const RegistrationHeader({Key? key}) : super(key: key);
+  const RegistrationHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

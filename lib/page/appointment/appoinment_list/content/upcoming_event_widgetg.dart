@@ -35,7 +35,7 @@ class User extends Equatable {
   final String? mailingAddress;
   final String? permanentAddress;
   final String? gender;
-  final String? birth_date;
+  final String? birthDate;
   final String? fatherName;
   final String? motherName;
   final String? nationality;
@@ -68,7 +68,7 @@ class User extends Equatable {
       this.mailingAddress,
       this.permanentAddress,
       this.gender,
-      this.birth_date,
+      this.birthDate,
       this.fatherName,
       this.motherName,
       this.nationality,
@@ -100,7 +100,7 @@ class User extends Equatable {
         mailingAddress: json['mailing_address'],
         permanentAddress: json['permanent_address'],
         gender: json['gender'],
-        birth_date: json['birth_date'],
+        birthDate: json['birth_date'],
         fatherName: json['father_name'],
         motherName: json['mother_name'],
         nationality: json['nationality'],
@@ -119,33 +119,33 @@ class User extends Equatable {
 
   Map<String, dynamic> toJson() {
     final data = {
-      'id': this.id,
-      'name': this.name,
-      'email': this.email,
-      'phone': this.phone,
-      'is_active': this.isActive,
-      'is_verified': this.isVerified,
-      'is_rejected': this.isRejected,
-      'role_id': this.roleId,
-      'organization': this.organization,
-      'blood_group': this.bloodGroup,
-      'anniversary': this.anniversary,
-      'mailing_address': this.mailingAddress,
-      'permanent_address': this.permanentAddress,
-      'gender': this.gender,
-      'birth_date': this.birth_date,
-      'father_name': this.fatherName,
-      'nationality': this.nationality,
-      'passport_number': this.passportNumber,
-      'religion': this.religion,
-      'marital_status': this.maritalStatus,
-      'tin': this.tin,
-      'bank_name': this.bankName,
-      'bank_account': this.bankAccount,
-      'emergency_name': this.emergencyName,
-      'emergency_mobile_number': this.emergencyMobileNumber,
-      'emergency_mobile_relationship': this.emergencyMobileRelationship,
-      'user_group': this.userGroup
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'is_active': isActive,
+      'is_verified': isVerified,
+      'is_rejected': isRejected,
+      'role_id': roleId,
+      'organization': organization,
+      'blood_group': bloodGroup,
+      'anniversary': anniversary,
+      'mailing_address': mailingAddress,
+      'permanent_address': permanentAddress,
+      'gender': gender,
+      'birth_date': birthDate,
+      'father_name': fatherName,
+      'nationality': nationality,
+      'passport_number': passportNumber,
+      'religion': religion,
+      'marital_status': maritalStatus,
+      'tin': tin,
+      'bank_name': bankName,
+      'bank_account': bankAccount,
+      'emergency_name': emergencyName,
+      'emergency_mobile_number': emergencyMobileNumber,
+      'emergency_mobile_relationship': emergencyMobileRelationship,
+      'user_group': userGroup
       // 'avatar': this.avatar,
     };
     return data;
@@ -165,7 +165,7 @@ class User extends Equatable {
         mailingAddress,
         permanentAddress,
         gender,
-        birth_date,
+        birthDate,
         fatherName,
         nationality,
         passportNumber,
@@ -263,7 +263,7 @@ class EventWidgets extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 14.r,
-                      color: Color(0xFF222222),
+                      color: const Color(0xFF222222),
                       fontWeight: FontWeight.w500,
                       height: 1.5,
                       letterSpacing: 0.5),
@@ -276,7 +276,7 @@ class EventWidgets extends StatelessWidget {
                         '${data?.time},',
                         style: TextStyle(
                             fontSize: 12.r,
-                            color: Color(0xFF555555),
+                            color: const Color(0xFF555555),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             letterSpacing: 0.5),
@@ -288,7 +288,7 @@ class EventWidgets extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 12.r,
-                              color: Color(0xFF555555),
+                              color: const Color(0xFF555555),
                               height: 1.4,
                               letterSpacing: 0.5),
                         ),

@@ -10,12 +10,11 @@ class TabAnimatedCircularButton extends StatefulWidget {
   final Color color;
 
   const TabAnimatedCircularButton(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.color,
       this.onComplete,
-      this.isCheckedIn = false})
-      : super(key: key);
+      this.isCheckedIn = false});
 
   @override
   State<TabAnimatedCircularButton> createState() =>

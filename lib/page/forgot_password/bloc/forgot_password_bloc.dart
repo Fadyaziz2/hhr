@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -35,13 +36,16 @@ class ForgotPasswordBloc
         NavUtil.navigateScreen(
             event.context,
             BlocProvider.value(
+              // ignore: use_build_context_synchronously
               value: event.context.read<ForgotPasswordBloc>(),
               child: ChangePassword(
                 email: event.email,
               ),
             ));
         emit(state.copyWith(status: NetworkStatus.success));
-        print('success');
+        if (kDebugMode) {
+          print('success');
+        }
       } else {
         Fluttertoast.showToast(msg: response.message.toString());
         emit(state.copyWith(status: NetworkStatus.failure));

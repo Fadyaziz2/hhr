@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class LeaveReportSummaryModel extends Equatable {
-  LeaveReportSummaryModel({
+  const LeaveReportSummaryModel({
     this.result,
     this.message,
     this.data,
   });
 
-  bool? result;
-  String? message;
-  LeaveSummaryReportData? data;
+  final bool? result;
+  final String? message;
+  final LeaveSummaryReportData? data;
 
   factory LeaveReportSummaryModel.fromJson(Map<String, dynamic> json) =>
       LeaveReportSummaryModel(
@@ -28,13 +28,13 @@ class LeaveReportSummaryModel extends Equatable {
 }
 
 class LeaveSummaryReportData extends Equatable {
-  LeaveSummaryReportData({
+  const LeaveSummaryReportData({
     this.date,
     this.leaveTypes,
   });
 
-  String? date;
-  List<LeaveReportSummaryType>? leaveTypes;
+  final String? date;
+  final List<LeaveReportSummaryType>? leaveTypes;
 
   factory LeaveSummaryReportData.fromJson(Map<String, dynamic> json) =>
       LeaveSummaryReportData(
@@ -52,15 +52,15 @@ class LeaveSummaryReportData extends Equatable {
 }
 
 class LeaveReportSummaryType extends Equatable {
-  LeaveReportSummaryType({
+  const LeaveReportSummaryType({
     this.id,
     this.name,
     this.count,
   });
 
-  dynamic id;
-  String? name;
-  int? count;
+ final dynamic id;
+ final String? name;
+ final int? count;
 
   factory LeaveReportSummaryType.fromJson(Map<String, dynamic> json) =>
       LeaveReportSummaryType(

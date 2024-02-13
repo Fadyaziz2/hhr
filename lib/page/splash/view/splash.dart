@@ -8,7 +8,7 @@ import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   static Route route(){
     return MaterialPageRoute(builder: (_) => const SplashScreen());

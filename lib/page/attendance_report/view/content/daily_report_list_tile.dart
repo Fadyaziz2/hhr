@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance_report/view/content/pending_attendance_today.dart';
 import 'package:onesthrm/page/attendance_report/view/content/present_content.dart';
-import 'package:onesthrm/page/attendance_report/view/content/weekendContent.dart';
+import 'package:onesthrm/page/attendance_report/view/content/weekend_content.dart';
 import 'absent_content.dart';
-import 'holidayContent.dart';
+import 'holiday_content.dart';
 
 class DailyReportListTile extends StatelessWidget {
   final DailyReport dailyReport;

@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class ResponseNoticeDetails extends Equatable {
-  ResponseNoticeDetails({
+  const ResponseNoticeDetails({
     this.result,
     this.message,
     this.data,
   });
 
-  bool? result;
-  String? message;
-  NoticeDetailsData? data;
+  final bool? result;
+  final String? message;
+  final NoticeDetailsData? data;
 
   factory ResponseNoticeDetails.fromJson(Map<String, dynamic> json) =>
       ResponseNoticeDetails(
@@ -28,7 +28,7 @@ class ResponseNoticeDetails extends Equatable {
 }
 
 class NoticeDetailsData extends Equatable {
-  NoticeDetailsData({
+  const NoticeDetailsData({
     this.id,
     this.subject,
     this.description,
@@ -36,11 +36,11 @@ class NoticeDetailsData extends Equatable {
     this.file,
   });
 
-  int? id;
-  String? subject;
-  String? description;
-  String? date;
-  String? file;
+  final int? id;
+  final String? subject;
+  final String? description;
+  final String? date;
+  final String? file;
 
   factory NoticeDetailsData.fromJson(Map<String, dynamic> json) =>
       NoticeDetailsData(

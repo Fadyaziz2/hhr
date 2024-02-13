@@ -219,8 +219,7 @@ class BreakHistory {
 
   factory BreakHistory.fromJson(Map<String, dynamic> json) {
     return BreakHistory(
-        time:
-            json['total_break_time'] != null ? json['total_break_time'] : null,
+        time: json['total_break_time'],
         timeBreak: TimeBreak.fromString(json['total_break_time']),
         hasBreak: json['has_break'],
         breakHistory: BreakBackHistory.fromJson(json['break_history']));

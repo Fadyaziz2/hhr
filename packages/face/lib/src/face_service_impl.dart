@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_face_api/face_api.dart' as regula;
 import 'package:flutter_face_api/face_api.dart';
 
@@ -32,8 +32,10 @@ class FaceServiceImpl {
 
   void _matchFaces({required regula.MatchFacesImage registeredImage,required regula.MatchFacesImage currentFace, required Function(bool) isSimilar}) {
     var request =  regula.MatchFacesRequest();
-    print('registeredImage ${registeredImage.bitmap}');
-    print('currentFace ${currentFace.bitmap}');
+    if (kDebugMode) {
+      print('registeredImage ${registeredImage.bitmap}');
+      print('currentFace ${currentFace.bitmap}');
+    }
     request.images = [registeredImage, currentFace];
     regula.FaceSDK.matchFaces(jsonEncode(request)).then((value) {
       var response = regula.MatchFacesResponse.fromJson(json.decode(value));

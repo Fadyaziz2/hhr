@@ -7,7 +7,7 @@ import 'custom_input_field.dart';
 
 class CountryCodeView extends StatelessWidget {
 
-  const CountryCodeView({Key? key}) : super(key: key);
+  const CountryCodeView({super.key});
 
   @override
   Widget build(BuildContext context) {

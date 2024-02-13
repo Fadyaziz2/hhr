@@ -12,8 +12,7 @@ class PersonalProfileContent extends StatelessWidget {
   final Profile profile;
   final Settings? settings;
 
-  const PersonalProfileContent({Key? key, required this.profile, this.settings})
-      : super(key: key);
+  const PersonalProfileContent({super.key, required this.profile, this.settings});
 
   @override
   Widget build(BuildContext context) {

@@ -7,12 +7,12 @@ class ExpenseCreateBody {
   int? attachment;
 
   ExpenseCreateBody() {
-    categoryId = this.categoryId;
-    date = this.date;
-    amount = this.amount;
-    description = this.description;
-    reference = this.reference;
-    attachment = this.attachment;
+    categoryId = categoryId;
+    date = date;
+    amount = amount;
+    description = description;
+    reference = reference;
+    attachment = attachment;
   }
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};

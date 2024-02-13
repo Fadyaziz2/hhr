@@ -9,7 +9,7 @@ import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button_widget1.dart';
 import '../../../../res/widgets/date_picker_widget.dart';
 import '../../bloc/update/update_profile_bloc.dart';
-import '../../model/UpdateOfficialData.dart';
+import '../../model/update_official_data.dart';
 import 'custom_text_field_with_title.dart';
 
 class OfficialForm extends StatefulWidget {
@@ -19,12 +19,11 @@ class OfficialForm extends StatefulWidget {
   final Function(BodyOfficialInfo) onOfficialUpdate;
 
   const OfficialForm(
-      {Key? key,
+      {super.key,
       required this.profile,
       required this.bloc,
       required this.onOfficialUpdate,
-      required this.settings})
-      : super(key: key);
+      required this.settings});
 
   @override
   State<OfficialForm> createState() => _OfficialFormState();

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../../res/common/functions.dart';
 import '../../../../res/common/toast.dart';
 import '../../bloc/attendance_report_bloc.dart';

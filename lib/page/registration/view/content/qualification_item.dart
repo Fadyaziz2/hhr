@@ -10,7 +10,7 @@ import 'registration_content.dart';
 
 class QualificationItem extends StatefulWidget {
 
-  const QualificationItem({Key? key}) : super(key: key);
+  const QualificationItem({super.key});
 
   @override
   State<QualificationItem> createState() => _QualificationItemState();

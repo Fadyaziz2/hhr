@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class NotificationResponse extends Equatable {
-  bool? result;
-  String? message;
-  NotificationData? data;
+  final bool? result;
+  final String? message;
+  final NotificationData? data;
 
-  NotificationResponse({
+  const NotificationResponse({
     this.result,
     this.message,
     this.data,
@@ -30,9 +30,9 @@ class NotificationResponse extends Equatable {
 }
 
 class NotificationData extends Equatable {
-  List<NotificationModelData>? notifications;
+  final List<NotificationModelData>? notifications;
 
-  NotificationData({
+  const NotificationData({
     this.notifications,
   });
 
@@ -54,18 +54,18 @@ class NotificationData extends Equatable {
 }
 
 class NotificationModelData extends Equatable {
-  int? id;
-  String? sender;
-  int? senderId;
-  String? title;
-  String? body;
-  String? image;
-  String? date;
-  String? slag;
-  dynamic readAt;
-  bool? isRead;
+  final int? id;
+  final String? sender;
+  final int? senderId;
+  final String? title;
+  final String? body;
+  final String? image;
+  final String? date;
+  final String? slag;
+  final dynamic readAt;
+  final bool? isRead;
 
-  NotificationModelData({
+  const NotificationModelData({
     this.id,
     this.sender,
     this.senderId,

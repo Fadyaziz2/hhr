@@ -9,14 +9,13 @@ class CustomInputField extends StatelessWidget {
   final EdgeInsets edgeInsets;
 
   const CustomInputField(
-      {Key? key,
+      {super.key,
       this.onChanged,
       this.textInputType = TextInputType.name,
       this.hintText,
       this.isReadOnly = false,
       this.maxLine = 1,
-      this.edgeInsets = const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0)})
-      : super(key: key);
+      this.edgeInsets = const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0)});
 
   @override
   Widget build(BuildContext context) {

@@ -1373,7 +1373,11 @@ class MetaClubApiClient {
       } else {
         return VerificationCodeModel.fromJson(response.data);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     return VerificationCodeModel(
       message: 'Something went wrong',
     );
@@ -1423,7 +1427,11 @@ class MetaClubApiClient {
       } else {
         return VerificationCodeModel.fromJson(response.data);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     return VerificationCodeModel(
       message: 'Something went wrong',
     );

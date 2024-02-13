@@ -377,7 +377,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
         backgroundColor: widget.backgroundColor,
         barrierColor: widget.barrierColor,
         shape: widget.shape ??
-            RoundedRectangleBorder(
+            const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
             ),
         isScrollControlled: true,
@@ -451,19 +451,19 @@ class __MultiSelectBottomSheetFieldViewState<V>
                       ),
                     )
                 : widget.decoration,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                widget.buttonText ?? Text("Select"),
-                widget.buttonIcon ?? Icon(Icons.arrow_downward),
+                widget.buttonText ?? const Text("Select"),
+                widget.buttonIcon ?? const Icon(Icons.arrow_downward),
               ],
             ),
           ),
         ),
         _buildInheritedChipDisplay(),
         widget.state != null && widget.state!.hasError
-            ? SizedBox(height: 5)
+            ? const SizedBox(height: 5)
             : Container(),
         widget.state != null && widget.state!.hasError
             ? Row(

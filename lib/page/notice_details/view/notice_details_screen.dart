@@ -13,14 +13,13 @@ class NoticeDetailsScreen extends StatelessWidget {
   final NotificationResponse? notificationResponse;
 
   const NoticeDetailsScreen(
-      {Key? key,
+      {super.key,
       this.noticeId,
       this.notificationResponse,
       this.title,
       this.image,
       this.body,
-      this.date})
-      : super(key: key);
+      this.date});
 
   @override
   Widget build(BuildContext context) {

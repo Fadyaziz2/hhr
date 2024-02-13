@@ -9,12 +9,11 @@ class ProfileDropDown extends StatelessWidget {
   final Function(Department?) onChange;
 
   const ProfileDropDown(
-      {Key? key,
+      {super.key,
       required this.items,
       required this.title,
       required this.onChange,
-      this.item})
-      : super(key: key);
+      this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +77,11 @@ class SimpleDropDown extends StatelessWidget {
   final Function(String?) onChanged;
 
   const SimpleDropDown(
-      {Key? key,
+      {super.key,
       required this.items,
       required this.title,
       required this.onChanged,
-      required this.initialData})
-      : super(key: key);
+      required this.initialData});
 
   @override
   Widget build(BuildContext context) {

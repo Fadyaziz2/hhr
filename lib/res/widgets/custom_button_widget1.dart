@@ -13,15 +13,14 @@ class CustomButton1 extends StatelessWidget {
   final bool asyncCall;
 
   const CustomButton1(
-      {Key? key,
+      {super.key,
       required this.onTap,
       required this.text,
       this.radius = 8.0,
       this.textColor = Colors.white,
       this.fontWeight = FontWeight.bold,
       this.asyncCall = false,
-      this.textSize = 16.0})
-      : super(key: key);
+      this.textSize = 16.0});
 
   @override
   Widget build(BuildContext context) {

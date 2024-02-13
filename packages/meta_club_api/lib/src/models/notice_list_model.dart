@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class NoticeListModel extends Equatable {
-  bool? result;
-  String? message;
-  NoticeListData? data;
+  final bool? result;
+  final String? message;
+  final NoticeListData? data;
 
-  NoticeListModel({
+  const NoticeListModel({
     this.result,
     this.message,
     this.data,
@@ -29,7 +29,7 @@ class NoticeListModel extends Equatable {
 }
 
 class NoticeListData {
-  NoticesList? notices;
+ final NoticesList? notices;
 
   NoticeListData({
     this.notices,
@@ -47,7 +47,7 @@ class NoticeListData {
 }
 
 class NoticesList {
-  List<NoticeListDatum>? data;
+ final List<NoticeListDatum>? data;
 
   NoticesList({
     this.data,
@@ -68,13 +68,13 @@ class NoticesList {
 }
 
 class NoticeListDatum extends Equatable {
-  int? id;
-  String? subject;
-  String? description;
-  String? date;
-  String? file;
+  final int? id;
+  final String? subject;
+  final String? description;
+  final String? date;
+  final String? file;
 
-  NoticeListDatum({
+  const NoticeListDatum({
     this.id,
     this.subject,
     this.description,
