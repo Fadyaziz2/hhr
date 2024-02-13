@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import '../../../res/const.dart';
@@ -6,8 +7,7 @@ import '../../../res/const.dart';
 class CheckInCheckOutButton extends StatefulWidget {
   final DashboardModel homeData;
 
-  const CheckInCheckOutButton({Key? key, required this.homeData})
-      : super(key: key);
+  const CheckInCheckOutButton({super.key, required this.homeData});
 
   @override
   State<CheckInCheckOutButton> createState() => _CheckInCheckOutButtonState();
@@ -25,7 +25,9 @@ class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton>
         animationBehavior: AnimationBehavior.preserve);
 
     controller.addStatusListener((AnimationStatus status) {
-      print('AnimationStatus ${status.name}');
+      if (kDebugMode) {
+        print('AnimationStatus ${status.name}');
+      }
       setState(() {});
     });
     super.initState();
@@ -80,7 +82,7 @@ class _CheckInCheckOutButtonState extends State<CheckInCheckOutButton>
               child: CircularProgressIndicator(
                 strokeWidth: 5,
                 value: controller.value,
-                valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
+                valueColor: const AlwaysStoppedAnimation<Color>(colorPrimary),
               ),
             ),
             ClipOval(

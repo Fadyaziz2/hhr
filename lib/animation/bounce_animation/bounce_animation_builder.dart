@@ -8,7 +8,7 @@ class BounceAnimationBuilder extends StatefulWidget {
   final BounceWidgetBuilder builder;
 
    const BounceAnimationBuilder(
-      {Key? key ,this.scaleMagnitude = 0.2, required this.builder}) : assert(scaleMagnitude >= 0 && scaleMagnitude <= 1) , super(key: key);
+      {super.key ,this.scaleMagnitude = 0.2, required this.builder}) : assert(scaleMagnitude >= 0 && scaleMagnitude <= 1);
 
   @override
   BounceAnimationBuilderState createState() => BounceAnimationBuilderState();

@@ -6,7 +6,7 @@ import 'package:onesthrm/res/widgets/device_util.dart';
 
 import '../../../../bloc/report_bloc.dart';
 import 'attendance_summary_tile.dart';
-import 'daily_report_Tile.dart';
+import 'daily_report_tile.dart';
 import 'select_employee.dart';
 
 class AttendanceReportEmployeeContent extends StatelessWidget {

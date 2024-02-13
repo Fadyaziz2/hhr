@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
 import 'package:onesthrm/res/shimmers.dart';
-import 'package:onesthrm/res/widgets/device_util.dart';
 
 class LeaveInfoContent extends StatelessWidget {
   const LeaveInfoContent({super.key});

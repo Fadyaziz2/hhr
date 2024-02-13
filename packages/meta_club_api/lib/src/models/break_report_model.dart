@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class BreakReportModel extends Equatable {
-  BreakReportModel({
+  const BreakReportModel({
     this.result,
     this.message,
     this.data,
@@ -28,7 +28,7 @@ class BreakReportModel extends Equatable {
 }
 
 class BreakReportData extends Equatable {
-  BreakReportData({
+  const BreakReportData({
     this.totalBreakTime,
     this.hasBreak,
     this.breakHistory,
@@ -55,7 +55,7 @@ class BreakReportData extends Equatable {
 }
 
 class BreakReportHistory extends Equatable {
-  BreakReportHistory({
+  const BreakReportHistory({
     this.todayHistory,
     this.links,
     this.pagination,
@@ -145,7 +145,7 @@ class BreakPagination {
 }
 
 class BreakTodayHistory extends Equatable {
-  BreakTodayHistory({
+  const BreakTodayHistory({
     this.name,
     this.reason,
     this.breakTimeDuration,

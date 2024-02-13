@@ -4,7 +4,7 @@ import 'package:photo_view/photo_view.dart';
 import '../../service/download_service.dart';
 
 class ImagePreviewScreen extends StatefulWidget {
-  const ImagePreviewScreen({Key? key, required this.message}) : super(key: key);
+  const ImagePreviewScreen({super.key, required this.message});
   final String? message;
 
   @override

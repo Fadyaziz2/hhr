@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RegistrationSuccessWidget extends StatelessWidget {
 
-  const RegistrationSuccessWidget({Key? key}) : super(key: key);
+  const RegistrationSuccessWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

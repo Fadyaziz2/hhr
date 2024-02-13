@@ -13,7 +13,7 @@ class MonthSelector extends StatefulWidget {
       upDownButtonEnableStatePublishSubject;
   final Locale? locale;
   const MonthSelector({
-    Key? key,
+    super.key,
     required DateTime this.openDate,
     required DateTime this.selectedDate,
     required this.onMonthSelected,
@@ -22,12 +22,7 @@ class MonthSelector extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.locale,
-  })  : assert(openDate != null),
-        assert(selectedDate != null),
-        assert(onMonthSelected != null),
-        assert(upDownPageLimitPublishSubject != null),
-        assert(upDownButtonEnableStatePublishSubject != null),
-        super(key: key);
+  });
   @override
   State<StatefulWidget> createState() => MonthSelectorState();
 }

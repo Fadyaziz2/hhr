@@ -10,8 +10,11 @@ class ChatService {
   ///create new user
   void createAndUpdateUserInfo(map, uid) {
     FirebaseFirestore.instance.collection('users').doc(uid).set(map).onError((error, stackTrace) {
-      print(error.toString());
-      print(stackTrace.toString());
+      if (kDebugMode) {
+        print(error.toString());
+        print(stackTrace.toString());
+      }
+
     });
   }
   ///getUser
@@ -116,7 +119,9 @@ class ChatService {
         },
       ),
     );
-    print('notification ${response.body}');
+    if (kDebugMode) {
+      print('notification ${response.body}');
+    }
     return response;
   }
 
@@ -145,7 +150,9 @@ class ChatService {
         },
       ),
     );
-    print('notification ${response.body}');
+    if (kDebugMode) {
+      print('notification ${response.body}');
+    }
     return response;
   }
 }

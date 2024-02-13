@@ -16,8 +16,7 @@ class BuildLeaveTitle extends StatelessWidget {
   final int userId;
 
   const BuildLeaveTitle(
-      {Key? key, required this.leaveRequestValue, required this.userId})
-      : super(key: key);
+      {super.key, required this.leaveRequestValue, required this.userId});
 
   @override
   Widget build(BuildContext context) {

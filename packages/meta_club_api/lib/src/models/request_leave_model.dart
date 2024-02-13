@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class SubmitLeaveModel extends Equatable{
-  bool? result;
-  String? message;
+  final bool? result;
+  final String? message;
 
-  SubmitLeaveModel({
+  const SubmitLeaveModel({
     this.result,
     this.message,
   });

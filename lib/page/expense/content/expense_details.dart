@@ -6,7 +6,7 @@ import 'package:onesthrm/page/expense/content/expense_details_item_cart.dart';
 class ExpenseDetails extends StatelessWidget {
   final ExpenseItem? data;
   final int? expenseId;
-  const ExpenseDetails({Key? key, this.expenseId, this.data}) : super(key: key);
+  const ExpenseDetails({super.key, this.expenseId, this.data});
 
   @override
   Widget build(BuildContext context) {

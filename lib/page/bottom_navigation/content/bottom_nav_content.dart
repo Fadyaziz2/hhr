@@ -29,8 +29,9 @@ class BottomNavContent extends StatelessWidget {
         countryCode: 'US',
         shouldPopScope: () => true,
       ),
-      child: WillPopScope(
-        onWillPop: () async {
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
           final differences = DateTime.now().difference(timeBackPressed);
           timeBackPressed = DateTime.now();
           if (differences >= const Duration(seconds: 2)) {
@@ -38,11 +39,10 @@ class BottomNavContent extends StatelessWidget {
             Fluttertoast.showToast(
               msg: msg,
             );
-            return false;
           } else {
             Fluttertoast.cancel();
             SystemNavigator.pop();
-            return true;
+
           }
         },
         child: Scaffold(

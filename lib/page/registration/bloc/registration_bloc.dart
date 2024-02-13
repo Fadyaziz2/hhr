@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:meta_club_api/src/models/body_registration.dart';
@@ -27,7 +27,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
     final country = event.selectedCountry;
 
-    print('_onCountryChanged Country $country');
+    if (kDebugMode) {
+      print('_onCountryChanged Country $country');
+    }
 
     emit(state.copyWith(selectedCountry: country));
   }

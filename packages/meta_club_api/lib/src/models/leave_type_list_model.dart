@@ -5,7 +5,7 @@ class LeaveTypeListModel extends Equatable {
   final String? message;
   final LeaveListData? data;
 
-  LeaveTypeListModel({
+  const LeaveTypeListModel({
     this.result,
     this.message,
     this.data,
@@ -32,7 +32,7 @@ class LeaveTypeListModel extends Equatable {
 class LeaveListData extends Equatable {
   final List<LeaveListDatum>? data;
 
-  LeaveListData({
+  const LeaveListData({
     this.data,
   });
 
@@ -65,7 +65,7 @@ class LeaveListDatum {
   final String? tlApprovalMsg;
   final String? status;
 
-  LeaveListDatum({
+  const LeaveListDatum({
     this.id,
     this.date,
     this.staff,
@@ -108,7 +108,6 @@ class LeaveListDatum {
         "tl_approval_msg": tlApprovalMsg,
         "status": status,
       };
-  @override
   List<Object?> get props => [
         id,
         date,
@@ -128,7 +127,7 @@ class ApprovalDetails extends Equatable {
   final dynamic managerApproval;
   final dynamic hrApproval;
 
-  ApprovalDetails({
+  const ApprovalDetails({
     this.managerApproval,
     this.hrApproval,
   });

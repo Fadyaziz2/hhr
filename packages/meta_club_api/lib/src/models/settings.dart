@@ -277,7 +277,7 @@ class Department extends Equatable {
   final int? id;
   final String? title;
 
-  Department({this.id, this.title});
+  const Department({this.id, this.title});
 
   factory Department.fromJson(Map<String, dynamic> json) {
     return Department(id: json['id'], title: json['title']);

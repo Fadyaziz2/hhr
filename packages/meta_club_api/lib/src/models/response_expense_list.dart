@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class ResponseExpenseList extends Equatable {
-  ResponseExpenseList({
+  const ResponseExpenseList({
     this.data = const [],
     this.result,
     this.message,
@@ -42,7 +42,7 @@ class ResponseExpenseList extends Equatable {
 }
 
 class ExpenseItem extends Equatable {
-  ExpenseItem({
+  const ExpenseItem({
     this.id,
     this.category,
     this.requestedAmount,
@@ -112,7 +112,7 @@ class ExpenseItem extends Equatable {
 }
 
 class ExpanseStatus extends Equatable {
-  ExpanseStatus({
+  const ExpanseStatus({
     this.id,
     this.name,
   });

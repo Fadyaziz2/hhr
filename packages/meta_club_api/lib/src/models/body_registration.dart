@@ -53,7 +53,7 @@ class BodyRegistration {
     "country_code": phoneCode,
     "password": password,
     "password_confirmation": passwordConfirmation,
-    "qualifications": qualifications != null ?  List<dynamic>.from(qualifications.map((x) => x.toJson())) : null,
+    "qualifications": qualifications.isNotEmpty == true ?  List<dynamic>.from(qualifications.map((x) => x.toJson())) : null,
     "date_of_birth": dateOfBirth,
     "occupation": occupation,
     "address": address,

@@ -17,7 +17,7 @@ Future<void> showRegistrationSuccessDialog(
         return SimpleDialog(
           title: Center(
               child: Text(
-            message ?? '',
+            message,
             style: const TextStyle(fontSize: 18.0),
           )),
           contentPadding: const EdgeInsets.all(8.0),
@@ -36,7 +36,7 @@ Future<void> showRegistrationSuccessDialog(
               height: 16.0,
             ),
             Text(
-              body ?? '',
+              body,
               textAlign: TextAlign.center,
             ),
             TextButton(
@@ -59,7 +59,7 @@ void showLoginDialog(
         return SimpleDialog(
           title: Center(
               child: Text(
-            message ?? '',
+            message,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 18.0),
           )),
@@ -82,7 +82,7 @@ void showLoginDialog(
               height: 16.0,
             ),
             Text(
-              body ?? '',
+              body,
               textAlign: TextAlign.center,
             ),
             TextButton(
@@ -175,7 +175,6 @@ showYearPicker(
             child: YearPicker(
               firstDate: DateTime(DateTime.now().year - 10, 5),
               lastDate: DateTime.now(),
-              initialDate: initialDate,
               selectedDate: selectDate,
               onChanged: onDatePicked,
             ),
@@ -231,8 +230,7 @@ class CustomDialogImagePicker extends StatelessWidget {
   final Function? onGalleryClick;
 
   const CustomDialogImagePicker(
-      {Key? key, this.onCameraClick, this.onGalleryClick})
-      : super(key: key);
+      {super.key, this.onCameraClick, this.onGalleryClick});
 
   @override
   Widget build(BuildContext context) {
@@ -350,6 +348,7 @@ Future<File?> pickFile(BuildContext context) async {
               source: ImageSource.camera, maxHeight: 320, maxWidth: 300);
           file = File(image!.path);
           debugPrint(image.path);
+          if (!context.mounted) return;
           Navigator.of(context).pop(file);
         },
         onGalleryClick: () async {
@@ -358,6 +357,7 @@ Future<File?> pickFile(BuildContext context) async {
               source: ImageSource.gallery, maxHeight: 320, maxWidth: 300);
           file = File(imageGallery!.path);
           debugPrint(file?.path);
+          if (!context.mounted) return;
           Navigator.of(context).pop(file);
         },
       );

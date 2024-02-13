@@ -95,7 +95,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             itemBuilder: (_, index) {
                               return ChatLine(
                                 message: snapshot.data!.elementAt(index),
-                                currentUser: '${widget.uid}',
+                                currentUser: widget.uid,
                               );
                             },
                           ),
@@ -132,7 +132,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                           'type': 'image',
                                           'message': base64Image,
                                           'status': 'not seen',
-                                          'from': '${widget.uid}',
+                                          'from': widget.uid,
                                           'timestamp':
                                               '${Timestamp.now().seconds}'
                                         };
@@ -195,7 +195,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     'type': 'message',
                                     'message': _messageController.text,
                                     'status': 'not seen',
-                                    'from': '${widget.uid}',
+                                    'from': widget.uid,
                                     'timestamp': '${Timestamp.now().seconds}'
                                   };
 
@@ -231,7 +231,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   _messageController.clear();
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: CircleAvatar(
                                       radius: 25.0.r,
                                       backgroundColor: widget.primaryColor,
@@ -259,11 +259,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         Expanded(
                           child: ListView(
                             controller: listScrollController,
-                            children: [
+                            children: const [
                               SizedBox(
                                 height: 16.0,
                               ),
-                              const Center(
+                              Center(
                                   child: CircularProgressIndicator(
                                 color: Colors.white,
                               ))
@@ -363,7 +363,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     'type': 'message',
                                     'message': _messageController.text,
                                     'status': 'not seen',
-                                    'from': '${widget.uid}',
+                                    'from': widget.uid,
                                     'timestamp': '${Timestamp.now().seconds}'
                                   };
 

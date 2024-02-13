@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -13,14 +14,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final LocationServiceProvider _locationServices;
   final AttendanceType attendanceType;
   AttendanceBody body = AttendanceBody();
+  final String? _selfie;
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
-      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal})
+      required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal, String? selfie})
       : _metaClubApiClient = metaClubApiClient,
         _locationServices = locationServices,
+        _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
-
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
@@ -77,12 +79,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    final checkInOut = await _metaClubApiClient.checkInOut(body: body.toJson());
-    globalState.set(
-        attendanceId,
-        checkInOut?.checkInOut?.checkOut == null
-            ? checkInOut?.checkInOut?.id
-            : null);
+    body.selfieImage =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
+    final checkInOutDataModel = FormData.fromMap(body.toJson());
+    final checkInOut = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+    globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
     globalState.set(inTime, checkInOut?.checkInOut?.inTime);
     globalState.set(outTime, checkInOut?.checkInOut?.outTime);
     globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);

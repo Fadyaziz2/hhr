@@ -7,11 +7,10 @@ class CustomRadioTile extends StatelessWidget {
   final String? initialData;
 
   const CustomRadioTile(
-      {Key? key,
+      {super.key,
       required this.onChanged,
       required this.title,
-      required this.initialData})
-      : super(key: key);
+      required this.initialData});
 
   @override
   Widget build(BuildContext context) {

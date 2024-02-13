@@ -26,7 +26,7 @@ class TitleWithSeeAll extends StatelessWidget {
         children: [
           child ??
               Text(
-                title ?? '',
+                title,
                 style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,

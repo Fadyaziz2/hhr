@@ -134,7 +134,7 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckData?> checkInOut({required Map<String, dynamic> body}) async {
+  Future<CheckData?> checkInOut({required body}) async {
     const String api = 'user/attendance';
 
     try {
@@ -1373,7 +1373,11 @@ class MetaClubApiClient {
       } else {
         return VerificationCodeModel.fromJson(response.data);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     return VerificationCodeModel(
       message: 'Something went wrong',
     );
@@ -1423,7 +1427,11 @@ class MetaClubApiClient {
       } else {
         return VerificationCodeModel.fromJson(response.data);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     return VerificationCodeModel(
       message: 'Something went wrong',
     );

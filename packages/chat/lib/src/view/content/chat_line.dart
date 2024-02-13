@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../chat.dart';
 import '../../service/download_service.dart';
-import 'image_preview_screen.dart';
 
 class ChatLine extends StatefulWidget {
   final Message message;

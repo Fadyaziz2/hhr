@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/view/content/personal_form.dart';
 import '../../bloc/update/update_profile_bloc.dart';
-import '../../model/UpdateOfficialData.dart';
+import '../../model/update_official_data.dart';
 import 'emergency_form.dart';
 import 'financial_form.dart';
 import 'official_form.dart';

@@ -42,7 +42,7 @@ class ChangePasswordBodyContent extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  "${tr("a_code_has_been_sent_to")} ${email} ${tr("use_the_code_here")}",
+                  "${tr("a_code_has_been_sent_to")} $email ${tr("use_the_code_here")}",
                   style: const TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 const SizedBox(

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class SelectEmployeeLeaveModel extends Equatable {
-  SelectEmployeeLeaveModel({
+  const SelectEmployeeLeaveModel({
     this.result,
     this.message,
     this.data,
@@ -24,7 +24,7 @@ class SelectEmployeeLeaveModel extends Equatable {
 }
 
 class SelectedEmployeeDataList extends Equatable {
-  SelectedEmployeeDataList({
+  const SelectedEmployeeDataList({
     this.availableLeave,
   });
 
@@ -51,7 +51,7 @@ class SelectedEmployeeRequestLeave extends Equatable {
   final String? applyDate;
   final String? colorCode;
 
-  SelectedEmployeeRequestLeave(
+  const SelectedEmployeeRequestLeave(
       {this.id,
       this.type,
       this.days,

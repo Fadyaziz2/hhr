@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/res/common/debouncer.dart';
-import 'package:onesthrm/res/widgets/device_util.dart';
-
 class EmployeeSearch extends StatelessWidget {
   final Bloc? bloc;
   const EmployeeSearch({super.key, this.bloc});

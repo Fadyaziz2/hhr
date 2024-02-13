@@ -42,7 +42,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   /// Enables the scrollbar when scroll is `true`.
   final HorizontalScrollBar? scrollBar;
 
-  final ScrollController _scrollController = ScrollController();
+  // final ScrollController _scrollController = ScrollController();
 
   /// Set a fixed height.
   final double? height;
@@ -54,7 +54,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
 
   final Function(List<MultiSelectItem<V>?>?) updatedItems;
 
-  MultiSelectChipDisplay({Key? key,
+  MultiSelectChipDisplay({super.key,
     this.items,
     this.onTap,
     this.chipColor,
@@ -69,11 +69,11 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.height,
     required this.updatedItems,
     this.chipWidth,
-  }) : super(key: key) {
+  }) {
     disabled = false;
   }
 
-  MultiSelectChipDisplay.none({Key? key,
+  MultiSelectChipDisplay.none({super.key,
     this.items = const [],
     required this.updatedItems,
     this.disabled = true,
@@ -89,7 +89,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
     this.scrollBar,
     this.height,
     this.chipWidth,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: Row(
           children: [
-            Expanded(child: Text(item.label ?? "",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),),
+            Expanded(child: Text(item.label,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),),
             const SizedBox(width: 10,),
             Expanded(
                 child: TextFormField(

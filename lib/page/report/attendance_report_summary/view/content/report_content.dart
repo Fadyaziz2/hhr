@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import 'package:onesthrm/res/widgets/device_util.dart';
 import '../../../report.dart';
 import 'attendance_summary/attendance_summary_content.dart';
 import 'content.dart';

@@ -73,7 +73,7 @@ class Election {
 }
 
 class Candidate extends Equatable {
-  Candidate({
+  const Candidate({
     this.id,
     this.name,
     this.avatar,

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/profile/view/content/custom_radio_tile.dart';
 import '../../bloc/update/update_profile_bloc.dart';
-import '../../model/UpdateOfficialData.dart';
+import '../../model/update_official_data.dart';
 
 class GenderRadioContent extends StatelessWidget {
   final BodyPersonalInfo personal;
@@ -13,11 +13,11 @@ class GenderRadioContent extends StatelessWidget {
   final Function(BodyPersonalInfo) onPersonalUpdate;
 
   const GenderRadioContent({
-    Key? key,
+    super.key,
     required this.personal,
     required this.bloc,
     required this.onPersonalUpdate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

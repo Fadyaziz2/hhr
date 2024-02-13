@@ -6,7 +6,7 @@ import 'package:onesthrm/res/enum.dart';
 main() {
   group('Home State Status', () {
     HomeState initialState = const HomeState();
-    Settings settings = Settings(result: true);
+    Settings settings = const Settings(result: true);
     DashboardModel dashboardModel = const DashboardModel(result: true);
 
     HomeState createSubject(

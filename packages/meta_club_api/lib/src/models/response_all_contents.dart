@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class ResponseAllContents extends Equatable {
-  bool? result;
-  String? message;
-  ContentData? data;
+  final bool? result;
+  final String? message;
+  final ContentData? data;
 
-  ResponseAllContents({
+  const ResponseAllContents({
     this.result,
     this.message,
     this.data,
@@ -28,9 +28,9 @@ class ResponseAllContents extends Equatable {
 }
 
 class ContentData extends Equatable {
-  List<ContentDatum>? contents;
+  final List<ContentDatum>? contents;
 
-  ContentData({
+  const ContentData({
     this.contents,
   });
 
@@ -51,25 +51,25 @@ class ContentData extends Equatable {
 }
 
 class ContentDatum extends Equatable {
-  int? id;
-  int? companyId;
-  int? userId;
-  String? type;
-  String? title;
-  String? slug;
-  String? content;
-  String? metaTitle;
-  String? metaDescription;
-  String? keywords;
-  String? metaImage;
-  int? createdBy;
-  int? updatedBy;
-  int? statusId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  int? branchId;
+  final int? id;
+  final int? companyId;
+  final int? userId;
+  final String? type;
+  final String? title;
+  final String? slug;
+  final String? content;
+  final String? metaTitle;
+  final String? metaDescription;
+  final String? keywords;
+  final String? metaImage;
+  final int? createdBy;
+  final int? updatedBy;
+  final int? statusId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? branchId;
 
-  ContentDatum({
+  const ContentDatum({
     this.id,
     this.companyId,
     this.userId,

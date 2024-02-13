@@ -59,6 +59,8 @@ dependencies:
     path: packages/location_track
   qr_attendance:
     path: packages/qr_attendance
+  selfie_attendance:
+    path: packages/selfie_attendance
   chat:
     path: packages/chat
   lottie: ^2.4.0
@@ -97,6 +99,8 @@ dependencies:
   http: ^1.1.2
   rxdart: ^0.27.7
   geocoding: ^2.1.1
+  cloud_firestore: ^4.15.4
+  camera: ^0.10.5+9
 
 
 dev_dependencies:

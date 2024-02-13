@@ -7,7 +7,6 @@ import 'package:onesthrm/page/report/report.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shimmers.dart';
-import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class LeaveReportSummaryContent extends StatelessWidget {
@@ -113,7 +112,7 @@ class LeaveReportSummaryContent extends StatelessWidget {
                 )
               : Expanded(child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    const TileShimmer();
+                    return const TileShimmer();
                   },
                 )),
           ElevatedButton(

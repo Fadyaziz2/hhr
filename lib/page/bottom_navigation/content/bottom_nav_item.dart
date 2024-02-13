@@ -22,7 +22,8 @@ class BottomNavItem extends StatelessWidget {
       icon: SvgPicture.asset(
         icon,
         height: 20.h,
-        color: isSelected ? colorPrimary : const Color(0xFF555555),
+        // color: isSelected ? colorPrimary : const Color(0xFF555555),
+        colorFilter: ColorFilter.mode(isSelected ? colorPrimary : const Color(0xFF555555), BlendMode.srcIn) ,
       ),
       onPressed: () => context.read<BottomNavCubit>().setTab(tab),
     );

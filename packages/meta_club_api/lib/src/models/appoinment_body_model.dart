@@ -9,13 +9,13 @@ class AppointmentBody {
   int? previewId;
 
   AppointmentBody() {
-    title = this.title;
-    description = this.description;
-    location = this.location;
-    date = this.date;
-    appointmentStartDate = this.appointmentStartDate;
-    appointmentEndDate = this.appointmentEndDate;
-    appointmentWith = this.appointmentWith;
+    title = title;
+    description = description;
+    location = location;
+    date = date;
+    appointmentStartDate = appointmentStartDate;
+    appointmentEndDate = appointmentEndDate;
+    appointmentWith = appointmentWith;
     previewId = previewId;
   }
   Map<String, dynamic> toJson() {

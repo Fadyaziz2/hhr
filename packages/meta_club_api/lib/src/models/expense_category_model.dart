@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class ExpenseCategoryModel extends Equatable {
-  ExpenseCategoryModel({
+  const ExpenseCategoryModel({
     this.result,
     this.message,
     this.data,
   });
 
-  bool? result;
-  String? message;
-  ExpenseCategoryData? data;
+  final bool? result;
+  final String? message;
+  final ExpenseCategoryData? data;
 
   factory ExpenseCategoryModel.fromJson(Map<String, dynamic> json) =>
       ExpenseCategoryModel(
@@ -28,11 +28,11 @@ class ExpenseCategoryModel extends Equatable {
 }
 
 class ExpenseCategoryData extends Equatable {
-  ExpenseCategoryData({
+  const ExpenseCategoryData({
     this.categories,
   });
 
-  List<Category>? categories;
+  final List<Category>? categories;
 
   factory ExpenseCategoryData.fromJson(Map<String, dynamic> json) =>
       ExpenseCategoryData(
@@ -48,13 +48,13 @@ class ExpenseCategoryData extends Equatable {
 }
 
 class Category extends Equatable {
-  Category({
+  const Category({
     this.id,
     this.name,
   });
 
-  int? id;
-  String? name;
+  final int? id;
+  final String? name;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],

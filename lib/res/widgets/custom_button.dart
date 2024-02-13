@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/const.dart';
 
-import 'device_util.dart';
-
 class CustomButton extends StatelessWidget {
   final String? title;
   final Function? clickButton;

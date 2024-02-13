@@ -8,7 +8,7 @@ class HomeItem extends StatelessWidget {
   final String name;
   final VoidCallback onPressed;
 
-  const HomeItem({Key? key,required this.icon,required this.name, required this.onPressed}) : super(key: key);
+  const HomeItem({super.key,required this.icon,required this.name, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
