@@ -1,15 +1,15 @@
-import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/view/attendance_page.dart';
+import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/widgets/custom_button.dart';
-import 'package:selfie_attendance/selfie_attendance.dart';
+import 'package:qr_attendance/qr_attendance.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -28,61 +28,20 @@ class CheckInOutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final user = context.read<AuthenticationBloc>().state.data;
-    // final baseUrl = globalState.get(companyUrl);
+    final user = context.read<AuthenticationBloc>().state.data;
+    final baseUrl = globalState.get(companyUrl);
 
     return Card(
       elevation: 2,
       margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-          onTap: () async {
+          onTap: () {
             context.read<HomeBloc>().add(OnLocationRefresh(
                 user: context.read<AuthenticationBloc>().state.data?.user,
                 locationProvider: locationServiceProvider));
 
-            // ///navigate into QR feature
-            // Navigator.push(context, MaterialPageRoute(builder: (_) {
-            //   return BlocProvider.value(
-            //       value: context.read<HomeBloc>(),
-            //       child: QRAttendanceScreen(
-            //         token: user!.user!.token!,
-            //         baseUrl: baseUrl,
-            //         callBackRoute: AttendancePage.route(
-            //             homeBloc: context.read<HomeBloc>(),
-            //             attendanceType: AttendanceType.qr),
-            //       ));
-            // }));
-
-            String selfiePath = '';
-
-            await availableCameras().then(
-              (value) {
-                return Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => BlocProvider.value(
-                      value: context.read<HomeBloc>(),
-                      child: AttendanceSelfieScreen(
-                        cameras: value,
-                        onSelfieCaptured: (XFile selfie) {
-                          selfiePath = selfie.path;
-                        },
-                        callBackButton: CustomButton(
-                          title: "Next",
-                          clickButton: () => Navigator.pushReplacement(
-                            context,
-                            AttendancePage.route(
-                                homeBloc: context.read<HomeBloc>(),
-                                attendanceType: AttendanceType.face,
-                            selfie: selfiePath),
-                          ),
-                        ),
-                      )),
-                ),
-              );
-              },
-            );
+            Navigator.push(context, AttendanceMethodScreen.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),

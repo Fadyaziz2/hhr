@@ -382,5 +382,6 @@
   "Absent" : "غائب",
   "Early Leave" : "المغادرة باكرا",
   "Late In" : "متاخرا في",
+  "attendance_method": "Attendance Methods",
   "you_are_offline": "أنت غير متصل بالإنترنت، يرجى التحقق من شبكتك"
 }
