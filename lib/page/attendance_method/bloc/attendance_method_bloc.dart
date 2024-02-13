@@ -117,7 +117,7 @@ class AttendanceMethodBloc
         );
         break;
       default:
-        return debugPrint('default');
+        return;
     }
   }
 }
