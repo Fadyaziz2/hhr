@@ -21,7 +21,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       required LocationServiceProvider locationServices, this.attendanceType = AttendanceType.normal, String? selfie})
       : _metaClubApiClient = metaClubApiClient,
         _locationServices = locationServices,
-        _selfie = selfie ?? '',
+        _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);

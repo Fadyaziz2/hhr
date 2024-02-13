@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,10 @@ import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:qr_attendance/qr_attendance.dart';
+import 'package:selfie_attendance/selfie_attendance.dart';
 import 'package:user_repository/user_repository.dart';
+
+import '../../../res/widgets/custom_button.dart';
 
 part 'attendance_method_event.dart';
 
@@ -40,6 +44,9 @@ class AttendanceMethodBloc
     AttendanceNavEvent event,
     Emitter<AttendanceMethodState> emit,
   ) {
+
+    String? selfiePath;
+
     switch (event.slugName) {
       case 'normal_attendance':
         Navigator.push(
@@ -80,18 +87,34 @@ class AttendanceMethodBloc
         }));
         break;
       case 'selfie_attendance':
-        ///navigate into QR feature
-        Navigator.push(event.context, MaterialPageRoute(builder: (_) {
-          return BlocProvider.value(
-              value: event.context.read<HomeBloc>(),
-              child: QRAttendanceScreen(
-                token: '${_loginData?.user!.token}',
-                baseUrl: _baseUrl,
-                callBackRoute: AttendancePage.route(
-                    homeBloc: event.context.read<HomeBloc>(),
-                    attendanceType: AttendanceType.qr),
-              ));
-        }));
+        ///navigate into selfie attendance feature
+          availableCameras().then(
+              (value) {
+            return Navigator.push(
+              event.context,
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                    value: event.context.read<HomeBloc>(),
+                    child: AttendanceSelfieScreen(
+                      cameras: value,
+                      onSelfieCaptured: (XFile selfie) {
+                        selfiePath = selfie.path;
+                      },
+                      callBackButton: CustomButton(
+                        title: "Next",
+                        clickButton: () => Navigator.pushReplacement(
+                          event.context,
+                          AttendancePage.route(
+                              homeBloc: event.context.read<HomeBloc>(),
+                              attendanceType: AttendanceType.face,
+                              selfie: selfiePath),
+                        ),
+                      ),
+                    )),
+              ),
+            );
+          },
+        );
         break;
       default:
         return debugPrint('default');
