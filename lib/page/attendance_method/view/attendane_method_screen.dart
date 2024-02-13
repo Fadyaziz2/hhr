@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance_method/bloc/attendance_method_bloc.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -52,12 +52,15 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
   Widget build(BuildContext context) {
     final settings = context.read<HomeBloc>().state.settings;
     final homeData = context.watch<HomeBloc>().state.dashboardModel;
-    final user = context.read<AuthenticationBloc>().state.data;
+    final loginData = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-        create: (context) => AttendanceMethodBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl), homeBloc: context.read<HomeBloc>(),),
+      create: (context) => AttendanceMethodBloc(
+        metaClubApiClient: MetaClubApiClient(token: '${loginData?.user?.token}', companyUrl: baseUrl),
+        homeBloc: context.read<HomeBloc>(),
+        faceService: FaceServiceImpl(), loginData: loginData, baseUrl: baseUrl,
+      ),
       child: Scaffold(
           key: AttendanceMethodScreen._scaffoldKey,
           extendBody: true,
@@ -67,7 +70,8 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
               style: TextStyle(fontSize: 18.r),
             ),
           ),
-          body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
+          body: BlocBuilder<LanguageBloc, LanguageState>(
+              builder: (context, state) {
             return Container(
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -77,7 +81,11 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
                 child: GridView.builder(
                   itemCount: settings?.data?.methods.length ?? 0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5.r,mainAxisSpacing: 8.0,crossAxisSpacing: 8.0),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5.r,
+                      mainAxisSpacing: 8.0,
+                      crossAxisSpacing: 8.0),
                   itemBuilder: (BuildContext context, int index) {
                     ///List length
                     int length = homeData?.data?.menus?.length ?? 0;
@@ -98,7 +106,9 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                             animation: animation,
                             animationController: animationController,
                             onPressed: () {
-                              context.read<AttendanceMethodBloc>().add(AttendanceNavEvent(context: context, slugName: method.slug));
+                              context.read<AttendanceMethodBloc>().add(
+                                  AttendanceNavEvent(
+                                      context: context, slugName: method.slug));
                             })
                         : const SizedBox.shrink();
                   },

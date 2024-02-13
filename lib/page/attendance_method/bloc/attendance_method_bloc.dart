@@ -1,27 +1,38 @@
 import 'package:equatable/equatable.dart';
+import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/page/support/view/support_page.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
+import 'package:qr_attendance/qr_attendance.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'attendance_method_event.dart';
+
 part 'attendance_method_state.dart';
 
 class AttendanceMethodBloc
     extends Bloc<AttendanceMethodEvent, AttendanceMethodState> {
   final HomeBloc _homeBloc;
+  final FaceServiceImpl _faceService;
+  final String _baseUrl;
+  final LoginData? _loginData;
 
   AttendanceMethodBloc(
       {required MetaClubApiClient metaClubApiClient,
-      required HomeBloc homeBloc})
+      required HomeBloc homeBloc,
+      required FaceServiceImpl faceService,
+      required LoginData? loginData,
+      required String baseUrl})
       : _homeBloc = homeBloc,
-        super(const AttendanceMethodState(
-          status: NetworkStatus.initial,
-        )) {
+        _faceService = faceService,
+        _baseUrl = baseUrl,
+        _loginData = loginData,
+        super(const AttendanceMethodState(status: NetworkStatus.initial)) {
     on<AttendanceNavEvent>(onRouteSlug);
   }
 
@@ -31,16 +42,56 @@ class AttendanceMethodBloc
   ) {
     switch (event.slugName) {
       case 'normal_attendance':
-        Navigator.push(event.context, AttendancePage.route(homeBloc: _homeBloc));
+        Navigator.push(
+            event.context, AttendancePage.route(homeBloc: _homeBloc));
         break;
       case 'face_attendance':
-        NavUtil.navigateScreen(event.context, const SupportPage());
+
+        ///set condition here weather face checking enable or disable
+        ///fetch face date from local cache
+        SharedUtil.getValue(userFaceData).then((registeredFaceData) {
+          _faceService.captureFromFaceApi(
+              isRegistered: registeredFaceData != null,
+              regImage: registeredFaceData,
+              onCaptured: (faceData) {
+                debugPrint('faceData $faceData');
+                if (faceData.length > 20) {
+                  SharedUtil.setValue(userFaceData, faceData);
+                }
+              },
+              isSimilar: (isSimilar) {
+                debugPrint('isSimilar $isSimilar');
+                if (isSimilar) {}
+              });
+        });
         break;
       case 'qr_attendance':
-        NavUtil.navigateScreen(event.context, const SupportPage());
+      ///navigate into QR feature
+        Navigator.push(event.context, MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+              value: event.context.read<HomeBloc>(),
+              child: QRAttendanceScreen(
+                token: '${_loginData?.user!.token}',
+                baseUrl: _baseUrl,
+                callBackRoute: AttendancePage.route(
+                    homeBloc: event.context.read<HomeBloc>(),
+                    attendanceType: AttendanceType.qr),
+              ));
+        }));
         break;
       case 'selfie_attendance':
-        NavUtil.navigateScreen(event.context, const SupportPage());
+        ///navigate into QR feature
+        Navigator.push(event.context, MaterialPageRoute(builder: (_) {
+          return BlocProvider.value(
+              value: event.context.read<HomeBloc>(),
+              child: QRAttendanceScreen(
+                token: '${_loginData?.user!.token}',
+                baseUrl: _baseUrl,
+                callBackRoute: AttendancePage.route(
+                    homeBloc: event.context.read<HomeBloc>(),
+                    attendanceType: AttendanceType.qr),
+              ));
+        }));
         break;
       default:
         return debugPrint('default');

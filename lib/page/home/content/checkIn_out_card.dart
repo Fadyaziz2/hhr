@@ -41,18 +41,6 @@ class CheckInOutCard extends StatelessWidget {
                 user: context.read<AuthenticationBloc>().state.data?.user,
                 locationProvider: locationServiceProvider));
 
-            ///navigate into QR feature
-            // Navigator.push(context, MaterialPageRoute(builder: (_) {
-            //   return BlocProvider.value(
-            //       value: context.read<HomeBloc>(),
-            //       child: QRAttendanceScreen(
-            //         token: user!.user!.token!,
-            //         baseUrl: baseUrl,
-            //         callBackRoute: AttendancePage.route(
-            //             homeBloc: context.read<HomeBloc>(),
-            //             attendanceType: AttendanceType.qr),
-            //       ));
-            // }));
             Navigator.push(context, AttendanceMethodScreen.route(homeBloc: context.read<HomeBloc>()));
           },
           child: Padding(
