@@ -82,11 +82,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.selfieImage =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
     final checkInOutDataModel = FormData.fromMap(body.toJson());
     final checkInOut = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
-    globalState.set(
-        attendanceId,
-        checkInOut?.checkInOut?.checkOut == null
-            ? checkInOut?.checkInOut?.id
-            : null);
+    globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
     globalState.set(inTime, checkInOut?.checkInOut?.inTime);
     globalState.set(outTime, checkInOut?.checkInOut?.outTime);
     globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
