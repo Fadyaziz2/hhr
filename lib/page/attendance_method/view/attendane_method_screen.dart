@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance_method/bloc/attendance_method_bloc.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
@@ -60,8 +60,13 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
             metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl), homeBloc: context.read<HomeBloc>(),),
       child: Scaffold(
           key: AttendanceMethodScreen._scaffoldKey,
-          endDrawer: const MenuDrawer(),
           extendBody: true,
+          appBar: AppBar(
+            title: Text(
+              'attendance_method'.tr(),
+              style: TextStyle(fontSize: 18.r),
+            ),
+          ),
           body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
             return Container(
                 decoration: const BoxDecoration(
