@@ -6,14 +6,14 @@ import '../../../res/widgets/dynamic_image_viewer.dart';
 
 class TypeContentItem extends StatelessWidget {
   final Function() onPressed;
-  final Menu menu;
+  final AttendanceMethod method;
   final AnimationController animationController;
   final Animation animation;
 
   const TypeContentItem(
       {super.key,
       required this.onPressed,
-      required this.menu,
+      required this.method,
       required this.animationController,
       required this.animation});
 
@@ -33,22 +33,12 @@ class TypeContentItem extends StatelessWidget {
                 child: TextButton(
                   onPressed: onPressed,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        DynamicImageViewer(
-                          image: menu.icon ?? "",
-                        ),
-                        SizedBox(width: 10.0.w),
-                        Expanded(
-                          child: Text(
-                            menu.name ?? '',
-                            maxLines: 2,
-                            style: TextStyle(fontSize: 12.r),
-                          ).tr(),
-                        ),
-                      ],
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      method.title ?? '',
+                      maxLines: 2,
+                      style: TextStyle(fontSize: 15.r),
+                    ).tr(),
                   ),
                 ),
               ),

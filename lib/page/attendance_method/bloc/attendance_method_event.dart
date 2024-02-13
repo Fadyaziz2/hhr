@@ -1,14 +1,15 @@
-part of 'attendane_method_bloc.dart';
+part of 'attendance_method_bloc.dart';
 
-abstract class MenuEvent extends Equatable {
+
+abstract class AttendanceMethodEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class RouteSlug extends MenuEvent {
+class AttendanceNavEvent extends AttendanceMethodEvent {
   final BuildContext context;
   final String? slugName;
-  RouteSlug({
+  AttendanceNavEvent({
     this.slugName,
     required this.context,
   });

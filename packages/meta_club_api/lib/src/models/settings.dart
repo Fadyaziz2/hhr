@@ -39,6 +39,7 @@ class Setting extends Equatable {
       this.attendanceMethod,
       this.departments = const [],
       this.designations = const [],
+      this.methods = const [],
       this.employeeTypes = const [],
       this.appTheme,
       this.notificationChannels = const []});
@@ -59,6 +60,7 @@ class Setting extends Equatable {
   final LiveTracking? liveTracking;
   final List<Department> departments;
   final List<Department> designations;
+  final List<AttendanceMethod> methods;
   final List<String> employeeTypes;
   final String? appTheme;
   final List<String>? notificationChannels;
@@ -88,6 +90,10 @@ class Setting extends Equatable {
             ? List<Department>.from((json["designations"] as List)
                 .map((e) => Department.fromJson(e)))
             : [],
+    methods: json["attendance_methods"] != null
+        ? List<AttendanceMethod>.from((json["attendance_methods"] as List)
+        .map((e) => AttendanceMethod.fromJson(e)))
+        : [],
         employeeTypes: List<String>.from(json["employee_types"]),
         appTheme: json['app_theme'],
         notificationChannels: json["notification_channels"] == null
@@ -112,6 +118,7 @@ class Setting extends Equatable {
         'live_tracking': liveTracking?.toJson(),
         'departments': departments.map((e) => e.toJson()).toList(),
         'designations': designations.map((e) => e.toJson()).toList(),
+        'attendance_methods': methods.map((e) => e.toJson()).toList(),
         'employee_types': employeeTypes,
         'app_theme': appTheme,
         "notification_channels": notificationChannels == null
@@ -280,4 +287,20 @@ class Department extends Equatable {
 
   @override
   List<Object?> get props => [id, title];
+}
+
+class AttendanceMethod extends Equatable {
+  final String? slug;
+  final String? title;
+
+  AttendanceMethod({this.slug, this.title});
+
+  factory AttendanceMethod.fromJson(Map<String, dynamic> json) {
+    return AttendanceMethod(slug: json['slug'], title: json['title']);
+  }
+
+  Map<String, dynamic> toJson() => {'slug': slug, 'title': title};
+
+  @override
+  List<Object?> get props => [slug, title];
 }
