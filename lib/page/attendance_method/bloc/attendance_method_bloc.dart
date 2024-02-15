@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
@@ -88,8 +89,7 @@ class AttendanceMethodBloc
         break;
       case 'selfie_attendance':
         ///navigate into selfie attendance feature
-          availableCameras().then(
-              (value) {
+          availableCameras().then((value) {
             return Navigator.push(
               event.context,
               MaterialPageRoute(
@@ -101,12 +101,12 @@ class AttendanceMethodBloc
                         selfiePath = selfie.path;
                       },
                       callBackButton: CustomButton(
-                        title: "Next",
+                        title: tr("next"),
                         clickButton: () => Navigator.pushReplacement(
                           event.context,
                           AttendancePage.route(
                               homeBloc: event.context.read<HomeBloc>(),
-                              attendanceType: AttendanceType.face,
+                              attendanceType: AttendanceType.selfie,
                               selfie: selfiePath),
                         ),
                       ),

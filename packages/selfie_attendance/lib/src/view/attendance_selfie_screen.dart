@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:selfie_attendance/selfie_attendance.dart';
 
 // Callback function type for capturing image
-typedef GetSelfieImageCallback = void Function(XFile selfie);
+typedef GetSelfieImageCallback = void Function(XFile file);
 
 class AttendanceSelfieScreen extends StatefulWidget {
   const AttendanceSelfieScreen(
@@ -55,29 +55,26 @@ class _AttendanceSelfieScreenState extends State<AttendanceSelfieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(children: [
-          (controller.value.isInitialized)
-              ? CameraPreview(controller)
-              : Container(
-                  color: Colors.black,
-                  child: const Center(child: CircularProgressIndicator())),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.18,
-              width: double.infinity,
-              decoration: const BoxDecoration(color: Colors.black),
-              child: IconButton(
-                onPressed: takePicture,
-                iconSize: 80,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: const Icon(Icons.circle, color: Colors.white),
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(children: [
+              (controller.value.isInitialized) ? CameraPreview(controller) : Container(color: Colors.black, child: const Center(child: CircularProgressIndicator())),
+              Positioned(left: 0.0,right: 0.0,top: 0.0,bottom: 0.0,child: Image.asset('assets/images/face.png',color: Colors.grey,)),
+            ]),
+          ),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(color: Colors.black),
+            child: IconButton(
+              onPressed: takePicture,
+              iconSize: 80,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              icon: const Icon(Icons.circle, color: Colors.white),
             ),
           ),
-        ]),
+        ],
       ),
     );
   }
