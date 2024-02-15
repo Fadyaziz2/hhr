@@ -30,11 +30,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
 
-    if(attendanceType == AttendanceType.qr){
+    if(attendanceType == AttendanceType.qr || attendanceType == AttendanceType.selfie || attendanceType == AttendanceType.face){
       add(OnAttendance());
     }
-
-
   }
 
   void _onReason(ReasonEvent event,Emitter<AttendanceState> emit)async {

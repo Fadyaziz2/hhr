@@ -17,7 +17,7 @@ class SelfiePreviewScreen extends StatelessWidget {
     const double mirror = math.pi;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selected Image'),
+        title: const Text('Back'),
       ),
       body: SingleChildScrollView(
         child: Column(mainAxisSize: MainAxisSize.max, children: [
