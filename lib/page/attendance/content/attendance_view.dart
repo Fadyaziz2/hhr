@@ -31,10 +31,6 @@ class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
 
-  ///set condition here weather face checking enable or disable
-  ///if enabled then we have to create faceSDK service instance
-  // FaceServiceImpl faceService = FaceServiceImpl();
-
   @override
   void initState() {
     controller = AnimationController(

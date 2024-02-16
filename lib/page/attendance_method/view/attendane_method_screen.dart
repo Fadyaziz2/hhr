@@ -11,6 +11,7 @@ import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../../internet_connectivity/view/device_offline_view.dart';
 import '../content/type_content_item.dart';
 
 class AttendanceMethodScreen extends StatefulWidget {
@@ -55,65 +56,67 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
     final loginData = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
 
-    return BlocProvider(
-      create: (context) => AttendanceMethodBloc(
-        metaClubApiClient: MetaClubApiClient(token: '${loginData?.user?.token}', companyUrl: baseUrl),
-        homeBloc: context.read<HomeBloc>(),
-        faceService: FaceServiceImpl(), loginData: loginData, baseUrl: baseUrl,
-      ),
-      child: Scaffold(
-          key: AttendanceMethodScreen._scaffoldKey,
-          extendBody: true,
-          appBar: AppBar(
-            title: Text(
-              'attendance_method'.tr(),
-              style: TextStyle(fontSize: 18.r),
+    return DeviceOfflineView(
+      child: BlocProvider(
+        create: (context) => AttendanceMethodBloc(
+          metaClubApiClient: MetaClubApiClient(token: '${loginData?.user?.token}', companyUrl: baseUrl),
+          homeBloc: context.read<HomeBloc>(),
+          faceService: FaceServiceImpl(), loginData: loginData, baseUrl: baseUrl,
+        ),
+        child: Scaffold(
+            key: AttendanceMethodScreen._scaffoldKey,
+            extendBody: true,
+            appBar: AppBar(
+              title: Text(
+                'attendance_method'.tr(),
+                style: TextStyle(fontSize: 18.r),
+              ),
             ),
-          ),
-          body: BlocBuilder<LanguageBloc, LanguageState>(
-              builder: (context, state) {
-            return Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [colorPrimary, colorPrimaryGradient])),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
-                child: GridView.builder(
-                  itemCount: settings?.data?.methods.length ?? 0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.5.r,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0),
-                  itemBuilder: (BuildContext context, int index) {
-                    ///List length
-                    int length = homeData?.data?.menus?.length ?? 0;
+            body: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+              return Container(
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [colorPrimary, colorPrimaryGradient])),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
+                  child: GridView.builder(
+                    itemCount: settings?.data?.methods.length ?? 0,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.5.r,
+                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8.0),
+                    itemBuilder: (BuildContext context, int index) {
+                      ///List length
+                      int length = homeData?.data?.menus?.length ?? 0;
 
-                    ///Animation instance
-                    final animation = Tween(begin: 0.0, end: 1.0).animate(
-                        CurvedAnimation(
-                            parent: animationController,
-                            curve: Interval((1 / length) * index, 1.0,
-                                curve: Curves.fastOutSlowIn)));
-                    animationController.forward();
+                      ///Animation instance
+                      final animation = Tween(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: animationController,
+                              curve: Interval((1 / length) * index, 1.0,
+                                  curve: Curves.fastOutSlowIn)));
+                      animationController.forward();
 
-                    final method = settings?.data?.methods[index];
+                      final method = settings?.data?.methods[index];
 
-                    return method != null
-                        ? TypeContentItem(
-                            method: method,
-                            animation: animation,
-                            animationController: animationController,
-                            onPressed: () {
-                              context.read<AttendanceMethodBloc>().add(
-                                  AttendanceNavEvent(
-                                      context: context, slugName: method.slug));
-                            })
-                        : const SizedBox.shrink();
-                  },
-                ));
-          })),
+                      return method != null
+                          ? TypeContentItem(
+                              method: method,
+                              animation: animation,
+                              animationController: animationController,
+                              onPressed: () {
+                                context.read<AttendanceMethodBloc>().add(
+                                    AttendanceNavEvent(
+                                        context: context, slugName: method.slug));
+                              })
+                          : const SizedBox.shrink();
+                    },
+                  ));
+            })),
+      ),
     );
   }
 }
