@@ -115,7 +115,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                                   fit: BoxFit.cover,
                                   imageUrl: settings?.data?.methods[index].image ?? "",
                                   placeholder: (context, url) => Center(
-                                    child: Image.asset("assets/images/app_icon.png"),
+                                    child: Image.asset("assets/images/placeholder_image_one.webp"),
                                   ),
                                   errorWidget: (context, url, error) => const Icon(Icons.error),
                                 ),
