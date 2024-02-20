@@ -167,10 +167,7 @@ class _AttendanceState extends State<AttendanceView>
                   ),
 
                   /// Show Check In Check Out time
-                  if (homeData != null)
-                    CheckInCheckOutTime(
-                      homeData: homeData,
-                    ),
+                  const CheckInCheckOutTime(),
                   SizedBox(height: 70.0.h)
                 ],
               ),

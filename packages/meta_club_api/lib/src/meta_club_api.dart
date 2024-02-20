@@ -134,18 +134,17 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CheckData?> checkInOut({required body}) async {
+  Future<Either<AttendanceFailure,CheckData?>> checkInOut({required body}) async {
     const String api = 'user/attendance';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       if (response.statusCode == 200) {
-        return CheckData.fromJson(response.data);
+        return right(CheckData.fromJson(response.data));
       }
-      return null;
-    } catch (_) {
-      return null;
+      return left(AttendanceFailure());
+    } catch (e) {
+      return left(AttendanceFailure(error: e.toString()));;
     }
   }
 

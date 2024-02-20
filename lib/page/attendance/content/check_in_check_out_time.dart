@@ -6,9 +6,8 @@ import '../../../res/const.dart';
 import '../../app/global_state.dart';
 
 class CheckInCheckOutTime extends StatelessWidget {
-  final DashboardModel homeData;
 
-  const CheckInCheckOutTime({super.key, required this.homeData});
+  const CheckInCheckOutTime({super.key});
 
   @override
   Widget build(BuildContext context) {

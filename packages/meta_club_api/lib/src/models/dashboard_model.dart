@@ -62,6 +62,25 @@ class DashboardData extends Equatable {
         config: Config.fromJson(json['config']),
       );
 
+  DashboardData copyWith(
+          {List<TodayData>? today,
+          List<UpcomingEvent>? upcomingEvents,
+          List<Appointment>? appointments,
+          List<Menu>? menus,
+          AttendanceData? attendanceData,
+          Config? config,
+          BreakHistory? breakHistory}) =>
+      DashboardData(
+        today: today ?? this.today,
+        upcomingEvents: upcomingEvents ?? this.upcomingEvents,
+        appointments: appointments ?? this.appointments,
+        currentMonth: currentMonth ?? this.currentMonth,
+        menus: menus ?? this.menus,
+        attendanceData: attendanceData ?? this.attendanceData,
+        breakHistory: breakHistory ?? this.breakHistory,
+        config: config ?? this.config,
+      );
+
   Map<String, dynamic> toJson() => {
         "today": today?.map((e) => e.toJson()).toList(),
         "upcoming_events": upcomingEvents?.map((e) => e.toJson()).toList(),
@@ -141,6 +160,22 @@ class AttendanceData {
       outTime: json['out_time'],
       stayTime: json['stay_time'],
     );
+  }
+
+  AttendanceData copyWith(
+      {int? id,
+      bool? checkIn,
+      bool? checkout,
+      String? inTime,
+      String? outTime,
+      String? stayTime}) {
+    return AttendanceData(
+        id: id ?? this.id,
+        checkIn: checkIn ?? this.checkIn,
+        checkout: checkout ?? this.checkout,
+        inTime: inTime ?? this.inTime,
+        outTime: outTime ?? this.outTime,
+        stayTime: stayTime ?? this.stayTime);
   }
 
   Map<String, dynamic> toJson() => {
@@ -449,6 +484,50 @@ class Config {
         isTeamLead: json["is_team_lead"],
       );
 
+  Config copyWIth(
+          {bool? isAdmin,
+          bool? isHr,
+          bool? isManager,
+          bool? isFaceRegistered,
+          bool? multiCheckIn,
+          bool? locationBind,
+          bool? isIpEnabled,
+          TimeWishData? timeWish,
+          String? timeZone,
+          String? currencySymbol,
+          String? currencyCode,
+          String? attendanceMethod,
+          DutyScheduleData? dutySchedule,
+          LocationServices? locationServices,
+          String? googleApiKey,
+          BarikoiApi? barikoiApi,
+          BreakData? breakStatus,
+          LiveTrackingData? liveTracking,
+          bool? locationService,
+          bool? isTeamLead}) =>
+      Config(
+        isAdmin: isAdmin ?? this.isAdmin,
+        isHr: isHr ?? this.isHr,
+        isManager: isManager ?? this.isManager,
+        isFaceRegistered: isFaceRegistered ?? this.isFaceRegistered,
+        multiCheckIn: multiCheckIn ?? this.multiCheckIn,
+        locationBind: locationBind ?? this.locationBind,
+        isIpEnabled: isIpEnabled ?? this.isIpEnabled,
+        timeWish: timeWish ?? this.timeWish,
+        timeZone: timeZone ?? this.timeZone,
+        currencySymbol: currencySymbol ?? this.currencySymbol,
+        currencyCode: currencyCode ?? this.currencyCode,
+        attendanceMethod: attendanceMethod ?? this.attendanceMethod,
+        dutySchedule: dutySchedule ?? this.dutySchedule,
+        locationServices: locationServices ?? this.locationServices,
+        googleApiKey: googleApiKey ?? this.googleApiKey,
+        barikoiApi: barikoiApi ?? this.barikoiApi,
+        breakStatus: breakStatus ?? this.breakStatus,
+        liveTracking: liveTracking ?? this.liveTracking,
+        locationService: locationService ?? this.locationService,
+        isTeamLead: isTeamLead ?? this.isTeamLead,
+      );
+
   Map<String, dynamic> toJson() => {
         'is_hr': isHr,
         'is_admin': isAdmin,
@@ -587,8 +666,10 @@ class DutyScheduleData {
   Map<String, dynamic> toJson() => {
         "start_time": startTime,
         "end_time": endTime,
-        "list_of_start_datetime":  List<dynamic>.from(listOfStartDatetime.map((x) => x.toJson())),
-        "list_of_end_datetime": List<dynamic>.from(listOfEndDatetime.map((x) => x.toJson())),
+        "list_of_start_datetime":
+            List<dynamic>.from(listOfStartDatetime.map((x) => x.toJson())),
+        "list_of_end_datetime":
+            List<dynamic>.from(listOfEndDatetime.map((x) => x.toJson())),
       };
 }
 

@@ -69,13 +69,12 @@ class AttendanceBody {
         'selfie_image': selfieImage,
       };
 
-  Map<String, dynamic> toOnlineJson() => {
+  Map<String, dynamic> toOnlineJson({MultipartFile? file}) => {
         'latitude': latitude,
         'longitude': longitude,
         'reason': reason,
         'remote_mode': mode,
         'attendance_id': attendanceId,
-        'selfie_image':
-            selfieImage != null ? MultipartFile.fromFile(selfieImage!) : null,
+        'selfie_image': file,
       };
 }

@@ -7,6 +7,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
@@ -22,28 +23,36 @@ import '../../support/view/support_page.dart';
 import '../view/content/home_earth_content.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
+  final AttendanceService _attendanceService;
   late StreamSubscription locationSubscription;
 
-  HomeBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const HomeState()) {
+  HomeBloc({
+    required MetaClubApiClient metaClubApiClient,
+    required AttendanceService attendanceService,
+  })  : _metaClubApiClient = metaClubApiClient,
+        _attendanceService = attendanceService,
+        super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)
     globalState.set(dashboardStyleId, state.settings?.data?.appTheme);
+
     ///-----------------------------------------------------------///
     on<LoadSettings>(_onSettingsLoad);
     on<LoadHomeData>(_onHomeDataLoad);
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
-  }   
+  }
 
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
-    if(state.settings == null && state.dashboardModel ==null){
+    if (state.settings == null && state.dashboardModel == null) {
       emit(state.copy(status: NetworkStatus.loading));
     }
     try {
@@ -71,30 +80,53 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   }
 
   void _onHomeDataLoad(LoadHomeData event, Emitter<HomeState> emit) async {
-    if(state.settings == null && state.dashboardModel == null){
+    if (state.settings == null && state.dashboardModel == null) {
       emit(state.copy(status: NetworkStatus.loading));
     }
+
+    final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
+    final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
+    final isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
+    final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+
     try {
-
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
-
+      AttendanceData? attendanceData = dashboardModel?.data?.attendanceData;
       ///Schedule check-in notification
-       checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [], dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
+      checkInScheduleNotification(
+          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
+          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
 
-      ///Initialize attendance data at global state
-      globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
-      globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
-      globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
-      globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
-      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
+      ///Initialize attendance data into global state
+      if(isCheckedOut){
+         attendanceData = attendanceData?.copyWith(id: null,outTime: localAttendanceData?.outTime);
+      }else if(isCheckedIn && isCheckedOut == false){
+         attendanceData = attendanceData?.copyWith(inTime: localAttendanceData?.inTime,outTime: null,stayTime: null);
+         globalState.set(attendanceId, 0);
+      }else{
+        globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
+        globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
+        globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
+        globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
+      }
+
+      ///Initialize break data into global state
+      globalState.set(
+          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(
+          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(
+          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(
+          isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      globalState.set(hour,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+      globalState.set(sec,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
@@ -108,14 +140,17 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  Future checkInScheduleNotification(List<CheckTime> startTime, List<CheckTime> endTime) async {
+  Future checkInScheduleNotification(
+      List<CheckTime> startTime, List<CheckTime> endTime) async {
     ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
     final formatter = DateFormat('yyyy-MM-dd hh:mm');
+
     /// Schedule the notification
     ///looping all schedule and set that schedule as active
     for (var inTime in startTime) {
       DateTime dateTime = formatter.parse(inTime.date);
+
       /// Extract date and time components
       int day = dateTime.day;
       int year = dateTime.year;

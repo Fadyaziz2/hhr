@@ -8,6 +8,8 @@ class AttendanceService {
 
   bool isSync = false;
 
+  AttendanceService._();
+
   void checkInOut({required AttendanceBody checkData, required isCheckedIn}) async {
     if (isCheckedIn) {
       if (checkData.date != null) {
@@ -44,26 +46,33 @@ class AttendanceService {
   }
 
   bool isAlreadyInCheckedIn({required String date}) {
-    final checks = box.values.where((element) => element.date == date).toList();
-    if (checks.isNotEmpty) {
-      return true;
-    } else {
-      return false;
+    if(box.values.isNotEmpty){
+      final checks = box.values.where((element) => element.date == date).toList();
+      if (checks.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
     }
+    return false;
   }
 
   bool isAlreadyInCheckedOut({required String date}) {
-    final check = box.values.firstWhere((element) => element.date == date);
-    if (check.outTime != null) {
-      return true;
-    } else {
-      return false;
+    if(box.values.isNotEmpty){
+      final check = box.values.firstWhere((element) => element.date == date);
+      if (check.outTime != null) {
+        return true;
+      } else {
+        return false;
+      }
     }
+    return false;
   }
 
-  AttendanceBody? getCheckDataByDate({String? data}) {
-    final checkData =
-        box.values.where((element) => element.date == data).toList();
+  AttendanceBody? getCheckDataByDate({String? date}) {
+    final checkData = box.values.where((element) => element.date == date).toList();
     return checkData.isNotEmpty ? checkData.elementAt(0) : null;
   }
 }
+
+AttendanceService attendanceService = AttendanceService._();

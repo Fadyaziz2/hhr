@@ -75,3 +75,13 @@ class CheckInOut extends Equatable {
   @override
   List<Object?> get props => [id, remoteMode, date];
 }
+
+
+class AttendanceFailure extends Equatable{
+  final String error;
+
+  AttendanceFailure({this.error = ''});
+
+  @override
+  List<Object?> get props => [error];
+}

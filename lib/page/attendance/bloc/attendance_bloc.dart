@@ -99,48 +99,87 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(
-        status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
+    emit(const AttendanceState(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    body.selfieImage = _selfie.toString();
-    if (_internetStatus == InternetStatus.online) {
-      final checkInOutDataModel = FormData.fromMap(body.toOnlineJson());
-      final checkInOut =
-          await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
-      globalState.set(
-          attendanceId,
-          checkInOut?.checkInOut?.checkOut == null
-              ? checkInOut?.checkInOut?.id
-              : null);
-      globalState.set(inTime, checkInOut?.checkInOut?.inTime);
-      globalState.set(outTime, checkInOut?.checkInOut?.outTime);
-      globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
-      emit(AttendanceState(status: NetworkStatus.success, checkData: checkInOut));
+    body.selfieImage = _selfie;
+    final selfieFile = body.selfieImage != null ?  await MultipartFile.fromFile(body.selfieImage!) : null;
+    ///for offline attendance we need date, outTime, inTime
+    body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
+    final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    if (isCheckedIn) {
+      body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
     } else {
-        body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-        final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
-        if (isCheckedIn) {
-          body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
-        } else {
-          body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
-        }
-        _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn);
-        final checkData = CheckData(
-            message: 'Attendance success. CHEERS!!!',
-            result: true,
-            checkInOut: CheckInOut(
-                id: 0,
-                remoteMode: body.mode,
-                date: body.date,
-                inTime: body.inTime,
-                outTime: body.outTime,
-                latitude: body.latitude,
-                longitude: body.longitude,
-                inStatus: isCheckedIn ? 'check-in' : 'check-out'));
-        emit(AttendanceState(status: NetworkStatus.success, checkData: checkData));
+      body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
     }
+    ///---------------------******************-----------------------
+    ///
+    ///
+    ///
+    ///-----------------Device is online or Offline-----------------------------------
+    if (_internetStatus == InternetStatus.online) {
+      final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
+      final checkInOut = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+      checkInOut.fold((l) {
+        ///Exception from BE - In that scenario we
+        ///have store data into local storage
+        _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn);
+
+        final checkData = CheckData(
+            message: 'Attendance successfully  completed. CHEERS!!!',
+            result: true,
+            checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
+
+        updateGlobalState(
+            attendanceId: body.attendanceId,
+            inTime: body.inTime,
+            outTime: body.outTime);
+
+        emit(AttendanceState(status: NetworkStatus.success, checkData: checkData));
+      }, (r) {
+        ///Everything is fine and server response 200(okay)
+        updateGlobalState(
+            attendanceId: r?.checkInOut?.checkOut == null ? r?.checkInOut?.id : null,
+            inTime: r?.checkInOut?.inTime,
+            outTime: r?.checkInOut?.outTime,
+            stayTime: r?.checkInOut?.stayTime);
+        emit(AttendanceState(status: NetworkStatus.success, checkData: r));
+      });
+    } else {
+      ///Internet not available for that case we need to store data
+      ///in local storage for future sync with BE
+      _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn);
+      final checkData = CheckData(
+          message: 'Attendance successfully  completed. CHEERS!!!',
+          result: true,
+          checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
+
+      updateGlobalState(attendanceId: body.attendanceId, inTime: body.inTime, outTime: body.outTime);
+
+      emit(AttendanceState(status: NetworkStatus.success, checkData: checkData));
+    }
+  }
+
+  void updateGlobalState({int? attendanceId, String? inTime, String? outTime, String? stayTime}) {
+    globalState.set(attendanceId, attendanceId);
+    globalState.set(inTime, inTime);
+    globalState.set(outTime, outTime);
+    globalState.set(stayTime, stayTime);
+  }
+
+  CheckInOut convertToCheckout(
+      {required AttendanceBody body, String? inStatus}) {
+    final checkData = CheckInOut(
+        id: 0,
+        remoteMode: body.mode,
+        date: body.date,
+        inTime: body.inTime,
+        outTime: body.outTime,
+        latitude: body.latitude,
+        longitude: body.longitude,
+        inStatus: inStatus);
+    return checkData;
   }
 }
