@@ -12,7 +12,6 @@ import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
-import '../content/type_content_item.dart';
 
 class AttendanceMethodScreen extends StatefulWidget {
   const AttendanceMethodScreen({super.key});
