@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/onboarding/bloc/onboarding_bloc.dart';
 import 'package:onesthrm/res/const.dart';
@@ -49,8 +50,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Column(
                 children: [
                   Image.asset(
-                    'assets/images/home_bacground_anabo.png',
+                    'assets/images/company_list.jpg',
                     fit: BoxFit.cover,
+                    height: 260.h,
+                    width: double.infinity,
                   ),
                   const SizedBox(
                     height: 16,

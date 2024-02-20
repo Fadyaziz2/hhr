@@ -41,31 +41,6 @@ class _AttendanceState extends State<AttendanceView>
         vsync: this,
         duration: const Duration(seconds: 3),
         animationBehavior: AnimationBehavior.preserve);
-
-    ///set condition here weather face checking enable or disable
-    ///fetch face date from local cache
-    // SharedUtil.getValue(userFaceData).then((registeredFaceData) {
-    //   faceService.captureFromFaceApi(
-    //       isRegistered: registeredFaceData != null,
-    //       regImage: registeredFaceData,
-    //       onCaptured: (faceData) {
-    //         debugPrint('faceData $faceData');
-    //         if (faceData.length > 20) {
-    //           SharedUtil.setValue(userFaceData, faceData);
-    //         }
-    //       },
-    //       isSimilar: (isSimilar) {
-    //         debugPrint('isSimilar $isSimilar');
-    //         if (isSimilar) {
-    //           if (widget.homeBloc.state.dashboardModel != null) {
-    //             context.read<AttendanceBloc>().add(OnAttendance(
-    //                 homeData: widget.homeBloc.state.dashboardModel!));
-    //           } else {
-    //             debugPrint('dashboardModel is null\n you have to check api');
-    //           }
-    //         }
-    //       });
-    // });
     super.initState();
   }
 
