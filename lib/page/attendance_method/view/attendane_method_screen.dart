@@ -103,35 +103,38 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                         final method = settings?.data?.methods[index];
 
                         return method != null
-                            ? Card(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: CachedNetworkImage(
-                                  height: 150,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  imageUrl: settings?.data?.methods[index].image ?? "",
-                                  placeholder: (context, url) => Center(
-                                    child: Image.asset("assets/images/placeholder_image_one.webp"),
+                            ? InkWell(
+                          onTap: (){
+                            context.read<AttendanceMethodBloc>().add(AttendanceNavEvent(context: context, slugName: method.slug));
+                          },child: Card(child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: CachedNetworkImage(
+                                    height: 150,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    imageUrl: settings?.data?.methods[index].image ?? "",
+                                    placeholder: (context, url) => Center(
+                                      child: Image.asset("assets/images/placeholder_image_one.webp"),
+                                    ),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                   ),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error),
                                 ),
-                              ),
-                               Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(settings?.data?.methods[index].title ?? "",style: TextStyle(color: Colors.black87,fontSize: 16,fontWeight: FontWeight.w500),),
-                              ),
-                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Text(settings?.data?.methods[index].subTitle ?? "",maxLines: 3 ,style: TextStyle(color: Colors.black45,fontSize: 12,),),
-                              ),
+                                 Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(settings?.data?.methods[index].title ?? "",style: const TextStyle(color: Colors.black87,fontSize: 16,fontWeight: FontWeight.w500),),
+                                ),
+                                 Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                  child: Text(settings?.data?.methods[index].subTitle ?? "",maxLines: 3 ,style: const TextStyle(color: Colors.black45,fontSize: 12,),),
+                                ),
 
-                            ],
-                          ),
-                        )
+                              ],
+                                                        ),
+                                                      ),
+                            )
                         // ? TypeContentItem(
                         //     method: method,
                         //     animation: animation,
