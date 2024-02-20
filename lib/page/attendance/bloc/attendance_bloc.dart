@@ -104,8 +104,14 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
+    ///for selfie attendance
     body.selfieImage = _selfie;
     final selfieFile = body.selfieImage != null ?  await MultipartFile.fromFile(body.selfieImage!) : null;
+    ///----------------------------------*********--------------------------------------------------------
+    ///
+    ///
+    ///
+    ///
     ///for offline attendance we need date, outTime, inTime
     body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
     final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
