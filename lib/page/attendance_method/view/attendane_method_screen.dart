@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance_method/bloc/attendance_method_bloc.dart';
+import 'package:onesthrm/page/internet_connectivity/view/device_offline_view.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
@@ -17,11 +18,11 @@ class AttendanceMethodScreen extends StatefulWidget {
   const AttendanceMethodScreen({super.key});
 
   static final GlobalKey<ScaffoldState> _scaffoldKey =
-  GlobalKey<ScaffoldState>();
+      GlobalKey<ScaffoldState>();
 
   static Route route(
       {required HomeBloc homeBloc,
-        AttendanceType attendanceType = AttendanceType.normal}) {
+      AttendanceType attendanceType = AttendanceType.normal}) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider.value(
             value: homeBloc, child: const AttendanceMethodScreen()));
@@ -56,40 +57,43 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
     final baseUrl = globalState.get(companyUrl);
 
     return DeviceOfflineView(
-      child: BlocProvider(
-        create: (context) => AttendanceMethodBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${loginData?.user?.token}', companyUrl: baseUrl),
-          homeBloc: context.read<HomeBloc>(),
-          faceService: FaceServiceImpl(), loginData: loginData, baseUrl: baseUrl,
-        ),
-        child: Scaffold(
-            key: AttendanceMethodScreen._scaffoldKey,
-            extendBody: true,
-            appBar: AppBar(
-              title: Text(
-                'attendance_method'.tr(),
-                style: TextStyle(fontSize: 18.r),
-              ),
+        child: BlocProvider(
+      create: (context) => AttendanceMethodBloc(
+        metaClubApiClient: MetaClubApiClient(
+            token: '${loginData?.user?.token}', companyUrl: baseUrl),
+        homeBloc: context.read<HomeBloc>(),
+        faceService: FaceServiceImpl(),
+        loginData: loginData,
+        baseUrl: baseUrl,
+      ),
+      child: Scaffold(
+          key: AttendanceMethodScreen._scaffoldKey,
+          extendBody: true,
+          appBar: AppBar(
+            title: Text(
+              'attendance_method'.tr(),
+              style: TextStyle(fontSize: 18.r),
             ),
-            body: BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
-              return Container(
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [colorPrimary, colorPrimaryGradient])),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
-                  child: GridView.builder(
-                    itemCount: settings?.data?.methods.length ?? 0,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.5.r,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0),
-                    itemBuilder: (BuildContext context, int index) {
-                      ///List length
-                      int length = homeData?.data?.menus?.length ?? 0;
+          ),
+          body: BlocBuilder<LanguageBloc, LanguageState>(
+              builder: (context, state) {
+            return Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [colorPrimary, colorPrimaryGradient])),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
+                child: GridView.builder(
+                  itemCount: settings?.data?.methods.length ?? 0,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5.r,
+                      mainAxisSpacing: 8.0,
+                      crossAxisSpacing: 8.0),
+                  itemBuilder: (BuildContext context, int index) {
+                    ///List length
+                    int length = homeData?.data?.menus?.length ?? 0;
 
                     ///Animation instance
                     final animation = Tween(begin: 0.0, end: 1.0).animate(
@@ -115,6 +119,6 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                   },
                 ));
           })),
-    );
+    ));
   }
 }
