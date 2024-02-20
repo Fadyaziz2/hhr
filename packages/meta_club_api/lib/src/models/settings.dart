@@ -292,15 +292,17 @@ class Department extends Equatable {
 class AttendanceMethod extends Equatable {
   final String? slug;
   final String? title;
+  final String? subTitle;
+  final String? image;
 
-  AttendanceMethod({this.slug, this.title});
+  const AttendanceMethod({this.slug, this.title,this.subTitle,this.image});
 
   factory AttendanceMethod.fromJson(Map<String, dynamic> json) {
-    return AttendanceMethod(slug: json['slug'], title: json['title']);
+    return AttendanceMethod(slug: json['slug'], title: json['title'],subTitle: json['short_description'],image: json["image"]);
   }
 
   Map<String, dynamic> toJson() => {'slug': slug, 'title': title};
 
   @override
-  List<Object?> get props => [slug, title];
+  List<Object?> get props => [slug, title,subTitle,image];
 }
