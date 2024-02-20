@@ -11,18 +11,17 @@ import 'package:onesthrm/res/enum.dart';
 import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
-import '../../internet_connectivity/view/device_offline_view.dart';
 import '../content/type_content_item.dart';
 
 class AttendanceMethodScreen extends StatefulWidget {
   const AttendanceMethodScreen({super.key});
 
   static final GlobalKey<ScaffoldState> _scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState>();
 
   static Route route(
       {required HomeBloc homeBloc,
-      AttendanceType attendanceType = AttendanceType.normal}) {
+        AttendanceType attendanceType = AttendanceType.normal}) {
     return MaterialPageRoute(
         builder: (_) => BlocProvider.value(
             value: homeBloc, child: const AttendanceMethodScreen()));
@@ -92,31 +91,30 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                       ///List length
                       int length = homeData?.data?.menus?.length ?? 0;
 
-                      ///Animation instance
-                      final animation = Tween(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController,
-                              curve: Interval((1 / length) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                      animationController.forward();
+                    ///Animation instance
+                    final animation = Tween(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                            parent: animationController,
+                            curve: Interval((1 / length) * index, 1.0,
+                                curve: Curves.fastOutSlowIn)));
+                    animationController.forward();
 
-                      final method = settings?.data?.methods[index];
+                    final method = settings?.data?.methods[index];
 
-                      return method != null
-                          ? TypeContentItem(
-                              method: method,
-                              animation: animation,
-                              animationController: animationController,
-                              onPressed: () {
-                                context.read<AttendanceMethodBloc>().add(
-                                    AttendanceNavEvent(
-                                        context: context, slugName: method.slug));
-                              })
-                          : const SizedBox.shrink();
-                    },
-                  ));
-            })),
-      ),
+                    return method != null
+                        ? TypeContentItem(
+                            method: method,
+                            animation: animation,
+                            animationController: animationController,
+                            onPressed: () {
+                              context.read<AttendanceMethodBloc>().add(
+                                  AttendanceNavEvent(
+                                      context: context, slugName: method.slug));
+                            })
+                        : const SizedBox.shrink();
+                  },
+                ));
+          })),
     );
   }
 }
