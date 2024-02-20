@@ -10,8 +10,8 @@ class AttendanceService {
 
   AttendanceService._();
 
-  void checkInOut({required AttendanceBody checkData, required isCheckedIn}) async {
-    if (isCheckedIn) {
+  void checkInOut({required AttendanceBody checkData, required isCheckedIn, required isCheckedOut, bool multipleAttendanceEnabled = false}) async {
+    if (isCheckedIn && isCheckedOut == false && multipleAttendanceEnabled == false) {
       if (checkData.date != null) {
         final index = getIndexOfCheckIn(date: checkData.date!);
         box.putAt(index, checkData);
