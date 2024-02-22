@@ -19,6 +19,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final InternetStatus _internetStatus;
   AttendanceBody body = AttendanceBody();
   final String? _selfie;
+  late bool isCheckedIn;
+  late bool isCheckedOut;
 
   AttendanceBloc(
       {required MetaClubApiClient metaClubApiClient,
@@ -39,6 +41,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnAttendance>(_onAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
+
+    body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
 
     if (attendanceType == AttendanceType.qr ||
         attendanceType == AttendanceType.selfie ||
@@ -78,18 +82,19 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         location: event.place, actionStatus: ActionStatus.location));
   }
 
-  void _onLocationRefresh(
-      OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(
-        locationLoaded: false, actionStatus: ActionStatus.refresh));
+  void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
+
+     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
+     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+
+    emit(state.copyWith(locationLoaded: false, actionStatus: ActionStatus.refresh,isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut));
     _locationServices.placeStream.listen((location) async {
       body.latitude = '${_locationServices.userLocation.latitude}';
       body.longitude = '${_locationServices.userLocation.longitude}';
       add(OnLocationUpdated(place: location));
     });
     await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(
-        locationLoaded: true, actionStatus: ActionStatus.refresh));
+    emit(state.copyWith(locationLoaded: true, actionStatus: ActionStatus.refresh));
   }
 
   void _onRemoteModeUpdate(
@@ -99,7 +104,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
+    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
@@ -113,20 +118,23 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     ///
     ///
     ///for offline attendance we need date, outTime, inTime
-    body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
-    final isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
-    if (isCheckedIn) {
+     final lastAttendanceData = _attendanceService.getCheckDataByDate(date: body.date!);
+    if (isCheckedIn && isCheckedOut == false) {
+      body.inTime = lastAttendanceData?.inTime;
       body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
     } else {
       body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
+      body.outTime = null;
     }
     ///---------------------******************-----------------------
-    ///
-    _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut);
+    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+    _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,multipleAttendanceEnabled: true);
     final checkData = CheckData(message: 'Attendance successfully completed. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
     updateGlobalState(attendanceId: body.attendanceId, inTime: body.inTime, outTime: body.outTime);
-    emit(AttendanceState(status: NetworkStatus.success, checkData: checkData));
+    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+    emit(AttendanceState(status: NetworkStatus.success, checkData: checkData,isCheckedOut: isCheckedOut,isCheckedIn: isCheckedIn));
     ///
     ///-----------------Device is online or Offline-----------------------------------
     // if (_internetStatus == InternetStatus.online) {

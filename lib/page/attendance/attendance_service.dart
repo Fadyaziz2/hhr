@@ -11,10 +11,14 @@ class AttendanceService {
   AttendanceService._();
 
   void checkInOut({required AttendanceBody checkData, required isCheckedIn, required isCheckedOut, bool multipleAttendanceEnabled = false}) async {
-    if (isCheckedIn && isCheckedOut == false && multipleAttendanceEnabled == false) {
+    if (isCheckedIn == true) {
       if (checkData.date != null) {
-        final index = getIndexOfCheckIn(date: checkData.date!);
-        box.putAt(index, checkData);
+        if(isCheckedOut  == false || multipleAttendanceEnabled == false){
+          final index = getIndexOfCheckIn(date: checkData.date!);
+          box.putAt(index, checkData);
+        }else{
+          await box.add(checkData);
+        }
       }
     } else {
       await box.add(checkData);
@@ -47,8 +51,8 @@ class AttendanceService {
 
   bool isAlreadyInCheckedIn({required String date}) {
     if(box.values.isNotEmpty){
-      final checks = box.values.where((element) => element.date == date).toList();
-      if (checks.isNotEmpty) {
+      final check = getCheckDataByDate(date: date);
+      if (check?.inTime != null) {
         return true;
       } else {
         return false;
@@ -59,8 +63,8 @@ class AttendanceService {
 
   bool isAlreadyInCheckedOut({required String date}) {
     if(box.values.isNotEmpty){
-      final check = box.values.firstWhere((element) => element.date == date);
-      if (check.outTime != null) {
+      final check = getCheckDataByDate(date: date);
+      if (check?.outTime != null) {
         return true;
       } else {
         return false;
@@ -70,8 +74,10 @@ class AttendanceService {
   }
 
   AttendanceBody? getCheckDataByDate({String? date}) {
-    final checkData = box.values.where((element) => element.date == date).toList();
-    return checkData.isNotEmpty ? checkData.elementAt(0) : null;
+    if(box.values.isNotEmpty){
+      return box.values.lastWhere((element) => element.date == date);;
+    }
+    return null;
   }
 }
 

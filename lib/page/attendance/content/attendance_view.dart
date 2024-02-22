@@ -119,24 +119,29 @@ class _AttendanceState extends State<AttendanceView>
                                 width: 184.w,
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFE8E8E8),
-                                  shape: BoxShape.circle, // radius of 10// green as background color
+                                  shape: BoxShape
+                                      .circle, // radius of 10// green as background color
                                 )),
-                          ) : AnimatedCircularButton(
+                          )
+                        : AnimatedCircularButton(
                             onComplete: () {
-                              context.read<AttendanceBloc>().add(OnAttendance());
+                              context
+                                  .read<AttendanceBloc>()
+                                  .add(OnAttendance());
                             },
-                            isCheckedIn:
-                                homeData.data?.attendanceData?.id != null,
-                            title: globalState.get(attendanceId) == null
+                            isCheckedIn: state.isCheckedIn == state.isCheckedOut,
+                            title: state.isCheckedIn == state.isCheckedOut
                                 ? "check_in".tr()
                                 : "check_out".tr(),
-                            color: globalState.get(attendanceId) == null
-                                ? colorPrimary
-                                : colorDeepRed,
+                            color: state.isCheckedIn == state.isCheckedOut ? colorPrimary : colorDeepRed,
                           ),
                   InkWell(
                     onTap: () {
-                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
+                      NavUtil.navigateScreen(
+                          context,
+                          BlocProvider.value(
+                              value: context.read<AttendanceBloc>(),
+                              child: const AttendanceReason()));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8.0.r),
@@ -167,7 +172,7 @@ class _AttendanceState extends State<AttendanceView>
 
                   /// Show Check In Check Out time
                   const CheckInCheckOutTime(),
-                  SizedBox(height: 70.0.h)
+                  SizedBox(height: 70.0.h),
                 ],
               ),
             ),
