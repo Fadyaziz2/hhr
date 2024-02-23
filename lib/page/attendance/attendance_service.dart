@@ -30,7 +30,7 @@ class AttendanceService {
   }
 
   int getIndexOfCheckIn({required String date}) {
-    return getAllCheckData().indexWhere((element) => element.date == date);
+    return getAllCheckData().indexWhere((element) => element.date == date,getAllCheckData().length - 1);
   }
 
   List<AttendanceBody> getAllCheckData() {
@@ -75,7 +75,11 @@ class AttendanceService {
 
   AttendanceBody? getCheckDataByDate({String? date}) {
     if(box.values.isNotEmpty){
-      return box.values.lastWhere((element) => element.date == date);;
+      try{
+        return box.values.lastWhere((element) => element.date == date);
+      }catch(_){
+        return null;
+      }
     }
     return null;
   }
