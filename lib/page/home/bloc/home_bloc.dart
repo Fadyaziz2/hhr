@@ -104,7 +104,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
          attendanceData = attendanceData?.copyWith(inTime: localAttendanceData?.inTime,outTime: null,stayTime: null);
          globalState.set(attendanceId, 0);
       }else{
-        globalState.set(attendanceId, dashboardModel?.data?.attendanceData?.id);
+        globalState.set(attendanceId, null);
         globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
         globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
         globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);

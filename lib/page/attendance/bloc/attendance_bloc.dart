@@ -3,11 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
 
@@ -113,27 +115,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.selfieImage = _selfie;
     final selfieFile = body.selfieImage != null ?  await MultipartFile.fromFile(body.selfieImage!) : null;
     ///----------------------------------*********--------------------------------------------------------
-    ///
-    ///
-    ///
-    ///
-    ///for offline attendance we need date, outTime, inTime
-     final lastAttendanceData = _attendanceService.getCheckDataByDate(date: body.date!);
-    if (isCheckedIn && isCheckedOut == false) {
-      body.inTime = lastAttendanceData?.inTime;
-      body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
-    } else {
-      body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
-      body.outTime = null;
-    }
-    ///---------------------******************-----------------------
-    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
-    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
-    _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,multipleAttendanceEnabled: true);
+
+    eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+    // _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,multipleAttendanceEnabled: true);
     final checkData = CheckData(message: 'Attendance successfully completed. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
     updateGlobalState(attendanceId: body.attendanceId, inTime: body.inTime, outTime: body.outTime);
     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+
+
     emit(AttendanceState(status: NetworkStatus.success, checkData: checkData,isCheckedOut: isCheckedOut,isCheckedIn: isCheckedIn));
     ///
     ///-----------------Device is online or Offline-----------------------------------
