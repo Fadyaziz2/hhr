@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
@@ -13,6 +14,7 @@ import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
 import 'package:onesthrm/page/meeting/meeting.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
+import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:user_repository/user_repository.dart';
@@ -47,6 +49,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
+
+    eventBus.on<OfflineDataSycEvent>().listen((_) {
+      ///TODO we have try store data to server from local cache
+    });
   }
 
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;

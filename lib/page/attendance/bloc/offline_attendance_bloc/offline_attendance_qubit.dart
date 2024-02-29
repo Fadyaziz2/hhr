@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'offline_attendance_state.dart';
 
@@ -18,7 +19,6 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
     eventBus.on<OnOfflineAttendanceUpdateEvent>().listen((event) {
       onCheckInOutData(body: event.body);
     });
-
   }
 
   onCheckInOutData({AttendanceBody? body}){
@@ -41,6 +41,11 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
         isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
         isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
         localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+        if(isCheckedOut){
+        ///-----------------------Try to sync attendance data with server when user try to checkout---------------
+          eventBus.fire(const OfflineDataSycEvent());
+        }
+        ///--------------------------------------*********--------------------------------------------------------
         emit(state.copyWith(isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,attendanceBody: localAttendanceData));
       });
     }else{

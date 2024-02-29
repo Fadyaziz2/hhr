@@ -41,8 +41,7 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (_) => OnboardingBloc(
-                  metaClubApiClient:
-                      MetaClubApiClient(token: "", companyUrl: ''))
+                  metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))
                 ..add(CompanyListEvent())),
           BlocProvider(
               create: (_) => AuthenticationBloc(
@@ -50,8 +49,7 @@ class App extends StatelessWidget {
                   userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc()),
-          BlocProvider(create: (context) =>
-                  OfflineCubit(attendanceService: attendanceService))
+          BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))
         ],
         child: const AppView(),
       ),
