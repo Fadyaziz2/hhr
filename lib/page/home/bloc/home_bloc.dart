@@ -56,6 +56,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     });
   }
 
+  bool isCheckedIn = false;
+  bool isCheckedOut = false;
+
   MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
@@ -92,8 +95,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
 
     final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    final isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
-    final isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
+     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
+     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
     final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
 
     try {
@@ -153,9 +156,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     try {
       final body = attendanceService.getAllCheckInOutDataMap();
       if(body.isNotEmpty){
-        final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
-        if(isSynced){
-          attendanceService.clearCheckData();
+        if(isCheckedOut){
+          final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
+          if(isSynced){
+            attendanceService.clearCheckData();
+          }
         }
       }
     } catch (e) {

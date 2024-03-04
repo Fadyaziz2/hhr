@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import '../home/models/attendance_body.dart';
 
@@ -37,8 +40,20 @@ class AttendanceService {
     return box.values.toList().reversed.toList();
   }
 
-  List<Map<String, dynamic>> getAllCheckInOutDataMap() {
-    return box.values.map((e) => e.toOfflineJson()).toList();
+  List<FormData> getAllCheckInOutDataMap() {
+    return box.values.map((e) {
+      FormData formData = FormData.fromMap(e.toOfflineJson());
+      if(e.selfieImage != null){
+        File file = File(e.selfieImage!);
+        //create multipart using filepath, string or bytes
+        MapEntry<String, MultipartFile> pic = MapEntry(
+          'selfie_image', MultipartFile.fromFileSync(file.path, filename: file.path.split("/").last),
+        );
+        //add multipart to request
+        formData.files.add(pic);
+      }
+      return formData;
+    }).toList();
   }
 
   int count() {
