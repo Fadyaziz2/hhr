@@ -37,7 +37,7 @@ class AttendanceService {
     return box.values.toList().reversed.toList();
   }
 
-  List<Map<String, dynamic>> getAllCheckAsMap() {
+  List<Map<String, dynamic>> getAllCheckInOutDataMap() {
     return box.values.map((e) => e.toOfflineJson()).toList();
   }
 

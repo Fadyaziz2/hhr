@@ -51,7 +51,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnLocationRefresh>(_onLocationRefresh);
 
     eventBus.on<OfflineDataSycEvent>().listen((_) {
-      ///TODO we have try store data to server from local cache
+      /// we have try store data to server from local cache
+      _onOfflineDataSync();
     });
   }
 
@@ -136,12 +137,28 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
+      _onOfflineDataSync();
+
       emit(state.copy(
           dashboardModel: dashboardModel,
           status: NetworkStatus.success,
           isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  void _onOfflineDataSync() async {
+    try {
+      final body = attendanceService.getAllCheckInOutDataMap();
+      if(body.isNotEmpty){
+        final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
+        if(isSynced){
+          attendanceService.clearCheckData();
+        }
+      }
+    } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }
   }

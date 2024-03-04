@@ -148,6 +148,20 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> offlineCheckInOut({required body}) async {
+    const String api = 'user/attendance/offline';
+
+    try {
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   /// attendance report get data ------------------
   Future<AttendanceReport?> getAttendanceReport(
       {required Map<String, dynamic> body, int? userId}) async {
