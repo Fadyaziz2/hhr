@@ -125,9 +125,7 @@ class _AttendanceState extends State<AttendanceView>
                             )),
                       ) : AnimatedCircularButton(
                         onComplete: () {
-                          context
-                              .read<AttendanceBloc>()
-                              .add(OnAttendance());
+                          context.read<AttendanceBloc>().add(OnAttendance());
                         },
                         isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
                         title: offlineState.isCheckedIn == offlineState.isCheckedOut

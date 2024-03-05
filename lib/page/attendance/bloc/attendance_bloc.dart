@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -113,7 +112,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.longitude = '${_locationServices.userLocation.longitude}';
     ///----------------------------for selfie attendance-----------------------------------------------///
     body.selfieImage = _selfie;
-    final selfieFile = body.selfieImage != null ?  await MultipartFile.fromFile(body.selfieImage!) : null;
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);

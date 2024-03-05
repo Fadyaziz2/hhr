@@ -28,9 +28,9 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://office.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   String getBaseUrl() {
     final baseUrl = companyUrl;
