@@ -28,9 +28,10 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://api.onesttech.com';
+  // static const rootUrl = 'https://api.onesttech.com';
+  static const rootUrl = 'https://office.onesttech.com';
 
-  static const _baseUrl = '$rootUrl/api/2.0/';
+  static const _baseUrl = '$rootUrl/api/V11/';
 
   String getBaseUrl() {
     final baseUrl = companyUrl;
@@ -91,6 +92,7 @@ class MetaClubApiClient {
 
   Future<CompanyListModel?> getCompanyList() async {
     const String api = 'https://api.onesttech.com/api/2.0/company-list';
+    // const String api = 'https://office.onesttech.com/api/V11/company-list';
     try {
       final response = await _httpServiceImpl.getRequestWithToken(api);
       if (response?.statusCode == 200) {
@@ -1672,6 +1674,29 @@ class MetaClubApiClient {
     const String api = 'user/attendance/qr-status';
     try {
       Response response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Face data store
+  Future<bool> faceDataStore ({String? faceData}) async {
+    String api = 'check-face-data';
+
+    try {
+      // FormData formData = FormData.fromMap({
+      //   "face-data": faceData
+      // });
+
+      final data = {"face_data": faceData};
+
+      // final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await _httpServiceImpl.postRequest('https://office.onesttech.com/api/V11/$api', data);
+
       if (response.statusCode == 200) {
         return true;
       }
