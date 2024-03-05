@@ -90,7 +90,7 @@ class MetaClubApiClient {
   }
 
   Future<CompanyListModel?> getCompanyList() async {
-    const String api = 'https://api.onesttech.com/api/2.0/company-list';
+    const String api = 'https://office.onesttech.com/api/V11/company-list';
     try {
       final response = await _httpServiceImpl.getRequestWithToken(api);
       if (response?.statusCode == 200) {
@@ -150,8 +150,8 @@ class MetaClubApiClient {
 
   Future<bool> offlineCheckInOut({required body}) async {
     const String api = 'user/attendance/offline';
-
     try {
+
       final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       if (response.statusCode == 200) {
         return true;

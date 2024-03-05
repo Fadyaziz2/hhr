@@ -13,13 +13,17 @@ class AttendanceService {
 
   AttendanceService._();
 
-  Future<void> checkInOut({required AttendanceBody checkData, required isCheckedIn, required isCheckedOut, bool multipleAttendanceEnabled = false}) async {
+  Future<void> checkInOut(
+      {required AttendanceBody checkData,
+      required isCheckedIn,
+      required isCheckedOut,
+      bool multipleAttendanceEnabled = false}) async {
     if (isCheckedIn == true) {
       if (checkData.date != null) {
-        if(isCheckedOut  == false || multipleAttendanceEnabled == false){
+        if (isCheckedOut == false || multipleAttendanceEnabled == false) {
           final index = getIndexOfCheckIn(date: checkData.date!);
           box.putAt(index < 0 ? 0 : index, checkData);
-        }else{
+        } else {
           await box.add(checkData);
         }
       }
@@ -33,26 +37,32 @@ class AttendanceService {
   }
 
   int getIndexOfCheckIn({required String date}) {
-    return getAllCheckData().indexWhere((element) => element.date == date,getAllCheckData().length - 1);
+    return getAllCheckData().indexWhere(
+        (element) => element.date == date, getAllCheckData().length - 1);
   }
 
   List<AttendanceBody> getAllCheckData() {
     return box.values.toList().reversed.toList();
   }
 
-  List<FormData> getAllCheckInOutDataMap() {
+  List<Map<String, dynamic>> getAllCheckInOutDataMap() {
     return box.values.map((e) {
-      FormData formData = FormData.fromMap(e.toOfflineJson());
-      if(e.selfieImage != null){
-        File file = File(e.selfieImage!);
-        //create multipart using filepath, string or bytes
-        MapEntry<String, MultipartFile> pic = MapEntry(
-          'selfie_image', MultipartFile.fromFileSync(file.path, filename: file.path.split("/").last),
-        );
-        //add multipart to request
-        formData.files.add(pic);
-      }
-      return formData;
+      File file = File(e.selfieImage ?? '');
+      final data = {
+        'latitude': e.latitude,
+        'longitude': e.longitude,
+        'date': e.date,
+        'inTime': e.inTime,
+        'outTime': e.outTime,
+        'reason': e.reason,
+        'remote_mode': e.mode,
+        'attendance_id': e.attendanceId,
+        'selfie_image': e.selfieImage != null
+            ? MultipartFile.fromFileSync(file.path,
+                filename: file.path.split("/").last)
+            : null,
+      };
+      return data;
     }).toList();
   }
 
@@ -65,7 +75,7 @@ class AttendanceService {
   }
 
   bool isAlreadyInCheckedIn({required String date}) {
-    if(box.values.isNotEmpty){
+    if (box.values.isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.inTime != null) {
         return true;
@@ -77,7 +87,7 @@ class AttendanceService {
   }
 
   bool isAlreadyInCheckedOut({required String date}) {
-    if(box.values.isNotEmpty){
+    if (box.values.isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.outTime != null) {
         return true;
@@ -89,10 +99,10 @@ class AttendanceService {
   }
 
   AttendanceBody? getCheckDataByDate({String? date}) {
-    if(box.values.isNotEmpty){
-      try{
+    if (box.values.isNotEmpty) {
+      try {
         return box.values.lastWhere((element) => element.date == date);
-      }catch(_){
+      } catch (_) {
         return null;
       }
     }
