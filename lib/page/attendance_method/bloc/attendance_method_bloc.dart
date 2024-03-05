@@ -68,7 +68,7 @@ class AttendanceMethodBloc
               debugPrint('faceData $faceData');
               if (faceData.length > 20) {
                 NavUtil.navigateScreen(event.context,  OnFaceMatchingContent(faceData: faceData,));
-                // faceDataApi(faceData, event.context);
+                faceDataApi(faceData, event.context);
               }
             },
             isSimilar: (isSimilar) {
@@ -141,7 +141,7 @@ class AttendanceMethodBloc
                   homeBloc: context.read<HomeBloc>(),
                   attendanceType: AttendanceType.face));
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong!");
+          Fluttertoast.showToast(msg: "Face not match,try again!");
         }
       });
     } catch (e) {
