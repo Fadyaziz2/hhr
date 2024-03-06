@@ -357,45 +357,24 @@ class CustomDialogFaceError extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 25.0),
               child: Text("Make sure the registration of your face is correct before you try again if your face does not match",style: TextStyle(color: Colors.black45,fontWeight: FontWeight.w500,),textAlign: TextAlign.center,),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            const SizedBox(height: 16),
+            Row(mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: () {
-                    if (onYesClick != null) onYesClick!();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          "Try Again",
-                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
-                        )),
-                  ),
-                ),
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: const Padding(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     child: Align(
                         alignment: Alignment.bottomRight,
-                        child: Text(
-                          "Cancel",
+                        child: Text("Okay",
                           style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),
                         )),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            )
+            const SizedBox(height: 16,)
           ],
         ),
       ),

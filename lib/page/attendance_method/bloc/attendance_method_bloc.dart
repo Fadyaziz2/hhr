@@ -140,25 +140,8 @@ class AttendanceMethodBloc
          showDialog(
             context: context,
             builder: (BuildContext context) {
-              return CustomDialogFaceError(
-                onYesClick: () async {
-                  _faceService.captureFromFaceApi(
-                      isRegistered: false,
-                      onCaptured: (faceData) {
-                        debugPrint('faceData $faceData');
-                        if (faceData.length > 20) {
-                          NavUtil.navigateScreen(context,  OnFaceMatchingContent(faceData: faceData,));
-                          faceDataApi(faceData, context);
-                        }
-                      },
-                      isSimilar: (isSimilar) {
-                        debugPrint('isSimilar $isSimilar');
-                        if (isSimilar) {}
-                      });
-                },
-                onNoClick: () async {
+              return const CustomDialogFaceError(
 
-                },
               );
             },
           );
