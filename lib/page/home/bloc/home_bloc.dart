@@ -50,7 +50,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
 
-    eventBus.on<OfflineDataSycEvent>().listen((_) {
+    eventBus.on<OfflineDataSycEvent>().listen((data) {
       /// we have try store data to server from local cache
       _onOfflineDataSync();
     });
@@ -108,35 +108,21 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
 
       ///Initialize attendance data into global state
-      if(isCheckedOut){
-         attendanceData = attendanceData?.copyWith(id: null,outTime: localAttendanceData?.outTime);
-      }else if(isCheckedIn && isCheckedOut == false){
-         attendanceData = attendanceData?.copyWith(inTime: localAttendanceData?.inTime,outTime: null,stayTime: null);
-         globalState.set(attendanceId, 0);
-      }else{
-        globalState.set(attendanceId, null);
-        globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
-        globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
-        globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
-      }
+      globalState.set(attendanceId, attendanceData?.id);
+      globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
+      globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
+      globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
 
       ///Initialize break data into global state
-      globalState.set(
-          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(
-          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(
-          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(
-          isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
