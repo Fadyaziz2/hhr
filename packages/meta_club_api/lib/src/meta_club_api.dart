@@ -1692,4 +1692,23 @@ class MetaClubApiClient {
       return false;
     }
   }
+
+  /// Face data store
+  Future<bool> faceDataStore ({String? faceData}) async {
+    String api = 'check-face-data';
+
+    try {
+
+      final data = {"face_data": faceData};
+
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
 }
