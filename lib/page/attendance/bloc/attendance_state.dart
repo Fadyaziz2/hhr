@@ -19,6 +19,8 @@ class AttendanceState extends Equatable {
       DashboardModel? dashboardModel,
         CheckData? checkData,
         bool? locationLoaded,
+        bool? isCheckedIn,
+        bool? isCheckedOut,
       String? location}) {
     return AttendanceState(
         status: status ?? this.status,

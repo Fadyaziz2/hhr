@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
@@ -31,10 +32,6 @@ class _AttendanceState extends State<AttendanceView>
     with TickerProviderStateMixin {
   late AnimationController controller;
 
-  ///set condition here weather face checking enable or disable
-  ///if enabled then we have to create faceSDK service instance
-  // FaceServiceImpl faceService = FaceServiceImpl();
-
   @override
   void initState() {
     controller = AnimationController(
@@ -50,6 +47,7 @@ class _AttendanceState extends State<AttendanceView>
     final homeBloc = context.read<HomeBloc>();
     final homeData = homeBloc.state.dashboardModel;
     final settings = homeBloc.state.settings;
+    final offlineState= context.watch<OfflineCubit>().state;
 
     if (user?.user != null) {
       context.read<HomeBloc>().add(OnLocationRefresh(
@@ -72,115 +70,110 @@ class _AttendanceState extends State<AttendanceView>
           homeBloc.add(LoadHomeData());
         }
       },
-      child: BlocBuilder<AttendanceBloc, AttendanceState>(
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              title: Text(
-                'attendance'.tr(),
-                style: TextStyle(fontSize: 18.r),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            'attendance'.tr(),
+            style: TextStyle(fontSize: 18.r),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      AttendanceReportPage.route(
+                          attendanceBloc: context.read<AttendanceBloc>(),
+                          settings: settings!));
+                },
+                child: Lottie.asset(
+                  'assets/images/ic_report_lottie.json',
+                  height: 40.h,
+                  width: 40.w,
+                ),
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          AttendanceReportPage.route(
-                              attendanceBloc: context.read<AttendanceBloc>(),
-                              settings: settings!));
-                    },
-                    child: Lottie.asset(
-                      'assets/images/ic_report_lottie.json',
-                      height: 40.h,
-                      width: 40.w,
-                    ),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              /// Show Current Location and Remote mode ......
+              if (homeData != null)
+                ShowCurrentLocation(
+                  homeData: homeData,
+                ),
+
+              /// Show Current time .......
+              if (homeData != null) ShowCurrentTime(homeData: homeData),
+
+              if (homeData != null)
+                BlocBuilder<AttendanceBloc,AttendanceState>(
+                    builder: (context,state){
+                      return state.status == NetworkStatus.loading ? Shimmer.fromColors(
+                        baseColor: const Color(0xFFE8E8E8),
+                        highlightColor: Colors.white,
+                        child: Container(
+                            height: 184.h,
+                            width: 184.w,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFE8E8E8),
+                              shape: BoxShape.circle, // radius of 10// green as background color
+                            )),
+                      ) : AnimatedCircularButton(
+                        onComplete: () {
+                          context.read<AttendanceBloc>().add(OnOfflineAttendance());
+                        },
+                        isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
+                        title: offlineState.isCheckedIn == offlineState.isCheckedOut
+                            ? "check_in".tr()
+                            : "check_out".tr(),
+                        color: offlineState.isCheckedIn == offlineState.isCheckedOut ? colorPrimary : colorDeepRed,
+                      );
+                    }),
+              InkWell(
+                onTap: () {
+                  NavUtil.navigateScreen(
+                      context,
+                      BlocProvider.value(
+                          value: context.read<AttendanceBloc>(),
+                          child: const AttendanceReason()));
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.note_add_outlined,
+                        color: colorPrimary,
+                        size: 25.r,
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        "Add Reason",
+                        style:
+                        TextStyle(color: colorPrimary, fontSize: 16.r),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  /// Show Current Location and Remote mode ......
-                  if (homeData != null)
-                    ShowCurrentLocation(
-                      homeData: homeData,
-                    ),
-
-                  /// Show Current time .......
-                  if (homeData != null) ShowCurrentTime(homeData: homeData),
-
-                  if (homeData != null)
-                    state.status == NetworkStatus.loading
-                        ? Shimmer.fromColors(
-                            baseColor: const Color(0xFFE8E8E8),
-                            highlightColor: Colors.white,
-                            child: Container(
-                                height: 184.h,
-                                width: 184.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFE8E8E8),
-                                  shape: BoxShape.circle, // radius of 10// green as background color
-                                )),
-                          )
-                        : AnimatedCircularButton(
-                            onComplete: () {
-                              context.read<AttendanceBloc>().add(OnAttendance());
-                            },
-                            isCheckedIn:
-                                homeData.data?.attendanceData?.id != null,
-                            title: globalState.get(attendanceId) == null
-                                ? "check_in".tr()
-                                : "check_out".tr(),
-                            color: globalState.get(attendanceId) == null
-                                ? colorPrimary
-                                : colorDeepRed,
-                          ),
-                  InkWell(
-                    onTap: () {
-                      NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.r),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.note_add_outlined,
-                            color: colorPrimary,
-                            size: 25.r,
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            "Add Reason",
-                            style:
-                                TextStyle(color: colorPrimary, fontSize: 16.r),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 15.h,
-                  ),
-
-                  /// Show Check In Check Out time
-                  if (homeData != null)
-                    CheckInCheckOutTime(
-                      homeData: homeData,
-                    ),
-                  SizedBox(height: 70.0.h)
-                ],
               ),
-            ),
-          );
-        },
+
+              SizedBox(
+                height: 15.h,
+              ),
+
+              /// Show Check In Check Out time
+              const CheckInCheckOutTime(),
+              SizedBox(height: 70.0.h),
+            ],
+          ),
+        ),
       ),
     );
   }

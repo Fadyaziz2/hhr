@@ -53,3 +53,11 @@ class OnAttendance extends AttendanceEvent{
   @override
   List<Object?> get props => [];
 }
+
+class OnOfflineAttendance extends AttendanceEvent{
+
+  OnOfflineAttendance();
+
+  @override
+  List<Object?> get props => [];
+}

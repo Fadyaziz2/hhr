@@ -188,10 +188,10 @@ packages:
     dependency: transitive
     description:
       name: camera_avfoundation
-      sha256: "7d0763dfcbf060f56aa254a68c103210280bee9e97bbe4fdef23e257a4f70ab9"
+      sha256: "608b56b0880722f703871329c4d7d4c2f379c8e2936940851df7fc041abc6f51"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.14"
+    version: "0.9.13+10"
   camera_platform_interface:
     dependency: transitive
     description:
@@ -486,6 +486,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  event_bus_plus:
+    dependency: "direct main"
+    description:
+      name: event_bus_plus
+      sha256: a8381b29384d04ccd742e53668bc8b3ea99ee80496b26adf23fcceba8cdeb673
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.2"
   face:
     dependency: "direct main"
     description:
@@ -949,10 +957,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_ios
-      sha256: b644d205c235f85dc60e22f46172a868b1cd642afd5a52b3808c789e461b025a
+      sha256: c89556ed0338fcb4b843c9fcdafac7ad2df601c8b41286d82f0727f7f66434e4
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.3.6"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -986,13 +994,21 @@ packages:
     source: hosted
     version: "2.2.3"
   hive_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: hive_flutter
       sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  hive_generator:
+    dependency: "direct dev"
+    description:
+      name: hive_generator
+      sha256: "06cb8f58ace74de61f63500564931f9505368f45f98958bd7a6c35ba24159db4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   html:
     dependency: transitive
     description:
@@ -1200,6 +1216,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: "6bbb9d6f7056729537a4309bda2e74e18e5d9f14302489cc1e93f33b3fe32cac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2+1"
   logging:
     dependency: transitive
     description:
@@ -2130,5 +2154,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.2.3 <4.0.0"
-  flutter: ">=3.16.6"
+  dart: ">=3.2.1 <4.0.0"
+  flutter: ">=3.16.0"

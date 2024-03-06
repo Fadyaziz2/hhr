@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
@@ -17,6 +19,10 @@ import '../onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding/view/onboarding_page.dart';
 import '../splash/view/splash.dart';
 import 'global_state.dart';
+import 'package:event_bus_plus/event_bus_plus.dart';
+
+// Initialize the Service Bus
+final IEventBus eventBus = EventBus();
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -33,10 +39,17 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))..add(CompanyListEvent())),
-          BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository)),
+          BlocProvider(
+              create: (_) => OnboardingBloc(
+                  metaClubApiClient: MetaClubApiClient(token: "", companyUrl: ''))
+                ..add(CompanyListEvent())),
+          BlocProvider(
+              create: (_) => AuthenticationBloc(
+                  authenticationRepository: authenticationRepository,
+                  userRepository: userRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
-          BlocProvider(create: (context) => LanguageBloc())
+          BlocProvider(create: (context) => LanguageBloc()),
+          BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))
         ],
         child: const AppView(),
       ),
@@ -107,23 +120,22 @@ class _AppViewState extends State<AppView> {
             );
           },
           theme: ThemeData(
-            dialogTheme:  const DialogTheme(backgroundColor: Colors.white),
+            dialogTheme: const DialogTheme(backgroundColor: Colors.white),
             scaffoldBackgroundColor: Colors.white,
             useMaterial3: true,
             primaryColor: colorPrimary,
-            inputDecorationTheme: InputDecorationTheme(
-              errorStyle: TextStyle(fontSize: 12.r)
-            ),
+            inputDecorationTheme:
+                InputDecorationTheme(errorStyle: TextStyle(fontSize: 12.r)),
             appBarTheme: AppBarTheme(
-              toolbarHeight: 50.r,
+                toolbarHeight: 50.r,
                 backgroundColor: colorPrimary,
                 systemOverlayStyle:
                     const SystemUiOverlayStyle(statusBarColor: colorPrimary),
-                iconTheme:  IconThemeData(color: Colors.white,size: 18.r),
+                iconTheme: IconThemeData(color: Colors.white, size: 18.r),
                 titleTextStyle: Theme.of(context)
                     .textTheme
                     .titleLarge
-                    ?.copyWith(color: Colors.white,fontSize: 16.r)),
+                    ?.copyWith(color: Colors.white, fontSize: 16.r)),
             colorScheme: Theme.of(context)
                 .colorScheme
                 .copyWith(primary: colorPrimary, background: Colors.white),

@@ -4,12 +4,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/app_bloc_observer.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
+import 'package:onesthrm/page/home/models/attendance_body.dart';
 import 'package:onesthrm/res/service/model/notifications/f_c_m_data_model.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:user_repository/user_repository.dart';
@@ -20,7 +23,10 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  final document = await getApplicationDocumentsDirectory();
+  Hive.init(document.path);
+  Hive.registerAdapter(AttendanceBodyAdapter());
+  await Hive.openBox<AttendanceBody>(checkBoxName);
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
 
