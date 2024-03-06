@@ -41,7 +41,7 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
         isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
         isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
         localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
-        if(isCheckedOut){
+        if(isCheckedOut && body?.isOffline == true){
         ///-----------------------Try to sync attendance data with server when user try to checkout---------------
           eventBus.fire(const OfflineDataSycEvent());
         }

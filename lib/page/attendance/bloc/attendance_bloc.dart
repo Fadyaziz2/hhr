@@ -23,14 +23,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   late bool isCheckedIn;
   late bool isCheckedOut;
 
-  AttendanceBloc(
-      {required MetaClubApiClient metaClubApiClient,
+  AttendanceBloc({required MetaClubApiClient metaClubApiClient,
       required AttendanceService attendanceService,
       required LocationServiceProvider locationServices,
       this.attendanceType = AttendanceType.normal,
       required InternetStatus internetStatus,
-      String? selfie})
-      : _metaClubApiClient = metaClubApiClient,
+      String? selfie}): _metaClubApiClient = metaClubApiClient,
         _attendanceService = attendanceService,
         _locationServices = locationServices,
         _selfie = selfie,
@@ -103,6 +101,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
+    body.isOffline = false;
     body.longitude = '${_locationServices.userLocation.longitude}';
     final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
@@ -114,6 +113,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       globalState.set(inTime, checkInOut?.checkInOut?.inTime);
       globalState.set(outTime, checkInOut?.checkInOut?.outTime);
       globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
+      body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
+      body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
+      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+      eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+      ///----------------------------------*********--------------------------------------------------------
       emit(AttendanceState(status: NetworkStatus.success, checkData: checkInOut));
     });
   }
@@ -124,8 +128,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    ///----------------------------for selfie attendance-----------------------------------------------///
-    body.selfieImage = _selfie;
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);

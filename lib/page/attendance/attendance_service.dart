@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:onesthrm/res/const.dart';
+import '../app/global_state.dart';
 import '../home/models/attendance_body.dart';
 
 const String checkBoxName = 'checkInOutBox';
@@ -42,12 +44,11 @@ class AttendanceService {
   }
 
   List<AttendanceBody> getAllCheckData() {
-    return box.values.toList().reversed.toList();
+    return box.values.toList().reversed.where((e) => e.isOffline == true).toList();
   }
 
   List<Map<String, dynamic>> getAllCheckInOutDataMap() {
-    return box.values.map((e) {
-      File file = File(e.selfieImage ?? '');
+    return getAllCheckData().map((e) {
       final data = {
         'latitude': e.latitude,
         'longitude': e.longitude,
@@ -57,10 +58,7 @@ class AttendanceService {
         'reason': e.reason,
         'remote_mode': e.mode,
         'attendance_id': e.attendanceId,
-        'selfie_image': e.selfieImage != null
-            ? MultipartFile.fromFile(file.path,
-                filename: file.path.split("/").last)
-            : null,
+        'selfie_image': null,
       };
       return data;
     }).toList();
@@ -78,6 +76,7 @@ class AttendanceService {
     if (box.values.isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.inTime != null) {
+        globalState.set(inTime, check?.inTime);
         return true;
       } else {
         return false;
@@ -90,6 +89,8 @@ class AttendanceService {
     if (box.values.isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.outTime != null) {
+        globalState.set(inTime, check?.inTime);
+        globalState.set(outTime, check?.outTime);
         return true;
       } else {
         return false;

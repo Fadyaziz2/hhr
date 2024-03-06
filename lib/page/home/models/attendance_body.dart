@@ -23,6 +23,8 @@ class AttendanceBody {
   int? attendanceId;
   @HiveField(8)
   String? selfieImage;
+  @HiveField(8)
+  bool? isOffline;
 
   AttendanceBody(
       {this.latitude,
@@ -33,7 +35,7 @@ class AttendanceBody {
       this.outTime,
       this.mode,
       this.attendanceId,
-      this.selfieImage});
+      this.selfieImage,this.isOffline = true});
 
   AttendanceBody copyWith(
       {String? latitude,
@@ -44,7 +46,7 @@ class AttendanceBody {
       String? outTime,
       int? mode,
       int? attendanceId,
-      String? selfieImage}) {
+      String? selfieImage,bool? isOffline}) {
     return AttendanceBody(
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
@@ -54,7 +56,7 @@ class AttendanceBody {
         outTime: outTime ?? this.outTime,
         mode: mode ?? this.mode,
         attendanceId: attendanceId ?? this.attendanceId,
-        selfieImage: selfieImage ?? this.selfieImage);
+        selfieImage: selfieImage ?? this.selfieImage,isOffline: isOffline ?? this.isOffline);
   }
 
   Map<String, dynamic> toOfflineJson() => {
@@ -67,6 +69,7 @@ class AttendanceBody {
         'remote_mode': mode,
         'attendance_id': attendanceId,
         'selfie_image': selfieImage,
+        'isOffline': isOffline,
       };
 
   Map<String, dynamic> toOnlineJson({MultipartFile? file}) => {
