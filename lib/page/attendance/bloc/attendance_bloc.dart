@@ -39,22 +39,19 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
-    on<OnAttendance>(_onAttendance);
+    on<OnOfflineAttendance>(_onOfflineAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
 
     body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
 
-    if (attendanceType == AttendanceType.qr ||
-        attendanceType == AttendanceType.selfie ||
-        attendanceType == AttendanceType.face) {
+    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face || attendanceType == AttendanceType.selfie) {
       ///for auto check in/out , we need to initialize location
       add(OnLocationInitEvent());
 
       ///----------------------------------------------------///
       ///if not normal attendance, this event call automatically
       add(OnAttendance());
-
       ///---------------///---------------------------------///
     }
   }
@@ -104,7 +101,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     SharedUtil.setRemoteModeType(event.mode);
   }
 
-  void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
+  void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);

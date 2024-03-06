@@ -42,7 +42,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       body: BlocBuilder<OnboardingBloc,OnboardingState>(
         builder: (context,state){
-          if(state.companyListModel?.companyList?.length == 1){
+          if(state.companyListModel?.companyList?.length == 1 && !mounted){
             NavUtil.pushAndRemoveUntil(context, const LoginPage());
           }
           return Stack(

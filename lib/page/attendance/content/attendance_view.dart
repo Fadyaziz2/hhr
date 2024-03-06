@@ -120,12 +120,11 @@ class _AttendanceState extends State<AttendanceView>
                             width: 184.w,
                             decoration: const BoxDecoration(
                               color: Color(0xFFE8E8E8),
-                              shape: BoxShape
-                                  .circle, // radius of 10// green as background color
+                              shape: BoxShape.circle, // radius of 10// green as background color
                             )),
                       ) : AnimatedCircularButton(
                         onComplete: () {
-                          context.read<AttendanceBloc>().add(OnAttendance());
+                          context.read<AttendanceBloc>().add(OnOfflineAttendance());
                         },
                         isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
                         title: offlineState.isCheckedIn == offlineState.isCheckedOut

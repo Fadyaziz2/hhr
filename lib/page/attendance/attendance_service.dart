@@ -58,7 +58,7 @@ class AttendanceService {
         'remote_mode': e.mode,
         'attendance_id': e.attendanceId,
         'selfie_image': e.selfieImage != null
-            ? MultipartFile.fromFileSync(file.path,
+            ? MultipartFile.fromFile(file.path,
                 filename: file.path.split("/").last)
             : null,
       };

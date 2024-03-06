@@ -151,8 +151,7 @@ class MetaClubApiClient {
   Future<bool> offlineCheckInOut({required body}) async {
     const String api = 'user/attendance/offline';
     try {
-
-      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', FormData.fromMap(body));
       if (response.statusCode == 200) {
         return true;
       }
