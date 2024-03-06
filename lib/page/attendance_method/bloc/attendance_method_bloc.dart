@@ -10,14 +10,11 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance_method/content/on_face_matching_content.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:qr_attendance/qr_attendance.dart';
 import 'package:selfie_attendance/selfie_attendance.dart';
 import 'package:user_repository/user_repository.dart';
-
 import '../../../res/widgets/custom_button.dart';
 
 part 'attendance_method_event.dart';
@@ -59,7 +56,6 @@ class AttendanceMethodBloc
             event.context, AttendancePage.route(homeBloc: _homeBloc));
         break;
       case 'face_attendance':
-
         ///set condition here weather face checking enable or disable
         ///fetch face date from local cache
         _faceService.captureFromFaceApi(
@@ -142,6 +138,19 @@ class AttendanceMethodBloc
                   attendanceType: AttendanceType.face));
         } else {
           Fluttertoast.showToast(msg: "Face not match,try again!");
+         // showDialog(
+         //    context: context,
+         //    builder: (BuildContext context) {
+         //      return CustomDialogFaceError(
+         //        onYesClick: () async {
+         //
+         //        },
+         //        onNoClick: () async {
+         //
+         //        },
+         //      );
+         //    },
+         //  );
         }
       });
     } catch (e) {

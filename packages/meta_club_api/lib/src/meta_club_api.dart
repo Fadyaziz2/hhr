@@ -1688,14 +1688,10 @@ class MetaClubApiClient {
     String api = 'check-face-data';
 
     try {
-      // FormData formData = FormData.fromMap({
-      //   "face-data": faceData
-      // });
 
       final data = {"face_data": faceData};
 
-      // final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      final response = await _httpServiceImpl.postRequest('https://office.onesttech.com/api/V11/$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
       if (response.statusCode == 200) {
         return true;
