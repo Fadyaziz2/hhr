@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -39,6 +40,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
+    on<OnAttendance>(_onAttendance);
     on<OnOfflineAttendance>(_onOfflineAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
@@ -60,8 +62,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.reason = event.reasonData;
   }
 
-  void _onLocationInit(
-      OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
+  void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
 
@@ -74,10 +75,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     add(OnLocationRefreshEvent());
   }
 
-  void _onLocationUpdated(
-      OnLocationUpdated event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(
-        location: event.place, actionStatus: ActionStatus.location));
+  void _onLocationUpdated(OnLocationUpdated event, Emitter<AttendanceState> emit) async {
+    emit(state.copyWith(location: event.place, actionStatus: ActionStatus.location));
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
@@ -99,6 +98,26 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
     body.mode = event.mode;
     SharedUtil.setRemoteModeType(event.mode);
+  }
+
+  void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
+    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
+    body.attendanceId = globalState.get(attendanceId);
+    body.latitude = '${_locationServices.userLocation.latitude}';
+    body.longitude = '${_locationServices.userLocation.longitude}';
+    final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
+    final checkInOutDataModel = FormData.fromMap(body.toOnlineJson());
+    final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+    data.fold((l){
+      emit(const AttendanceState(status: NetworkStatus.failure));
+    }, (checkInOut){
+      globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
+      globalState.set(inTime, checkInOut?.checkInOut?.inTime);
+      globalState.set(outTime, checkInOut?.checkInOut?.outTime);
+      globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
+      emit(AttendanceState(status: NetworkStatus.success, checkData: checkInOut));
+    });
   }
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
