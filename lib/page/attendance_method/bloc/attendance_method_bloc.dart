@@ -71,6 +71,7 @@ class AttendanceMethodBloc
               debugPrint('isSimilar $isSimilar');
               if (isSimilar) {}
             });
+
         break;
       case 'qr_attendance':
 
