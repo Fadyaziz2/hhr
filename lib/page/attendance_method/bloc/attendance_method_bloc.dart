@@ -2,18 +2,19 @@ import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:face/face_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/attendance_method/content/on_face_matching_content.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/shared_preferences.dart';
+import 'package:onesthrm/res/nav_utail.dart';
 import 'package:qr_attendance/qr_attendance.dart';
 import 'package:selfie_attendance/selfie_attendance.dart';
 import 'package:user_repository/user_repository.dart';
-
 import '../../../res/widgets/custom_button.dart';
 
 part 'attendance_method_event.dart';
@@ -26,6 +27,7 @@ class AttendanceMethodBloc
   final FaceServiceImpl _faceService;
   final String _baseUrl;
   final LoginData? _loginData;
+  final MetaClubApiClient _metaClubApiClient;
 
   AttendanceMethodBloc(
       {required MetaClubApiClient metaClubApiClient,
@@ -37,15 +39,16 @@ class AttendanceMethodBloc
         _faceService = faceService,
         _baseUrl = baseUrl,
         _loginData = loginData,
+        _metaClubApiClient = metaClubApiClient,
         super(const AttendanceMethodState(status: NetworkStatus.initial)) {
     on<AttendanceNavEvent>(onRouteSlug);
+
   }
 
   void onRouteSlug(
     AttendanceNavEvent event,
     Emitter<AttendanceMethodState> emit,
   ) {
-
     String? selfiePath;
 
     switch (event.slugName) {
@@ -54,27 +57,26 @@ class AttendanceMethodBloc
             event.context, AttendancePage.route(homeBloc: _homeBloc));
         break;
       case 'face_attendance':
-
         ///set condition here weather face checking enable or disable
         ///fetch face date from local cache
-        SharedUtil.getValue(userFaceData).then((registeredFaceData) {
-          _faceService.captureFromFaceApi(
-              isRegistered: registeredFaceData != null,
-              regImage: registeredFaceData,
-              onCaptured: (faceData) {
-                debugPrint('faceData $faceData');
-                if (faceData.length > 20) {
-                  SharedUtil.setValue(userFaceData, faceData);
-                }
-              },
-              isSimilar: (isSimilar) {
-                debugPrint('isSimilar $isSimilar');
-                if (isSimilar) {}
-              });
-        });
+        _faceService.captureFromFaceApi(
+            isRegistered: false,
+            onCaptured: (faceData) {
+              debugPrint('faceData $faceData');
+              if (faceData.length > 20) {
+                NavUtil.navigateScreen(event.context,  OnFaceMatchingContent(faceData: faceData,));
+                faceDataApi(faceData, event.context);
+              }
+            },
+            isSimilar: (isSimilar) {
+              debugPrint('isSimilar $isSimilar');
+              if (isSimilar) {}
+            });
+
         break;
       case 'qr_attendance':
-      ///navigate into QR feature
+
+        ///navigate into QR feature
         Navigator.push(event.context, MaterialPageRoute(builder: (_) {
           return BlocProvider.value(
               value: event.context.read<HomeBloc>(),
@@ -88,8 +90,10 @@ class AttendanceMethodBloc
         }));
         break;
       case 'selfie_attendance':
+
         ///navigate into selfie attendance feature
-          availableCameras().then((value) {
+        availableCameras().then(
+          (value) {
             return Navigator.push(
               event.context,
               MaterialPageRoute(
@@ -118,6 +122,40 @@ class AttendanceMethodBloc
         break;
       default:
         return;
+    }
+  }
+
+  void faceDataApi(String? faceData, BuildContext context) async {
+    try {
+      await _metaClubApiClient
+          .faceDataStore(faceData: faceData)
+          .then((isSuccess) {
+        Navigator.pop(context);
+        if (isSuccess) {
+          Fluttertoast.showToast(msg: "Face store successfully");
+          Navigator.push(context,
+              AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
+        } else {
+          Fluttertoast.showToast(msg: "Face not match,try again!");
+         // showDialog(
+         //    context: context,
+         //    builder: (BuildContext context) {
+         //      return CustomDialogFaceError(
+         //        onYesClick: () async {
+         //
+         //        },
+         //        onNoClick: () async {
+         //
+         //        },
+         //      );
+         //    },
+         //  );
+        }
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 }

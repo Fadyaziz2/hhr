@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/page/internet_connectivity/bloc/internet_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -41,12 +43,14 @@ class AttendancePage extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (BuildContext context) => AttendanceBloc(
+      create: (_) => AttendanceBloc(
           metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
           locationServices: locationServiceProvider,
           attendanceType: attendanceType,
-          selfie: selfie)
-        ..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
+          selfie: selfie,
+          attendanceService: attendanceService,
+          internetStatus: context.watch<InternetBloc>().state.status)
+          ..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
       child: const Scaffold(
         body: AttendanceView(),
       ),

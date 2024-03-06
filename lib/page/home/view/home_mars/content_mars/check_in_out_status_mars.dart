@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -14,6 +15,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dashboardModel = context.watch<HomeBloc>().state.dashboardModel;
+    final offlineState= context.watch<OfflineCubit>().state;
     return  Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -32,7 +34,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      dashboardModel?.data?.attendanceData?.checkIn == false
+                      offlineState.isCheckedIn == offlineState.isCheckedOut
                           ? 'assets/home_icon/in.svg'
                           : 'assets/home_icon/out.svg',
                       height: 40.h,
@@ -48,7 +50,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            dashboardModel?.data?.attendanceData?.id == null
+                            offlineState.isCheckedIn == offlineState.isCheckedOut
                                 ? "start_time".tr()
                                 : "done_for_today".tr(),
                             style: const TextStyle(
@@ -57,7 +59,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
                               height: 1.5,
                             )),
                         Text(
-                          dashboardModel?.data?.attendanceData?.id == null
+                          offlineState.isCheckedIn == offlineState.isCheckedOut
                               ? "check_in".tr()
                               : "check_out".tr(),
                           style:  TextStyle(

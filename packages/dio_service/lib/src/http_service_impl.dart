@@ -90,8 +90,7 @@ class HttpServiceImpl implements HttpService {
     Response response;
 
     try {
-      response =
-          await _dio!.post(url, data: body, options: _buildCacheOptions());
+      response = await _dio!.post(url, data: body, options: _buildCacheOptions());
     } on DioError catch (e) {
       String error = DioExceptions.fromDioError(e).toString();
       throw Exception(error);

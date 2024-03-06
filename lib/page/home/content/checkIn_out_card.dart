@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
@@ -24,8 +25,8 @@ class CheckInOutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final user = context.read<AuthenticationBloc>().state.data;
-    // final baseUrl = globalState.get(companyUrl);
+
+    final offlineState= context.watch<OfflineCubit>().state;
 
     return Card(
       elevation: 2,
@@ -45,7 +46,7 @@ class CheckInOutCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: SvgPicture.asset(
-                    dashboardModel?.data?.attendanceData?.checkIn == false
+                    offlineState.isCheckedIn == offlineState.isCheckedOut
                         ? 'assets/home_icon/in.svg'
                         : 'assets/home_icon/out.svg',
                     height: 40.h,
@@ -60,7 +61,7 @@ class CheckInOutCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          dashboardModel?.data?.attendanceData?.id == null
+                          offlineState.isCheckedIn == offlineState.isCheckedOut
                               ? "start_time".tr()
                               : "done_for_today".tr(),
                           style: TextStyle(
@@ -69,7 +70,7 @@ class CheckInOutCard extends StatelessWidget {
                               height: 1.5,
                               letterSpacing: 0.5)),
                       Text(
-                        dashboardModel?.data?.attendanceData?.id == null
+                        offlineState.isCheckedIn == offlineState.isCheckedOut
                             ? "check_in".tr()
                             : "check_out".tr(),
                         style: TextStyle(

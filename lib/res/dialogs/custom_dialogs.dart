@@ -335,6 +335,116 @@ class CustomDialogImagePicker extends StatelessWidget {
   }
 }
 
+class CustomDialogFaceError extends StatelessWidget {
+  final Function? onYesClick;
+  final Function? onNoClick;
+
+  const CustomDialogFaceError(
+      {super.key, this.onYesClick, this.onNoClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Container(
+        color: Colors.white,
+        height: 215,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: Text(
+                "Select Image",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (onYesClick != null) onYesClick!();
+                  },
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/images/ic_camera.json",
+                          height: 50, width: 50),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        "Camera",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 70,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (onNoClick != null) onNoClick!();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Column(
+                      children: [
+                        Lottie.asset("assets/images/ic_gallery.json",
+                            height: 50, width: 50),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        const Text(
+                          "Gallery",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 Future<File?> pickFile(BuildContext context) async {
   File? file;
 

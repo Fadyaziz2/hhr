@@ -119,7 +119,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen>
                                     placeholder: (context, url) => Center(
                                       child: Image.asset("assets/images/placeholder_image_one.webp"),
                                     ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    errorWidget: (context, url, error) => Image.asset("assets/images/placeholder_image_one.webp"),
                                   ),
                                 ),
                                  Padding(
