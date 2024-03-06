@@ -42,6 +42,7 @@ class AttendanceMethodBloc
         _metaClubApiClient = metaClubApiClient,
         super(const AttendanceMethodState(status: NetworkStatus.initial)) {
     on<AttendanceNavEvent>(onRouteSlug);
+
   }
 
   void onRouteSlug(
