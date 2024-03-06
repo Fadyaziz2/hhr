@@ -107,7 +107,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
-    final checkInOutDataModel = FormData.fromMap(body.toOnlineJson());
+    final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
     data.fold((l){
       emit(const AttendanceState(status: NetworkStatus.failure));
