@@ -365,7 +365,7 @@ class CustomDialogFaceError extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    if (onYesClick != null) onYesClick!();
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),

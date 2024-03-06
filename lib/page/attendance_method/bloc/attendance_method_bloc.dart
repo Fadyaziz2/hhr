@@ -60,33 +60,19 @@ class AttendanceMethodBloc
       case 'face_attendance':
         ///set condition here weather face checking enable or disable
         ///fetch face date from local cache
-        // _faceService.captureFromFaceApi(
-        //     isRegistered: false,
-        //     onCaptured: (faceData) {
-        //       debugPrint('faceData $faceData');
-        //       if (faceData.length > 20) {
-        //         NavUtil.navigateScreen(event.context,  OnFaceMatchingContent(faceData: faceData,));
-        //         faceDataApi(faceData, event.context);
-        //       }
-        //     },
-        //     isSimilar: (isSimilar) {
-        //       debugPrint('isSimilar $isSimilar');
-        //       if (isSimilar) {}
-        //     });
-
-        showDialog(
-          context: event.context,
-          builder: (BuildContext context) {
-            return CustomDialogFaceError(
-              onYesClick: () async {
-
-              },
-              onNoClick: () async {
-
-              },
-            );
-          },
-        );
+        _faceService.captureFromFaceApi(
+            isRegistered: false,
+            onCaptured: (faceData) {
+              debugPrint('faceData $faceData');
+              if (faceData.length > 20) {
+                NavUtil.navigateScreen(event.context,  OnFaceMatchingContent(faceData: faceData,));
+                faceDataApi(faceData, event.context);
+              }
+            },
+            isSimilar: (isSimilar) {
+              debugPrint('isSimilar $isSimilar');
+              if (isSimilar) {}
+            });
 
         break;
       case 'qr_attendance':
@@ -148,8 +134,7 @@ class AttendanceMethodBloc
         Navigator.pop(context);
         if (isSuccess) {
           Fluttertoast.showToast(msg: "Face store successfully");
-          Navigator.push(context,
-              AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
+          Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
         } else {
           // Fluttertoast.showToast(msg: "Face not match,try again!");
          showDialog(
@@ -157,7 +142,19 @@ class AttendanceMethodBloc
             builder: (BuildContext context) {
               return CustomDialogFaceError(
                 onYesClick: () async {
-
+                  _faceService.captureFromFaceApi(
+                      isRegistered: false,
+                      onCaptured: (faceData) {
+                        debugPrint('faceData $faceData');
+                        if (faceData.length > 20) {
+                          NavUtil.navigateScreen(context,  OnFaceMatchingContent(faceData: faceData,));
+                          faceDataApi(faceData, context);
+                        }
+                      },
+                      isSimilar: (isSimilar) {
+                        debugPrint('isSimilar $isSimilar');
+                        if (isSimilar) {}
+                      });
                 },
                 onNoClick: () async {
 
