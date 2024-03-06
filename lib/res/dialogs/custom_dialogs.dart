@@ -347,93 +347,51 @@ class CustomDialogFaceError extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       child: Container(
-        color: Colors.white,
-        height: 215,
+        height: 340,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            Center(child: Lottie.asset("assets/images/face_error.json",height: 200,width: 200)),
             const Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: Text(
-                "Select Image",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 25.0),
+              child: Text("Make sure the registration of your face is correct before you try again if your face does not match",style: TextStyle(color: Colors.black45,fontWeight: FontWeight.w500,),textAlign: TextAlign.center,),
             ),
             const SizedBox(
-              height: 20,
+              height: 16,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
                   onTap: () {
-                    if (onYesClick != null) onYesClick!();
+                    Navigator.pop(context);
                   },
-                  child: Column(
-                    children: [
-                      Lottie.asset("assets/images/ic_camera.json",
-                          height: 50, width: 50),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      const Text(
-                        "Camera",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          "Try Again",
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                        )),
                   ),
-                ),
-                const SizedBox(
-                  width: 70,
                 ),
                 InkWell(
                   onTap: () {
-                    if (onNoClick != null) onNoClick!();
+                    Navigator.pop(context);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    child: Column(
-                      children: [
-                        Lottie.asset("assets/images/ic_gallery.json",
-                            height: 50, width: 50),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        const Text(
-                          "Gallery",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),
+                        )),
                   ),
                 ),
               ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-              ),
             ),
             const SizedBox(
               height: 16,
