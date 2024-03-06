@@ -18,7 +18,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final AttendanceService _attendanceService;
   final LocationServiceProvider _locationServices;
   final AttendanceType attendanceType;
-  final InternetStatus _internetStatus;
   AttendanceBody body = AttendanceBody();
   final String? _selfie;
   late bool isCheckedIn;
@@ -34,7 +33,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       : _metaClubApiClient = metaClubApiClient,
         _attendanceService = attendanceService,
         _locationServices = locationServices,
-        _internetStatus = internetStatus,
         _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
     on<OnLocationInitEvent>(_onLocationInit);
