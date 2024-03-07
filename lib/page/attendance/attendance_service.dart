@@ -44,24 +44,29 @@ class AttendanceService {
   }
 
   List<AttendanceBody> getAllCheckData() {
-    return box.values.toList().reversed.where((e) => e.isOffline == true).toList();
+    return box.values
+        .toList()
+        .reversed
+        .where((e) => e.isOffline == true)
+        .toList();
   }
 
-  List<Map<String, dynamic>> getAllCheckInOutDataMap() {
-    return getAllCheckData().map((e) {
-      final data = {
-        'latitude': e.latitude,
-        'longitude': e.longitude,
-        'date': e.date,
-        'inTime': e.inTime,
-        'outTime': e.outTime,
-        'reason': e.reason,
-        'remote_mode': e.mode,
-        'attendance_id': e.attendanceId,
-        'selfie_image': null,
-      };
-      return data;
-    }).toList();
+  Map<String, dynamic> getAllCheckInOutDataMap() {
+    return {
+      'data': getAllCheckData().map((e) {
+        Map<String, dynamic> data = {
+          'latitude': e.latitude,
+          'longitude': e.longitude,
+          'date': e.date,
+          'inTime': e.inTime,
+          'outTime': e.outTime,
+          'reason': e.reason ?? "",
+          'remote_mode': e.mode,
+          'selfie_image': '',
+        };
+        return data;
+      }).toList()
+    };
   }
 
   int count() {
