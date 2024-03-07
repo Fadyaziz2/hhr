@@ -136,7 +136,6 @@ class AttendanceMethodBloc
           Fluttertoast.showToast(msg: "Face store successfully");
           Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
         } else {
-          // Fluttertoast.showToast(msg: "Face not match,try again!");
          showDialog(
             context: context,
             builder: (BuildContext context) {
