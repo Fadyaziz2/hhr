@@ -10,6 +10,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance_method/content/on_face_matching_content.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
+import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:qr_attendance/qr_attendance.dart';
@@ -133,23 +134,17 @@ class AttendanceMethodBloc
         Navigator.pop(context);
         if (isSuccess) {
           Fluttertoast.showToast(msg: "Face store successfully");
-          Navigator.push(context,
-              AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
+          Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
         } else {
-          Fluttertoast.showToast(msg: "Face not match,try again!");
-         // showDialog(
-         //    context: context,
-         //    builder: (BuildContext context) {
-         //      return CustomDialogFaceError(
-         //        onYesClick: () async {
-         //
-         //        },
-         //        onNoClick: () async {
-         //
-         //        },
-         //      );
-         //    },
-         //  );
+          // Fluttertoast.showToast(msg: "Face not match,try again!");
+         showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogFaceError(
+
+              );
+            },
+          );
         }
       });
     } catch (e) {
