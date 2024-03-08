@@ -15,7 +15,7 @@ import '../../../res/const.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MetaClubApiClient _metaClubApiClient;
-  final AttendanceService _attendanceService;
+  final AttendanceService offlineAttendanceDB;
   final LocationServiceProvider _locationServices;
   final AttendanceType attendanceType;
   AttendanceBody body = AttendanceBody();
@@ -29,7 +29,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       this.attendanceType = AttendanceType.normal,
       required InternetStatus internetStatus,
       String? selfie}): _metaClubApiClient = metaClubApiClient,
-        _attendanceService = attendanceService,
+        offlineAttendanceDB = attendanceService,
         _locationServices = locationServices,
         _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
@@ -77,8 +77,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
 
-     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
-     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
+     isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
 
     emit(state.copyWith(locationLoaded: false, actionStatus: ActionStatus.refresh,isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut));
     _locationServices.placeStream.listen((location) async {
@@ -129,8 +129,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     ///----------------------------------*********--------------------------------------------------------
-    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: body.date!);
-    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: body.date!);
+    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
     ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
     eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
     ///----------------------------------*********--------------------------------------------------------

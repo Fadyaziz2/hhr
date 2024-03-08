@@ -144,7 +144,7 @@ class MetaClubApiClient {
       }
       return left(AttendanceFailure());
     } catch (e) {
-      return left(AttendanceFailure(error: e.toString()));;
+      return left(AttendanceFailure(error: e.toString()));
     }
   }
 

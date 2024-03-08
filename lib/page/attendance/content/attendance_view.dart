@@ -15,6 +15,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../attendance_reason/attendance_reason.dart';
+import '../../attendance_report/view/content/attendance_daily_offline_report_content.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/view/content/home_content.dart';
@@ -170,7 +171,9 @@ class _AttendanceState extends State<AttendanceView>
 
               /// Show Check In Check Out time
               const CheckInCheckOutTime(),
-              SizedBox(height: 70.0.h),
+              SizedBox(height: 35.0.h),
+               AttendanceDailyOfflineReportContent(data: context.read<AttendanceBloc>().offlineAttendanceDB.getAllCheckData()),
+              SizedBox(height: 35.0.h),
             ],
           ),
         ),

@@ -75,7 +75,7 @@ class AttendanceBody {
   Map<String, dynamic> toOnlineJson({MultipartFile? file}) => {
         'latitude': latitude,
         'longitude': longitude,
-        'reason': reason,
+        'reason': reason ?? "",
         'remote_mode': mode,
         'attendance_id': attendanceId,
         'selfie_image': file,

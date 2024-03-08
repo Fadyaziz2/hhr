@@ -136,6 +136,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+    ///today's data available in local so we need to update in/out time from there
+    if(localAttendanceData != null){
+      globalState.set(inTime, localAttendanceData.inTime);
+      globalState.set(outTime, localAttendanceData.outTime);
+    }
   }
 
   void _onOfflineDataSync() async {
