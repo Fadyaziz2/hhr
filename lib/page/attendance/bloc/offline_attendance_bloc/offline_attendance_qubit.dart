@@ -28,13 +28,15 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
     AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
 
     if(body != null) {
-      ///for offline attendance we need date, outTime, inTime
-      if (isCheckedIn && isCheckedOut == false) {
-        body = body.copyWith(inTime: localAttendanceData?.inTime);
-        body = body.copyWith(outTime:  DateFormat('h:mm a', 'en').format(DateTime.now()));
-      } else {
-        body = body.copyWith(inTime: DateFormat('h:mm a', 'en').format(DateTime.now()));
-        body = body.copyWith(outTime:  null);
+      if(body.isOffline == true){
+        ///for offline attendance we need date, outTime, inTime
+        if (isCheckedIn && isCheckedOut == false) {
+          body = body.copyWith(inTime: localAttendanceData?.inTime);
+          body = body.copyWith(outTime:  DateFormat('h:mm a', 'en').format(DateTime.now()));
+        } else {
+          body = body.copyWith(inTime: DateFormat('h:mm a', 'en').format(DateTime.now()));
+          body = body.copyWith(outTime:  null);
+        }
       }
 
       _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,multipleAttendanceEnabled: true).then((_){

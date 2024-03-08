@@ -41,8 +41,6 @@ class AttendanceDailyOfflineReportContent extends StatelessWidget {
                   },
                 ),
 
-          /// Bottom =========================
-
           const SizedBox(
             height: 20,
           ),

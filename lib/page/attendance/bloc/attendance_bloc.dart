@@ -8,6 +8,7 @@ import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
@@ -108,17 +109,25 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
     data.fold((l){
       emit(const AttendanceState(status: NetworkStatus.failure));
-    }, (checkInOut){
-      globalState.set(attendanceId, checkInOut?.checkInOut?.checkOut == null ? checkInOut?.checkInOut?.id : null);
-      globalState.set(inTime, checkInOut?.checkInOut?.inTime);
-      globalState.set(outTime, checkInOut?.checkInOut?.outTime);
-      globalState.set(stayTime, checkInOut?.checkInOut?.stayTime);
-      body.inTime = DateFormat('h:mm a', 'en').format(DateTime.now());
-      body.outTime = DateFormat('h:mm a', 'en').format(DateTime.now());
+    }, (data){
+
+      final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
+      final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
+      body.inTime = inTime;
+      body.outTime = outTime;
+      if(body.attendanceId != null){
+        body = body.copyWith(attendanceId: null);
+        globalState.set(attendanceId, null);
+      }else{
+        globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
+      }
+      globalState.set(inTime, data?.checkInOut?.inTime);
+      globalState.set(outTime, data?.checkInOut?.outTime);
+      globalState.set(stayTime, data?.checkInOut?.stayTime);
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
       ///----------------------------------*********--------------------------------------------------------
-      emit(AttendanceState(status: NetworkStatus.success, checkData: checkInOut));
+      emit(AttendanceState(status: NetworkStatus.success, checkData: data));
     });
   }
 
