@@ -83,7 +83,7 @@ class AttendanceService {
         .map((e) => box.keyAt(box.values.toList().indexOf(e)))
         .toList();
     if (keys.isNotEmpty) {
-      await box.delete(keys);
+      await box.deleteAll(keys);
     }
   }
 
