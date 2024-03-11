@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 
@@ -27,11 +28,11 @@ main() {
       when(() => settings.data?.currencyCode).thenReturn('\$');
       when(() => settings.data?.isAdmin).thenReturn(false);
       when(() => metaClubApiClient.getSettings()).thenAnswer((_) async => settings);
-      homeBloc = HomeBloc(metaClubApiClient: metaClubApiClient);
+      homeBloc = HomeBloc(metaClubApiClient: metaClubApiClient, attendanceService: attendanceService);
     });
 
     test('Initial state is correct', () {
-      final homeBloc = HomeBloc(metaClubApiClient: metaClubApiClient);
+      final homeBloc = HomeBloc(metaClubApiClient: metaClubApiClient, attendanceService: attendanceService);
       expect(homeBloc.state, const HomeState());
     });
 

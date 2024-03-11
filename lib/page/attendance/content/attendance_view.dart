@@ -172,7 +172,7 @@ class _AttendanceState extends State<AttendanceView>
               /// Show Check In Check Out time
               const CheckInCheckOutTime(),
               SizedBox(height: 35.0.h),
-               AttendanceDailyOfflineReportContent(data: context.read<AttendanceBloc>().offlineAttendanceDB.getAllOfflineCheckData()),
+               const AttendanceDailyOfflineReportContent(),
               SizedBox(height: 35.0.h),
             ],
           ),

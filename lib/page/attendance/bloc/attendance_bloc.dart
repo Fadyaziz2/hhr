@@ -98,7 +98,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    emit(state.copyWith(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
@@ -130,12 +130,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
       ///----------------------------------*********--------------------------------------------------------
-      emit(AttendanceState(status: NetworkStatus.success, checkData: data));
+      emit(state.copyWith(status: NetworkStatus.success, checkData: data));
     });
   }
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
-    emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    emit(state.copyWith(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
     body.isOffline = true;
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
@@ -149,7 +149,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     ///----------------------------------*********--------------------------------------------------------
     final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
 
-    emit(AttendanceState(status: NetworkStatus.success, checkData: checkData));
+    emit(state.copyWith(status: NetworkStatus.success, checkData: checkData));
   }
 
   CheckInOut convertToCheckout({required AttendanceBody body, String? inStatus}) {

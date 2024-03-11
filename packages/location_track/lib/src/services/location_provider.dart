@@ -118,7 +118,7 @@ class LocationServiceProvider {
     });
 
     ///set timer to toggle location subscription
-    Timer.periodic(const Duration(minutes: 2), (timer) async {
+    Timer.periodic(const Duration(minutes: 5), (timer) async {
       if (locationSubscription.isPaused) {
         locationSubscription.resume();
       }
@@ -187,7 +187,7 @@ class LocationServiceProvider {
       {String? currentDateData,
       required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
-    Timer.periodic(const Duration(minutes: 4), (timer) async {
+    Timer.periodic(const Duration(minutes: 10), (timer) async {
       if (locationProvider.toMapList().length > 2 &&
           !locationSubscription.isPaused) {
         if (kDebugMode) {
