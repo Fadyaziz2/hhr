@@ -150,7 +150,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         if(isCheckedOut){
           final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
           if(isSynced){
-            attendanceService.clearCheckData();
+            attendanceService.clearCheckOfflineData();
           }
         }
       }

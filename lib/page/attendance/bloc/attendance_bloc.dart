@@ -102,15 +102,17 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
-    body.isOffline = false;
     body.longitude = '${_locationServices.userLocation.longitude}';
     final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
     data.fold((l){
-      emit(const AttendanceState(status: NetworkStatus.failure));
+      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+      add(OnOfflineAttendance());
+      ///----------------------------------*********--------------------------------------------------------
+      // emit(const AttendanceState(status: NetworkStatus.failure));
     }, (data){
-
+      body.isOffline = false;
       final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
       final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
       body.inTime = inTime;
@@ -118,6 +120,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       if(body.attendanceId != null){
         body = body.copyWith(attendanceId: null);
         globalState.set(attendanceId, null);
+        attendanceService.clearCheckData();
       }else{
         globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
       }
@@ -133,6 +136,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
     emit(const AttendanceState(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    body.isOffline = true;
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';

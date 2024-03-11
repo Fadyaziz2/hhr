@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'attendance_body.g.dart';
 
 @HiveType(typeId: 20)
-class AttendanceBody {
+class AttendanceBody extends Equatable{
   @HiveField(0)
   String? latitude;
   @HiveField(1)
@@ -80,4 +81,7 @@ class AttendanceBody {
         'attendance_id': attendanceId,
         'selfie_image': file,
       };
+
+  @override
+  List<Object?> get props => [inTime,outTime];
 }

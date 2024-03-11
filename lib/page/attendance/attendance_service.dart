@@ -39,11 +39,11 @@ class AttendanceService {
   }
 
   int getIndexOfCheckIn({required String date}) {
-    return getAllCheckData().indexWhere(
-        (element) => element.date == date, getAllCheckData().length - 1);
+    return getAllOfflineCheckData().indexWhere(
+        (element) => element.date == date, getAllOfflineCheckData().length - 1);
   }
 
-  List<AttendanceBody> getAllCheckData() {
+  List<AttendanceBody> getAllOfflineCheckData() {
     return box.values
         .toList()
         .reversed
@@ -51,9 +51,13 @@ class AttendanceService {
         .toList();
   }
 
+  List<AttendanceBody> getAllCheckData() {
+    return box.values.toList().reversed.map((e) => e).toList();
+  }
+
   Map<String, dynamic> getAllCheckInOutDataMap() {
     return {
-      'data': getAllCheckData().map((e) {
+      'data': getAllOfflineCheckData().map((e) {
         Map<String, dynamic> data = {
           'latitude': e.latitude,
           'longitude': e.longitude,
@@ -70,15 +74,27 @@ class AttendanceService {
   }
 
   int count() {
-    return getAllCheckData().length;
+    return getAllOfflineCheckData().length;
+  }
+
+  void clearCheckOfflineData() async {
+    final keys = box.values
+        .where((e) => e.isOffline == true)
+        .map((e) => box.keyAt(box.values.toList().indexOf(e)))
+        .toList();
+    if (keys.isNotEmpty) {
+      await box.delete(keys);
+    }
   }
 
   void clearCheckData() async {
-    await box.clear();
+    if (count() < 1) {
+      await box.clear();
+    }
   }
 
   bool isAlreadyInCheckedIn({required String date}) {
-    if (box.values.isNotEmpty) {
+    if (getAllCheckData().isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.inTime != null) {
         globalState.set(inTime, check?.inTime);
@@ -91,7 +107,7 @@ class AttendanceService {
   }
 
   bool isAlreadyInCheckedOut({required String date}) {
-    if (box.values.isNotEmpty) {
+    if (getAllCheckData().isNotEmpty) {
       final check = getCheckDataByDate(date: date);
       if (check?.outTime != null) {
         globalState.set(inTime, check?.inTime);
@@ -105,7 +121,7 @@ class AttendanceService {
   }
 
   AttendanceBody? getCheckDataByDate({String? date}) {
-    if (box.values.isNotEmpty) {
+    if (getAllCheckData().isNotEmpty) {
       try {
         return box.values.lastWhere((element) => element.date == date);
       } catch (_) {
