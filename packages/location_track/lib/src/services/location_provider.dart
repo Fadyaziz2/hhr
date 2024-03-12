@@ -19,8 +19,7 @@ Future openLocationBox() async {
 class LocationServiceProvider {
   late LocationService locationServiceProvider;
   HiveLocationProvider locationProvider = HiveLocationProvider();
-  FirebaseLocationStoreProvider locationStoreProvider =
-      FirebaseLocationStoreProvider();
+  FirebaseLocationStoreProvider locationStoreProvider = FirebaseLocationStoreProvider();
 
   GeoLocatorService geoService = GeoLocatorService();
   LocationData userLocation = LocationData.fromMap({});
@@ -102,23 +101,36 @@ class LocationServiceProvider {
       ///location data can be processed to manipulate
       if (!locationSubscription.isPaused) {
         ///getting address from current position
-        addLocationDataToLocal(position: position, uid: uid);
+        // addLocationDataToLocal(position: position, uid: uid);
 
         ///store data to server from hive
-        deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+        // deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
 
         ///Inactive all listener to listen location data for a while
         locationSubscription.pause();
 
         debugPrint('isPaused ${locationSubscription.isPaused}');
       }
-
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
     });
 
+   ///when locationSubscription is enable only then
+   ///location data can be processed to manipulate
+   if (!locationSubscription.isPaused) {
+     final position = await getUserPositionFuture();
+     if(position != null){
+       ///getting address from current position
+       addLocationDataToLocal(position: position, uid: uid);
+     }
+     ///store data to server from hive
+     deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+
+     debugPrint('isPaused ${locationSubscription.isPaused}');
+   }
+
     ///set timer to toggle location subscription
-    Timer.periodic(const Duration(minutes: 5), (timer) async {
+    Timer.periodic(const Duration(minutes: 2), (timer) async {
       if (locationSubscription.isPaused) {
         locationSubscription.resume();
       }
@@ -141,9 +153,7 @@ class LocationServiceProvider {
   }
 
   ///store data to local
-  addLocationDataToLocal({String? currentDateData,
-      required Position position,
-      required int uid}) async {
+  addLocationDataToLocal({String? currentDateData, required Position position, required int uid}) async {
     final places = await getAddressByPosition(position: position);
 
     placeMark = places?.first;
@@ -152,6 +162,7 @@ class LocationServiceProvider {
     if(!_placeController.isClosed) {
       _placeController.add(place);
     }
+
     Timer.periodic(const Duration(minutes: 2), (timer) async {
       if (kDebugMode) {
         print('local from position ${position.toString()}');
@@ -183,22 +194,14 @@ class LocationServiceProvider {
   }
 
   ///data will be delete after data store to server
-  deleteDataAndSendToServer(
-      {String? currentDateData,
-      required MetaClubApiClient metaClubApiClient}) async {
+  deleteDataAndSendToServer({String? currentDateData, required MetaClubApiClient metaClubApiClient}) async {
     ///data will be stored to server after 4 minute
     Timer.periodic(const Duration(minutes: 10), (timer) async {
-      if (locationProvider.toMapList().length > 2 &&
-          !locationSubscription.isPaused) {
+      if (locationProvider.toMapList().length > 3 && !locationSubscription.isPaused) {
         if (kDebugMode) {
-          print(
-              'data that u have to sent server ${locationProvider.toMapList()}');
+          print('data that u have to sent server ${locationProvider.toMapList()}');
         }
-        metaClubApiClient
-            .storeLocationToServer(
-                locations: locationProvider.toMapList(),
-                date: DateTime.now().toString())
-            .then((isStored) async {
+        metaClubApiClient.storeLocationToServer(locations: locationProvider.toMapList(), date: DateTime.now().toString()).then((isStored) async {
           if (isStored) {
             await locationProvider.deleteAllLocation();
           }
