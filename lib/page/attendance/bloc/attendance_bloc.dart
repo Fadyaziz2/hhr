@@ -10,6 +10,7 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
@@ -105,33 +106,38 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.longitude = '${_locationServices.userLocation.longitude}';
     final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
-    final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
-    data.fold((l){
-      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+
+    if(isCheckedIn == true && body.attendanceId == null){
       add(OnOfflineAttendance());
-      ///----------------------------------*********--------------------------------------------------------
-      // emit(const AttendanceState(status: NetworkStatus.failure));
-    }, (data){
-      body.isOffline = false;
-      final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
-      final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
-      body.inTime = inTime;
-      body.outTime = outTime;
-      if(body.attendanceId != null){
-        body = body.copyWith(attendanceId: null);
-        globalState.set(attendanceId, null);
-        attendanceService.clearCheckData();
-      }else{
-        globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
-      }
-      globalState.set(inTime, data?.checkInOut?.inTime);
-      globalState.set(outTime, data?.checkInOut?.outTime);
-      globalState.set(stayTime, data?.checkInOut?.stayTime);
-      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
-      eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
-      ///----------------------------------*********--------------------------------------------------------
-      emit(state.copyWith(status: NetworkStatus.success, checkData: data));
-    });
+    }else{
+      final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+      data.fold((l){
+        ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+        add(OnOfflineAttendance());
+        ///----------------------------------*********--------------------------------------------------------
+        // emit(const AttendanceState(status: NetworkStatus.failure));
+      }, (data){
+        body.isOffline = false;
+        final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
+        final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
+        body.inTime = inTime;
+        body.outTime = outTime;
+        if(body.attendanceId != null){
+          body = body.copyWith(attendanceId: null);
+          globalState.set(attendanceId, null);
+          attendanceService.clearCheckData();
+        }else{
+          globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
+        }
+        globalState.set(inTime, data?.checkInOut?.inTime);
+        globalState.set(outTime, data?.checkInOut?.outTime);
+        globalState.set(stayTime, data?.checkInOut?.stayTime);
+        ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+        eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+        ///----------------------------------*********--------------------------------------------------------
+        emit(state.copyWith(status: NetworkStatus.success, checkData: data));
+      });
+    }
   }
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
@@ -144,12 +150,17 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
-    ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
-    eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
-    ///----------------------------------*********--------------------------------------------------------
-    final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
 
-    emit(state.copyWith(status: NetworkStatus.success, checkData: checkData));
+    if(body.attendanceId != null){
+      add(OnAttendance());
+    }else{
+      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+      eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+      ///----------------------------------*********--------------------------------------------------------
+      final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
+
+      emit(state.copyWith(status: NetworkStatus.success, checkData: checkData));
+    }
   }
 
   CheckInOut convertToCheckout({required AttendanceBody body, String? inStatus}) {
