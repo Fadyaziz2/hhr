@@ -1,28 +1,42 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive/hive.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
+import 'package:onesthrm/page/home/models/attendance_body.dart';
 import 'package:onesthrm/res/enum.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../main_test.dart';
 
 class MockMetaClubApiClientRepository extends Mock implements MetaClubApiClient {
+
+}
+
+class MockAttendanceService extends Mock implements AttendanceService{
 
 }
 
 class MockSettings extends Mock implements Settings{}
 
 main() {
+
   group('HomeBloc', () {
 
     late MetaClubApiClient metaClubApiClient;
+    late AttendanceService attendanceService;
     late HomeBloc homeBloc;
-    // DashboardModel? dashboardModel;
     late Settings settings;
 
     setUp(() async {
+      initHiveDatabase();
       metaClubApiClient = MockMetaClubApiClientRepository();
-      metaClubApiClient.token = 'H6NlnVYnF6W6okJkrbSWyXh89eNV3j0wS0xtRT324234234WM';
+      attendanceService = MockAttendanceService();
+      metaClubApiClient.token = '97|TJqDqBX6CLq9Vvkfz5FlW22EFUeMEqwk45wN82qk';
       settings = MockSettings();
       when(() => settings.data?.attendanceMethod).thenReturn('N');
       when(() => settings.data?.currencyCode).thenReturn('\$');

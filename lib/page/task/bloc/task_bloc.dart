@@ -24,10 +24,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskDetailsStatusUpdateRequest>(_onTaskDetailsStatusUpdateRequest);
   }
 
-  FutureOr<void> _onTaskInitialDataRequest(
-      TaskInitialDataRequest event, Emitter<TaskState> emit) async {
+  FutureOr<void> _onTaskInitialDataRequest(TaskInitialDataRequest event, Emitter<TaskState> emit) async {
     try {
-      final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: state.taskSelectedDropdownValue?.id.toString() ?? '26');
+      final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: '${state.taskSelectedDropdownValue?.id}');
 
       emit(state.copyWith(status: NetworkStatus.success, taskDashboardData: taskDashboard));
     } on Exception catch (e) {

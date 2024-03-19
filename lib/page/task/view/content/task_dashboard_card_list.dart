@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-
 import 'content.dart';
 
 class TaskDashboardCardList extends StatelessWidget {

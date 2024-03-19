@@ -1214,12 +1214,10 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData(
-      {String statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData({String? statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
