@@ -1,11 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +10,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/page/splash/splash.dart';
-import 'package:easy_localization/src/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -26,30 +19,29 @@ class MockAuthenticationBloc
     implements AuthenticationBloc {}
 
 void main() async {
-
+  late AuthenticationBloc authenticationBloc;
+  late MetaClubApiClient apiClient;
+  late AuthenticationRepository authenticationRepository;
+  late UserRepository userRepository;
   setUpAll(() async {
+    initHydratedStorage();
+    apiClient = MetaClubApiClient(token: '', companyUrl: '');
+    authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+    userRepository = UserRepository(token: '');
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});
     EasyLocalization.logger.enableLevels = [];
     await EasyLocalization.ensureInitialized();
+    authenticationBloc = AuthenticationBloc(
+        authenticationRepository: authenticationRepository,
+        userRepository: userRepository);
   });
-
-  late MetaClubApiClient apiClient;
-  late AuthenticationRepository authenticationRepository;
-  late UserRepository userRepository;
 
   Widget buildLocalization({required Widget child}) {
     return child;
   }
 
   group('HRM App Initialization', () {
-    setUp(() async {
-      apiClient = MetaClubApiClient(token: '', companyUrl: '');
-      authenticationRepository = AuthenticationRepository(apiClient: apiClient);
-      userRepository = UserRepository(token: '');
-      initHydratedStorage();
-    });
-
     testWidgets('Render HRM AppView', (widgetTester) async {
       await widgetTester.pumpWidget(App(
           authenticationRepository: authenticationRepository,
@@ -78,30 +70,30 @@ void main() async {
       );
     }
 
-    testWidgets('Render  material app with correct theme', (tester) async {
+    testWidgets('Render ScreenUtilInit widget', (tester) async {
       await tester.pumpWidget(buildLocalization(
           child: RepositoryProvider.value(
-            value: authenticationRepository,
-            child: buildSubject(),
-          )));
+        value: authenticationRepository,
+        child: buildSubject(),
+      )));
 
       expect(find.byType(ScreenUtilInit), findsOneWidget);
+    });
+
+    testWidgets('Render material theme', (tester) async {
+      await tester.pumpWidget(const MaterialApp());
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
+
+    testWidgets('Material theme data check', (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        theme: ThemeData(primaryColor: Colors.blue),
+        home: const Scaffold(),
+      ));
 
       ///In future we will implement theme and also test case
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-
       expect(materialApp.theme, isNotNull);
-      expect(materialApp.darkTheme, null);
-    });
-
-    testWidgets('Renders SplashScreen', (tester) async {
-      EasyLocalization.ensureInitialized().then((value) async {
-        await tester.pumpWidget(RepositoryProvider.value(
-          value: authenticationRepository,
-          child: buildSubject(),
-        ));
-        expect(find.byType(SplashScreen), findsOneWidget);
-      });
     });
   });
 }

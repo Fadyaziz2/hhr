@@ -70,14 +70,6 @@ class _AppViewState extends State<AppView> {
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
-  void initState() {
-    ///channel wise notification setup
-    // FirebaseMessaging.instance
-    //     .subscribeToTopic('onesthrm');
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       minTextAdapt: true,

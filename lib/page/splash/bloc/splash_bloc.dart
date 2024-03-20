@@ -11,11 +11,9 @@ import '../../bottom_navigation/view/bottom_navigation_page.dart';
 import '../../onboarding/view/onboarding_page.dart';
 
 class SplashBloc extends Cubit<SplashState> {
-  SplashBloc(
-      {required BuildContext context,
+  SplashBloc({required BuildContext context,
       required MetaClubApiClient client,
-      LoginData? data})
-      : super(SplashState(context: context)) {
+      LoginData? data}) : super(SplashState(context: context)) {
     initSplash(context, data);
   }
 
@@ -25,9 +23,9 @@ class SplashBloc extends Cubit<SplashState> {
       if (data?.user != null) {
         NavUtil.replaceScreen(context, const BottomNavigationPage());
       } else {
-        if(company == null){
+        if (company == null) {
           NavUtil.replaceScreen(context, const OnboardingPage());
-        }else{
+        } else {
           NavUtil.replaceScreen(context, const LoginPage());
         }
       }

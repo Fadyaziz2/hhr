@@ -81,6 +81,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future subscribeTopic() async {
     final notifications = globalState.get(notificationChannels);
+    ///channel wise notification setup
+    FirebaseMessaging.instance.subscribeToTopic('onesthrm');
     if (notifications != null) {
       for (var topic in notifications) {
         await FirebaseMessaging.instance.subscribeToTopic(topic);
