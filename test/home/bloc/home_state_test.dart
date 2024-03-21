@@ -13,8 +13,7 @@ main() {
         {NetworkStatus status = NetworkStatus.initial,
         Settings? settings,
         DashboardModel? dashboardModel}) {
-      return HomeState(
-          status: status, settings: settings, dashboardModel: dashboardModel);
+      return HomeState(status: status, settings: settings, dashboardModel: dashboardModel,isSwitched: true);
     }
 
     test('Return NetworkStatus.initial home state', () {
@@ -49,9 +48,8 @@ main() {
           createSubject(
                   status: NetworkStatus.success,
                   settings: settings,
-                  dashboardModel: dashboardModel)
-              .props,
-          equals(<Object>[settings, dashboardModel, NetworkStatus.success]));
+                  dashboardModel: dashboardModel).props,
+          equals(<Object>[settings, dashboardModel, NetworkStatus.success,true]));
     });
   });
 }

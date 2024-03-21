@@ -18,7 +18,8 @@ class BottomNavCubit extends Cubit<BottomNavState> {
 
   void setTab(BottomNavTab tab) => emit(BottomNavState(tab: tab));
 
-  void initializeFirebaseNotification() {
+  void initializeFirebaseNotification() async {
+    await Future.delayed(const Duration(seconds: 1));
     _firebaseMessaging
         .getToken()
         .then((value) => debugPrint("token firebase $value"));
