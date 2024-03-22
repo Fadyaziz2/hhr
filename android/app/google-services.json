@@ -115,9 +115,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:203411705611:android:42d656770847df2dc7dc0e",
+        "mobilesdk_app_id": "1:203411705611:android:bfcd9b920e1270d0c7dc0e",
         "android_client_info": {
-          "package_name": "com.worx24hour.hrm"
+          "package_name": "com.worx.hrm"
         }
       },
       "oauth_client": [
