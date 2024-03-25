@@ -16,23 +16,29 @@ class SelfiePreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const double mirror = math.pi;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Back'),
-      ),
       body: SingleChildScrollView(
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .8,
-            width: double.infinity,
-            child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(mirror),
-                child: Image.file(File(picture.path), fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: Column(mainAxisSize: MainAxisSize.max, children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .8,
+                    width: double.infinity,
+                    child: Transform(alignment: Alignment.center, transform: Matrix4.rotationY(mirror),
+                        child: Image.file(File(picture.path), fit: BoxFit.cover)),
+                  ),
+                  const SizedBox(height: 16),
+                  callBackButton
+                ]),
+              ),
+              Positioned(top: 40.0,left: 25.0,child: IconButton.outlined(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new_sharp,),color: Colors.black)),
+            ],
           ),
-          const SizedBox(height: 20),
-
-          callBackButton
-        ]),
+        ),
       ),
     );
   }

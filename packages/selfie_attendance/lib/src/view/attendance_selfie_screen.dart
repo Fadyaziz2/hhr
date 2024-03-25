@@ -66,8 +66,9 @@ class _AttendanceSelfieScreenState extends State<AttendanceSelfieScreen> {
             ]),
           ),
           Container(
+            padding: const EdgeInsets.all(16),
             width: double.infinity,
-            decoration: const BoxDecoration(color: Colors.black),
+            color: Colors.black,
             child: IconButton(
               onPressed: takePicture,
               iconSize: 80,

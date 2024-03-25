@@ -50,8 +50,7 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
           departmentId: state.departments?.id,
           pageCount: state.pageCount);
       final loadPhoneBookUsers = phoneBook?.data?.users;
-      emit(state.copyWith(
-          status: NetworkStatus.success, phoneBookUsers: loadPhoneBookUsers));
+      emit(state.copyWith(status: NetworkStatus.success, phoneBookUsers: loadPhoneBookUsers));
     } on Exception catch (e) {
       emit(const PhoneBookState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

@@ -56,9 +56,7 @@ class PhoneBookEmployees extends StatelessWidget {
                         refreshController.loadComplete();
                       },
                       onRefresh: () {
-                        context
-                            .read<PhoneBookBloc>()
-                            .add(PhoneBookLoadRefresh());
+                        context.read<PhoneBookBloc>().add(PhoneBookLoadRefresh());
                       },
                       child: ListView.builder(
                         itemCount: state.phoneBookUsers?.length ?? 0,
