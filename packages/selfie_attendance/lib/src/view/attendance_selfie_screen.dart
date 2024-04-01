@@ -94,14 +94,7 @@ class _AttendanceSelfieScreenState extends State<AttendanceSelfieScreen> {
       XFile picture = await controller.takePicture();
       if (mounted) {
         widget.onSelfieCaptured(picture);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => SelfiePreviewScreen(
-              picture: picture,
-              callBackButton: widget.callBackButton,
-            ),
-          ),
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SelfiePreviewScreen(picture: picture, callBackButton: widget.callBackButton),),
         );
       }
     } on CameraException catch (e) {
