@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:selfie_attendance/selfie_attendance.dart';
+import 'package:lottie/lottie.dart';
 
 // Callback function type for capturing image
 typedef GetSelfieImageCallback = void Function(XFile file);
@@ -60,13 +61,14 @@ class _AttendanceSelfieScreenState extends State<AttendanceSelfieScreen> {
           Expanded(
             child: Stack(children: [
               (controller.value.isInitialized) ? CameraPreview(controller) : Container(color: Colors.black, child: const Center(child: CircularProgressIndicator())),
-              Positioned(left: 0.0,right: 0.0,top: 0.0,bottom: 0.0,child: Image.asset('assets/images/face.png',color: Colors.grey,)),
+              Positioned(left: 0.0,right: 0.0,top: 0.0,bottom: 0.0,child:  Lottie.asset("assets/images/face_animation.json")),
               Positioned(top: 45.0,left: 25.0,child: IconButton.outlined(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new_sharp,),color: Colors.black)),
             ]),
           ),
           Container(
+            padding: const EdgeInsets.all(16),
             width: double.infinity,
-            decoration: const BoxDecoration(color: Colors.black),
+            color: Colors.black,
             child: IconButton(
               onPressed: takePicture,
               iconSize: 80,
@@ -92,14 +94,7 @@ class _AttendanceSelfieScreenState extends State<AttendanceSelfieScreen> {
       XFile picture = await controller.takePicture();
       if (mounted) {
         widget.onSelfieCaptured(picture);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => SelfiePreviewScreen(
-              picture: picture,
-              callBackButton: widget.callBackButton,
-            ),
-          ),
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SelfiePreviewScreen(picture: picture, callBackButton: widget.callBackButton),),
         );
       }
     } on CameraException catch (e) {
