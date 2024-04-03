@@ -24,9 +24,9 @@ class CurrentMonthMars extends StatelessWidget {
             'current_month',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ).tr(),
-          const Text(
-            'an_overview_of_your_progress',
-            style: TextStyle(
+           Text(
+            'an_overview_of_your_progress'.tr(),
+            style: const TextStyle(
               fontSize: 12,
             ),
           ).tr(),

@@ -83,31 +83,6 @@ class HomeNeptuneContent extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      Transform.scale(
-                                        scale: 0.8,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(25)
-                                          ),
-                                          child: CupertinoSwitch(
-                                              value: context
-                                                  .read<HomeBloc>()
-                                                  .state
-                                                  .isSwitched,
-                                              onChanged: (_) {
-                                                context.read<HomeBloc>().add(
-                                                    OnSwitchPressed(
-                                                        user: context
-                                                            .read<AuthenticationBloc>()
-                                                            .state
-                                                            .data
-                                                            ?.user,
-                                                        locationProvider:
-                                                        locationServiceProvider));
-                                              }),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),

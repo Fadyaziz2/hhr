@@ -21,9 +21,9 @@ class UpcomingEventMars extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "recent_events",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                 Text(
+                  "recent_events".tr(),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ).tr(),
               ],
             ),
