@@ -81,12 +81,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     .textTheme
                                     .titleMedium,
                               ),
-                              subtitle: Text(
-                                company?.subdomain ?? '',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelSmall,
-                              ),
+                              // subtitle: Text(
+                              //   company?.subdomain ?? '',
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .labelSmall,
+                              // ),
                               value: company,
                               groupValue: state.selectedCompany,
                               onChanged: (Company? value) {

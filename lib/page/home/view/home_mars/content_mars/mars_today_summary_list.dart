@@ -22,6 +22,7 @@ class TodaySummaryListMars extends StatelessWidget {
             child: GridView.builder(
               padding: const EdgeInsets.all(12.0),
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: dashboardModel!.data!.today!.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
