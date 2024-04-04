@@ -10,7 +10,6 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
@@ -92,8 +91,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(state.copyWith(locationLoaded: true, actionStatus: ActionStatus.refresh));
   }
 
-  void _onRemoteModeUpdate(
-      OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
+  void _onRemoteModeUpdate(OnRemoteModeChanged event, Emitter<AttendanceState> emit) {
     body.mode = event.mode;
     SharedUtil.setRemoteModeType(event.mode);
   }
@@ -115,7 +113,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
         add(OnOfflineAttendance());
         ///----------------------------------*********--------------------------------------------------------
-        // emit(const AttendanceState(status: NetworkStatus.failure));
       }, (data){
         body.isOffline = false;
         final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');

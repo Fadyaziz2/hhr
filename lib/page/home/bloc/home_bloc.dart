@@ -50,6 +50,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
 
+    Timer.periodic(const Duration(minutes: 2), (_) {
+      /// we have try store data to server from local cache
+      _onOfflineDataSync();
+    });
+
     eventBus.on<OfflineDataSycEvent>().listen((data) {
       /// we have try store data to server from local cache
       _onOfflineDataSync();
@@ -81,6 +86,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future subscribeTopic() async {
     final notifications = globalState.get(notificationChannels);
+
     ///channel wise notification setup
     FirebaseMessaging.instance.subscribeToTopic('onesthrm');
     if (notifications != null) {
@@ -97,13 +103,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
 
     final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
-     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
-    final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
+    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
+    final localAttendanceData =
+        _attendanceService.getCheckDataByDate(date: date);
 
     try {
-      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
+      DashboardModel? dashboardModel =
+          await _metaClubApiClient.getDashboardData();
       AttendanceData? attendanceData = dashboardModel?.data?.attendanceData;
+
       ///Schedule check-in notification
       checkInScheduleNotification(
           dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
@@ -116,10 +125,14 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
 
       ///Initialize break data into global state
-      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(
+          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(
+          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(
+          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(
+          isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
       globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
@@ -138,8 +151,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
+
     ///today's data available in local so we need to update in/out time from there
-    if(localAttendanceData != null){
+    if (localAttendanceData != null) {
       globalState.set(inTime, localAttendanceData.inTime);
       globalState.set(outTime, localAttendanceData.outTime);
     }
@@ -147,14 +161,21 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   void _onOfflineDataSync() async {
     try {
-      final body = attendanceService.getAllCheckInOutDataMap();
-      if(body.isNotEmpty){
-        if(isCheckedOut){
+      late Map<String, dynamic> body;
+      if (isCheckedOut) {
+        body = attendanceService.getAllCheckInOutDataMap();
+      } else {
+        body = attendanceService.getFilteredCheckInOutDataMap();
+      }
+      if (body['data'].isNotEmpty) {
           final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
-          if(isSynced){
-            attendanceService.clearCheckOfflineData();
+          if (isSynced) {
+            if (isCheckedOut) {
+              attendanceService.clearCheckOfflineData();
+            }else{
+              attendanceService.deleteFilteredCheckInOut();
+            }
           }
-        }
       }
     } catch (e) {
       throw NetworkRequestFailure(e.toString());

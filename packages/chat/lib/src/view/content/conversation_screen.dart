@@ -122,44 +122,35 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                         size: 24.r,
                                       ),
                                       onPressed: () async {
+
                                         imageFile = await getImage();
 
                                         ///read the file asynchronously as the image can be very large which may cause blocking of main thread
-                                        String? base64Image = base64Encode(
-                                            await imageFile!.readAsBytes());
+                                        String? base64Image = base64Encode(await imageFile!.readAsBytes());
 
                                         Map<String, dynamic> map = {
                                           'type': 'image',
                                           'message': base64Image,
                                           'status': 'not seen',
                                           'from': widget.uid,
-                                          'timestamp':
-                                              '${Timestamp.now().seconds}'
+                                          'timestamp': '${Timestamp.now().seconds}'
                                         };
 
                                         ///create chat room for current user
-                                        database.createChatRoom(
-                                            widget.uid, chatUid, map);
+                                        database.createChatRoom(widget.uid, chatUid, map);
 
                                         ///create chat room for chat user
-                                        database.createChatRoom(
-                                            chatUid, widget.uid, map);
+                                        database.createChatRoom(chatUid, widget.uid, map);
 
                                         ///update friend list for current user
-                                        database.createFriend(
-                                            widget.uid, chatUid, 'photo');
+                                        database.createFriend(widget.uid, chatUid, 'photo');
 
                                         ///update friend list for chat user
-                                        database.createFriend(
-                                            chatUid, widget.uid, 'photo');
+                                        database.createFriend(chatUid, widget.uid, 'photo');
 
-                                        debugPrint(
-                                            'current uid ${widget.uid}   chat uid : $chatUid');
+                                        debugPrint('current uid ${widget.uid}   chat uid : $chatUid');
 
-                                        listScrollController.animateTo(0.0,
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            curve: Curves.easeOut);
+                                        listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
 
                                         database.sendNotificationWithTopic(
                                             topic: 'user$chatUid',

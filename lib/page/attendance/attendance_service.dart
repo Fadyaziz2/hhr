@@ -73,6 +73,34 @@ class AttendanceService {
     };
   }
 
+  Map<String, dynamic> getFilteredCheckInOutDataMap() {
+    return {
+      'data': getAllOfflineCheckData().where((e) => e.outTime != null).map((e) {
+        Map<String, dynamic> data = {
+          'latitude': e.latitude,
+          'longitude': e.longitude,
+          'date': e.date,
+          'inTime': e.inTime,
+          'outTime': e.outTime,
+          'reason': e.reason ?? "",
+          'remote_mode': e.mode,
+          'selfie_image': '',
+        };
+        return data;
+      }).toList()
+    };
+  }
+
+  void deleteFilteredCheckInOut() async {
+    final keys = box.values
+        .where((e) => e.isOffline == true && e.outTime != null)
+        .map((e) => box.keyAt(box.values.toList().indexOf(e)))
+        .toList();
+    if (keys.isNotEmpty) {
+      await box.deleteAll(keys);
+    }
+  }
+
   int count() {
     return getAllOfflineCheckData().length;
   }

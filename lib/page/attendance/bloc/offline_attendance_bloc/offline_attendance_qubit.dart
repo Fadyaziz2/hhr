@@ -10,9 +10,7 @@ import 'offline_attendance_state.dart';
 class OfflineCubit extends Cubit<OfflineAttendanceState> {
   final AttendanceService _attendanceService;
 
-  OfflineCubit({required AttendanceService attendanceService})
-      : _attendanceService = attendanceService,
-        super(const OfflineAttendanceState()){
+  OfflineCubit({required AttendanceService attendanceService}): _attendanceService = attendanceService, super(const OfflineAttendanceState()){
 
     onCheckInOutData();
 
