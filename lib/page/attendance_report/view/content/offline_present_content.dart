@@ -15,7 +15,7 @@ class DailyOfflineReportTile extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // remote mode In -> Home or Office
-    final mode = (dailyReport.mode == 0) ? "Home" : "Remote";
+    final mode = (dailyReport.mode == 0) ? "Home" : "Office";
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),

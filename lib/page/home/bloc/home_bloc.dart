@@ -161,11 +161,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   void _onOfflineDataSync() async {
     try {
+      final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
       late Map<String, dynamic> body;
       if (isCheckedOut) {
         body = attendanceService.getAllCheckInOutDataMap();
       } else {
-        body = attendanceService.getFilteredCheckInOutDataMap();
+        body = attendanceService.getPastCheckInOutDataMap(today: today);
       }
       if (body['data'].isNotEmpty) {
           final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
@@ -173,7 +174,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
             if (isCheckedOut) {
               attendanceService.clearCheckOfflineData();
             }else{
-              attendanceService.deleteFilteredCheckInOut();
+              attendanceService.deleteFilteredCheckInOut(today: today);
             }
           }
       }

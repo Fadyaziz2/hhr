@@ -73,9 +73,10 @@ class AttendanceService {
     };
   }
 
-  Map<String, dynamic> getFilteredCheckInOutDataMap() {
+  ///Return all check in/out data except today's
+  Map<String, dynamic> getPastCheckInOutDataMap({required String today}) {
     return {
-      'data': getAllOfflineCheckData().where((e) => e.outTime != null).map((e) {
+      'data': getAllOfflineCheckData().where((e) => e.date != today).map((e) {
         Map<String, dynamic> data = {
           'latitude': e.latitude,
           'longitude': e.longitude,
@@ -91,9 +92,9 @@ class AttendanceService {
     };
   }
 
-  void deleteFilteredCheckInOut() async {
+  void deleteFilteredCheckInOut({required String today}) async {
     final keys = box.values
-        .where((e) => e.isOffline == true && e.outTime != null)
+        .where((e) => e.isOffline == true && e.date != today)
         .map((e) => box.keyAt(box.values.toList().indexOf(e)))
         .toList();
     if (keys.isNotEmpty) {
