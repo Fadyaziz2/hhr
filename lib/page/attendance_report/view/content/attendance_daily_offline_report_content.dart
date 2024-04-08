@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
-import 'package:onesthrm/page/home/models/attendance_body.dart';
 import 'offline_present_content.dart';
 
 class AttendanceDailyOfflineReportContent extends StatelessWidget {

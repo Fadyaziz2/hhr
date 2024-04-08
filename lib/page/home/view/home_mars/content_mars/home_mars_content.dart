@@ -11,7 +11,6 @@ import 'package:onesthrm/page/home/view/home_mars/content_mars/upcoming_event_ma
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/profile/view/profile_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import '../../content/home_content_shimmer.dart';
 import '../../content/home_earth_content.dart';
 import 'mars_today_summary_list.dart';
 

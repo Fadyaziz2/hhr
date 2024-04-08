@@ -13,7 +13,6 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../res/const.dart';
-import '../../app/global_state.dart';
 import '../../attendance_reason/attendance_reason.dart';
 import '../../attendance_report/view/content/attendance_daily_offline_report_content.dart';
 import '../../authentication/bloc/authentication_bloc.dart';

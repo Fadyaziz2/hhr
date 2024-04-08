@@ -1,10 +1,8 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
-import 'package:onesthrm/res/enum.dart';
 import '../../main_test.dart';
 
 class MockMetaClubApiClientRepository extends Mock implements MetaClubApiClient {

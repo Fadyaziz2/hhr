@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';

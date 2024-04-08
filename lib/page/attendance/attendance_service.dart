@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:onesthrm/res/const.dart';
 import '../app/global_state.dart';

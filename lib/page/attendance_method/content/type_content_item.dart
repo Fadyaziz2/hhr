@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/widgets/dynamic_image_viewer.dart';
 
 class TypeContentItem extends StatelessWidget {
   final Function() onPressed;

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/conference/conference.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
+import 'package:video_chat/video_chat_service.dart';
 
 class ConferenceList extends StatelessWidget {
   const ConferenceList({super.key});
@@ -57,23 +58,23 @@ class ConferenceList extends StatelessWidget {
                                     child: Wrap(
                                       spacing: -15,
                                       children: List<Widget>.generate(
-                                          data?.members?.length ?? 0,
-                                          (index) {
+                                          data?.members?.length ?? 0, (index) {
+
+                                            final item = data?.members?[index];
+
                                         return ClipOval(
                                           child: CachedNetworkImage(
                                             height: 35,
                                             width: 35,
                                             fit: BoxFit.cover,
-                                            imageUrl: data?.members?[index]
-                                                    .avatar ??
+                                            imageUrl: item?.avatar ??
                                                 "https://www.w3schools.com/howto/img_avatar.png",
                                             placeholder: (context, url) =>
                                                 Center(
                                               child: Image.asset(
                                                   "assets/images/placeholder_image.png"),
                                             ),
-                                            errorWidget:
-                                                (context, url, error) =>
+                                            errorWidget: (context, url, error) =>
                                                     const Icon(Icons.error),
                                           ),
                                         );
@@ -82,23 +83,13 @@ class ConferenceList extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  // if (kDebugMode) {
-                                  //   debugPrint(
-                                  //       "Data external Link : ${data?.externalLink}");
-                                  // }
-                                  // await Permission.microphone.request();
-                                  // await Permission.camera.request();
-                                  // if (context.mounted) {
-                                  //   provider.joinConference(data?.button,
-                                  //       data?.externalLink, context);
-                                  // }
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(0.0),
                                   decoration: BoxDecoration(
                                       color: colorPrimary,
-                                      borderRadius:
-                                          BorderRadius.circular(16)),
+                                      borderRadius: BorderRadius.circular(16)),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0, vertical: 3),
