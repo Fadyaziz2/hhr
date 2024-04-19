@@ -70,13 +70,13 @@ class SharedUtil {
     }
   }
 
-  static Future<bool?> getBoolValue(String key) async {
+  static Future<bool> getBoolValue(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       var value = prefs.getBool(key);
-      return value;
+      return value ?? false;
     } catch (error) {
-      return null;
+      return false;
     }
   }
 

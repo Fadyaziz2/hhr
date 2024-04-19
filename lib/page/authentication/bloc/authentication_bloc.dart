@@ -10,12 +10,11 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
   late StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
   late StreamSubscription<LoginData> _loginDataSubscription;
 
   AuthenticationBloc({required AuthenticationRepository authenticationRepository,required UserRepository userRepository})
-      : _authenticationRepository = authenticationRepository, _userRepository = userRepository,
+      : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
 
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
@@ -23,9 +22,7 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
     on<AuthenticationLogoutRequest>(_onAuthenticationLogoutRequest);
 
     _authenticationStatusSubscription = _authenticationRepository.status.listen((status) => add(AuthenticationStatusChanged(status)));
-
     _loginDataSubscription = _authenticationRepository.loginData.listen((userData) => add(AuthenticationUserChanged(userData)));
-
   }
 
   _onAuthenticationStatusChanged(AuthenticationStatusChanged event,Emitter<AuthenticationState> emit) async {
@@ -65,17 +62,6 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
       final user = LoginData.fromJson(userJson);
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.authenticated);
       _authenticationRepository.updateUserData(user);
-      if(user.user != null) {
-        ///verify token at startup
-        _userRepository.tokenVerification(token: '${user.user?.token}').then((data) {
-          if(data.status || data.code == -1){
-            return AuthenticationState.authenticated(user);
-          }
-          _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
-          _authenticationRepository.updateUserData(LoginData(user:  null));
-          return const AuthenticationState.unauthenticated();
-        });
-      }
     }
     return const AuthenticationState.unauthenticated();
   }

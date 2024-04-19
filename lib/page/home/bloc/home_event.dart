@@ -23,6 +23,10 @@ class OnSwitchPressed extends HomeEvent{
   OnSwitchPressed({required this.user,required this.locationProvider});
 }
 
+class OnTokenVerification extends HomeEvent{
+
+}
+
 class OnLocationEnabled extends HomeEvent{
   final User user;
   final LocationServiceProvider locationProvider;

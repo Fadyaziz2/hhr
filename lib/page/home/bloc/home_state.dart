@@ -5,11 +5,13 @@ class HomeState extends Equatable {
   final NetworkStatus status;
   final DashboardModel? dashboardModel;
   final bool isSwitched;
+  final bool isTokenVerified;
 
   const HomeState(
       {this.status = NetworkStatus.initial,
       this.settings,
       this.dashboardModel,
+      this.isTokenVerified = true,
       this.isSwitched = true});
 
   HomeState copy(
@@ -17,20 +19,20 @@ class HomeState extends Equatable {
       Settings? settings,
       DashboardModel? dashboardModel,
       NetworkStatus? status,
-      bool? isSwitched}) {
+      bool? isSwitched,bool? isTokenVerified}) {
     return HomeState(
         settings: settings ?? this.settings,
         status: status ?? this.status,
         dashboardModel: dashboardModel ?? this.dashboardModel,
-        isSwitched: isSwitched ?? this.isSwitched);
+        isSwitched: isSwitched ?? this.isSwitched,isTokenVerified: isTokenVerified ?? this.isTokenVerified);
   }
 
-  factory HomeState.fromJson(Map<String, dynamic> json) {
+  factory HomeState.fromJson(Map<String, dynamic> json,bool isTokenVerified) {
     return HomeState(
         settings: Settings.fromJson(json['settings']),
         status: NetworkStatus.success,
         dashboardModel: DashboardModel.fromJson(json['dashboard']),
-        isSwitched: json['isLocation']);
+        isSwitched: json['isLocation'],isTokenVerified: isTokenVerified);
   }
 
   Map<String, dynamic> toJson() => {
@@ -48,5 +50,5 @@ class HomeState extends Equatable {
       };
 
   @override
-  List<Object?> get props => [settings, dashboardModel, status, isSwitched];
+  List<Object?> get props => [settings, dashboardModel, status, isSwitched,isTokenVerified];
 }

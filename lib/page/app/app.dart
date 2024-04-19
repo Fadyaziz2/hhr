@@ -81,8 +81,7 @@ class _AppViewState extends State<AppView> {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
                 ///update company data at application initial event
-                final company =
-                    context.read<OnboardingBloc>().state.selectedCompany;
+                final company = context.read<OnboardingBloc>().state.selectedCompany;
                 globalState.set(companyName, company?.companyName);
                 globalState.set(companyId, company?.id);
                 globalState.set(companyUrl, company?.url);

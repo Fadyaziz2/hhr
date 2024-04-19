@@ -1,9 +1,11 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -25,8 +27,12 @@ class BottomNavigationPage extends StatelessWidget {
         BlocProvider(create: (_) => BottomNavCubit()),
         BlocProvider(
             create: (_) => HomeBloc(
-                metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl),
-                attendanceService: attendanceService)
+                metaClubApiClient: MetaClubApiClient(
+                    token: '${user?.user?.token}', companyUrl: baseUrl),
+                attendanceService: attendanceService,
+                authenticationRepository: AuthenticationRepository(
+                    apiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
+                userRepository: UserRepository(token: '${user?.user?.token}'))
               ..add(LoadSettings())
               ..add(LoadHomeData())),
       ],

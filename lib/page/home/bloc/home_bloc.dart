@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,6 +18,7 @@ import 'package:onesthrm/page/visit/view/visit_page.dart';
 import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
@@ -32,12 +34,18 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
   final AttendanceService _attendanceService;
   late StreamSubscription locationSubscription;
+  final AuthenticationRepository _authenticationRepository;
+  final UserRepository _userRepository;
 
   HomeBloc({
     required MetaClubApiClient metaClubApiClient,
     required AttendanceService attendanceService,
+    required AuthenticationRepository authenticationRepository,
+    required UserRepository userRepository
   })  : _metaClubApiClient = metaClubApiClient,
         _attendanceService = attendanceService,
+        _authenticationRepository = authenticationRepository,
+        _userRepository = userRepository,
         super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)
@@ -49,6 +57,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
+    on<OnTokenVerification>(_checkTokenValidity);
 
     Timer.periodic(const Duration(minutes: 2), (_) {
       /// we have try store data to server from local cache
@@ -59,6 +68,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       /// we have try store data to server from local cache
       _onOfflineDataSync();
     });
+
+    ///check token validity event
+   add(OnTokenVerification());
   }
 
   bool isCheckedIn = false;
@@ -157,6 +169,18 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(inTime, localAttendanceData.inTime);
       globalState.set(outTime, localAttendanceData.outTime);
     }
+  }
+
+  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit){
+    ///verify token
+    _userRepository.tokenVerification(token: metaClubApiClient.token).then((data) {
+      if(data.status == false || data.code >= 400){
+        _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
+        _authenticationRepository.updateUserData(LoginData(user:  null));
+        SharedUtil.setBoolValue(isTokenVerified, false);
+        emit(state.copy(isTokenVerified: false));
+      }
+    });
   }
 
   void _onOfflineDataSync() async {
@@ -304,7 +328,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   @override
   HomeState? fromJson(Map<String, dynamic> json) {
-    return HomeState.fromJson(json);
+    SharedUtil.getBoolValue(isTokenVerified).then((isTokenVerified){
+      return HomeState.fromJson(json,isTokenVerified);
+    });
+    return HomeState.fromJson(json,true);
   }
 
   @override
