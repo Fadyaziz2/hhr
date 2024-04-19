@@ -28,7 +28,7 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://office.onesttech.com';
+  static const rootUrl = 'https://24hourworx.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
@@ -46,8 +46,7 @@ class MetaClubApiClient {
     final body = {'email': email, 'password': password};
 
     try {
-      final response = await _httpServiceImpl.postRequest(
-          '${baseUrl ?? _baseUrl}$login', body);
+      final response = await _httpServiceImpl.postRequest('${baseUrl ?? _baseUrl}$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
@@ -90,7 +89,7 @@ class MetaClubApiClient {
   }
 
   Future<CompanyListModel?> getCompanyList() async {
-    const String api = 'https://office.onesttech.com/api/V11/company-list';
+    const String api = 'https://24hourworx.com/api/V11/company-list';
     try {
       final response = await _httpServiceImpl.getRequestWithToken(api);
       if (response?.statusCode == 200) {

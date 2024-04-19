@@ -171,16 +171,16 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit){
+  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
     ///verify token
-    _userRepository.tokenVerification(token: metaClubApiClient.token).then((data) {
-      if(data.status == false || data.code >= 400){
-        _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
-        _authenticationRepository.updateUserData(LoginData(user:  null));
-        SharedUtil.setBoolValue(isTokenVerified, false);
-        emit(state.copy(isTokenVerified: false));
-      }
-    });
+    final data = await _userRepository.tokenVerification(token: metaClubApiClient.token,baseUrl: metaClubApiClient.companyUrl);
+    if(data.status == false || data.code >= 400){
+      _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
+      _authenticationRepository.updateUserData(LoginData(user:  null));
+      SharedUtil.setBoolValue(isTokenVerified, false);
+      emit(state.copy(isTokenVerified: false));
+    }
+    emit(state.copy(isTokenVerified: true));
   }
 
   void _onOfflineDataSync() async {

@@ -50,10 +50,10 @@ class UserRepository {
     }
   }
 
-  Future<TokenStatus> tokenVerification({required String token}) async {
+  Future<TokenStatus> tokenVerification({required String token,required String baseUrl}) async {
     String api = 'user/token-alive/$token';
     try {
-      final response = await _httpServiceImpl.getRequest('$_baseUrl$api');
+      final response = await _httpServiceImpl.getRequest('$baseUrl$api');
       if (response.statusCode != 200) {
         return TokenStatus(status: false, code: response.statusCode ?? 400);
       }
