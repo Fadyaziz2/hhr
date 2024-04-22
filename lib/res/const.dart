@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Color mainColor = const Color(0xFF251F85);
-Color buttonColor = const Color(0xFF251F85);
+Color mainColor = const Color(0xFF1F0732);
+Color buttonColor = const Color(0xFF1F0732);
 const Color colorPrimary = Color(0xFF1F0732);
 const Color colorCardBackground = Color(0xffF3F9FE);
 const Color backgroundColor = Color(0xFFF6F6F6);
@@ -10,7 +10,7 @@ const Color primaryBorderColor = Color(0xFFF3E9E7);
 const Color colorPrimaryGradient = Color(0xff00a7ab);
 const Color colorDeepRed = Color(0xFFBE5258);
 const Color appBarColor = Colors.white;
-const Color appColor = Color(0xFF251F85);
+const Color appColor = Color(0xFF1F0732);
 const Color gradiantColorOne = Color(0xFF00a8e6);
 const Color gradiantColorTwo = Color(0xDA0DC21E);
 const Color colorGray = Color(0x65555555);
