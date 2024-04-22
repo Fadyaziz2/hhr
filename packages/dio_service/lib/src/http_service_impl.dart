@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tf_dio_cache/dio_http_cache.dart';
 import 'http_service.dart';
@@ -29,9 +30,11 @@ class HttpServiceImpl implements HttpService {
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
         debugPrint('unAuthentication');
+        throw UnAuthenticationException();
+      } else {
+        debugPrint(e.message);
+        throw Exception(e.message);
       }
-      debugPrint(e.message);
-      throw Exception(e.message);
     }
 
     return response;
@@ -90,7 +93,8 @@ class HttpServiceImpl implements HttpService {
     Response response;
 
     try {
-      response = await _dio!.post(url, data: body, options: _buildCacheOptions());
+      response =
+          await _dio!.post(url, data: body, options: _buildCacheOptions());
     } on DioError catch (e) {
       String error = DioExceptions.fromDioError(e).toString();
       throw Exception(error);
@@ -129,6 +133,7 @@ class DioExceptions implements Exception {
         message = "Receive timeout in connection with API server";
         break;
       case DioErrorType.response:
+        statusCode = dioError.response!.statusCode!;
         message = _handleError(
             dioError.response!.statusCode!, dioError.response!.data);
         break;
@@ -142,6 +147,7 @@ class DioExceptions implements Exception {
   }
 
   late String message;
+  int statusCode = -1;
 
   String _handleError(int statusCode, dynamic error) {
     switch (statusCode) {

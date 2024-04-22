@@ -60,8 +60,13 @@ class UserRepository {
       return TokenStatus(status: true, code: response.statusCode ?? 200);
     } on SocketException catch (_) {
       return TokenStatus(status: false, code: -1);
-    } catch (_) {
-      return TokenStatus(status: false, code: 401);
+    } on DioExceptions catch (e) {
+      return TokenStatus(status: false, code: -1);
+    }catch(e){
+      if(e is UnAuthenticationException){
+        return TokenStatus(status: false, code: 401);
+      }
+      return TokenStatus(status: false, code: -1);
     }
   }
 }
