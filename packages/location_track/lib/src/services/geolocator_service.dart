@@ -25,7 +25,7 @@ class GeoLocatorService {
 
   ///get address by position
   Future<List<geocoding.Placemark>?> getAddress(Position position) async {
-    return await geocoding.GeocodingPlatform.instance.placemarkFromCoordinates(position.latitude, position.longitude,localeIdentifier: 'en');
+    return await geocoding.GeocodingPlatform.instance?.placemarkFromCoordinates(position.latitude, position.longitude);
   }
 
   ///calculate distance
