@@ -51,18 +51,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 children: [
                   Image.asset(
                     'assets/images/company_list.jpg',
-                    fit: BoxFit.cover,
-                    height: 260.h,
-                    width: double.infinity,
+                    fit: BoxFit.cover, height: 260.h, width: double.infinity,
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 16),
                   Expanded(
                     child: ListView.builder(
                       itemCount: state.companyListModel?.companyList?.length ?? 0,
-                      itemBuilder:
-                          (BuildContext context, int index) {
+                      itemBuilder: (BuildContext context, int index) {
                             Company? company =  state.companyListModel?.companyList?[index];
                         return Container(
                           margin: const EdgeInsets.symmetric(
@@ -77,9 +72,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           child: RadioListTile<Company?>(
                               title: Text(
                                 company?.companyName ?? '',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               // subtitle: Text(
                               //   company?.subdomain ?? '',
