@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/home/home.dart';
+import 'package:onesthrm/page/home/router/home__menu_router.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 
@@ -127,7 +127,7 @@ class HomeHeader extends StatelessWidget {
                 dashboardModel?.data?.today?.length ?? 0,
                 (index) => EventCard(
                   data: dashboardModel?.data?.today![index],
-                  onPressed: () => context.read<HomeBloc>().routeSlug(
+                  onPressed: () => routeSlug(
                       dashboardModel?.data?.today![index].slug, context),
                 ),
               )),

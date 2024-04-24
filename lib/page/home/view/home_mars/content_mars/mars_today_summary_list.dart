@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
+import 'package:onesthrm/page/home/router/home__menu_router.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'today_list_count_mars.dart';
 
 class TodaySummaryListMars extends StatelessWidget {
@@ -34,9 +34,7 @@ class TodaySummaryListMars extends StatelessWidget {
               itemBuilder: (_, int index) {
                 final data = dashboardModel.data!.today![index];
                 return TodayListCountMars(
-                  onTap: () {
-                    context.read<HomeBloc>().routeSlug(data.slug, context);
-                  },
+                  onTap: () => routeSlug(data.slug, context),
                   image: "${data.image}",
                   title: "${data.title}",
                   count: "0${data.number}",

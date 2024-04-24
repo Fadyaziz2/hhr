@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesthrm/page/home/router/home__menu_router.dart';
 import 'package:onesthrm/res/const.dart';
-
 import '../../../bloc/bloc.dart';
 
 class TodaySummeryListNeptune extends StatelessWidget {
@@ -25,9 +25,7 @@ class TodaySummeryListNeptune extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 InkWell(
-                  onTap: () {
-                    context.read<HomeBloc>().routeSlug(data?.slug, context);
-                  },
+                  onTap: () => routeSlug(data?.slug, context),
                   child: Column(
                     children: [
                       Container(
@@ -52,8 +50,7 @@ class TodaySummeryListNeptune extends StatelessWidget {
                       ),
                       Text(
                         data?.title.toString() ?? "",
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                       ).tr()
                     ],
                   ),

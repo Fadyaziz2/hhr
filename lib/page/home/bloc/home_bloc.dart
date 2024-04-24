@@ -8,23 +8,14 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
-import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
-import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
-import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
-import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
-import 'package:onesthrm/page/meeting/meeting.dart';
-import 'package:onesthrm/page/visit/view/visit_page.dart';
+import 'package:onesthrm/page/home/notification/schedule_notification.dart';
 import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
-import 'package:onesthrm/res/nav_utail.dart';
-import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
 import '../../app/global_state.dart';
-import '../../support/view/support_page.dart';
-import '../view/content/home_earth_content.dart';
 
 part 'home_event.dart';
 
@@ -37,12 +28,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
 
-  HomeBloc({
-    required MetaClubApiClient metaClubApiClient,
-    required AttendanceService attendanceService,
-    required AuthenticationRepository authenticationRepository,
-    required UserRepository userRepository
-  })  : _metaClubApiClient = metaClubApiClient,
+  HomeBloc(
+      {required MetaClubApiClient metaClubApiClient,
+      required AttendanceService attendanceService,
+      required AuthenticationRepository authenticationRepository,
+      required UserRepository userRepository})
+      : _metaClubApiClient = metaClubApiClient,
         _attendanceService = attendanceService,
         _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
@@ -70,7 +61,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     });
 
     ///check token validity event
-   add(OnTokenVerification());
+    add(OnTokenVerification());
   }
 
   bool isCheckedIn = false;
@@ -121,8 +112,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         _attendanceService.getCheckDataByDate(date: date);
 
     try {
-      DashboardModel? dashboardModel =
-          await _metaClubApiClient.getDashboardData();
+      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
       AttendanceData? attendanceData = dashboardModel?.data?.attendanceData;
 
       ///Schedule check-in notification
@@ -147,9 +137,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      globalState.set(hour,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+      globalState.set(sec,
+          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
@@ -171,12 +164,15 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
+  void _checkTokenValidity(
+      OnTokenVerification event, Emitter<HomeState> emit) async {
     ///verify token
-    final data = await _userRepository.tokenVerification(token: metaClubApiClient.token,baseUrl: metaClubApiClient.companyUrl);
-    if(data.status == false || data.code >= 400){
-      _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
-      _authenticationRepository.updateUserData(LoginData(user:  null));
+    final data = await _userRepository.tokenVerification(
+        token: metaClubApiClient.token, baseUrl: metaClubApiClient.companyUrl);
+    if (data.status == false || data.code >= 400) {
+      _authenticationRepository
+          .updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
+      _authenticationRepository.updateUserData(LoginData(user: null));
       SharedUtil.setBoolValue(isTokenVerified, false);
       emit(state.copy(isTokenVerified: false));
     }
@@ -193,73 +189,17 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
         body = attendanceService.getPastCheckInOutDataMap(today: today);
       }
       if (body['data'].isNotEmpty) {
-          final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
-          if (isSynced) {
-            if (isCheckedOut) {
-              attendanceService.clearCheckOfflineData();
-            }else{
-              attendanceService.deleteFilteredCheckInOut(today: today);
-            }
+        final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
+        if (isSynced) {
+          if (isCheckedOut) {
+            attendanceService.clearCheckOfflineData();
+          } else {
+            attendanceService.deleteFilteredCheckInOut(today: today);
           }
+        }
       }
     } catch (e) {
       throw NetworkRequestFailure(e.toString());
-    }
-  }
-
-  Future checkInScheduleNotification(
-      List<CheckTime> startTime, List<CheckTime> endTime) async {
-    ///unsubscribe * previous subscription if any
-    await notificationPlugin.unSubscribeScheduleAll();
-    final formatter = DateFormat('yyyy-MM-dd hh:mm');
-
-    /// Schedule the notification
-    ///looping all schedule and set that schedule as active
-    for (var inTime in startTime) {
-      DateTime dateTime = formatter.parse(inTime.date);
-
-      /// Extract date and time components
-      int day = dateTime.day;
-      int year = dateTime.year;
-      int month = dateTime.month;
-      int hour = dateTime.hour;
-      int minute = dateTime.minute;
-
-      /// Schedule the notification
-      await notificationPlugin.scheduleNotification(
-        id: inTime.id,
-        title: "Check In Alert",
-        body: "Good morning have you checked in office yet from onesttech",
-        day: day,
-        year: year,
-        month: month,
-        hour: hour,
-        minute: minute,
-        second: 0,
-      );
-    }
-    for (var outTime in endTime) {
-      DateTime dateTime = formatter.parse(outTime.date);
-
-      /// Extract date and time components
-      int day = dateTime.day;
-      int hour = dateTime.hour;
-      int minute = dateTime.minute;
-      int year = dateTime.year;
-      int month = dateTime.month;
-
-      /// Schedule the notification
-      await notificationPlugin.scheduleNotification(
-        id: outTime.id,
-        title: "Check Out Alert",
-        body: "Good evening, have you checked out office yet from onesttech",
-        day: day,
-        year: year,
-        month: month,
-        hour: hour,
-        minute: minute,
-        second: 0,
-      );
     }
   }
 
@@ -290,48 +230,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  Widget chooseTheme() {
-    final name = globalState.get(dashboardStyleId);
-    switch (name) {
-      case 'earth':
-        return const HomeEarthContent();
-      case 'neptune':
-        return const HomeNeptuneContent();
-      case 'mars':
-        return const HomeMars();
-      default:
-        return const HomeContentShimmer();
-    }
-  }
-
-  void routeSlug(slugName, context) {
-    switch (slugName) {
-      case 'support':
-        NavUtil.navigateScreen(context, const SupportPage());
-        break;
-      case 'support_ticket':
-        NavUtil.navigateScreen(context, const SupportPage());
-        break;
-      case 'visit':
-        NavUtil.navigateScreen(context, const VisitPage());
-        break;
-      case 'appointment':
-        NavUtil.navigateScreen(context, const AppointmentScreen());
-        break;
-      case 'meeting':
-        NavUtil.navigateScreen(context, const MeetingPage());
-        break;
-      default:
-        return debugPrint('default');
-    }
-  }
-
   @override
   HomeState? fromJson(Map<String, dynamic> json) {
-    SharedUtil.getBoolValue(isTokenVerified).then((isTokenVerified){
-      return HomeState.fromJson(json,isTokenVerified);
+    SharedUtil.getBoolValue(isTokenVerified).then((isTokenVerified) {
+      return HomeState.fromJson(json, isTokenVerified);
     });
-    return HomeState.fromJson(json,true);
+    return HomeState.fromJson(json, true);
   }
 
   @override
