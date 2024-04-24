@@ -24,6 +24,7 @@ class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
     globalState.set(companyName, company.companyName);
     globalState.set(companyId, company.id);
     globalState.set(companyUrl, company.url);
+    globalState.set(companySubDomain, company.subdomain);
     emit(state.copyWith(selectedCompany: company));
   }
 
@@ -33,18 +34,24 @@ class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
       CompanyListModel? companyModel = await _metaClubApiClient.getCompanyList();
       List<Company> companies = companyModel?.companyList ?? [];
       if(companies.isNotEmpty){
-        if(globalState.get(companyName) == null){
+        if(state.selectedCompany?.url == null){
           final company = companies.first;
-          globalState.set(companyName, company.companyName);
-          globalState.set(companyId, company.id);
-          globalState.set(companyUrl, company.url);
+          // globalState.set(companyName, company.companyName);
+          // globalState.set(companyId, company.id);
+          // globalState.set(companyUrl, company.url);
+          // globalState.set(companySubDomain, company.subdomain);
+          emit(state.copyWith(selectedCompany: company));
         }
-        emit(state.copyWith(selectedCompany: companies.first));
+        globalState.set(companyName, state.selectedCompany?.companyName);
+        globalState.set(companyId, state.selectedCompany?.id);
+        globalState.set(companyUrl, state.selectedCompany?.url);
+        globalState.set(companySubDomain, state.selectedCompany?.subdomain);
+        emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyModel));
+      }else{
+        emit(state.copyWith(status: NetworkStatus.failure));
       }
-      emit(state.copyWith(status: NetworkStatus.success,companyListModel: companyModel));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
     }
   }
 
