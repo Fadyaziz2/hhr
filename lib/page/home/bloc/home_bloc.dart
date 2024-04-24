@@ -207,8 +207,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  Future checkInScheduleNotification(
-      List<CheckTime> startTime, List<CheckTime> endTime) async {
+  Future checkInScheduleNotification(List<CheckTime> startTime, List<CheckTime> endTime) async {
     ///unsubscribe * previous subscription if any
     await notificationPlugin.unSubscribeScheduleAll();
     final formatter = DateFormat('yyyy-MM-dd hh:mm');
