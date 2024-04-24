@@ -10,6 +10,8 @@ import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/profile/profile.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../../bloc/bloc.dart';
+import '../../../content/break_card.dart';
+import '../../../content/home_bottom.dart';
 import '../../content/home_earth_content.dart';
 import '../../home_mars/content_mars/content_mars.dart';
 import '../../home_mars/content_mars/upcoming_event_mars.dart';
@@ -21,6 +23,7 @@ class HomeNeptuneContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, state) {
+          final settings = context.read<HomeBloc>().state.settings;
       final user = context.read<AuthenticationBloc>().state.data;
       final homeData = context.read<HomeBloc>().state.dashboardModel;
 
@@ -95,11 +98,17 @@ class HomeNeptuneContent extends StatelessWidget {
                               ],
                             ),
                           ),
-
+                          const SizedBox(height: 16,),
                           const CheckInOutStatusActionMars(),
+
+                          ///breakTime
+                          BreakCard(
+                              settings: settings, user: user, dashboardModel: homeData),
                           // CheckStatusSectionDesignTwo(bloc: bloc),
                           //
                           const CurrentMonthMars(),
+                          HomeBottom(
+                              settings: settings, user: user, dashboardModel: homeData),
 
                           ///upcoming events:----------------------
                           const UpcomingEventMars(),

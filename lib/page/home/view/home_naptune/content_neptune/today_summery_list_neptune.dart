@@ -20,7 +20,7 @@ class TodaySummeryListNeptune extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final data = dashboardModel?.data?.today?[index];
           return Padding(
-            padding: const EdgeInsets.only(left: 16.0),
+            padding: const EdgeInsets.only(left: 26.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -31,8 +31,8 @@ class TodaySummeryListNeptune extends StatelessWidget {
                       Container(
                         height: 75,
                         width: 75,
-                        decoration: const BoxDecoration(
-                          color: colorPrimary,
+                        decoration:  const BoxDecoration(
+                          color: Color(0xFF0067D7),
                           shape: BoxShape.circle,
                         ),
                         child: Center(

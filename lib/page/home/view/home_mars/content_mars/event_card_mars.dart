@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/const.dart';
-import 'event_card_item.dart';
 
-class EventCard extends StatelessWidget {
-  const EventCard(
-      {super.key, required this.data, this.days = false, this.onPressed});
+import '../../../content/event_card_item.dart';
+
+class EventCardMars extends StatelessWidget {
+  const EventCardMars({super.key, required this.data, this.days = false, this.onPressed});
 
   final TodayData? data;
   final bool? days;
@@ -165,68 +165,6 @@ class UpcomingEventCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         elevation: 5,
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/images/new_Upcoming_Event.png',
-              height: 120.h,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: EdgeInsets.all(10.0.r),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('upcoming_events'.tr(),
-                      style: TextStyle(
-                          fontSize: 16.r,
-                          fontWeight: FontWeight.w600,
-                          height: 1.5,
-                          letterSpacing: 0.5)),
-                  Text('public_holiday_and_even'.tr(),
-                      style: TextStyle(
-                          fontSize: 12.r,
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                          color: const Color(0xFF555555),
-                          letterSpacing: 0.5)),
-                  SizedBox(
-                    height: 6.h,
-                  ),
-                  Column(
-                    children: events
-                        .map((e) => EventCardItem(upcomingItems: e))
-                        .toList(),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UpcomingEventCardMars extends StatelessWidget {
-  const UpcomingEventCardMars({super.key, required this.events});
-
-  final List<UpcomingEvent> events;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Container(
-        // semanticContainer: true,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: primaryBorderColor)),
-
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
