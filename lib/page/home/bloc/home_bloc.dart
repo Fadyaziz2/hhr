@@ -24,7 +24,6 @@ part 'home_state.dart';
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final MetaClubApiClient _metaClubApiClient;
   final AttendanceService _attendanceService;
-  late StreamSubscription locationSubscription;
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
 
@@ -77,8 +76,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       Settings? settings = await _metaClubApiClient.getSettings();
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       globalState.set(isLocation, settings?.data?.locationService);
-      globalState.set(
-          notificationChannels, settings?.data?.notificationChannels);
+      globalState.set(notificationChannels, settings?.data?.notificationChannels);
       await subscribeTopic();
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
@@ -90,13 +88,17 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   Future subscribeTopic() async {
     final notifications = globalState.get(notificationChannels);
 
-    ///channel wise notification setup
-    FirebaseMessaging.instance.subscribeToTopic('onesthrm');
-    if (notifications != null) {
-      for (var topic in notifications) {
-        await FirebaseMessaging.instance.subscribeToTopic(topic);
-        debugPrint("Firebase topics: $topic");
+    try{
+      ///channel wise notification setup
+      FirebaseMessaging.instance.subscribeToTopic('onesthrm');
+      if (notifications != null) {
+        for (var topic in notifications) {
+          await FirebaseMessaging.instance.subscribeToTopic(topic);
+          debugPrint("Firebase topics: $topic");
+        }
       }
+    }catch(_){
+      return;
     }
   }
 
