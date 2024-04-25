@@ -89,7 +89,7 @@ class MetaClubApiClient {
   }
 
   Future<CompanyListModel?> getCompanyList() async {
-    const String api = 'https://24hourworx.com/api/V11/company-list';
+    const String api = '$rootUrl/api/V11/company-list';
     try {
       final response = await _httpServiceImpl.getRequestWithToken(api);
       if (response?.statusCode == 200) {

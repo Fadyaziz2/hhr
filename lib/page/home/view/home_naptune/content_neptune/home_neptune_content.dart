@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,17 +10,10 @@ import 'package:onesthrm/page/home/view/home_naptune/content_neptune/checkIn_out
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/home_bottom_neptune.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-import 'package:onesthrm/page/profile/profile.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import '../../../../../res/const.dart';
 import '../../../bloc/bloc.dart';
-import '../../../content/break_card.dart';
-import '../../../content/event_card.dart';
-import '../../../content/home_bottom.dart';
-import '../../../router/home__menu_router.dart';
 import '../../content/home_earth_content.dart';
 import '../../home_mars/content_mars/content_mars.dart';
-import '../../home_mars/content_mars/upcoming_event_mars.dart';
 
 class HomeNeptuneContent extends StatelessWidget {
   const HomeNeptuneContent({super.key});
@@ -66,20 +57,9 @@ class HomeNeptuneContent extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
                                   child: Stack(
                                     children: [
-                                      Positioned(
-                                        right: 0,
-                                        left: 0,
-                                        child: Image.asset(
-                                          'assets/images/home_background_one.png',
-                                          height: 200.0.h,
-                                          fit: BoxFit.cover,
-                                          color: colorPrimary,
-                                        ),
-                                      ),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
