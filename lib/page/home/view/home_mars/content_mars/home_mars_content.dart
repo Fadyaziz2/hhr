@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/page/home/view/home_mars/content_mars/check_in_out_status_mars.dart';
+import 'package:onesthrm/page/home/view/home_mars/content_mars/break_card_mars.dart';
+import 'package:onesthrm/page/home/view/home_mars/content_mars/checkIn_out_card_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/current_month_mars.dart';
-import 'package:onesthrm/page/home/view/home_mars/content_mars/upcoming_event_mars.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/profile/view/profile_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../content/home_earth_content.dart';
+import 'home_bottom_mars.dart';
 import 'mars_today_summary_list.dart';
 
 class HomeMarsContent extends StatelessWidget {
@@ -21,6 +21,7 @@ class HomeMarsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (BuildContext context, state) {
+        final settings = context.read<HomeBloc>().state.settings;
         final user = context.read<AuthenticationBloc>().state.data;
         final homeData = context.read<HomeBloc>().state.dashboardModel;
 
@@ -82,11 +83,22 @@ class HomeMarsContent extends StatelessWidget {
                               ),
                             ),
 
-                            const CheckInOutStatusActionMars(),
+                            // const CheckInOutStatusActionMars(),
+
+                            ///check-in-out card
+                            CheckInOutCardMars(
+                                settings: settings, user: user, dashboardModel: homeData),
+
+                            ///breakTime
+                            BreakCardMars(
+                                settings: settings, user: user, dashboardModel: homeData),
+                            ///bottom-header
+                            HomeBottomMars(
+                                settings: settings, user: user, dashboardModel: homeData),
 
                             const CurrentMonthMars(),
                             ///upcoming events:----------------------
-                            const UpcomingEventMars(),
+                            // const UpcomingEventMars(),
                             SizedBox(height: 80.h),
                           ],
                         ),
