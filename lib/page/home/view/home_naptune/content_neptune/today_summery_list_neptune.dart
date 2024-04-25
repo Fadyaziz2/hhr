@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/home/router/home__menu_router.dart';
@@ -28,20 +29,20 @@ class TodaySummeryListNeptune extends StatelessWidget {
                   onTap: () => routeSlug(data?.slug, context),
                   child: Column(
                     children: [
-                      Container(
-                        height: 75,
-                        width: 75,
-                        decoration:  const BoxDecoration(
-                          color: Color(0xFF0067D7),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            data?.number.toString() ?? "00",
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                      ClipOval(
+                        child: SizedBox(
+                          height: 75,
+                          width: 75,
+                          child: Card(
+                            child: Center(
+                              child: Text(
+                                data?.number.toString() ?? "00",
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorPrimary),
+                              ),
+                            ),
                           ),
                         ),
                       ),

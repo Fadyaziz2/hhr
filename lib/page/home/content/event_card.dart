@@ -272,3 +272,65 @@ class UpcomingEventCardMars extends StatelessWidget {
     );
   }
 }
+
+class UpcomingEventCardNeptune extends StatelessWidget {
+  const UpcomingEventCardNeptune({super.key, required this.events});
+
+  final List<UpcomingEvent> events;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        // semanticContainer: true,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: primaryBorderColor)),
+
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/new_Upcoming_Event.png',
+              height: 120.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10.0.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('upcoming_events'.tr(),
+                      style: TextStyle(
+                          fontSize: 16.r,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.5)),
+                  Text('public_holiday_and_even'.tr(),
+                      style: TextStyle(
+                          fontSize: 12.r,
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                          color: const Color(0xFF555555),
+                          letterSpacing: 0.5)),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  Column(
+                    children: events
+                        .map((e) => EventCardItem(upcomingItems: e))
+                        .toList(),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
