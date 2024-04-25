@@ -78,10 +78,15 @@ class MultiSelectChipField<V> extends FormField<List<V>> {
   /// Set the width of the chip.
   final double? chipWidth;
 
+  @override
   final List<V>? initialValue;
+  @override
   final AutovalidateMode autovalidateMode;
+  @override
   final FormFieldValidator<List<V>>? validator;
+  @override
   final FormFieldSetter<List<V>>? onSaved;
+  @override
   final GlobalKey<FormFieldState>? key;
 
   MultiSelectChipField({
@@ -329,9 +334,7 @@ class __MultiSelectChipFieldViewState<V>
                                       ? Text(
                                           widget.title!.data!,
                                           style: TextStyle(
-                                              color: widget.title!.style != null
-                                                  ? widget.title!.style!.color
-                                                  : null,
+                                              color: widget.title!.style?.color,
                                               fontSize:
                                                   widget.title!.style != null
                                                       ? widget.title!.style!
@@ -492,16 +495,12 @@ class __MultiSelectChipFieldViewState<V>
                     color: widget.colorator != null &&
                             widget.colorator!(item.value) != null
                         ? widget.colorator!(item.value)!.withOpacity(1)
-                        : widget.selectedTextStyle != null
-                            ? widget.selectedTextStyle!.color
-                            : null)
+                        : widget.selectedTextStyle?.color)
                 : TextStyle(
                     color: widget.textStyle != null
                         ? widget.textStyle!.color ?? widget.chipColor
                         : widget.chipColor,
-                    fontSize: widget.textStyle != null
-                        ? widget.textStyle!.fontSize
-                        : null,
+                    fontSize: widget.textStyle?.fontSize,
                   ),
           ),
         ),

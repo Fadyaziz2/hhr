@@ -183,9 +183,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
         selectedColor:
             widget.colorator != null && widget.colorator!(item.value) != null
                 ? widget.colorator!(item.value)
-                : widget.selectedColor != null
-                    ? widget.selectedColor
-                    : Theme.of(context).primaryColor.withOpacity(0.35),
+                : widget.selectedColor ?? Theme.of(context).primaryColor.withOpacity(0.35),
         label: Text(
           item.label,
           style: _selectedValues.contains(item.value)
@@ -194,9 +192,7 @@ class _MultiSelectBottomSheetState<T> extends State<MultiSelectBottomSheet<T>> {
                       widget.colorator?.call(item.value) ??
                       widget.selectedColor?.withOpacity(1) ??
                       Theme.of(context).primaryColor,
-                  fontSize: widget.selectedItemsTextStyle != null
-                      ? widget.selectedItemsTextStyle!.fontSize
-                      : null,
+                  fontSize: widget.selectedItemsTextStyle?.fontSize,
                 )
               : widget.itemsTextStyle,
         ),

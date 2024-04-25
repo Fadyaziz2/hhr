@@ -80,7 +80,7 @@ class CheckInOut extends Equatable {
 class AttendanceFailure extends Equatable{
   final String error;
 
-  AttendanceFailure({this.error = ''});
+  const AttendanceFailure({this.error = ''});
 
   @override
   List<Object?> get props => [error];

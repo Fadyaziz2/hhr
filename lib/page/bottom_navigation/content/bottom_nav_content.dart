@@ -27,7 +27,6 @@ class BottomNavContent extends StatelessWidget {
         debugLogging: true,
         durationUntilAlertAgain: const Duration(hours: 1),
         countryCode: 'US',
-        shouldPopScope: () => true,
       ),
       child: PopScope(
         canPop: false,

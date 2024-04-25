@@ -140,7 +140,7 @@ class MetaClubApiClient {
       if (response.statusCode == 200) {
         return right(CheckData.fromJson(response.data));
       }
-      return left(AttendanceFailure());
+      return left(const AttendanceFailure());
     } catch (e) {
       return left(AttendanceFailure(error: e.toString()));
     }

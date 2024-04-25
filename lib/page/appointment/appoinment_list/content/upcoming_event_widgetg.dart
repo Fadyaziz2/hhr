@@ -84,7 +84,7 @@ class EventWidgets extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 14.r,
-                      color: Color(0xFF222222),
+                      color: const Color(0xFF222222),
                       fontWeight: FontWeight.w500,
                       height: 1.5,
                       letterSpacing: 0.5),
@@ -97,7 +97,7 @@ class EventWidgets extends StatelessWidget {
                         '${data?.time},',
                         style: TextStyle(
                             fontSize: 12.r,
-                            color: Color(0xFF555555),
+                            color: const Color(0xFF555555),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             letterSpacing: 0.5),
@@ -109,7 +109,7 @@ class EventWidgets extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 12.r,
-                              color: Color(0xFF555555),
+                              color: const Color(0xFF555555),
                               height: 1.4,
                               letterSpacing: 0.5),
                         ),

@@ -21,6 +21,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final List<MultiSelectItem<V>> items;
 
   /// The list of selected values before interaction.
+  @override
   final List<V>? initialValue;
 
   /// The text at the top of the dialog.
@@ -103,9 +104,13 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Set the color of the check in the checkbox
   final Color? checkColor;
 
+  @override
   final AutovalidateMode autovalidateMode;
+  @override
   final FormFieldValidator<List<V>>? validator;
+  @override
   final FormFieldSetter<List<V>>? onSaved;
+  @override
   final GlobalKey<FormFieldState>? key;
   FormFieldState<List<V>>? state;
 

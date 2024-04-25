@@ -74,7 +74,7 @@ class DashboardData extends Equatable {
         today: today ?? this.today,
         upcomingEvents: upcomingEvents ?? this.upcomingEvents,
         appointments: appointments ?? this.appointments,
-        currentMonth: currentMonth ?? this.currentMonth,
+        currentMonth: currentMonth ?? currentMonth,
         menus: menus ?? this.menus,
         attendanceData: attendanceData ?? this.attendanceData,
         breakHistory: breakHistory ?? this.breakHistory,

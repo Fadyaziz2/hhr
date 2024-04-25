@@ -10,7 +10,6 @@ import 'package:onesthrm/page/home/view/home_naptune/content_neptune/checkIn_out
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/content_neptune.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/home_bottom_neptune.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-import '../../../../../res/const.dart';
 import '../../../bloc/bloc.dart';
 import '../../content/home_earth_content.dart';
 import '../../home_mars/content_mars/content_mars.dart';

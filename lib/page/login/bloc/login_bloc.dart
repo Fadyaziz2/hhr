@@ -100,7 +100,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   @override
   Map<String, dynamic>? toJson(LoginState state) {
     return <String, dynamic>{
-      'data': state.user != null ? state.user?.toJson() : null
+      'data': state.user?.toJson()
     };
   }
 
