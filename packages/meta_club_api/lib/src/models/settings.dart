@@ -72,9 +72,7 @@ class Setting extends Equatable {
         locationService: json["location_service"],
         isIpEnabled: json["is_ip_enabled"],
         timeWish: TimeWish.fromJson(json["time_wish"]),
-        barikoiAPI: json["barikoi_api"].toString() != '[]'
-            ? BarikoiAPI.fromJson(json["barikoi_api"])
-            : null,
+        barikoiAPI: json["barikoi_api"].toString() != '[]' ? BarikoiAPI.fromJson(json["barikoi_api"]) : null,
         timeZone: json["time_zone"],
         multiCheckIn: json["multi_checkin"],
         currencyCode: json["currency_code"],
@@ -83,17 +81,14 @@ class Setting extends Equatable {
         breakStatus: BreakStatus.fromJson(json["break_status"]),
         liveTracking: LiveTracking.fromJson(json["live_tracking"]),
         departments: json["departments"] != null
-            ? List<Department>.from((json["departments"] as List)
-                .map((e) => Department.fromJson(e)))
+            ? List<Department>.from((json["departments"] as List).map((e) => Department.fromJson(e)))
             : [],
         designations: json["designations"] != null
-            ? List<Department>.from((json["designations"] as List)
-                .map((e) => Department.fromJson(e)))
+            ? List<Department>.from((json["designations"] as List).map((e) => Department.fromJson(e)))
             : [],
-    methods: json["attendance_methods"] != null
-        ? List<AttendanceMethod>.from((json["attendance_methods"] as List)
-        .map((e) => AttendanceMethod.fromJson(e)))
-        : [],
+        methods: json["attendance_methods"] != null
+            ? List<AttendanceMethod>.from((json["attendance_methods"] as List).map((e) => AttendanceMethod.fromJson(e)))
+            : [],
         employeeTypes: List<String>.from(json["employee_types"]),
         appTheme: json['app_theme'],
         notificationChannels: json["notification_channels"] == null
@@ -121,9 +116,8 @@ class Setting extends Equatable {
         'attendance_methods': methods.map((e) => e.toJson()).toList(),
         'employee_types': employeeTypes,
         'app_theme': appTheme,
-        "notification_channels": notificationChannels == null
-            ? []
-            : List<dynamic>.from(notificationChannels!.map((x) => x)),
+        "notification_channels":
+            notificationChannels == null ? [] : List<dynamic>.from(notificationChannels!.map((x) => x)),
       };
 
   @override
@@ -133,7 +127,13 @@ class Setting extends Equatable {
         attendanceMethod,
         isAdmin,
         isFaceRegistered,
-        appTheme
+        appTheme,
+        isHr,
+        methods,
+        attendanceMethod,
+        departments,
+        breakStatus,
+        dutySchedule
       ];
 }
 
@@ -190,17 +190,14 @@ class LiveTracking {
   String? appSyncTime;
   String? liveDataStoreTime;
 
-  factory LiveTracking.fromJson(Map<String, dynamic> json) => LiveTracking(
-      appSyncTime: json["app_sync_time"],
-      liveDataStoreTime: json["live_data_store_time"]);
+  factory LiveTracking.fromJson(Map<String, dynamic> json) =>
+      LiveTracking(appSyncTime: json["app_sync_time"], liveDataStoreTime: json["live_data_store_time"]);
 
-  Map<String, dynamic> toJson() =>
-      {"app_sync_time": appSyncTime, "live_data_store_time": liveDataStoreTime};
+  Map<String, dynamic> toJson() => {"app_sync_time": appSyncTime, "live_data_store_time": liveDataStoreTime};
 }
 
 class BreakStatus {
-  BreakStatus(
-      {this.date, this.breakTime, this.backTime, this.status, this.diffTime});
+  BreakStatus({this.date, this.breakTime, this.backTime, this.status, this.diffTime});
 
   DateTime? date;
   String? breakTime;
@@ -261,8 +258,7 @@ class BarikoiAPI {
         key: json["key"],
         secret: json["secret"],
         endPoint: json["endpoint"],
-        statusId: int.parse(
-            json["status_id"] != null ? json["status_id"].toString() : '0'),
+        statusId: int.parse(json["status_id"] != null ? json["status_id"].toString() : '0'),
       );
 
   Map<String, dynamic> toJson() => {
@@ -295,14 +291,15 @@ class AttendanceMethod extends Equatable {
   final String? subTitle;
   final String? image;
 
-  const AttendanceMethod({this.slug, this.title,this.subTitle,this.image});
+  const AttendanceMethod({this.slug, this.title, this.subTitle, this.image});
 
   factory AttendanceMethod.fromJson(Map<String, dynamic> json) {
-    return AttendanceMethod(slug: json['slug'], title: json['title'],subTitle: json['short_description'],image: json["image"]);
+    return AttendanceMethod(
+        slug: json['slug'], title: json['title'], subTitle: json['short_description'], image: json["image"]);
   }
 
   Map<String, dynamic> toJson() => {'slug': slug, 'title': title};
 
   @override
-  List<Object?> get props => [slug, title,subTitle,image];
+  List<Object?> get props => [slug, title, subTitle, image];
 }

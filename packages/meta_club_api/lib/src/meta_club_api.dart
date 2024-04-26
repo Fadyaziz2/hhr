@@ -28,7 +28,8 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://24hourworx.com';
+  // static const rootUrl = 'https://24hourworx.com';
+  static const rootUrl = 'https://tyrodesk.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
