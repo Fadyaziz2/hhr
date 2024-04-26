@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,6 +30,8 @@ void main() async {
   await Hive.openBox<AttendanceBody>(checkBoxName);
   ///initializeFirebaseAtStatingPoint
   await Firebase.initializeApp();
+  ///initializeDependencyInjection
+  await initAppModule();
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);

@@ -69,6 +69,8 @@ dependencies:
     path: packages/face
   video_chat:
     path: packages/video_chat
+  core:
+    path: packages/core
   flutter_lints: ^2.0.3
   photo_view: ^0.14.0
   fluttertoast: ^8.0.9
