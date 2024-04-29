@@ -42,7 +42,8 @@ class Setting extends Equatable {
       this.methods = const [],
       this.employeeTypes = const [],
       this.appTheme,
-      this.notificationChannels = const []});
+      this.notificationChannels = const [],
+      this.shifts = const []});
 
   final bool? isIpEnabled;
   final bool? isHr;
@@ -64,6 +65,7 @@ class Setting extends Equatable {
   final List<String> employeeTypes;
   final String? appTheme;
   final List<String>? notificationChannels;
+  final List<MultiShift> shifts;
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
         isHr: json["is_hr"],
@@ -94,6 +96,9 @@ class Setting extends Equatable {
         notificationChannels: json["notification_channels"] == null
             ? []
             : List<String>.from(json["notification_channels"]!.map((x) => x)),
+        shifts: json["multi_shift"] == null
+            ? []
+            : List<MultiShift>.from(json["multi_shift"]!.map((x) => MultiShift.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,6 +123,7 @@ class Setting extends Equatable {
         'app_theme': appTheme,
         "notification_channels":
             notificationChannels == null ? [] : List<dynamic>.from(notificationChannels!.map((x) => x)),
+        "multi_shift": List<dynamic>.from(shifts.map((x) => x)),
       };
 
   @override
@@ -179,6 +185,23 @@ class Time {
         "min": min,
         "sec": sec,
       };
+}
+
+class MultiShift extends Equatable {
+  MultiShift({
+    this.shiftId,
+    this.shiftName,
+  });
+
+  final int? shiftId;
+  final String? shiftName;
+
+  factory MultiShift.fromJson(Map<String, dynamic> json) => MultiShift(shiftId: json["shift_id"], shiftName: json["name"]);
+
+  Map<String, dynamic> toJson() => {"shift_id": shiftId, "name": shiftName};
+
+  @override
+  List<Object?> get props => [shiftId, shiftName];
 }
 
 class LiveTracking {

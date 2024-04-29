@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app_permission_page/app_permission_page.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
@@ -88,10 +90,19 @@ class _AppViewState extends State<AppView> {
 
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
-                    _navigator.pushAndRemoveUntil(
-                      BottomNavigationPage.route(),
-                      (route) => false,
-                    );
+                    SharedUtil.getBoolValue(isDisclosure).then((isDisclosure){
+                      if(isDisclosure){
+                        _navigator.pushAndRemoveUntil(
+                          BottomNavigationPage.route(),
+                              (route) => false,
+                        );
+                      }else{
+                        _navigator.pushAndRemoveUntil(
+                          AppPermissionPage.route(),
+                              (route) => false,
+                        );
+                      }
+                    });
                     break;
                   case AuthenticationStatus.unauthenticated:
                     if (company == null) {

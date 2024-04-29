@@ -110,8 +110,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
     isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
-    final localAttendanceData =
-        _attendanceService.getCheckDataByDate(date: date);
+    final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
 
     try {
       DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();

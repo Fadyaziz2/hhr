@@ -9,13 +9,16 @@ abstract class AttendanceMethodEvent extends Equatable {
 class AttendanceNavEvent extends AttendanceMethodEvent {
   final BuildContext context;
   final String? slugName;
+  final int? shiftId;
   AttendanceNavEvent({
     this.slugName,
+    this.shiftId,
     required this.context,
   });
   @override
   List<Object?> get props => [
         slugName,
         context,
+        shiftId
       ];
 }

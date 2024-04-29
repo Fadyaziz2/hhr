@@ -26,13 +26,15 @@ class AttendanceBodyAdapter extends TypeAdapter<AttendanceBody> {
       mode: fields[6] as int?,
       attendanceId: fields[7] as int?,
       selfieImage: fields[8] as String?,
+      shiftId: fields[10] as int?,
+      isOffline: fields[9] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AttendanceBody obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.latitude)
       ..writeByte(1)
@@ -50,7 +52,11 @@ class AttendanceBodyAdapter extends TypeAdapter<AttendanceBody> {
       ..writeByte(7)
       ..write(obj.attendanceId)
       ..writeByte(8)
-      ..write(obj.selfieImage);
+      ..write(obj.selfieImage)
+      ..writeByte(9)
+      ..write(obj.isOffline)
+      ..writeByte(10)
+      ..write(obj.shiftId);
   }
 
   @override

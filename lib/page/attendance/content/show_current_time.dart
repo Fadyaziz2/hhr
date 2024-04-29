@@ -39,6 +39,7 @@ class ShowCurrentTime extends StatelessWidget {
                   color: Color(0xFF404A58), fontWeight: FontWeight.bold),
             ),
           ),
+
           Text(
             DateFormat('yMMMMEEEEd', 'en').format(DateTime.now()),
             style: GoogleFonts.nunitoSans(fontSize: 16.sp, color: const Color(0xFF404A58)),

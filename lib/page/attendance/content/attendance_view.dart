@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
+import 'package:onesthrm/page/attendance/content/shift_dropdown.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
@@ -28,16 +29,13 @@ class AttendanceView extends StatefulWidget {
   State<AttendanceView> createState() => _AttendanceState();
 }
 
-class _AttendanceState extends State<AttendanceView>
-    with TickerProviderStateMixin {
+class _AttendanceState extends State<AttendanceView> with TickerProviderStateMixin {
   late AnimationController controller;
 
   @override
   void initState() {
     controller = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 3),
-        animationBehavior: AnimationBehavior.preserve);
+        vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
     super.initState();
   }
 
@@ -47,19 +45,17 @@ class _AttendanceState extends State<AttendanceView>
     final homeBloc = context.read<HomeBloc>();
     final homeData = homeBloc.state.dashboardModel;
     final settings = homeBloc.state.settings;
-    final offlineState= context.watch<OfflineCubit>().state;
+    final offlineState = context.watch<OfflineCubit>().state;
 
     if (user?.user != null) {
       context.read<HomeBloc>().add(OnLocationRefresh(
-          user: context.read<AuthenticationBloc>().state.data?.user,
-          locationProvider: locationServiceProvider));
+          user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
     }
 
     return BlocListener<AttendanceBloc, AttendanceState>(
       listenWhen: (oldState, newState) => oldState != newState,
       listener: (context, state) {
-        if (state.checkData?.message != null &&
-            state.actionStatus == ActionStatus.checkInOut) {
+        if (state.checkData?.message != null && state.actionStatus == ActionStatus.checkInOut) {
           showLoginDialog(
               context: context,
               message: '${user?.user?.name}',
@@ -82,11 +78,8 @@ class _AttendanceState extends State<AttendanceView>
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      AttendanceReportPage.route(
-                          attendanceBloc: context.read<AttendanceBloc>(),
-                          settings: settings!));
+                  Navigator.push(context,
+                      AttendanceReportPage.route(attendanceBloc: context.read<AttendanceBloc>(), settings: settings!));
                 },
                 child: Lottie.asset(
                   'assets/images/ic_report_lottie.json',
@@ -110,36 +103,34 @@ class _AttendanceState extends State<AttendanceView>
               if (homeData != null) ShowCurrentTime(homeData: homeData),
 
               if (homeData != null)
-                BlocBuilder<AttendanceBloc,AttendanceState>(
-                    builder: (context,state){
-                      return state.status == NetworkStatus.loading ? Shimmer.fromColors(
-                        baseColor: const Color(0xFFE8E8E8),
-                        highlightColor: Colors.white,
-                        child: Container(
-                            height: 184.h,
-                            width: 184.w,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE8E8E8),
-                              shape: BoxShape.circle, // radius of 10// green as background color
-                            )),
-                      ) : AnimatedCircularButton(
-                        onComplete: () {
-                          context.read<AttendanceBloc>().add(OnOfflineAttendance());
-                        },
-                        isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
-                        title: offlineState.isCheckedIn == offlineState.isCheckedOut
-                            ? "check_in".tr()
-                            : "check_out".tr(),
-                        color: offlineState.isCheckedIn == offlineState.isCheckedOut ? colorPrimary : colorDeepRed,
-                      );
-                    }),
+                BlocBuilder<AttendanceBloc, AttendanceState>(builder: (context, state) {
+                  return state.status == NetworkStatus.loading
+                      ? Shimmer.fromColors(
+                          baseColor: const Color(0xFFE8E8E8),
+                          highlightColor: Colors.white,
+                          child: Container(
+                              height: 184.h,
+                              width: 184.w,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFE8E8E8),
+                                shape: BoxShape.circle, // radius of 10// green as background color
+                              )),
+                        )
+                      : AnimatedCircularButton(
+                          onComplete: () {
+                            context.read<AttendanceBloc>().add(OnOfflineAttendance());
+                          },
+                          isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
+                          title: offlineState.isCheckedIn == offlineState.isCheckedOut
+                              ? "check_in".tr()
+                              : "check_out".tr(),
+                          color: offlineState.isCheckedIn == offlineState.isCheckedOut ? colorPrimary : colorDeepRed,
+                        );
+                }),
               InkWell(
                 onTap: () {
-                  NavUtil.navigateScreen(
-                      context,
-                      BlocProvider.value(
-                          value: context.read<AttendanceBloc>(),
-                          child: const AttendanceReason()));
+                  NavUtil.navigateScreen(context,
+                      BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(8.0.r),
@@ -156,8 +147,7 @@ class _AttendanceState extends State<AttendanceView>
                       ),
                       Text(
                         "Add Reason",
-                        style:
-                        TextStyle(color: colorPrimary, fontSize: 16.r),
+                        style: TextStyle(color: colorPrimary, fontSize: 16.r),
                       ),
                     ],
                   ),
@@ -171,7 +161,7 @@ class _AttendanceState extends State<AttendanceView>
               /// Show Check In Check Out time
               const CheckInCheckOutTime(),
               SizedBox(height: 35.0.h),
-               const AttendanceDailyOfflineReportContent(),
+              const AttendanceDailyOfflineReportContent(),
               SizedBox(height: 35.0.h),
             ],
           ),

@@ -16,14 +16,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NoInternetScreen(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: BlocProvider(
-            create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),chatService: ChatService()),
-            child: const LoginForm(),
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),chatService: ChatService()),
+          child: const LoginForm(),
         ),
       ),
     );

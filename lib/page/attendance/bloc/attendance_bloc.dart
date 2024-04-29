@@ -25,11 +25,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   late bool isCheckedOut;
 
   AttendanceBloc({required MetaClubApiClient metaClubApiClient,
-      required AttendanceService attendanceService,
-      required LocationServiceProvider locationServices,
-      this.attendanceType = AttendanceType.normal,
-      required InternetStatus internetStatus,
-      String? selfie}): _metaClubApiClient = metaClubApiClient,
+    required AttendanceService attendanceService,
+    required LocationServiceProvider locationServices,
+    this.attendanceType = AttendanceType.normal,
+    required InternetStatus internetStatus,
+    String? selfie})
+      : _metaClubApiClient = metaClubApiClient,
         offlineAttendanceDB = attendanceService,
         _locationServices = locationServices,
         _selfie = selfie,
@@ -44,13 +45,19 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
     body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
 
-    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face || attendanceType == AttendanceType.selfie) {
+    SharedUtil.getIntValue(shiftId).then((sid) {
+      body.shiftId = sid;
+    });
+
+    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face ||
+        attendanceType == AttendanceType.selfie) {
       ///for auto check in/out , we need to initialize location
       add(OnLocationInitEvent());
 
       ///----------------------------------------------------///
       ///if not normal attendance, this event call automatically
       add(OnAttendance());
+
       ///---------------///---------------------------------///
     }
   }
@@ -77,11 +84,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
+    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
 
-     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
-     isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
-
-    emit(state.copyWith(locationLoaded: false, actionStatus: ActionStatus.refresh,isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut));
+    emit(state.copyWith(locationLoaded: false,
+        actionStatus: ActionStatus.refresh,
+        isCheckedIn: isCheckedIn,
+        isCheckedOut: isCheckedOut));
     _locationServices.placeStream.listen((location) async {
       body.latitude = '${_locationServices.userLocation.latitude}';
       body.longitude = '${_locationServices.userLocation.longitude}';
@@ -97,40 +106,49 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    emit(state.copyWith(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    final selfieFile =  _selfie != null ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString()) : null;
+    final selfieFile = _selfie != null
+        ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString())
+        : null;
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
 
-    if(isCheckedIn == true && body.attendanceId == null){
+    if (isCheckedIn == true && body.attendanceId == null) {
       add(OnOfflineAttendance());
-    }else{
+    } else {
       final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
-      data.fold((l){
+      data.fold((l) {
         ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
         add(OnOfflineAttendance());
+
         ///----------------------------------*********--------------------------------------------------------
-      }, (data){
+      }, (data) {
         body.isOffline = false;
-        final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
-        final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00:00',inputFormat: 'yyyy-mm-dd hh:mm',outputFormat: 'hh:mm aa');
+        final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00',
+            inputFormat: 'yyyy-mm-dd hh:mm',
+            outputFormat: 'hh:mm aa');
+        final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
+            inputFormat: 'yyyy-mm-dd hh:mm',
+            outputFormat: 'hh:mm aa');
         body.inTime = inTime;
         body.outTime = outTime;
-        if(body.attendanceId != null){
+        if (body.attendanceId != null) {
           body = body.copyWith(attendanceId: null);
           globalState.set(attendanceId, null);
           attendanceService.clearCheckData();
-        }else{
+        } else {
           globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
         }
         globalState.set(inTime, data?.checkInOut?.inTime);
         globalState.set(outTime, data?.checkInOut?.outTime);
         globalState.set(stayTime, data?.checkInOut?.stayTime);
+
         ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
         eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+
         ///----------------------------------*********--------------------------------------------------------
         emit(state.copyWith(status: NetworkStatus.success, checkData: data));
       });
@@ -138,23 +156,29 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
-    emit(state.copyWith(status: NetworkStatus.loading,actionStatus: ActionStatus.checkInOut));
+    emit(state.copyWith(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
     body.isOffline = true;
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
+
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
 
-    if(body.attendanceId != null){
+    if (body.attendanceId != null) {
       add(OnAttendance());
-    }else{
+    } else {
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+
       ///----------------------------------*********--------------------------------------------------------
-      final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!', result: true, checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
+      final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false)
+          ? 'Check-In'
+          : 'Check-Out'} successfully. CHEERS!!!',
+          result: true,
+          checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
 
       emit(state.copyWith(status: NetworkStatus.success, checkData: checkData));
     }

@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 part 'attendance_body.g.dart';
 
 @HiveType(typeId: 20)
-class AttendanceBody extends Equatable{
+class AttendanceBody extends Equatable {
   @HiveField(0)
   String? latitude;
   @HiveField(1)
@@ -24,8 +24,10 @@ class AttendanceBody extends Equatable{
   int? attendanceId;
   @HiveField(8)
   String? selfieImage;
-  @HiveField(8)
+  @HiveField(9)
   bool? isOffline;
+  @HiveField(10)
+  int? shiftId;
 
   AttendanceBody(
       {this.latitude,
@@ -36,7 +38,9 @@ class AttendanceBody extends Equatable{
       this.outTime,
       this.mode,
       this.attendanceId,
-      this.selfieImage,this.isOffline = true});
+      this.selfieImage,
+      this.shiftId,
+      this.isOffline = true});
 
   AttendanceBody copyWith(
       {String? latitude,
@@ -47,7 +51,9 @@ class AttendanceBody extends Equatable{
       String? outTime,
       int? mode,
       int? attendanceId,
-      String? selfieImage,bool? isOffline}) {
+      int? shiftId,
+      String? selfieImage,
+      bool? isOffline}) {
     return AttendanceBody(
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
@@ -57,7 +63,9 @@ class AttendanceBody extends Equatable{
         outTime: outTime ?? this.outTime,
         mode: mode ?? this.mode,
         attendanceId: attendanceId ?? this.attendanceId,
-        selfieImage: selfieImage ?? this.selfieImage,isOffline: isOffline ?? this.isOffline);
+        shiftId: shiftId ?? this.shiftId,
+        selfieImage: selfieImage ?? this.selfieImage,
+        isOffline: isOffline ?? this.isOffline);
   }
 
   Map<String, dynamic> toOfflineJson() => {
@@ -69,6 +77,7 @@ class AttendanceBody extends Equatable{
         'reason': reason,
         'remote_mode': mode,
         'attendance_id': attendanceId,
+        'shift_id': shiftId,
         'selfie_image': selfieImage,
         'isOffline': isOffline,
       };
@@ -79,9 +88,10 @@ class AttendanceBody extends Equatable{
         'reason': reason ?? "",
         'remote_mode': mode,
         'attendance_id': attendanceId,
+        'shift_id': shiftId,
         'selfie_image': file,
       };
 
   @override
-  List<Object?> get props => [inTime,outTime];
+  List<Object?> get props => [inTime, outTime];
 }

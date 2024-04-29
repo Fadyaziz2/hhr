@@ -50,6 +50,8 @@ const String keyRemoteModeType = "key_remote_mode_type";
 const String keyMenuList = "key_menu_list";
 const String isLocation = "isLocation";
 const String isTokenVerified = "isTokenVerified";
+const String isDisclosure = "isDisclosure";
+const String shiftId = "shiftId";
 const String notificationChannels = "notification_channels";
 const List languages = [
   {

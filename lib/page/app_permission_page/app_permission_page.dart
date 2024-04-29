@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:onesthrm/res/nav_utail.dart';
+import 'package:onesthrm/res/shared_preferences.dart';
 import '../../res/const.dart';
-import '../authentication/bloc/authentication_bloc.dart';
-import '../home/bloc/home_bloc.dart';
-import '../home/view/content/home_content.dart';
+import '../bottom_navigation/view/bottom_navigation_page.dart';
 
 class AppPermissionPage extends StatefulWidget {
   const AppPermissionPage({super.key});
@@ -20,6 +18,13 @@ class AppPermissionPage extends StatefulWidget {
 }
 
 class _AppPermissionPageState extends State<AppPermissionPage> {
+  
+  @override
+  void initState() {
+    SharedUtil.setBoolValue(isDisclosure, true);
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,7 @@ class _AppPermissionPageState extends State<AppPermissionPage> {
         child: ListView(
           children: [
             const SizedBox(height: 32.0),
-            const Text('HRM App collects location data to enable below features even when the app is closed or not in use',
+            const Text('24HourWorx App collects location data to enable below features even when the app is closed or not in use',
               style: TextStyle(fontSize: 20.0, color: Colors.white)),
             const SizedBox(height: 32.0,),
             const ListTile(
@@ -65,8 +70,7 @@ class _AppPermissionPageState extends State<AppPermissionPage> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                context.read<HomeBloc>().add(OnSwitchPressed(user: context.read<AuthenticationBloc>().state.data?.user,
-                    locationProvider: locationServiceProvider));
+                NavUtil.replaceScreen(context, const BottomNavigationPage());
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
