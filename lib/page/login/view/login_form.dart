@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
+import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../../res/const.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
@@ -88,6 +89,10 @@ class LoginForm extends StatelessWidget {
                     height: 10.0,
                   ),
                   const _LoginButton(),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const _SelectCompanyButton(),
                   const SizedBox(
                     height: 16,
                   ),
@@ -209,6 +214,23 @@ class _LoginButton extends StatelessWidget {
                 ),
               );
       },
+    );
+  }
+}
+
+class _SelectCompanyButton extends StatelessWidget {
+  const _SelectCompanyButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        NavUtil.replaceScreen(context, const OnboardingPage());
+      },
+      child: Text(
+        'Back',
+        style: TextStyle(fontSize: 14.r),
+      ),
     );
   }
 }

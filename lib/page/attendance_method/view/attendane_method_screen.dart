@@ -48,9 +48,11 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
       if (settings.data!.shifts.isNotEmpty) {
         selectedShift.value = settings.data?.shifts.first;
         SharedUtil.getIntValue(shiftId).then((sid) {
-          final cachedShift = settings.data?.shifts.firstWhere((e) => e.shiftId == sid);
-          if (cachedShift != null) {
-            selectedShift.value = cachedShift;
+          if(settings.data!.shifts.isNotEmpty){
+            final cachedShift = settings.data?.shifts.firstWhere((e) => e.shiftId == sid);
+            if (cachedShift != null) {
+              selectedShift.value = cachedShift;
+            }
           }
         });
       }
@@ -99,7 +101,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0.h),
                 child: Column(
                   children: [
-                    if (settings != null)
+                    if (settings != null && selectedShift.value != null)
                       ValueListenableBuilder<MultiShift?>(
                         valueListenable: selectedShift,
                         builder: (_, value, __) {
