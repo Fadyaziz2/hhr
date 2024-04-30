@@ -55,7 +55,8 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
             color: colorPrimary,
             getAppName: instance<GetAppNameUseCase>(),
             getAppVersion: instance<GetAppVersionUseCase>())
-          ..add(RouteSlug(context: context)),
+          ..add(RouteSlug(context: context))
+          ..add(OnAppServiceEvent()),
         child: Scaffold(
             key: MenuScreen._scaffoldKey,
             endDrawer: const MenuDrawer(),

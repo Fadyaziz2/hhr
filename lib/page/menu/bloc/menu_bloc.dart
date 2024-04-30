@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +53,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         )) {
     on<RouteSlug>(onRouteSlug);
     on<OnAppServiceEvent>(_onAppService);
-
-
-    add(OnAppServiceEvent());
   }
 
   void onRouteSlug(

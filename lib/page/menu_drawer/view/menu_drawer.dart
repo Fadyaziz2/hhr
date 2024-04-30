@@ -16,7 +16,6 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final menuState = context.read<MenuBloc>().state;
     return Drawer(
       width: 270.r,
       backgroundColor: Colors.white,
@@ -69,12 +68,14 @@ class MenuDrawer extends StatelessWidget {
                     const SizedBox(
                       height: 16.0,
                     ),
-                    Text(
-                      '${menuState.appName} : V${menuState.appVersion}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style:  GoogleFonts.adamina(fontSize: 14.r,color: Colors.grey,),
-                    ),
+                    BlocBuilder<MenuBloc,MenuState>(builder: (context,menuState){
+                      return Text(
+                        menuState.appVersion != null ? '${menuState.appName ?? ''} : V${menuState.appVersion}' : '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:  GoogleFonts.adamina(fontSize: 14.r,color: Colors.grey,),
+                      );
+                    }),
                     const SizedBox(
                       height: 32.0,
                     ),

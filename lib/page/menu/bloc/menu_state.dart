@@ -18,5 +18,5 @@ class MenuState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [slugName, status, appName, appVersion];
+  List<Object?> get props => [slugName, status];
 }
