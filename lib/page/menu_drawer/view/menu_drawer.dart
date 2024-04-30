@@ -15,6 +15,7 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
+    final menuState = context.read<MenuBloc>().state;
     return Drawer(
       width: 270.r,
       backgroundColor: Colors.white,
@@ -59,13 +60,22 @@ class MenuDrawer extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(22),
                         topRight: Radius.circular(22))),
-                child: const Column(
+                child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MenuSettingsContent(),
-                    SupportContent(),
-                    SizedBox(
-                      height: 40,
+                    const MenuSettingsContent(),
+                    const SupportContent(),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    Text(
+                      '${menuState.appName} : V${menuState.appVersion}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style:  TextStyle(fontSize: 14.r),
+                    ),
+                    const SizedBox(
+                      height: 32.0,
                     ),
                   ],
                 ),

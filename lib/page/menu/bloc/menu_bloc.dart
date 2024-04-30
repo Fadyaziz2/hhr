@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:chat/chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrm_framework/hrm_framework.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
@@ -32,19 +35,28 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final Settings _settings;
   final LoginData _loginData;
   final Color _primaryColor;
+  final GetAppNameUseCase _getAppName;
+  final GetAppVersionUseCase _getAppVersion;
 
-  MenuBloc(
-      {required MetaClubApiClient metaClubApiClient,
+  MenuBloc({required MetaClubApiClient metaClubApiClient,
       required LoginData loginData,
       required Color color,
+      required GetAppNameUseCase getAppName,
+      required GetAppVersionUseCase getAppVersion,
       required Settings setting})
       : _settings = setting,
         _loginData = loginData,
+        _getAppName = getAppName,
+        _getAppVersion = getAppVersion,
         _primaryColor = color,
         super(const MenuState(
           status: NetworkStatus.initial,
         )) {
     on<RouteSlug>(onRouteSlug);
+    on<OnAppServiceEvent>(_onAppService);
+
+
+    add(OnAppServiceEvent());
   }
 
   void onRouteSlug(
@@ -56,10 +68,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(event.context, const SupportPage());
         break;
       case 'attendance':
-        Navigator.push(
-            event.context,
-            AttendanceMethodScreen.route(
-                homeBloc: event.context.read<HomeBloc>()));
+        Navigator.push(event.context, AttendanceMethodScreen.route(homeBloc: event.context.read<HomeBloc>()));
         break;
       case 'notice':
         NavUtil.navigateScreen(event.context, const NoticeListScreen());
@@ -102,10 +111,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         break;
       case 'break':
         NavUtil.navigateScreen(
-            event.context,
-            BlocProvider.value(
-                value: event.context.read<HomeBloc>(),
-                child: const BreakScreen()));
+            event.context, BlocProvider.value(value: event.context.read<HomeBloc>(), child: const BreakScreen()));
         break;
       case 'feedback':
       case 'report':
@@ -123,5 +129,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       default:
         return debugPrint('default');
     }
+  }
+
+  FutureOr<void> _onAppService(OnAppServiceEvent event, Emitter<MenuState> emit) async {
+    final appVersion = await _getAppVersion();
+    final appName = await _getAppName();
+    emit(state.copy(appVersion: appVersion,appName: appName));
   }
 }

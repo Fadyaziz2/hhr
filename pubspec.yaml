@@ -71,6 +71,8 @@ dependencies:
     path: packages/video_chat
   core:
     path: packages/core
+  hrm_framework:
+    path: packages/hrm_framework
   flutter_lints: ^2.0.3
   photo_view: ^0.14.0
   fluttertoast: ^8.0.9
