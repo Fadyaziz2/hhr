@@ -45,7 +45,8 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
     final homeBloc = context.read<HomeBloc>();
     final homeData = homeBloc.state.dashboardModel;
     final settings = homeBloc.state.settings;
-    final offlineState = context.watch<OfflineCubit>().state;
+    final offlineAttendanceBloc = context.watch<OfflineCubit>();
+    final offlineState = offlineAttendanceBloc.state;
 
     if (user?.user != null) {
       context.read<HomeBloc>().add(OnLocationRefresh(
@@ -62,9 +63,9 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
               body: '${state.checkData?.message}',
               isSuccess: state.checkData?.checkInOut != null ? true : false);
         }
-        // if (state.status == NetworkStatus.success) {
-        //   homeBloc.add(LoadHomeData());
-        // }
+        if (state.status == NetworkStatus.success) {
+          // homeBloc.add(LoadHomeData());
+        }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -127,32 +128,33 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                           color: offlineState.isCheckedIn == offlineState.isCheckedOut ? colorPrimary : colorDeepRed,
                         );
                 }),
-              InkWell(
-                onTap: () {
-                  NavUtil.navigateScreen(context,
-                      BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.note_add_outlined,
-                        color: colorPrimary,
-                        size: 25.r,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        "Add Reason",
-                        style: TextStyle(color: colorPrimary, fontSize: 16.r),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              ///for now this section will be hidden
+              // InkWell(
+              //   onTap: () {
+              //     NavUtil.navigateScreen(context,
+              //         BlocProvider.value(value: context.read<AttendanceBloc>(), child: const AttendanceReason()));
+              //   },
+              //   child: Padding(
+              //     padding: EdgeInsets.all(8.0.r),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Icon(
+              //           Icons.note_add_outlined,
+              //           color: colorPrimary,
+              //           size: 25.r,
+              //         ),
+              //         SizedBox(
+              //           width: 5.w,
+              //         ),
+              //         Text(
+              //           "Add Reason",
+              //           style: TextStyle(color: colorPrimary, fontSize: 16.r),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               SizedBox(
                 height: 15.h,

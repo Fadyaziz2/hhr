@@ -93,5 +93,5 @@ class AttendanceBody extends Equatable {
       };
 
   @override
-  List<Object?> get props => [inTime, outTime];
+  List<Object?> get props => [inTime, outTime,attendanceId,latitude,longitude,selfieImage];
 }

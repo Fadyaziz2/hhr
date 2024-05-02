@@ -21,25 +21,25 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
 
   onCheckInOutData({AttendanceBody? body}){
     final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    bool isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
-    bool isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
-    AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+    bool isCheckedIn = body?.inTime != null;
+    bool isCheckedOut = body?.outTime != null;
 
     if(body != null) {
         ///for offline attendance we need date, outTime, inTime
-        if (isCheckedIn && isCheckedOut == false) {
-          body = body.copyWith(inTime: localAttendanceData?.inTime);
-          body = body.copyWith(outTime:  DateFormat('h:mm a', 'en').format(DateTime.now()));
-        } else {
-          body = body.copyWith(inTime: DateFormat('h:mm a', 'en').format(DateTime.now()));
-          body = body.copyWith(outTime:  null);
-        }
+        // if (isCheckedIn && isCheckedOut == false) {
+        //   body = body.copyWith(inTime: body.inTime);
+        //   body = body.copyWith(outTime:  DateFormat('h:mm a', 'en').format(DateTime.now()));
+        // } else {
+        //   body = body.copyWith(inTime: DateFormat('h:mm a', 'en').format(DateTime.now()));
+        //   body = body.copyWith(outTime:  null);
+        // }
 
       _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,multipleAttendanceEnabled: true).then((_){
-        isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
-        isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
+        AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+        // isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
+        // isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
         localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
-        if(isCheckedOut && body?.isOffline == true){
+        if(isCheckedOut && body.isOffline == true){
         ///-----------------------Try to sync attendance data with server when user try to checkout---------------
           eventBus.fire(const OfflineDataSycEvent());
         }
@@ -47,6 +47,9 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
         emit(state.copyWith(isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,attendanceBody: localAttendanceData));
       });
     }else{
+      AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+      bool isCheckedIn = localAttendanceData?.inTime != null;
+      bool isCheckedOut = localAttendanceData?.outTime != null;
       emit(state.copyWith(isCheckedIn: isCheckedIn,isCheckedOut: isCheckedOut,attendanceBody: localAttendanceData));
     }
   }

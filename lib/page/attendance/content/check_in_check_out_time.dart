@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 
@@ -13,7 +14,8 @@ class CheckInCheckOutTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    context.watch<AttendanceBloc>();
+    final attendanceBloc = context.watch<AttendanceBloc>();
+    context.watch<OfflineCubit>();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -29,7 +31,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5.h,
             ),
             Text(
-              globalState.get(inTime) ?? "--:--",
+              attendanceBloc.isCheckedIn ? globalState.get(inTime) ?? "--:--": "--:--",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             SizedBox(
@@ -52,7 +54,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5.h,
             ),
             Text(
-              globalState.get(outTime) ?? "--:--",
+              attendanceBloc.isCheckedOut ? globalState.get(outTime) ?? "--:--": "--:--",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(
@@ -75,7 +77,7 @@ class CheckInCheckOutTime extends StatelessWidget {
               height: 5.h,
             ),
             Text(
-              globalState.get(stayTime) ?? "--:--",
+              (attendanceBloc.isCheckedIn &&  attendanceBloc.isCheckedOut) ? globalState.get(stayTime) ?? "--:--": "--:--",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
             ),
             const SizedBox(

@@ -13,7 +13,7 @@ class AttendanceService {
 
   AttendanceService._();
 
-  Future<void> checkInOut(
+  Future<bool> checkInOut(
       {required AttendanceBody checkData,
       required isCheckedIn,
       required isCheckedOut,
@@ -22,7 +22,11 @@ class AttendanceService {
       if (checkData.date != null) {
         if (isCheckedOut == false || multipleAttendanceEnabled == false) {
           final index = getIndexOfCheckIn(date: checkData.date!);
-          box.putAt(index < 0 ? 0 : index, checkData);
+          try{
+            box.putAt(index < 0 ? 0 : index, checkData);
+          }catch(_){
+            await box.add(checkData);
+          }
         } else {
           await box.add(checkData);
         }
@@ -30,6 +34,7 @@ class AttendanceService {
     } else {
       await box.add(checkData);
     }
+    return true;
   }
 
   void removeCheckData(int index) async {
@@ -126,8 +131,6 @@ class AttendanceService {
       if (check?.inTime != null) {
         globalState.set(inTime, check?.inTime);
         return true;
-      } else {
-        return false;
       }
     }
     return false;
@@ -140,8 +143,6 @@ class AttendanceService {
         globalState.set(inTime, check?.inTime);
         globalState.set(outTime, check?.outTime);
         return true;
-      } else {
-        return false;
       }
     }
     return false;

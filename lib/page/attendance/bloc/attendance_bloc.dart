@@ -115,6 +115,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
 
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+
     data.fold((l) {
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       add(OnOfflineAttendance());
@@ -143,7 +144,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
       ///----------------------------------*********--------------------------------------------------------
       emit(state.copyWith(status: NetworkStatus.success, checkData: data));
-      ///----------------------------------*********--------------------------------------------------------
     });
   }
 

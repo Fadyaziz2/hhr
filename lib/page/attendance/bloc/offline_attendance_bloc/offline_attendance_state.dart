@@ -21,5 +21,5 @@ class OfflineAttendanceState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [isCheckedIn, isCheckedOut];
+  List<Object?> get props => [isCheckedIn, isCheckedOut,attendanceBody];
 }

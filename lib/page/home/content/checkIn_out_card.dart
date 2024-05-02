@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
+import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_state.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
@@ -25,67 +26,68 @@ class CheckInOutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<OfflineCubit,OfflineAttendanceState>(
+      builder: (context,offlineState){
+        return Card(
+          elevation: 2,
+          margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          child: InkWell(
+              onTap: () {
+                context.read<HomeBloc>().add(OnLocationRefresh(
+                    user: context.read<AuthenticationBloc>().state.data?.user,
+                    locationProvider: locationServiceProvider));
 
-    final offlineState= context.watch<OfflineCubit>().state;
-
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 18.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      child: InkWell(
-          onTap: () {
-            context.read<HomeBloc>().add(OnLocationRefresh(
-                user: context.read<AuthenticationBloc>().state.data?.user,
-                locationProvider: locationServiceProvider));
-
-            Navigator.push(context, AttendanceMethodScreen.route(homeBloc: context.read<HomeBloc>()));
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SvgPicture.asset(
-                    offlineState.isCheckedIn == offlineState.isCheckedOut
-                        ? 'assets/home_icon/in.svg'
-                        : 'assets/home_icon/out.svg',
-                    height: 40.h,
-                    width: 40.w,
-                    placeholderBuilder: (BuildContext context) => Container(
-                        padding: const EdgeInsets.all(30.0),
-                        child: const CircularProgressIndicator()),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          offlineState.isCheckedIn == offlineState.isCheckedOut
-                              ? "start_time".tr()
-                              : "done_for_today".tr(),
-                          style: TextStyle(
-                              fontSize: 16.r,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                              letterSpacing: 0.5)),
-                      Text(
+                Navigator.push(context, AttendanceMethodScreen.route(homeBloc: context.read<HomeBloc>()));
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SvgPicture.asset(
                         offlineState.isCheckedIn == offlineState.isCheckedOut
-                            ? "check_in".tr()
-                            : "check_out".tr(),
-                        style: TextStyle(
-                            color: colorPrimary,
-                            fontSize: 16.r,
-                            fontWeight: FontWeight.w500,
-                            height: 1.5,
-                            letterSpacing: 0.5),
+                            ? 'assets/home_icon/in.svg'
+                            : 'assets/home_icon/out.svg',
+                        height: 40.h,
+                        width: 40.w,
+                        placeholderBuilder: (BuildContext context) => Container(
+                            padding: const EdgeInsets.all(30.0),
+                            child: const CircularProgressIndicator()),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              offlineState.isCheckedIn == offlineState.isCheckedOut
+                                  ? "start_time".tr()
+                                  : "done_for_today".tr(),
+                              style: TextStyle(
+                                  fontSize: 16.r,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.5,
+                                  letterSpacing: 0.5)),
+                          Text(
+                            offlineState.isCheckedIn == offlineState.isCheckedOut
+                                ? "check_in".tr()
+                                : "check_out".tr(),
+                            style: TextStyle(
+                                color: colorPrimary,
+                                fontSize: 16.r,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
+                                letterSpacing: 0.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )),
+              )),
+        );
+      }
     );
   }
 }
