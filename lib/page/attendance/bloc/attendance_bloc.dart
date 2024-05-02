@@ -35,6 +35,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         _locationServices = locationServices,
         _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
+
+    body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
+    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
+
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
     on<OnRemoteModeChanged>(_onRemoteModeUpdate);
@@ -42,8 +47,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<OnOfflineAttendance>(_onOfflineAttendance);
     on<OnLocationUpdated>(_onLocationUpdated);
     on<ReasonEvent>(_onReason);
-
-    body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
 
     SharedUtil.getIntValue(shiftId).then((sid) {
       body.shiftId = sid;
@@ -106,9 +109,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
-    body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
+    body.attendanceId = globalState.get(attendanceId);
     final selfieFile = _selfie != null
         ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString())
         : null;
@@ -128,10 +131,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
           inputFormat: 'yyyy-mm-dd hh:mm',
           outputFormat: 'hh:mm aa');
+      body.attendanceId = data?.checkInOut?.id;
       body.inTime = inTime;
       body.outTime = outTime;
-      if (body.attendanceId != null) {
-        body = body.copyWith(attendanceId: null);
+      if (body.inTime != null && body.outTime != null) {
+        body.attendanceId = null;
         globalState.set(attendanceId, null);
         attendanceService.clearCheckData();
       } else {
@@ -141,7 +145,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       globalState.set(outTime, data?.checkInOut?.outTime);
       globalState.set(stayTime, data?.checkInOut?.stayTime);
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
-      eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+      eventBus.fire(OnOnlineAttendanceUpdateEvent(body: body));
       ///----------------------------------*********--------------------------------------------------------
       emit(state.copyWith(status: NetworkStatus.success, checkData: data));
     });

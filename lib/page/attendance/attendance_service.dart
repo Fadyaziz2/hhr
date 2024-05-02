@@ -20,19 +20,23 @@ class AttendanceService {
       bool multipleAttendanceEnabled = false}) async {
     if (isCheckedIn == true) {
       if (checkData.date != null) {
-        if (isCheckedOut == false || multipleAttendanceEnabled == false) {
-          final index = getIndexOfCheckIn(date: checkData.date!);
-          try{
-            box.putAt(index < 0 ? 0 : index, checkData);
-          }catch(_){
+        if(checkData.inTime != null){
+          if (isCheckedOut == true || multipleAttendanceEnabled == false) {
+            final index = getLastIndexOfCheckIn(date: checkData.date!);
+            try{
+              box.putAt(index < 0 ? 0 : index, checkData);
+            }catch(_){
+              await box.add(checkData);
+            }
+          } else {
             await box.add(checkData);
           }
-        } else {
-          await box.add(checkData);
         }
       }
     } else {
-      await box.add(checkData);
+      if(checkData.inTime != null && checkData.outTime != null){
+        await box.add(checkData);
+      }
     }
     return true;
   }
@@ -44,6 +48,10 @@ class AttendanceService {
   int getIndexOfCheckIn({required String date}) {
     return getAllOfflineCheckData().indexWhere(
         (element) => element.date == date, getAllOfflineCheckData().length - 1);
+  }
+
+  int getLastIndexOfCheckIn({required String date}) {
+    return getAllOfflineCheckData().length - 1;
   }
 
   List<AttendanceBody> getAllOfflineCheckData() {

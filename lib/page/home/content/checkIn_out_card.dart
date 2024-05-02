@@ -61,7 +61,7 @@ class CheckInOutCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              offlineState.isCheckedIn == offlineState.isCheckedOut
+                              offlineState.isCheckedIn == false
                                   ? "start_time".tr()
                                   : "done_for_today".tr(),
                               style: TextStyle(
@@ -70,7 +70,7 @@ class CheckInOutCard extends StatelessWidget {
                                   height: 1.5,
                                   letterSpacing: 0.5)),
                           Text(
-                            offlineState.isCheckedIn == offlineState.isCheckedOut
+                            offlineState.isCheckedIn == false
                                 ? "check_in".tr()
                                 : "check_out".tr(),
                             style: TextStyle(

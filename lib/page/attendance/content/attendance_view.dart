@@ -121,11 +121,11 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                           onComplete: () {
                             context.read<AttendanceBloc>().add(OnOfflineAttendance());
                           },
-                          isCheckedIn: offlineState.isCheckedIn == offlineState.isCheckedOut,
-                          title: offlineState.isCheckedIn == offlineState.isCheckedOut
+                          isCheckedIn: offlineState.isCheckedIn,
+                          title: offlineState.isCheckedIn == false
                               ? "check_in".tr()
                               : "check_out".tr(),
-                          color: offlineState.isCheckedIn == offlineState.isCheckedOut ? colorPrimary : colorDeepRed,
+                          color: offlineState.isCheckedIn == false ? colorPrimary : colorDeepRed,
                         );
                 }),
               ///for now this section will be hidden
