@@ -20,7 +20,7 @@ class DashboardModel extends Equatable {
       );
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data,message,result];
 }
 
 class DashboardData extends Equatable {

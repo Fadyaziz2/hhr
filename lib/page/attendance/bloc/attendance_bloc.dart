@@ -27,7 +27,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   AttendanceBloc({required MetaClubApiClient metaClubApiClient,
     required AttendanceService attendanceService,
     required LocationServiceProvider locationServices,
-    this.attendanceType = AttendanceType.normal,
+    required this.attendanceType,
     required InternetStatus internetStatus,
     String? selfie})
       : _metaClubApiClient = metaClubApiClient,
@@ -49,15 +49,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       body.shiftId = sid;
     });
 
-    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face ||
-        attendanceType == AttendanceType.selfie) {
+    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face || attendanceType == AttendanceType.selfie) {
       ///for auto check in/out , we need to initialize location
       add(OnLocationInitEvent());
 
       ///----------------------------------------------------///
       ///if not normal attendance, this event call automatically
       add(OnAttendance());
-
       ///---------------///---------------------------------///
     }
   }
@@ -116,43 +114,37 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         : null;
     final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
 
-    if (isCheckedIn == true && body.attendanceId == null) {
+    final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+    data.fold((l) {
+      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       add(OnOfflineAttendance());
-    } else {
-      final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
-      data.fold((l) {
-        ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
-        add(OnOfflineAttendance());
-
-        ///----------------------------------*********--------------------------------------------------------
-      }, (data) {
-        body.isOffline = false;
-        final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00',
-            inputFormat: 'yyyy-mm-dd hh:mm',
-            outputFormat: 'hh:mm aa');
-        final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
-            inputFormat: 'yyyy-mm-dd hh:mm',
-            outputFormat: 'hh:mm aa');
-        body.inTime = inTime;
-        body.outTime = outTime;
-        if (body.attendanceId != null) {
-          body = body.copyWith(attendanceId: null);
-          globalState.set(attendanceId, null);
-          attendanceService.clearCheckData();
-        } else {
-          globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
-        }
-        globalState.set(inTime, data?.checkInOut?.inTime);
-        globalState.set(outTime, data?.checkInOut?.outTime);
-        globalState.set(stayTime, data?.checkInOut?.stayTime);
-
-        ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
-        eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
-
-        ///----------------------------------*********--------------------------------------------------------
-        emit(state.copyWith(status: NetworkStatus.success, checkData: data));
-      });
-    }
+      ///----------------------------------*********--------------------------------------------------------
+    }, (data) {
+      body.isOffline = false;
+      final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00',
+          inputFormat: 'yyyy-mm-dd hh:mm',
+          outputFormat: 'hh:mm aa');
+      final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
+          inputFormat: 'yyyy-mm-dd hh:mm',
+          outputFormat: 'hh:mm aa');
+      body.inTime = inTime;
+      body.outTime = outTime;
+      if (body.attendanceId != null) {
+        body = body.copyWith(attendanceId: null);
+        globalState.set(attendanceId, null);
+        attendanceService.clearCheckData();
+      } else {
+        globalState.set(attendanceId, data?.checkInOut?.checkOut == null ? data?.checkInOut?.id : null);
+      }
+      globalState.set(inTime, data?.checkInOut?.inTime);
+      globalState.set(outTime, data?.checkInOut?.outTime);
+      globalState.set(stayTime, data?.checkInOut?.stayTime);
+      ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
+      eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
+      ///----------------------------------*********--------------------------------------------------------
+      emit(state.copyWith(status: NetworkStatus.success, checkData: data));
+      ///----------------------------------*********--------------------------------------------------------
+    });
   }
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {

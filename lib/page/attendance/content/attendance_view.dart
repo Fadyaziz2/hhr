@@ -62,9 +62,9 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
               body: '${state.checkData?.message}',
               isSuccess: state.checkData?.checkInOut != null ? true : false);
         }
-        if (state.status == NetworkStatus.success) {
-          homeBloc.add(LoadHomeData());
-        }
+        // if (state.status == NetworkStatus.success) {
+        //   homeBloc.add(LoadHomeData());
+        // }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
