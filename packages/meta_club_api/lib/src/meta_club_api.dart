@@ -507,7 +507,7 @@ class MetaClubApiClient {
     const String api = 'daily-leave/leave-list';
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId, "month": date});
+      FormData formData = FormData.fromMap({"user_id": userId, "date": date});
       final response =
           await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 

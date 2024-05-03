@@ -45,7 +45,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       locale: const Locale("en"),
     );
     if(date != null){
-      String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
+      String? currentMonth = getDateAsString(format: 'y-MM-dd', dateTime: date);
       add(DailyLeaveSummary(state.selectEmployee?.id ?? event.userId));
       emit(state.copyWith(
           status: NetworkStatus.success, currentMonth: currentMonth));
@@ -58,7 +58,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     emit(state.copyWith(
         status: NetworkStatus.loading,
         currentMonth:
-            state.currentMonth ?? DateFormat('y-MM-d').format(DateTime.now())));
+            state.currentMonth ?? DateFormat('y-MM-dd').format(DateTime.now())));
     try {
       DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient
           .dailyLeaveSummary(event.userId, state.currentMonth);
@@ -117,8 +117,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     try {
       final leaveTypeListData =
           await _metaClubApiClient.dailyLeaveSummaryStaffView(
-              userId:
-                  state.selectEmployee?.id.toString() ?? leaveListModel.userId,
+              userId: state.selectEmployee?.id.toString() ?? leaveListModel.userId,
               month: leaveListModel.month,
               leaveStatus: leaveListModel.leaveStatus,
               leaveType: leaveListModel.leaveType);

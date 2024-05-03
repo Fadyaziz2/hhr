@@ -50,7 +50,7 @@ class DailyLeaveApproved extends StatelessWidget {
                     leaveListData: LeaveListModel(
                         userId: user!.user!.id!.toString(),
                         month: dailyLeaveBloc.state.currentMonth ??
-                            DateFormat('y-MM-d').format(DateTime.now()),
+                            DateFormat('y-MM-dd').format(DateTime.now()),
                         leaveStatus: 'approved',
                         leaveType: "early_leave"),
                   )),
@@ -70,8 +70,7 @@ class DailyLeaveApproved extends StatelessWidget {
                     appBarName: "late_leave".tr(),
                     leaveListData: LeaveListModel(
                         userId: user!.user!.id!.toString(),
-                        month: dailyLeaveBloc.state.currentMonth ??
-                            DateFormat('y-MM-d').format(DateTime.now()),
+                        month: dailyLeaveBloc.state.currentMonth ?? DateFormat('y-MM-dd').format(DateTime.now()),
                         leaveStatus: 'approved',
                         leaveType: "late_arrive"),
                   )),
