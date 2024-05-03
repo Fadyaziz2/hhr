@@ -1,5 +1,6 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
+import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/const.dart';
 import '../app/global_state.dart';
 import '../home/models/attendance_body.dart';
@@ -20,12 +21,12 @@ class AttendanceService {
       bool multipleAttendanceEnabled = false}) async {
     if (isCheckedIn == true) {
       if (checkData.date != null) {
-        if(checkData.inTime != null){
+        if (checkData.inTime != null) {
           if (isCheckedOut == true || multipleAttendanceEnabled == false) {
             final index = getLastIndexOfCheckIn(date: checkData.date!);
-            try{
+            try {
               box.putAt(index < 0 ? 0 : index, checkData);
-            }catch(_){
+            } catch (_) {
               await box.add(checkData);
             }
           } else {
@@ -34,9 +35,36 @@ class AttendanceService {
         }
       }
     } else {
-      if(checkData.inTime != null && checkData.outTime != null){
+      if (checkData.inTime != null && checkData.outTime != null) {
         await box.add(checkData);
       }
+    }
+    return true;
+  }
+
+  Future<bool> offlineCheckInOut({required AttendanceBody checkData, required isCheckedIn, required isCheckedOut, bool multipleAttendanceEnabled = false}) async {
+    if (isCheckedIn != isCheckedOut) {
+      if (checkData.date != null) {
+        if (checkData.inTime != null) {
+          if (isCheckedOut == false || multipleAttendanceEnabled == false) {
+            final index = getIndexOfCheckIn(date: checkData.date!);
+            try {
+              box.putAt(index < 0 ? 0 : index, checkData);
+            } catch (_) {
+              await box.add(checkData);
+            }
+          } else {
+            await box.add(checkData);
+          }
+        }
+      }
+    } else {
+      if (checkData.inTime != null) {
+        await box.add(checkData);
+      }
+    }
+    if(checkData.date != null){
+      await refreshHiveData(date: checkData.date!, body: checkData);
     }
     return true;
   }
@@ -46,20 +74,43 @@ class AttendanceService {
   }
 
   int getIndexOfCheckIn({required String date}) {
-    return getAllOfflineCheckData().indexWhere(
-        (element) => element.date == date, getAllOfflineCheckData().length - 1);
+    return getAllCheckData().toList().lastIndexWhere((element) => element.date == date, getAllOfflineCheckData().length - 1);
   }
 
   int getLastIndexOfCheckIn({required String date}) {
     return getAllOfflineCheckData().length - 1;
   }
 
+  refreshHiveData({required String date,required AttendanceBody body}) async {
+    final inList = getAllOfflineCheckData().where((e) => e.date == date).map((e) => e.inTime).toList();
+    final outList = getAllOfflineCheckData().where((e) => e.date == date).map((e) => e.outTime).toList();
+    final times = [...inList,...outList].where((e) => e != null).toList();
+    if(times.length > 6){
+      try{
+        // Convert strings to DateTime objects
+        List<DateTime> dateTimeList = times
+            .map((time) => DateFormat('h:mm a', 'en').parse(time!))
+            .toList();
+
+        // Find the minimum and maximum times
+        DateTime minTime = dateTimeList.reduce((value, element) =>
+        value.isBefore(element) ? value : element);
+        DateTime maxTime = dateTimeList.reduce((value, element) =>
+        value.isAfter(element) ? value : element);
+
+        // Format the times to display
+        String formattedMinTime = DateFormat('h:mm a', 'en').format(minTime);
+        String formattedMaxTime = DateFormat('h:mm a', 'en').format(maxTime);
+
+        await clearCheckOfflineData();
+
+        box.add(body.copyWith(inTime: formattedMinTime,outTime: formattedMaxTime));
+      }catch(_){}
+    }
+  }
+
   List<AttendanceBody> getAllOfflineCheckData() {
-    return box.values
-        .toList()
-        .reversed
-        .where((e) => e.isOffline == true)
-        .toList();
+    return box.values.toList().reversed.where((e) => e.isOffline == true).toList();
   }
 
   List<AttendanceBody> getAllCheckData() {
@@ -117,11 +168,9 @@ class AttendanceService {
     return getAllOfflineCheckData().length;
   }
 
-  void clearCheckOfflineData() async {
-    final keys = box.values
-        .where((e) => e.isOffline == true)
-        .map((e) => box.keyAt(box.values.toList().indexOf(e)))
-        .toList();
+  Future<void> clearCheckOfflineData() async {
+    final keys =
+        box.values.where((e) => e.isOffline == true).map((e) => box.keyAt(box.values.toList().indexOf(e))).toList();
     if (keys.isNotEmpty) {
       await box.deleteAll(keys);
     }

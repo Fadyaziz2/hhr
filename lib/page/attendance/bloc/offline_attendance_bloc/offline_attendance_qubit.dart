@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'offline_attendance_state.dart';
@@ -15,7 +13,9 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
   late StreamSubscription<OnOnlineAttendanceUpdateEvent> onlineSubscription;
   late StreamSubscription<OnOfflineAttendanceUpdateEvent> offlineSubscription;
 
-  OfflineCubit({required AttendanceService attendanceService}): _attendanceService = attendanceService, super(const OfflineAttendanceState()) {
+  OfflineCubit({required AttendanceService attendanceService})
+      : _attendanceService = attendanceService,
+        super(const OfflineAttendanceState()) {
     onOnlineCheckInOutData();
 
     onlineSubscription = eventBus.on<OnOnlineAttendanceUpdateEvent>().listen((event) {
@@ -32,17 +32,19 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
     bool isCheckedIn = body?.inTime != null;
     bool isCheckedOut = body?.outTime != null;
     if (body != null) {
-      if(isCheckedOut == true){
+      if (isCheckedOut == true) {
         isCheckedIn = false;
         body = body.copyWith(attendanceId: null);
       }
-      _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, multipleAttendanceEnabled: true).then((_) {
+      _attendanceService.checkInOut(checkData: body, isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, multipleAttendanceEnabled: true)
+          .then((_) {
         AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
         localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
         if (isCheckedOut && body?.isOffline == true) {
           ///-----------------------Try to sync attendance data with server when user try to checkout---------------
           eventBus.fire(const OfflineDataSycEvent());
         }
+
         ///--------------------------------------*********--------------------------------------------------------
         emit(state.copyWith(isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, attendanceBody: localAttendanceData));
       });
@@ -50,6 +52,21 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
       AttendanceBody? localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
       isCheckedIn = localAttendanceData?.attendanceId != null;
       isCheckedOut = localAttendanceData?.attendanceId == null;
+
+      if(localAttendanceData?.attendanceId == null){
+        if(localAttendanceData?.inTime != null){
+          isCheckedIn = true;
+        }
+        if(localAttendanceData?.outTime != null){
+          isCheckedOut = true;
+          isCheckedIn = false;
+        }
+        if(localAttendanceData?.inTime != null && localAttendanceData?.outTime != null){
+          isCheckedIn = false;
+          isCheckedOut = false;
+        }
+      }
+
       emit(state.copyWith(isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, attendanceBody: localAttendanceData));
     }
   }
@@ -70,13 +87,21 @@ class OfflineCubit extends Cubit<OfflineAttendanceState> {
         body = body.copyWith(outTime: null);
       }
 
-      _attendanceService
-          .checkInOut(
-              checkData: body, isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, multipleAttendanceEnabled: true)
-          .then((_) {
+      _attendanceService.offlineCheckInOut(checkData: body, isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, multipleAttendanceEnabled: true).then((_) {
         isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
         isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
         localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+        if(localAttendanceData?.inTime != null){
+          isCheckedIn = true;
+        }
+        if(localAttendanceData?.outTime != null){
+          isCheckedOut = true;
+          isCheckedIn = false;
+        }
+        if(localAttendanceData?.inTime != null && localAttendanceData?.outTime != null){
+          isCheckedIn = false;
+          isCheckedOut = false;
+        }
         emit(state.copyWith(isCheckedIn: isCheckedIn, isCheckedOut: isCheckedOut, attendanceBody: localAttendanceData));
       });
     } else {

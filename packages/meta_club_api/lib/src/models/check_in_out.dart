@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class CheckData {
+class CheckData extends Equatable{
   final String? message;
   final bool? result;
   final CheckInOut? checkInOut;
@@ -15,6 +15,8 @@ class CheckData {
             ? CheckInOut.fromJson(json['data'])
             : null);
   }
+  @override
+  List<Object?> get props => [message,result,checkInOut];
 }
 
 class CheckInOut extends Equatable {
@@ -73,7 +75,7 @@ class CheckInOut extends Equatable {
       };
 
   @override
-  List<Object?> get props => [id, remoteMode, date];
+  List<Object?> get props => [id, remoteMode, date,checkIn,checkOut,checkInIp,latitude,longitude,inStatus];
 }
 
 

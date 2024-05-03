@@ -77,6 +77,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       globalState.set(isLocation, settings?.data?.locationService);
       globalState.set(notificationChannels, settings?.data?.notificationChannels);
+      ///Assign default shift in pref
+      if(settings != null){
+        if(settings.data!.shifts.isNotEmpty){
+          SharedUtil.setIntValue(shiftId, settings.data?.shifts.first.shiftId);
+        }
+      }
       await subscribeTopic();
       emit(state.copy(settings: settings, status: NetworkStatus.success));
     } catch (e) {
