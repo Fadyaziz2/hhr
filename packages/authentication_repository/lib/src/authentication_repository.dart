@@ -7,7 +7,7 @@ enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
   final MetaClubApiClient apiClient;
-  AuthenticationStatus initialStatus = AuthenticationStatus.unknown;
+  AuthenticationStatus initialStatus = AuthenticationStatus.unauthenticated;
 
   AuthenticationRepository({required this.apiClient});
 
