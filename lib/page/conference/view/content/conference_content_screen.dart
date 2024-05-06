@@ -1,9 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/conference/conference.dart';
+import 'package:onesthrm/page/conference/view/create_conference_page.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shimmers.dart';
+
+import '../../../../res/nav_utail.dart';
 
 class ConferenceContentScreen extends StatelessWidget {
   const ConferenceContentScreen({super.key});
@@ -11,6 +16,16 @@ class ConferenceContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          NavUtil.navigateScreen(
+              context,
+              BlocProvider.value(
+                  value: context.read<ConferenceBloc>(),
+                  child: const CreateConferencePage()));
+        },
+        child: Icon(Icons.add,size: 24.r,color: colorPrimary,),
+      ),
       appBar: AppBar(
         title: Text('Conference'.tr()),
       ),

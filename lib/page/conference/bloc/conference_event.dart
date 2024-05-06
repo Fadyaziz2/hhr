@@ -11,3 +11,12 @@ class ConferenceInitialDataRequest extends ConferenceEvent {
   @override
   List<Object?> get props => [];
 }
+class SelectDatePickerSchedule extends ConferenceEvent {
+  final BuildContext context;
+
+  SelectDatePickerSchedule(this.context);
+
+  @override
+  List<Object> get props => [];
+}
+
