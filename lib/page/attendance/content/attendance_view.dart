@@ -113,8 +113,7 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                                 color: Color(0xFFE8E8E8),
                                 shape: BoxShape.circle, // radius of 10// green as background color
                               )),
-                        )
-                      : AnimatedCircularButton(
+                        ) : AnimatedCircularButton(
                           onComplete: () {
                             context.read<AttendanceBloc>().add(OnOfflineAttendance());
                           },

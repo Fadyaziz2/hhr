@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
-import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
+import 'package:onesthrm/page/attendance/attendance.dart';
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 
@@ -14,82 +13,83 @@ class CheckInCheckOutTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final attendanceBloc = context.watch<AttendanceBloc>();
-    context.watch<OfflineCubit>();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Column(
+    return BlocBuilder<AttendanceBloc,AttendanceState>(
+      builder: (context,state){
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Icon(
-              Icons.watch_later_outlined,
-              color: colorPrimary,
-              size: 22.r,
+            Column(
+              children: [
+                Icon(
+                  Icons.watch_later_outlined,
+                  color: colorPrimary,
+                  size: 22.r,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  state.checkData?.checkInOut?.inTime ?? globalState.get(inTime) ?? "--:--",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  "check_in".tr(),
+                  style: TextStyle(fontSize: 12.r, color: Colors.grey),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 5.h,
+            Column(
+              children: [
+                Icon(
+                  Icons.watch_later_outlined,
+                  color: colorPrimary,
+                  size: 22.r,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  state.checkData?.checkInOut?.outTime ?? globalState.get(outTime) ?? "--:--",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "check_out".tr(),
+                  style: TextStyle(fontSize: 12.r, color: Colors.grey),
+                ),
+              ],
             ),
-            Text(
-              attendanceBloc.isCheckedIn ? globalState.get(inTime) ?? "--:--": "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Text(
-              "check_in".tr(),
-              style: TextStyle(fontSize: 12.r, color: Colors.grey),
+            Column(
+              children: [
+                Icon(
+                  Icons.history,
+                  color: colorPrimary,
+                  size: 22.r,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  globalState.get(stayTime) ?? "--:--",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "working_hr".tr(),
+                  style: TextStyle(fontSize: 12.r, color: Colors.grey),
+                )
+              ],
             ),
           ],
-        ),
-        Column(
-          children: [
-            Icon(
-              Icons.watch_later_outlined,
-              color: colorPrimary,
-              size: 22.r,
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Text(
-              attendanceBloc.isCheckedOut ? globalState.get(outTime) ?? "--:--": "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              "check_out".tr(),
-              style: TextStyle(fontSize: 12.r, color: Colors.grey),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            Icon(
-              Icons.history,
-              color: colorPrimary,
-              size: 22.r,
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Text(
-              (attendanceBloc.isCheckedIn &&  attendanceBloc.isCheckedOut) ? globalState.get(stayTime) ?? "--:--": "--:--",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              "working_hr".tr(),
-              style: TextStyle(fontSize: 12.r, color: Colors.grey),
-            )
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
