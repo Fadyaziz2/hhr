@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tf_dio_cache/dio_http_cache.dart';
+import 'package:tf_dio_cache/tf_dio_cache.dart';
 import 'http_service.dart';
 import 'interceptor/dio_connectivity_request_retrier.dart';
 import 'interceptor/retry_interceptor.dart';
@@ -27,7 +27,7 @@ class HttpServiceImpl implements HttpService {
       throw SocketException(e.toString());
     } on FormatException catch (e) {
       throw FormatException(e.message);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         debugPrint('unAuthentication');
         throw UnAuthenticationException();
@@ -51,7 +51,7 @@ class HttpServiceImpl implements HttpService {
       throw SocketException(e.toString());
     } on FormatException catch (e) {
       throw FormatException(e.message);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       debugPrint(e.message);
       return e.response;
     }
@@ -95,7 +95,7 @@ class HttpServiceImpl implements HttpService {
     try {
       response =
           await _dio!.post(url, data: body, options: _buildCacheOptions());
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       String error = DioExceptions.fromDioError(e).toString();
       throw Exception(error);
     }
@@ -113,7 +113,7 @@ class HttpServiceImpl implements HttpService {
       throw const SocketException('No internet connection');
     } on FormatException catch (e) {
       throw FormatException(e.message);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw Exception(e.message);
     }
     return response;
@@ -121,23 +121,23 @@ class HttpServiceImpl implements HttpService {
 }
 
 class DioExceptions implements Exception {
-  DioExceptions.fromDioError(DioError dioError) {
+  DioExceptions.fromDioError(DioException dioError) {
     switch (dioError.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         message = "Request to API server was cancelled";
         break;
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         message = "Connection timeout with API server";
         break;
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         message = "Receive timeout in connection with API server";
         break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         statusCode = dioError.response!.statusCode!;
         message = _handleError(
             dioError.response!.statusCode!, dioError.response!.data);
         break;
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         message = "Send timeout in connection with API server";
         break;
       default:

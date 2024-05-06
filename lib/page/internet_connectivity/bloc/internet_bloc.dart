@@ -29,7 +29,7 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
     });
   }
 
-  void checkStatus(ConnectivityResult result) async {
+  void checkStatus(List<ConnectivityResult> result) async {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isEmpty && result[0].rawAddress.isEmpty) {

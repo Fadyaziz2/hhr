@@ -8,12 +8,8 @@ class RetryOnConnectionInterceptor implements InterceptorsWrapper {
 
   RetryOnConnectionInterceptor({this.requestRetrier});
 
-  bool _shouldRetry(DioError error) {
-    if (error.type == DioErrorType.other &&
-        error.error != null &&
-        error.error is SocketException) {
-    }
-    return error.type == DioErrorType.other &&
+  bool _shouldRetry(DioException error) {
+    return error.type == DioExceptionType.unknown &&
         error.error != null &&
         error.error is SocketException;
   }
@@ -33,7 +29,7 @@ class RetryOnConnectionInterceptor implements InterceptorsWrapper {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
 
     handler.next(err);
     debugPrint('onError : ${err.message}');

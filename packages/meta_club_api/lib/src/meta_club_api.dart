@@ -728,7 +728,7 @@ class MetaClubApiClient {
         return true;
       }
     } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
+      if (e.type == DioExceptionType.badResponse) {
         return false;
       } else {
         if (kDebugMode) {
