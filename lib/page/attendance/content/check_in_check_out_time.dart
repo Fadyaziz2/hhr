@@ -52,7 +52,7 @@ class CheckInCheckOutTime extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  state.checkData?.checkInOut?.outTime ?? globalState.get(outTime) ?? "--:--",
+                  state.checkData?.checkInOut?.outTime ?? "--:--",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.r),
                 ),
                 const SizedBox(
