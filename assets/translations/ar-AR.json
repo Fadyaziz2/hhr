@@ -385,5 +385,7 @@
   "Early Leave" : "المغادرة باكرا",
   "Late In" : "متاخرا في",
   "attendance_method": "Attendance Methods",
-  "you_are_offline": "أنت غير متصل بالإنترنت، يرجى التحقق من شبكتك"
+  "you_are_offline": "أنت غير متصل بالإنترنت، يرجى التحقق من شبكتك",
+  "create_conference_successfully" : "إنشاء المؤتمر بنجاح",
+  "create_conference" : "إنشاء مؤتمر"
 }

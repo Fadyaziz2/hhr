@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
 
@@ -22,6 +24,7 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
     on<SelectStartTimeConference>(_showTime);
     on<SelectEndTimeConference>(_showEndTime);
     on<SelectedEmployeeEventConference>(_onSelectedEmployee);
+    on<CreateConferenceEvent>(_onCreateConferenceEvent);
   }
 
   FutureOr<void> _onSelectedEmployee(SelectedEmployeeEventConference event, Emitter<ConferenceState> emit) async {
@@ -43,23 +46,15 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
     );
     emit(state.copyWith(
       // ignore: use_build_context_synchronously
-      startTime: result?.format(
-        event.context,
-      ),
+      startTime: result?.format(event.context),
     ));
   }
 
-  FutureOr<void> _showEndTime(
-      SelectEndTimeConference event, Emitter<ConferenceState> emit) async {
-    final TimeOfDay? result = await showTimePicker(
-      context: event.context,
-      initialTime: TimeOfDay.now(),
-    );
+  FutureOr<void> _showEndTime(SelectEndTimeConference event, Emitter<ConferenceState> emit) async {
+    final TimeOfDay? result = await showTimePicker(context: event.context, initialTime: TimeOfDay.now(),);
     emit(state.copyWith(
       // ignore: use_build_context_synchronously
-      endTime: result?.format(
-        event.context,
-      ),
+      endTime: result?.format(event.context),
     ));
   }
 
@@ -82,6 +77,28 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
       final conference = await metaClubApiClient.getConferenceList();
       emit(state.copyWith(
           status: NetworkStatus.success, conference: conference));
+    } on Exception catch (e) {
+      emit(const ConferenceState(status: NetworkStatus.failure));
+      throw NetworkRequestFailure(e.toString());
+    }
+  }
+
+  FutureOr<void> _onCreateConferenceEvent(CreateConferenceEvent event, Emitter<ConferenceState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
+    try {
+      await metaClubApiClient.createConferenceApi(conferenceBodyModel: event.createConferenceBodyModel)
+          .then((success) {
+        if (success) {
+          Fluttertoast.showToast(msg: "create_conference_successfully".tr());
+          emit(state.copyWith(status: NetworkStatus.success));
+          add(ConferenceInitialDataRequest());
+          // add(MeetingListEvent(date: event.date));
+          Navigator.pop(event.context);
+        } else {
+          Fluttertoast.showToast(msg: "something_went_wrong".tr());
+          emit(state.copyWith(status: NetworkStatus.failure));
+        }
+      });
     } on Exception catch (e) {
       emit(const ConferenceState(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());

@@ -38,13 +38,10 @@ class CreateConferenceContent extends StatelessWidget {
         ),
         const SizedBox(height: 25),
         Padding(padding: const EdgeInsets.only(bottom: 16.0),
-          child: Text("date_schedule".tr(),
-            style: TextStyle(fontSize: 14.r, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+          child: Text("date_schedule".tr(), style: TextStyle(fontSize: 14.r, color: Colors.black, fontWeight: FontWeight.bold),),
         ),
         Card(
-          color: colorCardBackground,
-          elevation: 0.0,
+          color: colorCardBackground, elevation: 0.0,
           child: InkWell(
             onTap: () {
               conferenceBloc.add(SelectDatePickerSchedule(context));
@@ -56,11 +53,7 @@ class CreateConferenceContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(state?.currentMonthSchedule ?? 'select_date'.tr(), style: TextStyle(fontSize: 12.r),),
-                  Icon(
-                    Icons.arrow_drop_down_sharp,
-                    color: Colors.grey,
-                    size: 18.r,
-                  )
+                  Icon(Icons.arrow_drop_down_sharp, color: Colors.grey, size: 18.r)
                 ],
               ),
             ),
@@ -83,12 +76,8 @@ class CreateConferenceContent extends StatelessWidget {
                 state?.selectedNames.clear();
                 state?.selectedIds.clear();
               }
-
               /// Get Selected Employee List
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MultiSelectionEmployee(
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MultiSelectionEmployee(
                       onItemSelected: (items) {
                         conferenceBloc.add(SelectedEmployeeEventConference(items));
                       },
@@ -96,17 +85,12 @@ class CreateConferenceContent extends StatelessWidget {
                   ));
             },
             title: Text(tr("add_meeting_member"),  style: TextStyle(fontSize: 12.r),),
-            leading: const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-            ),
+            leading: const CircleAvatar(backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),),
             trailing: const Icon(Icons.add),
           ),
         ),
         ConferenceNameList(state: state),
-        const SizedBox(
-          height: 26,
-        ),
+        const SizedBox(height: 26),
       ],
     );
   }

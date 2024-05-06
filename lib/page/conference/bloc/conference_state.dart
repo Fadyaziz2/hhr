@@ -9,7 +9,8 @@ class ConferenceState extends Equatable {
   final List<int> selectedIds;
   final List<String> selectedNames;
 
-  const ConferenceState({required this.status,
+  const ConferenceState({
+    this.status = NetworkStatus.initial,
     this.conference,
     this.currentMonthSchedule,
     this.startTime,
@@ -24,15 +25,18 @@ class ConferenceState extends Equatable {
     String? endTime,
     List<int>? selectedIds,
     List<String>? selectedNames}) {
-    return ConferenceState(status: status ?? this.status,
+    return ConferenceState(
+      status: status ?? this.status,
       conference: conference ?? this.conference,
       currentMonthSchedule: currentMonthSchedule ?? this.currentMonthSchedule,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+        selectedIds: selectedIds ?? this.selectedIds,
+        selectedNames: selectedNames ?? this.selectedNames
 
     );
   }
 
   @override
-  List<Object?> get props => [status, conference,currentMonthSchedule,startTime,endTime];
+  List<Object?> get props => [status, conference,currentMonthSchedule,startTime,endTime,selectedIds,selectedNames];
 }

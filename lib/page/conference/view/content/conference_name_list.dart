@@ -5,10 +5,7 @@ import 'package:onesthrm/page/conference/bloc/conference_bloc.dart';
 import '../../../../res/const.dart';
 
 class ConferenceNameList extends StatelessWidget {
-  const ConferenceNameList({
-    super.key,
-    required this.state,
-  });
+  const ConferenceNameList({super.key, required this.state,});
 
   final ConferenceState? state;
 

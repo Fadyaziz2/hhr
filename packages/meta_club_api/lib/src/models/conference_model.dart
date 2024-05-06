@@ -35,6 +35,7 @@ class ConferenceModel extends Equatable {
 
 class ConferenceData extends Equatable {
   final String? title;
+  final String? description;
   final DateTime? start;
   final DateTime? end;
   final String? roomId;
@@ -46,6 +47,7 @@ class ConferenceData extends Equatable {
 
   const ConferenceData(
       {this.title,
+        this.description,
       this.start,
       this.end,
       this.roomId,
@@ -57,6 +59,7 @@ class ConferenceData extends Equatable {
 
   factory ConferenceData.fromJson(Map<String, dynamic> json) => ConferenceData(
         title: json["title"],
+        description: json["description"],
         start: json["start"] == null ? null : DateTime.parse(json["start"]),
         end: json["end"] == null ? null : DateTime.parse(json["end"]),
         roomId: json["room_id"],

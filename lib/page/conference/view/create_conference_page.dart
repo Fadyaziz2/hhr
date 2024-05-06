@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/conference/bloc/conference_bloc.dart';
+import 'package:onesthrm/page/conference/conference.dart';
 import 'package:onesthrm/page/conference/view/content/create_conference_content.dart';
 
 import '../../../res/enum.dart';
@@ -28,22 +28,22 @@ class CreateConferencePage extends StatelessWidget {
           child: BlocBuilder<ConferenceBloc,ConferenceState>(
             builder: (context,state){
               return CustomButton(
-                title: "Create Conference".tr(),
+                title: "create_conference".tr(),
                 padding: 16,
                 isLoading: state.status == NetworkStatus.loading,
                 clickButton: () {
                   final currentDate = DateFormat('y-MM').format(DateTime.now());
                   if (formKey.currentState!.validate() &&
                       state.status == NetworkStatus.success) {
-                    // meetingBodyModel.participants =
-                    //     state.selectedIds.join(',');
-                    // meetingBodyModel.startAt = state.startTime;
-                    // meetingBodyModel.endAt = state.endTime;
-                    // meetingBodyModel.date = state.currentMonthSchedule;
-                    // context.read<MeetingBloc>().add(CreateMeetingEvent(
-                    //     bodyCreateMeeting: meetingBodyModel,
-                    //     date: currentDate,
-                    //     context: context));
+                    createConferenceBodyModel.participants =
+                        state.selectedIds.join(',');
+                    createConferenceBodyModel.startAt = state.startTime;
+                    createConferenceBodyModel.endAt = state.endTime;
+                    createConferenceBodyModel.date = state.currentMonthSchedule;
+                    context.read<ConferenceBloc>().add(CreateConferenceEvent(
+                        createConferenceBodyModel: createConferenceBodyModel,
+                        date: currentDate,
+                        context: context));
                   }
                 },
               );
@@ -51,7 +51,7 @@ class CreateConferencePage extends StatelessWidget {
           ),
         ),),
         appBar: AppBar(
-          title: const Text("Create Conference"),
+          title: const Text("create_conference").tr(),
         ),
         body: BlocBuilder<ConferenceBloc,ConferenceState>(
           builder: (context,state){

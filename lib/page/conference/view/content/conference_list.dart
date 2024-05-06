@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/conference/conference.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
@@ -43,8 +44,19 @@ class ConferenceList extends StatelessWidget {
                           Text(
                             data?.title ?? "",
                             style: const TextStyle(
+                              fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: colorPrimary),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            data?.description ?? "",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.black),
                           ),
                           const SizedBox(
                             height: 10,
@@ -83,7 +95,18 @@ class ConferenceList extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
+                                  switch (data?.button){
+                                    case "Ended":
+                                      Fluttertoast.showToast(msg: "Conference Ended");
+                                      break;
+                                    case "Join" :
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
+                                      break;
+                                    default :
+                                      Fluttertoast.showToast(msg: "Status unknown");
+                                  }
+                                  // data?.button == "Ended" ?
+                                  // Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(0.0),
