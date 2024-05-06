@@ -176,9 +176,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     ///verify token
     final data = await _userRepository.tokenVerification(
         token: metaClubApiClient.token, baseUrl: metaClubApiClient.companyUrl);
-    if (data.status == false || data.code >= 400) {
-      _authenticationRepository
-          .updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
+    if (data.status == false && data.code >= 400) {
+      _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
       _authenticationRepository.updateUserData(LoginData(user: null));
       SharedUtil.setBoolValue(isTokenVerified, false);
       emit(state.copy(isTokenVerified: false));

@@ -128,6 +128,7 @@ class AttendanceService {
           'outTime': e.outTime,
           'reason': e.reason ?? "",
           'remote_mode': e.mode,
+          'shift_id': e.shiftId,
           'selfie_image': '',
         };
         return data;
@@ -147,6 +148,7 @@ class AttendanceService {
           'outTime': e.outTime,
           'reason': e.reason ?? "",
           'remote_mode': e.mode,
+          'shift_id': e.shiftId,
           'selfie_image': '',
         };
         return data;

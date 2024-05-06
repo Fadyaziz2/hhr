@@ -147,7 +147,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       eventBus.fire(OnOnlineAttendanceUpdateEvent(body: body));
       ///----------------------------------*********--------------------------------------------------------
-      emit(state.copyWith(status: NetworkStatus.success, checkData: data));
+      emit(state.copyWith(status: NetworkStatus.success, checkData: data,actionStatus: ActionStatus.checkInOut));
     });
   }
 

@@ -5,16 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
-import 'package:onesthrm/page/attendance/content/shift_dropdown.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
 import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../res/const.dart';
-import '../../attendance_reason/attendance_reason.dart';
 import '../../attendance_report/view/content/attendance_daily_offline_report_content.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
@@ -116,8 +113,7 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                                 color: Color(0xFFE8E8E8),
                                 shape: BoxShape.circle, // radius of 10// green as background color
                               )),
-                        )
-                      : AnimatedCircularButton(
+                        ) : AnimatedCircularButton(
                           onComplete: () {
                             context.read<AttendanceBloc>().add(OnOfflineAttendance());
                           },
