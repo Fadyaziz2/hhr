@@ -106,14 +106,13 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     if (company == null) {
-                      _navigator.pushAndRemoveUntil(
-                          OnboardingPage.route(), (_) => false);
+                      _navigator.pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
                     } else {
-                      _navigator.pushAndRemoveUntil(
-                          LoginPage.route(), (route) => false);
+                      _navigator.pushAndRemoveUntil(LoginPage.route(), (route) => false);
                     }
                     break;
                   default:
+                    _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
                     break;
                 }
               },
