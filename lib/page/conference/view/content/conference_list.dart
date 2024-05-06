@@ -99,14 +99,15 @@ class ConferenceList extends StatelessWidget {
                                     case "Ended":
                                       Fluttertoast.showToast(msg: "Conference Ended");
                                       break;
+                                    case "Upcoming":
+                                      Fluttertoast.showToast(msg: "Upcoming Conference");
+                                      break;
                                     case "Join" :
                                       Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
                                       break;
                                     default :
                                       Fluttertoast.showToast(msg: "Status unknown");
                                   }
-                                  // data?.button == "Ended" ?
-                                  // Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(0.0),
