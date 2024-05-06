@@ -4,6 +4,14 @@ abstract class ConferenceEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
+class SelectedEmployeeEventConference extends ConferenceEvent {
+
+  final List<PhoneBookUser> phoneBooks;
+  SelectedEmployeeEventConference(this.phoneBooks);
+
+  @override
+  List<Object> get props => [phoneBooks];
+}
 
 class ConferenceInitialDataRequest extends ConferenceEvent {
   ConferenceInitialDataRequest();
@@ -15,6 +23,28 @@ class SelectDatePickerSchedule extends ConferenceEvent {
   final BuildContext context;
 
   SelectDatePickerSchedule(this.context);
+
+  @override
+  List<Object> get props => [];
+}
+
+class SelectStartTimeConference extends ConferenceEvent {
+  final BuildContext context;
+
+  SelectStartTimeConference(
+      this.context,
+      );
+
+  @override
+  List<Object> get props => [];
+}
+
+class SelectEndTimeConference extends ConferenceEvent {
+  final BuildContext context;
+
+  SelectEndTimeConference(
+      this.context,
+      );
 
   @override
   List<Object> get props => [];

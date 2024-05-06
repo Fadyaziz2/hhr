@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/conference/bloc/conference_bloc.dart';
+import 'package:onesthrm/page/conference/view/content/conference_name_list.dart';
+import 'package:onesthrm/page/conference/view/content/conference_time_card.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
-
 import '../../../../res/const.dart';
+import '../../../multi_selection_employee/multi_selection_employee_page.dart';
 
 class CreateConferenceContent extends StatelessWidget {
   final ConferenceState? state;
@@ -63,6 +65,47 @@ class CreateConferenceContent extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        const SizedBox(height: 20,),
+        ConferenceTimeCart(conferenceState: state,),
+        const SizedBox(height: 26),
+        Text(tr("Add Member"),
+          style:  TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.r),
+        ),
+        const SizedBox(height: 10,),
+        Card(
+          color: colorCardBackground,
+          elevation: 0,
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).r,
+            onTap: () async {
+              if (state?.selectedNames.isNotEmpty == true) {
+                state?.selectedNames.clear();
+                state?.selectedIds.clear();
+              }
+
+              /// Get Selected Employee List
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MultiSelectionEmployee(
+                      onItemSelected: (items) {
+                        conferenceBloc.add(SelectedEmployeeEventConference(items));
+                      },
+                    ),
+                  ));
+            },
+            title: Text(tr("add_meeting_member"),  style: TextStyle(fontSize: 12.r),),
+            leading: const CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
+            ),
+            trailing: const Icon(Icons.add),
+          ),
+        ),
+        ConferenceNameList(state: state),
+        const SizedBox(
+          height: 26,
         ),
       ],
     );
