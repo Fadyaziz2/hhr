@@ -29,7 +29,6 @@ class VideoCallScreenState extends State<VideoCallScreen> {
     );
     initAgora();
   }
-
   void initAgora() async {
     await client!.initialize();
   }
