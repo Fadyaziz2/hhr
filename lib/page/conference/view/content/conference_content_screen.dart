@@ -17,35 +17,34 @@ class ConferenceContentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          NavUtil.navigateScreen(
-              context,
-              BlocProvider.value(
-                  value: context.read<ConferenceBloc>(),
-                  child: const CreateConferencePage()));
+        onPressed: () {
+          NavUtil.navigateScreen(context, BlocProvider.value(value: context.read<ConferenceBloc>(), child: const CreateConferencePage()));
         },
-        child: Icon(Icons.add,size: 24.r,color: colorPrimary,),
+        child: Icon(Icons.add, size: 24.r, color: colorPrimary),
       ),
       appBar: AppBar(
         title: Text('Conference'.tr()),
       ),
-      body: BlocBuilder<ConferenceBloc, ConferenceState>(
-          builder: (context, state) {
-        if (state.status == NetworkStatus.loading) {
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TileShimmer(
-                  isSubTitle: true,
-                ),
-              );
-            },
-          );
-        } else {
-          return const ConferenceList();
-        }
-      }),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<ConferenceBloc>().add(ConferenceInitialDataRequest());
+        },
+        child: BlocBuilder<ConferenceBloc, ConferenceState>(
+            builder: (context, state) {
+          if (state.status == NetworkStatus.loading) {
+            return ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TileShimmer(isSubTitle: true),
+                );
+              },
+            );
+          } else {
+            return const ConferenceList();
+          }
+        }),
+      ),
     );
   }
 }
