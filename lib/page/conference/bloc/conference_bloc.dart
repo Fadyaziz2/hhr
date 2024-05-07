@@ -58,8 +58,7 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
     ));
   }
 
-  FutureOr<void> _onSelectDatePickerSchedule(
-      SelectDatePickerSchedule event, Emitter<ConferenceState> emit) async {
+  FutureOr<void> _onSelectDatePickerSchedule(SelectDatePickerSchedule event, Emitter<ConferenceState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -71,8 +70,8 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
     emit(state.copyWith(status: NetworkStatus.success, currentMonthSchedule: currentMonthSchedule));
   }
 
-  FutureOr<void> _onConferenceInitialDataRequest(
-      ConferenceInitialDataRequest event, Emitter<ConferenceState> emit) async {
+  FutureOr<void> _onConferenceInitialDataRequest(ConferenceInitialDataRequest event, Emitter<ConferenceState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final conference = await metaClubApiClient.getConferenceList();
       emit(state.copyWith(
@@ -92,7 +91,6 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
           Fluttertoast.showToast(msg: "create_conference_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(ConferenceInitialDataRequest());
-          // add(MeetingListEvent(date: event.date));
           Navigator.pop(event.context);
         } else {
           Fluttertoast.showToast(msg: "something_went_wrong".tr());
