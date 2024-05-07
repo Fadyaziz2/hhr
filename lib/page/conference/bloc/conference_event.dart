@@ -42,9 +42,7 @@ class SelectStartTimeConference extends ConferenceEvent {
 class SelectEndTimeConference extends ConferenceEvent {
   final BuildContext context;
 
-  SelectEndTimeConference(
-      this.context,
-      );
+  SelectEndTimeConference(this.context);
 
   @override
   List<Object> get props => [];
@@ -55,9 +53,7 @@ class CreateConferenceEvent extends ConferenceEvent {
   final String date;
 
   CreateConferenceEvent(
-      {required this.context,
-        required this.createConferenceBodyModel,
-        required this.date});
+      {required this.context, required this.createConferenceBodyModel, required this.date});
 
   @override
   List<Object> get props => [createConferenceBodyModel, date];

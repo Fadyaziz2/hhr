@@ -43,27 +43,40 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
       context: event.context,
       orientation: Orientation.portrait,
       initialTime: TimeOfDay.now(),
-    );
+    builder: (BuildContext context, Widget? child) {
+    return MediaQuery(
+    data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+    child: child!);
+    });
+
     emit(state.copyWith(
       // ignore: use_build_context_synchronously
-      startTime: result?.format(event.context),
+      // startTime: result?.format(event.context),
+      startTime: '${result?.hour}:${result?.minute}',
     ));
   }
 
   FutureOr<void> _showEndTime(SelectEndTimeConference event, Emitter<ConferenceState> emit) async {
-    final TimeOfDay? result = await showTimePicker(context: event.context, initialTime: TimeOfDay.now(),);
+    final TimeOfDay? result = await showTimePicker(context: event.context, initialTime: TimeOfDay.now(),
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          );}
+
+    );
     emit(state.copyWith(
+
       // ignore: use_build_context_synchronously
-      endTime: result?.format(event.context),
+      endTime:'${result?.hour}:${result?.minute}',
     ));
   }
 
-  FutureOr<void> _onSelectDatePickerSchedule(
-      SelectDatePickerSchedule event, Emitter<ConferenceState> emit) async {
+  FutureOr<void> _onSelectDatePickerSchedule(SelectDatePickerSchedule event, Emitter<ConferenceState> emit) async {
     final date = await showDatePicker(
       context: event.context,
-      firstDate: DateTime(DateTime.now().year - 1, 5),
-      lastDate: DateTime(DateTime.now().year + 1, 9),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
@@ -71,8 +84,8 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
     emit(state.copyWith(status: NetworkStatus.success, currentMonthSchedule: currentMonthSchedule));
   }
 
-  FutureOr<void> _onConferenceInitialDataRequest(
-      ConferenceInitialDataRequest event, Emitter<ConferenceState> emit) async {
+  FutureOr<void> _onConferenceInitialDataRequest(ConferenceInitialDataRequest event, Emitter<ConferenceState> emit) async {
+    emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final conference = await metaClubApiClient.getConferenceList();
       emit(state.copyWith(
@@ -92,7 +105,6 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
           Fluttertoast.showToast(msg: "create_conference_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(ConferenceInitialDataRequest());
-          // add(MeetingListEvent(date: event.date));
           Navigator.pop(event.context);
         } else {
           Fluttertoast.showToast(msg: "something_went_wrong".tr());
