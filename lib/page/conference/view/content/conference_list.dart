@@ -9,7 +9,6 @@ import 'package:video_chat/video_chat_service.dart';
 
 class ConferenceList extends StatelessWidget {
   const ConferenceList({super.key});
-
   @override
   Widget build(BuildContext context) {
     final conferenceBloc = context.watch<ConferenceBloc>();
@@ -28,44 +27,27 @@ class ConferenceList extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            data?.timeText ?? "",
-                            style: const TextStyle(color: Colors.black54, fontSize: 12, fontWeight: FontWeight.w500),
-                          ),
+                          Text(data?.timeText ?? "", style: const TextStyle(color: Colors.black54, fontSize: 12, fontWeight: FontWeight.w500),),
                           const SizedBox(height: 10,),
                           Text(data?.title ?? "", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorPrimary),),
                           const SizedBox(height: 5),
-                          Text(
-                            data?.description ?? "",
-                            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12, color: Colors.black),
-                          ),
+                          Text(data?.description ?? "", style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12, color: Colors.black),),
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
+                                child: SingleChildScrollView(scrollDirection: Axis.horizontal,
                                     child: Wrap(spacing: -15,
                                       children: List<Widget>.generate(
                                           data?.members?.length ?? 0, (index) {
-
                                             final item = data?.members?[index];
-
                                         return ClipOval(
                                           child: CachedNetworkImage(
-                                            height: 35,
-                                            width: 35,
-                                            fit: BoxFit.cover,
-                                            imageUrl: item?.avatar ??
-                                                "https://www.w3schools.com/howto/img_avatar.png",
-                                            placeholder: (context, url) =>
-                                                Center(
-                                              child: Image.asset(
-                                                  "assets/images/placeholder_image.png"),
-                                            ),
-                                            errorWidget: (context, url, error) =>
-                                                    const Icon(Icons.error),
+                                            height: 35, width: 35, fit: BoxFit.cover,
+                                            imageUrl: item?.avatar ?? "https://www.w3schools.com/howto/img_avatar.png",
+                                            placeholder: (context, url) => Center(child: Image.asset("assets/images/placeholder_image.png"),),
+                                            errorWidget: (context, url, error) => const Icon(Icons.error),
                                           ),
                                         );
                                       }).toList(),
@@ -96,10 +78,7 @@ class ConferenceList extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         const SizedBox(width: 8),
-                                        Text(
-                                          data?.button ?? "",
-                                          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-                                        ),
+                                        Text(data?.button ?? "", style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),),
                                         const Icon(Icons.arrow_right, color: Colors.white),
                                       ],
                                     ),
