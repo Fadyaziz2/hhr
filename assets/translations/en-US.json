@@ -566,5 +566,7 @@
   "Update personal data": "Update personal data",
   "Update financial data": "Update financial data",
   "Update emergency data": "Update emergency data",
-  "you_are_offline": "You are offline, please check your network"
+  "you_are_offline": "You are offline, please check your network",
+  "create_conference_successfully" : "Create Conference Successfully",
+  "create_conference" : "Create Conference"
 }

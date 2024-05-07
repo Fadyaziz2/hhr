@@ -65,3 +65,4 @@ export 'company_list_model.dart';
 export 'forgot_password_body.dart';
 export 'verification_code_model.dart';
 export 'password_change_body.dart';
+export 'create_conference_body_model.dart';

@@ -449,6 +449,21 @@ class MetaClubApiClient {
     }
   }
 
+  Future<bool> createConferenceApi({CreateConferenceBodyModel? conferenceBodyModel}) async {
+    const String api = "conference/create";
+    try {
+      FormData formData = FormData.fromMap(conferenceBodyModel!.toJson());
+      final response =
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> createMeetingApi({MeetingBodyModel? meetingBodyModel}) async {
     const String api = "meeting/create";
     try {

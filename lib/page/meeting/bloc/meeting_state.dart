@@ -36,7 +36,6 @@ class MeetingState extends Equatable {
         meetingsListResponse: meetingsListResponse ?? this.meetingsListResponse,
         currentMonth: currentMonth ?? this.currentMonth,
         currentMonthSchedule: currentMonthSchedule ?? this.currentMonthSchedule,
-        selectedIds: selectedIds ?? this.selectedIds,
         selectedNames: selectedNames ?? this.selectedNames);
   }
 
@@ -48,7 +47,5 @@ class MeetingState extends Equatable {
         startTime,
         endTime,
         currentMonthSchedule,
-        selectedIds,
-        selectedNames
       ];
 }

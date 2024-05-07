@@ -564,5 +564,7 @@
   "Update personal data": "পার্সোনাল ডেটা আপডেট",
   "Update financial data": "ফিনান্সিয়াল ডেটা আপডেট",
   "Update emergency data": "ইমার্জেন্সি ডেটা আপডেট",
-  "you_are_offline": "আপনি অফলাইন, আপনার নেটওয়ার্ক চেক করুন"
+  "you_are_offline": "আপনি অফলাইন, আপনার নেটওয়ার্ক চেক করুন",
+  "create_conference_successfully" : "সফলভাবে কনফারেন্স তৈরি করুন",
+  "create_conference" : "কনফারেন্স তৈরি করুন"
 }
