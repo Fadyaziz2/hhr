@@ -5,9 +5,9 @@ import 'package:video_chat/const/app_const.dart';
 class VideoCallScreen extends StatefulWidget {
   final String channelId;
   const VideoCallScreen({
-    Key? key,
+    super.key,
     required this.channelId,
-  }) : super(key: key);
+  });
 
   @override
   VideoCallScreenState createState() => VideoCallScreenState();
@@ -46,7 +46,7 @@ class VideoCallScreenState extends State<VideoCallScreen> {
                   AgoraVideoButtons(
                     client: client!,
                     disconnectButtonChild: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle
                       ),
