@@ -66,6 +66,7 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
 
     );
     emit(state.copyWith(
+
       // ignore: use_build_context_synchronously
       endTime:'${result?.hour}:${result?.minute}',
     ));
