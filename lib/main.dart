@@ -14,7 +14,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/app_bloc_observer.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
-import 'package:onesthrm/page/home/models/attendance_body.dart';
 import 'package:onesthrm/res/service/model/notifications/f_c_m_data_model.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:user_repository/user_repository.dart';

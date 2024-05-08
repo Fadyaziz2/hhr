@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:equatable/equatable.dart';
-import 'package:onesthrm/page/home/home.dart';
 
 class OfflineAttendanceState extends Equatable {
   final bool isCheckedIn;

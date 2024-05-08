@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
@@ -82,14 +81,14 @@ class AttendanceBody extends Equatable {
         'isOffline': isOffline,
       };
 
-  Map<String, dynamic> toOnlineJson({MultipartFile? file}) => {
+  Map<String, dynamic> toOnlineJson() => {
         'latitude': latitude,
         'longitude': longitude,
         'reason': reason ?? "",
         'remote_mode': mode,
         'attendance_id': attendanceId,
         'shift_id': shiftId,
-        'selfie_image': file,
+        'selfie_image': selfieImage,
       };
 
   @override

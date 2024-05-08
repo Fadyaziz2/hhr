@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'const.dart';
 
 class SharedUtil {
-  // static String keySelectLanguage = "key_select_language";
 
   static setValue(String key, String? value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

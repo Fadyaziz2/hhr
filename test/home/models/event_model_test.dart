@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onesthrm/page/home/home.dart';
 
 main() {
   group('Today Model Test', () {
