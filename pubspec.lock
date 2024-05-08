@@ -251,7 +251,7 @@ packages:
   chat:
     dependency: "direct main"
     description:
-      path: "packages/chat"
+      path: "packages/feature/chat"
       relative: true
     source: path
     version: "1.0.0"
