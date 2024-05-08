@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chat/chat.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'profile_menu_tile.dart';
 
 class ProfileDetails extends StatelessWidget {

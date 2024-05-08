@@ -61,7 +61,7 @@ dependencies:
   selfie_attendance:
     path: packages/selfie_attendance
   chat:
-    path: packages/chat
+    path: packages/feature/chat
   lottie: ^2.4.0
   face:
     path: packages/face

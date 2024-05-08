@@ -1,0 +1,15 @@
+name: data
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.0.1 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get_it: ^7.6.0
+  hrm_framework:
+    path: ../hrm_framework
