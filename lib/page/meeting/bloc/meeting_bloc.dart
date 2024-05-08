@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/date_utils.dart';
 import '../../../res/enum.dart';
 import '../../../res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
@@ -46,12 +46,9 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
       orientation: Orientation.portrait,
       initialTime: TimeOfDay.now(),
     );
-    emit(state.copyWith(
-      // ignore: use_build_context_synchronously
-      startTime: result?.format(
-        event.context,
-      ),
-    ));
+    if(event.context.mounted){
+      emit(state.copyWith(startTime: result?.format(event.context)));
+    }
   }
 
   FutureOr<void> _onSelectDatePickerSchedule(
@@ -76,12 +73,9 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
       context: event.context,
       initialTime: TimeOfDay.now(),
     );
-    emit(state.copyWith(
-      // ignore: use_build_context_synchronously
-      endTime: result?.format(
-        event.context,
-      ),
-    ));
+    if(event.context.mounted){
+      emit(state.copyWith(endTime: result?.format(event.context)));
+    }
   }
 
   FutureOr<void> _onSelectDatePicker(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,7 +11,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/notification/schedule_notification.dart';
-import 'package:onesthrm/res/event_bus/offline_data_sync_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';

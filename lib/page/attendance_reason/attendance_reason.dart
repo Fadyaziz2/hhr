@@ -1,9 +1,9 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import '../../res/widgets/custom_button.dart';
-import '../home/models/attendance_body.dart';
 import '../profile/view/content/custom_text_field_with_title.dart';
 
 class AttendanceReason extends StatelessWidget {

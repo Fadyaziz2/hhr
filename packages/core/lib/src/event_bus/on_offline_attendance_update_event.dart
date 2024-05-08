@@ -1,5 +1,5 @@
+import 'package:core/src/models/attendance_body.dart';
 import 'package:event_bus_plus/event_bus_plus.dart';
-import 'package:onesthrm/page/home/home.dart';
 
 class OnOnlineAttendanceUpdateEvent extends AppEvent{
 

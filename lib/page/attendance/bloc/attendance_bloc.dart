@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_track/location_track.dart';
@@ -7,10 +7,7 @@ import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
-import 'package:onesthrm/page/home/home.dart';
-import 'package:onesthrm/res/date_utils.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:onesthrm/res/event_bus/on_offline_attendance_update_event.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
 
@@ -112,10 +109,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     body.attendanceId = globalState.get(attendanceId);
-    final selfieFile = _selfie != null
-        ? await MultipartFile.fromFile(_selfie.toString(), filename: _selfie.toString())
-        : null;
-    final checkInOutDataModel = FormData.fromMap(body.toOnlineJson(file: selfieFile));
+    final checkInOutDataModel = body.toOnlineJson();
 
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
 
