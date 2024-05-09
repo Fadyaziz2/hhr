@@ -48,7 +48,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
       if (settings.data!.shifts.isNotEmpty) {
         selectedShift.value = settings.data?.shifts.first;
         SharedUtil.getIntValue(shiftId).then((sid) {
-          if(settings.data!.shifts.isNotEmpty){
+          if (settings.data!.shifts.isNotEmpty) {
             final cachedShift = settings.data?.shifts.firstWhere((e) => e.shiftId == sid);
             if (cachedShift != null) {
               selectedShift.value = cachedShift;
@@ -110,6 +110,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                             selectedShift: value,
                             onShiftSelected: (shift) {
                               SharedUtil.setIntValue(shiftId, shift?.shiftId);
+
                               ///update listener for shift changes
                               updateShift(shifts: settings.data?.shifts ?? []);
                             },
@@ -117,89 +118,89 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                         },
                       ),
                     if (settings != null && settings.data?.methods != null)
-                    Expanded(
-                      child: GridView.builder(
-                        itemCount: settings.data?.methods.length ?? 0,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 5,
-                          mainAxisExtent: 270, // here set custom Height You Want
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          ///List length
-                          int length = homeData?.data?.menus?.length ?? 0;
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: settings.data?.methods.length ?? 0,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            mainAxisExtent: 270, // here set custom Height You Want
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            ///List length
+                            int length = homeData?.data?.menus?.length ?? 0;
 
-                          ///Animation instance
-                          final animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                              parent: animationController,
-                              curve: Interval((1 / length) * index, 1.0, curve: Curves.fastOutSlowIn)));
-                          animationController.forward();
+                            ///Animation instance
+                            final animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval((1 / length) * index, 1.0, curve: Curves.fastOutSlowIn)));
+                            animationController.forward();
 
-                          final method = settings?.data?.methods[index];
+                            final method = settings.data?.methods[index];
 
-                          return method != null
-                              ? InkWell(
-                                  onTap: () {
-                                    context.read<AttendanceMethodBloc>().add(AttendanceNavEvent(
-                                        context: context,
-                                        slugName: method.slug,
-                                        shiftId: selectedShift.value?.shiftId));
-                                  },
-                                  child: Card(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: CachedNetworkImage(
-                                            height: 150,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            imageUrl: settings?.data?.methods[index].image ?? "",
-                                            placeholder: (context, url) => Center(
-                                              child: Image.asset("assets/images/placeholder_image_one.webp"),
-                                            ),
-                                            errorWidget: (context, url, error) =>
-                                                Image.asset("assets/images/placeholder_image_one.webp"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Text(
-                                            settings?.data?.methods[index].title ?? "",
-                                            style: const TextStyle(
-                                                color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                          child: Text(
-                                            settings?.data?.methods[index].subTitle ?? "",
-                                            maxLines: 3,
-                                            style: const TextStyle(
-                                              color: Colors.black45,
-                                              fontSize: 12,
+                            return method != null
+                                ? InkWell(
+                                    onTap: () {
+                                      context.read<AttendanceMethodBloc>().add(AttendanceNavEvent(
+                                          context: context,
+                                          slugName: method.slug,
+                                          shiftId: selectedShift.value?.shiftId));
+                                    },
+                                    child: Card(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: CachedNetworkImage(
+                                              height: 150,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                              imageUrl: settings.data?.methods[index].image ?? "",
+                                              placeholder: (context, url) => Center(
+                                                child: Image.asset("assets/images/placeholder_image_one.webp"),
+                                              ),
+                                              errorWidget: (context, url, error) =>
+                                                  Image.asset("assets/images/placeholder_image_one.webp"),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Text(
+                                              settings.data?.methods[index].title ?? "",
+                                              style: const TextStyle(
+                                                  color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                            child: Text(
+                                              settings.data?.methods[index].subTitle ?? "",
+                                              maxLines: 3,
+                                              style: const TextStyle(
+                                                color: Colors.black45,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                              // ? TypeContentItem(
-                              //     method: method,
-                              //     animation: animation,
-                              //     animationController: animationController,
-                              //     onPressed: () {
-                              //       context.read<AttendanceMethodBloc>().add(
-                              //           AttendanceNavEvent(
-                              //               context: context, slugName: method.slug));
-                              //     })
-                              : const SizedBox.shrink();
-                        },
+                                  )
+                                // ? TypeContentItem(
+                                //     method: method,
+                                //     animation: animation,
+                                //     animationController: animationController,
+                                //     onPressed: () {
+                                //       context.read<AttendanceMethodBloc>().add(
+                                //           AttendanceNavEvent(
+                                //               context: context, slugName: method.slug));
+                                //     })
+                                : const SizedBox.shrink();
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ));
           })),

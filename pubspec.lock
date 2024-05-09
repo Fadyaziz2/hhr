@@ -84,7 +84,7 @@ packages:
   authentication_repository:
     dependency: "direct main"
     description:
-      path: "packages/authentication_repository"
+      path: "packages/data/authentication_repository"
       relative: true
     source: path
     version: "0.0.1"
@@ -457,7 +457,7 @@ packages:
   dio_service:
     dependency: transitive
     description:
-      path: "packages/dio_service"
+      path: "packages/data/dio_service"
       relative: true
     source: path
     version: "0.0.1"
@@ -504,7 +504,7 @@ packages:
   face:
     dependency: "direct main"
     description:
-      path: "packages/face"
+      path: "packages/feature/face"
       relative: true
     source: path
     version: "0.0.1"
@@ -1290,7 +1290,7 @@ packages:
   location_track:
     dependency: "direct main"
     description:
-      path: "packages/location_track"
+      path: "packages/feature/location_track"
       relative: true
     source: path
     version: "0.0.1"
@@ -1353,7 +1353,7 @@ packages:
   meta_club_api:
     dependency: "direct main"
     description:
-      path: "packages/meta_club_api"
+      path: "packages/data/meta_club_api"
       relative: true
     source: path
     version: "0.0.1"
@@ -1656,7 +1656,7 @@ packages:
   qr_attendance:
     dependency: "direct main"
     description:
-      path: "packages/qr_attendance"
+      path: "packages/feature/qr_attendance"
       relative: true
     source: path
     version: "0.0.1"
@@ -1695,7 +1695,7 @@ packages:
   selfie_attendance:
     dependency: "direct main"
     description:
-      path: "packages/selfie_attendance"
+      path: "packages/feature/selfie_attendance"
       relative: true
     source: path
     version: "0.0.1"
@@ -2099,7 +2099,7 @@ packages:
   user_repository:
     dependency: "direct main"
     description:
-      path: "packages/user_repository"
+      path: "packages/data/user_repository"
       relative: true
     source: path
     version: "0.0.1"
@@ -2154,7 +2154,7 @@ packages:
   video_chat:
     dependency: "direct main"
     description:
-      path: "packages/video_chat"
+      path: "packages/feature/video_chat"
       relative: true
     source: path
     version: "0.0.1"
