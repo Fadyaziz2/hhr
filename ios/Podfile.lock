@@ -1002,7 +1002,7 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - ReachabilitySwift
+    - FlutterMacOS
   - device_info_plus (0.0.1):
     - Flutter
   - FaceCoreSDK (5.2.383)
@@ -1315,7 +1315,6 @@ PODS:
   - qr_code_scanner (0.2.0):
     - Flutter
     - MTBBarcodeScanner
-  - ReachabilitySwift (5.2.2)
   - RegulaCommon (6.9.344)
   - share_plus (0.0.1):
     - Flutter
@@ -1335,7 +1334,7 @@ DEPENDENCIES:
   - agora_uikit (from `.symlinks/plugins/agora_uikit/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -1398,7 +1397,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PromisesSwift
-    - ReachabilitySwift
     - RegulaCommon
     - Toast
 
@@ -1414,7 +1412,7 @@ EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
@@ -1477,7 +1475,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
   camera_avfoundation: 759172d1a77ae7be0de08fc104cfb79738b8a59e
   cloud_firestore: a291c7ca0e498f9b08bbabd47a2499a5ae02c152
-  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   FaceCoreSDK: 37db087f01600fb8904fb1ee27792c59a276814a
   FaceSDK: ba72d58fbedb0badc8741388f522f4f3facde70c
@@ -1528,7 +1526,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
-  ReachabilitySwift: 2128f3a8c9107e1ad33574c6e58e8285d460b149
   RegulaCommon: 3421ad9a79af499cf3a0210ce15408f31032874f
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
