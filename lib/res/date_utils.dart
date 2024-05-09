@@ -10,7 +10,6 @@ String getDateAsString({ DateTime ? dateTime,String format = 'MM-dd-yyyy'}) {
 }
 
 DateTime? getFormattedDateTime({required String date,String format = 'MM-dd-yyyy'}) {
-
   try{
     DateFormat formatter = DateFormat(format);
     return date != 'N/A' ? formatter.parse(date) : null;

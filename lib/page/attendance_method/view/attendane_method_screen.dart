@@ -116,9 +116,10 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                           );
                         },
                       ),
+                    if (settings != null && settings.data?.methods != null)
                     Expanded(
                       child: GridView.builder(
-                        itemCount: settings?.data?.methods.length ?? 0,
+                        itemCount: settings.data?.methods.length ?? 0,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 5,
