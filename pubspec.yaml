@@ -49,24 +49,24 @@ dependencies:
   country_picker: ^2.0.16
   syncfusion_flutter_datepicker: ^25.1.41
   authentication_repository:
-    path: packages/authentication_repository
+    path: packages/data/authentication_repository
   meta_club_api:
-    path: packages/meta_club_api
+    path: packages/data/meta_club_api
   user_repository:
-    path: packages/user_repository
+    path: packages/data/user_repository
   location_track:
-    path: packages/location_track
+    path: packages/feature/location_track
   qr_attendance:
-    path: packages/qr_attendance
+    path: packages/feature/qr_attendance
   selfie_attendance:
-    path: packages/selfie_attendance
+    path: packages/feature/selfie_attendance
   chat:
     path: packages/feature/chat
   lottie: ^2.4.0
   face:
-    path: packages/face
+    path: packages/feature/face
   video_chat:
-    path: packages/video_chat
+    path: packages/feature/video_chat
   core:
     path: packages/core
   hrm_framework:
