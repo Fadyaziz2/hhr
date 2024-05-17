@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
-
 import '../../../res/const.dart';
 import '../../app/global_state.dart';
 
