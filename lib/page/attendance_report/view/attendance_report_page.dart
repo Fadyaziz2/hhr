@@ -4,23 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
-import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
 import 'package:onesthrm/page/attendance_report/bloc/bloc.dart';
 import 'package:onesthrm/page/attendance_report/view/content/content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 
 class AttendanceReportPage extends StatelessWidget {
-  final AttendanceBloc attendanceBloc;
+
   final Settings settings;
 
-  const AttendanceReportPage({super.key, required this.attendanceBloc, required this.settings});
+  const AttendanceReportPage({super.key, required this.settings});
 
-  static Route route(
-      {required AttendanceBloc attendanceBloc, required Settings settings}) {
+  static Route route({required Settings settings}) {
     return MaterialPageRoute(
-        builder: (_) => AttendanceReportPage(
-            attendanceBloc: attendanceBloc, settings: settings));
+        builder: (_) => AttendanceReportPage(settings: settings));
   }
 
   @override

@@ -76,8 +76,7 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      AttendanceReportPage.route(attendanceBloc: context.read<AttendanceBloc>(), settings: settings!));
+                  Navigator.push(context, AttendanceReportPage.route(settings: settings!));
                 },
                 child: Lottie.asset(
                   'assets/images/ic_report_lottie.json',

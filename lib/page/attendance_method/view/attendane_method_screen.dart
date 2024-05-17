@@ -4,6 +4,7 @@ import 'package:face/face_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/attendance/content/shift_dropdown.dart';
@@ -12,6 +13,7 @@ import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../../../res/const.dart';
+import '../../attendance_report/view/attendance_report_page.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 
@@ -89,6 +91,21 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
               'attendance_method'.tr(),
               style: TextStyle(fontSize: 18.r),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, AttendanceReportPage.route(settings: settings!));
+                  },
+                  child: Lottie.asset(
+                    'assets/images/ic_report_lottie.json',
+                    height: 40.h,
+                    width: 40.w,
+                  ),
+                ),
+              ),
+            ],
           ),
           body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
             return Container(
@@ -136,7 +153,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                               curve: Interval((1 / length) * index, 1.0, curve: Curves.fastOutSlowIn)));
                           animationController.forward();
 
-                          final method = settings?.data?.methods[index];
+                          final method = settings.data?.methods[index];
 
                           return method != null
                               ? InkWell(
@@ -156,7 +173,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                                             height: 150,
                                             width: double.infinity,
                                             fit: BoxFit.cover,
-                                            imageUrl: settings?.data?.methods[index].image ?? "",
+                                            imageUrl: settings.data?.methods[index].image ?? "",
                                             placeholder: (context, url) => Center(
                                               child: Image.asset("assets/images/placeholder_image_one.webp"),
                                             ),
@@ -167,7 +184,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                                         Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Text(
-                                            settings?.data?.methods[index].title ?? "",
+                                            settings.data?.methods[index].title ?? "",
                                             style: const TextStyle(
                                                 color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w500),
                                           ),
@@ -175,7 +192,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                           child: Text(
-                                            settings?.data?.methods[index].subTitle ?? "",
+                                            settings.data?.methods[index].subTitle ?? "",
                                             maxLines: 3,
                                             style: const TextStyle(
                                               color: Colors.black45,
