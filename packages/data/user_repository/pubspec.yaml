@@ -12,5 +12,5 @@ dependencies:
   meta_club_api:
     path: '../meta_club_api'
   dio_service:
-    path: ../../dio_service
+    path: '../dio_service'
 
