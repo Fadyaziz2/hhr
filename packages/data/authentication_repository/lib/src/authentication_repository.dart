@@ -35,10 +35,21 @@ class AuthenticationRepository {
     yield* _userController.stream;
   }
 
-  Future<Either<LoginFailure, LoginData?>> login({required String email, required String password,required String? baseUrl}) async {
-    final userEither = await apiClient.login(email: email, password: password,baseUrl: baseUrl);
+  Future<Either<LoginFailure, LoginData?>> login(
+      {required String email,
+      required String password,
+      required String? baseUrl,
+      String? deviceId,
+      String? deviceInfo}) async {
+    final userEither = await apiClient.login(
+        email: email,
+        password: password,
+        baseUrl: baseUrl,
+        deviceId: deviceId,
+        deviceInfo: deviceInfo);
 
-    userEither.fold((l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
+    userEither.fold(
+        (l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
       _controller.add(AuthenticationStatus.authenticated);
       _userController.add(r!);
     });

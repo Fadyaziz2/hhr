@@ -28,7 +28,7 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://24hourworx.com';
+  static const rootUrl = 'https://www.kghrm.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
@@ -40,13 +40,21 @@ class MetaClubApiClient {
   Future<Either<LoginFailure, LoginData?>> login(
       {required String email,
       required String password,
+      String? deviceId,
+      String? deviceInfo,
       required String? baseUrl}) async {
     const String login = 'login';
 
-    final body = {'email': email, 'password': password};
+    final body = {
+      'email': email,
+      'password': password,
+      "device_id": deviceId,
+      "device_info": deviceInfo
+    };
 
     try {
-      final response = await _httpServiceImpl.postRequest('${baseUrl ?? _baseUrl}$login', body);
+      final response = await _httpServiceImpl.postRequest(
+          '${baseUrl ?? _baseUrl}$login', body);
 
       if (response.statusCode != 200) {
         throw LoginRequestFailure();
@@ -105,7 +113,8 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
       }
@@ -132,11 +141,13 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Either<AttendanceFailure,CheckData?>> checkInOut({required body}) async {
+  Future<Either<AttendanceFailure, CheckData?>> checkInOut(
+      {required body}) async {
     const String api = 'user/attendance';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       if (response.statusCode == 200) {
         return right(CheckData.fromJson(response.data));
       }
@@ -149,7 +160,8 @@ class MetaClubApiClient {
   Future<bool> offlineCheckInOut({required body}) async {
     const String api = 'user/attendance/offline';
     try {
-      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       if (response.statusCode == 200) {
         return true;
       }
@@ -448,12 +460,13 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> createConferenceApi({CreateConferenceBodyModel? conferenceBodyModel}) async {
+  Future<bool> createConferenceApi(
+      {CreateConferenceBodyModel? conferenceBodyModel}) async {
     const String api = "conference/create";
     try {
       FormData formData = FormData.fromMap(conferenceBodyModel!.toJson());
       final response =
-      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
       if (response.statusCode == 200) {
         return true;
       }
@@ -1227,10 +1240,12 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData({String? statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData(
+      {String? statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response =
+          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1694,7 +1709,8 @@ class MetaClubApiClient {
   Future<bool> checkQRValidations(data) async {
     const String api = 'user/attendance/qr-status';
     try {
-      Response response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      Response response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
       if (response.statusCode == 200) {
         return true;
       }
@@ -1705,14 +1721,14 @@ class MetaClubApiClient {
   }
 
   /// Face data store
-  Future<bool> faceDataStore ({String? faceData}) async {
+  Future<bool> faceDataStore({String? faceData}) async {
     String api = 'check-face-data';
 
     try {
-
       final data = {"face_data": faceData};
 
-      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response =
+          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
       if (response.statusCode == 200) {
         return true;

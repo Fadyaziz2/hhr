@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:hrm_framework/hrm_framework.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../../../res/const.dart';
@@ -17,14 +18,20 @@ part 'login_state.dart';
 
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   final AuthenticationRepository _authenticationRepository;
+  final GetDeviceIdUseCase _getDeviceIdUseCase;
+  final GetDeviceNameUseCase _getDeviceNameUseCase;
   final ChatService _chatService;
   final formKey = GlobalKey<FormState>();
 
   LoginBloc(
       {required AuthenticationRepository authenticationRepository,
-      required ChatService chatService})
+      required ChatService chatService,
+      required GetDeviceIdUseCase getDeviceIdUseCase,
+      required GetDeviceNameUseCase getDeviceNameUseCase})
       : _authenticationRepository = authenticationRepository,
         _chatService = chatService,
+        _getDeviceIdUseCase = getDeviceIdUseCase,
+        _getDeviceNameUseCase = getDeviceNameUseCase,
         super(const LoginState()) {
     on<LoginEmailChange>(_onEmailUpdate);
     on<LoginPasswordChange>(_onPasswordUpdate);
@@ -51,6 +58,9 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   }
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
+    final deviceId = await _getDeviceIdUseCase();
+    final deviceName = await _getDeviceNameUseCase();
+
     if (state.isValid) {
       emit(state.copyWith(
           status: FormzSubmissionStatus.inProgress,
@@ -59,7 +69,9 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
       final eitherOrUser = await _authenticationRepository.login(
           email: state.email.value,
           password: state.password.value,
-          baseUrl: baseUrl);
+          baseUrl: baseUrl,
+          deviceId: deviceId,
+          deviceInfo: deviceName);
 
       eitherOrUser.fold(
           (l) => emit(state.copyWith(
@@ -99,9 +111,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   @override
   Map<String, dynamic>? toJson(LoginState state) {
-    return <String, dynamic>{
-      'data': state.user?.toJson()
-    };
+    return <String, dynamic>{'data': state.user?.toJson()};
   }
 
   FutureOr<void> _onObscureEvent(

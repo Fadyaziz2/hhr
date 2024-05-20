@@ -10,4 +10,12 @@ class DeviceInfoServiceImpl implements DeviceInfoService {
     final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
     return Platform.isIOS ? (info as IosDeviceInfo).identifierForVendor : (info as AndroidDeviceInfo).id;
   }
+
+  @override
+  Future<String?> getDeviceName() async {
+    ///Platform information
+    final deviceInfo = DeviceInfoPlugin();
+    final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
+    return Platform.isIOS ? (info as IosDeviceInfo).name : (info as AndroidDeviceInfo).model;
+  }
 }

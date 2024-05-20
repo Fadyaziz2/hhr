@@ -11,7 +11,7 @@ class UserRepository {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const _rootUrl = 'https://office.onesttech.com';
+  static const _rootUrl = 'https://kgs.kghrm.com/';
 
   static const _baseUrl = '$_rootUrl/api/V11/';
 

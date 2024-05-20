@@ -1,16 +1,16 @@
 import 'package:chat/chat.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
-import '../../internet_connectivity/view/no_internet_screen.dart';
+import 'package:hrm_framework/hrm_framework.dart';
 import '../bloc/login_bloc.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
-
   const LoginPage({super.key});
 
-  static Route route(){
+  static Route route() {
     return MaterialPageRoute(builder: (_) => const LoginPage());
   }
 
@@ -20,7 +20,11 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocProvider(
-          create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),chatService: ChatService()),
+          create: (context) => LoginBloc(
+              authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),
+              chatService: ChatService(),
+              getDeviceIdUseCase: instance.get<GetDeviceIdUseCase>(),
+              getDeviceNameUseCase: instance.get<GetDeviceNameUseCase>()),
           child: const LoginForm(),
         ),
       ),
