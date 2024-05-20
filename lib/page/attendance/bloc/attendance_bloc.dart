@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,6 +111,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     body.attendanceId = globalState.get(attendanceId);
+
+    final imageBase64 = await File(_selfie!).readAsBytes();
+    body.selfieImage =  base64Encode(imageBase64);
+
     final checkInOutDataModel = body.toOnlineJson();
 
     final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
