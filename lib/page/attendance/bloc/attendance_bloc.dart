@@ -153,11 +153,14 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
   void _onOfflineAttendance(OnOfflineAttendance event, Emitter<AttendanceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
+
     body.isOffline = true;
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
+    final imageBase64 = await File(_selfie!).readAsBytes();
+    body.selfieImage =  base64Encode(imageBase64);
 
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
