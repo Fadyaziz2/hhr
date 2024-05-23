@@ -7,8 +7,9 @@ import 'content/no_data_found_widget.dart';
 
 class ChatRoom extends StatefulWidget {
   final String uid;
+  final String cid;
   final Color primaryColor;
-  const ChatRoom({super.key,required this.uid,required this.primaryColor});
+  const ChatRoom({super.key,required this.uid,required this.cid,required this.primaryColor});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -62,7 +63,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ConversationScreen(user: profile!, uid: widget.uid, primaryColor: widget.primaryColor,)));
+                                    builder: (context) => ConversationScreen(user: profile!, uid: widget.uid, primaryColor: widget.primaryColor, cid: widget.cid)));
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

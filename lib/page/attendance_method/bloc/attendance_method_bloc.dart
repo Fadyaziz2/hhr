@@ -53,9 +53,13 @@ class AttendanceMethodBloc
     String? selfiePath;
 
     switch (event.slugName) {
+      case 'offline_attendance':
+        Navigator.push(
+            event.context, AttendancePage.route(homeBloc: _homeBloc,attendanceType: AttendanceType.offline));
+        break;
       case 'normal_attendance':
         Navigator.push(
-            event.context, AttendancePage.route(homeBloc: _homeBloc));
+            event.context, AttendancePage.route(homeBloc: _homeBloc,attendanceType: AttendanceType.normal));
         break;
       case 'face_attendance':
         ///set condition here weather face checking enable or disable

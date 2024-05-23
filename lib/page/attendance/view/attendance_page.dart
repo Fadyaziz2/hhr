@@ -51,8 +51,8 @@ class AttendancePage extends StatelessWidget {
           attendanceService: attendanceService,
           internetStatus: context.watch<InternetBloc>().state.status)
           ..add(OnLocationInitEvent(dashboardModel: homeBloc.state.dashboardModel)),
-      child: const Scaffold(
-        body: AttendanceView(),
+      child: Scaffold(
+        body: AttendanceView(attendanceType: attendanceType),
       ),
     );
   }

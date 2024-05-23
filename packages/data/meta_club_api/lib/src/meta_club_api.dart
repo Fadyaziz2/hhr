@@ -65,11 +65,10 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> deleteAccount() async {
-    const String delete = 'delete-account';
+  Future<bool> logout({required String baseUrl}) async {
+    const String logout = 'logout';
 
-    final response =
-        await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$delete');
+    final response = await _httpServiceImpl.getRequestWithToken('${baseUrl}$logout');
 
     if (response?.statusCode == 200) {
       return true;

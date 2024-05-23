@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';
@@ -21,6 +22,7 @@ import 'package:onesthrm/page/report/report_page.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
+import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
@@ -82,8 +84,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         NavUtil.navigateScreen(
             event.context,
             ChatRoom(
-              uid: '${_loginData.user?.id ?? 0}',
-              primaryColor: _primaryColor,
+              uid: '${globalState.get(companyId)}${_loginData.user?.id ?? 0}',
+              primaryColor: _primaryColor, cid: '${globalState.get(companyId)}',
             ));
         break;
       case 'phonebook':

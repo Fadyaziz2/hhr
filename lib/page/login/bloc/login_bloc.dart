@@ -79,9 +79,10 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
               message: l,
               loginAction: LoginAction.login)), (r) {
         if (r?.user != null) {
+          final cid = globalState.get(companyId);
           ///create/update user information into fireStore
           _chatService.createAndUpdateUserInfo(
-              r?.user?.toJson(), '${r?.user?.id}');
+              r?.user?.toJson(), '$cid${r?.user?.id}');
           emit(state.copyWith(
               status: FormzSubmissionStatus.success,
               user: r,

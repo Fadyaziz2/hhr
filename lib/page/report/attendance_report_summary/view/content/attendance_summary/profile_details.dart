@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/bloc/report_bloc.dart';
 import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
@@ -20,16 +21,17 @@ class ProfileDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 :55),
+        preferredSize: Size.fromHeight(DeviceUtil.isTablet ? 80 : 55),
         child: AppBar(
           iconTheme: IconThemeData(size: DeviceUtil.isTablet ? 40 : 30, color: Colors.white),
-          title: Text('profile_details',style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp :16),).tr(),
+          title: Text(
+            'profile_details',
+            style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16),
+          ).tr(),
         ),
       ),
       body: FutureBuilder(
-        future: context
-            .read<ReportBloc>()
-            .onPhoneBookDetails(userId: userId.toString()),
+        future: context.read<ReportBloc>().onPhoneBookDetails(userId: userId.toString()),
         builder: (context, snapshot) {
           if (snapshot.hasData == true) {
             final profile = snapshot.data?.data;
@@ -58,7 +60,7 @@ class ProfileDetails extends StatelessWidget {
                   ),
                   Text(
                     profile?.name ?? "N/A",
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: DeviceUtil.isTablet ? 18.0.sp : 18.0,
                       height: 1.6,
                       fontWeight: FontWeight.w600,
@@ -66,7 +68,7 @@ class ProfileDetails extends StatelessWidget {
                   ),
                   Text(
                     profile?.designation ?? "N/A",
-                    style:  TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16, height: 1.6),
+                    style: TextStyle(fontSize: DeviceUtil.isTablet ? 16.sp : 16, height: 1.6),
                   ),
                   const SizedBox(
                     height: 15,
@@ -80,8 +82,7 @@ class ProfileDetails extends StatelessWidget {
                             iconData: Icons.call,
                             bgColor: const Color(0xFF3171F9),
                             onPressed: () async {
-                              if (!await launchUrl(
-                                  Uri.parse("tel://${profile?.phone}"))) {
+                              if (!await launchUrl(Uri.parse("tel://${profile?.phone}"))) {
                                 throw 'Could not launch ${Uri.parse("tel://${profile?.phone}")}';
                               }
                             }),
@@ -89,12 +90,14 @@ class ProfileDetails extends StatelessWidget {
                             iconData: Icons.message,
                             bgColor: const Color(0xFF00B180),
                             onPressed: () {
+                              final cid = globalState.get(companyId);
                               NavUtil.navigateScreen(
                                   context,
                                   ConversationScreen(
                                     user: phonebook,
-                                    uid: '${profile?.id}',
+                                    uid: '$cid${profile?.id}',
                                     primaryColor: colorPrimary,
+                                    cid: cid,
                                   ));
                             }),
                         ProfileMenuTile(
@@ -103,12 +106,10 @@ class ProfileDetails extends StatelessWidget {
                             onPressed: () async {
                               try {
                                 if (Platform.isAndroid) {
-                                  String uri =
-                                      'sms:${profile?.phone}?body=${Uri.encodeComponent("Hello there")}';
+                                  String uri = 'sms:${profile?.phone}?body=${Uri.encodeComponent("Hello there")}';
                                   await launchUrl(Uri.parse(uri));
                                 } else if (Platform.isIOS) {
-                                  String uri =
-                                      'sms:${profile?.phone}&body=${Uri.encodeComponent("Hello there")}';
+                                  String uri = 'sms:${profile?.phone}&body=${Uri.encodeComponent("Hello there")}';
                                   await launchUrl(Uri.parse(uri));
                                 }
                               } catch (e) {
@@ -122,10 +123,7 @@ class ProfileDetails extends StatelessWidget {
                               final Uri emailLaunchUri = Uri(
                                 scheme: 'mailto',
                                 path: profile?.email,
-                                queryParameters: {
-                                  'subject': 'CallOut user Profile',
-                                  'body': profile?.name
-                                },
+                                queryParameters: {'subject': 'CallOut user Profile', 'body': profile?.name},
                               );
                               launchUrl(emailLaunchUri);
                             }),
@@ -179,18 +177,24 @@ class ProfileDetails extends StatelessWidget {
 
   Container buildProfileDetails({String? title, description}) {
     return Container(
-      padding:  EdgeInsets.symmetric(vertical: DeviceUtil.isTablet ? 16.sp : 16, horizontal: DeviceUtil.isTablet ? 12.sp : 12),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey.shade300))),
+      padding: EdgeInsets.symmetric(
+          vertical: DeviceUtil.isTablet ? 16.sp : 16, horizontal: DeviceUtil.isTablet ? 12.sp : 12),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade300))),
       child: Row(
         children: [
           Expanded(
             flex: 1,
-            child: Text(title!,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),).tr(),
+            child: Text(
+              title!,
+              style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+            ).tr(),
           ),
           Expanded(
             flex: 2,
-            child: Text(description,style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),),
+            child: Text(
+              description,
+              style: TextStyle(fontSize: DeviceUtil.isTablet ? 14.sp : 14),
+            ),
           )
         ],
       ),

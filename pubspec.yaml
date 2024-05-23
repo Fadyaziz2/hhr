@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.2.1+25
 
 environment:
-  sdk: ">=2.19.2 <3.0.0"
+  sdk: '>=3.2.1 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,17 +35,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_staggered_grid_view: ^0.7.0
-  flutter_blurhash: ^0.8.2
   path_provider: ^2.1.2
   flutter_bloc: ^8.0.1
   hydrated_bloc: ^9.1.1
   cached_network_image: ^3.2.3
   hive: ^2.2.2
   hive_flutter: ^1.1.0
-  equatable: ^2.0.3
   formz: ^0.7.0
-  flutter_services_binding: ^0.1.0
   url_launcher: ^6.1.4
+  equatable: ^2.0.5
   country_picker: ^2.0.16
   syncfusion_flutter_datepicker: ^25.1.41
   authentication_repository:
@@ -98,7 +96,6 @@ dependencies:
   flutter_html:
   share_plus: ^9.0.0
   connectivity_plus: ^6.0.3
-  flutter_face_core: 5.2.0
   flutter_screenutil: ^5.8.4
   syncfusion_flutter_gauges: ^25.1.41
   flutter_local_notifications: ^17.1.0

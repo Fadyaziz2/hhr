@@ -12,12 +12,14 @@ import 'chat_line.dart';
 class ConversationScreen extends StatefulWidget {
   final UserModel user;
   final String uid;
+  final String cid;
   final Color primaryColor;
 
   const ConversationScreen(
       {super.key,
       required this.user,
       required this.uid,
+      required this.cid,
       required this.primaryColor});
 
   @override
@@ -45,7 +47,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     ChatService database = ChatService();
-    final chatUid = widget.user.id;
+    final chatUid = '${widget.cid}${widget.user.id}';
 
     return Scaffold(
         appBar: AppBar(

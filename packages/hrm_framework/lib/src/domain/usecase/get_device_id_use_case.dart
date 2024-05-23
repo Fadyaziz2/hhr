@@ -8,4 +8,5 @@ class GetDeviceIdUseCase {
   Future<String?> call() {
     return deviceInfoService.getDeviceId();
   }
+
 }

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
 import 'package:onesthrm/res/const.dart';
 
@@ -92,12 +93,13 @@ class PhoneBookDetailsScreen extends StatelessWidget {
                             iconData: Icons.message,
                             bgColor: const Color(0xFF00B180),
                             onPressed: () {
+                              final cid = globalState.get(companyId);
                               NavUtil.navigateScreen(
                                   context,
                                   ConversationScreen(
                                     user: phonebook,
-                                    uid: '${user?.user?.id}',
-                                    primaryColor: colorPrimary,
+                                    uid: '$cid${user?.user?.id}',
+                                    primaryColor: colorPrimary, cid: '$cid',
                                   ));
                             }),
                         profileMenu(

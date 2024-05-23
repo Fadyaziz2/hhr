@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
+import 'package:onesthrm/page/attendance/bloc/attendance_event.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/page/attendance/content/show_current_location.dart';
 import 'package:onesthrm/page/attendance/content/show_current_time.dart';
@@ -20,7 +21,10 @@ import 'animated_circular_button.dart';
 import 'check_in_check_out_time.dart';
 
 class AttendanceView extends StatefulWidget {
-  const AttendanceView({super.key});
+
+  final AttendanceType attendanceType;
+
+  const AttendanceView({super.key,required this.attendanceType});
 
   @override
   State<AttendanceView> createState() => _AttendanceState();
@@ -114,7 +118,11 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
                               )),
                         ) : AnimatedCircularButton(
                           onComplete: () {
-                            context.read<AttendanceBloc>().add(OnOfflineAttendance());
+                            if(widget.attendanceType == AttendanceType.normal){
+                              context.read<AttendanceBloc>().add(OnAttendance());
+                            }else{
+                              context.read<AttendanceBloc>().add(OnOfflineAttendance());
+                            }
                           },
                           isCheckedIn: offlineState.isCheckedIn,
                           title: offlineState.isCheckedIn == false

@@ -42,14 +42,9 @@ class AuthenticationRepository {
       String? deviceId,
       String? deviceInfo}) async {
     final userEither = await apiClient.login(
-        email: email,
-        password: password,
-        baseUrl: baseUrl,
-        deviceId: deviceId,
-        deviceInfo: deviceInfo);
+        email: email, password: password, baseUrl: baseUrl, deviceId: deviceId, deviceInfo: deviceInfo);
 
-    userEither.fold(
-        (l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
+    userEither.fold((l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
       _controller.add(AuthenticationStatus.authenticated);
       _userController.add(r!);
     });
@@ -57,7 +52,8 @@ class AuthenticationRepository {
     return userEither;
   }
 
-  void logout() {
+  void logout({required String baseUrl}) {
+    apiClient.logout(baseUrl: baseUrl);
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

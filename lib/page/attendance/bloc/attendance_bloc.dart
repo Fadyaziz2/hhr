@@ -56,7 +56,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       add(OnLocationInitEvent());
 
       ///----------------------------------------------------///
-      ///if not normal attendance, this event call automatically
+      ///if not offline attendance, this event call automatically
       add(OnAttendance());
       ///---------------///---------------------------------///
     }
@@ -111,9 +111,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
     body.attendanceId = globalState.get(attendanceId);
-
-    final imageBase64 = await File(_selfie!).readAsBytes();
-    body.selfieImage =  base64Encode(imageBase64);
+    if(_selfie != null){
+      final imageBase64 = await File(_selfie).readAsBytes();
+      body.selfieImage =  base64Encode(imageBase64);
+    }
 
     final checkInOutDataModel = body.toOnlineJson();
 
@@ -159,8 +160,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.attendanceId = globalState.get(attendanceId);
     body.latitude = '${_locationServices.userLocation.latitude}';
     body.longitude = '${_locationServices.userLocation.longitude}';
-    final imageBase64 = await File(_selfie!).readAsBytes();
-    body.selfieImage =  base64Encode(imageBase64);
+    if(_selfie != null){
+      final imageBase64 = await File(_selfie).readAsBytes();
+      body.selfieImage =  base64Encode(imageBase64);
+    }
 
     ///----------------------------------*********--------------------------------------------------------
     isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);

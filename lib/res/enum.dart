@@ -13,4 +13,4 @@ enum Filter { open, close, all }
 
 enum InternetStatus { initial, online, offline }
 
-enum AttendanceType { normal, qr, face ,selfie}
+enum AttendanceType {offline, normal, qr, face ,selfie}
