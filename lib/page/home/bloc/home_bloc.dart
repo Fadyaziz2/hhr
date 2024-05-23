@@ -188,6 +188,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onOfflineDataSync() async {
     try {
       final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
+      isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: today);
       late Map<String, dynamic> body;
       if (isCheckedOut) {
         body = attendanceService.getAllCheckInOutDataMap();

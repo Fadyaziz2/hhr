@@ -52,8 +52,8 @@ class AuthenticationRepository {
     return userEither;
   }
 
-  void logout({required String baseUrl}) {
-    apiClient.logout(baseUrl: baseUrl);
+  Future<void> logout({required String baseUrl, String? token}) async {
+    apiClient.logout(baseUrl: baseUrl, token: token);
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

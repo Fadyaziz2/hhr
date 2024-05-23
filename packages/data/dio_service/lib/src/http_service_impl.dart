@@ -42,11 +42,11 @@ class HttpServiceImpl implements HttpService {
 
   @override
   Future<Response?> getRequestWithToken(String url,
-      {contentType = 'application/json'}) async {
+      {contentType = 'application/json',String? token}) async {
     Response response;
 
     try {
-      response = await _dio!.get(url, options: _buildCacheOptions());
+      response = await _dio!.get(url, options: _buildCacheOptions(tkn: token));
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (e) {
@@ -74,7 +74,7 @@ class HttpServiceImpl implements HttpService {
     return _manager;
   }
 
-  Options _buildCacheOptions() {
+  Options _buildCacheOptions({String? tkn}) {
     return buildCacheOptions(const Duration(days: 3),
         maxStale: const Duration(days: 7),
         forceRefresh: true,
@@ -82,7 +82,7 @@ class HttpServiceImpl implements HttpService {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
             'Charset': 'utf-8',
-            "Authorization": "Bearer $token"
+            "Authorization": "Bearer ${tkn ?? token}"
           },
         ));
   }
