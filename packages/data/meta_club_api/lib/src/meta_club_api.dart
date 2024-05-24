@@ -28,7 +28,7 @@ class MetaClubApiClient {
     _httpServiceImpl = HttpServiceImpl(token: token);
   }
 
-  static const rootUrl = 'https://www.kghrm.com';
+  static const rootUrl = 'https://www.24hourworx.com';
 
   static const _baseUrl = '$rootUrl/api/V11/';
 
