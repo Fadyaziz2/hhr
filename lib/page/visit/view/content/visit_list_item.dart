@@ -24,7 +24,7 @@ class VisitListItem extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     if (user?.user != null) {
       locationServiceProvider.getCurrentLocationStream(
-          uid: user!.user!.id!,
+          uid: '${globalState.get(companyId)}${user!.user!.id!}',
           metaClubApiClient: MetaClubApiClient(token: user.user!.token!, companyUrl: baseUrl));
     }
     return InkWell(

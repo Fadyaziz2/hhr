@@ -229,7 +229,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
       event.locationProvider.getCurrentLocationStream(
-          uid: event.user.id!, metaClubApiClient: _metaClubApiClient);
+          uid: '${globalState.get(companyId)}${event.user.id!}', metaClubApiClient: _metaClubApiClient);
     } else {
       try {
         event.locationProvider.locationSubscription.pause();

@@ -61,7 +61,7 @@ class LocationServiceProvider {
   ///return driver current location stream
   ///for this we use another package called {Location:any}
   ///to get location more better way
-  void getCurrentLocationStream({required int uid, required MetaClubApiClient metaClubApiClient}) async {
+  void getCurrentLocationStream({required String uid, required MetaClubApiClient metaClubApiClient}) async {
     ///location permission check
    final isGranted = await askForLocationAlwaysPermission();
 
@@ -153,7 +153,7 @@ class LocationServiceProvider {
   }
 
   ///store data to local
-  addLocationDataToLocal({String? currentDateData, required Position position, required int uid}) async {
+  addLocationDataToLocal({String? currentDateData, required Position position, required String uid}) async {
     final places = await getAddressByPosition(position: position);
 
     placeMark = places?.first;
