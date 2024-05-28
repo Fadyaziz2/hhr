@@ -743,7 +743,7 @@ class MetaClubApiClient {
   Future<bool> storeLocationToServer(
       {required List<Map<String, dynamic>> locations, String? date}) async {
     try {
-      final data = {'locations': locations};
+      final data = {'locations': locations,'date':date};
       var response = await _httpServiceImpl.postRequest(
           "${getBaseUrl()}user/attendance/live-location-store", data);
       if (response.statusCode == 200) {
