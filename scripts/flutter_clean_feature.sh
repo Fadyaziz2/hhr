@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Define the base path
-BASE_PATH="packages"
+BASE_PATH="packages/feature"
 if [ ! -d "$BASE_PATH" ]; then
-    BASE_PATH="../packages"
+    BASE_PATH="../packages/feature"
 fi
 
 
 
 # Define the directories to traverse
-DIRECTORIES=("core" "data" "domain" "hrm_framework" "presentation")
+DIRECTORIES=("face" "location_track" "qr_attendance" "selfie_attendance" "video_chat")
 
 # Function to recursively find Flutter projects and run flutter clean
 clean_flutter_projects() {
