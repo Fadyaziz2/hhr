@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:tf_dio_cache/tf_dio_cache.dart';
 import 'http_service.dart';
 import 'interceptor/dio_connectivity_request_retrier.dart';
@@ -41,8 +43,7 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Response?> getRequestWithToken(String url,
-      {contentType = 'application/json',String? token}) async {
+  Future<Response?> getRequestWithToken(String url, {contentType = 'application/json', String? token}) async {
     Response response;
 
     try {
@@ -64,13 +65,11 @@ class HttpServiceImpl implements HttpService {
     _dio = Dio();
     _dio!.interceptors.add(_getCacheManager().interceptor);
     _dio!.interceptors.add(RetryOnConnectionInterceptor(
-        requestRetrier: DioConnectivityRequestRetrier(
-            dio: _dio, connectivity: Connectivity())));
+        requestRetrier: DioConnectivityRequestRetrier(dio: _dio, connectivity: Connectivity())));
   }
 
   DioCacheManager _getCacheManager() {
-    _manager = DioCacheManager(
-        CacheConfig(baseUrl: 'https://hrm.onestweb.com/api/V11/'));
+    _manager = DioCacheManager(CacheConfig(baseUrl: 'https://hrm.onestweb.com/api/V11/'));
     return _manager;
   }
 
@@ -88,18 +87,56 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Response> postRequest(String url, body,
-      {contentType = 'application/json;charset=UTF-8'}) async {
-    Response response;
-
+  Future<Either<Failure, Response>> postRequest(String url, body, {contentType = 'application/json;charset=UTF-8'}) async {
     try {
-      response =
-          await _dio!.post(url, data: body, options: _buildCacheOptions());
+      final response = await _dio!.post(url, data: body, options: _buildCacheOptions());
+      return Right(response);
     } on DioException catch (e) {
-      String error = DioExceptions.fromDioError(e).toString();
-      throw Exception(error);
+      String? additionalData;
+      try {
+        if (e.response != null && e.response!.data != null) {
+          if (e.response!.data is Map) {
+            additionalData = e.response!.data!['Title'];
+          } else {
+            additionalData = e.response!.data;
+          }
+        }
+      } catch (e) {
+        additionalData = null;
+      }
+      if (e.response != null) {
+        // The status code 404 not found has special significance to some methods. See if we are here because
+        // of a 404 and if so, return a special failure.
+        if (e.response!.statusCode == HttpStatus.notFound) {
+          if (e.response!.data is Map<String, dynamic>) {
+            final jsonMap = e.response!.data;
+            if (jsonMap['message'] != null) {
+              final message = jsonMap['message'] as String;
+              if (message.toLowerCase().contains('consent required')) {
+                return Left(GeneralFailure.consentRequired());
+              }
+            }
+          }
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post'));
+        } else if (e.response!.statusCode == HttpStatus.badRequest) {
+          if (e.response!.data is Map<String, dynamic>) {
+            final jsonMap = e.response!.data;
+            if (jsonMap['message'] != null) {
+              final message = jsonMap['message'] as String;
+              if (message.toLowerCase().contains('no eligible accounts found')) {
+                return Left(GeneralFailure.ineligible());
+              }
+            }
+          }
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post'));
+        } else if (e.response!.statusCode == HttpStatus.unauthorized) {
+          return Left(GeneralFailure.invalidLoginCredentials());
+        }
+      }
+      return Left(ExceptionFailure(exception: e, additionalData: additionalData));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return response;
   }
 
   @override
@@ -107,8 +144,7 @@ class HttpServiceImpl implements HttpService {
     Response response;
 
     try {
-      response = await _dio!.delete(url,
-          options: Options(headers: {"Authorization": "Bearer $token"}));
+      response = await _dio!.delete(url, options: Options(headers: {"Authorization": "Bearer $token"}));
     } on SocketException {
       throw const SocketException('No internet connection');
     } on FormatException catch (e) {
@@ -134,8 +170,7 @@ class DioExceptions implements Exception {
         break;
       case DioExceptionType.badResponse:
         statusCode = dioError.response!.statusCode!;
-        message = _handleError(
-            dioError.response!.statusCode!, dioError.response!.data);
+        message = _handleError(dioError.response!.statusCode!, dioError.response!.data);
         break;
       case DioExceptionType.sendTimeout:
         message = "Send timeout in connection with API server";

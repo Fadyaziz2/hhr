@@ -1,7 +1,6 @@
-library meta_club_api;
-
 import 'dart:async';
 import 'dart:io';
+import 'package:core/core.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
@@ -16,7 +15,6 @@ import 'package:user_repository/user_repository.dart';
 import 'models/acts_regulation.dart';
 import 'models/content.dart';
 import 'models/donation.dart';
-import 'models/election_info.dart';
 import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
@@ -37,7 +35,7 @@ class MetaClubApiClient {
     return baseUrl;
   }
 
-  Future<Either<LoginFailure, LoginData?>> login(
+  Future<Either<Failure, LoginData?>> login(
       {required String email,
       required String password,
       String? deviceId,
@@ -45,29 +43,24 @@ class MetaClubApiClient {
       required String? baseUrl}) async {
     const String login = 'login';
 
-    final body = {
-      'email': email,
-      'password': password,
-      "device_id": deviceId,
-      "device_info": deviceInfo
-    };
+    final body = {'email': email, 'password': password, "device_id": deviceId, "device_info": deviceInfo};
 
     try {
-      final response = await _httpServiceImpl.postRequest(
-          '${baseUrl ?? _baseUrl}$login', body);
-
-      if (response.statusCode != 200) {
-        throw LoginRequestFailure();
-      }
-      return right(LoginData.fromJson(response.data));
-    } catch (e) {
-      return Left(LoginFailure(error: e.toString()));
+      final response = await _httpServiceImpl.postRequest('${baseUrl ?? _baseUrl}$login', body);
+      return response.fold((l) {
+        return Left(l);
+      }, (r) {
+        return right(LoginData.fromJson(r.data));
+        ;
+      });
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   Future<bool> logout({required String baseUrl, String? token}) async {
     const String logout = 'logout';
-    final response = await _httpServiceImpl.getRequestWithToken('${baseUrl}$logout',token: token);
+    final response = await _httpServiceImpl.getRequestWithToken('${baseUrl}$logout', token: token);
 
     if (response?.statusCode == 200) {
       return true;
@@ -76,21 +69,19 @@ class MetaClubApiClient {
     }
   }
 
-  Future<RegistrationData?> registration({bodyData}) async {
+  Future<Either<Failure, RegistrationData>> registration({bodyData}) async {
     const String register = 'register';
 
     try {
-      final response = await _httpServiceImpl.postRequest(
-          '${getBaseUrl()}$register', bodyData);
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        throw LoginRequestFailure();
-      }
-      return RegistrationData.fromJson(response.data);
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$register', bodyData);
+
+      return response.fold((l) {
+        return Left(l);
+      }, (r) {
+        return Right(RegistrationData.fromJson(r.data));
+      });
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -111,8 +102,7 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
       }
@@ -122,81 +112,75 @@ class MetaClubApiClient {
     }
   }
 
-  Future<SupportListModel?> getSupport(String type, String month) async {
+  Future<Either<Failure, SupportListModel?>> getSupport(String type, String month) async {
     const String api = 'support-ticket/list';
-
     final data = {"type": type, "month": month};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return SupportListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(SupportListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<Either<AttendanceFailure, CheckData?>> checkInOut(
-      {required body}) async {
+  Future<Either<Failure, CheckData?>> checkInOut({required Map<String, dynamic> body}) async {
     const String api = 'user/attendance';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return right(CheckData.fromJson(response.data));
-      }
-      return left(const AttendanceFailure());
-    } catch (e) {
-      return left(AttendanceFailure(error: e.toString()));
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(CheckData.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<bool> offlineCheckInOut({required body}) async {
+  Future<Either<Failure, bool>> offlineCheckInOut({required Map<String, dynamic> body}) async {
     const String api = 'user/attendance/offline';
+
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// attendance report get data ------------------
-  Future<AttendanceReport?> getAttendanceReport(
+  Future<Either<Failure, AttendanceReport?>> getAttendanceReport(
       {required Map<String, dynamic> body, int? userId}) async {
-    String api = 'report/attendance/particular-month/$userId';
+    final String api = 'report/attendance/particular-month/$userId';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return AttendanceReport.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(AttendanceReport.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<Break?> backBreak() async {
+  Future<Either<Failure, Break?>> backBreak() async {
     const String api = 'user/attendance/break-back';
+
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
-      if (response.statusCode == 200) {
-        return Break.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', {});
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Break.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -204,8 +188,7 @@ class MetaClubApiClient {
     const String api = 'dashboard/statistics';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
@@ -216,105 +199,63 @@ class MetaClubApiClient {
     }
   }
 
-  Future<LeaveSummaryModel?> leaveSummaryApi(int? userId) async {
-    const String api = 'user/leave/summary';
-
-    try {
-      final formData = {
-        "user_id": userId,
-      };
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return LeaveSummaryModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<LeaveRequestModel?> leaveRequestApi(int? userId, String? date) async {
-    const String api = 'user/leave/list/view';
-
-    try {
-      final data = {"user_id": userId, "month": date};
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode == 200) {
-        return LeaveRequestModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<LeaveDetailsModel?> leaveReportDetailsApi(
-      int? userId, int leaveId) async {
+  Future<Either<Failure, LeaveDetailsModel?>> leaveReportDetailsApi(int? userId, int leaveId) async {
     const String api = 'user/leave/details';
 
     try {
       final data = {"user_id": userId};
-      final response = await _httpServiceImpl.postRequest(
-          '${getBaseUrl()}$api/$leaveId', data);
-      if (response.statusCode == 200) {
-        return LeaveDetailsModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api/$leaveId', data);
+
+      return response.fold((l) => Left(l), (r) => Right(LeaveDetailsModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<LeaveReportTypeWiseSummary?> getLeaveSummaryTypeWise(data) async {
+  Future<Either<Failure, LeaveReportTypeWiseSummary?>> getLeaveSummaryTypeWise(data) async {
     const String api = 'report/leave/date-wise-leave';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return LeaveReportTypeWiseSummary.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(LeaveReportTypeWiseSummary.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<LeaveReportSummaryModel?> leaveReportSummaryApi(String date) async {
+  Future<Either<Failure, LeaveReportSummaryModel?>> leaveReportSummaryApi(String date) async {
     const String api = 'report/leave/date-summary';
     final data = {'date': date};
-    try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.statusCode == 200) {
-        return LeaveReportSummaryModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+    try {
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(LeaveReportSummaryModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<LeaveDetailsModel?> leaveDetailsApi(
-      int? userId, int? requestId) async {
-    String api = "user/leave/details/$requestId";
+  Future<Either<Failure, LeaveDetailsModel?>> leaveDetailsApi(int? userId, int? requestId) async {
+    final String api = "user/leave/details/$requestId";
 
     try {
-      FormData formData = FormData.fromMap({"user_id": userId});
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final data = {"user_id": userId};
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
 
-      if (response.statusCode == 200) {
-        return LeaveDetailsModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(LeaveDetailsModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -322,8 +263,7 @@ class MetaClubApiClient {
     String api = 'user/leave/request/cancel/$requestId';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode == 200) {
         return true;
@@ -334,90 +274,79 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> submitLeaveRequestApi(
-      {BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
+  Future<Either<Failure, bool>> submitLeaveRequestApi({BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
     const String api = 'user/leave/request';
-
     if (kDebugMode) {
       print(bodyCreateLeaveModel?.toJson());
     }
     try {
-      FormData formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
 
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// Cancel State and change status throw this one API
-  Future<bool> cancelVisitApi({BodyVisitCancel? bodyVisitCancel}) async {
+  Future<Either<Failure, bool>> cancelVisitApi({BodyVisitCancel? bodyVisitCancel}) async {
     const String api = 'visit/change-status';
-
     if (kDebugMode) {
       print(bodyVisitCancel?.toJson());
     }
     try {
-      FormData formData = FormData.fromMap(bodyVisitCancel!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final formData = FormData.fromMap(bodyVisitCancel!.toJson());
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
 
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// create Reschedule API
-  Future<bool> createRescheduleApi(
-      {BodyCreateSchedule? bodyCreateSchedule}) async {
+  Future<Either<Failure, bool>> createRescheduleApi({BodyCreateSchedule? bodyCreateSchedule}) async {
     const String api = 'visit/create-schedule';
-
     if (kDebugMode) {
       print(bodyCreateSchedule?.toJson());
     }
     try {
-      FormData formData = FormData.fromMap(bodyCreateSchedule!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final formData = FormData.fromMap(bodyCreateSchedule!.toJson());
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
 
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  FutureOr<bool> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async {
+  Future<Either<Failure, bool>> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async {
     const String api = 'visit/image-upload';
     if (kDebugMode) {
       print(bodyImageUpload?.toJson());
     }
     try {
-      FormData formData = FormData.fromMap(bodyImageUpload!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final formData = FormData.fromMap(bodyImageUpload!.toJson());
+      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
+
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// Update Visit API
-  Future<bool> updateVisitApi({BodyUpdateVisit? bodyUpdateVisit}) async {
+  Future<Either<Failure, bool>> updateVisitApi({BodyUpdateVisit? bodyUpdateVisit}) async {
     const String api = 'visit/update';
 
     if (kDebugMode) {
@@ -425,20 +354,14 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyUpdateVisit!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// create Visit Note API
-  Future<bool> visitCreateNoteApi({BodyVisitNote? bodyVisitNote}) async {
+  Future<Either<Failure, bool>> visitCreateNoteApi({BodyVisitNote? bodyVisitNote}) async {
     const String api = 'visit/create-note';
 
     if (kDebugMode) {
@@ -446,51 +369,38 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyVisitNote!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<bool> createConferenceApi(
-      {CreateConferenceBodyModel? conferenceBodyModel}) async {
+  Future<Either<Failure, bool>> createConferenceApi({CreateConferenceBodyModel? conferenceBodyModel}) async {
     const String api = "conference/create";
+
     try {
       FormData formData = FormData.fromMap(conferenceBodyModel!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<bool> createMeetingApi({MeetingBodyModel? meetingBodyModel}) async {
+  Future<Either<Failure, bool>> createMeetingApi({MeetingBodyModel? meetingBodyModel}) async {
     const String api = "meeting/create";
+
     try {
       FormData formData = FormData.fromMap(meetingBodyModel!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// create Visit API
-  Future<bool> createVisitApi({BodyCreateVisit? bodyCreateVisit}) async {
+  Future<Either<Failure, bool>> createVisitApi({BodyCreateVisit? bodyCreateVisit}) async {
     const String api = 'visit/create';
 
     if (kDebugMode) {
@@ -498,128 +408,103 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<LeaveRequestTypeModel?> leaveRequestTypeApi(int? userId) async {
+  Future<Either<Failure, LeaveRequestTypeModel>> leaveRequestTypeApi(int? userId) async {
     const String api = 'user/leave/available';
 
     try {
       FormData formData = FormData.fromMap({"user_id": userId});
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return LeaveRequestTypeModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold((l) => Left(l), (r) => Right(LeaveRequestTypeModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<DailyLeaveSummaryModel?> dailyLeaveSummary(
-      int? userId, String? date) async {
+  Future<Either<Failure, DailyLeaveSummaryModel?>> dailyLeaveSummary(int? userId, String? date) async {
     const String api = 'daily-leave/leave-list';
-
     try {
       FormData formData = FormData.fromMap({"user_id": userId, "date": date});
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return DailyLeaveSummaryModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(DailyLeaveSummaryModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<LeaveTypeListModel?> dailyLeaveSummaryStaffView(
-      {String? userId,
-      String? month,
-      String? leaveType,
-      String? leaveStatus}) async {
+  Future<Either<Failure, LeaveTypeListModel?>> dailyLeaveSummaryStaffView({
+    String? userId,
+    String? month,
+    String? leaveType,
+    String? leaveStatus,
+  }) async {
     const String api = 'daily-leave/staff-list-view';
-
     try {
       FormData formData = FormData.fromMap({
         "user_id": userId,
         "month": month,
         "leave_type": leaveType,
-        "leave_status": leaveStatus
+        "leave_status": leaveStatus,
       });
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return LeaveTypeListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(LeaveTypeListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future postApplyLeave(data) async {
+  Future<Either<Failure, dynamic>> postApplyLeave(data) async {
     const String api = 'daily-leave/store';
-
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future dailyLeaveApprovalAction(data) async {
+  Future<Either<Failure, dynamic>> dailyLeaveApprovalAction(data) async {
     const String api = 'daily-leave/approve-reject';
-
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<Profile?> getProfile() async {
+  Future<Either<Failure, Profile?>> getProfile() async {
     const String api = 'user/profile-info';
-
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
-
-      if (response.statusCode == 200) {
-        return Profile.fromJson(response.data['data']);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Profile.fromJson(r.data['data'])),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<bool> createSupportApi({required data}) async {
+  Future<Either<Failure, bool>> createSupportApi({required data}) async {
     String api = 'user/profile/update/';
 
     try {
@@ -627,19 +512,17 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap(data);
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future<bool> updateProfile({required String slag, required data}) async {
+  Future<Either<Failure, bool>> updateProfile({required String slag, required data}) async {
     String api = 'user/profile/update/$slag';
 
     try {
@@ -647,19 +530,17 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap(data);
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future<bool> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+  Future<Either<Failure, bool>> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
     String api = 'support-ticket/add';
 
     try {
@@ -669,22 +550,20 @@ class MetaClubApiClient {
         "subject": bodyCreateSupport?.subject,
         "description": bodyCreateSupport?.description,
         "image_url": bodyCreateSupport?.previewId,
-        "priority_id": bodyCreateSupport?.priorityId
+        "priority_id": bodyCreateSupport?.priorityId,
       });
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future<bool> updateProfileAvatar({required int avatarId}) async {
+  Future<Either<Failure, bool>> updateProfileAvatar({required int avatarId}) async {
     String api = 'user/profile-update';
 
     try {
@@ -692,34 +571,29 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap({"avatar_id": avatarId});
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future<FileUpload?> uploadFile({required File file}) async {
+  Future<Either<Failure, FileUpload?>> uploadFile({required File file}) async {
     const String api = 'file-upload';
 
     try {
-      FormData formData =
-          FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
+      FormData formData = FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return FileUpload.fromJson(response.data);
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(FileUpload.fromJson(r.data)),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
@@ -727,8 +601,7 @@ class MetaClubApiClient {
     const String api = 'user/search?name=';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw ContactRequestFailure();
@@ -740,36 +613,30 @@ class MetaClubApiClient {
   }
 
   /// Live Location store API -----------------
-  Future<bool> storeLocationToServer(
-      {required List<Map<String, dynamic>> locations, String? date}) async {
+  Future<Either<Failure, bool>> storeLocationToServer({
+    required List<Map<String, dynamic>> locations,
+    String? date,
+  }) async {
     try {
-      final data = {'locations': locations,'date':date};
+      final data = {'locations': locations, 'date': date};
       var response = await _httpServiceImpl.postRequest(
-          "${getBaseUrl()}user/attendance/live-location-store", data);
-      if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print("storeLocationToServer ${response.data}");
-        }
-        return true;
-      }
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.badResponse) {
-        return false;
-      } else {
-        if (kDebugMode) {
-          print(e.message);
-        }
-      }
+        "${getBaseUrl()}user/attendance/live-location-store",
+        data,
+      );
+      return response.fold(
+        (l) => Left(l),
+        (_) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return false;
   }
 
   Future<Notices?> notices() async {
     const String api = 'notices/get-list';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       switch (response?.statusCode) {
         case 200:
@@ -791,8 +658,7 @@ class MetaClubApiClient {
     const String api = 'events/get-list';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -830,51 +696,45 @@ class MetaClubApiClient {
     }
   }
 
-  Future postEventGoing(data) async {
+  Future<Either<Failure, dynamic>> postEventGoing(data) async {
     const String api = 'events/going';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future postEventAppreciate(data) async {
+  Future<Either<Failure, dynamic>> postEventAppreciate(data) async {
     const String api = 'events/appreciate';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
-  Future postUserApproval(data) async {
+  Future<Either<Failure, dynamic>> postUserApproval(data) async {
     const String api = 'user/approval';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (_) {
+      return Left(ExceptionFailure(exception: _));
     }
   }
 
@@ -882,8 +742,7 @@ class MetaClubApiClient {
     const String api = 'club/all-directory-list';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -898,8 +757,7 @@ class MetaClubApiClient {
     const String api = 'events/gallery-photo';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -914,8 +772,7 @@ class MetaClubApiClient {
     const String api = 'birthday/get-list?month=07';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -926,35 +783,31 @@ class MetaClubApiClient {
     }
   }
 
-  Future postBirthDayWish(data) async {
+  Future<Either<Failure, dynamic>> postBirthDayWish(data) async {
     const String api = 'birthday/message/store';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(r.data),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<ResponseUserList?> getUserList(data) async {
+  Future<Either<Failure, ResponseUserList?>> getUserList(data) async {
     const String api = 'list-users';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return ResponseUserList.fromJson(response.data);
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(ResponseUserList.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -962,8 +815,7 @@ class MetaClubApiClient {
     const String api = 'anniversary/get-list';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -974,28 +826,11 @@ class MetaClubApiClient {
     }
   }
 
-  Future postAnniversaryWish(data) async {
-    const String api = 'anniversary/message/store';
-
-    try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
-    }
-  }
-
   Future<GetUserByIdResponse?> getUserById(int? userId) async {
     const String api = 'user/';
 
     try {
-      final response = await _httpServiceImpl
-          .getRequestWithToken('${getBaseUrl()}$api$userId');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api$userId');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1009,8 +844,7 @@ class MetaClubApiClient {
   Future<ResponseQualification?> getQualification() async {
     const String api = 'qualifications';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1025,8 +859,7 @@ class MetaClubApiClient {
     const String api = 'donation/get-list';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1037,63 +870,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future postAppreciated(data) async {
-    const String api = 'donation/appreciate';
-
-    try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  ///================== Election Info data ===================
-
-  Future<ElectionInfo?> getElectionInfo() async {
-    const String api = 'election/info';
-
-    try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ElectionInfo.fromJson(response?.data);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future postSubmitVote(data) async {
-    const String api = 'election/store-vote';
-
-    try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      debugPrint(response.data.toString());
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return response.data;
-    } catch (_) {
-      return null;
-    }
-  }
-
   ///================== Acts & Regulation ===================
   Future<ActsRegulationModel?> actsRegulation() async {
     const String api = 'content/act-regulations';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1108,8 +890,7 @@ class MetaClubApiClient {
     const String api = 'user/notification';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1124,8 +905,7 @@ class MetaClubApiClient {
     const String api = 'notice/show';
 
     try {
-      final response = await _httpServiceImpl
-          .getRequestWithToken('${getBaseUrl()}$api/$noticeId');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api/$noticeId');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1136,19 +916,18 @@ class MetaClubApiClient {
     }
   }
 
-  Future<NoticeListModel?> getNoticeList() async {
+  Future<Either<Failure, NoticeListModel?>> getNoticeList() async {
     const String api = 'notice/list';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
 
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return NoticeListModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(NoticeListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1173,8 +952,7 @@ class MetaClubApiClient {
   Future<bool> clearAllNotificationApi() async {
     const String clear = 'user/notification/clear';
 
-    final response =
-        await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
+    final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
 
     if (response?.statusCode == 200) {
       return true;
@@ -1187,8 +965,7 @@ class MetaClubApiClient {
   Future<bool> clearNoticeApi() async {
     const String clear = 'notice/clear';
 
-    final response =
-        await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
+    final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
 
     if (response?.statusCode == 200) {
       return true;
@@ -1199,17 +976,13 @@ class MetaClubApiClient {
 
   /// ================== Phonebook ====================
   Future<Phonebook?> getPhoneBooks(
-      {String? keywords,
-      int? designationId,
-      int? departmentId,
-      required int pageCount}) async {
+      {String? keywords, int? designationId, int? departmentId, required int pageCount}) async {
     // String api = 'app/get-all-users/33?keywords=$keywords';
     String api =
         'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1221,12 +994,10 @@ class MetaClubApiClient {
   }
 
   /// ================== Phonebook Details====================
-  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails(
-      {String? userId}) async {
+  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails({String? userId}) async {
     String api = 'user/details/$userId';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1238,12 +1009,10 @@ class MetaClubApiClient {
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData(
-      {String? statuesId = '26'}) async {
+  Future<TaskDashboardModel?> getTaskInitialData({String? statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1259,8 +1028,7 @@ class MetaClubApiClient {
     // String api = 'app/get-all-employees/$userId';
     String api = 'tasks/$taskId';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1271,85 +1039,74 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> updateTaskStatusAndSlider({data}) async {
+  Future<Either<Failure, bool>> updateTaskStatusAndSlider({data}) async {
     const String api = 'tasks/update';
 
     try {
       FormData formData = FormData.fromMap(data);
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return true;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(true),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<MeetingsListModel?> getMeetingsItem(String month) async {
+  Future<Either<Failure, MeetingsListModel?>> getMeetingsItem(String month) async {
     const String api = 'appoinment/get-list';
-
     final data = {"month": month};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return MeetingsListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(MeetingsListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<ResponseExpenseList?> getExpenseItem(
+  Future<Either<Failure, ResponseExpenseList?>> getExpenseItem(
       String month, String? paymentType, String? status) async {
     const String api = 'accounts/expense/list';
-
     final data = {"month": month, "payment": paymentType, "status": status};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return ResponseExpenseList.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(ResponseExpenseList.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<BreakReportModel?> getBreakHistory(
+  Future<Either<Failure, BreakReportModel?>> getBreakHistory(
     String date,
   ) async {
     const String api = 'user/attendance/break-history';
-
-    final data = {
-      "date": date,
-    };
+    final data = {"date": date};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return BreakReportModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(BreakReportModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   Future<ExpenseCategoryModel?> getExpenseCategory() async {
     String api = 'accounts/expense/category-list';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1360,8 +1117,7 @@ class MetaClubApiClient {
     }
   }
 
-  ///////// Appointment Create///////////////
-  Future<String> appointmentCreate({AppointmentBody? appointmentBody}) async {
+  Future<Either<String, String>> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
@@ -1376,21 +1132,18 @@ class MetaClubApiClient {
         "file_id": appointmentBody?.previewId,
       });
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
-      if (response.data['result'] == true) {
-        return response.data['message'];
-      }
-      return response.data['message'];
-    } catch (e) {
-      return 'Something went wrong';
+      return response.fold(
+        (l) => Left('Something went wrong'),
+        (r) => Right(r.data['message']),
+      );
+    } on Exception catch (_) {
+      return Left('Something went wrong');
     }
   }
 
-  ///////// Forget password ///////////////
-  Future<VerificationCodeModel> forgetPassword(
-      {ForgotPasswordBody? forgotPasswordBody}) async {
+  Future<Either<Failure, VerificationCodeModel>> forgetPassword({ForgotPasswordBody? forgotPasswordBody}) async {
     String api = 'change-password';
 
     try {
@@ -1401,27 +1154,18 @@ class MetaClubApiClient {
         "password_confirmation": forgotPasswordBody?.passwordConfirmation
       };
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.statusCode == 200) {
-        return VerificationCodeModel.fromJson(response.data);
-      } else {
-        return VerificationCodeModel.fromJson(response.data);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(VerificationCodeModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return VerificationCodeModel(
-      message: 'Something went wrong',
-    );
   }
 
-  ///////// Change password ///////////////
-  Future<VerificationCodeModel> updatePassword(
-      {PasswordChangeBody? passwordChangeBody}) async {
+  Future<Either<Failure, VerificationCodeModel>> updatePassword({PasswordChangeBody? passwordChangeBody}) async {
     String api = 'user/password-update';
 
     try {
@@ -1432,90 +1176,75 @@ class MetaClubApiClient {
         "password_confirmation": passwordChangeBody?.passwordConfirmation,
       };
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.statusCode == 200) {
-        return VerificationCodeModel.fromJson(response.data);
-      } else {
-        return VerificationCodeModel.fromJson(response.data);
-      }
-    } catch (e) {
-      VerificationCodeModel(
-        message: e.toString(),
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(VerificationCodeModel.fromJson(r.data)),
       );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return VerificationCodeModel(
-      message: 'Something went wrong ',
-    );
   }
 
-  Future<VerificationCodeModel> getVerificationCode({String? email}) async {
+  Future<Either<Failure, VerificationCodeModel>> getVerificationCode({String? email}) async {
     String api = 'reset-password';
 
     try {
       final data = {"email": email};
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return VerificationCodeModel.fromJson(response.data);
-      } else {
-        return VerificationCodeModel.fromJson(response.data);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(VerificationCodeModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return VerificationCodeModel(
-      message: 'Something went wrong',
-    );
   }
 
-  Future<ExpenseCreateResponse> expenseCreate(
-      {ExpenseCreateBody? expenseCreateBody}) async {
+  Future<Either<Failure, ExpenseCreateResponse>> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
     String api = 'expense/add';
+
     try {
-      final response = await _httpServiceImpl.postRequest(
-          '${getBaseUrl()}$api', expenseCreateBody?.toJson());
-      return ExpenseCreateResponse.fromJson(response.data);
-    } catch (e) {
-      return ExpenseCreateResponse(
-          message: 'Something went wrong', success: false);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', expenseCreateBody?.toJson());
+
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(ExpenseCreateResponse.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// ===================== Payroll Data List ========================
-  Future<PayrollModel?> getPayrollData({required String year}) async {
+  Future<Either<Failure, PayrollModel?>> getPayrollData({required String year}) async {
     const String api = 'report/payslip/list';
 
     final data = {"year": year.toString()};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return PayrollModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(PayrollModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  /// ===================== Payroll Data List ========================
-  Future<ApprovalModel?> getApprovalData() async {
+  Future<Either<Failure, ApprovalModel?>> getApprovalData() async {
     const String api = 'user/leave/approval/list/view';
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
-      if (response.statusCode == 200) {
-        return ApprovalModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(ApprovalModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1524,8 +1253,7 @@ class MetaClubApiClient {
     String api = 'visit/show/$visitID';
 
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return VisitDetailsModel.fromJson(response?.data);
       }
@@ -1536,20 +1264,19 @@ class MetaClubApiClient {
   }
 
   /// History List API
-  Future<HistoryListModel?> getHistoryList(String? month) async {
+  Future<Either<Failure, HistoryListModel?>> getHistoryList(String? month) async {
     const String api = 'visit/history';
 
     final data = {"month": month};
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return HistoryListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(HistoryListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1557,8 +1284,7 @@ class MetaClubApiClient {
   Future<VisitListModel?> getVisitList() async {
     const String api = 'visit/list';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return VisitListModel.fromJson(response?.data);
       }
@@ -1569,122 +1295,93 @@ class MetaClubApiClient {
   }
 
   /// ===================== Meeting List ========================
-  Future<MeetingsListModel?> getMeetingList(String? month) async {
+  Future<Either<Failure, MeetingsListModel?>> getMeetingList(String? month) async {
     const String api = 'meeting';
     final data = {"month": month};
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return MeetingsListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold((l) => Left(l), (r) => Right(MeetingsListModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// ================== Approval Details====================
-  Future<ApprovalDetailsModel?> getApprovalListDetails(
+  Future<Either<Failure, ApprovalDetailsModel?>> getApprovalListDetails(
       {required String approvalId, required String approvalUserId}) async {
     String api = 'user/leave/details/$approvalId';
     final data = {"user_id": approvalUserId};
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
-      }
-      return ApprovalDetailsModel.fromJson(response.data);
-    } catch (_) {
-      return null;
+      return response.fold((l) => Left(l), (r) => Right(ApprovalDetailsModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// ================== Action Approval Approved or Reject ====================
-  Future approvalApprovedOrReject(
-      {required String approvalId, required int type}) async {
+  Future<Either<Failure, bool>> approvalApprovedOrReject({required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(
-            response?.data['message'] ?? 'server error');
+        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
       }
       return response?.data['result'];
-    } catch (_) {
-      return null;
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// Summary of attendance  ------------------
-  Future<ReportAttendanceSummary?> getAttendanceReportSummary(
+  Future<Either<Failure, ReportAttendanceSummary?>> getAttendanceReportSummary(
       {required Map<String, dynamic> body}) async {
     String api = 'report/attendance/date-summary';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return ReportAttendanceSummary.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      return response.fold((l) => Left(l), (r) => Right(ReportAttendanceSummary.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// Single Attendance Summary to List  ------------------
-  Future<SummaryAttendanceToList?> getAttendanceSummaryToList(
+  Future<Either<Failure, SummaryAttendanceToList?>> getAttendanceSummaryToList(
       {required Map<String, dynamic> body}) async {
     String api = 'report/attendance/summary-to-list';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return SummaryAttendanceToList.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      return response.fold((l) => Left(l), (r) => Right(SummaryAttendanceToList.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// Report Break Summary  ------------------
-  Future<ReportBreakSummaryModel?> getBreakSummary(
-      {required Map<String, dynamic> body}) async {
+  Future<Either<Failure, ReportBreakSummaryModel?>> getBreakSummary({required Map<String, dynamic> body}) async {
     String api = 'report/break/date-summary';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return ReportBreakSummaryModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      return response.fold((l) => Left(l), (r) => Right(ReportBreakSummaryModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// Report Break List Summary  ------------------
-  Future<ReportBreakListModel?> getBreakSummaryList(
-      {required Map<String, dynamic> body}) async {
+  Future<Either<Failure, ReportBreakListModel?>> getBreakSummaryList({required Map<String, dynamic> body}) async {
     String api = 'report/break/user-break-history';
 
     try {
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
-      if (response.statusCode == 200) {
-        return ReportBreakListModel.fromJson(response.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      return response.fold((l) => Left(l), (r) => Right(ReportBreakListModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1692,8 +1389,7 @@ class MetaClubApiClient {
   Future<ConferenceModel?> getConferenceList() async {
     const String api = 'conference/my-meeting';
     try {
-      final response =
-          await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await _httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return ConferenceModel.fromJson(response?.data);
       }
@@ -1704,36 +1400,28 @@ class MetaClubApiClient {
   }
 
   /// Check QR Code validations  ------------------
-  Future<bool> checkQRValidations(data) async {
+  Future<Either<Failure, bool>> checkQRValidations(data) async {
     const String api = 'user/attendance/qr-status';
     try {
-      Response response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold((l) => Left(l), (r) => Right(true));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// Face data store
-  Future<bool> faceDataStore({String? faceData}) async {
+  Future<Either<Failure, bool>> faceDataStore({String? faceData}) async {
     String api = 'check-face-data';
 
     try {
       final data = {"face_data": faceData};
 
-      final response =
-          await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
-      if (response.statusCode == 200) {
-        return true;
-      }
-      return false;
-    } catch (_) {
-      return false;
+      return response.fold((l) => Left(l), (r) => Right(true));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 }

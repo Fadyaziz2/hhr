@@ -13,3 +13,6 @@ dependencies:
   package_info_plus: ^4.1.0
   device_info_plus: ^9.1.1
   shared_preferences: ^2.2.0
+  connectivity_plus: ^6.0.3
+  core:
+    path: ../core

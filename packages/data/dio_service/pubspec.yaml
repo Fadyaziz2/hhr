@@ -14,3 +14,6 @@ dependencies:
   connectivity_plus: ^6.0.3
   tf_dio_cache: ^1.0.1
   flutter_cache_manager: ^3.3.0
+  core:
+    path: '../../core'
+  fpdart: ^1.0.0

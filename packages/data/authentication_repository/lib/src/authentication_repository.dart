@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:core/core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -35,7 +36,7 @@ class AuthenticationRepository {
     yield* _userController.stream;
   }
 
-  Future<Either<LoginFailure, LoginData?>> login(
+  Future<Either<Failure, LoginData?>> login(
       {required String email,
       required String password,
       required String? baseUrl,
@@ -48,7 +49,6 @@ class AuthenticationRepository {
       _controller.add(AuthenticationStatus.authenticated);
       _userController.add(r!);
     });
-
     return userEither;
   }
 

@@ -1,4 +1,6 @@
+import 'package:core/core.dart';
 import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 
 abstract class HttpService{
 
@@ -7,5 +9,5 @@ abstract class HttpService{
   Future<Response?> getRequest(String url);
   Future<Response?> getRequestWithToken(String url,{String token});
   Future<Response?> deleteRequest(String url);
-  Future<Response?> postRequest(String url,body);
+  Future<Either<Failure, Response>> postRequest(String url,body);
 }

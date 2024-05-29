@@ -11,6 +11,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/injection/app_injection.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/app_bloc_observer.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
@@ -32,6 +33,8 @@ void main() async {
   await Firebase.initializeApp();
   ///initializeDependencyInjection
   await initAppModule();
+  ///OtherDependencyInjection
+  await AppInjection().initInjection();
 
   final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);

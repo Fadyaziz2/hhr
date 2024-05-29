@@ -6,3 +6,5 @@ export 'src/app/date_time_formatters.dart';
 export 'src/app/uuid.dart';
 export 'src/models/models.dart';
 export 'src/event_bus/event_bus.dart';
+export 'src/extentions/failure_extension.dart';
+export 'src/failure/failure.dart';

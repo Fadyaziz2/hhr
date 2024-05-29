@@ -14,5 +14,9 @@ dependencies:
     path: ../dio_service
   user_repository:
     path: ../user_repository
+  hrm_framework:
+    path: ../../hrm_framework
+  core:
+    path: ../../core
   equatable: ^2.0.3
   fpdart: ^1.0.0

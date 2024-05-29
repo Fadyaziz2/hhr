@@ -19,5 +19,6 @@ dependencies:
   event_bus_plus: ^0.6.2
   hive: ^2.2.2
   hive_flutter: ^1.1.0
+  equatable: ^2.0.5
   hrm_framework:
     path: ../hrm_framework
