@@ -28,6 +28,7 @@ class LocationServiceProvider {
   late StreamSubscription locationSubscription;
   LatLng initialCameraPosition = const LatLng(23.256555, 90.157965);
   final StreamController<String> _placeController = StreamController<String>.broadcast();
+
   Stream<String> get placeStream => _placeController.stream;
 
   ///return future location
@@ -45,7 +46,8 @@ class LocationServiceProvider {
       if (position != null) {
         final places = await getAddressByPosition(position: position);
         placeMark = places?.first;
-        place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+        place =
+            '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
       }
       return place;
     } catch (e) {
@@ -63,11 +65,11 @@ class LocationServiceProvider {
   ///to get location more better way
   void getCurrentLocationStream({required String uid, required MetaClubApiClient metaClubApiClient}) async {
     ///location permission check
-   final isGranted = await askForLocationAlwaysPermission();
+    final isGranted = await askForLocationAlwaysPermission();
 
-   if(!isGranted){
-     await askForLocationAlwaysPermission();
-   }
+    if (!isGranted) {
+      await askForLocationAlwaysPermission();
+    }
 
     locationServiceProvider = LocationService();
 
@@ -89,11 +91,11 @@ class LocationServiceProvider {
           altitudeAccuracy: 0,
           headingAccuracy: 0);
 
-
       final places = await getAddressByPosition(position: position);
       placeMark = places?.first;
-      place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
-      if(!_placeController.isClosed) {
+      place =
+          '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+      if (!_placeController.isClosed) {
         _placeController.add(place);
       }
 
@@ -111,23 +113,25 @@ class LocationServiceProvider {
 
         debugPrint('isPaused ${locationSubscription.isPaused}');
       }
+
       ///initial camera position
       initialCameraPosition = LatLng(event.latitude!, event.longitude!);
     });
 
-   ///when locationSubscription is enable only then
-   ///location data can be processed to manipulate
-   if (!locationSubscription.isPaused) {
-     final position = await getUserPositionFuture();
-     if(position != null){
-       ///getting address from current position
-       addLocationDataToLocal(position: position, uid: uid);
-     }
-     ///store data to server from hive
-     deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+    ///when locationSubscription is enable only then
+    ///location data can be processed to manipulate
+    if (!locationSubscription.isPaused) {
+      final position = await getUserPositionFuture();
+      if (position != null) {
+        ///getting address from current position
+        addLocationDataToLocal(position: position, uid: uid);
+      }
 
-     debugPrint('isPaused ${locationSubscription.isPaused}');
-   }
+      ///store data to server from hive
+      deleteDataAndSendToServer(metaClubApiClient: metaClubApiClient);
+
+      debugPrint('isPaused ${locationSubscription.isPaused}');
+    }
 
     ///set timer to toggle location subscription
     Timer.periodic(const Duration(minutes: 2), (timer) async {
@@ -158,8 +162,9 @@ class LocationServiceProvider {
 
     placeMark = places?.first;
 
-    place = '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
-    if(!_placeController.isClosed) {
+    place =
+        '${placeMark?.street ?? ""}  ${placeMark?.subLocality ?? ""} ${placeMark?.locality ?? ""} ${placeMark?.postalCode ?? ""}';
+    if (!_placeController.isClosed) {
       _placeController.add(place);
     }
 
@@ -187,8 +192,7 @@ class LocationServiceProvider {
         ///add data to local database
         locationProvider.add(locationModel);
 
-        FirebaseLocationStoreProvider.sendLocationToFirebase(
-            uid, locationModel.toJson());
+        FirebaseLocationStoreProvider.sendLocationToFirebase(uid, locationModel.toJson());
       }
     });
   }
@@ -201,10 +205,14 @@ class LocationServiceProvider {
         if (kDebugMode) {
           print('data that u have to sent server ${locationProvider.toMapList()}');
         }
-        metaClubApiClient.storeLocationToServer(locations: locationProvider.toMapList(), date: DateTime.now().toString()).then((isStored) async {
-          if (isStored) {
-            await locationProvider.deleteAllLocation();
-          }
+        metaClubApiClient
+            .storeLocationToServer(locations: locationProvider.toMapList(), date: DateTime.now().toString())
+            .then((isStored) async {
+          isStored.fold((l) {}, (r) async {
+            if (r) {
+              await locationProvider.deleteAllLocation();
+            }
+          });
         });
       }
     });

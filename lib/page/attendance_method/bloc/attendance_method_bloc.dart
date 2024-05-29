@@ -134,21 +134,23 @@ class AttendanceMethodBloc
     try {
       await _metaClubApiClient
           .faceDataStore(faceData: faceData)
-          .then((isSuccess) {
+          .then((data) {
         Navigator.pop(context);
-        if (isSuccess) {
-          Fluttertoast.showToast(msg: "Face store successfully");
-          Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
-        } else {
-         showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const CustomDialogFaceError(
+        data.fold((l) => null, (r) {
+          if (r) {
+            Fluttertoast.showToast(msg: "Face store successfully");
+            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const CustomDialogFaceError(
 
-              );
-            },
-          );
-        }
+                );
+              },
+            );
+          }
+        });
       });
     } catch (e) {
       if (kDebugMode) {

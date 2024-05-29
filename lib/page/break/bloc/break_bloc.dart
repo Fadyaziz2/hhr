@@ -1,4 +1,4 @@
-import 'dart:async';
+ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
@@ -35,39 +35,41 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
       OnBreakBackEvent event, Emitter<BreakState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
 
-    Break? data = await _metaClubApiClient.backBreak();
+    final data = await _metaClubApiClient.backBreak();
 
-    final todayHistories = data?.data?.breakBackHistory?.todayHistory;
+    data.fold((l){
+      emit(state.copyWith(status: NetworkStatus.failure));
+    }, (r){
+      final todayHistories = r?.data?.breakBackHistory?.todayHistory;
+      String breakBack = '${r?.data?.breakTime} - ${r?.data?.backTime ?? ''}';
 
-    String breakBack =
-        '${data?.data?.breakTime} - ${data?.data?.backTime ?? ''}';
-
-    if (data?.data?.status != 'break_in') {
-      if (todayHistories?.isNotEmpty == true) {
-        state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(
-            0,
-            BreakTodayHistory(
-                name: 'Break',
-                reason: 'Break',
-                breakBackTime: todayHistories![0].breakBackTime ?? breakBack,
-                breakTimeDuration:
-                    todayHistories[0].breakTimeDuration ?? '0 min'));
-      } else {
-        if (data?.result == true) {
-          state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0, BreakTodayHistory(name: 'Break', reason: 'Break', breakBackTime: breakBack, breakTimeDuration: '0 min'));
+      if (r?.data?.status != 'break_in') {
+        if (todayHistories?.isNotEmpty == true) {
+          state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(
+              0,
+              BreakTodayHistory(
+                  name: 'Break',
+                  reason: 'Break',
+                  breakBackTime: todayHistories![0].breakBackTime ?? breakBack,
+                  breakTimeDuration:
+                  todayHistories[0].breakTimeDuration ?? '0 min'));
+        } else {
+          if (r?.result == true) {
+            state.breakReportModel?.data?.breakHistory?.todayHistory!.insert(0, BreakTodayHistory(name: 'Break', reason: 'Break', breakBackTime: breakBack, breakTimeDuration: '0 min'));
+          }
         }
       }
-    }
 
-    globalState.set(breakTime, data?.data?.breakTime);
-    globalState.set(backTime, data?.data?.backTime);
-    globalState.set(breakStatus, data?.data?.status);
-    globalState.set(hour, '0');
-    globalState.set(min, '0');
-    globalState.set(sec, '0');
+      globalState.set(breakTime, r?.data?.breakTime);
+      globalState.set(backTime, r?.data?.backTime);
+      globalState.set(breakStatus, r?.data?.status);
+      globalState.set(hour, '0');
+      globalState.set(min, '0');
+      globalState.set(sec, '0');
 
-    add(OnCustomTimerStart(hour: 0, min: 0, sec: 0));
-    emit(state.copyWith(status: NetworkStatus.success, breakBack: data));
+      add(OnCustomTimerStart(hour: 0, min: 0, sec: 0));
+      emit(state.copyWith(status: NetworkStatus.success, breakBack: r));
+    });
   }
 
   FutureOr<void> _onSelectDatePicker(
@@ -86,22 +88,19 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
   FutureOr<void> _onBreakHistoryDataLoad(
       GetBreakHistoryData event, Emitter<BreakState> emit) async {
     final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    emit(
-        state.copyWith(status: NetworkStatus.loading, currentDate: event.date));
-    try {
-      final BreakReportModel? breakReportModelData = await _metaClubApiClient
-          .getBreakHistory(state.currentDate ?? currentDate);
-      if (breakReportModelData != null) {
+    emit(state.copyWith(status: NetworkStatus.loading, currentDate: event.date));
+    final breakReportModelData = await _metaClubApiClient.getBreakHistory(state.currentDate ?? currentDate);
+    breakReportModelData.fold((l){
+      emit(state.copyWith(status: NetworkStatus.failure));
+    }, (r){
+      if (r != null) {
         emit(state.copyWith(
             status: NetworkStatus.success,
-            breakReportModel: breakReportModelData));
+            breakReportModel: r));
       } else {
         emit(state.copyWith(status: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
   FutureOr<void> _onInitialBreakHistory(

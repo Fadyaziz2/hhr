@@ -18,32 +18,27 @@ class QRAttendanceBloc extends Bloc<QRAttendanceEvent, QRAttendanceState> {
     on<QRScanData>(_onGetQrScanData);
   }
 
-  FutureOr<void> _onGetQrScanData(
-      QRScanData event, Emitter<QRAttendanceState> emit) async {
+  FutureOr<void> _onGetQrScanData(QRScanData event, Emitter<QRAttendanceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     final data = {'qr_scan': event.qrData};
-    await metaClubApiClient.checkQRValidations(data).then((isSuccess) {
-      if (isSuccess) {
-        emit(state.copyWith(status: NetworkStatus.success));
-        Navigator.pushReplacement(event.context!, callBackRoute);
-      } else {
-        emit(
-          state.copyWith(
-              status: NetworkStatus.failure,
-              isSuccess: false,
-              onErrorMessage: "The QR code doesn't match, please retry"),
-        );
-        Fluttertoast.showToast(
-            msg: state.onErrorMessage ?? '',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.TOP);
-
-        // Navigator.pushReplacement(event.context!, MaterialPageRoute(builder: (_) {
-        //   return BlocProvider.value(
-        //       value: event.context!.read<HomeBloc>(),
-        //       child: const QRAttendanceScreen());
-        // }));
-      }
+    await metaClubApiClient.checkQRValidations(data).then((success) {
+      success.fold((l){}, (isSuccess){
+        if (isSuccess) {
+          emit(state.copyWith(status: NetworkStatus.success));
+          Navigator.pushReplacement(event.context!, callBackRoute);
+        } else {
+          emit(
+            state.copyWith(
+                status: NetworkStatus.failure,
+                isSuccess: false,
+                onErrorMessage: "The QR code doesn't match, please retry"),
+          );
+          Fluttertoast.showToast(
+              msg: state.onErrorMessage ?? '',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.TOP);
+        }
+      });
     });
   }
 }

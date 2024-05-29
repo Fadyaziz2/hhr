@@ -97,10 +97,11 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
 
   FutureOr<void> _onCreateConferenceEvent(CreateConferenceEvent event, Emitter<ConferenceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      await metaClubApiClient.createConferenceApi(conferenceBodyModel: event.createConferenceBodyModel)
-          .then((success) {
-        if (success) {
+    metaClubApiClient.createConferenceApi(conferenceBodyModel: event.createConferenceBodyModel).then((success) {
+      success.fold((l){
+        emit(state.copyWith(status: NetworkStatus.failure));
+      }, (r){
+        if (r) {
           Fluttertoast.showToast(msg: "create_conference_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(ConferenceInitialDataRequest());
@@ -110,9 +111,6 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
           emit(state.copyWith(status: NetworkStatus.failure));
         }
       });
-    } on Exception catch (e) {
-      emit(const ConferenceState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }

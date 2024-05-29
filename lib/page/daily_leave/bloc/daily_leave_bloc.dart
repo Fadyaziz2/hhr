@@ -55,18 +55,15 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
       DailyLeaveSummary event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(
         status: NetworkStatus.loading,
-        currentMonth:
-            state.currentMonth ?? DateFormat('y-MM-dd').format(DateTime.now())));
-    try {
-      DailyLeaveSummaryModel? dailyLeaveSummaryModel = await _metaClubApiClient
-          .dailyLeaveSummary(event.userId, state.currentMonth);
+        currentMonth: state.currentMonth ?? DateFormat('y-MM-dd').format(DateTime.now())));
+    final dailyLeaveSummaryModel = await _metaClubApiClient.dailyLeaveSummary(event.userId, state.currentMonth);
+
+    dailyLeaveSummaryModel.fold((l){emit(state.copyWith(status: NetworkStatus.failure));}, (r){
       emit(state.copyWith(
-          dailyLeaveSummaryModel: dailyLeaveSummaryModel,
+          dailyLeaveSummaryModel: r,
           status: NetworkStatus.success,
           leaveTypeModel: leave?.first));
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
-    }
+    });
   }
 
   FutureOr<void> _onSelectLeaveType(
@@ -88,17 +85,17 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
         'reason': reasonTextController.text,
         'leave_type': state.leaveTypeModel!.value
       };
-      try {
-        await _metaClubApiClient.postApplyLeave(data).then((value) {
-          if (value['result'] == true) {
-            Fluttertoast.showToast(msg: value['message'.tr()]);
+      _metaClubApiClient.postApplyLeave(data).then((data) {
+        data.fold((l){
+          emit(state.copyWith(status: NetworkStatus.failure));
+        }, (r){
+          if (r['result'] == true) {
+            Fluttertoast.showToast(msg: r['message'.tr()]);
             add(DailyLeaveSummary(event.userId));
             Navigator.of(event.context).pop();
           }
         });
-      } catch (e) {
-        emit(state.copyWith(status: NetworkStatus.failure));
-      }
+      });
     } else {
       Fluttertoast.showToast(msg: 'select_leave_type_and_time'.tr());
     }
@@ -110,36 +107,33 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     add(DailyLeaveSummary(event.selectEmployee.id!));
   }
 
-  Future<LeaveTypeListModel?> onLeaveTypeList(
-      LeaveListModel leaveListModel) async {
-    try {
-      final leaveTypeListData =
-          await _metaClubApiClient.dailyLeaveSummaryStaffView(
-              userId: state.selectEmployee?.id.toString() ?? leaveListModel.userId,
-              month: leaveListModel.month,
-              leaveStatus: leaveListModel.leaveStatus,
-              leaveType: leaveListModel.leaveType);
-      return leaveTypeListData;
-    } catch (e) {
-      throw NetworkRequestFailure(e.toString());
-    }
+  Future<LeaveTypeListModel?> onLeaveTypeList(LeaveListModel leaveListModel) async {
+    final leaveTypeListData =
+    await _metaClubApiClient.dailyLeaveSummaryStaffView(
+        userId: state.selectEmployee?.id.toString() ?? leaveListModel.userId,
+        month: leaveListModel.month,
+        leaveStatus: leaveListModel.leaveStatus,
+        leaveType: leaveListModel.leaveType);
+    leaveTypeListData.fold((l){
+      return null;
+    }, (r){
+      return r;
+    });
   }
 
-  FutureOr<void> _onLeaveAction(
-      LeaveAction event, Emitter<DailyLeaveState> emit) async {
+  FutureOr<void> _onLeaveAction(LeaveAction event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     final data = {'leave_id': event.leaveId, 'leave_status': event.leaveStatus};
-    try {
-      await _metaClubApiClient.dailyLeaveApprovalAction(data).then((value) {
-        if (value['result'] == true) {
-          Fluttertoast.showToast(msg: value['message']);
+    _metaClubApiClient.dailyLeaveApprovalAction(data).then((data) {
+      data.fold((l){
+        emit(state.copyWith(status: NetworkStatus.failure));
+      }, (r){
+        if (r['result'] == true) {
+          Fluttertoast.showToast(msg: r['message']);
           add(DailyLeaveSummary(state.selectEmployee?.id ?? event.userId));
           Navigator.of(event.context).pop();
         }
       });
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }

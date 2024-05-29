@@ -8,6 +8,7 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/month_picker_dialog/month_picker_dialog.dart';
 
 part 'appointment_event.dart';
+
 part 'appointment_state.dart';
 
 class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
@@ -20,32 +21,23 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onAppointmentLoad(
-      GetAppointmentData event, Emitter<AppointmentState> emit) async {
+  FutureOr<void> _onAppointmentLoad(GetAppointmentData event, Emitter<AppointmentState> emit) async {
     final currentDate = getDateAsString(format: 'y-MM', dateTime: DateTime.now());
-    emit(AppointmentState(
-        status: NetworkStatus.loading, currentMonth: event.date));
-    try {
-      final MeetingsListModel? success = await _metaClubApiClient
-          .getMeetingsItem(state.currentMonth ?? currentDate);
-      if (success != null) {
-        emit(AppointmentState(
-            status: NetworkStatus.success,
-            meetingsListData: success,
-            currentMonth: event.date));
+    emit(AppointmentState(status: NetworkStatus.loading, currentMonth: event.date));
+    final data = await _metaClubApiClient.getMeetingsItem(state.currentMonth ?? currentDate);
+
+    data.fold((l) {
+      emit(AppointmentState(status: NetworkStatus.failure, currentMonth: event.date));
+    }, (r) {
+      if (r != null) {
+        emit(AppointmentState(status: NetworkStatus.success, meetingsListData: r, currentMonth: event.date));
       } else {
-        emit(AppointmentState(
-            status: NetworkStatus.failure, currentMonth: event.date));
+        emit(AppointmentState(status: NetworkStatus.failure, currentMonth: event.date));
       }
-    } catch (e) {
-      emit(AppointmentState(
-          status: NetworkStatus.failure, currentMonth: event.date));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<AppointmentState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<AppointmentState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 1),

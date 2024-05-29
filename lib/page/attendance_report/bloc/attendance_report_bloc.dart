@@ -15,8 +15,7 @@ part 'attendance_report_event.dart';
 
 part 'attendance_report_state.dart';
 
-class AttendanceReportBloc
-    extends Bloc<AttendanceReportEvent, AttendanceReportState> {
+class AttendanceReportBloc extends Bloc<AttendanceReportEvent, AttendanceReportState> {
   final MetaClubApiClient metaClubApiClient;
   final LoginData user;
   var dateTime = DateTime.now();
@@ -29,8 +28,7 @@ class AttendanceReportBloc
     on<MultiAttendanceEvent>(_onMultiAttendance);
   }
 
-  FutureOr<void> _onMultiAttendance(
-      MultiAttendanceEvent event, Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onMultiAttendance(MultiAttendanceEvent event, Emitter<AttendanceReportState> emit) async {
     try {
       if (isDialogOpen == true) {
         state.copyWith(isDialogOpen: isDialogOpen = false);
@@ -39,10 +37,8 @@ class AttendanceReportBloc
             context: event.context!,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(event.dailyReport.multipleAttendance?.date ??
-                    "No Date Found"),
-                content:
-                    DialogMultiAttendanceList(dailyReport: event.dailyReport),
+                title: Text(event.dailyReport.multipleAttendance?.date ?? "No Date Found"),
+                content: DialogMultiAttendanceList(dailyReport: event.dailyReport),
                 actions: <Widget>[
                   TextButton(
                     child: Text(
@@ -66,24 +62,19 @@ class AttendanceReportBloc
     }
   }
 
-  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event,
-      Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event, Emitter<AttendanceReportState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
 
     final data = {'month': event.date ?? currentDate};
-    try {
-      final report = await metaClubApiClient.getAttendanceReport(
-          body: data, userId: user.user!.id);
-      emit(state.copyWith(
-          status: NetworkStatus.success, attendanceReport: report));
-    } on Exception catch (e) {
+    final report = await metaClubApiClient.getAttendanceReport(body: data, userId: user.user!.id);
+    report.fold((l) {
       emit(const AttendanceReportState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: r));
+    });
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<AttendanceReportState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
