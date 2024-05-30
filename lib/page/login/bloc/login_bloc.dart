@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:chat/chat.dart';
+import 'package:core/core.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
@@ -76,7 +77,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
       eitherOrUser.fold(
           (l) => emit(state.copyWith(
               status: FormzSubmissionStatus.failure,
-              message: l,
+              failure: l,
               loginAction: LoginAction.login)), (r) {
         if (r?.user != null) {
           final cid = globalState.get(companyId);

@@ -30,35 +30,27 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     on<ExpenseCreateButton>(_onCreateButton);
   }
 
-  FutureOr<void> _onExpenseDataLoad(
-      GetExpenseData event, Emitter<ExpenseState> emit) async {
+  FutureOr<void> _onExpenseDataLoad(GetExpenseData event, Emitter<ExpenseState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     emit(state.copy(
         status: NetworkStatus.loading,
         currentMonth: event.date,
         statusType: event.statusTypeId,
         paymentId: event.paymentId));
-    try {
-      final ResponseExpenseList? responseExpenseList =
-          await _metaClubApiClient.getExpenseItem(
-              state.currentMonth ?? currentDate,
-              state.paymentId,
-              state.statusType);
-      if (responseExpenseList != null) {
-        emit(state.copy(
-            status: NetworkStatus.success,
-            responseExpenseList: responseExpenseList));
+    final responseExpenseList =
+        await _metaClubApiClient.getExpenseItem(state.currentMonth ?? currentDate, state.paymentId, state.statusType);
+    responseExpenseList.fold((l) {
+      emit(state.copy(status: NetworkStatus.failure));
+    }, (r) {
+      if (r != null) {
+        emit(state.copy(status: NetworkStatus.success, responseExpenseList: r));
       } else {
         emit(state.copy(status: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(state.copy(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
-  FutureOr<void> _onSelectMonthPicker(
-      SelectMonthPicker event, Emitter<ExpenseState> emit) async {
+  FutureOr<void> _onSelectMonthPicker(SelectMonthPicker event, Emitter<ExpenseState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -72,8 +64,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     }
   }
 
-  FutureOr<void> _onSelectedPaymentType(
-      SelectPaymentType event, Emitter<ExpenseState> emit) {
+  FutureOr<void> _onSelectedPaymentType(SelectPaymentType event, Emitter<ExpenseState> emit) {
     emit(state.copy(paymentTypeName: event.paymentType));
     int paymentTypeId;
 
@@ -86,8 +77,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     add(GetExpenseData(paymentId: paymentTypeId.toString()));
   }
 
-  FutureOr<void> _onSelectedStatus(
-      SelectStatus event, Emitter<ExpenseState> emit) {
+  FutureOr<void> _onSelectedStatus(SelectStatus event, Emitter<ExpenseState> emit) {
     emit(state.copy(
       statusTypeName: event.statusType,
     ));
@@ -104,22 +94,16 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     ));
   }
 
-  FutureOr<void> _onExpenseCategoryLoad(
-      ExpenseCategory event, Emitter<ExpenseState> emit) async {
+  FutureOr<void> _onExpenseCategoryLoad(ExpenseCategory event, Emitter<ExpenseState> emit) async {
     emit(state.copy(
       status: NetworkStatus.loading,
     ));
     try {
-      final ExpenseCategoryModel? expenseCategoryData =
-          await _metaClubApiClient.getExpenseCategory();
+      final ExpenseCategoryModel? expenseCategoryData = await _metaClubApiClient.getExpenseCategory();
       if (expenseCategoryData != null) {
-        emit(state.copy(
-            status: NetworkStatus.success,
-            expenseCategoryData: expenseCategoryData));
+        emit(state.copy(status: NetworkStatus.success, expenseCategoryData: expenseCategoryData));
       } else {
-        emit(state.copy(
-            status: NetworkStatus.failure,
-            expenseCategoryData: expenseCategoryData));
+        emit(state.copy(status: NetworkStatus.failure, expenseCategoryData: expenseCategoryData));
       }
     } catch (e) {
       emit(state.copy(
@@ -129,13 +113,11 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     }
   }
 
-  FutureOr<void> _onSelectedCategory(
-      SelectedCategory event, Emitter<ExpenseState> emit) {
+  FutureOr<void> _onSelectedCategory(SelectedCategory event, Emitter<ExpenseState> emit) {
     emit(state.copy(selectedCategory: event.selectedCategory));
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<ExpenseState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<ExpenseState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -144,28 +126,23 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       locale: const Locale("en"),
     );
     if (date != null) {
-      String? currentDate =
-          getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
+      String? currentDate = getDateAsString(format: 'dd-MM-yyyy', dateTime: date);
       emit(state.copy(selectDate: currentDate));
     }
   }
 
-  FutureOr<void> _onCreateButton(
-      ExpenseCreateButton event, Emitter<ExpenseState> emit) async {
-    try {
-      emit(state.copy(status: NetworkStatus.loading));
-      _metaClubApiClient
-          .expenseCreate(expenseCreateBody: event.expenseCreateBody)
-          .then((expenseResponse) {
-        Fluttertoast.showToast(msg: expenseResponse.message);
-        if (expenseResponse.success) {
+  FutureOr<void> _onCreateButton(ExpenseCreateButton event, Emitter<ExpenseState> emit) async {
+    emit(state.copy(status: NetworkStatus.loading));
+    _metaClubApiClient.expenseCreate(expenseCreateBody: event.expenseCreateBody).then((expanse) {
+      expanse.fold((l) {
+        emit(state.copy(status: NetworkStatus.failure));
+      }, (r) {
+        Fluttertoast.showToast(msg: r.message);
+        if (r.success) {
           add(GetExpenseData());
           Navigator.pop(event.context);
         }
       });
-    } catch (e) {
-      emit(state.copy(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }

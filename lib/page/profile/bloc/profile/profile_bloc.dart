@@ -7,12 +7,10 @@ part 'profile_event.dart';
 
 part 'profile_state.dart';
 
-class
-ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final MetaClubApiClient metaClubApiClient;
 
-  ProfileBloc({required this.metaClubApiClient})
-      : super(const ProfileState(status: NetworkStatus.initial)) {
+  ProfileBloc({required this.metaClubApiClient}) : super(const ProfileState(status: NetworkStatus.initial)) {
     on<ProfileLoadRequest>(_onProfileDataRequest);
     on<ProfileDeleteRequest>(_onAuthenticationDeleteRequest);
     on<ProfileUpdate>(_onProfileUpdateRequest);
@@ -20,43 +18,40 @@ ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   void _onProfileDataRequest(
-      ProfileLoadRequest event, Emitter<ProfileState> emit,) async {
+    ProfileLoadRequest event,
+    Emitter<ProfileState> emit,
+  ) async {
     emit(const ProfileState(status: NetworkStatus.loading));
-    try {
-      final profile = await metaClubApiClient.getProfile();
-      emit(ProfileState(status: NetworkStatus.success, profile: profile));
-    } catch (e) {
+    final profile = await metaClubApiClient.getProfile();
+    profile.fold((l) {
       emit(const ProfileState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(ProfileState(status: NetworkStatus.success, profile: r));
+    });
   }
 
   _onProfileUpdateRequest(ProfileUpdate event, Emitter<ProfileState> emit) async {
-
     emit(const ProfileState(status: NetworkStatus.loading));
-
-    try{
-      final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
-      if(success){
+    final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
+    success.fold((l) {
+      emit(const ProfileState(status: NetworkStatus.failure));
+    }, (r) {
+      if (r) {
         add(ProfileLoadRequest());
-      }else{
+      } else {
         emit(const ProfileState(status: NetworkStatus.failure));
       }
-    }catch(e){
-      emit(const ProfileState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
-  _onAuthenticationDeleteRequest(ProfileDeleteRequest event,Emitter<ProfileState> emit) async {
+  _onAuthenticationDeleteRequest(ProfileDeleteRequest event, Emitter<ProfileState> emit) async {
     // final isDeleted = await metaClubApiClient.deleteAccount();
   }
 
-  _onAvatarUpdate(ProfileAvatarUpdate event,Emitter<ProfileState> emit) async {
-    if(event.avatarId != null) {
+  _onAvatarUpdate(ProfileAvatarUpdate event, Emitter<ProfileState> emit) async {
+    if (event.avatarId != null) {
       await metaClubApiClient.updateProfileAvatar(avatarId: event.avatarId!);
-      emit(ProfileState(status: NetworkStatus.success,profile: state.profile));
+      emit(ProfileState(status: NetworkStatus.success, profile: state.profile));
     }
   }
-
 }

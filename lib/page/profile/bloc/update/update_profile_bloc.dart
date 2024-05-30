@@ -11,7 +11,8 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
   final MetaClubApiClient metaClubApiClient;
   Profile? updateProfile;
 
-  UpdateProfileBloc({required this.metaClubApiClient}):super(const UpdateProfileState(status: NetworkStatus.initial)) {
+  UpdateProfileBloc({required this.metaClubApiClient})
+      : super(const UpdateProfileState(status: NetworkStatus.initial)) {
     on<ProfileUpdate>(_onProfileUpdateRequest);
     on<OnDepartmentUpdate>(_onDepartmentUpdate);
     on<OnJoiningDateUpdate>(_onDateUpdate);
@@ -21,32 +22,31 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
 
   _onProfileUpdateRequest(ProfileUpdate event, Emitter<UpdateProfileState> emit) async {
     emit(const UpdateProfileState(status: NetworkStatus.loading));
-    try {
-      final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
-      if (success) {
+    final success = await metaClubApiClient.updateProfile(slag: event.slug, data: event.data);
+    success.fold((l) {
+      emit(const UpdateProfileState(status: NetworkStatus.failure));
+    }, (r) {
+      if (r) {
         emit(const UpdateProfileState(status: NetworkStatus.success));
       } else {
         emit(const UpdateProfileState(status: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(const UpdateProfileState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
   void _onDateUpdate(OnJoiningDateUpdate event, Emitter<UpdateProfileState> emit) {
     emit(state.copyWith(dateTime: event.date));
   }
 
-  void _onGenderUpdate(OnGenderUpdate event, Emitter<UpdateProfileState> emit){
+  void _onGenderUpdate(OnGenderUpdate event, Emitter<UpdateProfileState> emit) {
     emit(state.copyWith(gender: event.gender));
   }
 
-  void _onBloodUpdate(OnBloodUpdate event, Emitter<UpdateProfileState> emit){
+  void _onBloodUpdate(OnBloodUpdate event, Emitter<UpdateProfileState> emit) {
     emit(state.copyWith(bloodGroup: event.bloodGroup));
   }
 
   void _onDepartmentUpdate(OnDepartmentUpdate event, Emitter<UpdateProfileState> emit) {
-      emit(state.copyWith(department: event.department));
+    emit(state.copyWith(department: event.department));
   }
 }

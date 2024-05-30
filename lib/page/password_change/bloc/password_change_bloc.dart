@@ -9,6 +9,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 
 part 'password_change_event.dart';
+
 part 'password_change_state.dart';
 
 class PasswordChangeBloc extends Bloc<PasswordChangeEvent, PasswordChangeState> {
@@ -20,23 +21,22 @@ class PasswordChangeBloc extends Bloc<PasswordChangeEvent, PasswordChangeState> 
   }
 
   FutureOr<void> _onForgotPassword(PasswordChange event, Emitter<PasswordChangeState> emit) async {
-    try {
-      emit(state.copyWith(status: NetworkStatus.loading));
-      VerificationCodeModel? response = await metaClubApiClient.updatePassword(passwordChangeBody: event.passwordChangeBody);
-      if (response.result == true) {
-        Fluttertoast.showToast(msg: response.message.toString());
+    emit(state.copyWith(status: NetworkStatus.loading));
+    final response = await metaClubApiClient.updatePassword(passwordChangeBody: event.passwordChangeBody);
+    response.fold((l) {
+      emit(state.copyWith(status: NetworkStatus.failure));
+    }, (r) {
+      if (r.result == true) {
+        Fluttertoast.showToast(msg: r.message.toString());
         // ignore: use_build_context_synchronously
         BlocProvider.of<AuthenticationBloc>(event.context).add(AuthenticationLogoutRequest());
         // ignore: use_build_context_synchronously
         Navigator.of(event.context).pop();
         emit(state.copyWith(status: NetworkStatus.success));
       } else {
-        Fluttertoast.showToast(msg: response.message.toString());
+        Fluttertoast.showToast(msg: r.message.toString());
         emit(state.copyWith(status: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }

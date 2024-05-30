@@ -77,9 +77,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       globalState.set(isLocation, settings?.data?.locationService);
       globalState.set(notificationChannels, settings?.data?.notificationChannels);
+
       ///Assign default shift in pref
-      if(settings != null){
-        if(settings.data!.shifts.isNotEmpty){
+      if (settings != null) {
+        if (settings.data!.shifts.isNotEmpty) {
           SharedUtil.setIntValue(shiftId, settings.data?.shifts.first.shiftId);
         }
       }
@@ -94,7 +95,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   Future subscribeTopic() async {
     final notifications = globalState.get(notificationChannels);
 
-    try{
+    try {
       ///channel wise notification setup
       FirebaseMessaging.instance.subscribeToTopic('onesthrm');
       if (notifications != null) {
@@ -103,7 +104,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           debugPrint("Firebase topics: $topic");
         }
       }
-    }catch(_){
+    } catch (_) {
       return;
     }
   }
@@ -123,8 +124,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       AttendanceData? attendanceData = dashboardModel?.data?.attendanceData;
 
       ///Schedule check-in notification
-      checkInScheduleNotification(
-          dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
+      checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
           dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
 
       ///Initialize attendance data into global state
@@ -134,31 +134,21 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
 
       ///Initialize break data into global state
-      globalState.set(
-          breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(
-          backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(
-          breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(
-          isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
+      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
+      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec,
-          '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
       _onOfflineDataSync();
 
-      emit(state.copy(
-          dashboardModel: dashboardModel,
-          status: NetworkStatus.success,
-          isSwitched: isLocationEnabled));
+      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
     } catch (e) {
       emit(state.copy(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
@@ -171,11 +161,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  void _checkTokenValidity(
-      OnTokenVerification event, Emitter<HomeState> emit) async {
+  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
     ///verify token
-    final data = await _userRepository.tokenVerification(
-        token: metaClubApiClient.token, baseUrl: metaClubApiClient.companyUrl);
+    final data =
+        await _userRepository.tokenVerification(token: metaClubApiClient.token, baseUrl: metaClubApiClient.companyUrl);
     if (data.status == false && data.code >= 400) {
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
       _authenticationRepository.updateUserData(LoginData(user: null));
@@ -186,43 +175,39 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   }
 
   void _onOfflineDataSync() async {
-    try {
-      final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-      isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: today);
-      late Map<String, dynamic> body;
-      if (isCheckedOut) {
-        body = attendanceService.getAllCheckInOutDataMap();
-      } else {
-        body = attendanceService.getPastCheckInOutDataMap(today: today);
-      }
-      if (body['data'].isNotEmpty) {
-        final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
-        if (isSynced) {
+    final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
+    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: today);
+    late Map<String, dynamic> body;
+    if (isCheckedOut) {
+      body = attendanceService.getAllCheckInOutDataMap();
+    } else {
+      body = attendanceService.getPastCheckInOutDataMap(today: today);
+    }
+    if (body['data'].isNotEmpty) {
+      final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
+      isSynced.fold((l) {}, (r) {
+        if (r) {
           if (isCheckedOut) {
             attendanceService.clearCheckOfflineData();
           } else {
             attendanceService.deleteFilteredCheckInOut(today: today);
           }
         }
-      }
-    } catch (e) {
-      throw NetworkRequestFailure(e.toString());
+      });
     }
   }
 
   void _onLocationRefresh(OnLocationRefresh event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: true));
     if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
     }
   }
 
   void _onSwitchPressed(OnSwitchPressed event, Emitter<HomeState> emit) {
     emit(state.copy(isSwitched: !state.isSwitched));
     if (event.user != null) {
-      add(OnLocationEnabled(
-          user: event.user!, locationProvider: event.locationProvider));
+      add(OnLocationEnabled(user: event.user!, locationProvider: event.locationProvider));
     }
   }
 

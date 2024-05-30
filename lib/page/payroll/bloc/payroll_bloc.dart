@@ -17,29 +17,23 @@ part 'payroll_state.dart';
 class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   final MetaClubApiClient metaClubApiClient;
 
-  PayrollBloc({required this.metaClubApiClient})
-      : super(const PayrollState(status: NetworkStatus.initial)) {
+  PayrollBloc({required this.metaClubApiClient}) : super(const PayrollState(status: NetworkStatus.initial)) {
     on<PayrollInitialDataRequest>(_onPayrollDataInitialDataRequest);
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onPayrollDataInitialDataRequest(
-      PayrollInitialDataRequest event, Emitter<PayrollState> emit) async {
+  FutureOr<void> _onPayrollDataInitialDataRequest(PayrollInitialDataRequest event, Emitter<PayrollState> emit) async {
     final currentDate = DateFormat('y').format(DateTime.now());
-    try {
-      final payrollData = await metaClubApiClient.getPayrollData(
-          year: event.setDate ?? currentDate);
-      emit(state.copyWith(
-          dateTime: event.setDate != null
-              ? DateFormat("y").parse(event.setDate!)
-              : DateFormat("y").parse(currentDate),
-          status: NetworkStatus.success,
-          payroll: payrollData,
-          isLoading: false));
-    } on Exception catch (e) {
+    final payrollData = await metaClubApiClient.getPayrollData(year: event.setDate ?? currentDate);
+    payrollData.fold((l) {
       emit(const PayrollState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(
+          dateTime: event.setDate != null ? DateFormat("y").parse(event.setDate!) : DateFormat("y").parse(currentDate),
+          status: NetworkStatus.success,
+          payroll: r,
+          isLoading: false));
+    });
   }
 
   getPaySlip(String link) async {
@@ -55,8 +49,7 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
     await Share.share(link);
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<PayrollState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<PayrollState> emit) async {
     showYearPicker(
       context: event.context,
       initialDate: DateTime.now(),

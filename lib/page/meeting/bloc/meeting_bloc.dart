@@ -28,8 +28,7 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     on<SelectedEmployeeEvent>(_onSelectedEmployee);
   }
 
-  FutureOr<void> _onSelectedEmployee(
-      SelectedEmployeeEvent event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onSelectedEmployee(SelectedEmployeeEvent event, Emitter<MeetingState> emit) async {
     List<int> ids = [...state.selectedIds];
     List<String> users = [...state.selectedNames];
     for (var element in event.phoneBooks) {
@@ -39,20 +38,18 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     emit(state.copyWith(selectedIds: ids, selectedNames: users));
   }
 
-  FutureOr<void> _showTime(
-      SelectStartTime event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _showTime(SelectStartTime event, Emitter<MeetingState> emit) async {
     final TimeOfDay? result = await showTimePicker(
       context: event.context,
       orientation: Orientation.portrait,
       initialTime: TimeOfDay.now(),
     );
-    if(event.context.mounted){
+    if (event.context.mounted) {
       emit(state.copyWith(startTime: result?.format(event.context)));
     }
   }
 
-  FutureOr<void> _onSelectDatePickerSchedule(
-      SelectDatePickerSchedule event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onSelectDatePickerSchedule(SelectDatePickerSchedule event, Emitter<MeetingState> emit) async {
     final date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -60,26 +57,21 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    String? currentMonthSchedule =
-        getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
-    emit(state.copyWith(
-        status: NetworkStatus.success,
-        currentMonthSchedule: currentMonthSchedule));
+    String? currentMonthSchedule = getDateAsString(format: 'yyyy-MM-dd', dateTime: date!);
+    emit(state.copyWith(status: NetworkStatus.success, currentMonthSchedule: currentMonthSchedule));
   }
 
-  FutureOr<void> _showEndTime(
-      SelectEndTime event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _showEndTime(SelectEndTime event, Emitter<MeetingState> emit) async {
     final TimeOfDay? result = await showTimePicker(
       context: event.context,
       initialTime: TimeOfDay.now(),
     );
-    if(event.context.mounted){
+    if (event.context.mounted) {
       emit(state.copyWith(endTime: result?.format(event.context)));
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<MeetingState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 1),
@@ -91,30 +83,25 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
     add(MeetingListEvent(date: currentMonth));
   }
 
-  FutureOr<void> _onMeetingList(
-      MeetingListEvent event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onMeetingList(MeetingListEvent event, Emitter<MeetingState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final meetingListResponse = await _metaClubApiClient
-          .getMeetingList(state.currentMonth ?? event.date ?? currentDate);
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          meetingsListResponse: meetingListResponse));
-    } on Exception catch (e) {
+    final meetingListResponse =
+        await _metaClubApiClient.getMeetingList(state.currentMonth ?? event.date ?? currentDate);
+    meetingListResponse.fold((l) {
       emit(const MeetingState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, meetingsListResponse: r));
+    });
   }
 
-  FutureOr<void> _onCreateMeetingEvent(
-      CreateMeetingEvent event, Emitter<MeetingState> emit) async {
+  FutureOr<void> _onCreateMeetingEvent(CreateMeetingEvent event, Emitter<MeetingState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      await _metaClubApiClient
-          .createMeetingApi(meetingBodyModel: event.bodyCreateMeeting)
-          .then((success) {
-        if (success) {
+    await _metaClubApiClient.createMeetingApi(meetingBodyModel: event.bodyCreateMeeting).then((success) {
+      success.fold((l) {
+        emit(const MeetingState(status: NetworkStatus.failure));
+      }, (r) {
+        if (r) {
           Fluttertoast.showToast(msg: "meeting_create_successfully".tr());
           emit(state.copyWith(status: NetworkStatus.success));
           add(MeetingListEvent(date: event.date));
@@ -124,9 +111,6 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
           emit(state.copyWith(status: NetworkStatus.failure));
         }
       });
-    } on Exception catch (e) {
-      emit(const MeetingState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }
