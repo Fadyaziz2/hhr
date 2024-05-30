@@ -23,82 +23,66 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<GetAttendanceReportData>(_onAttendanceLoad);
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDate event, Emitter<ReportState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDate event, Emitter<ReportState> emit) async {
     var date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
       lastDate: DateTime(DateTime.now().year + 1, 9),
       initialDate: DateTime.now(),
       locale: const Locale("en"),
-
     );
-    if(date != null){
+    if (date != null) {
       String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-      emit(state.copyWith(
-          status: NetworkStatus.success, currentMonth: currentMonth));
+      emit(state.copyWith(status: NetworkStatus.success, currentMonth: currentMonth));
       if (event.isEmployeeScreen) {
         add(GetAttendanceReportData());
       } else {
         add(GetReportData());
       }
     }
-
   }
 
-  FutureOr<void> _onGetReportData(
-      GetReportData event, Emitter<ReportState> emit) async {
+  FutureOr<void> _onGetReportData(GetReportData event, Emitter<ReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
     final data = {'date': state.currentMonth ?? currentDate};
-    try {
-      final report =
-          await metaClubApiClient.getAttendanceReportSummary(body: data);
-      emit(state.copyWith(
-          status: NetworkStatus.success, attendanceSummary: report));
-    } on Exception catch (e) {
+    final report = await metaClubApiClient.getAttendanceReportSummary(body: data);
+    report.fold((l) {
       emit(const ReportState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, attendanceSummary: r));
+    });
   }
 
-  Future<SummaryAttendanceToList?> getSummaryToList(
-      {required String type}) async {
+  Future<SummaryAttendanceToList?> getSummaryToList({required String type}) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
     final data = {'type': type, 'date': state.currentMonth ?? currentDate};
     try {
-      final response =
-          await metaClubApiClient.getAttendanceSummaryToList(body: data);
-      return response;
+      final response = await metaClubApiClient.getAttendanceSummaryToList(body: data);
+      return response.fold((l) => null, (r) => r);
     } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _selectEmployee(
-      SelectEmployee event, Emitter<ReportState> emit) async {
+  FutureOr<void> _selectEmployee(SelectEmployee event, Emitter<ReportState> emit) async {
     emit(state.copyWith(selectEmployee: event.selectEmployee));
     add(GetAttendanceReportData());
   }
 
-  FutureOr<void> _onAttendanceLoad(
-      GetAttendanceReportData event, Emitter<ReportState> emit) async {
+  FutureOr<void> _onAttendanceLoad(GetAttendanceReportData event, Emitter<ReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
     final data = {'month': state.currentMonth ?? currentDate};
-    try {
-      final report = await metaClubApiClient.getAttendanceReport(
-          body: data, userId: state.selectEmployee?.id ?? userId);
-      emit(state.copyWith(
-          status: NetworkStatus.success, attendanceReport: report));
-    } on Exception catch (e) {
+    final report = await metaClubApiClient.getAttendanceReport(body: data, userId: state.selectEmployee?.id ?? userId);
+    report.fold((l) {
       emit(const ReportState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, attendanceReport: r));
+    });
   }
 
-  Future<PhoneBookDetailsModel?> onPhoneBookDetails(
-      {required String userId}) async {
+  Future<PhoneBookDetailsModel?> onPhoneBookDetails({required String userId}) async {
     return await metaClubApiClient.getPhoneBooksUserDetails(userId: userId);
   }
 }

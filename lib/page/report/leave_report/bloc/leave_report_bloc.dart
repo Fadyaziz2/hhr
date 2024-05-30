@@ -26,38 +26,27 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     on<SelectDatePicker>(_onSelectDatePicker);
   }
 
-  FutureOr<void> _onLeaveReportSummary(
-      GetLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _onLeaveReportSummary(GetLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-
-    try {
-      final leaveSummaryData = await metaClubApiClient
-          .leaveReportSummaryApi(state.selectDate ?? currentDate);
-      emit(state.copyWith(
-          status: NetworkStatus.success,
-          leaveReportSummaryModel: leaveSummaryData));
-    } on Exception catch (e) {
+    final leaveSummaryData = await metaClubApiClient.leaveReportSummaryApi(state.selectDate ?? currentDate);
+    leaveSummaryData.fold((l) {
       emit(const LeaveReportState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, leaveReportSummaryModel: r));
+    });
   }
 
-  FutureOr<void> _onFilterLeaveReportSummary(
-      FilterLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _onFilterLeaveReportSummary(FilterLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
     try {
-      LeaveSummaryModel? leaveSummaryResponse = await metaClubApiClient
-          .leaveSummaryApi(state.selectedEmployee?.id ?? userId);
-      emit(state.copyWith(
-          filterLeaveSummaryResponse: leaveSummaryResponse,
-          status: NetworkStatus.success));
+      final leaveSummaryResponse = await metaClubApiClient.leaveSummaryApi(state.selectedEmployee?.id ?? userId);
+      emit(state.copyWith(filterLeaveSummaryResponse: leaveSummaryResponse, status: NetworkStatus.success));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onSelectMonthPicker(
-      SelectMonthPicker event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _onSelectMonthPicker(SelectMonthPicker event, Emitter<LeaveReportState> emit) async {
     final date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -72,36 +61,28 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     }
   }
 
-  FutureOr<void> _selectEmployee(
-      SelectLeaveEmployee event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _selectEmployee(SelectLeaveEmployee event, Emitter<LeaveReportState> emit) async {
     final currentMonth = DateFormat('y-MM', "en").format(DateTime.now());
-    emit(state.copyWith(
-        selectedEmployee: event.selectEmployee,
-        selectMonth: state.selectMonth ?? currentMonth));
+    emit(state.copyWith(selectedEmployee: event.selectEmployee, selectMonth: state.selectMonth ?? currentMonth));
 
     add(LeaveRequest());
   }
 
-  FutureOr<void> _leaveRequest(
-      LeaveRequest event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _leaveRequest(LeaveRequest event, Emitter<LeaveReportState> emit) async {
     final currentMonth = DateFormat('y-MM', "en").format(DateTime.now());
     add(FilterLeaveReportSummary());
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
       final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(
-          state.selectedEmployee?.id ?? userId,
-          state.selectMonth ?? currentMonth);
-      emit(state.copyWith(
-          leaveRequestModel: leaveRequestResponse,
-          status: NetworkStatus.success));
+          state.selectedEmployee?.id ?? userId, state.selectMonth ?? currentMonth);
+      emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
     } catch (e) {
       emit(state.copyWith(status: NetworkStatus.failure));
       throw NetworkRequestFailure(e.toString());
     }
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<LeaveReportState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<LeaveReportState> emit) async {
     try {
       await showDatePicker(
         context: event.context,
@@ -123,9 +104,8 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
 
   Future<LeaveDetailsModel?> onLeaveReportDetails(leaveId) async {
     try {
-      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(
-          state.selectedEmployee?.id ?? userId, leaveId);
-      return leaveDetailsModel;
+      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(state.selectedEmployee?.id ?? userId, leaveId);
+      return leaveDetailsModel.fold((l) => null, (r) => r);
     } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }
@@ -133,9 +113,8 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
 
   Future<LeaveDetailsModel?> onLeaveSummaryDetails(leaveUserId, leaveId) async {
     try {
-      final leaveDetailsModel =
-          await metaClubApiClient.leaveReportDetailsApi(leaveUserId, leaveId);
-      return leaveDetailsModel;
+      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(leaveUserId, leaveId);
+      return leaveDetailsModel.fold((l) => null, (r) => r);
     } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }
@@ -144,13 +123,9 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
   Future<LeaveReportTypeWiseSummary?> onTypeWiseLeaveSummary(leaveId) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
     try {
-      final data = {
-        "date": state.selectDate ?? currentDate,
-        "leave_type": leaveId
-      };
-      final leaveDetailsModel =
-          await metaClubApiClient.getLeaveSummaryTypeWise(data);
-      return leaveDetailsModel;
+      final data = {"date": state.selectDate ?? currentDate, "leave_type": leaveId};
+      final leaveDetailsModel = await metaClubApiClient.getLeaveSummaryTypeWise(data);
+      return leaveDetailsModel.fold((l) => null, (r) => r);
     } catch (e) {
       throw NetworkRequestFailure(e.toString());
     }

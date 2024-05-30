@@ -119,6 +119,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     }, (r){
       return r;
     });
+    return null;
   }
 
   FutureOr<void> _onLeaveAction(LeaveAction event, Emitter<DailyLeaveState> emit) async {

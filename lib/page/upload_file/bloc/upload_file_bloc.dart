@@ -9,8 +9,7 @@ import '../../../res/dialogs/custom_dialogs.dart';
 class UploadFileBloc extends Bloc<UploadFileEvent, UploadFileState> {
   final MetaClubApiClient metaClubApiClient;
 
-  UploadFileBloc({required this.metaClubApiClient})
-      : super(const UploadFileState()) {
+  UploadFileBloc({required this.metaClubApiClient}) : super(const UploadFileState()) {
     on<SelectFile>(_onSelectFile);
     on<UploadFile>(_onUploadFile);
   }
@@ -25,15 +24,15 @@ class UploadFileBloc extends Bloc<UploadFileEvent, UploadFileState> {
 
   _onUploadFile(UploadFile event, Emitter<UploadFileState> emit) async {
     emit(state.copyWith(networkStatus: NetworkStatus.loading));
-    try {
-      FileUpload? fileData = await metaClubApiClient.uploadFile(file: event.file);
-      if (fileData?.result == true) {
-        emit(state.copyWith(fileUpload: fileData, networkStatus: NetworkStatus.success));
+    final fileData = await metaClubApiClient.uploadFile(file: event.file);
+    fileData.fold((l) {
+      emit(state.copyWith(networkStatus: NetworkStatus.failure));
+    }, (r) {
+      if (r?.result == true) {
+        emit(state.copyWith(fileUpload: r, networkStatus: NetworkStatus.success));
       } else {
         emit(state.copyWith(networkStatus: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(state.copyWith(networkStatus: NetworkStatus.failure));
-    }
+    });
   }
 }

@@ -28,38 +28,23 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     on<SubmitButton>(_onSubmitButton);
   }
 
-  FutureOr<void> _onSupportLoad(
-      GetSupportData event, Emitter<SupportState> emit) async {
+  FutureOr<void> _onSupportLoad(GetSupportData event, Emitter<SupportState> emit) async {
     final currentDate = DateFormat('y-MM').format(DateTime.now());
 
-    emit(state.copy(
-        status: NetworkStatus.loading,
-        filter: event.filter,
-        currentMonth: event.date));
+    emit(state.copy(status: NetworkStatus.loading, filter: event.filter, currentMonth: event.date));
 
-    try {
-      final success = await _metaClubApiClient.getSupport(
-          getSelectedIndex(filter: state.filter),
-          state.currentMonth ?? currentDate);
-      if (success != null) {
+    final success =
+        await _metaClubApiClient.getSupport(getSelectedIndex(filter: state.filter), state.currentMonth ?? currentDate);
+    success.fold((l) {
+      emit(state.copy(status: NetworkStatus.failure, filter: event.filter, currentMonth: event.date));
+    }, (r) {
+      if (r != null) {
         emit(state.copy(
-            status: NetworkStatus.success,
-            supportListModel: success,
-            filter: event.filter,
-            currentMonth: event.date));
+            status: NetworkStatus.success, supportListModel: r, filter: event.filter, currentMonth: event.date));
       } else {
-        emit(state.copy(
-            status: NetworkStatus.failure,
-            filter: event.filter,
-            currentMonth: event.date));
+        emit(state.copy(status: NetworkStatus.failure, filter: event.filter, currentMonth: event.date));
       }
-    } catch (e) {
-      emit(state.copy(
-          status: NetworkStatus.failure,
-          filter: event.filter,
-          currentMonth: event.date));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
   String getSelectedIndex({required Filter filter}) {
@@ -80,8 +65,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     return selectedIndex;
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDatePicker event, Emitter<SupportState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<SupportState> emit) async {
     var date = await showMonthPicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -97,8 +81,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     }
   }
 
-  FutureOr<void> _onFilterChange(
-      OnFilterUpdate event, Emitter<SupportState> emit) {
+  FutureOr<void> _onFilterChange(OnFilterUpdate event, Emitter<SupportState> emit) {
     emit(state.copy(filter: event.filter));
 
     add(GetSupportData(filter: event.filter, date: event.date));
@@ -108,20 +91,18 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
     emit(state.copy(bodyPrioritySupport: event.bodyPrioritySupport));
   }
 
-  FutureOr<void> _onSubmitButton(
-      SubmitButton event, Emitter<SupportState> emit) async {
+  FutureOr<void> _onSubmitButton(SubmitButton event, Emitter<SupportState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
-
-    try {
-      if (event.bodyCreateSupport.priorityId == null) {
-        Fluttertoast.showToast(msg: "You must set priority".tr());
-      } else if (event.bodyCreateSupport.subject == null) {
-        Fluttertoast.showToast(msg: "Subject filed can not be empty".tr());
-      } else {
-        await _metaClubApiClient
-            .createSupport(bodyCreateSupport: event.bodyCreateSupport)
-            .then((success) {
-          if (success) {
+    if (event.bodyCreateSupport.priorityId == null) {
+      Fluttertoast.showToast(msg: "You must set priority".tr());
+    } else if (event.bodyCreateSupport.subject == null) {
+      Fluttertoast.showToast(msg: "Subject filed can not be empty".tr());
+    } else {
+      await _metaClubApiClient.createSupport(bodyCreateSupport: event.bodyCreateSupport).then((success) {
+        success.fold((l) {
+          emit(state.copy(status: NetworkStatus.failure));
+        }, (r) {
+          if (r) {
             add(GetSupportData(filter: event.filter, date: event.date));
             Fluttertoast.showToast(msg: "ticket_created_successfully".tr());
 
@@ -130,10 +111,7 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
             emit(state.copy(status: NetworkStatus.failure));
           }
         });
-      }
-    } catch (e) {
-      emit(state.copy(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
+      });
     }
   }
 }

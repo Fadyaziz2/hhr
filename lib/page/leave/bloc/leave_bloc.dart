@@ -78,8 +78,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   FutureOr<void> _leaveRequest(LeaveRequest event, Emitter<LeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
     try {
-      final leaveRequestResponse = await _metaClubApiClient.leaveRequestApi(
-          event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
+      final leaveRequestResponse = await _metaClubApiClient.leaveRequestApi(event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
       emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
       return null;
     } catch (e) {

@@ -23,23 +23,19 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     on<BreakSummaryDetails>(_onBreakSummaryDetails);
   }
 
-  FutureOr<void> _onGetInitialData(
-      GetBreakInitialData event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onGetInitialData(GetBreakInitialData event, Emitter<BreakState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
 
     final data = {'date': state.currentMonth ?? currentDate};
-    try {
-      final report = await metaClubApiClient.getBreakSummary(body: data);
-      emit(state.copyWith(
-          status: NetworkStatus.success, breakSummaryModel: report));
-    } on Exception catch (e) {
+    final report = await metaClubApiClient.getBreakSummary(body: data);
+    report.fold((l) {
       emit(const BreakState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, breakSummaryModel: r));
+    });
   }
 
-  FutureOr<void> _onSelectDatePicker(
-      SelectDate event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onSelectDatePicker(SelectDate event, Emitter<BreakState> emit) async {
     var date = await showDatePicker(
       context: event.context,
       firstDate: DateTime(DateTime.now().year - 1, 5),
@@ -47,17 +43,15 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
       initialDate: DateTime.now(),
       locale: const Locale("en"),
     );
-    if(date != null){
+    if (date != null) {
       String? currentMonth = getDateAsString(format: 'y-MM-d', dateTime: date);
-      emit(state.copyWith(
-          status: NetworkStatus.success, currentMonth: currentMonth));
+      emit(state.copyWith(status: NetworkStatus.success, currentMonth: currentMonth));
       if (event.isSummaryScreen) {
         add(BreakSummaryDetails());
       } else {
         add(GetBreakInitialData());
       }
     }
-
   }
 
   FutureOr<void> _selectEmployee(event, Emitter<BreakState> emit) async {
@@ -65,34 +59,23 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     add(BreakSummaryDetails());
   }
 
-  Future<ReportBreakListModel?> getBreakSummaryHistoryList(
-      {required String breakUserId}) async {
+  Future<ReportBreakListModel?> getBreakSummaryHistoryList({required String breakUserId}) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-    final data = {
-      'user_id': breakUserId,
-      'date': state.currentMonth ?? currentDate
-    };
-    try {
-      final response = await metaClubApiClient.getBreakSummaryList(body: data);
-      return response;
-    } catch (e) {
-      throw NetworkRequestFailure(e.toString());
-    }
+    final data = {'user_id': breakUserId, 'date': state.currentMonth ?? currentDate};
+    final response = await metaClubApiClient.getBreakSummaryList(body: data);
+    return response.fold((l) {
+      return null;
+    }, (r) => r);
   }
 
-  FutureOr<void> _onBreakSummaryDetails(
-      BreakSummaryDetails event, Emitter<BreakState> emit) async {
+  FutureOr<void> _onBreakSummaryDetails(BreakSummaryDetails event, Emitter<BreakState> emit) async {
     final currentDate = DateFormat('y-M-d', "en").format(DateTime.now());
-    final data = {
-      'user_id': state.selectEmployee ?? userId,
-      'date': state.currentMonth ?? currentDate
-    };
-    try {
-      final report = await metaClubApiClient.getBreakSummaryList(body: data);
-      emit(state.copyWith(status: NetworkStatus.success, reportBreakListModel: report));
-    } on Exception catch (e) {
+    final data = {'user_id': state.selectEmployee ?? userId, 'date': state.currentMonth ?? currentDate};
+    final report = await metaClubApiClient.getBreakSummaryList(body: data);
+    report.fold((l) {
       emit(const BreakState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, reportBreakListModel: r));
+    });
   }
 }
