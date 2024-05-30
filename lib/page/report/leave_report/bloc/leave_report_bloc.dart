@@ -37,13 +37,12 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
   }
 
   FutureOr<void> _onFilterLeaveReportSummary(FilterLeaveReportSummary event, Emitter<LeaveReportState> emit) async {
-    try {
-      final leaveSummaryResponse = await metaClubApiClient.leaveSummaryApi(state.selectedEmployee?.id ?? userId);
-      emit(state.copyWith(filterLeaveSummaryResponse: leaveSummaryResponse, status: NetworkStatus.success));
-    } catch (e) {
+    final leaveSummaryResponse = await metaClubApiClient.leaveSummaryApi(state.selectedEmployee?.id ?? userId);
+    leaveSummaryResponse.fold((l) {
       emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(filterLeaveSummaryResponse: r, status: NetworkStatus.success));
+    });
   }
 
   FutureOr<void> _onSelectMonthPicker(SelectMonthPicker event, Emitter<LeaveReportState> emit) async {
@@ -72,14 +71,13 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
     final currentMonth = DateFormat('y-MM', "en").format(DateTime.now());
     add(FilterLeaveReportSummary());
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(
-          state.selectedEmployee?.id ?? userId, state.selectMonth ?? currentMonth);
-      emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
-    } catch (e) {
+    final leaveRequestResponse = await metaClubApiClient.leaveRequestApi(
+        state.selectedEmployee?.id ?? userId, state.selectMonth ?? currentMonth);
+    leaveRequestResponse.fold((l) {
       emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(leaveRequestModel: r, status: NetworkStatus.success));
+    });
   }
 
   FutureOr<void> _onSelectDatePicker(SelectDatePicker event, Emitter<LeaveReportState> emit) async {
@@ -104,7 +102,8 @@ class LeaveReportBloc extends Bloc<LeaveReportEvent, LeaveReportState> {
 
   Future<LeaveDetailsModel?> onLeaveReportDetails(leaveId) async {
     try {
-      final leaveDetailsModel = await metaClubApiClient.leaveReportDetailsApi(state.selectedEmployee?.id ?? userId, leaveId);
+      final leaveDetailsModel =
+          await metaClubApiClient.leaveReportDetailsApi(state.selectedEmployee?.id ?? userId, leaveId);
       return leaveDetailsModel.fold((l) => null, (r) => r);
     } catch (e) {
       throw NetworkRequestFailure(e.toString());

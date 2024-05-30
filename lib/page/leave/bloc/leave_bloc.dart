@@ -77,14 +77,13 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
 
   FutureOr<void> _leaveRequest(LeaveRequest event, Emitter<LeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final leaveRequestResponse = await _metaClubApiClient.leaveRequestApi(event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
-      emit(state.copyWith(leaveRequestModel: leaveRequestResponse, status: NetworkStatus.success));
-      return null;
-    } catch (e) {
+    final leaveRequestResponse = await _metaClubApiClient.leaveRequestApi(
+        event.userId, state.currentMonth ?? DateFormat('y-MM').format(DateTime.now()));
+    leaveRequestResponse.fold((l) {
       emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(leaveRequestModel: r, status: NetworkStatus.success));
+    });
   }
 
   FutureOr<void> _leaveDetails(LeaveDetailsEvent event, Emitter<LeaveState> emit) async {
@@ -120,14 +119,12 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
 
   FutureOr<void> _leaveSummaryApi(LeaveSummaryApi event, Emitter<LeaveState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final leaveSummaryResponse = await _metaClubApiClient.leaveSummaryApi(event.userId);
-      emit(state.copyWith(leaveSummaryModel: leaveSummaryResponse, status: NetworkStatus.success));
-      return null;
-    } catch (e) {
+    final leaveSummaryResponse = await _metaClubApiClient.leaveSummaryApi(event.userId);
+    leaveSummaryResponse.fold((l) {
       emit(state.copyWith(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(leaveSummaryModel: r, status: NetworkStatus.success));
+    });
   }
 
   FutureOr<void> _selectedRequestType(SelectedRequestType event, Emitter<LeaveState> emit) {

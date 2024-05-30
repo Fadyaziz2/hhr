@@ -227,6 +227,20 @@ class MetaClubApiClient {
     }
   }
 
+  Future<Either<Failure,LeaveSummaryModel?>> leaveSummaryApi(int? userId) async {
+    const String api = 'user/leave/summary';
+
+    try {
+      final formData = {
+        "user_id": userId,
+      };
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      return response.fold((l) => Left(l), (r) => Right(LeaveSummaryModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return left(ExceptionFailure(exception: e));
+    }
+  }
+
   Future<Either<Failure, LeaveReportSummaryModel?>> leaveReportSummaryApi(String date) async {
     const String api = 'report/leave/date-summary';
     final data = {'date': date};
@@ -1140,6 +1154,19 @@ class MetaClubApiClient {
       );
     } on Exception catch (_) {
       return Left('Something went wrong');
+    }
+  }
+
+  Future<Either<Failure,LeaveRequestModel?>> leaveRequestApi(int? userId, String? date) async {
+    const String api = 'user/leave/list/view';
+
+    try {
+      final data = {"user_id": userId, "month": date};
+      final response =
+      await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      return response.fold((l) => Left(l), (r) => Right(LeaveRequestModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 

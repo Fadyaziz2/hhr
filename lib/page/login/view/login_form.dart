@@ -28,7 +28,7 @@ class LoginForm extends StatelessWidget {
               showLoginDialog(
                   context: context,
                   isSuccess: false,
-                  message: state.failure?.failureType ?? 'Authentication failed');
+                  message: '${state.failure}');
             }
             if (state.status.isCanceled) {
               showLoginDialog(
