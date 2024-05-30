@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +29,7 @@ class LoginForm extends StatelessWidget {
               showLoginDialog(
                   context: context,
                   isSuccess: false,
-                  message: '${state.failure}');
+                  message: state.failure!.isSuccess ? 'Authentication successful' : 'Authentication failed\n${state.failure!.meaningfulMessage}');
             }
             if (state.status.isCanceled) {
               showLoginDialog(

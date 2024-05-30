@@ -45,7 +45,7 @@ dependencies:
   url_launcher: ^6.1.4
   equatable: ^2.0.5
   country_picker: ^2.0.16
-  syncfusion_flutter_datepicker: ^25.1.41
+  syncfusion_flutter_datepicker: ^25.2.4
   authentication_repository:
     path: packages/data/authentication_repository
   meta_club_api:
@@ -107,9 +107,6 @@ dependencies:
   camera: ^0.10.5+9
   flutter_native_splash: ^2.3.7
   event_bus_plus: ^0.6.2
-
-dependency_overrides:
-  syncfusion_flutter_gauges: ^25.1.41
 
 dev_dependencies:
   flutter_test:

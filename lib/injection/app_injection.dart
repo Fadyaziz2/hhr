@@ -5,6 +5,10 @@ class AppInjection{
 
   late FrameworkAppInjection _frameworkAppInjection;
 
+  AppInjection(){
+    _frameworkAppInjection = FrameworkAppInjection();
+  }
+
   Future<void> initInjection() async {
     _frameworkAppInjection.initInjection();
   }

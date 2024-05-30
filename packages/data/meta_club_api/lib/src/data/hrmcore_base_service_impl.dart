@@ -20,7 +20,7 @@ class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
     final isConnected = await connectivityStatusProvider.isConnected;
 
     if(!isConnected){
-      return Left(GeneralFailure.networkUnavailable());
+      return const Left(GeneralFailure.networkUnavailable());
     }
     return metaClubApiClient.login(email: email, password: password, baseUrl: baseUrl);
   }

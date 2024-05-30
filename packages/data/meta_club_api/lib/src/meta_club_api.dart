@@ -60,7 +60,7 @@ class MetaClubApiClient {
 
   Future<bool> logout({required String baseUrl, String? token}) async {
     const String logout = 'logout';
-    final response = await _httpServiceImpl.getRequestWithToken('${baseUrl}$logout', token: token);
+    final response = await _httpServiceImpl.getRequestWithToken('$baseUrl$logout', token: token);
 
     if (response?.statusCode == 200) {
       return true;
@@ -117,7 +117,7 @@ class MetaClubApiClient {
     final data = {"type": type, "month": month};
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(SupportListModel.fromJson(r.data)),
@@ -131,7 +131,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => Right(CheckData.fromJson(r.data)),
@@ -145,7 +145,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance/offline';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => Right(true),
@@ -160,7 +160,7 @@ class MetaClubApiClient {
     final String api = 'report/attendance/particular-month/$userId';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', body);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => Right(AttendanceReport.fromJson(r.data)),
@@ -174,7 +174,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance/break-back';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', {});
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
       return response.fold(
         (l) => Left(l),
         (r) => Right(Break.fromJson(r.data)),
@@ -204,7 +204,7 @@ class MetaClubApiClient {
 
     try {
       final data = {"user_id": userId};
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api/$leaveId', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api/$leaveId', data);
 
       return response.fold((l) => Left(l), (r) => Right(LeaveDetailsModel.fromJson(r.data)));
     } on Exception catch (e) {
@@ -216,7 +216,7 @@ class MetaClubApiClient {
     const String api = 'report/leave/date-wise-leave';
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -246,7 +246,7 @@ class MetaClubApiClient {
     final data = {'date': date};
 
     try {
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -262,7 +262,7 @@ class MetaClubApiClient {
 
     try {
       final data = {"user_id": userId};
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', data);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -295,7 +295,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -313,7 +313,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyVisitCancel!.toJson());
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -331,7 +331,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyCreateSchedule!.toJson());
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -349,7 +349,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyImageUpload!.toJson());
-      final response = await _httpServiceImpl.postRequest('${_baseUrl}$api', formData);
+      final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),

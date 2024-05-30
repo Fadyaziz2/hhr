@@ -48,8 +48,8 @@ class GeneralFailure extends Failure {
 
   const GeneralFailure.invalidLoginCredentials() : this(failureType: FailureType.invalidLoginCredentials);
 
-  GeneralFailure.httpStatus(int code, String api)
-      : this(failureType: FailureType.httpStatus, additionalData: <String, dynamic>{'code': code, 'api': api});
+  GeneralFailure.httpStatus(int code, String api,String message)
+      : this(failureType: FailureType.httpStatus, additionalData: <String, dynamic>{'code': code,'message':message});
 
   const GeneralFailure.consentRequired() : this(failureType: FailureType.consentRequired);
 

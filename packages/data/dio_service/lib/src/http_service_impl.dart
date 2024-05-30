@@ -113,24 +113,26 @@ class HttpServiceImpl implements HttpService {
             if (jsonMap['message'] != null) {
               final message = jsonMap['message'] as String;
               if (message.toLowerCase().contains('consent required')) {
-                return Left(GeneralFailure.consentRequired());
+                return const Left(GeneralFailure.consentRequired());
               }
             }
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post',jsonMap['message']));
           }
-          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post'));
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post','Unauthenticated'));
         } else if (e.response!.statusCode == HttpStatus.badRequest) {
           if (e.response!.data is Map<String, dynamic>) {
             final jsonMap = e.response!.data;
             if (jsonMap['message'] != null) {
               final message = jsonMap['message'] as String;
               if (message.toLowerCase().contains('no eligible accounts found')) {
-                return Left(GeneralFailure.ineligible());
+                return const Left(GeneralFailure.ineligible());
               }
             }
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post',jsonMap['message']));
           }
-          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post'));
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post','Bad request'));
         } else if (e.response!.statusCode == HttpStatus.unauthorized) {
-          return Left(GeneralFailure.invalidLoginCredentials());
+          return const Left(GeneralFailure.invalidLoginCredentials());
         }
       }
       return Left(ExceptionFailure(exception: e, additionalData: additionalData));
