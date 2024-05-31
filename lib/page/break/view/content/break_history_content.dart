@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,6 @@ import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../res/const.dart';
-import '../../../app/global_state.dart';
 import '../../../leave/view/content/leave_list_shimmer.dart';
 
 class BreakHistoryContent extends StatelessWidget {

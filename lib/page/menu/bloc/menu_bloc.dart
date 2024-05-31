@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:chat/chat.dart';
+import 'package:core/core.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';

@@ -9,7 +9,6 @@ import 'package:hrm_framework/hrm_framework.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../../../res/const.dart';
-import '../../app/global_state.dart';
 import '../models/password.dart';
 import '../models/email.dart';
 

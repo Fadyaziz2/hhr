@@ -18,8 +18,8 @@ import 'models/donation.dart';
 import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
-  String token;
-  String companyUrl;
+  final String token;
+  final String companyUrl;
   late final HttpServiceImpl _httpServiceImpl;
 
   MetaClubApiClient({required this.token, required this.companyUrl}) {

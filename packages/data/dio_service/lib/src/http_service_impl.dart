@@ -74,6 +74,7 @@ class HttpServiceImpl implements HttpService {
   }
 
   Options _buildCacheOptions({String? tkn}) {
+
     return buildCacheOptions(const Duration(days: 3),
         maxStale: const Duration(days: 7),
         forceRefresh: true,
@@ -81,7 +82,7 @@ class HttpServiceImpl implements HttpService {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
             'Charset': 'utf-8',
-            "Authorization": "Bearer ${tkn ?? token}"
+            "Authorization": "Bearer ${tkn ?? globalState.get(authToken)}"
           },
         ));
   }

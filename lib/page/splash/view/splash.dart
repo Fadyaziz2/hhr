@@ -1,10 +1,10 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/splash/bloc/splash_bloc.dart';
 import '../../../animation/bounce_animation/bounce_animation_builder.dart';
 import '../../../res/const.dart';
-import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SplashScreen extends StatefulWidget {

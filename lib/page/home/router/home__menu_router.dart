@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:onesthrm/page/app/global_state.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/home/view/content/home_earth_content.dart';

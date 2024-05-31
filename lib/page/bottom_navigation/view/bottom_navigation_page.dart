@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -7,7 +8,6 @@ import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
-import '../../app/global_state.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../content/bottom_nav_content.dart';
 

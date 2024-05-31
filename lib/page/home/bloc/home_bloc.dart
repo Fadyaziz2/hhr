@@ -15,7 +15,6 @@ import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../../res/const.dart';
 import '../../../res/enum.dart';
-import '../../app/global_state.dart';
 
 part 'home_event.dart';
 

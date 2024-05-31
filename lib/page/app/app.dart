@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
@@ -10,7 +11,6 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
-import '../../res/const.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
 import '../internet_connectivity/bloc/internet_bloc.dart';
@@ -19,7 +19,6 @@ import '../login/view/login_page.dart';
 import '../onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding/view/onboarding_page.dart';
 import '../splash/view/splash.dart';
-import 'global_state.dart';
 import 'package:event_bus_plus/event_bus_plus.dart';
 
 // Initialize the Service Bus

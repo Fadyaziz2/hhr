@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Color mainColor = const Color(0xFF1F0732);
@@ -15,11 +14,12 @@ const Color gradiantColorOne = Color(0xFF00a8e6);
 const Color gradiantColorTwo = Color(0xDA0DC21E);
 const Color colorGray = Color(0x65555555);
 
-List<String> supportTicketsButton = [tr("open"), tr('close'), tr('all')];
+List<String> supportTicketsButton = ["open", 'close','all'];
 
 final bloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const String companyName = 'company_name';
+const String authToken = 'auth_token';
 const String companyId = 'company_id';
 const String companyUrl = 'company_url';
 const String companySubDomain = 'company_sub_domain';

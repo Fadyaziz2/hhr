@@ -1,10 +1,9 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/const.dart';
-
-import '../../../../../app/global_state.dart';
 import '../../../bloc/report_bloc.dart';
 import 'attendance_summary_body.dart';
 
