@@ -36,7 +36,7 @@ void main() async {
   ///OtherDependencyInjection
   await AppInjection().initInjection();
 
-  final MetaClubApiClient apiClient = MetaClubApiClient(token: '', companyUrl: '');
+  final MetaClubApiClient apiClient = MetaClubApiClient(httpServiceImpl: instance());
   final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
