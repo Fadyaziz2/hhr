@@ -51,7 +51,6 @@ class MetaClubApiClient {
         return Left(l);
       }, (r) {
         return right(LoginData.fromJson(r.data));
-        ;
       });
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -148,7 +147,7 @@ class MetaClubApiClient {
       final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
-        (r) => Right(true),
+        (r) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -369,7 +368,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyUpdateVisit!.toJson());
       await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      return Right(true);
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -384,7 +383,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyVisitNote!.toJson());
       await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      return Right(true);
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -396,7 +395,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(conferenceBodyModel!.toJson());
       await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
-      return Right(true);
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -529,7 +528,7 @@ class MetaClubApiClient {
       final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (_) {
       return Left(ExceptionFailure(exception: _));
@@ -570,7 +569,7 @@ class MetaClubApiClient {
       final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (_) {
       return Left(ExceptionFailure(exception: _));
@@ -1131,7 +1130,7 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Either<String, String>> appointmentCreate({AppointmentBody? appointmentBody}) async {
+  Future<Either<Failure, String>> appointmentCreate({AppointmentBody? appointmentBody}) async {
     String api = 'appoinment/create';
 
     try {
@@ -1149,11 +1148,11 @@ class MetaClubApiClient {
       final response = await _httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
-        (l) => Left('Something went wrong'),
+        (l) => Left(l),
         (r) => Right(r.data['message']),
       );
-    } on Exception catch (_) {
-      return Left('Something went wrong');
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 

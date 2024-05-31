@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:core/core.dart';
 import 'package:core/src/failure/failure.dart';
 import 'package:fpdart/fpdart.dart';
@@ -11,17 +12,571 @@ class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
   final ConnectivityStatusProvider connectivityStatusProvider;
   final MetaClubApiClient metaClubApiClient;
 
-  HRMCoreBaseServiceImpl({required this.connectivityStatusProvider,required this.metaClubApiClient});
-
+  HRMCoreBaseServiceImpl({required this.connectivityStatusProvider, required this.metaClubApiClient});
 
   @override
-  Future<Either<Failure, LoginData?>> login({required String email, required String password, String? baseUrl, String? deviceId, String? deviceInfo}) async {
+  Future<Either<Failure, LoginData?>> login(
+      {required String email, required String password, String? baseUrl, String? deviceId, String? deviceInfo}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
 
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.login(email: email, password: password, baseUrl: baseUrl);
+  }
+
+  @override
+  Future<Either<Failure, String>> appointmentCreate({AppointmentBody? appointmentBody}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+
+    return metaClubApiClient.appointmentCreate(appointmentBody: appointmentBody);
+  }
+
+  @override
+  Future<Either<Failure, bool>> approvalApprovedOrReject({required String approvalId, required int type}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.approvalApprovedOrReject(approvalId: approvalId,type: type);
+  }
+
+  @override
+  Future<Either<Failure, Break?>> backBreak() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.backBreak();
+  }
+
+  @override
+  Future<Either<Failure, bool>> cancelVisitApi({BodyVisitCancel? bodyVisitCancel}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.cancelVisitApi(bodyVisitCancel:bodyVisitCancel);
+  }
+
+  @override
+  Future<Either<Failure, CheckData?>> checkInOut({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.checkInOut(body:body);
+  }
+
+  @override
+  Future<Either<Failure, bool>> checkQRValidations(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.checkQRValidations(data);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createConferenceApi({CreateConferenceBodyModel? conferenceBodyModel}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.createConferenceApi(conferenceBodyModel:conferenceBodyModel);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createMeetingApi({MeetingBodyModel? meetingBodyModel}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.createMeetingApi(meetingBodyModel:meetingBodyModel);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createRescheduleApi({BodyCreateSchedule? bodyCreateSchedule}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.createRescheduleApi(bodyCreateSchedule:bodyCreateSchedule);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createSupport({BodyCreateSupport? bodyCreateSupport}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.createSupport(bodyCreateSupport:bodyCreateSupport);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createSupportApi({required data}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.createSupportApi(data:data);
+  }
+
+  @override
+  Future<Either<Failure, bool>> createVisitApi({BodyCreateVisit? bodyCreateVisit}) async {
     final isConnected = await connectivityStatusProvider.isConnected;
 
     if(!isConnected){
       return const Left(GeneralFailure.networkUnavailable());
     }
-    return metaClubApiClient.login(email: email, password: password, baseUrl: baseUrl);
+    return metaClubApiClient.createVisitApi(bodyCreateVisit:bodyCreateVisit);
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> dailyLeaveApprovalAction(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.dailyLeaveApprovalAction(data);
+  }
+
+  @override
+  Future<Either<Failure, DailyLeaveSummaryModel?>> dailyLeaveSummary(int? userId, String? date) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.dailyLeaveSummary(userId,date);
+  }
+
+  @override
+  Future<Either<Failure, LeaveTypeListModel?>> dailyLeaveSummaryStaffView(
+      {String? userId, String? month, String? leaveType, String? leaveStatus}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ExpenseCreateResponse>> expenseCreate({ExpenseCreateBody? expenseCreateBody}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> faceDataStore({String? faceData}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, VerificationCodeModel>> forgetPassword({ForgotPasswordBody? forgotPasswordBody}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApprovalModel?>> getApprovalData() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApprovalDetailsModel?>> getApprovalListDetails(
+      {required String approvalId, required String approvalUserId}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, AttendanceReport?>> getAttendanceReport({required Map<String, dynamic> body, int? userId}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportAttendanceSummary?>> getAttendanceReportSummary({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, SummaryAttendanceToList?>> getAttendanceSummaryToList({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, BreakReportModel?>> getBreakHistory(String date) async  {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportBreakSummaryModel?>> getBreakSummary({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportBreakListModel?>> getBreakSummaryList({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseExpenseList?>> getExpenseItem(String month, String? paymentType, String? status) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, HistoryListModel?>> getHistoryList(String? month) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveReportTypeWiseSummary?>> getLeaveSummaryTypeWise(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, MeetingsListModel?>> getMeetingList(String? month) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, MeetingsListModel?>> getMeetingsItem(String month) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, NoticeListModel?>> getNoticeList() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, PayrollModel?>> getPayrollData({required String year}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Profile?>> getProfile() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, SupportListModel?>> getSupport(String type, String month) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseUserList?>> getUserList(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, VerificationCodeModel>> getVerificationCode({String? email}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveDetailsModel?>> leaveDetailsApi(int? userId, int? requestId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveDetailsModel?>> leaveReportDetailsApi(int? userId, int leaveId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveReportSummaryModel?>> leaveReportSummaryApi(String date) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveRequestModel?>> leaveRequestApi(int? userId, String? date) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveRequestTypeModel>> leaveRequestTypeApi(int? userId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveSummaryModel?>> leaveSummaryApi(int? userId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> offlineCheckInOut({required Map<String, dynamic> body}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> postApplyLeave(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> postBirthDayWish(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> postEventAppreciate(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> postEventGoing(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> postUserApproval(data) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, RegistrationData>> registration({bodyData}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> storeLocationToServer({required List<Map<String, dynamic>> locations, String? date}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> submitLeaveRequestApi({BodyCreateLeaveModel? bodyCreateLeaveModel}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, VerificationCodeModel>> updatePassword({PasswordChangeBody? passwordChangeBody}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateProfile({required String slag, required data}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateProfileAvatar({required int avatarId}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateTaskStatusAndSlider({data}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateVisitApi({BodyUpdateVisit? bodyUpdateVisit}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, FileUpload?>> uploadFile({required File file}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> visitCreateNoteApi({BodyVisitNote? bodyVisitNote}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> visitUploadImageApi({BodyImageUpload? bodyImageUpload}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if(!isConnected){
+      return const Left(GeneralFailure.networkUnavailable());
+    }
   }
 }
