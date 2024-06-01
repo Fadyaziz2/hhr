@@ -13,7 +13,7 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/notification/schedule_notification.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../res/enum.dart';
 
 part 'home_event.dart';

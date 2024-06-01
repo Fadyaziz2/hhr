@@ -6,7 +6,7 @@ import 'package:onesthrm/page/support/content/priority_type.dart';
 import 'package:onesthrm/page/support/content/type_name_widget.dart';
 import 'package:onesthrm/page/support/view/support_details/support_details.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 
 class SupportTicketItem extends StatelessWidget {
   final SupportModel supportModel;

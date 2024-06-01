@@ -6,7 +6,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/select_employee/content/get_employee_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 
 class SelectEmployeePage extends StatelessWidget {

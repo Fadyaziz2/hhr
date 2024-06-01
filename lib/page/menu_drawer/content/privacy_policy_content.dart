@@ -7,7 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
 import 'package:onesthrm/page/menu_drawer/bloc/menu_drawer_bloc.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 
 class PolicyContentScreen extends StatelessWidget {
   final String? appBarName;

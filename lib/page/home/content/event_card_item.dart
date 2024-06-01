@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 
 class EventCardItem extends StatelessWidget {
   const EventCardItem(

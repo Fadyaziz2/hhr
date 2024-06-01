@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
 import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../res/dialogs/custom_dialogs.dart';
 import '../bloc/login_bloc.dart';
 import '../models/email.dart';

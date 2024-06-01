@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesthrm/page/report/break_report_summary/break_report.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/shimmers.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 

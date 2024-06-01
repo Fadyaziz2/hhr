@@ -7,7 +7,7 @@ import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/attachment_content.dart';
 import 'package:onesthrm/page/meeting/view/content/meeting_time_cart.dart';
 import 'package:onesthrm/page/multi_selection_employee/multi_selection_employee_page.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 import '../../../../res/common_text_widget.dart';
 import 'meeting_name_list.dart';

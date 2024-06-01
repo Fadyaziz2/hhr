@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({

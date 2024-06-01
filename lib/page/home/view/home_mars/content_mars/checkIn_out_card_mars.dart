@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +9,6 @@ import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_at
 import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
-
-import '../../../../../res/const.dart';
 import '../../../../authentication/bloc/authentication_bloc.dart';
 import '../../content/home_content.dart';
 

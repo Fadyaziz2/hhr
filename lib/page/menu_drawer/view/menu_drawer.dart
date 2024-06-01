@@ -7,7 +7,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/content/menu_settings_content.dart';
 import 'package:onesthrm/page/menu_drawer/content/support_content.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key, this.provider});

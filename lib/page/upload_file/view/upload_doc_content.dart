@@ -10,7 +10,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_event.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_state.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 

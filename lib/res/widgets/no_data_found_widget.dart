@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 
 class NoDataFoundWidget extends StatelessWidget {

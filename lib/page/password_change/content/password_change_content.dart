@@ -5,7 +5,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/forgot_password/view/forget_password.dart';
 import 'package:onesthrm/page/password_change/bloc/password_change_bloc.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';

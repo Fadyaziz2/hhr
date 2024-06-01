@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/leave_details/leave_details.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 import '../../../../res/widgets/device_util.dart';

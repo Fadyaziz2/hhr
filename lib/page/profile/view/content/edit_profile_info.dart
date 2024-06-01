@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/bloc/profile/profile_bloc.dart';
 import 'package:onesthrm/page/profile/bloc/update/update_profile_bloc.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import 'edit_profile_content.dart';

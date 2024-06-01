@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_content/create_support_content.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class CreateSupportPage extends StatelessWidget {
   const CreateSupportPage({super.key});

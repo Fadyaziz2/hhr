@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onesthrm/page/home/home.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

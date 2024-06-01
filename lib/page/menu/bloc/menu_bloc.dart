@@ -22,7 +22,7 @@ import 'package:onesthrm/page/report/report_page.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';

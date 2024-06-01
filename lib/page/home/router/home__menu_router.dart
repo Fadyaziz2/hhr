@@ -8,7 +8,7 @@ import 'package:onesthrm/page/home/view/home_naptune/content_neptune/home_neptun
 import 'package:onesthrm/page/meeting/view/meeting_page.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 Widget chooseTheme() {

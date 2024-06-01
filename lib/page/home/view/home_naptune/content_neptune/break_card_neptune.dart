@@ -6,8 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/break/view/break_page.dart';
 import 'package:user_repository/user_repository.dart';
-
-import '../../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../bloc/home_bloc.dart';
 
 class BreakCardNeptune extends StatelessWidget {

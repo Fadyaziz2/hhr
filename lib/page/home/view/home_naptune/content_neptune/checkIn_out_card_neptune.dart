@@ -9,7 +9,7 @@ import 'package:onesthrm/page/attendance_method/view/attendane_method_screen.dar
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
-import '../../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../authentication/bloc/authentication_bloc.dart';
 import '../../content/home_content.dart';
 

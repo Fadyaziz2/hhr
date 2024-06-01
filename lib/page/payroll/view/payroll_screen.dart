@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/payroll/bloc/payroll_bloc.dart';
 import 'package:onesthrm/page/payroll/view/content/payroll_screen_content.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 import '../../authentication/bloc/authentication_bloc.dart';
 

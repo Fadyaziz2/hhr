@@ -6,7 +6,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/page/home/router/home__menu_router.dart';
 import 'package:user_repository/user_repository.dart';
-import '../../../res/const.dart';
+import 'package:core/core.dart';
 
 class HomeHeader extends StatelessWidget {
   final Settings? settings;

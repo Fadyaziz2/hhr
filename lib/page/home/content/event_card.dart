@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'event_card_item.dart';
 
 class EventCard extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/leave_summary_content.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class LeavePage extends StatefulWidget {
   const LeavePage({super.key});

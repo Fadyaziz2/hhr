@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/password_change/view/password_change_page.dart';
 import 'package:onesthrm/page/profile/view/content/edit_profile_info.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 import '../../../../res/custom_build_profile_details.dart';

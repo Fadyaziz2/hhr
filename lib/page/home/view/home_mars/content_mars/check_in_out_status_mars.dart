@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 import '../../../../attendance/attendance.dart';
 

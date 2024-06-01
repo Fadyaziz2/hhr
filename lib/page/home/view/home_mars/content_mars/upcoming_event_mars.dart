@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class UpcomingEventMars extends StatelessWidget {
   const UpcomingEventMars({super.key});

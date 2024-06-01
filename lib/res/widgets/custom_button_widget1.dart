@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../const.dart';
+import 'package:core/core.dart';
 
 class CustomButton1 extends StatelessWidget {
   final VoidCallback onTap;

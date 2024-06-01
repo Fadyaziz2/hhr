@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/phonebook_bloc.dart';

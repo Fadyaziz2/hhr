@@ -7,7 +7,7 @@ import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/leave_request_list.dart';
 import 'package:onesthrm/page/leave/view/content/total_leave_count.dart';
 import 'package:onesthrm/page/leave/view/leave_type/leave_request_type.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../../../../res/widgets/device_util.dart';
 import '../../../attendance/tab_content/tab_animated_circular_button.dart';

@@ -6,7 +6,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/password_change/bloc/password_change_bloc.dart';
 import 'package:onesthrm/page/password_change/content/password_change_content.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 class PasswordChangePage extends StatelessWidget {
   const PasswordChangePage({super.key});

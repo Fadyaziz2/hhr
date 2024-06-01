@@ -7,7 +7,7 @@ import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/attachment_content.dart';
 import 'package:onesthrm/page/expense/content/expense_category_list_page.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 

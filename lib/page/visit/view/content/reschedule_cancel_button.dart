@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/visit/view/visit_cancel_page/visit_cancel_page.dart';
 import 'package:onesthrm/page/visit/view/visit_reschedule/visit_reschedule.dart';
-import 'package:onesthrm/res/const.dart';
+import 'package:core/core.dart';
 
 import '../../../../res/nav_utail.dart';
 import '../../bloc/visit_bloc.dart';
