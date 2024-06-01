@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/conference/conference.dart';
-import 'package:onesthrm/res/const.dart';
 
 class ConferencePage extends StatelessWidget {
   const ConferencePage({super.key});

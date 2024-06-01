@@ -7,7 +7,6 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/bottom_navigation/bloc/bottom_nav_cubit.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:user_repository/user_repository.dart';
-import '../../../res/const.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../content/bottom_nav_content.dart';
 

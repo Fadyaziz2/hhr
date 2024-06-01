@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/conference/bloc/conference_bloc.dart';
-
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 
 class ConferenceNameList extends StatelessWidget {
   const ConferenceNameList({super.key, required this.state,});

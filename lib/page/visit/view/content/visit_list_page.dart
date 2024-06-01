@@ -6,7 +6,7 @@ import 'package:onesthrm/page/visit/bloc/visit_bloc.dart';
 import 'package:onesthrm/page/visit/view/content/visit_list_item.dart';
 import 'package:onesthrm/res/enum.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
 import '../../../leave/view/content/leave_list_shimmer.dart';
 

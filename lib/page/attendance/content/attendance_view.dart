@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:onesthrm/page/attendance_report/view/attendance_report_page.dart
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../res/const.dart';
 import '../../attendance_report/view/content/attendance_daily_offline_report_content.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';

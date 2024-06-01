@@ -10,7 +10,6 @@ import 'package:onesthrm/page/appointment/appointment_create/content/appointment
 import 'package:onesthrm/page/appointment/appointment_create/content/appointment_with_cart.dart';
 import 'package:onesthrm/page/appointment/appointment_create/content/attachment_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class AppointmentCreateScreen extends StatefulWidget {

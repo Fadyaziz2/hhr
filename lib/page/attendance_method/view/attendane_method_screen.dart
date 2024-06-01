@@ -12,7 +12,6 @@ import 'package:onesthrm/page/attendance_method/bloc/attendance_method_bloc.dart
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-import '../../../res/const.dart';
 import '../../attendance_report/view/attendance_report_page.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';

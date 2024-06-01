@@ -1,6 +1,6 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:onesthrm/page/attendance_report/view/content/summery_tile.dart';
-import 'package:onesthrm/res/const.dart';
 import '../../bloc/bloc.dart';
 
 class AttendanceReportContent extends StatelessWidget {

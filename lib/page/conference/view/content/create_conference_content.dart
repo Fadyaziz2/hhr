@@ -7,7 +7,7 @@ import 'package:onesthrm/page/conference/bloc/conference_bloc.dart';
 import 'package:onesthrm/page/conference/view/content/conference_name_list.dart';
 import 'package:onesthrm/page/conference/view/content/conference_time_card.dart';
 import 'package:onesthrm/res/common_text_widget.dart';
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../multi_selection_employee/multi_selection_employee_page.dart';
 
 class CreateConferenceContent extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 
 class HomeItem extends StatelessWidget {
 

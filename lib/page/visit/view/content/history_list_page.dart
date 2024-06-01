@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/view/content/hitory_item.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
 import '../../../leave/view/content/leave_list_shimmer.dart';

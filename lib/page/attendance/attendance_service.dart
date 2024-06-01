@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
-import 'package:onesthrm/res/const.dart';
 
 const String checkBoxName = 'checkInOutBox';
 

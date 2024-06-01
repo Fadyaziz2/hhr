@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/device_util.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';

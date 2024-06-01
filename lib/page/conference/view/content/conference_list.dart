@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/conference/conference.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import 'package:video_chat/video_chat_service.dart';
 

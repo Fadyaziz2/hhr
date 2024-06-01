@@ -10,7 +10,7 @@ import 'package:onesthrm/page/leave/view/content/build_container.dart';
 import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/widgets/custom_button.dart';
 import '../content/leave_status.dart';
 

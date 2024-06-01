@@ -1,10 +1,10 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesthrm/page/break/bloc/break_bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 import '../../../../res/widgets/device_util.dart';

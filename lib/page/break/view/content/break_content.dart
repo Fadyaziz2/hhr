@@ -16,7 +16,6 @@ import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../res/const.dart';
 import '../../../../res/dialogs/custom_dialogs.dart';
 import '../../../attendance/content/animated_circular_button.dart';
 import '../../../attendance/tab_content/tab_animated_circular_button.dart';

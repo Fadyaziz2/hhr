@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_bloc.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../attendance/content/animated_circular_button.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';

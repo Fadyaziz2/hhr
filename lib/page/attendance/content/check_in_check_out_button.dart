@@ -1,8 +1,8 @@
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import '../../../res/const.dart';
 
 class CheckInCheckOutButton extends StatefulWidget {
   final DashboardModel homeData;

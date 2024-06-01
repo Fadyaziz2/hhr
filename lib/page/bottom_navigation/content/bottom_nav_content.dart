@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:onesthrm/page/leave/view/leave_page.dart';
 import 'package:onesthrm/page/all_natification/view/notification_screen.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:upgrader/upgrader.dart';
-import '../../../res/const.dart';
 import '../../home/view/home_page.dart';
 import '../../menu/view/menu_screen.dart';
 import '../bloc/bottom_nav_cubit.dart';

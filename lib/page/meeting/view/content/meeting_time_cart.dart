@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 
 class MeetingTimeCart extends StatelessWidget {
   final MeetingState? meetingState;

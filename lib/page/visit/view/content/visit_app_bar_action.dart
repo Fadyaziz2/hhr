@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../bloc/visit_bloc.dart';
 import '../update_visit/update_visit.dart';
 

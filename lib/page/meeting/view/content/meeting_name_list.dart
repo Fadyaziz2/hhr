@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../bloc/meeting_bloc.dart';
 
 class MeetingNameList extends StatelessWidget {

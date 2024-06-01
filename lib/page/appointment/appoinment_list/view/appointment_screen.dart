@@ -8,7 +8,6 @@ import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 AppointmentBloc? bloc;

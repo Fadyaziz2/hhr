@@ -6,7 +6,6 @@ import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/page/internet_connectivity/bloc/internet_bloc.dart';
-import 'package:onesthrm/res/const.dart';
 import 'package:onesthrm/res/enum.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 

@@ -7,7 +7,7 @@ import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/meeting_create_page/meeting_create_page.dart';
 import 'package:onesthrm/page/meeting/view/meeting_details_page/meeting_details_page.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
-import '../../../../res/const.dart';
+import 'package:core/core.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../leave/view/content/leave_list_shimmer.dart';

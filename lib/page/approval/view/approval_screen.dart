@@ -5,7 +5,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/approval/approval.dart';
 import 'package:onesthrm/page/approval/view/content/approval_screen_content.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:onesthrm/res/const.dart';
 
 class ApprovalScreen extends StatelessWidget {
 
