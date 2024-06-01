@@ -21,8 +21,7 @@ class AppointmentScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => AppointmentBloc(
-          metaClubApiClient: MetaClubApiClient(
-              token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
         ..add(GetAppointmentData()),
       child: BlocBuilder<AppointmentBloc, AppointmentState>(
         builder: (context, state) {

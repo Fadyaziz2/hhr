@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:core/core.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../bloc/profile/profile_bloc.dart';
 import 'content/profile_content.dart';
@@ -28,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ProfileBloc(
           metaClubApiClient: MetaClubApiClient(
-              token: '${user?.user?.token}', companyUrl: baseUrl))
+              httpServiceImpl: instance()))
         ..add(ProfileLoadRequest()),
       child: DefaultTabController(
           length: 4,

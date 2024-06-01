@@ -28,7 +28,7 @@ class UploadDocContent extends StatelessWidget {
     return BlocProvider<UploadFileBloc>(
       create: (context) => UploadFileBloc(
           metaClubApiClient: MetaClubApiClient(
-              token: '${user?.user?.token}', companyUrl: baseUrl)),
+              httpServiceImpl: instance())),
       child: BlocListener<UploadFileBloc, UploadFileState>(
         listener: (context, state) {
           if (state.networkStatus == NetworkStatus.success) {

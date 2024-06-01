@@ -22,7 +22,7 @@ class PhoneBookPage extends StatelessWidget {
 
     return BlocProvider(
         create: (_) => PhoneBookBloc(
-            metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+            metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
           ..add(PhoneBookLoadRequest()),
         child: Scaffold(
           appBar: AppBar(

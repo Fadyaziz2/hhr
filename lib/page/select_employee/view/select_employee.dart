@@ -20,7 +20,7 @@ class SelectEmployeePage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PhoneBookBloc(
           metaClubApiClient: MetaClubApiClient(
-              token: '${user?.user?.token}', companyUrl: baseUrl))
+              httpServiceImpl: instance()))
         ..add(PhoneBookLoadRequest()),
       child: Scaffold(
         appBar: PreferredSize(

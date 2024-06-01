@@ -7,7 +7,6 @@ import 'package:onesthrm/page/approval/view/content/approval_screen_content.dart
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 
 class ApprovalScreen extends StatelessWidget {
-
   const ApprovalScreen({super.key});
 
   @override
@@ -15,7 +14,9 @@ class ApprovalScreen extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
-        create: (_) => ApprovalBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))..add(ApprovalInitialDataRequest()),
+        create: (_) => ApprovalBloc(
+            metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+          ..add(ApprovalInitialDataRequest()),
         child: const ApprovalScreenContent());
   }
 }

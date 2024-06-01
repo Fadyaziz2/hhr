@@ -18,7 +18,7 @@ class PasswordChangePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => PasswordChangeBloc(
         metaClubApiClient: MetaClubApiClient(
-            token: '${user?.user?.token}', companyUrl: baseUrl),
+            httpServiceImpl: instance()),
       ),
       child: Scaffold(
         appBar: AppBar(

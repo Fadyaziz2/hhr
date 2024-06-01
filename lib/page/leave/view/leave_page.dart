@@ -31,7 +31,7 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
-        create: (context) => LeaveBloc(metaClubApiClient: MetaClubApiClient(token: "${user?.user?.token}", companyUrl: baseUrl))
+        create: (context) => LeaveBloc(metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
           ..add(LeaveSummaryApi(user!.user!.id!))
           ..add(LeaveRequest(user.user!.id!))
           ..add(LeaveRequestTypeEvent(user.user!.id!)),

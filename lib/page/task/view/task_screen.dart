@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/task/view/content/content.dart';
-import 'package:core/core.dart';
 import '../bloc/task_bloc.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -19,7 +18,7 @@ class TaskScreen extends StatelessWidget {
     return BlocProvider(
         create: (_) => TaskBloc(
             metaClubApiClient: MetaClubApiClient(
-                token: '${user?.user?.token}', companyUrl: baseUrl))
+                httpServiceImpl: instance()))
           ..add(TaskInitialDataRequest()),
         child: Scaffold(
           appBar: AppBar(

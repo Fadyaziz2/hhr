@@ -76,7 +76,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
 
     return BlocProvider(
       create: (context) => AttendanceMethodBloc(
-        metaClubApiClient: MetaClubApiClient(token: '${loginData?.user?.token}', companyUrl: baseUrl),
+        metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()),
         homeBloc: context.read<HomeBloc>(),
         faceService: FaceServiceImpl(),
         loginData: loginData,

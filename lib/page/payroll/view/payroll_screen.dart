@@ -17,7 +17,7 @@ class PayrollScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (_) => PayrollBloc(
-          metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))
+          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
         ..add(PayrollInitialDataRequest()),
       child: const PayrollScreenContent(),
       );

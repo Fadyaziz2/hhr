@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/splash/bloc/splash_bloc.dart';
 import '../../../animation/bounce_animation/bounce_animation_builder.dart';
-import 'package:core/core.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (context) => SplashBloc(context: context,data: user,client: MetaClubApiClient(token : '${user?.user?.token}', companyUrl: baseUrl)),
+      create: (context) => SplashBloc(context: context,data: user,client: MetaClubApiClient(httpServiceImpl: instance())),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(

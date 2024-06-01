@@ -20,7 +20,7 @@ class LeaveSummeryScreen extends StatelessWidget {
       create: (BuildContext context) => LeaveReportBloc(
           userId: user!.user!.id!,
           metaClubApiClient: MetaClubApiClient(
-              token: '${user.user?.token}', companyUrl: baseUrl))
+              httpServiceImpl: instance()))
         ..add(GetLeaveReportSummary()),
       child: Scaffold(
         appBar: PreferredSize(

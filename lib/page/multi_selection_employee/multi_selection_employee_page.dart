@@ -18,7 +18,7 @@ class MultiSelectionEmployee extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
-      create: (_) => PhoneBookBloc(metaClubApiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl))..add(PhoneBookLoadRequest()),
+      create: (_) => PhoneBookBloc(metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))..add(PhoneBookLoadRequest()),
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Multi Selection Employee"),

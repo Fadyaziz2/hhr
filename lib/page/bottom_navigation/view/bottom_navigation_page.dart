@@ -26,11 +26,10 @@ class BottomNavigationPage extends StatelessWidget {
         BlocProvider(create: (_) => BottomNavCubit()),
         BlocProvider(
             create: (_) => HomeBloc(
-                metaClubApiClient: MetaClubApiClient(
-                    token: '${user?.user?.token}', companyUrl: baseUrl),
+                metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()),
                 attendanceService: attendanceService,
                 authenticationRepository: AuthenticationRepository(
-                    apiClient: MetaClubApiClient(token: '${user?.user?.token}', companyUrl: baseUrl)),
+                    apiClient: MetaClubApiClient(httpServiceImpl: instance())),
                 userRepository: UserRepository(token: '${user?.user?.token}'))
               ..add(LoadSettings())
               ..add(LoadHomeData())),

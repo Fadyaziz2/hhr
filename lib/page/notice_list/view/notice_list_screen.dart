@@ -9,7 +9,6 @@ import 'package:onesthrm/page/notice_list/bloc/notice_list_bloc.dart';
 import 'package:onesthrm/page/notice_list/content/notice_list_content.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
-import 'package:core/core.dart';
 
 
 class NoticeListScreen extends StatelessWidget {
@@ -23,7 +22,7 @@ class NoticeListScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => NotificationListBloc(
           metaClubApiClient: MetaClubApiClient(
-              token: '${user?.user?.token}', companyUrl: baseUrl))
+              httpServiceImpl: instance()))
         ..add(LoadNotificationListData()),
       child: Scaffold(
         appBar: AppBar(
