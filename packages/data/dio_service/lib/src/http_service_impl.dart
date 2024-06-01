@@ -13,9 +13,8 @@ import 'interceptor/retry_interceptor.dart';
 class HttpServiceImpl implements HttpService {
   late Dio? _dio;
   late DioCacheManager _manager;
-  final String token;
 
-  HttpServiceImpl({required this.token}) {
+  HttpServiceImpl() {
     init();
   }
 
@@ -147,7 +146,7 @@ class HttpServiceImpl implements HttpService {
     Response response;
 
     try {
-      response = await _dio!.delete(url, options: Options(headers: {"Authorization": "Bearer $token"}));
+      response = await _dio!.delete(url, options: Options(headers: {"Authorization": "Bearer ${globalState.get(authToken)}"}));
     } on SocketException {
       throw const SocketException('No internet connection');
     } on FormatException catch (e) {

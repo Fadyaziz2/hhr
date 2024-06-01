@@ -7,7 +7,7 @@ class UserRepository {
   late HttpServiceImpl _httpServiceImpl;
 
   UserRepository({required this.token}) {
-    _httpServiceImpl = HttpServiceImpl(token: token);
+    _httpServiceImpl = HttpServiceImpl();
   }
 
   Future<TokenStatus> tokenVerification({required String token,required String baseUrl}) async {
