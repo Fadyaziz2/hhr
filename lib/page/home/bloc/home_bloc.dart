@@ -13,7 +13,6 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/notification/schedule_notification.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:core/core.dart';
 import '../../../res/enum.dart';
 
 part 'home_event.dart';
@@ -59,7 +58,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     });
 
     ///check token validity event
-    add(OnTokenVerification());
+    // add(OnTokenVerification());
   }
 
   bool isCheckedIn = false;
@@ -163,7 +162,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
     ///verify token
     final data =
-        await _userRepository.tokenVerification(token: metaClubApiClient.token, baseUrl: metaClubApiClient.companyUrl);
+        await _userRepository.tokenVerification(token: '', baseUrl: '');
     if (data.status == false && data.code >= 400) {
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
       _authenticationRepository.updateUserData(LoginData(user: null));

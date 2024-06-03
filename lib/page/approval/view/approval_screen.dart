@@ -15,7 +15,7 @@ class ApprovalScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (_) => ApprovalBloc(
-            metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+            metaClubApiClient: MetaClubApiClient(httpService: instance()))
           ..add(ApprovalInitialDataRequest()),
         child: const ApprovalScreenContent());
   }

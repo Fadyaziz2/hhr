@@ -16,7 +16,7 @@ class AttendanceSummaryContent extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (BuildContext context) => ReportBloc(
-            metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()),
+            metaClubApiClient: MetaClubApiClient(httpService: instance()),
             userId: user!.user!.id!)
           ..add(GetReportData()),
         child: const AttendanceSummaryBody());

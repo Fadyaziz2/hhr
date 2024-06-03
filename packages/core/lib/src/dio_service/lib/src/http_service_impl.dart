@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:tf_dio_cache/tf_dio_cache.dart';

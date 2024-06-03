@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:core/core.dart';
-import 'package:dio_service/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -18,12 +17,9 @@ import 'models/donation.dart';
 import 'package:dio/dio.dart';
 
 class MetaClubApiClient {
+  final HttpService httpService;
 
-   final HttpServiceImpl httpServiceImpl;
-
-  MetaClubApiClient({required this.httpServiceImpl});
-
-  static const _baseUrl = '$rootUrl/api/V11/';
+  MetaClubApiClient({required this.httpService});
 
   String getBaseUrl() {
     final baseUrl = globalState.get(companyUrl);
@@ -34,14 +30,13 @@ class MetaClubApiClient {
       {required String email,
       required String password,
       String? deviceId,
-      String? deviceInfo,
-      required String? baseUrl}) async {
+      String? deviceInfo}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password, "device_id": deviceId, "device_info": deviceInfo};
 
     try {
-      final response = await httpServiceImpl.postRequest('${baseUrl ?? _baseUrl}$login', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$login', body);
       return response.fold((l) {
         return Left(l);
       }, (r) {
@@ -52,14 +47,13 @@ class MetaClubApiClient {
     }
   }
 
-  Future<bool> logout({required String baseUrl, String? token}) async {
+  Future<Failure> logout({required String baseUrl, String? token}) async {
     const String logout = 'logout';
-    final response = await httpServiceImpl.getRequestWithToken('$baseUrl$logout', token: token);
-
+    final response = await httpService.getRequestWithToken('$baseUrl$logout');
     if (response?.statusCode == 200) {
-      return true;
+      return const GeneralFailure.none();
     } else {
-      return false;
+      return const GeneralFailure.custom('Try again later');
     }
   }
 
@@ -67,7 +61,7 @@ class MetaClubApiClient {
     const String register = 'register';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$register', bodyData);
+      final response = await httpService.postRequest('${getBaseUrl()}$register', bodyData);
 
       return response.fold((l) {
         return Left(l);
@@ -82,7 +76,7 @@ class MetaClubApiClient {
   Future<CompanyListModel?> getCompanyList() async {
     const String api = '$rootUrl/api/V11/company-list';
     try {
-      final response = await httpServiceImpl.getRequestWithToken(api);
+      final response = await httpService.getRequestWithToken(api);
       if (response?.statusCode == 200) {
         return CompanyListModel.fromJson(response?.data);
       }
@@ -96,7 +90,7 @@ class MetaClubApiClient {
     const String api = 'app/base-settings';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return Settings.fromJson(response?.data);
       }
@@ -111,7 +105,7 @@ class MetaClubApiClient {
     final data = {"type": type, "month": month};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(SupportListModel.fromJson(r.data)),
@@ -125,7 +119,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => Right(CheckData.fromJson(r.data)),
@@ -139,7 +133,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance/offline';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => const Right(true),
@@ -154,7 +148,7 @@ class MetaClubApiClient {
     final String api = 'report/attendance/particular-month/$userId';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold(
         (l) => Left(l),
         (r) => Right(AttendanceReport.fromJson(r.data)),
@@ -168,7 +162,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance/break-back';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
+      final response = await httpService.postRequest('${getBaseUrl()}$api', {});
       return response.fold(
         (l) => Left(l),
         (r) => Right(Break.fromJson(r.data)),
@@ -182,7 +176,7 @@ class MetaClubApiClient {
     const String api = 'dashboard/statistics';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode == 200) {
         return DashboardModel.fromJson(response?.data);
@@ -198,7 +192,7 @@ class MetaClubApiClient {
 
     try {
       final data = {"user_id": userId};
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api/$leaveId', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api/$leaveId', data);
 
       return response.fold((l) => Left(l), (r) => Right(LeaveDetailsModel.fromJson(r.data)));
     } on Exception catch (e) {
@@ -210,7 +204,7 @@ class MetaClubApiClient {
     const String api = 'report/leave/date-wise-leave';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -221,14 +215,14 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Either<Failure,LeaveSummaryModel?>> leaveSummaryApi(int? userId) async {
+  Future<Either<Failure, LeaveSummaryModel?>> leaveSummaryApi(int? userId) async {
     const String api = 'user/leave/summary';
 
     try {
       final formData = {
         "user_id": userId,
       };
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold((l) => Left(l), (r) => Right(LeaveSummaryModel.fromJson(r.data)));
     } on Exception catch (e) {
       return left(ExceptionFailure(exception: e));
@@ -240,7 +234,7 @@ class MetaClubApiClient {
     final data = {'date': date};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -256,7 +250,7 @@ class MetaClubApiClient {
 
     try {
       final data = {"user_id": userId};
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -271,7 +265,7 @@ class MetaClubApiClient {
     String api = 'user/leave/request/cancel/$requestId';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode == 200) {
         return true;
@@ -289,7 +283,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyCreateLeaveModel!.toJson());
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -307,7 +301,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyVisitCancel!.toJson());
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -325,7 +319,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyCreateSchedule!.toJson());
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -343,7 +337,7 @@ class MetaClubApiClient {
     }
     try {
       final formData = FormData.fromMap(bodyImageUpload!.toJson());
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -362,7 +356,7 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyUpdateVisit!.toJson());
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      await httpService.postRequest('${getBaseUrl()}$api', formData);
       return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -377,7 +371,7 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyVisitNote!.toJson());
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      await httpService.postRequest('${getBaseUrl()}$api', formData);
       return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -389,7 +383,7 @@ class MetaClubApiClient {
 
     try {
       FormData formData = FormData.fromMap(conferenceBodyModel!.toJson());
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      await httpService.postRequest('${getBaseUrl()}$api', formData);
       return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -401,7 +395,7 @@ class MetaClubApiClient {
 
     try {
       FormData formData = FormData.fromMap(meetingBodyModel!.toJson());
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      await httpService.postRequest('${getBaseUrl()}$api', formData);
       return Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -416,7 +410,7 @@ class MetaClubApiClient {
     }
     try {
       FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      await httpService.postRequest('${getBaseUrl()}$api', formData);
       return Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -428,7 +422,7 @@ class MetaClubApiClient {
 
     try {
       FormData formData = FormData.fromMap({"user_id": userId});
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold((l) => Left(l), (r) => Right(LeaveRequestTypeModel.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -439,7 +433,7 @@ class MetaClubApiClient {
     const String api = 'daily-leave/leave-list';
     try {
       FormData formData = FormData.fromMap({"user_id": userId, "date": date});
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (r) => Right(DailyLeaveSummaryModel.fromJson(r.data)),
@@ -463,7 +457,7 @@ class MetaClubApiClient {
         "leave_type": leaveType,
         "leave_status": leaveStatus,
       });
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (r) => Right(LeaveTypeListModel.fromJson(r.data)),
@@ -476,7 +470,7 @@ class MetaClubApiClient {
   Future<Either<Failure, dynamic>> postApplyLeave(data) async {
     const String api = 'daily-leave/store';
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -489,7 +483,7 @@ class MetaClubApiClient {
   Future<Either<Failure, dynamic>> dailyLeaveApprovalAction(data) async {
     const String api = 'daily-leave/approve-reject';
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -502,7 +496,7 @@ class MetaClubApiClient {
   Future<Either<Failure, Profile?>> getProfile() async {
     const String api = 'user/profile-info';
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', {});
+      final response = await httpService.postRequest('${getBaseUrl()}$api', {});
       return response.fold(
         (l) => Left(l),
         (r) => Right(Profile.fromJson(r.data['data'])),
@@ -520,7 +514,7 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap(data);
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (_) => const Right(true),
@@ -538,7 +532,7 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap(data);
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (_) => Right(true),
@@ -561,7 +555,7 @@ class MetaClubApiClient {
         "priority_id": bodyCreateSupport?.priorityId,
       });
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (_) => const Right(true),
@@ -579,7 +573,7 @@ class MetaClubApiClient {
 
       FormData formData = FormData.fromMap({"avatar_id": avatarId});
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (_) => Right(true),
@@ -595,7 +589,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (r) => Right(FileUpload.fromJson(r.data)),
@@ -609,7 +603,7 @@ class MetaClubApiClient {
     const String api = 'user/search?name=';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw ContactRequestFailure();
@@ -627,7 +621,7 @@ class MetaClubApiClient {
   }) async {
     try {
       final data = {'locations': locations, 'date': date};
-      var response = await httpServiceImpl.postRequest(
+      var response = await httpService.postRequest(
         "${getBaseUrl()}user/attendance/live-location-store",
         data,
       );
@@ -644,7 +638,7 @@ class MetaClubApiClient {
     const String api = 'notices/get-list';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       switch (response?.statusCode) {
         case 200:
@@ -666,7 +660,7 @@ class MetaClubApiClient {
     const String api = 'events/get-list';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -681,12 +675,12 @@ class MetaClubApiClient {
   Future<Mores?> mores() async {
     const String api = 'content/list';
     try {
-      final response = await httpServiceImpl.getRequest('${getBaseUrl()}$api');
+      final response = await httpService.getRequest('${getBaseUrl()}$api');
 
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
-      return Mores.fromJson(response.data);
+      return Mores.fromJson(response?.data);
     } catch (_) {
       return null;
     }
@@ -694,11 +688,11 @@ class MetaClubApiClient {
 
   Future<Content?> getContent({required String slug}) async {
     try {
-      final response = await httpServiceImpl.getRequest(slug);
-      if (response.statusCode != 200) {
-        throw NetworkRequestFailure(response.statusMessage ?? 'server error');
+      final response = await httpService.getRequest(slug);
+      if (response?.statusCode != 200) {
+        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
       }
-      return Content.fromJson(response.data);
+      return Content.fromJson(response?.data);
     } catch (_) {
       return null;
     }
@@ -708,7 +702,7 @@ class MetaClubApiClient {
     const String api = 'events/going';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -722,7 +716,7 @@ class MetaClubApiClient {
     const String api = 'events/appreciate';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -736,7 +730,7 @@ class MetaClubApiClient {
     const String api = 'user/approval';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -750,7 +744,7 @@ class MetaClubApiClient {
     const String api = 'club/all-directory-list';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -765,7 +759,7 @@ class MetaClubApiClient {
     const String api = 'events/gallery-photo';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -780,7 +774,7 @@ class MetaClubApiClient {
     const String api = 'birthday/get-list?month=07';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -795,7 +789,7 @@ class MetaClubApiClient {
     const String api = 'birthday/message/store';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(r.data),
@@ -809,7 +803,7 @@ class MetaClubApiClient {
     const String api = 'list-users';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(ResponseUserList.fromJson(r.data)),
@@ -823,7 +817,7 @@ class MetaClubApiClient {
     const String api = 'anniversary/get-list';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -838,7 +832,7 @@ class MetaClubApiClient {
     const String api = 'user/';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api$userId');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api$userId');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -852,7 +846,7 @@ class MetaClubApiClient {
   Future<ResponseQualification?> getQualification() async {
     const String api = 'qualifications';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -867,7 +861,7 @@ class MetaClubApiClient {
     const String api = 'donation/get-list';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -883,7 +877,7 @@ class MetaClubApiClient {
     const String api = 'content/act-regulations';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -898,7 +892,7 @@ class MetaClubApiClient {
     const String api = 'user/notification';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -913,7 +907,7 @@ class MetaClubApiClient {
     const String api = 'notice/show';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api/$noticeId');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api/$noticeId');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -928,7 +922,7 @@ class MetaClubApiClient {
     const String api = 'notice/list';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
+      final response = await httpService.postRequest('${getBaseUrl()}$api', '');
 
       return response.fold(
         (l) => Left(l),
@@ -943,7 +937,7 @@ class MetaClubApiClient {
     const String api = 'app/all-contents/';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken(
+      final response = await httpService.getRequestWithToken(
         '${getBaseUrl()}$api$slug',
       );
 
@@ -960,7 +954,7 @@ class MetaClubApiClient {
   Future<bool> clearAllNotificationApi() async {
     const String clear = 'user/notification/clear';
 
-    final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
+    final response = await httpService.getRequestWithToken('${getBaseUrl()}$clear');
 
     if (response?.statusCode == 200) {
       return true;
@@ -973,7 +967,7 @@ class MetaClubApiClient {
   Future<bool> clearNoticeApi() async {
     const String clear = 'notice/clear';
 
-    final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$clear');
+    final response = await httpService.getRequestWithToken('${getBaseUrl()}$clear');
 
     if (response?.statusCode == 200) {
       return true;
@@ -990,7 +984,7 @@ class MetaClubApiClient {
         'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1005,7 +999,7 @@ class MetaClubApiClient {
   Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails({String? userId}) async {
     String api = 'user/details/$userId';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1020,7 +1014,7 @@ class MetaClubApiClient {
   Future<TaskDashboardModel?> getTaskInitialData({String? statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1036,7 +1030,7 @@ class MetaClubApiClient {
     // String api = 'app/get-all-employees/$userId';
     String api = 'tasks/$taskId';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1053,7 +1047,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(data);
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
         (r) => Right(true),
@@ -1068,7 +1062,7 @@ class MetaClubApiClient {
     final data = {"month": month};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(MeetingsListModel.fromJson(r.data)),
@@ -1084,7 +1078,7 @@ class MetaClubApiClient {
     final data = {"month": month, "payment": paymentType, "status": status};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(ResponseExpenseList.fromJson(r.data)),
@@ -1101,7 +1095,7 @@ class MetaClubApiClient {
     final data = {"date": date};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(BreakReportModel.fromJson(r.data)),
@@ -1114,7 +1108,7 @@ class MetaClubApiClient {
   Future<ExpenseCategoryModel?> getExpenseCategory() async {
     String api = 'accounts/expense/category-list';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.statusCode != 200) {
         throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
@@ -1140,7 +1134,7 @@ class MetaClubApiClient {
         "file_id": appointmentBody?.previewId,
       });
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', formData);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
 
       return response.fold(
         (l) => Left(l),
@@ -1151,13 +1145,12 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Either<Failure,LeaveRequestModel?>> leaveRequestApi(int? userId, String? date) async {
+  Future<Either<Failure, LeaveRequestModel?>> leaveRequestApi(int? userId, String? date) async {
     const String api = 'user/leave/list/view';
 
     try {
       final data = {"user_id": userId, "month": date};
-      final response =
-      await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold((l) => Left(l), (r) => Right(LeaveRequestModel.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1175,7 +1168,7 @@ class MetaClubApiClient {
         "password_confirmation": forgotPasswordBody?.passwordConfirmation
       };
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -1197,7 +1190,7 @@ class MetaClubApiClient {
         "password_confirmation": passwordChangeBody?.passwordConfirmation,
       };
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -1214,7 +1207,7 @@ class MetaClubApiClient {
     try {
       final data = {"email": email};
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold(
         (l) => Left(l),
@@ -1229,7 +1222,7 @@ class MetaClubApiClient {
     String api = 'expense/add';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', expenseCreateBody?.toJson());
+      final response = await httpService.postRequest('${getBaseUrl()}$api', expenseCreateBody?.toJson());
 
       return response.fold(
         (l) => Left(l),
@@ -1246,7 +1239,7 @@ class MetaClubApiClient {
     final data = {"year": year.toString()};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(PayrollModel.fromJson(r.data)),
@@ -1259,7 +1252,7 @@ class MetaClubApiClient {
   Future<Either<Failure, ApprovalModel?>> getApprovalData() async {
     const String api = 'user/leave/approval/list/view';
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', '');
+      final response = await httpService.postRequest('${getBaseUrl()}$api', '');
       return response.fold(
         (l) => Left(l),
         (r) => Right(ApprovalModel.fromJson(r.data)),
@@ -1274,7 +1267,7 @@ class MetaClubApiClient {
     String api = 'visit/show/$visitID';
 
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return VisitDetailsModel.fromJson(response?.data);
       }
@@ -1291,7 +1284,7 @@ class MetaClubApiClient {
     final data = {"month": month};
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold(
         (l) => Left(l),
         (r) => Right(HistoryListModel.fromJson(r.data)),
@@ -1305,7 +1298,7 @@ class MetaClubApiClient {
   Future<VisitListModel?> getVisitList() async {
     const String api = 'visit/list';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return VisitListModel.fromJson(response?.data);
       }
@@ -1320,7 +1313,7 @@ class MetaClubApiClient {
     const String api = 'meeting';
     final data = {"month": month};
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold((l) => Left(l), (r) => Right(MeetingsListModel.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1333,7 +1326,7 @@ class MetaClubApiClient {
     String api = 'user/leave/details/$approvalId';
     final data = {"user_id": approvalUserId};
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold((l) => Left(l), (r) => Right(ApprovalDetailsModel.fromJson(r.data)));
     } on Exception catch (e) {
@@ -1345,7 +1338,7 @@ class MetaClubApiClient {
   Future<Either<Failure, bool>> approvalApprovedOrReject({required String approvalId, required int type}) async {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
 
       if (response?.data['result'] != true) {
         throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
@@ -1362,7 +1355,7 @@ class MetaClubApiClient {
     String api = 'report/attendance/date-summary';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold((l) => Left(l), (r) => Right(ReportAttendanceSummary.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1375,7 +1368,7 @@ class MetaClubApiClient {
     String api = 'report/attendance/summary-to-list';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold((l) => Left(l), (r) => Right(SummaryAttendanceToList.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1387,7 +1380,7 @@ class MetaClubApiClient {
     String api = 'report/break/date-summary';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold((l) => Left(l), (r) => Right(ReportBreakSummaryModel.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1399,7 +1392,7 @@ class MetaClubApiClient {
     String api = 'report/break/user-break-history';
 
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', body);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', body);
       return response.fold((l) => Left(l), (r) => Right(ReportBreakListModel.fromJson(r.data)));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1410,7 +1403,7 @@ class MetaClubApiClient {
   Future<ConferenceModel?> getConferenceList() async {
     const String api = 'conference/my-meeting';
     try {
-      final response = await httpServiceImpl.getRequestWithToken('${getBaseUrl()}$api');
+      final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
       if (response?.statusCode == 200) {
         return ConferenceModel.fromJson(response?.data);
       }
@@ -1424,7 +1417,7 @@ class MetaClubApiClient {
   Future<Either<Failure, bool>> checkQRValidations(data) async {
     const String api = 'user/attendance/qr-status';
     try {
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
       return response.fold((l) => Left(l), (r) => Right(true));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1438,7 +1431,7 @@ class MetaClubApiClient {
     try {
       final data = {"face_data": faceData};
 
-      final response = await httpServiceImpl.postRequest('${getBaseUrl()}$api', data);
+      final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
       return response.fold((l) => Left(l), (r) => Right(true));
     } on Exception catch (e) {

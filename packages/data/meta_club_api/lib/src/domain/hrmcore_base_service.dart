@@ -6,7 +6,9 @@ import 'package:user_repository/user_repository.dart';
 
 abstract class HRMCoreBaseService {
   Future<Either<Failure, LoginData?>> login(
-      {required String email, required String password, String? baseUrl, String? deviceId, String? deviceInfo});
+      {required String email, required String password,String? deviceId, String? deviceInfo});
+
+  Future<Failure> logout({required String baseUrl, String? token});
 
   Future<Either<Failure, RegistrationData>> registration({bodyData});
 
@@ -141,6 +143,4 @@ abstract class HRMCoreBaseService {
   Future<Either<Failure, bool>> checkQRValidations(data);
 
   Future<Either<Failure, bool>> faceDataStore({String? faceData});
-
-
 }

@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio_service:
-    path: ../dio_service
+    path: ../../core/lib/src/dio_service
   user_repository:
     path: ../user_repository
   hrm_framework:

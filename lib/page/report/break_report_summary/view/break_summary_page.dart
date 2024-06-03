@@ -19,7 +19,7 @@ class BreakReportSummary extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => BreakBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance()),
+              httpService: instance()),
           userId: user!.user!.id!)
         ..add(GetBreakInitialData()),
       child: Scaffold(

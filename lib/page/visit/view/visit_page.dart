@@ -16,7 +16,7 @@ class VisitPage extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (_) => VisitBloc(
-          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+          metaClubApiClient: MetaClubApiClient(httpService: instance()))
         ..add(VisitListEvent())
         ..add(HistoryListEvent()),
       child: const VisitContent(),

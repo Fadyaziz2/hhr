@@ -19,5 +19,12 @@ dependencies:
   event_bus_plus: ^0.6.2
   hive: ^2.2.2
   hive_flutter: ^1.1.0
+  fpdart: ^1.0.0
   hrm_framework:
     path: ../hrm_framework
+  authentication_repository:
+    path: ../data/authentication_repository
+  user_repository:
+    path: ../data/user_repository
+  core:
+    path: ../core

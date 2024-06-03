@@ -25,7 +25,7 @@ class VisitListItem extends StatelessWidget {
     if (user?.user != null) {
       locationServiceProvider.getCurrentLocationStream(
           uid: '${globalState.get(companyId)}${user!.user!.id!}',
-          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()));
+          metaClubApiClient: MetaClubApiClient(httpService: instance()));
     }
     return InkWell(
       onTap: () {

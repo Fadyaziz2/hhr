@@ -37,7 +37,7 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+              create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))
                 ..add(CompanyListEvent())),
           BlocProvider(
               create: (_) => AuthenticationBloc(

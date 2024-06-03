@@ -20,7 +20,7 @@ class ForgetPassword extends StatelessWidget {
     return BlocProvider(
       create: (context) => ForgotPasswordBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance())),
+              httpService: instance())),
       child: Form(
         key: formKey,
         child: Scaffold(

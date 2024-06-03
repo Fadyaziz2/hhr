@@ -36,8 +36,6 @@ void main() async {
   ///OtherDependencyInjection
   await AppInjection().initInjection();
 
-  final MetaClubApiClient apiClient = MetaClubApiClient(httpServiceImpl: instance());
-  final authenticationRepository = AuthenticationRepository(apiClient: apiClient);
   final userRepository = UserRepository(token: '');
 
   ///openBox for location hive
@@ -63,7 +61,7 @@ void main() async {
     saveLocale: true,
     fallbackLocale: const Locale('en', 'US'),
     child: App(
-      authenticationRepository: authenticationRepository,
+      authenticationRepository: instance(),
       userRepository: userRepository,
     ),
   ));

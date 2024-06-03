@@ -20,7 +20,7 @@ class ExpensePage extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => ExpenseBloc(
-          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+          metaClubApiClient: MetaClubApiClient(httpService: instance()))
         ..add(GetExpenseData())
         ..add(ExpenseCategory()),
       child: BlocBuilder<ExpenseBloc, ExpenseState>(

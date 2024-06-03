@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:dio_service/dio_service.dart';
+import 'package:core/core.dart';
+
 import 'models/token_status.dart';
 
 class UserRepository {

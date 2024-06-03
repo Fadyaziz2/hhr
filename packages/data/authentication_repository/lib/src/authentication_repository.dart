@@ -7,10 +7,10 @@ import 'package:user_repository/user_repository.dart';
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
-  final MetaClubApiClient apiClient;
+  final HRMCoreBaseService hrmCoreBaseService;
   AuthenticationStatus initialStatus = AuthenticationStatus.unauthenticated;
 
-  AuthenticationRepository({required this.apiClient});
+  AuthenticationRepository({required this.hrmCoreBaseService});
 
   final _controller = StreamController<AuthenticationStatus>();
   final _userController = StreamController<LoginData>();
@@ -36,16 +36,11 @@ class AuthenticationRepository {
     yield* _userController.stream;
   }
 
-  Future<Either<Failure, LoginData?>> login(
-      {required String email,
-      required String password,
-      required String? baseUrl,
-      String? deviceId,
-      String? deviceInfo}) async {
-    final userEither = await apiClient.login(
-        email: email, password: password, baseUrl: baseUrl, deviceId: deviceId, deviceInfo: deviceInfo);
-
-    userEither.fold((l) => _controller.add(AuthenticationStatus.unauthenticated), (r) {
+  Future<Either<Failure, LoginData?>> login({required String email, required String password, String? deviceId, String? deviceInfo}) async {
+    final userEither = await hrmCoreBaseService.login(email: email, password: password, deviceId: deviceId, deviceInfo: deviceInfo);
+     userEither.fold((l) {
+      _controller.add(AuthenticationStatus.unauthenticated);
+    }, (r) {
       _controller.add(AuthenticationStatus.authenticated);
       _userController.add(r!);
     });
@@ -53,7 +48,7 @@ class AuthenticationRepository {
   }
 
   Future<void> logout({required String baseUrl, String? token}) async {
-    apiClient.logout(baseUrl: baseUrl, token: token);
+    hrmCoreBaseService.logout(baseUrl: baseUrl, token: token);
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

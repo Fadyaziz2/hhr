@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:chat/chat.dart';
 import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:core/core.dart';
 import '../models/password.dart';
 import '../models/email.dart';
 
@@ -17,19 +16,18 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
-  final AuthenticationRepository _authenticationRepository;
+  final LoginWithEmailPasswordUseCase loginWIthEmailPasswordUseCase;
   final GetDeviceIdUseCase _getDeviceIdUseCase;
   final GetDeviceNameUseCase _getDeviceNameUseCase;
   final ChatService _chatService;
   final formKey = GlobalKey<FormState>();
 
   LoginBloc(
-      {required AuthenticationRepository authenticationRepository,
+      {required this.loginWIthEmailPasswordUseCase,
       required ChatService chatService,
       required GetDeviceIdUseCase getDeviceIdUseCase,
       required GetDeviceNameUseCase getDeviceNameUseCase})
-      : _authenticationRepository = authenticationRepository,
-        _chatService = chatService,
+      : _chatService = chatService,
         _getDeviceIdUseCase = getDeviceIdUseCase,
         _getDeviceNameUseCase = getDeviceNameUseCase,
         super(const LoginState()) {
@@ -43,18 +41,14 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     final email = Email.dirty(event.email);
 
     emit(state.copyWith(
-        email: email,
-        isValid: Formz.validate([email, state.password]),
-        status: FormzSubmissionStatus.initial));
+        email: email, isValid: Formz.validate([email, state.password]), status: FormzSubmissionStatus.initial));
   }
 
   void _onPasswordUpdate(LoginPasswordChange event, Emitter<LoginState> emit) {
     final password = Password.dirty(event.password);
 
     emit(state.copyWith(
-        password: password,
-        isValid: Formz.validate([state.email, password]),
-        status: FormzSubmissionStatus.initial));
+        password: password, isValid: Formz.validate([state.email, password]), status: FormzSubmissionStatus.initial));
   }
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
@@ -62,36 +56,21 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     final deviceName = await _getDeviceNameUseCase();
 
     if (state.isValid) {
-      emit(state.copyWith(
-          status: FormzSubmissionStatus.inProgress,
-          loginAction: LoginAction.login));
-      final baseUrl = globalState.get(companyUrl);
-      final eitherOrUser = await _authenticationRepository.login(
-          email: state.email.value,
-          password: state.password.value,
-          baseUrl: baseUrl,
-          deviceId: deviceId,
-          deviceInfo: deviceName);
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress, loginAction: LoginAction.login));
+
+      final eitherOrUser = await loginWIthEmailPasswordUseCase(
+          email: state.email.value, password: state.password.value, deviceId: deviceId, deviceInfo: deviceName);
 
       eitherOrUser.fold(
-          (l) => emit(state.copyWith(
-              status: FormzSubmissionStatus.failure,
-              failure: l,
-              loginAction: LoginAction.login)), (r) {
+          (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, failure: l, loginAction: LoginAction.login)),
+          (r) {
         if (r?.user != null) {
           final cid = globalState.get(companyId);
           ///create/update user information into fireStore
-          _chatService.createAndUpdateUserInfo(
-              r?.user?.toJson(), '$cid${r?.user?.id}');
-          emit(state.copyWith(
-              status: FormzSubmissionStatus.success,
-              user: r,
-              loginAction: LoginAction.login));
+          _chatService.createAndUpdateUserInfo(r?.user?.toJson(), '$cid${r?.user?.id}');
+          emit(state.copyWith(status: FormzSubmissionStatus.success, user: r, loginAction: LoginAction.login));
         } else {
-          emit(state.copyWith(
-              status: FormzSubmissionStatus.canceled,
-              user: r,
-              loginAction: LoginAction.login));
+          emit(state.copyWith(status: FormzSubmissionStatus.canceled, user: r, loginAction: LoginAction.login));
         }
       });
     }
@@ -105,8 +84,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
       final userData = LoginData.fromJson(data);
       return LoginState(user: userData, status: FormzSubmissionStatus.success);
     } else {
-      return const LoginState(
-          user: null, status: FormzSubmissionStatus.failure);
+      return const LoginState(user: null, status: FormzSubmissionStatus.failure);
     }
   }
 
@@ -115,9 +93,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
     return <String, dynamic>{'data': state.user?.toJson()};
   }
 
-  FutureOr<void> _onObscureEvent(
-      OnObscureEvent event, Emitter<LoginState> emit) {
-    emit(state.copyWith(
-        isObscure: !state.isObscure, loginAction: LoginAction.obscure));
+  FutureOr<void> _onObscureEvent(OnObscureEvent event, Emitter<LoginState> emit) {
+    emit(state.copyWith(isObscure: !state.isObscure, loginAction: LoginAction.obscure));
   }
 }

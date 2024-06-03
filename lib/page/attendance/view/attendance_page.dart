@@ -43,7 +43,7 @@ class AttendancePage extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => AttendanceBloc(
-          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()),
+          metaClubApiClient: MetaClubApiClient(httpService: instance()),
           locationServices: locationServiceProvider,
           attendanceType: attendanceType,
           selfie: selfie,

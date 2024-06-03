@@ -45,9 +45,7 @@ dependencies:
   url_launcher: ^6.1.4
   equatable: ^2.0.5
   country_picker: ^2.0.16
-  syncfusion_flutter_datepicker: ^25.2.4
-  authentication_repository:
-    path: packages/data/authentication_repository
+  syncfusion_flutter_datepicker: ^25.1.41
   meta_club_api:
     path: packages/data/meta_club_api
   user_repository:
@@ -69,6 +67,10 @@ dependencies:
     path: packages/core
   hrm_framework:
     path: packages/hrm_framework
+  domain:
+    path: packages/domain
+  authentication_repository:
+    path: packages/data/authentication_repository
   flutter_lints: ^3.0.2
   photo_view: ^0.14.0
   fluttertoast: ^8.0.9

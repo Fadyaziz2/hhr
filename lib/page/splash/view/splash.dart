@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (context) => SplashBloc(context: context,data: user,client: MetaClubApiClient(httpServiceImpl: instance())),
+      create: (context) => SplashBloc(context: context,data: user,client: MetaClubApiClient(httpService: instance())),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(

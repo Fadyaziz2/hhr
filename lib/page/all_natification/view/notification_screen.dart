@@ -18,7 +18,7 @@ class NotificationScreen extends StatelessWidget {
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (context) => NotificationBloc(
-            metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+            metaClubApiClient: MetaClubApiClient(httpService: instance()))
           ..add(LoadNotificationData()),
         child: BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {

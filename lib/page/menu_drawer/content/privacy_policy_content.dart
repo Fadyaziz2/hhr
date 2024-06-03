@@ -24,7 +24,7 @@ class PolicyContentScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MenuDrawerBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance()))
+              httpService: instance()))
         ..add(MenuDrawerLoadData(context: context, slug: apiSlug)),
       child: Scaffold(
         appBar: AppBar(

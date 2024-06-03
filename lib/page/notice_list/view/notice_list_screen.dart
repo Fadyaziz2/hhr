@@ -22,7 +22,7 @@ class NoticeListScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => NotificationListBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance()))
+              httpService: instance()))
         ..add(LoadNotificationListData()),
       child: Scaffold(
         appBar: AppBar(

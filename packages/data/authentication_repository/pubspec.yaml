@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  meta_club_api:
-    path: '../meta_club_api'
   user_repository:
     path: '../user_repository'
   fpdart: ^1.0.0

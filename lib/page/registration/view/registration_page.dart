@@ -25,7 +25,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       providers: [
         BlocProvider<QualificationCubit>(create: (_) => QualificationCubit()),
         BlocProvider<CountryCubit>(create: (_) => CountryCubit()),
-        BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc(metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))..add(RegistrationInitialRequest()))
+        BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))..add(RegistrationInitialRequest()))
       ],
       child: Scaffold(
         backgroundColor: Colors.white,

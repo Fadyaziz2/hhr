@@ -32,7 +32,7 @@ class _AppointmentCreateScreenState extends State<AppointmentCreateScreen> {
     return BlocProvider(
       create: (context) => AppointmentCreateBloc(
           appointmentBloc: widget.appointmentBloc,
-          metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))
+          metaClubApiClient: MetaClubApiClient(httpService: instance()))
         ..add(LoadAppointmentCreateData()),
       child: Scaffold(
         appBar: AppBar(

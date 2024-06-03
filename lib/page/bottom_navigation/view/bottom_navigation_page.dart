@@ -20,16 +20,15 @@ class BottomNavigationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    globalState.get(companyUrl);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => BottomNavCubit()),
         BlocProvider(
             create: (_) => HomeBloc(
-                metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()),
+                metaClubApiClient: MetaClubApiClient(httpService: instance()),
                 attendanceService: attendanceService,
-                authenticationRepository: AuthenticationRepository(
-                    apiClient: MetaClubApiClient(httpServiceImpl: instance())),
+                authenticationRepository: AuthenticationRepository(hrmCoreBaseService: instance()),
                 userRepository: UserRepository(token: '${user?.user?.token}'))
               ..add(LoadSettings())
               ..add(LoadHomeData())),

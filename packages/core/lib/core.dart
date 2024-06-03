@@ -10,3 +10,4 @@ export 'src/event_bus/event_bus.dart';
 export 'src/extentions/failure_extension.dart';
 export 'src/failure/failure.dart';
 export 'src/constant/const.dart';
+export 'src/dio_service/lib/dio_service.dart';

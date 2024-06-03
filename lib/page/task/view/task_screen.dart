@@ -18,7 +18,7 @@ class TaskScreen extends StatelessWidget {
     return BlocProvider(
         create: (_) => TaskBloc(
             metaClubApiClient: MetaClubApiClient(
-                httpServiceImpl: instance()))
+                httpService: instance()))
           ..add(TaskInitialDataRequest()),
         child: Scaffold(
           appBar: AppBar(

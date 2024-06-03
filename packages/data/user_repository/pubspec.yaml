@@ -9,8 +9,6 @@ environment:
 
 dependencies:
   equatable: ^2.0.5
-  meta_club_api:
-    path: '../meta_club_api'
-  dio_service:
-    path: '../dio_service'
+  core:
+    path: '../../core'
 

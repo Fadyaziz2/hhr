@@ -22,7 +22,7 @@ class SupportPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => SupportBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance()))
+              httpService: instance()))
         ..add(GetSupportData()),
       child: BlocBuilder<SupportBloc, SupportState>(
         builder: (context, state) {

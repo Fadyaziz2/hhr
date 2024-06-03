@@ -15,7 +15,7 @@ class MeetingPage extends StatelessWidget {
     final user = context.read<AuthenticationBloc>().state.data;
     final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
-      create: (_) => MeetingBloc(metaClubApiClient: MetaClubApiClient(httpServiceImpl: instance()))..add(MeetingListEvent()),
+      create: (_) => MeetingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))..add(MeetingListEvent()),
       child: const MeetingContent(),
     );
   }

@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ProfileBloc(
           metaClubApiClient: MetaClubApiClient(
-              httpServiceImpl: instance()))
+              httpService: instance()))
         ..add(ProfileLoadRequest()),
       child: DefaultTabController(
           length: 4,
