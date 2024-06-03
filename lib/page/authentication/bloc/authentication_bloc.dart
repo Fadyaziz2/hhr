@@ -13,9 +13,8 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
   final AuthenticationRepository _authenticationRepository;
   late StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
   late StreamSubscription<LoginData> _loginDataSubscription;
-  late String _token;
 
-  AuthenticationBloc({required AuthenticationRepository authenticationRepository,required UserRepository userRepository})
+  AuthenticationBloc({required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
 
@@ -46,8 +45,7 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
   }
 
   _onAuthenticationLogoutRequest(AuthenticationLogoutRequest event,Emitter<AuthenticationState> emit) async {
-    final baseUrl = globalState.get(companyUrl);
-    await _authenticationRepository.logout(baseUrl: baseUrl, token: state.data?.user?.token);
+    await _authenticationRepository.logout();
     emit(const AuthenticationState.unauthenticated());
   }
 
@@ -66,8 +64,7 @@ class AuthenticationBloc extends HydratedBloc<AuthenticationEvent, Authenticatio
     if(status == AuthenticationStatus.authenticated.name && userJson != null) {
       final user = LoginData.fromJson(userJson);
       if(user.user != null){
-        _token = user.user!.token!;
-        globalState.set(authToken,_token);
+        globalState.set(authToken,user.user!.token);
       }
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.authenticated);
       _authenticationRepository.updateUserData(user);

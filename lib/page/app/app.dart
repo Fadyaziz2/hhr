@@ -26,9 +26,8 @@ final IEventBus eventBus = EventBus();
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
 
-  const App({super.key, required this.authenticationRepository, required this.userRepository});
+  const App({super.key, required this.authenticationRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +39,7 @@ class App extends StatelessWidget {
               create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))
                 ..add(CompanyListEvent())),
           BlocProvider(
-              create: (_) => AuthenticationBloc(
-                  authenticationRepository: authenticationRepository, userRepository: userRepository)),
+              create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository)),
           BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
           BlocProvider(create: (context) => LanguageBloc()),
           BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))

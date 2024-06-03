@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
@@ -27,9 +28,8 @@ main() {
       initHiveDatabase();
       metaClubApiClient = MockMetaClubApiClientRepository();
       attendanceService = MockAttendanceService();
-      metaClubApiClient.token = '104|E5gcbMdzOmhZAWVfuC7c29ouhnY0izGqDoTjy1hu';
-      authenticationRepository = AuthenticationRepository(apiClient: metaClubApiClient);
-      userRepository = UserRepository(token: metaClubApiClient.token);
+      authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
+      userRepository = UserRepository(token: globalState.get(authToken));
       settings = MockSettings();
       when(() => settings.data?.attendanceMethod).thenReturn('N');
       when(() => settings.data?.currencyCode).thenReturn('\$');

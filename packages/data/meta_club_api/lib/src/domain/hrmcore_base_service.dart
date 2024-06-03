@@ -8,7 +8,7 @@ abstract class HRMCoreBaseService {
   Future<Either<Failure, LoginData?>> login(
       {required String email, required String password,String? deviceId, String? deviceInfo});
 
-  Future<Failure> logout({required String baseUrl, String? token});
+  Future<Failure> logout();
 
   Future<Either<Failure, RegistrationData>> registration({bodyData});
 

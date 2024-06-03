@@ -39,16 +39,12 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
   void _onEmailUpdate(LoginEmailChange event, Emitter<LoginState> emit) {
     final email = Email.dirty(event.email);
-
-    emit(state.copyWith(
-        email: email, isValid: Formz.validate([email, state.password]), status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(email: email, isValid: Formz.validate([email, state.password]), status: FormzSubmissionStatus.initial));
   }
 
   void _onPasswordUpdate(LoginPasswordChange event, Emitter<LoginState> emit) {
     final password = Password.dirty(event.password);
-
-    emit(state.copyWith(
-        password: password, isValid: Formz.validate([state.email, password]), status: FormzSubmissionStatus.initial));
+    emit(state.copyWith(password: password, isValid: Formz.validate([state.email, password]), status: FormzSubmissionStatus.initial));
   }
 
   void _onLoginSubmitted(LoginSubmit event, Emitter<LoginState> emit) async {
@@ -57,9 +53,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
 
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress, loginAction: LoginAction.login));
-
-      final eitherOrUser = await loginWIthEmailPasswordUseCase(
-          email: state.email.value, password: state.password.value, deviceId: deviceId, deviceInfo: deviceName);
+      final eitherOrUser = await loginWIthEmailPasswordUseCase(email: state.email.value, password: state.password.value, deviceId: deviceId, deviceInfo: deviceName);
 
       eitherOrUser.fold(
           (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, failure: l, loginAction: LoginAction.login)),

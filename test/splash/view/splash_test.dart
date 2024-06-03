@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,16 +20,14 @@ void main() async {
 
   setUpAll(() async {
     initHydratedStorage();
-    apiClient = MetaClubApiClient(token: '', companyUrl: '');
-    authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+    apiClient = MetaClubApiClient(httpService: instance());
+    authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
     userRepository = UserRepository(token: '');
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});
     EasyLocalization.logger.enableLevels = [];
     await EasyLocalization.ensureInitialized();
-    authenticationBloc = AuthenticationBloc(
-        authenticationRepository: authenticationRepository,
-        userRepository: userRepository);
+    authenticationBloc = AuthenticationBloc(authenticationRepository: authenticationRepository);
   });
 
   group('Splash screen', () {

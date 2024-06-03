@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -25,16 +25,14 @@ void main() async {
   late UserRepository userRepository;
   setUpAll(() async {
     initHydratedStorage();
-    apiClient = MetaClubApiClient(token: '', companyUrl: '');
-    authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+    apiClient = MetaClubApiClient(httpService: instance());
+    authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
     userRepository = UserRepository(token: '');
     TestWidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences.setMockInitialValues({});
     EasyLocalization.logger.enableLevels = [];
     await EasyLocalization.ensureInitialized();
     authenticationBloc = AuthenticationBloc(
-        authenticationRepository: authenticationRepository,
-        userRepository: userRepository);
+        authenticationRepository: authenticationRepository);
   });
 
   Widget buildLocalization({required Widget child}) {
@@ -44,8 +42,7 @@ void main() async {
   group('HRM App Initialization', () {
     testWidgets('Render HRM AppView', (widgetTester) async {
       await widgetTester.pumpWidget(App(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository));
+          authenticationRepository: authenticationRepository));
       expect(find.byType(AppView), findsOneWidget);
     });
   });
@@ -57,8 +54,8 @@ void main() async {
       authBloc = MockAuthenticationBloc();
       when(() => authBloc.state)
           .thenReturn(const AuthenticationState.unknown());
-      apiClient = MetaClubApiClient(token: '', companyUrl: '');
-      authenticationRepository = AuthenticationRepository(apiClient: apiClient);
+      apiClient = MetaClubApiClient(httpService: instance());
+      authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
       userRepository = UserRepository(token: '');
       initHydratedStorage();
     });

@@ -8,16 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:location_track/location_track.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/injection/app_injection.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/app/app_bloc_observer.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/res/service/model/notifications/f_c_m_data_model.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
-import 'package:user_repository/user_repository.dart';
 import 'package:path_provider/path_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -36,7 +33,6 @@ void main() async {
   ///OtherDependencyInjection
   await AppInjection().initInjection();
 
-  final userRepository = UserRepository(token: '');
 
   ///openBox for location hive
   openLocationBox();
@@ -60,10 +56,7 @@ void main() async {
     path: 'assets/translations',
     saveLocale: true,
     fallbackLocale: const Locale('en', 'US'),
-    child: App(
-      authenticationRepository: instance(),
-      userRepository: userRepository,
-    ),
+    child: App(authenticationRepository: instance()),
   ));
 }
 

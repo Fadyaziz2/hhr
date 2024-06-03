@@ -47,8 +47,8 @@ class AuthenticationRepository {
     return userEither;
   }
 
-  Future<void> logout({required String baseUrl, String? token}) async {
-    hrmCoreBaseService.logout(baseUrl: baseUrl, token: token);
+  Future<void> logout() async {
+    hrmCoreBaseService.logout();
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

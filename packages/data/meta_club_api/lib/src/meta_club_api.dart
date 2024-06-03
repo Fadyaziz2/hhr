@@ -47,9 +47,9 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Failure> logout({required String baseUrl, String? token}) async {
+  Future<Failure> logout() async {
     const String logout = 'logout';
-    final response = await httpService.getRequestWithToken('$baseUrl$logout');
+    final response = await httpService.getRequestWithToken('${getBaseUrl()}$logout');
     if (response?.statusCode == 200) {
       return const GeneralFailure.none();
     } else {

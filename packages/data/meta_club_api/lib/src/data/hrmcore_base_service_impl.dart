@@ -627,12 +627,12 @@ class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
   }
 
   @override
-  Future<Failure> logout({required String baseUrl, String? token}) async {
+  Future<Failure> logout() async {
     final isConnected = await connectivityStatusProvider.isConnected;
 
     if (!isConnected) {
       return const GeneralFailure.networkUnavailable();
     }
-    return metaClubApiClient.logout(baseUrl: baseUrl);
+    return metaClubApiClient.logout();
   }
 }
