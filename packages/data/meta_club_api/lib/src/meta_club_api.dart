@@ -27,10 +27,7 @@ class MetaClubApiClient {
   }
 
   Future<Either<Failure, LoginData?>> login(
-      {required String email,
-      required String password,
-      String? deviceId,
-      String? deviceInfo}) async {
+      {required String email, required String password, String? deviceId, String? deviceInfo}) async {
     const String login = 'login';
 
     final body = {'email': email, 'password': password, "device_id": deviceId, "device_info": deviceInfo};
@@ -50,11 +47,11 @@ class MetaClubApiClient {
   Future<Failure> logout() async {
     const String logout = 'logout';
     final response = await httpService.getRequestWithToken('${getBaseUrl()}$logout');
-    if (response?.statusCode == 200) {
-      return const GeneralFailure.none();
-    } else {
-      return const GeneralFailure.custom('Try again later');
-    }
+    return response.fold((l) {
+      return l;
+    }, (r) {
+      return GeneralFailure.none();
+    });
   }
 
   Future<Either<Failure, RegistrationData>> registration({bodyData}) async {
@@ -73,30 +70,31 @@ class MetaClubApiClient {
     }
   }
 
-  Future<CompanyListModel?> getCompanyList() async {
+  Future<Either<Failure, CompanyListModel?>> getCompanyList() async {
     const String api = '$rootUrl/api/V11/company-list';
     try {
       final response = await httpService.getRequestWithToken(api);
-      if (response?.statusCode == 200) {
-        return CompanyListModel.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold((l) {
+        return Left(l);
+      }, (r) {
+        return Right(CompanyListModel.fromJson(r.data));
+      });
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<Settings?> getSettings() async {
+  Future<Either<Failure, Settings?>> getSettings() async {
     const String api = 'app/base-settings';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-      if (response?.statusCode == 200) {
-        return Settings.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold((l) {
+        return Left(l);
+      }, (r) {
+        return Right(Settings.fromJson(r.data));
+      });
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -172,18 +170,14 @@ class MetaClubApiClient {
     }
   }
 
-  Future<DashboardModel?> getDashboardData() async {
+  Future<Either<Failure, DashboardModel?>> getDashboardData() async {
     const String api = 'dashboard/statistics';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode == 200) {
-        return DashboardModel.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold((l) => Left(l), (r) => Right(DashboardModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -263,14 +257,12 @@ class MetaClubApiClient {
 
   Future<bool> cancelLeaveRequest(int? requestId) async {
     String api = 'user/leave/request/cancel/$requestId';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode == 200) {
-        return true;
-      }
-      return false;
+      return response.fold(
+        (l) => false,
+        (r) => true,
+      );
     } catch (_) {
       return false;
     }
@@ -594,23 +586,21 @@ class MetaClubApiClient {
         (l) => Left(l),
         (r) => Right(FileUpload.fromJson(r.data)),
       );
-    } on Exception catch (_) {
-      return Left(ExceptionFailure(exception: _));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<ContactsSearchList?> contactsSearchList() async {
+  Future<Either<Failure, ContactsSearchList?>> contactsSearchList() async {
     const String api = 'user/search?name=';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw ContactRequestFailure();
-      }
-      return ContactsSearchList.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(ContactsSearchList.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -634,40 +624,32 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Notices?> notices() async {
+  Future<Either<Failure, Notices?>> notices() async {
     const String api = 'notices/get-list';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      switch (response?.statusCode) {
-        case 200:
-          return Notices.fromJson(response?.data);
-        case 401:
-          debugPrint('you are unauthorized');
-          break;
-        default:
-          return null;
-      }
-    } catch (e) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Notices.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-    return null;
   }
 
   ///========================== Event =====================
-  Future<Events?> events() async {
+  Future<Either<Failure, Events?>> events() async {
     const String api = 'events/get-list';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return Events.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Events.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -740,48 +722,44 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Directories?> directories() async {
+  Future<Either<Failure, Directories?>> directories() async {
     const String api = 'club/all-directory-list';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return Directories.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Directories.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<Galleries?> galleries() async {
+  Future<Either<Failure, Galleries?>> galleries() async {
     const String api = 'events/gallery-photo';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return Galleries.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(Galleries.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<BirthListModel?> getBirthdays() async {
+  Future<Either<Failure, BirthListModel?>> getBirthdays() async {
     const String api = 'birthday/get-list?month=07';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return BirthListModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(BirthListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -813,108 +791,99 @@ class MetaClubApiClient {
     }
   }
 
-  Future<AnniversaryModel?> getAnniversaries() async {
+  Future<Either<Failure, AnniversaryModel?>> getAnniversaries() async {
     const String api = 'anniversary/get-list';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return AnniversaryModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+        (l) => Left(l),
+        (r) => Right(AnniversaryModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<GetUserByIdResponse?> getUserById(int? userId) async {
+  Future<Either<Failure,GetUserByIdResponse?>> getUserById(int? userId) async {
     const String api = 'user/';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api$userId');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return GetUserByIdResponse.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(GetUserByIdResponse.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<ResponseQualification?> getQualification() async {
+  Future<Either<Failure,ResponseQualification?>> getQualification() async {
     const String api = 'qualifications';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ResponseQualification.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(ResponseQualification.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<DonationModel?> getDonations() async {
+  Future<Either<Failure,DonationModel?>> getDonations() async {
     const String api = 'donation/get-list';
-
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return DonationModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(DonationModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   ///================== Acts & Regulation ===================
-  Future<ActsRegulationModel?> actsRegulation() async {
+  Future<Either<Failure,ActsRegulationModel?>> actsRegulation() async {
     const String api = 'content/act-regulations';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ActsRegulationModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(ActsRegulationModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<NotificationResponse?> getNotification() async {
+  Future<Either<Failure,NotificationResponse?>> getNotification() async {
     const String api = 'user/notification';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return NotificationResponse.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(NotificationResponse.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
-  Future<ResponseNoticeDetails?> getNotificationDetaisl(int noticeId) async {
+  Future<Either<Failure,ResponseNoticeDetails?>> getNotificationDetaisl(int noticeId) async {
     const String api = 'notice/show';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api/$noticeId');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ResponseNoticeDetails.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(ResponseNoticeDetails.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -933,111 +902,89 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ResponseAllContents?> getPolicyData(String? slug) async {
+  Future<Either<Failure,ResponseAllContents?>> getPolicyData(String? slug) async {
     const String api = 'app/all-contents/';
 
     try {
       final response = await httpService.getRequestWithToken(
         '${getBaseUrl()}$api$slug',
       );
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ResponseAllContents.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(ResponseAllContents.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
 ///// All Notification ///////////
   Future<bool> clearAllNotificationApi() async {
     const String clear = 'user/notification/clear';
-
     final response = await httpService.getRequestWithToken('${getBaseUrl()}$clear');
-
-    if (response?.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.fold((l) => false, (r) => true);
   }
 
   ///// All Notification ///////////
   Future<bool> clearNoticeApi() async {
     const String clear = 'notice/clear';
-
     final response = await httpService.getRequestWithToken('${getBaseUrl()}$clear');
-
-    if (response?.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.fold((l) => false, (r) => true);
   }
 
   /// ================== Phonebook ====================
-  Future<Phonebook?> getPhoneBooks(
-      {String? keywords, int? designationId, int? departmentId, required int pageCount}) async {
-    // String api = 'app/get-all-users/33?keywords=$keywords';
-    String api =
-        'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
-
+  Future<Either<Failure,Phonebook?>> getPhoneBooks({String? keywords, int? designationId, int? departmentId, required int pageCount}) async {
+    String api = 'app/get-all-employees?search=${keywords ?? ''}&designation_id=${designationId ?? ''}&department_id=${departmentId ?? ''}&page=$pageCount';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return Phonebook.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(Phonebook.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// ================== Phonebook Details====================
-  Future<PhoneBookDetailsModel?> getPhoneBooksUserDetails({String? userId}) async {
+  Future<Either<Failure,PhoneBookDetailsModel?>> getPhoneBooksUserDetails({String? userId}) async {
     String api = 'user/details/$userId';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return PhoneBookDetailsModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(PhoneBookDetailsModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// ===================== Task Dashboard Data ========================
-  Future<TaskDashboardModel?> getTaskInitialData({String? statuesId = '26'}) async {
+  Future<Either<Failure,TaskDashboardModel?>> getTaskInitialData({String? statuesId = '26'}) async {
     String api = 'tasks?status=$statuesId';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return TaskDashboardModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(TaskDashboardModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
   /// ===================== Tasks Details ========================
-  Future<TaskDetailsModel?> getTaskDetails(String taskId) async {
-    // String api = 'app/get-all-employees/$userId';
+  Future<Either<Failure,TaskDetailsModel?>> getTaskDetails(String taskId) async {
     String api = 'tasks/$taskId';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return TaskDetailsModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(TaskDetailsModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1105,17 +1052,16 @@ class MetaClubApiClient {
     }
   }
 
-  Future<ExpenseCategoryModel?> getExpenseCategory() async {
+  Future<Either<Failure,ExpenseCategoryModel?>> getExpenseCategory() async {
     String api = 'accounts/expense/category-list';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.statusCode != 200) {
-        throw NetworkRequestFailure(response?.statusMessage ?? 'server error');
-      }
-      return ExpenseCategoryModel.fromJson(response?.data);
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(ExpenseCategoryModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1263,17 +1209,17 @@ class MetaClubApiClient {
   }
 
   /// Visit Details API
-  Future<VisitDetailsModel?> getVisitDetailsApi(int? visitID) async {
+  Future<Either<Failure,VisitDetailsModel?>> getVisitDetailsApi(int? visitID) async {
     String api = 'visit/show/$visitID';
 
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-      if (response?.statusCode == 200) {
-        return VisitDetailsModel.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(VisitDetailsModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1295,16 +1241,16 @@ class MetaClubApiClient {
   }
 
   /// ===================== Visit List ========================
-  Future<VisitListModel?> getVisitList() async {
+  Future<Either<Failure,VisitListModel?>> getVisitList() async {
     const String api = 'visit/list';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-      if (response?.statusCode == 200) {
-        return VisitListModel.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold(
+            (l) => Left(l),
+            (r) => Right(VisitListModel.fromJson(r.data)),
+      );
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 
@@ -1339,11 +1285,7 @@ class MetaClubApiClient {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-
-      if (response?.data['result'] != true) {
-        throw NetworkRequestFailure(response?.data['message'] ?? 'server error');
-      }
-      return response?.data['result'];
+      return response.fold((l) => Left(l), (r) => Right(true));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -1400,16 +1342,13 @@ class MetaClubApiClient {
   }
 
   /// Conference List  ------------------
-  Future<ConferenceModel?> getConferenceList() async {
+  Future<Either<Failure,ConferenceModel?>> getConferenceList() async {
     const String api = 'conference/my-meeting';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-      if (response?.statusCode == 200) {
-        return ConferenceModel.fromJson(response?.data);
-      }
-      return null;
-    } catch (_) {
-      return null;
+      return response.fold((l) => Left(l), (r) => Right(ConferenceModel.fromJson(r.data)));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
   }
 

@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:tf_dio_cache/tf_dio_cache.dart';
-import 'http_service.dart';
 import 'interceptor/dio_connectivity_request_retrier.dart';
 import 'interceptor/retry_interceptor.dart';
 
@@ -41,21 +40,59 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Response?> getRequestWithToken(String url, {contentType = 'application/json', String? token}) async {
-    Response response;
-
+  Future<Either<Failure, Response>> getRequestWithToken(String url,
+      {contentType = 'application/json', String? token}) async {
     try {
-      response = await _dio!.get(url, options: _buildCacheOptions(tkn: token));
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (e) {
-      throw FormatException(e.message);
+      final response = await _dio!.get(url, options: _buildCacheOptions(tkn: token));
+      return Right(response);
     } on DioException catch (e) {
-      debugPrint(e.message);
-      return e.response;
+      String? additionalData;
+      try {
+        if (e.response != null && e.response!.data != null) {
+          if (e.response!.data is Map) {
+            additionalData = e.response!.data!['Title'];
+          } else {
+            additionalData = e.response!.data;
+          }
+        }
+      } catch (e) {
+        additionalData = null;
+      }
+      if (e.response != null) {
+        // The status code 404 not found has special significance to some methods. See if we are here because
+        // of a 404 and if so, return a special failure.
+        if (e.response!.statusCode == HttpStatus.notFound) {
+          if (e.response!.data is Map<String, dynamic>) {
+            final jsonMap = e.response!.data;
+            if (jsonMap['message'] != null) {
+              final message = jsonMap['message'] as String;
+              if (message.toLowerCase().contains('consent required')) {
+                return const Left(GeneralFailure.consentRequired());
+              }
+            }
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', jsonMap['message']));
+          }
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', 'Unauthenticated'));
+        } else if (e.response!.statusCode == HttpStatus.badRequest) {
+          if (e.response!.data is Map<String, dynamic>) {
+            final jsonMap = e.response!.data;
+            if (jsonMap['message'] != null) {
+              final message = jsonMap['message'] as String;
+              if (message.toLowerCase().contains('no eligible accounts found')) {
+                return const Left(GeneralFailure.ineligible());
+              }
+            }
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', jsonMap['message']));
+          }
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', 'Bad request'));
+        } else if (e.response!.statusCode == HttpStatus.unauthorized) {
+          return const Left(GeneralFailure.invalidLoginCredentials());
+        }
+      }
+      return Left(ExceptionFailure(exception: e, additionalData: additionalData));
+    } on Exception catch (e) {
+      return Left(ExceptionFailure(exception: e));
     }
-
-    return response;
   }
 
   @override
@@ -72,7 +109,6 @@ class HttpServiceImpl implements HttpService {
   }
 
   Options _buildCacheOptions({String? tkn}) {
-
     return buildCacheOptions(const Duration(days: 3),
         maxStale: const Duration(days: 7),
         forceRefresh: true,
@@ -86,7 +122,8 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Either<Failure, Response>> postRequest(String url, body, {contentType = 'application/json;charset=UTF-8'}) async {
+  Future<Either<Failure, Response>> postRequest(String url, body,
+      {contentType = 'application/json;charset=UTF-8'}) async {
     try {
       final response = await _dio!.post(url, data: body, options: _buildCacheOptions());
       return Right(response);
@@ -115,9 +152,9 @@ class HttpServiceImpl implements HttpService {
                 return const Left(GeneralFailure.consentRequired());
               }
             }
-            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post',jsonMap['message']));
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', jsonMap['message']));
           }
-          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post','Unauthenticated'));
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', 'Unauthenticated'));
         } else if (e.response!.statusCode == HttpStatus.badRequest) {
           if (e.response!.data is Map<String, dynamic>) {
             final jsonMap = e.response!.data;
@@ -127,9 +164,9 @@ class HttpServiceImpl implements HttpService {
                 return const Left(GeneralFailure.ineligible());
               }
             }
-            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post',jsonMap['message']));
+            return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', jsonMap['message']));
           }
-          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post','Bad request'));
+          return Left(GeneralFailure.httpStatus(e.response!.statusCode ?? 0, 'post', 'Bad request'));
         } else if (e.response!.statusCode == HttpStatus.unauthorized) {
           return const Left(GeneralFailure.invalidLoginCredentials());
         }
@@ -145,7 +182,8 @@ class HttpServiceImpl implements HttpService {
     Response response;
 
     try {
-      response = await _dio!.delete(url, options: Options(headers: {"Authorization": "Bearer ${globalState.get(authToken)}"}));
+      response =
+          await _dio!.delete(url, options: Options(headers: {"Authorization": "Bearer ${globalState.get(authToken)}"}));
     } on SocketException {
       throw const SocketException('No internet connection');
     } on FormatException catch (e) {
