@@ -25,25 +25,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   void _onNotificationDataLoad(
       LoadNotificationData event, Emitter<NotificationState> emit) async {
     emit(state.copy(status: NetworkStatus.loading));
-    try {
-      NotificationResponse? notificationResponse =
-          await _metaClubApiClient.getNotification();
-      emit(state.copy(
-          notificationResponse: notificationResponse,
-          status: NetworkStatus.success));
-    } catch (e) {
+    final notificationResponse = await _metaClubApiClient.getNotification();
+    notificationResponse.fold((l) {
       emit(const NotificationState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copy(
+          notificationResponse: r,
+          status: NetworkStatus.success));
+    });
   }
 
   void _onRoutSlag(RouteSlug event, Emitter<NotificationState> emit) async {
     switch (event.slugName) {
-      // case 'notice':
-      //   // ignore: void_checks
-      //   return NavUtil.navigateScreen(event.context, const NoticeListScreen()
-      //       );
-
       case 'daily_leave':
         break;
       // return NavUtil.navigateScreen(context, const DailyLeave());

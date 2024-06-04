@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -24,9 +25,11 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final AttendanceService _attendanceService;
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
+  final LogoutUseCase logoutUseCase;
 
   HomeBloc(
-      {required MetaClubApiClient metaClubApiClient,
+      {required this.logoutUseCase,
+      required MetaClubApiClient metaClubApiClient,
       required AttendanceService attendanceService,
       required AuthenticationRepository authenticationRepository,
       required UserRepository userRepository})
@@ -70,8 +73,15 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     if (state.settings == null && state.dashboardModel == null) {
       emit(state.copy(status: NetworkStatus.loading));
     }
-    try {
-      Settings? settings = await _metaClubApiClient.getSettings();
+    final data = await _metaClubApiClient.getSettings();
+    data.fold((l) {
+      if (l.failureType == FailureType.httpStatus) {
+        if ((l as GeneralFailure).httpStatusCode == 401) {
+          logoutUseCase();
+        }
+      }
+      emit(state.copy(status: NetworkStatus.failure));
+    }, (settings) {
       globalState.set(dashboardStyleId, settings?.data?.appTheme);
       globalState.set(isLocation, settings?.data?.locationService);
       globalState.set(notificationChannels, settings?.data?.notificationChannels);
@@ -82,12 +92,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
           SharedUtil.setIntValue(shiftId, settings.data?.shifts.first.shiftId);
         }
       }
-      await subscribeTopic();
+      subscribeTopic();
       emit(state.copy(settings: settings, status: NetworkStatus.success));
-    } catch (e) {
-      emit(state.copy(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
   Future subscribeTopic() async {
@@ -117,40 +124,44 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
     final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
 
-    try {
-      DashboardModel? dashboardModel = await _metaClubApiClient.getDashboardData();
-      AttendanceData? attendanceData = dashboardModel?.data?.attendanceData;
+    final data = await _metaClubApiClient.getDashboardData();
+    data.fold((l) {
+      if (l.failureType == FailureType.httpStatus) {
+        if ((l as GeneralFailure).httpStatusCode == 401) {
+          logoutUseCase();
+        }
+      }
+      emit(state.copy(status: NetworkStatus.failure));
+    }, (r) {
+      AttendanceData? attendanceData = r?.data?.attendanceData;
 
       ///Schedule check-in notification
-      checkInScheduleNotification(dashboardModel?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
-          dashboardModel?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
+      checkInScheduleNotification(r?.data?.config?.dutySchedule?.listOfStartDatetime ?? [],
+          r?.data?.config?.dutySchedule?.listOfEndDatetime ?? []);
 
       ///Initialize attendance data into global state
       globalState.set(attendanceId, attendanceData?.id);
-      globalState.set(inTime, dashboardModel?.data?.attendanceData?.inTime);
-      globalState.set(outTime, dashboardModel?.data?.attendanceData?.outTime);
-      globalState.set(stayTime, dashboardModel?.data?.attendanceData?.stayTime);
+      globalState.set(inTime, r?.data?.attendanceData?.inTime);
+      globalState.set(outTime, r?.data?.attendanceData?.outTime);
+      globalState.set(stayTime, r?.data?.attendanceData?.stayTime);
 
       ///Initialize break data into global state
-      globalState.set(breakTime, dashboardModel?.data?.config?.breakStatus?.breakTime);
-      globalState.set(backTime, dashboardModel?.data?.config?.breakStatus?.backTime);
-      globalState.set(breakStatus, dashboardModel?.data?.config?.breakStatus?.status);
-      globalState.set(isLocation, dashboardModel?.data?.config?.locationService);
+      globalState.set(breakTime, r?.data?.config?.breakStatus?.breakTime);
+      globalState.set(backTime, r?.data?.config?.breakStatus?.backTime);
+      globalState.set(breakStatus, r?.data?.config?.breakStatus?.status);
+      globalState.set(isLocation, r?.data?.config?.locationService);
 
       ///Initialize custom timer data [HOUR, MIN, SEC]
-      globalState.set(hour, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
-      globalState.set(min, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
-      globalState.set(sec, '${dashboardModel?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
+      globalState.set(hour, '${r?.data?.config?.breakStatus?.timeBreak?.hour ?? '0'}');
+      globalState.set(min, '${r?.data?.config?.breakStatus?.timeBreak?.min ?? '0'}');
+      globalState.set(sec, '${r?.data?.config?.breakStatus?.timeBreak?.sec ?? '0'}');
 
       final bool isLocationEnabled = globalState.get(isLocation);
 
       _onOfflineDataSync();
 
-      emit(state.copy(dashboardModel: dashboardModel, status: NetworkStatus.success, isSwitched: isLocationEnabled));
-    } catch (e) {
-      emit(state.copy(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+      emit(state.copy(dashboardModel: r, status: NetworkStatus.success, isSwitched: isLocationEnabled));
+    });
 
     ///today's data available in local so we need to update in/out time from there
     if (localAttendanceData != null) {
@@ -161,8 +172,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
     ///verify token
-    final data =
-        await _userRepository.tokenVerification(token: '', baseUrl: '');
+    final data = await _userRepository.tokenVerification(token: '', baseUrl: '');
     if (data.status == false && data.code >= 400) {
       _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
       _authenticationRepository.updateUserData(LoginData(user: null));

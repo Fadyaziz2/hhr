@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
@@ -98,19 +97,14 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     emit(state.copy(
       status: NetworkStatus.loading,
     ));
-    try {
-      final ExpenseCategoryModel? expenseCategoryData = await _metaClubApiClient.getExpenseCategory();
-      if (expenseCategoryData != null) {
-        emit(state.copy(status: NetworkStatus.success, expenseCategoryData: expenseCategoryData));
-      } else {
-        emit(state.copy(status: NetworkStatus.failure, expenseCategoryData: expenseCategoryData));
-      }
-    } catch (e) {
+    final expenseCategoryData = await _metaClubApiClient.getExpenseCategory();
+    expenseCategoryData.fold((l) {
       emit(state.copy(
         status: NetworkStatus.failure,
       ));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copy(status: NetworkStatus.success, expenseCategoryData: r));
+    });
   }
 
   FutureOr<void> _onSelectedCategory(SelectedCategory event, Emitter<ExpenseState> emit) {

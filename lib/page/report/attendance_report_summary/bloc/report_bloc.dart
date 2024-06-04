@@ -83,6 +83,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   }
 
   Future<PhoneBookDetailsModel?> onPhoneBookDetails({required String userId}) async {
-    return await metaClubApiClient.getPhoneBooksUserDetails(userId: userId);
+    final data = await metaClubApiClient.getPhoneBooksUserDetails(userId: userId);
+    return data.fold((l) => null, (r) => r);
   }
 }

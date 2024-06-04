@@ -29,7 +29,8 @@ class BottomNavigationPage extends StatelessWidget {
                 metaClubApiClient: MetaClubApiClient(httpService: instance()),
                 attendanceService: attendanceService,
                 authenticationRepository: AuthenticationRepository(hrmCoreBaseService: instance()),
-                userRepository: UserRepository(token: '${user?.user?.token}'))
+                userRepository: UserRepository(token: '${user?.user?.token}'),
+                logoutUseCase: instance())
               ..add(LoadSettings())
               ..add(LoadHomeData())),
       ],

@@ -194,18 +194,16 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
   FutureOr<void> _onVisitDetails(VisitDetailsEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading, isImageLoading: false));
-    try {
-      VisitDetailsModel? visitDetailsResponse = await _metaClubApiClient.getVisitDetailsApi(event.visitId);
-
+    final visitDetailsResponse = await _metaClubApiClient.getVisitDetailsApi(event.visitId);
+    visitDetailsResponse.fold((l) {
+      emit(const VisitState(status: NetworkStatus.failure));
+    }, (r) {
       emit(state.copyWith(
           status: NetworkStatus.success,
-          visitDetailsResponse: visitDetailsResponse,
+          visitDetailsResponse: r,
           longitude: event.longitude,
           latitude: event.latitude));
-    } on Exception catch (e) {
-      emit(const VisitState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 
   FutureOr<void> _onSelectDatePicker(SelectDatePickerEvent event, Emitter<VisitState> emit) async {
@@ -234,13 +232,12 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
 
   FutureOr<void> _onVisitList(VisitListEvent event, Emitter<VisitState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final visitResponse = await _metaClubApiClient.getVisitList();
-      emit(state.copyWith(status: NetworkStatus.success, visitListResponse: visitResponse));
-    } on Exception catch (e) {
+    final visitResponse = await _metaClubApiClient.getVisitList();
+    visitResponse.fold((l) {
       emit(const VisitState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, visitListResponse: r));
+    });
   }
 
   FutureOr<void> _onCreateVisitEvent(CreateVisitEvent event, Emitter<VisitState> emit) async {

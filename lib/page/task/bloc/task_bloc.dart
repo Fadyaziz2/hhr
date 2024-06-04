@@ -25,14 +25,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   FutureOr<void> _onTaskInitialDataRequest(TaskInitialDataRequest event, Emitter<TaskState> emit) async {
-    try {
-      final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: '${state.taskSelectedDropdownValue?.id}');
-
-      emit(state.copyWith(status: NetworkStatus.success, taskDashboardData: taskDashboard));
-    } on Exception catch (e) {
+    final taskDashboard = await metaClubApiClient.getTaskInitialData(statuesId: '${state.taskSelectedDropdownValue?.id}');
+    taskDashboard.fold((l) {
       emit(const TaskState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(status: NetworkStatus.success, taskDashboardData: r));
+    });
   }
 
   FutureOr<void> _onTaskSetDropdownValue(TaskSetDropdownValue event, Emitter<TaskState> emit) {
@@ -41,7 +39,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Future<TaskDetailsModel?> onTaskDetailsDataRequest(taskId) async {
-    return await metaClubApiClient.getTaskDetails(taskId);
+    final data = await metaClubApiClient.getTaskDetails(taskId);
+    return data.fold((l) => null, (r) => r);
   }
 
   FutureOr<void> _onTaskDetailsStatusRadioValueSet(

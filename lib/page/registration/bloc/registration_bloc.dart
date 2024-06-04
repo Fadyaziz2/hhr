@@ -61,18 +61,16 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     Emitter<RegistrationState> emit,
   ) async {
     emit(const RegistrationState(status: NetworkStatus.loading, items: [], selectedItems: []));
-    try {
-      final qualifications = await metaClubApiClient.getQualification();
-
-      if (qualifications != null) {
-        final items = qualifications.data.map((item) => Datum(name: item.name, id: item.id)).toList();
+    final qualifications = await metaClubApiClient.getQualification();
+    qualifications.fold((l) {
+      emit(const RegistrationState(status: NetworkStatus.failure, items: [], selectedItems: []));
+    }, (r) {
+      if (r != null) {
+        final items = r.data.map((item) => Datum(name: item.name, id: item.id)).toList();
         emit(RegistrationState(status: NetworkStatus.success, items: items, selectedItems: const []));
       } else {
         emit(const RegistrationState(status: NetworkStatus.failure, items: [], selectedItems: []));
       }
-    } catch (e) {
-      emit(const RegistrationState(status: NetworkStatus.failure, items: [], selectedItems: []));
-      throw NetworkRequestFailure(e.toString());
-    }
+    });
   }
 }

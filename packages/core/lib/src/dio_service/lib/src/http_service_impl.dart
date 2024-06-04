@@ -104,7 +104,7 @@ class HttpServiceImpl implements HttpService {
   }
 
   DioCacheManager _getCacheManager() {
-    _manager = DioCacheManager(CacheConfig(baseUrl: 'https://hrm.onestweb.com/api/V11/'));
+    _manager = DioCacheManager(CacheConfig(baseUrl: rootUrl));
     return _manager;
   }
 

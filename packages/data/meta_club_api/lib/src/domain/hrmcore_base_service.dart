@@ -2,7 +2,15 @@ import 'dart:io';
 import 'package:core/core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:meta_club_api/src/models/anniversary.dart';
+import 'package:meta_club_api/src/models/birthday.dart';
+import 'package:meta_club_api/src/models/contact_search.dart';
+import 'package:meta_club_api/src/models/donation.dart';
+import 'package:meta_club_api/src/models/gallery.dart';
+import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
+
+import '../models/acts_regulation.dart';
 
 abstract class HRMCoreBaseService {
   Future<Either<Failure, LoginData?>> login(
@@ -143,4 +151,61 @@ abstract class HRMCoreBaseService {
   Future<Either<Failure, bool>> checkQRValidations(data);
 
   Future<Either<Failure, bool>> faceDataStore({String? faceData});
+
+  Future<Either<Failure,ConferenceModel?>> getConferenceList();
+
+  Future<Either<Failure,VisitListModel?>> getVisitList();
+
+  Future<Either<Failure,VisitDetailsModel?>> getVisitDetailsApi(int? visitID);
+
+  Future<Either<Failure,ExpenseCategoryModel?>> getExpenseCategory();
+
+  Future<Either<Failure,TaskDetailsModel?>> getTaskDetails(String taskId);
+
+  Future<Either<Failure,TaskDashboardModel?>> getTaskInitialData({String? statuesId = '26'});
+
+  Future<Either<Failure,PhoneBookDetailsModel?>> getPhoneBooksUserDetails({String? userId});
+
+  Future<Either<Failure,Phonebook?>> getPhoneBooks({String? keywords, int? designationId, int? departmentId, required int pageCount});
+
+  Future<bool> clearNoticeApi();
+
+  Future<bool> clearAllNotificationApi();
+
+  Future<Either<Failure,ResponseAllContents?>> getPolicyData(String? slug);
+
+  Future<Either<Failure,ResponseNoticeDetails?>> getNotificationDetails(int noticeId);
+
+  Future<Either<Failure,NotificationResponse?>> getNotification();
+
+  Future<Either<Failure,ActsRegulationModel?>> actsRegulation();
+
+  Future<Either<Failure,DonationModel?>> getDonations();
+
+  Future<Either<Failure,ResponseQualification?>> getQualification();
+
+  Future<Either<Failure,GetUserByIdResponse?>> getUserById(int? userId);
+
+  Future<Either<Failure, AnniversaryModel?>> getAnniversaries();
+
+  Future<Either<Failure, BirthListModel?>> getBirthdays();
+
+  Future<Either<Failure, Galleries?>> galleries();
+
+  Future<Either<Failure, Directories?>> directories();
+
+  Future<Either<Failure, Events?>> events();
+
+  Future<Either<Failure, Notices?>> notices();
+
+  Future<Either<Failure, ContactsSearchList?>> contactsSearchList();
+
+  Future<bool> cancelLeaveRequest(int? requestId);
+
+  Future<Either<Failure, DashboardModel?>> getDashboardData();
+
+  Future<Either<Failure, Settings?>> getSettings();
+
+  Future<Either<Failure, CompanyListModel?>> getCompanyList();
+
 }

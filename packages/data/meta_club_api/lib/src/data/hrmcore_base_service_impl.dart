@@ -4,6 +4,13 @@ import 'package:core/core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:meta_club_api/src/models/acts_regulation.dart';
+import 'package:meta_club_api/src/models/anniversary.dart';
+import 'package:meta_club_api/src/models/birthday.dart';
+import 'package:meta_club_api/src/models/contact_search.dart';
+import 'package:meta_club_api/src/models/donation.dart';
+import 'package:meta_club_api/src/models/gallery.dart';
+import 'package:meta_club_api/src/models/response_qualification.dart';
 import 'package:user_repository/user_repository.dart';
 
 class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
@@ -13,7 +20,8 @@ class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
   HRMCoreBaseServiceImpl({required this.connectivityStatusProvider, required this.metaClubApiClient});
 
   @override
-  Future<Either<Failure, LoginData?>> login({required String email, required String password, String? deviceId, String? deviceInfo}) async {
+  Future<Either<Failure, LoginData?>> login(
+      {required String email, required String password, String? deviceId, String? deviceInfo}) async {
     final isConnected = await connectivityStatusProvider.isConnected;
 
     if (!isConnected) {
@@ -634,5 +642,262 @@ class HRMCoreBaseServiceImpl implements HRMCoreBaseService {
       return const GeneralFailure.networkUnavailable();
     }
     return metaClubApiClient.logout();
+  }
+
+  @override
+  Future<Either<Failure, ActsRegulationModel?>> actsRegulation() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.actsRegulation();
+  }
+
+  @override
+  Future<bool> cancelLeaveRequest(int? requestId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return false;
+    }
+    return metaClubApiClient.cancelLeaveRequest(requestId);
+  }
+
+  @override
+  Future<bool> clearAllNotificationApi() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+
+    if (!isConnected) {
+      return false;
+    }
+    return metaClubApiClient.clearAllNotificationApi();
+  }
+
+  @override
+  Future<bool> clearNoticeApi() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return false;
+    }
+    return metaClubApiClient.clearNoticeApi();
+  }
+
+  @override
+  Future<Either<Failure, ContactsSearchList?>> contactsSearchList() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.contactsSearchList();
+  }
+
+  @override
+  Future<Either<Failure, Directories?>> directories() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.directories();
+  }
+
+  @override
+  Future<Either<Failure, Events?>> events() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.events();
+  }
+
+  @override
+  Future<Either<Failure, Galleries?>> galleries() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.galleries();
+  }
+
+  @override
+  Future<Either<Failure, AnniversaryModel?>> getAnniversaries() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getAnniversaries();
+  }
+
+  @override
+  Future<Either<Failure, BirthListModel?>> getBirthdays() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getBirthdays();
+  }
+
+  @override
+  Future<Either<Failure, CompanyListModel?>> getCompanyList() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getCompanyList();
+  }
+
+  @override
+  Future<Either<Failure, ConferenceModel?>> getConferenceList() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getConferenceList();
+  }
+
+  @override
+  Future<Either<Failure, DashboardModel?>> getDashboardData() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getDashboardData();
+  }
+
+  @override
+  Future<Either<Failure, DonationModel?>> getDonations() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getDonations();
+  }
+
+  @override
+  Future<Either<Failure, ExpenseCategoryModel?>> getExpenseCategory() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getExpenseCategory();
+  }
+
+  @override
+  Future<Either<Failure, NotificationResponse?>> getNotification() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getNotification();
+  }
+
+  @override
+  Future<Either<Failure, ResponseNoticeDetails?>> getNotificationDetails(int noticeId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getNotificationDetails(noticeId);
+  }
+
+  @override
+  Future<Either<Failure, Phonebook?>> getPhoneBooks(
+      {String? keywords, int? designationId, int? departmentId, required int pageCount}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getPhoneBooks(
+        pageCount: pageCount, keywords: keywords, designationId: designationId, departmentId: departmentId);
+  }
+
+  @override
+  Future<Either<Failure, PhoneBookDetailsModel?>> getPhoneBooksUserDetails({String? userId}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getPhoneBooksUserDetails(userId: userId);
+  }
+
+  @override
+  Future<Either<Failure, ResponseAllContents?>> getPolicyData(String? slug) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getPolicyData(slug);
+  }
+
+  @override
+  Future<Either<Failure, ResponseQualification?>> getQualification() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getQualification();
+  }
+
+  @override
+  Future<Either<Failure, Settings?>> getSettings() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getSettings();
+  }
+
+  @override
+  Future<Either<Failure, TaskDetailsModel?>> getTaskDetails(String taskId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getTaskDetails(taskId);
+  }
+
+  @override
+  Future<Either<Failure, TaskDashboardModel?>> getTaskInitialData({String? statuesId = '26'}) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getTaskInitialData(statuesId: statuesId);
+  }
+
+  @override
+  Future<Either<Failure, GetUserByIdResponse?>> getUserById(int? userId) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getUserById(userId);
+  }
+
+  @override
+  Future<Either<Failure, VisitDetailsModel?>> getVisitDetailsApi(int? visitID) async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getVisitDetailsApi(visitID);
+  }
+
+  @override
+  Future<Either<Failure, VisitListModel?>> getVisitList() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.getVisitList();
+  }
+
+  @override
+  Future<Either<Failure, Notices?>> notices() async {
+    final isConnected = await connectivityStatusProvider.isConnected;
+    if (!isConnected) {
+      return const Left(GeneralFailure.networkUnavailable());
+    }
+    return metaClubApiClient.notices();
   }
 }

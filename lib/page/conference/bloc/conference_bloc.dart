@@ -85,14 +85,18 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
 
   FutureOr<void> _onConferenceInitialDataRequest(ConferenceInitialDataRequest event, Emitter<ConferenceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      final conference = await metaClubApiClient.getConferenceList();
-      emit(state.copyWith(
-          status: NetworkStatus.success, conference: conference));
-    } on Exception catch (e) {
+    final conference = await metaClubApiClient.getConferenceList();
+    conference.fold((l) {
+      if(l.failureType == FailureType.httpStatus){
+        if((l as GeneralFailure).httpStatusCode == 401){
+
+        }
+      }
       emit(const ConferenceState(status: NetworkStatus.failure));
-      throw NetworkRequestFailure(e.toString());
-    }
+    }, (r) {
+      emit(state.copyWith(
+          status: NetworkStatus.success, conference: r));
+    });
   }
 
   FutureOr<void> _onCreateConferenceEvent(CreateConferenceEvent event, Emitter<ConferenceState> emit) async {

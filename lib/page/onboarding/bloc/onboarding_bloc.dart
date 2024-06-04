@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
-import 'package:core/core.dart';
 
 part 'onboarding_event.dart';
 
@@ -31,9 +30,11 @@ class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
 
   FutureOr<void> _onCompanyLoaded(CompanyListEvent event, Emitter<OnboardingState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading));
-    try {
-      CompanyListModel? companyModel = await _metaClubApiClient.getCompanyList();
-      List<Company> companies = companyModel?.companyList ?? [];
+    final companyModel = await _metaClubApiClient.getCompanyList();
+    companyModel.fold((l){
+      emit(state.copyWith(status: NetworkStatus.failure));
+    }, (r){
+      List<Company> companies = r?.companyList ?? [];
       if (companies.isNotEmpty) {
         if (state.selectedCompany?.url == null) {
           final company = companies.first;
@@ -43,13 +44,11 @@ class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
         globalState.set(companyId, state.selectedCompany?.id);
         globalState.set(companyUrl, state.selectedCompany?.url);
         globalState.set(companySubDomain, state.selectedCompany?.subdomain);
-        emit(state.copyWith(status: NetworkStatus.success, companyListModel: companyModel));
+        emit(state.copyWith(status: NetworkStatus.success, companyListModel: r));
       } else {
         emit(state.copyWith(status: NetworkStatus.failure));
       }
-    } catch (e) {
-      emit(state.copyWith(status: NetworkStatus.failure));
-    }
+    });
   }
 
   @override

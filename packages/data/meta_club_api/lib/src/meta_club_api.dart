@@ -873,7 +873,7 @@ class MetaClubApiClient {
     }
   }
 
-  Future<Either<Failure,ResponseNoticeDetails?>> getNotificationDetaisl(int noticeId) async {
+  Future<Either<Failure,ResponseNoticeDetails?>> getNotificationDetails(int noticeId) async {
     const String api = 'notice/show';
 
     try {
