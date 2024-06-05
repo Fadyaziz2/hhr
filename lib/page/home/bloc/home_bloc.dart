@@ -22,17 +22,15 @@ part 'home_state.dart';
 typedef HomeBlocFactory = HomeBloc Function();
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
-  final AttendanceService _attendanceService;
   final LogoutUseCase logoutUseCase;
   final HomeDatLoadUseCase homeDatLoadUseCase;
   final SettingsDataLoadUseCase settingsDataLoadUseCase;
 
-  HomeBloc({required this.logoutUseCase,
+  HomeBloc(
+      {required this.logoutUseCase,
       required this.homeDatLoadUseCase,
-      required this.settingsDataLoadUseCase,
-      required AttendanceService attendanceService})
-      : _attendanceService = attendanceService,
-        super(const HomeState()) {
+      required this.settingsDataLoadUseCase})
+      : super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)
     globalState.set(dashboardStyleId, state.settings?.data?.appTheme);
@@ -57,7 +55,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   bool isCheckedIn = false;
   bool isCheckedOut = false;
-
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
     if (state.settings == null && state.dashboardModel == null) {
@@ -110,9 +107,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
 
     final date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    isCheckedIn = _attendanceService.isAlreadyInCheckedIn(date: date);
-    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
-    final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
+    isCheckedIn = attendanceService.isAlreadyInCheckedIn(date: date);
+    isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: date);
+    final localAttendanceData = attendanceService.getCheckDataByDate(date: date);
 
     final data = await homeDatLoadUseCase();
     data.fold((l) {
@@ -162,7 +159,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   void _onOfflineDataSync() async {
     final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: today);
+    isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: today);
     late Map<String, dynamic> body;
     if (isCheckedOut) {
       body = attendanceService.getAllCheckInOutDataMap();

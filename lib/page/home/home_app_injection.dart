@@ -6,7 +6,6 @@ class HomeInjection {
   Future<void> initInjection() async {
     instance.registerFactory<HomeBlocFactory>(() => () => HomeBloc(
         logoutUseCase: instance(),
-        attendanceService: instance(),
         homeDatLoadUseCase: instance(),
         settingsDataLoadUseCase: instance()));
   }
