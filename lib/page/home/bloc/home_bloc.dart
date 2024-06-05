@@ -59,9 +59,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       /// we have try store data to server from local cache
       _onOfflineDataSync();
     });
-
-    ///check token validity event
-    // add(OnTokenVerification());
   }
 
   bool isCheckedIn = false;
