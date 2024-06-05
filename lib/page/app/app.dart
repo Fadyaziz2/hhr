@@ -9,8 +9,8 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app_permission_page/app_permission_page.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
+import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
-import 'package:user_repository/user_repository.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
 import '../internet_connectivity/bloc/internet_bloc.dart';
@@ -79,13 +79,13 @@ class _AppViewState extends State<AppView> {
                 globalState.set(companyName, company?.companyName);
                 globalState.set(companyId, company?.id);
                 globalState.set(companyUrl, company?.url);
-
+                final homeBlocFactor = instance<HomeBlocFactory>();
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
                     SharedUtil.getBoolValue(isDisclosure).then((isDisclosure) {
                       if (isDisclosure) {
                         _navigator.pushAndRemoveUntil(
-                          BottomNavigationPage.route(),
+                          BottomNavigationPage.route(homeBlocFactor: homeBlocFactor),
                           (route) => false,
                         );
                       } else {
@@ -98,7 +98,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     if (context.read<AuthenticationBloc>().state.data != null) {
-                      _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
+                      _navigator.pushAndRemoveUntil(BottomNavigationPage.route(homeBlocFactor: homeBlocFactor), (route) => false);
                     } else {
                       if (company == null) {
                         _navigator.pushAndRemoveUntil(OnboardingPage.route(), (_) => false);

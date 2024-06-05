@@ -235,7 +235,7 @@ packages:
   dio_service:
     dependency: transitive
     description:
-      path: "../../data/dio_service"
+      path: "../../core/lib/src/dio_service"
       relative: true
     source: path
     version: "0.0.1"

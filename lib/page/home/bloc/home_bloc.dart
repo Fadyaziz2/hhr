@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,23 +19,19 @@ part 'home_event.dart';
 
 part 'home_state.dart';
 
-class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
-  final MetaClubApiClient _metaClubApiClient;
-  final AttendanceService _attendanceService;
-  final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
-  final LogoutUseCase logoutUseCase;
+typedef HomeBlocFactory = HomeBloc Function();
 
-  HomeBloc(
-      {required this.logoutUseCase,
-      required MetaClubApiClient metaClubApiClient,
-      required AttendanceService attendanceService,
-      required AuthenticationRepository authenticationRepository,
-      required UserRepository userRepository})
-      : _metaClubApiClient = metaClubApiClient,
-        _attendanceService = attendanceService,
-        _authenticationRepository = authenticationRepository,
-        _userRepository = userRepository,
+class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
+  final AttendanceService _attendanceService;
+  final LogoutUseCase logoutUseCase;
+  final HomeDatLoadUseCase homeDatLoadUseCase;
+  final SettingsDataLoadUseCase settingsDataLoadUseCase;
+
+  HomeBloc({required this.logoutUseCase,
+      required this.homeDatLoadUseCase,
+      required this.settingsDataLoadUseCase,
+      required AttendanceService attendanceService})
+      : _attendanceService = attendanceService,
         super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)
@@ -48,7 +43,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     on<OnSwitchPressed>(_onSwitchPressed);
     on<OnLocationEnabled>(_onLocationEnabled);
     on<OnLocationRefresh>(_onLocationRefresh);
-    on<OnTokenVerification>(_checkTokenValidity);
 
     Timer.periodic(const Duration(minutes: 2), (_) {
       /// we have try store data to server from local cache
@@ -64,13 +58,12 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   bool isCheckedIn = false;
   bool isCheckedOut = false;
 
-  MetaClubApiClient get metaClubApiClient => _metaClubApiClient;
 
   void _onSettingsLoad(LoadSettings event, Emitter<HomeState> emit) async {
     if (state.settings == null && state.dashboardModel == null) {
       emit(state.copy(status: NetworkStatus.loading));
     }
-    final data = await _metaClubApiClient.getSettings();
+    final data = await settingsDataLoadUseCase();
     data.fold((l) {
       if (l.failureType == FailureType.httpStatus) {
         if ((l as GeneralFailure).httpStatusCode == 401) {
@@ -121,7 +114,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: date);
     final localAttendanceData = _attendanceService.getCheckDataByDate(date: date);
 
-    final data = await _metaClubApiClient.getDashboardData();
+    final data = await homeDatLoadUseCase();
     data.fold((l) {
       if (l.failureType == FailureType.httpStatus) {
         if ((l as GeneralFailure).httpStatusCode == 401) {
@@ -167,18 +160,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
   }
 
-  void _checkTokenValidity(OnTokenVerification event, Emitter<HomeState> emit) async {
-    ///verify token
-    final data = await _userRepository.tokenVerification(token: '', baseUrl: '');
-    if (data.status == false && data.code >= 400) {
-      _authenticationRepository.updateAuthenticationStatus(AuthenticationStatus.unauthenticated);
-      _authenticationRepository.updateUserData(LoginData(user: null));
-      SharedUtil.setBoolValue(isTokenVerified, false);
-      emit(state.copy(isTokenVerified: false));
-    }
-    emit(state.copy(isTokenVerified: true));
-  }
-
   void _onOfflineDataSync() async {
     final today = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
     isCheckedOut = _attendanceService.isAlreadyInCheckedOut(date: today);
@@ -189,7 +170,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       body = attendanceService.getPastCheckInOutDataMap(today: today);
     }
     if (body['data'].isNotEmpty) {
-      final isSynced = await _metaClubApiClient.offlineCheckInOut(body: body);
+      final isSynced = await instance<MetaClubApiClient>().offlineCheckInOut(body: body);
       isSynced.fold((l) {}, (r) {
         if (r) {
           if (isCheckedOut) {
@@ -219,7 +200,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   void _onLocationEnabled(OnLocationEnabled event, Emitter<HomeState> emit) {
     if (state.isSwitched) {
       event.locationProvider.getCurrentLocationStream(
-          uid: '${globalState.get(companyId)}${event.user.id!}', metaClubApiClient: _metaClubApiClient);
+          uid: '${globalState.get(companyId)}${event.user.id!}', metaClubApiClient: instance());
     } else {
       try {
         event.locationProvider.locationSubscription.pause();

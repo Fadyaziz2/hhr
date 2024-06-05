@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
@@ -21,7 +22,7 @@ class SplashBloc extends Cubit<SplashState> {
     final company = context.read<OnboardingBloc>().state.selectedCompany;
     Future.delayed(const Duration(seconds: 2), () async {
       if (data?.user != null) {
-        NavUtil.replaceScreen(context, const BottomNavigationPage());
+        NavUtil.replaceScreen(context, BottomNavigationPage(homeBlocFactor: instance()));
       } else {
         if (company == null) {
           NavUtil.replaceScreen(context, const OnboardingPage());

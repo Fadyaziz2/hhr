@@ -70,7 +70,7 @@ class _AppPermissionPageState extends State<AppPermissionPage> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                NavUtil.replaceScreen(context, const BottomNavigationPage());
+                NavUtil.replaceScreen(context, BottomNavigationPage(homeBlocFactor: instance()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),

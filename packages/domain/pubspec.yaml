@@ -28,3 +28,5 @@ dependencies:
     path: ../data/user_repository
   core:
     path: ../core
+  meta_club_api:
+    path: ../data/meta_club_api
