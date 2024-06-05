@@ -1,11 +1,10 @@
-import 'package:authentication_repository/authentication_repository.dart';
-import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/bloc/home_bloc.dart';
-import 'package:user_repository/user_repository.dart';
+import '../../domain/usecases.dart';
 import '../../main_test.dart';
 
 class MockMetaClubApiClientRepository extends Mock
@@ -17,37 +16,30 @@ class MockSettings extends Mock implements Settings {}
 
 main() {
   group('HomeBloc', () {
+    late MockHomeDatLoadUseCase mockHomeDatLoadUseCase;
+    late MockSettingsDataLoadUseCase mockSettingsDataLoadUseCase;
+    late MockLogoutUseCase mockLogoutUseCase;
     late MetaClubApiClient metaClubApiClient;
-    late AttendanceService attendanceService;
-    late AuthenticationRepository authenticationRepository;
-    late UserRepository userRepository;
     late HomeBloc homeBloc;
     late Settings settings;
 
     setUp(() async {
       initHiveDatabase();
+      mockHomeDatLoadUseCase = MockHomeDatLoadUseCase();
+      mockSettingsDataLoadUseCase = MockSettingsDataLoadUseCase();
+      mockLogoutUseCase = MockLogoutUseCase();
       metaClubApiClient = MockMetaClubApiClientRepository();
       attendanceService = MockAttendanceService();
-      authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
-      userRepository = UserRepository(token: globalState.get(authToken));
       settings = MockSettings();
       when(() => settings.data?.attendanceMethod).thenReturn('N');
       when(() => settings.data?.currencyCode).thenReturn('\$');
       when(() => settings.data?.isAdmin).thenReturn(false);
-      when(() => metaClubApiClient.getSettings()).thenAnswer((_) async => settings);
-      homeBloc = HomeBloc(
-          metaClubApiClient: metaClubApiClient,
-          attendanceService: attendanceService,
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository);
+      when(() => metaClubApiClient.getSettings()).thenAnswer((_) async => Right(settings));
+      homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase);
     });
 
     test('Initial state is correct', () {
-      final homeBloc = HomeBloc(
-          metaClubApiClient: metaClubApiClient,
-          attendanceService: attendanceService,
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository);
+      final homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase);
       expect(homeBloc.state, const HomeState());
     });
 

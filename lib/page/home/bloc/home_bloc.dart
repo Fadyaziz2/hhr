@@ -16,7 +16,6 @@ import 'package:user_repository/user_repository.dart';
 import '../../../res/enum.dart';
 
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 typedef HomeBlocFactory = HomeBloc Function();
@@ -26,10 +25,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final HomeDatLoadUseCase homeDatLoadUseCase;
   final SettingsDataLoadUseCase settingsDataLoadUseCase;
 
-  HomeBloc(
-      {required this.logoutUseCase,
-      required this.homeDatLoadUseCase,
-      required this.settingsDataLoadUseCase})
+  HomeBloc({required this.logoutUseCase, required this.homeDatLoadUseCase, required this.settingsDataLoadUseCase})
       : super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)
