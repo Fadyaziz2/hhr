@@ -56,7 +56,7 @@ void main() async {
     path: 'assets/translations',
     saveLocale: true,
     fallbackLocale: const Locale('en', 'US'),
-    child: App(authenticationRepository: instance()),
+    child: const App(),
   ));
 }
 

@@ -11,8 +11,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return const Scaffold(
-        backgroundColor: backgroundColor, body: HomeContent());
+    return const Scaffold(backgroundColor: backgroundColor, body: HomeContent());
   }
 }

@@ -23,10 +23,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
 
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
-      create: (context) => SplashBloc(context: context,data: user,client: MetaClubApiClient(httpService: instance())),
+      create: (context) => SplashBloc(context: context,data: user),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(

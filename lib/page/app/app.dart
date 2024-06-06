@@ -25,27 +25,19 @@ import 'package:event_bus_plus/event_bus_plus.dart';
 final IEventBus eventBus = EventBus();
 
 class App extends StatelessWidget {
-  final AuthenticationRepository authenticationRepository;
-
-  const App({super.key, required this.authenticationRepository});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))
-                ..add(CompanyListEvent())),
-          BlocProvider(
-              create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository)),
-          BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
-          BlocProvider(create: (context) => LanguageBloc()),
-          BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))
-        ],
-        child: const AppView(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))..add(CompanyListEvent())),
+        BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: instance())),
+        BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
+        BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))
+      ],
+      child: const AppView(),
     );
   }
 }
@@ -58,9 +50,8 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
+  NavigatorState get _navigator => instance<GlobalKey<NavigatorState>>().currentState!;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +61,7 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          navigatorKey: _navigatorKey,
+          navigatorKey: instance<GlobalKey<NavigatorState>>(),
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
@@ -79,15 +70,11 @@ class _AppViewState extends State<AppView> {
                 globalState.set(companyName, company?.companyName);
                 globalState.set(companyId, company?.id);
                 globalState.set(companyUrl, company?.url);
-                final homeBlocFactor = instance<HomeBlocFactory>();
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
                     SharedUtil.getBoolValue(isDisclosure).then((isDisclosure) {
                       if (isDisclosure) {
-                        _navigator.pushAndRemoveUntil(
-                          BottomNavigationPage.route(homeBlocFactor: homeBlocFactor),
-                          (route) => false,
-                        );
+                        _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
                       } else {
                         _navigator.pushAndRemoveUntil(
                           AppPermissionPage.route(),
@@ -98,7 +85,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     if (context.read<AuthenticationBloc>().state.data != null) {
-                      _navigator.pushAndRemoveUntil(BottomNavigationPage.route(homeBlocFactor: homeBlocFactor), (route) => false);
+                      _navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
                     } else {
                       if (company == null) {
                         _navigator.pushAndRemoveUntil(OnboardingPage.route(), (_) => false);

@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
-import 'package:user_repository/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class MockAuthenticationBloc
@@ -19,20 +17,13 @@ class MockAuthenticationBloc
     implements AuthenticationBloc {}
 
 void main() async {
-  late AuthenticationBloc authenticationBloc;
-  late MetaClubApiClient apiClient;
   late AuthenticationRepository authenticationRepository;
-  late UserRepository userRepository;
   setUpAll(() async {
     initHydratedStorage();
-    apiClient = MetaClubApiClient(httpService: instance());
     authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
-    userRepository = UserRepository(token: '');
     TestWidgetsFlutterBinding.ensureInitialized();
     EasyLocalization.logger.enableLevels = [];
     await EasyLocalization.ensureInitialized();
-    authenticationBloc = AuthenticationBloc(
-        authenticationRepository: authenticationRepository);
   });
 
   Widget buildLocalization({required Widget child}) {
@@ -41,8 +32,7 @@ void main() async {
 
   group('HRM App Initialization', () {
     testWidgets('Render HRM AppView', (widgetTester) async {
-      await widgetTester.pumpWidget(App(
-          authenticationRepository: authenticationRepository));
+      await widgetTester.pumpWidget(const App());
       expect(find.byType(AppView), findsOneWidget);
     });
   });
@@ -52,11 +42,8 @@ void main() async {
 
     setUp(() {
       authBloc = MockAuthenticationBloc();
-      when(() => authBloc.state)
-          .thenReturn(const AuthenticationState.unknown());
-      apiClient = MetaClubApiClient(httpService: instance());
+      when(() => authBloc.state).thenReturn(const AuthenticationState.unknown());
       authenticationRepository = AuthenticationRepository(hrmCoreBaseService: instance());
-      userRepository = UserRepository(token: '');
       initHydratedStorage();
     });
 

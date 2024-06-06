@@ -12,9 +12,7 @@ import '../../bottom_navigation/view/bottom_navigation_page.dart';
 import '../../onboarding/view/onboarding_page.dart';
 
 class SplashBloc extends Cubit<SplashState> {
-  SplashBloc({required BuildContext context,
-      required MetaClubApiClient client,
-      LoginData? data}) : super(SplashState(context: context)) {
+  SplashBloc({required BuildContext context, LoginData? data}) : super(SplashState(context: context)) {
     initSplash(context, data);
   }
 
@@ -22,7 +20,8 @@ class SplashBloc extends Cubit<SplashState> {
     final company = context.read<OnboardingBloc>().state.selectedCompany;
     Future.delayed(const Duration(seconds: 2), () async {
       if (data?.user != null) {
-        NavUtil.replaceScreen(context, BottomNavigationPage(homeBlocFactor: instance()));
+        final navigator = instance<GlobalKey<NavigatorState>>().currentState!;
+        navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
       } else {
         if (company == null) {
           NavUtil.replaceScreen(context, const OnboardingPage());

@@ -5,7 +5,6 @@ import 'package:onesthrm/page/home/bloc/home_bloc.dart';
 
 class BottomNavInjection {
   Future<void> initInjection() async {
-    instance.registerFactory<BottomNavigationFactory>(
-        () => ({required HomeBlocFactory homeBlocFactory}) => BottomNavigationPage(homeBlocFactor: homeBlocFactory));
+    instance.registerFactory<BottomNavigationFactory>(() => () => BottomNavigationPage(homeBlocFactor: instance()));
   }
 }

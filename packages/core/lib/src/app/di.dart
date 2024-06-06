@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +7,7 @@ final instance = GetIt.instance;
 
 Future<void> initAppModule() async {
   final sharedPref = await SharedPreferences.getInstance();
+  instance.registerLazySingleton<GlobalKey<NavigatorState>>(() => GlobalKey<NavigatorState>());
   instance.registerLazySingleton<SharedPreferences>(() => sharedPref);
   instance.registerLazySingleton<StorageHelper>(
       () => StorageHelperImpl(pref: instance()));

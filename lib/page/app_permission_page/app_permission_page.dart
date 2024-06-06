@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';
 
@@ -70,7 +69,8 @@ class _AppPermissionPageState extends State<AppPermissionPage> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                NavUtil.replaceScreen(context, BottomNavigationPage(homeBlocFactor: instance()));
+                final navigator = instance<GlobalKey<NavigatorState>>().currentState!;
+                navigator.pushAndRemoveUntil(BottomNavigationPage.route(), (route) => false);
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
