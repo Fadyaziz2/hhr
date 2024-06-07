@@ -35,8 +35,6 @@ class HomeNeptuneContent extends StatelessWidget {
                 return SingleChildScrollView(
                   child: Stack(
                     children: [
-
-
                       ///blue background
                       Positioned(
                         right: 0,

@@ -23,8 +23,7 @@ class HomeEarthContent extends StatelessWidget {
         final homeData = context.read<HomeBloc>().state.dashboardModel;
 
         if (user?.user != null) {
-          context.read<HomeBloc>().add(OnLocationEnabled(
-              user: user!.user!, locationProvider: locationServiceProvider));
+          context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
         }
 
         return BlocBuilder<LanguageBloc, LanguageState>(

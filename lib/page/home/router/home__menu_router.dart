@@ -3,12 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/view/appointment_screen.dart';
 import 'package:onesthrm/page/home/view/content/home_content_shimmer.dart';
 import 'package:onesthrm/page/home/view/content/home_earth_content.dart';
-import 'package:onesthrm/page/home/view/home_mars/home_mars_page.dart';
+import 'package:onesthrm/page/home/view/home_mars/content_mars/home_mars_content.dart';
 import 'package:onesthrm/page/home/view/home_naptune/content_neptune/home_neptune_content.dart';
 import 'package:onesthrm/page/meeting/view/meeting_page.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 Widget chooseTheme() {
@@ -19,7 +18,7 @@ Widget chooseTheme() {
     case 'neptune':
       return const HomeNeptuneContent();
     case 'mars':
-      return const HomeMars();
+      return const HomeMarsContent();
     default:
       return const HomeContentShimmer();
   }

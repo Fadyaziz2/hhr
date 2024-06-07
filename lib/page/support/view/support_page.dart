@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/support/view/create_support/create_support_page.dart';
 import 'package:onesthrm/page/support/view/support_list_content/support_list_content.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import '../bloc/bloc.dart';
 
@@ -16,8 +14,7 @@ class SupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    globalState.get(companyUrl);
 
     return BlocProvider(
       create: (context) => SupportBloc(

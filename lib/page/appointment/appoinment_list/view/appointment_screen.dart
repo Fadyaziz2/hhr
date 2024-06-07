@@ -7,7 +7,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/bloc/appointment_bloc.dart';
 import 'package:onesthrm/page/appointment/appointment_create/view/appointment_create_screen.dart';
 import 'package:onesthrm/page/appointment/appoinment_list/content/appointment_content.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 
 AppointmentBloc? bloc;
@@ -17,8 +16,6 @@ class AppointmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => AppointmentBloc(
           metaClubApiClient: MetaClubApiClient(httpService: instance()))
