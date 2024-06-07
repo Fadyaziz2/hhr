@@ -22,7 +22,6 @@ import 'package:onesthrm/page/report/report_page.dart';
 import 'package:onesthrm/page/task/task.dart';
 import 'package:onesthrm/page/support/view/support_page.dart';
 import 'package:onesthrm/page/visit/view/visit_page.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:user_repository/user_repository.dart';
@@ -39,8 +38,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final GetAppNameUseCase _getAppName;
   final GetAppVersionUseCase _getAppVersion;
 
-  MenuBloc({required MetaClubApiClient metaClubApiClient,
-      required LoginData loginData,
+  MenuBloc(
+      {required LoginData loginData,
       required Color color,
       required GetAppNameUseCase getAppName,
       required GetAppVersionUseCase getAppVersion,
@@ -85,7 +84,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             event.context,
             ChatRoom(
               uid: '${globalState.get(companyId)}${_loginData.user?.id ?? 0}',
-              primaryColor: _primaryColor, cid: '${globalState.get(companyId)}',
+              primaryColor: _primaryColor,
+              cid: '${globalState.get(companyId)}',
             ));
         break;
       case 'phonebook':
@@ -132,6 +132,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   FutureOr<void> _onAppService(OnAppServiceEvent event, Emitter<MenuState> emit) async {
     final appVersion = await _getAppVersion();
     final appName = await _getAppName();
-    emit(state.copy(appVersion: appVersion,appName: appName));
+    emit(state.copy(appVersion: appVersion, appName: appName));
   }
 }

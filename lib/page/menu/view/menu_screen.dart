@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_framework/hrm_framework.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import 'package:onesthrm/page/menu/bloc/menu_bloc.dart';
 import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
-import 'package:core/core.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../profile/view/profile_page.dart';
@@ -41,14 +39,12 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = globalState.get(companyUrl);
     final settings = context.read<HomeBloc>().state.settings;
     final homeData = context.watch<HomeBloc>().state.dashboardModel;
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
         create: (context) => MenuBloc(
-            metaClubApiClient: MetaClubApiClient(httpService: instance()),
             setting: settings!,
             loginData: user!,
             color: colorPrimary,
