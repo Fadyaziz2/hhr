@@ -17,7 +17,7 @@ import 'package:onesthrm/res/service/model/notifications/f_c_m_data_model.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
 import 'package:path_provider/path_provider.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:core/core.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesthrm/main.dart';
 import 'package:onesthrm/res/service/model/notifications/notification_data_model.dart';
 import 'package:onesthrm/res/service/notification_service.dart';
 
@@ -20,17 +21,14 @@ class BottomNavCubit extends Cubit<BottomNavState> {
 
   void initializeFirebaseNotification() async {
     await Future.delayed(const Duration(seconds: 1));
-    _firebaseMessaging
-        .getToken()
-        .then((value) => debugPrint("token firebase $value"));
+    _firebaseMessaging.getToken().then((value) => debugPrint("token firebase $value"));
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       ///encode message.data as payload(String format)
       ///whenever to use payload we have to decode to as map
       final encodedString = json.encode(message.data);
 
       ///parsing message.data to model data
-      NotificationDataModel notification =
-          NotificationDataModel.fromJson(message.data);
+      NotificationDataModel notification = NotificationDataModel.fromJson(message.data);
 
       ///checking if title null or not if null no notification wi show
       if (notification.image == null) {
@@ -64,20 +62,17 @@ class BottomNavCubit extends Cubit<BottomNavState> {
 
       final map = json.decode(payload);
 
-      NotificationDataModel notificationData =
-          NotificationDataModel.fromJson(map);
+      NotificationDataModel notificationData = NotificationDataModel.fromJson(map);
 
       if (notificationData.type == 'leave_rejected') {
-        navigatorKey.currentState!
-            .pushNamed('/leave_details', arguments: notificationData.id);
+        instance<GlobalKey<NavigatorState>>().currentState!.pushNamed('/leave_details', arguments: notificationData.id);
       } else if (notificationData.type == 'notice') {
-        navigatorKey.currentState!
-            .pushNamed('/notice_screen', arguments: notificationData.id);
+        instance<GlobalKey<NavigatorState>>().currentState!.pushNamed('/notice_screen', arguments: notificationData.id);
       } else if (notificationData.type == 'check-in') {
-        navigatorKey.currentState!
-            .pushNamed('/attendance', arguments: notificationData.id);
+        instance<GlobalKey<NavigatorState>>().currentState!.pushNamed('/attendance', arguments: notificationData.id);
       } else if (notificationData.type == 'appointments_request') {
-        navigatorKey.currentState!
+        instance<GlobalKey<NavigatorState>>()
+            .currentState!
             .pushNamed('/appointment_screen', arguments: notificationData.id);
       }
     }

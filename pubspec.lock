@@ -201,7 +201,7 @@ packages:
     source: hosted
     version: "1.2.0"
   camera:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: camera
       sha256: dfa8fc5a1adaeb95e7a54d86a5bd56f4bb0e035515354c8ac6d262e35cec2ec8
@@ -501,7 +501,7 @@ packages:
     source: hosted
     version: "2.0.5"
   event_bus_plus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: event_bus_plus
       sha256: a8381b29384d04ccd742e53668bc8b3ea99ee80496b26adf23fcceba8cdeb673
