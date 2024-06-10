@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/login/login.dart';
 import 'package:onesthrm/page/onboarding/bloc/onboarding_bloc.dart';
 import 'package:onesthrm/page/splash/bloc/splash_state.dart';

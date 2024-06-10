@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/report/leave_report/leave_report.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 
 class LeaveSummeryScreen extends StatelessWidget {
@@ -15,7 +14,6 @@ class LeaveSummeryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (BuildContext context) => LeaveReportBloc(
           userId: user!.user!.id!,

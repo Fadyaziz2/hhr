@@ -50,7 +50,7 @@ class MetaClubApiClient {
     return response.fold((l) {
       return l;
     }, (r) {
-      return GeneralFailure.none();
+      return const GeneralFailure.none();
     });
   }
 
@@ -279,7 +279,7 @@ class MetaClubApiClient {
 
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -297,7 +297,7 @@ class MetaClubApiClient {
 
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -315,7 +315,7 @@ class MetaClubApiClient {
 
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -333,7 +333,7 @@ class MetaClubApiClient {
 
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -388,7 +388,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(meetingBodyModel!.toJson());
       await httpService.postRequest('${getBaseUrl()}$api', formData);
-      return Right(true);
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -403,7 +403,7 @@ class MetaClubApiClient {
     try {
       FormData formData = FormData.fromMap(bodyCreateVisit!.toJson());
       await httpService.postRequest('${getBaseUrl()}$api', formData);
-      return Right(true);
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -527,7 +527,7 @@ class MetaClubApiClient {
       final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (_) {
       return Left(ExceptionFailure(exception: _));
@@ -568,7 +568,7 @@ class MetaClubApiClient {
       final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (_) {
       return Left(ExceptionFailure(exception: _));
@@ -617,7 +617,7 @@ class MetaClubApiClient {
       );
       return response.fold(
         (l) => Left(l),
-        (_) => Right(true),
+        (_) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -997,7 +997,7 @@ class MetaClubApiClient {
       final response = await httpService.postRequest('${getBaseUrl()}$api', formData);
       return response.fold(
         (l) => Left(l),
-        (r) => Right(true),
+        (r) => const Right(true),
       );
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
@@ -1285,7 +1285,7 @@ class MetaClubApiClient {
     String api = 'user/leave/approval/status-change/$approvalId/$type';
     try {
       final response = await httpService.getRequestWithToken('${getBaseUrl()}$api');
-      return response.fold((l) => Left(l), (r) => Right(true));
+      return response.fold((l) => Left(l), (r) => const Right(true));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -1357,7 +1357,7 @@ class MetaClubApiClient {
     const String api = 'user/attendance/qr-status';
     try {
       final response = await httpService.postRequest('${getBaseUrl()}$api', data);
-      return response.fold((l) => Left(l), (r) => Right(true));
+      return response.fold((l) => Left(l), (r) => const Right(true));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }
@@ -1372,7 +1372,7 @@ class MetaClubApiClient {
 
       final response = await httpService.postRequest('${getBaseUrl()}$api', data);
 
-      return response.fold((l) => Left(l), (r) => Right(true));
+      return response.fold((l) => Left(l), (r) => const Right(true));
     } on Exception catch (e) {
       return Left(ExceptionFailure(exception: e));
     }

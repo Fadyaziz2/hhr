@@ -13,7 +13,7 @@ class DailyLeavePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider(create: (context) => DailyLeaveBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))
         ..add(DailyLeaveSummary(user!.user!.id!)),
       child: const DailyLeaveContent(),

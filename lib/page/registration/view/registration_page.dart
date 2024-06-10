@@ -20,7 +20,6 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
-    final baseUrl = globalState.get(companyUrl);
     return MultiBlocProvider(
       providers: [
         BlocProvider<QualificationCubit>(create: (_) => QualificationCubit()),

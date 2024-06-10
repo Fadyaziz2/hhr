@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 
 import 'domain.dart';
 

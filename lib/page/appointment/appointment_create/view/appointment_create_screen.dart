@@ -9,7 +9,6 @@ import 'package:onesthrm/page/appointment/appointment_create/bloc/appointment_cr
 import 'package:onesthrm/page/appointment/appointment_create/content/appointment_create_content.dart';
 import 'package:onesthrm/page/appointment/appointment_create/content/appointment_with_cart.dart';
 import 'package:onesthrm/page/appointment/appointment_create/content/attachment_content.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class AppointmentCreateScreen extends StatefulWidget {
@@ -27,8 +26,8 @@ class _AppointmentCreateScreenState extends State<AppointmentCreateScreen> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     AppointmentBody appointmentBody = AppointmentBody();
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => AppointmentCreateBloc(
           appointmentBloc: widget.appointmentBloc,

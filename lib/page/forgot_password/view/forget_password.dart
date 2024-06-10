@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/forgot_password/bloc/forgot_password_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
@@ -14,8 +13,8 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ForgotPasswordBody forgotPasswordBody = ForgotPasswordBody();
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
     final formKey = GlobalKey<FormState>();
     return BlocProvider(
       create: (context) => ForgotPasswordBloc(

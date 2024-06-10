@@ -5,7 +5,7 @@ class CheckData extends Equatable{
   final bool? result;
   final CheckInOut? checkInOut;
 
-  CheckData({this.message, this.result, this.checkInOut});
+  const CheckData({this.message, this.result, this.checkInOut});
 
   factory CheckData.fromJson(Map<String, dynamic> json) {
     return CheckData(
