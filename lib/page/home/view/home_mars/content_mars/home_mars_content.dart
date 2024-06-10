@@ -1,18 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/break_card_mars.dart';
-import 'package:onesthrm/page/home/view/home_mars/content_mars/checkIn_out_card_mars.dart';
+import 'package:onesthrm/page/home/view/home_mars/content_mars/checkin_out_card_mars.dart';
 import 'package:onesthrm/page/home/view/home_mars/content_mars/current_month_mars.dart';
+import 'package:onesthrm/page/home/view/home_mars/content_mars/profile_mars.dart';
 import 'package:onesthrm/page/language/bloc/language_bloc.dart';
-import 'package:onesthrm/page/profile/view/profile_page.dart';
-import 'package:onesthrm/res/nav_utail.dart';
 import '../../content/home_earth_content.dart';
 import 'home_bottom_mars.dart';
-import 'mars_today_summary_list.dart';
 
 class HomeMarsContent extends StatelessWidget {
   const HomeMarsContent({super.key});
@@ -35,73 +34,27 @@ class HomeMarsContent extends StatelessWidget {
                     child: Stack(
                       children: [
                         ///blue background
-                        Positioned(
-                          right: 0,
-                          left: 0,
-                          child: Image.asset(
-                            'assets/home_bg/home_bg_neptune.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-
+                        Positioned(right: 0, left: 0,
+                          child: Image.asset('assets/home_bg/home_bg_neptune.png', fit: BoxFit.cover,color: colorPrimary,),),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.only(top: 24.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 5),
-                                    child:  InkWell(
-                                      onTap: () {
-                                        NavUtil.navigateScreen(context, const ProfileScreen());
-                                      },
-                                      child: ClipOval(
-                                        child: CachedNetworkImage(
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
-                                            imageUrl:
-                                            "${user?.user?.avatar}",
-                                            placeholder: (context, url) =>
-                                                Center(
-                                                    child: Image.asset(
-                                                        "assets/home_bg/placeholder_image.png")),
-                                            errorWidget: (context, url,
-                                                error) =>
-                                            const Icon(Icons.error)),
-                                      ),
-                                    )
-                                  ),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.135),
-                                  ///Today Summary List ==========================
-                                  const TodaySummaryListMars(),
-                                  SizedBox(height: 18.h),
-                                ],
-                              ),
-                            ),
-
-                            // const CheckInOutStatusActionMars(),
-
+                            ///profile image
+                            const ProfileMars(),
                             ///check-in-out card
-                            CheckInOutCardMars(
-                                settings: settings, user: user, dashboardModel: homeData),
-
+                            CheckInOutCardMars(settings: settings, user: user, dashboardModel: homeData),
                             ///breakTime
-                            BreakCardMars(
-                                settings: settings, user: user, dashboardModel: homeData),
+                            BreakCardMars(settings: settings, user: user, dashboardModel: homeData),
                             ///bottom-header
-                            HomeBottomMars(
-                                settings: settings, user: user, dashboardModel: homeData),
-
+                            HomeBottomMars(settings: settings, user: user, dashboardModel: homeData),
+                            /// Current Month
                             const CurrentMonthMars(),
                             ///upcoming events:----------------------
-                            // const UpcomingEventMars(),
                             SizedBox(height: 80.h),
                           ],
                         ),
+                        Positioned(left: 0, right: 0, top: 50,
+                            child: Image.asset("assets/images/app_icon.png",width: 100,height: 100,fit: BoxFit.fitHeight,)),
                       ],
                     ),
                   );

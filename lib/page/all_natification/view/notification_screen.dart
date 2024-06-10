@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/all_natification/bloc/notification_bloc.dart';
 import 'package:onesthrm/page/all_natification/content/notification_cart_content.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -14,8 +13,8 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (context) => NotificationBloc(
             metaClubApiClient: MetaClubApiClient(httpService: instance()))

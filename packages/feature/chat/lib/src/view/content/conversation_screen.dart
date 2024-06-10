@@ -198,14 +198,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
                                   ///create chat room for chat user
                                   database.createChatRoom(
-                                      '$chatUid', widget.uid, map);
+                                      chatUid, widget.uid, map);
 
                                   ///update chat friend list for current user
-                                  database.createFriend(widget.uid, '$chatUid',
+                                  database.createFriend(widget.uid, chatUid,
                                       _messageController.text);
 
                                   ///update chat friend list for chat user
-                                  database.createFriend('$chatUid', widget.uid,
+                                  database.createFriend(chatUid, widget.uid,
                                       _messageController.text);
                                   debugPrint(
                                       'current uid ${widget.uid}   chat uid : $chatUid');

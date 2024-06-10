@@ -7,7 +7,6 @@ import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/page/internet_connectivity/bloc/internet_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
-import '../../authentication/bloc/authentication_bloc.dart';
 
 class AttendancePage extends StatelessWidget {
   final HomeBloc homeBloc;
@@ -38,8 +37,8 @@ class AttendancePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (_) => AttendanceBloc(

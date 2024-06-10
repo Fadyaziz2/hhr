@@ -22,7 +22,7 @@ class AttendanceReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final baseUrl = globalState.get(companyUrl);
     return user != null ? BlocProvider(
             create: (context) => AttendanceReportBloc(
                 user: user, metaClubApiClient: MetaClubApiClient(httpService: instance()))

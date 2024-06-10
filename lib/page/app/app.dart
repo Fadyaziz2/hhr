@@ -9,7 +9,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app_permission_page/app_permission_page.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
-import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../bottom_navigation/view/bottom_navigation_page.dart';

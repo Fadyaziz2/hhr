@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/content/expense_list_shimmer.dart';
 import 'package:onesthrm/page/menu_drawer/bloc/menu_drawer_bloc.dart';
 class PolicyContentScreen extends StatelessWidget {
@@ -18,8 +17,8 @@ class PolicyContentScreen extends StatelessWidget {
           ));
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (context) => MenuDrawerBloc(

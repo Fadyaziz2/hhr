@@ -147,7 +147,7 @@ class _AttendanceMethodScreenState extends State<AttendanceMethodScreen> with Ti
                           int length = homeData?.data?.menus?.length ?? 0;
 
                           ///Animation instance
-                          final animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                          Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
                               parent: animationController,
                               curve: Interval((1 / length) * index, 1.0, curve: Curves.fastOutSlowIn)));
                           animationController.forward();

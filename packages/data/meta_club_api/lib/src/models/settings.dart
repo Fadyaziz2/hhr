@@ -188,7 +188,7 @@ class Time {
 }
 
 class MultiShift extends Equatable {
-  MultiShift({
+  const MultiShift({
     this.shiftId,
     this.shiftName,
   });

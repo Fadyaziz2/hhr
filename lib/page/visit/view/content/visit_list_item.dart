@@ -7,8 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/visit/view/visit_details_page/visit_details_page.dart';
 import 'package:onesthrm/res/nav_utail.dart';
-
-import 'package:core/core.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../../home/view/content/home_content.dart';
 import '../../bloc/visit_bloc.dart';
@@ -21,7 +19,7 @@ class VisitListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final baseUrl = globalState.get(companyUrl);
     if (user?.user != null) {
       locationServiceProvider.getCurrentLocationStream(
           uid: '${globalState.get(companyId)}${user!.user!.id!}',

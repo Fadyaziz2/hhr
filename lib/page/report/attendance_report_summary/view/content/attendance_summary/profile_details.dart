@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/bloc/report_bloc.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:url_launcher/url_launcher.dart';

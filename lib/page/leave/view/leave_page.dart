@@ -5,7 +5,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/leave_summary_content.dart';
-import 'package:core/core.dart';
 
 class LeavePage extends StatefulWidget {
   const LeavePage({super.key});
@@ -29,7 +28,7 @@ class _LeavePageState extends State<LeavePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
         create: (context) => LeaveBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))
           ..add(LeaveSummaryApi(user!.user!.id!))

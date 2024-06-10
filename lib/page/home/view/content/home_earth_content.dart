@@ -6,7 +6,7 @@ import 'package:onesthrm/page/language/bloc/language_bloc.dart';
 import '../../../authentication/bloc/authentication_bloc.dart';
 import '../../bloc/home_bloc.dart';
 import '../../content/break_card.dart';
-import '../../content/checkIn_out_card.dart';
+import '../../content/checkin_out_card.dart';
 import '../../content/home_header.dart';
 
 LocationServiceProvider locationServiceProvider = LocationServiceProvider();

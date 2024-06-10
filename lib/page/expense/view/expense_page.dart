@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/expense/bloc/expense_bloc.dart';
 import 'package:onesthrm/page/expense/content/expanse_drop_down_content.dart';
 import 'package:onesthrm/page/expense/content/expense_category.dart';
@@ -16,8 +15,8 @@ class ExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider(
       create: (context) => ExpenseBloc(
           metaClubApiClient: MetaClubApiClient(httpService: instance()))

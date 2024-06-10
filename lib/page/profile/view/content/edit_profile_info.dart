@@ -6,9 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/profile/bloc/profile/profile_bloc.dart';
 import 'package:onesthrm/page/profile/bloc/update/update_profile_bloc.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
-import '../../../authentication/bloc/authentication_bloc.dart';
 import 'edit_profile_content.dart';
 
 class EditOfficialInfo extends StatelessWidget {
@@ -39,8 +37,6 @@ class EditOfficialInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
 
     return BlocProvider(
       create: (_) => UpdateProfileBloc(

@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_bloc.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_event.dart';
 import 'package:onesthrm/page/upload_file/bloc/upload_file_state.dart';
-import 'package:core/core.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 
@@ -23,8 +21,8 @@ class UploadDocContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.data;
-    final baseUrl = globalState.get(companyUrl);
+    // final user = context.read<AuthenticationBloc>().state.data;
+    // final baseUrl = globalState.get(companyUrl);
     return BlocProvider<UploadFileBloc>(
       create: (context) => UploadFileBloc(
           metaClubApiClient: MetaClubApiClient(

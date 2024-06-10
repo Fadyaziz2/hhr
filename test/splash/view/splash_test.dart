@@ -41,10 +41,10 @@ void main() async {
       });
 
       testWidgets('Find splash screen logo', (tester) async {
-        final appLogo = Image.asset(
-          "assets/images/app_icon.png",
-          scale: 3,
-        );
+        // final appLogo = Image.asset(
+        //   "assets/images/app_icon.png",
+        //   scale: 3,
+        // );
 
         await tester.pumpWidget(MultiBlocProvider(providers: [
           BlocProvider(create: (context) => authenticationBloc),
