@@ -71,9 +71,7 @@ class BottomNavCubit extends Cubit<BottomNavState> {
       } else if (notificationData.type == 'check-in') {
         instance<GlobalKey<NavigatorState>>().currentState!.pushNamed('/attendance', arguments: notificationData.id);
       } else if (notificationData.type == 'appointments_request') {
-        instance<GlobalKey<NavigatorState>>()
-            .currentState!
-            .pushNamed('/appointment_screen', arguments: notificationData.id);
+        instance<GlobalKey<NavigatorState>>().currentState!.pushNamed('/appointment_screen', arguments: notificationData.id);
       }
     }
   }
