@@ -19,13 +19,15 @@ class DynamicImageViewer extends StatelessWidget {
             image,
             height: height.h,
             width: width.w,
-            colorFilter: const ColorFilter.mode(colorPrimary, BlendMode.srcIn),
             // color: colorPrimary,
+            colorFilter: const ColorFilter.mode(colorPrimary, BlendMode.srcIn),
+            // color: co2lorPrimary,
           )
         : CachedNetworkImage(
             imageUrl: image,
             height: height.h,
             width: width.w,
+      color: colorPrimary,
           );
   }
 }

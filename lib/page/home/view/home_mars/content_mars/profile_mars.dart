@@ -26,18 +26,15 @@ class ProfileMars extends StatelessWidget {
                   NavUtil.navigateScreen(context, const ProfileScreen());
                 },
                 child: ClipOval(
-                  child: CachedNetworkImage(
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
-                      imageUrl: "${user?.user?.avatar}",
+                  child: CachedNetworkImage(height: 45, width: 45, fit: BoxFit.cover, imageUrl: "${user?.user?.avatar}",
                       placeholder: (context, url) => Center(child: Image.asset("assets/home_bg/placeholder_image.png")),
                       errorWidget: (context, url, error) =>
                       const Icon(Icons.error)),
                 ),
               )
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.135),
+           SizedBox(height: 18.h,),
+          // SizedBox(height: MediaQuery.of(context).size.height * 0.100),
           ///Today Summary List ==========================
           const TodaySummaryListMars(),
           SizedBox(height: 18.h),

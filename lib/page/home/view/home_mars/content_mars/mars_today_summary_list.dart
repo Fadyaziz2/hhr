@@ -18,7 +18,7 @@ class TodaySummaryListMars extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: primaryBorderColor),
-                borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(18)),
             child: GridView.builder(
               padding: const EdgeInsets.all(12.0),
               shrinkWrap: true,
