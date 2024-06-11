@@ -35,7 +35,7 @@ class HomeMarsContent extends StatelessWidget {
                       children: [
                         ///blue background
                         Positioned(right: 0, left: 0,
-                          child: Image.asset('assets/home_bg/home_bg_neptune.png', fit: BoxFit.cover,color: colorPrimary,),),
+                          child: Image.asset('assets/images/ic_banner_mars.png', fit: BoxFit.cover,),),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -53,8 +53,10 @@ class HomeMarsContent extends StatelessWidget {
                             SizedBox(height: 80.h),
                           ],
                         ),
-                        Positioned(left: 0, right: 0, top: 50,
-                            child: Image.asset("assets/images/app_icon.png",width: 100,height: 100,fit: BoxFit.fitHeight,)),
+                        Positioned(left: 0, right: 0, top: 30,
+                            child: Image.asset("assets/images/ic_logo.png",height: 40,fit: BoxFit.fitHeight,)),
+                        Positioned(right: 20, top: 30,
+                            child: Image.asset("assets/images/ic_notification.png",height: 40,fit: BoxFit.fitHeight,)),
                       ],
                     ),
                   );

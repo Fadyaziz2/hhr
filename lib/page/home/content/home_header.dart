@@ -19,11 +19,8 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned(
-          right: 0,
-          left: 0,
-          child: Image.asset(
-            'assets/images/home_background_one.png',
+        Positioned(right: 0, left: 0,
+          child: Image.asset('assets/images/home_background_one.png',
             height: 200.0.h,
             fit: BoxFit.cover,
             color: colorPrimary,
@@ -32,28 +29,21 @@ class HomeHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 10.0.h,
-            ),
+            SizedBox(height: 10.0.h),
             Row(
               children: [
-                Expanded(
-                  flex: 3,
+                Expanded(flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                            settings?.data?.timeWish?.wish ?? dashboardModel?.data?.config?.timeWish?.wish ?? '',
-                            style: TextStyle(fontSize: 20.r, color: Colors.white, fontWeight: FontWeight.bold)),
+                        child: Text(settings?.data?.timeWish?.wish ?? dashboardModel?.data?.config?.timeWish?.wish ?? '', style: TextStyle(fontSize: 20.r, color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          '${user?.user?.name}',
-                          style:
-                              TextStyle(fontSize: 14.r, fontWeight: FontWeight.bold, height: 1.5, color: Colors.white),
+                        child: Text('${user?.user?.name}',
+                          style: TextStyle(fontSize: 14.r, fontWeight: FontWeight.bold, height: 1.5, color: Colors.white),
                         ),
                       ),
                       Padding(
