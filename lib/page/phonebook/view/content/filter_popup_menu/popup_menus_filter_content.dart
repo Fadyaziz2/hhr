@@ -8,12 +8,10 @@ import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/filter_bo
 enum PhonebookFilterType { designation, department }
 
 class PopupMenusFilerContent extends StatelessWidget {
-  final Settings settings;
   final Bloc? bloc;
 
   const PopupMenusFilerContent({
     super.key,
-    required this.settings,
     this.bloc,
   });
 
@@ -86,7 +84,6 @@ class PopupMenusFilerContent extends StatelessWidget {
             Expanded(
               child: FilterBottomSheetList(
                 bloc: bloc,
-                settings: settings,
                 controller: controller,
                 type: item,
               ),

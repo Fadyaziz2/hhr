@@ -12,10 +12,9 @@ class ProfileScreen extends StatelessWidget {
   final int? id;
   final Settings? settings;
 
-  static Route route(int? userId, Settings? settings) => MaterialPageRoute(
+  static Route route(int? userId) => MaterialPageRoute(
       builder: (_) => ProfileScreen(
-            id: userId,
-            settings: settings,
+            id: userId
           ));
 
   @override

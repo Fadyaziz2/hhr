@@ -25,9 +25,7 @@ class PhoneBookPage extends StatelessWidget {
             title: const Text('PhoneBook').tr(),
             backgroundColor: mainColor,
           ),
-          body: PhoneBookContent(
-            settings: settings!,
-          ),
+          body: const PhoneBookContent(),
         ));
   }
 }

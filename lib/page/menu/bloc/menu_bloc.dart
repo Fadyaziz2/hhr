@@ -32,7 +32,6 @@ part 'menu_event.dart';
 part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
-  final Settings _settings;
   final LoginData _loginData;
   final Color _primaryColor;
   final GetAppNameUseCase _getAppName;
@@ -42,10 +41,8 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       {required LoginData loginData,
       required Color color,
       required GetAppNameUseCase getAppName,
-      required GetAppVersionUseCase getAppVersion,
-      required Settings setting})
-      : _settings = setting,
-        _loginData = loginData,
+      required GetAppVersionUseCase getAppVersion})
+      : _loginData = loginData,
         _getAppName = getAppName,
         _getAppVersion = getAppVersion,
         _primaryColor = color,
@@ -91,9 +88,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       case 'phonebook':
         NavUtil.navigateScreen(
             event.context,
-            PhoneBookPage(
-              settings: _settings,
-            ));
+            const PhoneBookPage());
         break;
       case 'conference':
         NavUtil.navigateScreen(event.context, const ConferencePage());

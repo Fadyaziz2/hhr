@@ -52,7 +52,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       ///----------------------------------------------------///
       ///if not offline attendance, this event call automatically
       add(OnAttendance());
-
       ///---------------///---------------------------------///
     }
   }
@@ -176,8 +175,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
       ///----------------------------------*********--------------------------------------------------------
       final checkData = CheckData(
-          message:
-              '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!',
+          message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!',
           result: true,
           checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
 

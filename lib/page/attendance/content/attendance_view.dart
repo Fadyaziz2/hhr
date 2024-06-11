@@ -31,18 +31,19 @@ class AttendanceView extends StatefulWidget {
 
 class _AttendanceState extends State<AttendanceView> with TickerProviderStateMixin {
   late AnimationController controller;
+  late HomeBlocFactory homeBloc;
 
   @override
   void initState() {
     controller = AnimationController(
         vsync: this, duration: const Duration(seconds: 3), animationBehavior: AnimationBehavior.preserve);
+    homeBloc = instance<HomeBlocFactory>();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final homeBloc = instance<HomeBlocFactory>();
     final homeData = homeBloc().state.dashboardModel;
     final settings = homeBloc().state.settings;
     final offlineAttendanceBloc = context.watch<OfflineCubit>();

@@ -2,33 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/home/bloc/bloc.dart';
 import 'package:onesthrm/page/phonebook/bloc/phonebook_bloc.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_menus_filter_content.dart';
 
-class FilterBottomSheetList extends StatelessWidget {
+class FilterBottomSheetList extends StatefulWidget {
   const FilterBottomSheetList({
     super.key,
-    required this.settings,
     required this.controller,
     required this.type,
     this.bloc,
   });
 
   final Bloc? bloc;
-  final Settings settings;
   final ScrollController controller;
   final PhonebookFilterType type;
 
   @override
+  State<FilterBottomSheetList> createState() => _FilterBottomSheetListState();
+}
+
+class _FilterBottomSheetListState extends State<FilterBottomSheetList> {
+
+  late Settings settings;
+
+  @override
   Widget build(BuildContext context) {
-    return type.name == PhonebookFilterType.department.name
-        ? buildDepartmentList(bloc)
-        : buildDesignationList(bloc);
+    return BlocListener<HomeBloc, HomeState>(
+      listenWhen: (oldState, newState) => oldState != newState,
+      listener: (oldState, newState) {
+        settings = newState.settings!;
+      },
+      child: widget.type.name == PhonebookFilterType.department.name ? buildDepartmentList(widget.bloc) : buildDesignationList(widget.bloc),
+    );
   }
 
   ListView buildDesignationList(Bloc? bloc) {
     return ListView.builder(
-      controller: controller,
+      controller: widget.controller,
       itemCount: settings.data?.designations.length ?? 0,
       itemBuilder: (context, index) {
         final data = settings.data?.designations[index];
@@ -37,13 +48,15 @@ class FilterBottomSheetList extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 22,
           ),
-          tileColor:
-          index % 2 == 0 ? Colors.grey.shade200 : Colors.grey.shade100,
+          tileColor: index % 2 == 0 ? Colors.grey.shade200 : Colors.grey.shade100,
           onTap: () {
             bloc?.add(SelectDesignationValue(data!));
             Navigator.pop(context);
           },
-          title: Text(data?.title ?? '',style: TextStyle(fontSize: 12.r),),
+          title: Text(
+            data?.title ?? '',
+            style: TextStyle(fontSize: 12.r),
+          ),
         );
       },
     );
@@ -51,13 +64,12 @@ class FilterBottomSheetList extends StatelessWidget {
 
   ListView buildDepartmentList(Bloc? bloc) {
     return ListView.builder(
-      controller: controller,
+      controller: widget.controller,
       itemCount: settings.data?.departments.length ?? 0,
       itemBuilder: (context, index) {
         final data = settings.data?.departments[index];
         return ListTile(
-          tileColor:
-              index % 2 == 0 ? Colors.grey.shade200 : Colors.grey.shade100,
+          tileColor: index % 2 == 0 ? Colors.grey.shade200 : Colors.grey.shade100,
           dense: true,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 22,
@@ -66,7 +78,10 @@ class FilterBottomSheetList extends StatelessWidget {
             bloc?.add(SelectDepartmentValue(data!));
             Navigator.pop(context);
           },
-          title: Text(data?.title ?? '', style: TextStyle(fontSize: 12.r),),
+          title: Text(
+            data?.title ?? '',
+            style: TextStyle(fontSize: 12.r),
+          ),
         );
       },
     );

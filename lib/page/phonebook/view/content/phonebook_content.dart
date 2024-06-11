@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_search.dart';
 import 'package:onesthrm/page/phonebook/view/content/phonebook_employees.dart';
 import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_menus_filter_content.dart';
@@ -8,9 +7,9 @@ import 'package:onesthrm/page/phonebook/view/content/filter_popup_menu/popup_men
 import '../../bloc/phonebook_bloc.dart';
 
 class PhoneBookContent extends StatelessWidget {
-  final Settings settings;
 
-  const PhoneBookContent({super.key, required this.settings});
+
+  const PhoneBookContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,6 @@ class PhoneBookContent extends StatelessWidget {
               ),
             ),
             PopupMenusFilerContent(
-              settings: settings,
               bloc: context.read<PhoneBookBloc>(),
             )
           ],

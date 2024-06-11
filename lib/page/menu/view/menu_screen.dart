@@ -10,7 +10,6 @@ import 'package:onesthrm/page/menu/content/menu_list.dart';
 import 'package:onesthrm/page/menu/content/menu_profile.dart';
 import 'package:onesthrm/page/menu_drawer/view/menu_drawer.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
-import '../../home/bloc/home_bloc.dart';
 import '../../profile/view/profile_page.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -37,11 +36,10 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final settings = context.read<HomeBloc>().state.settings;
     final user = context.read<AuthenticationBloc>().state.data;
 
     return BlocProvider(
-        create: (context) => MenuBloc(setting: settings!, loginData: user!, color: colorPrimary, getAppName: instance<GetAppNameUseCase>(), getAppVersion: instance<GetAppVersionUseCase>())
+        create: (context) => MenuBloc(loginData: user!, color: colorPrimary, getAppName: instance<GetAppNameUseCase>(), getAppVersion: instance<GetAppVersionUseCase>())
           ..add(RouteSlug(context: context))
           ..add(OnAppServiceEvent()),
         child: Scaffold(key: MenuScreen._scaffoldKey, endDrawer: const MenuDrawer(), extendBody: true,
@@ -53,7 +51,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                       /// Header
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, ProfileScreen.route(user?.user?.id, settings));
+                          Navigator.push(context, ProfileScreen.route(user?.user?.id));
                         },
                         child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r),),
                           elevation: 4,
