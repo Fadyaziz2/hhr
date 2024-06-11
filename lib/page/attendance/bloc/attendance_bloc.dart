@@ -20,11 +20,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final String? _selfie;
   late bool isCheckedIn;
   late bool isCheckedOut;
+  late AttendanceService attendanceService;
   AttendanceBody body = AttendanceBody();
 
   AttendanceBloc({required this.submitAttendanceUseCase, required this.attendanceType, String? selfie})
       : _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
+    attendanceService = instance<AttendanceService>();
     body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
     isCheckedIn = attendanceService.isAlreadyInCheckedIn(date: body.date!);
     isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: body.date!);

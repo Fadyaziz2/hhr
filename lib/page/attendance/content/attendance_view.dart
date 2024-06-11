@@ -42,14 +42,14 @@ class _AttendanceState extends State<AttendanceView> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthenticationBloc>().state.data;
-    final homeBloc = context.read<HomeBloc>();
-    final homeData = homeBloc.state.dashboardModel;
-    final settings = homeBloc.state.settings;
+    final homeBloc = instance<HomeBlocFactory>();
+    final homeData = homeBloc().state.dashboardModel;
+    final settings = homeBloc().state.settings;
     final offlineAttendanceBloc = context.watch<OfflineCubit>();
     final offlineState = offlineAttendanceBloc.state;
 
     if (user?.user != null) {
-      context.read<HomeBloc>().add(OnLocationRefresh(
+      homeBloc().add(OnLocationRefresh(
           user: context.read<AuthenticationBloc>().state.data?.user, locationProvider: locationServiceProvider));
     }
 

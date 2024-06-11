@@ -22,8 +22,7 @@ part 'attendance_method_event.dart';
 
 part 'attendance_method_state.dart';
 
-class AttendanceMethodBloc
-    extends Bloc<AttendanceMethodEvent, AttendanceMethodState> {
+class AttendanceMethodBloc extends Bloc<AttendanceMethodEvent, AttendanceMethodState> {
   final FaceServiceImpl _faceService;
   final String _baseUrl;
   final LoginData? _loginData;
@@ -41,7 +40,6 @@ class AttendanceMethodBloc
         _metaClubApiClient = metaClubApiClient,
         super(const AttendanceMethodState(status: NetworkStatus.initial)) {
     on<AttendanceNavEvent>(onRouteSlug);
-
   }
 
   void onRouteSlug(
@@ -52,14 +50,13 @@ class AttendanceMethodBloc
 
     switch (event.slugName) {
       case 'offline_attendance':
-        Navigator.push(
-            event.context, AttendancePage.route());
+        Navigator.push(event.context, AttendancePage.route());
         break;
       case 'normal_attendance':
-        Navigator.push(
-            event.context, AttendancePage.route());
+        Navigator.push(event.context, AttendancePage.route());
         break;
       case 'face_attendance':
+
         ///set condition here weather face checking enable or disable
         ///fetch face date from local cache
         _faceService.captureFromFaceApi(
@@ -67,7 +64,11 @@ class AttendanceMethodBloc
             onCaptured: (faceData) {
               debugPrint('faceData $faceData');
               if (faceData.length > 20) {
-                NavUtil.navigateScreen(event.context,  OnFaceMatchingContent(faceData: faceData,));
+                NavUtil.navigateScreen(
+                    event.context,
+                    OnFaceMatchingContent(
+                      faceData: faceData,
+                    ));
                 faceDataApi(faceData, event.context);
               }
             },
@@ -86,8 +87,7 @@ class AttendanceMethodBloc
               child: QRAttendanceScreen(
                 token: '${_loginData?.user!.token}',
                 baseUrl: _baseUrl,
-                callBackRoute: AttendancePage.route(
-                    attendanceType: AttendanceType.qr),
+                callBackRoute: AttendancePage.route(attendanceType: AttendanceType.qr),
               ));
         }));
         break;
@@ -110,9 +110,7 @@ class AttendanceMethodBloc
                         title: tr("next"),
                         clickButton: () => Navigator.pushReplacement(
                           event.context,
-                          AttendancePage.route(
-                              attendanceType: AttendanceType.selfie,
-                              selfie: selfiePath),
+                          AttendancePage.route(attendanceType: AttendanceType.selfie, selfie: selfiePath),
                         ),
                       ),
                     )),
@@ -128,9 +126,7 @@ class AttendanceMethodBloc
 
   void faceDataApi(String? faceData, BuildContext context) async {
     try {
-      await _metaClubApiClient
-          .faceDataStore(faceData: faceData)
-          .then((data) {
+      await _metaClubApiClient.faceDataStore(faceData: faceData).then((data) {
         Navigator.pop(context);
         data.fold((l) => null, (r) {
           if (r) {
@@ -140,9 +136,7 @@ class AttendanceMethodBloc
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return const CustomDialogFaceError(
-
-                );
+                return const CustomDialogFaceError();
               },
             );
           }
