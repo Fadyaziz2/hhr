@@ -16,10 +16,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final AttendanceService offlineAttendanceDB;
   final LocationServiceProvider _locationServices;
   final AttendanceType attendanceType;
-  AttendanceBody body = AttendanceBody();
   final String? _selfie;
   late bool isCheckedIn;
   late bool isCheckedOut;
+  AttendanceBody body = AttendanceBody();
 
   AttendanceBloc({required MetaClubApiClient metaClubApiClient,
     required AttendanceService attendanceService,
