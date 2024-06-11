@@ -20,9 +20,7 @@ class AttendancePage extends StatelessWidget {
         attendanceType: attendanceType,
         selfie: selfie,
         attendanceBlocFactory: ({required AttendanceType attendanceType, String? selfie}) => AttendanceBloc(submitAttendanceUseCase: instance(), attendanceType: attendanceType, selfie: selfie)..add(OnLocationInitEvent(dashboardModel: homeBloc().state.dashboardModel)));
-    return MaterialPageRoute(
-      builder: (_) => attendancePage,
-    );
+    return MaterialPageRoute(builder: (_) => attendancePage);
   }
 
   @override
