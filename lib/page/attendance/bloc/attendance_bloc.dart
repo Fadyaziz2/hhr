@@ -1,41 +1,33 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:location_track/location_track.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
+import 'package:onesthrm/page/home/home.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/shared_preferences.dart';
 
+typedef AttendanceBlocFactory = AttendanceBloc Function({required AttendanceType attendanceType,String? selfie});
+
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
-  final MetaClubApiClient _metaClubApiClient;
-  final AttendanceService offlineAttendanceDB;
-  final LocationServiceProvider _locationServices;
+  final SubmitAttendanceUseCase submitAttendanceUseCase;
   final AttendanceType attendanceType;
   final String? _selfie;
   late bool isCheckedIn;
   late bool isCheckedOut;
   AttendanceBody body = AttendanceBody();
 
-  AttendanceBloc({required MetaClubApiClient metaClubApiClient,
-    required AttendanceService attendanceService,
-    required LocationServiceProvider locationServices,
-    required this.attendanceType,
-    required InternetStatus internetStatus,
-    String? selfie})
-      : _metaClubApiClient = metaClubApiClient,
-        offlineAttendanceDB = attendanceService,
-        _locationServices = locationServices,
-        _selfie = selfie,
+  AttendanceBloc({required this.submitAttendanceUseCase, required this.attendanceType, String? selfie})
+      : _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
-
     body.date = DateFormat('yyyy-MM-dd', 'en').format(DateTime.now());
-    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
-    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
+    isCheckedIn = attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: body.date!);
 
     on<OnLocationInitEvent>(_onLocationInit);
     on<OnLocationRefreshEvent>(_onLocationRefresh);
@@ -49,13 +41,16 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       body.shiftId = sid;
     });
 
-    if (attendanceType == AttendanceType.qr || attendanceType == AttendanceType.face || attendanceType == AttendanceType.selfie) {
+    if (attendanceType == AttendanceType.qr ||
+        attendanceType == AttendanceType.face ||
+        attendanceType == AttendanceType.selfie) {
       ///for auto check in/out , we need to initialize location
       add(OnLocationInitEvent());
 
       ///----------------------------------------------------///
       ///if not offline attendance, this event call automatically
       add(OnAttendance());
+
       ///---------------///---------------------------------///
     }
   }
@@ -65,8 +60,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationInit(OnLocationInitEvent event, Emitter<AttendanceState> emit) async {
-    body.latitude = '${_locationServices.userLocation.latitude}';
-    body.longitude = '${_locationServices.userLocation.longitude}';
+    body.latitude = '${locationServiceProvider.userLocation.latitude}';
+    body.longitude = '${locationServiceProvider.userLocation.longitude}';
 
     ///Initialize attendance data at global state
     AttendanceData? attendanceData = event.dashboardModel?.data?.attendanceData;
@@ -82,16 +77,17 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   void _onLocationRefresh(OnLocationRefreshEvent event, Emitter<AttendanceState> emit) async {
-    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
-    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
+    isCheckedIn = attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: body.date!);
 
-    emit(state.copyWith(locationLoaded: false,
+    emit(state.copyWith(
+        locationLoaded: false,
         actionStatus: ActionStatus.refresh,
         isCheckedIn: isCheckedIn,
         isCheckedOut: isCheckedOut));
-    _locationServices.placeStream.listen((location) async {
-      body.latitude = '${_locationServices.userLocation.latitude}';
-      body.longitude = '${_locationServices.userLocation.longitude}';
+    locationServiceProvider.placeStream.listen((location) async {
+      body.latitude = '${locationServiceProvider.userLocation.latitude}';
+      body.longitude = '${locationServiceProvider.userLocation.longitude}';
       add(OnLocationUpdated(place: location));
     });
     await Future.delayed(const Duration(seconds: 1));
@@ -106,28 +102,29 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   void _onAttendance(OnAttendance event, Emitter<AttendanceState> emit) async {
     emit(state.copyWith(status: NetworkStatus.loading, actionStatus: ActionStatus.checkInOut));
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
-    body.latitude = '${_locationServices.userLocation.latitude}';
-    body.longitude = '${_locationServices.userLocation.longitude}';
+    body.latitude = '${locationServiceProvider.userLocation.latitude}';
+    body.longitude = '${locationServiceProvider.userLocation.longitude}';
     body.attendanceId = globalState.get(attendanceId);
-    if(_selfie != null){
+    if (_selfie != null) {
       final imageBase64 = await File(_selfie).readAsBytes();
-      body.selfieImage =  base64Encode(imageBase64);
+      body.selfieImage = base64Encode(imageBase64);
     }
 
-    final checkInOutDataModel = body.toOnlineJson();
-
-    final data = await _metaClubApiClient.checkInOut(body: checkInOutDataModel);
+    final data = await submitAttendanceUseCase(body: body);
 
     data.fold((l) {
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       add(OnOfflineAttendance());
+
       ///----------------------------------*********--------------------------------------------------------
     }, (data) {
       body.isOffline = false;
-      final inTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkIn ?? '00:00:00 00:00',
+      final inTime = getDDMMYYYYAsString(
+          date: data?.checkInOut?.checkIn ?? '00:00:00 00:00',
           inputFormat: 'yyyy-mm-dd hh:mm',
           outputFormat: 'hh:mm aa');
-      final outTime = getDDMMYYYYAsString(date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
+      final outTime = getDDMMYYYYAsString(
+          date: data?.checkInOut?.checkOut ?? '00:00:00 00:00',
           inputFormat: 'yyyy-mm-dd hh:mm',
           outputFormat: 'hh:mm aa');
       body.attendanceId = data?.checkInOut?.id;
@@ -143,10 +140,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       globalState.set(inTime, data?.checkInOut?.inTime);
       globalState.set(outTime, data?.checkInOut?.outTime);
       globalState.set(stayTime, data?.checkInOut?.stayTime);
+
       ///------------------------Refresh data in OfflineAttendanceCubit-------------------------------------
       eventBus.fire(OnOnlineAttendanceUpdateEvent(body: body));
+
       ///----------------------------------*********--------------------------------------------------------
-      emit(state.copyWith(status: NetworkStatus.success, checkData: data,actionStatus: ActionStatus.checkInOut));
+      emit(state.copyWith(status: NetworkStatus.success, checkData: data, actionStatus: ActionStatus.checkInOut));
     });
   }
 
@@ -156,16 +155,16 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     body.isOffline = true;
     body.mode ??= await SharedUtil.getRemoteModeType() ?? 0;
     body.attendanceId = globalState.get(attendanceId);
-    body.latitude = '${_locationServices.userLocation.latitude}';
-    body.longitude = '${_locationServices.userLocation.longitude}';
-    if(_selfie != null){
+    body.latitude = '${locationServiceProvider.userLocation.latitude}';
+    body.longitude = '${locationServiceProvider.userLocation.longitude}';
+    if (_selfie != null) {
       final imageBase64 = await File(_selfie).readAsBytes();
-      body.selfieImage =  base64Encode(imageBase64);
+      body.selfieImage = base64Encode(imageBase64);
     }
 
     ///----------------------------------*********--------------------------------------------------------
-    isCheckedIn = offlineAttendanceDB.isAlreadyInCheckedIn(date: body.date!);
-    isCheckedOut = offlineAttendanceDB.isAlreadyInCheckedOut(date: body.date!);
+    isCheckedIn = attendanceService.isAlreadyInCheckedIn(date: body.date!);
+    isCheckedOut = attendanceService.isAlreadyInCheckedOut(date: body.date!);
 
     if (body.attendanceId != null) {
       add(OnAttendance());
@@ -174,9 +173,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       eventBus.fire(OnOfflineAttendanceUpdateEvent(body: body));
 
       ///----------------------------------*********--------------------------------------------------------
-      final checkData = CheckData(message: '${(isCheckedIn == isCheckedOut || isCheckedIn == false)
-          ? 'Check-In'
-          : 'Check-Out'} successfully. CHEERS!!!',
+      final checkData = CheckData(
+          message:
+              '${(isCheckedIn == isCheckedOut || isCheckedIn == false) ? 'Check-In' : 'Check-Out'} successfully. CHEERS!!!',
           result: true,
           checkInOut: convertToCheckout(body: body, inStatus: isCheckedIn ? 'check-in' : 'check-out'));
 

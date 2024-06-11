@@ -24,7 +24,7 @@ class CheckInOutStatusActionMars extends StatelessWidget {
           border: Border.all(color: primaryBorderColor)),
       child: InkWell(
           onTap: () {
-            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>()));
+            Navigator.push(context, AttendancePage.route());
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),

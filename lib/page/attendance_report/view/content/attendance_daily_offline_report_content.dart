@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:onesthrm/page/attendance/bloc/attendance_bloc.dart';
+import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'offline_present_content.dart';
 
 class AttendanceDailyOfflineReportContent extends StatelessWidget {
@@ -14,9 +13,7 @@ class AttendanceDailyOfflineReportContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final attendanceBloc = context.watch<AttendanceBloc>();
-    final data = attendanceBloc.offlineAttendanceDB.getAllOfflineCheckData();
+    final data = attendanceService.getAllOfflineCheckData();
 
     return  data.isNotEmpty ? Padding(
       padding: EdgeInsets.all(20.r),

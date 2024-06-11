@@ -24,7 +24,6 @@ part 'attendance_method_state.dart';
 
 class AttendanceMethodBloc
     extends Bloc<AttendanceMethodEvent, AttendanceMethodState> {
-  final HomeBloc _homeBloc;
   final FaceServiceImpl _faceService;
   final String _baseUrl;
   final LoginData? _loginData;
@@ -36,8 +35,7 @@ class AttendanceMethodBloc
       required FaceServiceImpl faceService,
       required LoginData? loginData,
       required String baseUrl})
-      : _homeBloc = homeBloc,
-        _faceService = faceService,
+      : _faceService = faceService,
         _baseUrl = baseUrl,
         _loginData = loginData,
         _metaClubApiClient = metaClubApiClient,
@@ -55,11 +53,11 @@ class AttendanceMethodBloc
     switch (event.slugName) {
       case 'offline_attendance':
         Navigator.push(
-            event.context, AttendancePage.route(homeBloc: _homeBloc,attendanceType: AttendanceType.offline));
+            event.context, AttendancePage.route());
         break;
       case 'normal_attendance':
         Navigator.push(
-            event.context, AttendancePage.route(homeBloc: _homeBloc,attendanceType: AttendanceType.normal));
+            event.context, AttendancePage.route());
         break;
       case 'face_attendance':
         ///set condition here weather face checking enable or disable
@@ -89,7 +87,6 @@ class AttendanceMethodBloc
                 token: '${_loginData?.user!.token}',
                 baseUrl: _baseUrl,
                 callBackRoute: AttendancePage.route(
-                    homeBloc: event.context.read<HomeBloc>(),
                     attendanceType: AttendanceType.qr),
               ));
         }));
@@ -114,7 +111,6 @@ class AttendanceMethodBloc
                         clickButton: () => Navigator.pushReplacement(
                           event.context,
                           AttendancePage.route(
-                              homeBloc: event.context.read<HomeBloc>(),
                               attendanceType: AttendanceType.selfie,
                               selfie: selfiePath),
                         ),
@@ -139,7 +135,7 @@ class AttendanceMethodBloc
         data.fold((l) => null, (r) {
           if (r) {
             Fluttertoast.showToast(msg: "Face store successfully");
-            Navigator.push(context, AttendancePage.route(homeBloc: context.read<HomeBloc>(), attendanceType: AttendanceType.face));
+            Navigator.push(context, AttendancePage.route(attendanceType: AttendanceType.face));
           } else {
             showDialog(
               context: context,
