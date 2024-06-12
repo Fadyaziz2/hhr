@@ -15,7 +15,7 @@ class AttendanceInjection {
     instance.registerSingleton<AttendanceService>(attendanceService);
     instance.registerSingleton<AttendanceBlocFactory>(({required AttendanceType attendanceType, String? selfie}) =>
         AttendanceBloc(submitAttendanceUseCase: instance(), attendanceType: attendanceType, selfie: selfie));
-    instance.registerFactory<AttendancePageFactory>(() => ({required AttendanceBlocFactory attendanceBlocFactory,required AttendanceType attendanceType}) =>
-        AttendancePage(attendanceBlocFactory: attendanceBlocFactory, attendanceType: attendanceType,));
+    instance.registerFactory<AttendancePageFactory>(() => ({required AttendanceBlocFactory attendanceBlocFactory,required AttendanceType attendanceType,String? selfie}) =>
+        AttendancePage(attendanceBlocFactory: attendanceBlocFactory, attendanceType: attendanceType,selfie: selfie,));
   }
 }
