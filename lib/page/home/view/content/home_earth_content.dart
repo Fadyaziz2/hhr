@@ -17,10 +17,8 @@ class HomeEarthContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        final settings = context.read<HomeBloc>().state.settings;
+      builder: (context, homeState) {
         final user = context.read<AuthenticationBloc>().state.data;
-        final homeData = context.read<HomeBloc>().state.dashboardModel;
 
         if (user?.user != null) {
           context.read<HomeBloc>().add(OnLocationEnabled(user: user!.user!, locationProvider: locationServiceProvider));
@@ -32,19 +30,19 @@ class HomeEarthContent extends StatelessWidget {
               children: [
                 ///top-header
                 HomeHeader(
-                    settings: settings, user: user, dashboardModel: homeData),
+                    settings: homeState.settings, user: user, dashboardModel: homeState.dashboardModel),
 
                 ///check-in-out card
                 CheckInOutCard(
-                    settings: settings, user: user, dashboardModel: homeData),
+                    settings:  homeState.settings, user: user, dashboardModel:  homeState.dashboardModel),
 
                 ///breakTime
                 BreakCard(
-                    settings: settings, user: user, dashboardModel: homeData),
+                    settings: homeState.settings, user: user, dashboardModel:  homeState.dashboardModel),
 
                 ///bottom-header
                 HomeBottom(
-                    settings: settings, user: user, dashboardModel: homeData),
+                    settings: homeState.settings, user: user, dashboardModel:  homeState.dashboardModel),
               ],
             );
           },

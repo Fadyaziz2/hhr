@@ -47,8 +47,7 @@ class BreakCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          dashboardModel?.data?.config?.breakStatus?.status !=
-                                  'break_out'
+                          dashboardModel?.data?.config?.breakStatus?.status != 'break_out'
                               ? "you're_in_break".tr()
                               : "take_coffee".tr(),
                           style: TextStyle(
@@ -60,7 +59,7 @@ class BreakCard extends StatelessWidget {
                       Text(
                         dashboardModel?.data?.config?.breakStatus?.status !=
                                 'break_out'
-                            ? '${dashboardModel?.data?.config?.breakStatus?.breakTime}'
+                            ? dashboardModel?.data?.config?.breakStatus?.breakTime ?? ''
                             : 'break'.tr(),
                         style: TextStyle(
                             color: colorPrimary,
