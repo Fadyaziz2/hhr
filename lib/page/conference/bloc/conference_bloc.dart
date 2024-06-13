@@ -107,7 +107,6 @@ class ConferenceBloc extends Bloc<ConferenceEvent, ConferenceState> {
       }, (r){
         if (r) {
           Fluttertoast.showToast(msg: "create_conference_successfully".tr());
-          emit(state.copyWith(status: NetworkStatus.success));
           add(ConferenceInitialDataRequest());
           Navigator.pop(event.context);
         } else {

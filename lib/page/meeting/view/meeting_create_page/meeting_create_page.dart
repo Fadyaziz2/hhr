@@ -64,14 +64,13 @@ class MeetingCreatePage extends StatelessWidget {
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: MeetingCreateContent(
-                      state: state, meetingBodyModel: meetingBodyModel),
+                  child: MeetingCreateContent(meetingBodyModel: meetingBodyModel),
                 ),
               );
             } else if (state.status == NetworkStatus.failure) {
               return Center(child: const Text('failed_to_load_list').tr());
             } else {
-              return const SizedBox();
+              return const SizedBox.shrink();
             }
           },
         ),

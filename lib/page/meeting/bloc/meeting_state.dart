@@ -10,8 +10,8 @@ class MeetingState extends Equatable {
   final List<int> selectedIds;
   final List<String> selectedNames;
 
-  const MeetingState({
-      this.status = NetworkStatus.initial,
+  const MeetingState(
+      {this.status = NetworkStatus.initial,
       this.meetingsListResponse,
       this.startTime,
       this.endTime,
@@ -47,5 +47,7 @@ class MeetingState extends Equatable {
         startTime,
         endTime,
         currentMonthSchedule,
+        selectedIds,
+        selectedNames
       ];
 }
