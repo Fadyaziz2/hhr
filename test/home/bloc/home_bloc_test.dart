@@ -19,6 +19,7 @@ main() {
     late MockHomeDatLoadUseCase mockHomeDatLoadUseCase;
     late MockSettingsDataLoadUseCase mockSettingsDataLoadUseCase;
     late MockLogoutUseCase mockLogoutUseCase;
+    late MockEventBus mockEventBus;
     late MetaClubApiClient metaClubApiClient;
     late HomeBloc homeBloc;
     late Settings settings;
@@ -28,6 +29,7 @@ main() {
       mockHomeDatLoadUseCase = MockHomeDatLoadUseCase();
       mockSettingsDataLoadUseCase = MockSettingsDataLoadUseCase();
       mockLogoutUseCase = MockLogoutUseCase();
+      mockEventBus = MockEventBus();
       metaClubApiClient = MockMetaClubApiClientRepository();
       attendanceService = MockAttendanceService();
       settings = MockSettings();
@@ -35,11 +37,11 @@ main() {
       when(() => settings.data?.currencyCode).thenReturn('\$');
       when(() => settings.data?.isAdmin).thenReturn(false);
       when(() => metaClubApiClient.getSettings()).thenAnswer((_) async => Right(settings));
-      homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase);
+      homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase, eventBus: mockEventBus);
     });
 
     test('Initial state is correct', () {
-      final homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase);
+      final homeBloc = HomeBloc(logoutUseCase: mockLogoutUseCase, homeDatLoadUseCase: mockHomeDatLoadUseCase, settingsDataLoadUseCase: mockSettingsDataLoadUseCase, eventBus: mockEventBus);
       expect(homeBloc.state, const HomeState());
     });
 

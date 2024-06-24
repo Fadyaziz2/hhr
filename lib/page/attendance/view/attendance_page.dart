@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:event_bus_plus/event_bus_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
@@ -20,7 +21,7 @@ class AttendancePage extends StatelessWidget {
     final attendancePage = page(
         attendanceType: attendanceType,
         selfie: selfie,
-        attendanceBlocFactory: ({required AttendanceType attendanceType, String? selfie}) => AttendanceBloc(submitAttendanceUseCase: instance(), attendanceType: attendanceType, selfie: selfie)..add(OnLocationInitEvent(dashboardModel: homeBloc().state.dashboardModel)));
+        attendanceBlocFactory: ({required AttendanceType attendanceType ,String? selfie}) => AttendanceBloc(submitAttendanceUseCase: instance(),eventBus: instance(), attendanceType: attendanceType, selfie: selfie)..add(OnLocationInitEvent(dashboardModel: homeBloc().state.dashboardModel)));
     return MaterialPageRoute(builder: (_) => attendancePage);
   }
 

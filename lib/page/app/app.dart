@@ -18,10 +18,6 @@ import '../login/view/login_page.dart';
 import '../onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding/view/onboarding_page.dart';
 import '../splash/view/splash.dart';
-import 'package:event_bus_plus/event_bus_plus.dart';
-
-// Initialize the Service Bus
-final IEventBus eventBus = EventBus();
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -34,7 +30,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: instance())),
         BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
         BlocProvider(create: (context) => LanguageBloc()),
-        BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService))
+        BlocProvider(create: (context) => OfflineCubit(attendanceService: attendanceService, eventBus: instance()))
       ],
       child: const AppView(),
     );
@@ -49,7 +45,6 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-
   NavigatorState get _navigator => instance<GlobalKey<NavigatorState>>().currentState!;
 
   @override
