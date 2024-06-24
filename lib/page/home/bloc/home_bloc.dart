@@ -3,6 +3,7 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:event_bus_plus/res/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -24,8 +25,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final LogoutUseCase logoutUseCase;
   final HomeDatLoadUseCase homeDatLoadUseCase;
   final SettingsDataLoadUseCase settingsDataLoadUseCase;
+  final EventBus eventBus;
 
-  HomeBloc({required this.logoutUseCase, required this.homeDatLoadUseCase, required this.settingsDataLoadUseCase})
+  HomeBloc({required this.logoutUseCase, required this.homeDatLoadUseCase, required this.settingsDataLoadUseCase,required this.eventBus})
       : super(const HomeState()) {
     ///Assign the appTheme at init contractor so that
     ///view can load more first(data from last state)

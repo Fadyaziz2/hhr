@@ -7,6 +7,6 @@ class HomeInjection {
     instance.registerFactory<HomeBlocFactory>(() => () => HomeBloc(
         logoutUseCase: instance(),
         homeDatLoadUseCase: instance(),
-        settingsDataLoadUseCase: instance()));
+        settingsDataLoadUseCase: instance(), eventBus: instance()));
   }
 }

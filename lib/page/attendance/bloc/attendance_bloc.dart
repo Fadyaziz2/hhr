@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event_bus_plus/res/event_bus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/home/home.dart';
@@ -21,9 +21,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   late bool isCheckedIn;
   late bool isCheckedOut;
   late AttendanceService attendanceService;
+  final EventBus eventBus;
   AttendanceBody body = AttendanceBody();
 
-  AttendanceBloc({required this.submitAttendanceUseCase, required this.attendanceType, String? selfie})
+  AttendanceBloc({required this.submitAttendanceUseCase, required this.attendanceType,required this.eventBus, String? selfie})
       : _selfie = selfie,
         super(const AttendanceState(status: NetworkStatus.initial)) {
     attendanceService = instance<AttendanceService>();
