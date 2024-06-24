@@ -39,14 +39,14 @@ class PayrollList extends Equatable{
   final int? id;
   final String? month;
   final bool? isCalculated;
-  final int? salary;
+  final double? salary;
   final String? payslipLink;
 
   factory PayrollList.fromJson(Map<String, dynamic> json) => PayrollList(
     id: json["id"],
     month: json["month"],
     isCalculated: json["is_calculated"],
-    salary: json["salary"],
+    salary: double.tryParse('${json["salary"]}'),
     payslipLink: json["payslip_link"],
   );
 
