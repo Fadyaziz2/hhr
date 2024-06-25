@@ -15,8 +15,7 @@ class LeaveTypeListModel extends Equatable {
       LeaveTypeListModel(
         result: json["result"],
         message: json["message"],
-        data:
-            json["data"] == null ? null : LeaveListData.fromJson(json["data"]),
+        data: json["data"] == null ? null : LeaveListData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_event.dart';
 import 'package:onesthrm/page/daily_leave/bloc/daily_leave_state.dart';
@@ -66,8 +67,7 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     });
   }
 
-  FutureOr<void> _onSelectLeaveType(
-      SelectLeaveType event, Emitter<DailyLeaveState> emit) async {
+  FutureOr<void> _onSelectLeaveType(SelectLeaveType event, Emitter<DailyLeaveState> emit) async {
     emit(state.copyWith(leaveTypeModel: event.leaveTypeModel));
   }
 
@@ -107,19 +107,12 @@ class DailyLeaveBloc extends Bloc<DailyLeaveEvent, DailyLeaveState> {
     add(DailyLeaveSummary(event.selectEmployee.id!));
   }
 
-  Future<LeaveTypeListModel?> onLeaveTypeList(LeaveListModel leaveListModel) async {
-    final leaveTypeListData =
-    await _metaClubApiClient.dailyLeaveSummaryStaffView(
+  Future<Either<Failure,LeaveTypeListModel?>> onLeaveTypeList(LeaveListModel leaveListModel) async {
+    return await _metaClubApiClient.dailyLeaveSummaryStaffView(
         userId: state.selectEmployee?.id.toString() ?? leaveListModel.userId,
         month: leaveListModel.month,
         leaveStatus: leaveListModel.leaveStatus,
         leaveType: leaveListModel.leaveType);
-    leaveTypeListData.fold((l){
-      return null;
-    }, (r){
-      return r;
-    });
-    return null;
   }
 
   FutureOr<void> _onLeaveAction(LeaveAction event, Emitter<DailyLeaveState> emit) async {
