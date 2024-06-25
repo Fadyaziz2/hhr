@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/leave/view/content/general_list_shimmer.dart';
 import 'package:onesthrm/page/onboarding/bloc/onboarding_bloc.dart';
 import 'package:core/core.dart';
+import 'package:onesthrm/res/enum.dart';
 import '../../../res/nav_utail.dart';
 import '../../../res/widgets/custom_button.dart';
 import '../../login/view/login_page.dart';
+
+typedef OnboardingPageFactory = OnboardingPage Function();
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
 
   static Route route(){
-    return MaterialPageRoute(builder: (_) => const OnboardingPage());
+    final onBoarding = instance<OnboardingPageFactory>();
+    return MaterialPageRoute(builder: (_) => onBoarding());
   }
 
   @override
@@ -55,7 +60,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                   const SizedBox(height: 16),
                   Expanded(
-                    child: ListView.builder(
+                    child: state.status == NetworkStatus.loading ? const GeneralListShimmer() : ListView.builder(
                       itemCount: state.companyListModel?.companyList?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                             Company? company =  state.companyListModel?.companyList?[index];

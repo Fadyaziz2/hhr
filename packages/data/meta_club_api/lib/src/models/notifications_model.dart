@@ -80,7 +80,7 @@ class NotificationModelData extends Equatable {
 
   factory NotificationModelData.fromJson(Map<String, dynamic> json) =>
       NotificationModelData(
-        id: json["id"],
+        id: int.tryParse('${json["id"]}'),
         sender: json["sender"],
         senderId: json["sender_id"],
         title: json["title"],

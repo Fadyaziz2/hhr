@@ -5,7 +5,6 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/app_permission_page/app_permission_page.dart';
 import 'package:onesthrm/page/attendance/attendance_service.dart';
 import 'package:onesthrm/page/attendance/bloc/offline_attendance_bloc/offline_attendance_qubit.dart';
@@ -19,14 +18,17 @@ import '../onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding/view/onboarding_page.dart';
 import '../splash/view/splash.dart';
 
+typedef AppFactory = App Function();
+
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final onBoardingBloc = instance<OnboardingBlocFactory>();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => OnboardingBloc(metaClubApiClient: MetaClubApiClient(httpService: instance()))..add(CompanyListEvent())),
+        BlocProvider(create: (_) => onBoardingBloc()),
         BlocProvider(create: (_) => AuthenticationBloc(authenticationRepository: instance())),
         BlocProvider(create: (_) => InternetBloc()..checkConnectionStatus()),
         BlocProvider(create: (context) => LanguageBloc()),

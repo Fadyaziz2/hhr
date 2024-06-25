@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/phonebook/phonebook.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../leave/view/content/leave_list_shimmer.dart';
+import '../../leave/view/content/general_list_shimmer.dart';
 
 class MultiSelectEmployeeList extends StatelessWidget {
   const MultiSelectEmployeeList({super.key});
@@ -67,7 +67,7 @@ class MultiSelectEmployeeList extends StatelessWidget {
                 },
               ) : const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
+                child: GeneralListShimmer(),
               );
           }),
     );

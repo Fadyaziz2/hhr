@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/res/shimmers.dart';
 
-class LeaveListShimmer extends StatelessWidget {
-  const LeaveListShimmer({super.key});
+class GeneralListShimmer extends StatelessWidget {
+  const GeneralListShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

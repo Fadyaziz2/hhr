@@ -8,7 +8,7 @@ import 'package:onesthrm/page/visit/view/content/hitory_item.dart';
 import 'package:core/core.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
-import '../../../leave/view/content/leave_list_shimmer.dart';
+import '../../../leave/view/content/general_list_shimmer.dart';
 import '../../bloc/visit_bloc.dart';
 
 class HistoryListPage extends StatelessWidget {
@@ -52,7 +52,7 @@ class HistoryListPage extends StatelessWidget {
             if (state.status == NetworkStatus.loading) {
               return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
+                child: GeneralListShimmer(),
               );
             } else if (state.status == NetworkStatus.success) {
               return state.historyListResponse?.data?.history?.isNotEmpty ==

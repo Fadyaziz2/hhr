@@ -10,7 +10,7 @@ import '../../../../res/widgets/device_util.dart';
 import '../../../../res/widgets/no_data_found_widget.dart';
 import '../../bloc/leave_bloc.dart';
 import 'build_leave_title.dart';
-import 'leave_list_shimmer.dart';
+import 'general_list_shimmer.dart';
 
 class LeaveRequestList extends StatelessWidget {
   final int userId;
@@ -22,7 +22,7 @@ class LeaveRequestList extends StatelessWidget {
       if (state.status == NetworkStatus.loading) {
         return const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: LeaveListShimmer(),
+          child: GeneralListShimmer(),
         );
       } else if (state.status == NetworkStatus.success) {
         return state.leaveRequestModel?.leaveRequestData?.leaveRequests?.isNotEmpty == true

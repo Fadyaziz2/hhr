@@ -7,7 +7,7 @@ import 'package:onesthrm/page/break/bloc/break_bloc.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../leave/view/content/leave_list_shimmer.dart';
+import '../../../leave/view/content/general_list_shimmer.dart';
 
 class BreakHistoryContent extends StatelessWidget {
   final DashboardModel? dashboard;
@@ -38,7 +38,7 @@ class BreakHistoryContent extends StatelessWidget {
                         5), // radius of 10// green as background color
                   )),
             ),
-            const LeaveListShimmer(),
+            const GeneralListShimmer(),
           ],
         ),
       );

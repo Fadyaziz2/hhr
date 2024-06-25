@@ -3,9 +3,12 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:hrm_framework/hrm_framework.dart';
 import 'package:meta_club_api/meta_club_api.dart';
+import 'package:onesthrm/page/app/app.dart';
 import 'package:onesthrm/page/attendance/attendance_app_injection.dart';
 import 'package:onesthrm/page/bottom_navigation/bottom_nav_app_injection.dart';
 import 'package:onesthrm/page/home/home_app_injection.dart';
+import 'package:onesthrm/page/onboarding/bloc/onboarding_bloc.dart';
+import 'package:onesthrm/page/onboarding/view/onboarding_page.dart';
 
 class AppInjection {
   late FrameworkAppInjection _frameworkAppInjection;
@@ -31,6 +34,14 @@ class AppInjection {
   }
 
   Future<void> initInjection() async {
+    ///---------------initial injection-------------------///
+    //OnboardingBlocFactory
+    instance.registerSingleton<OnboardingBlocFactory>(() => OnboardingBloc(metaClubApiClient: instance()));
+    //OnboardingPageFactory
+    instance.registerFactory<OnboardingPageFactory>(() => ()=> const OnboardingPage());
+    //AppFactory
+    instance.registerFactory<AppFactory>(() => ()=> const App());
+    ///core injection
     await _httpServiceInjection.initInjection();
     await _frameworkAppInjection.initInjection();
     await _metaClubApiInjection.initInjection();

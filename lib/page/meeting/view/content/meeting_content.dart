@@ -10,7 +10,7 @@ import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import 'package:core/core.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/nav_utail.dart';
-import '../../../leave/view/content/leave_list_shimmer.dart';
+import '../../../leave/view/content/general_list_shimmer.dart';
 
 class MeetingContent extends StatelessWidget {
   const MeetingContent({super.key});
@@ -43,7 +43,7 @@ class MeetingContent extends StatelessWidget {
             if (state.status == NetworkStatus.loading) {
               return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
+                child: GeneralListShimmer(),
               );
             } else if (state.status == NetworkStatus.success) {
               return Column(

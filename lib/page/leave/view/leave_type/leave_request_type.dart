@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
-import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
+import 'package:onesthrm/page/leave/view/content/general_list_shimmer.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
 import '../../../../res/nav_utail.dart';
 import '../../../../res/widgets/custom_button.dart';
@@ -95,7 +95,7 @@ class LeaveRequestType extends StatelessWidget {
                         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 5))
                     : const NoDataFoundWidget()
                 : const Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: LeaveListShimmer(),
+                    child: GeneralListShimmer(),
                   ));
       },
     );

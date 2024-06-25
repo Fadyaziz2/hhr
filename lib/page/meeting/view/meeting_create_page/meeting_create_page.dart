@@ -6,7 +6,7 @@ import 'package:onesthrm/page/meeting/bloc/meeting_bloc.dart';
 import 'package:onesthrm/page/meeting/view/content/meeting_create_contecnt.dart';
 import '../../../../res/enum.dart';
 import '../../../../res/widgets/custom_button.dart';
-import '../../../leave/view/content/leave_list_shimmer.dart';
+import '../../../leave/view/content/general_list_shimmer.dart';
 
 class MeetingCreatePage extends StatelessWidget {
   const MeetingCreatePage({super.key});
@@ -54,7 +54,7 @@ class MeetingCreatePage extends StatelessWidget {
             if (state.status == NetworkStatus.loading) {
               return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
+                child: GeneralListShimmer(),
               );
             } else if (state.status == NetworkStatus.success) {
               return SingleChildScrollView(

@@ -6,17 +6,19 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/enum.dart';
 
 part 'onboarding_event.dart';
-
 part 'onboarding_state.dart';
+
+typedef OnboardingBlocFactory = OnboardingBloc Function();
 
 class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
   final MetaClubApiClient _metaClubApiClient;
 
-  OnboardingBloc({required MetaClubApiClient metaClubApiClient})
-      : _metaClubApiClient = metaClubApiClient,
-        super(const OnboardingState()) {
+  OnboardingBloc({required MetaClubApiClient metaClubApiClient}): _metaClubApiClient = metaClubApiClient, super(const OnboardingState()) {
+    ///will be react based on event
     on<CompanyListEvent>(_onCompanyLoaded);
     on<OnSelectedCompanyEvent>(_onSelectedCompany);
+    ///trigger event
+    add(CompanyListEvent());
   }
 
   FutureOr<void> _onSelectedCompany(OnSelectedCompanyEvent event, Emitter<OnboardingState> emit) async {

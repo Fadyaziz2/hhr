@@ -8,7 +8,7 @@ import 'package:onesthrm/page/conference/view/content/create_conference_content.
 
 import '../../../res/enum.dart';
 import '../../../res/widgets/custom_button.dart';
-import '../../leave/view/content/leave_list_shimmer.dart';
+import '../../leave/view/content/general_list_shimmer.dart';
 
 class CreateConferencePage extends StatelessWidget {
   const CreateConferencePage({super.key});
@@ -58,7 +58,7 @@ class CreateConferencePage extends StatelessWidget {
             if (state.status == NetworkStatus.loading) {
               return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer(),
+                child: GeneralListShimmer(),
               );
             } else if(state.status == NetworkStatus.success){
               return  SingleChildScrollView(

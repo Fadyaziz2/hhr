@@ -7,7 +7,7 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/page/authentication/bloc/authentication_bloc.dart';
 import 'package:onesthrm/page/leave/bloc/leave_bloc.dart';
 import 'package:onesthrm/page/leave/view/content/build_container.dart';
-import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
+import 'package:onesthrm/page/leave/view/content/general_list_shimmer.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
 import 'package:core/core.dart';
@@ -55,7 +55,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
               state.isCancelled == false) {
             return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: LeaveListShimmer());
+                child: GeneralListShimmer());
           } else if (state.status == NetworkStatus.success ||
               state.isCancelled == true) {
             return Column(

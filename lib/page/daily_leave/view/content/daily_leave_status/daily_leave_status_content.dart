@@ -10,7 +10,7 @@ import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_pending.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_reject.dart';
 import 'package:onesthrm/page/daily_leave/view/content/daily_leave_status/daily_leave_select_employee.dart';
-import 'package:onesthrm/page/leave/view/content/leave_list_shimmer.dart';
+import 'package:onesthrm/page/leave/view/content/general_list_shimmer.dart';
 import 'package:onesthrm/res/enum.dart';
 
 class DailyLeaveStatusContent extends StatelessWidget {
@@ -22,7 +22,7 @@ class DailyLeaveStatusContent extends StatelessWidget {
     return BlocBuilder<DailyLeaveBloc, DailyLeaveState>(
         builder: (context, state) {
       if (state.status == NetworkStatus.loading) {
-        return const LeaveListShimmer();
+        return const GeneralListShimmer();
       } else if (state.status == NetworkStatus.success) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

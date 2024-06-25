@@ -47,6 +47,8 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  final appView = instance<AppFactory>();
+
   runApp(EasyLocalization(
     supportedLocales: const [
       Locale('en', 'US'),
@@ -56,7 +58,7 @@ void main() async {
     path: 'assets/translations',
     saveLocale: true,
     fallbackLocale: const Locale('en', 'US'),
-    child: const App(),
+    child: appView(),
   ));
 }
 
