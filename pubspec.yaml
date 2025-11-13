@@ -41,7 +41,6 @@ dependencies:
   hive: ^2.2.2
   hive_flutter: ^1.1.0
   formz: ^0.7.0
-  url_launcher: ^6.1.4
   equatable: ^2.0.5
   country_picker: ^2.0.16
   syncfusion_flutter_datepicker: ^23.1.38
