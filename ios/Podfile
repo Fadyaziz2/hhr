@@ -38,4 +38,16 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
+
+  launcher_path = File.join(__dir__, '.symlinks', 'plugins', 'url_launcher_ios', 'ios', 'Classes', 'Launcher.swift')
+  if File.exist?(launcher_path)
+    contents = File.read(launcher_path)
+    unless contents.match?(/@MainActor\s+(public\s+)?protocol\s+Launcher/)
+      contents = contents.sub(/(public\s+)?protocol\s+Launcher(\s*:[^{]+)?\s*\{/) do |match|
+        "@MainActor\n#{match}"
+      end
+      File.write(launcher_path, contents)
+      puts 'Applied @MainActor annotation to url_launcher_ios Launcher protocol to satisfy UIApplication concurrency requirements.'
+    end
+  end
 end
