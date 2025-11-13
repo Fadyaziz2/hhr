@@ -37,6 +37,33 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    next unless target.name == 'BoringSSL-GRPC'
+
+    target.build_configurations.each do |config|
+      other_cflags = config.build_settings['OTHER_CFLAGS']
+      next unless other_cflags
+
+      normalized_flags =
+        if other_cflags.is_a?(Array)
+          other_cflags
+        else
+          other_cflags.to_s.split(/\s+/)
+        end
+
+      filtered_flags = normalized_flags.reject { |flag| flag == '-G' }
+
+      next if filtered_flags.length == normalized_flags.length
+
+      config.build_settings['OTHER_CFLAGS'] =
+        if other_cflags.is_a?(Array)
+          filtered_flags
+        else
+          filtered_flags.join(' ')
+        end
+
+      puts "Removed unsupported -G compiler flag from BoringSSL-GRPC #{config.name} configuration."
+    end
   end
 
   launcher_path = File.join(__dir__, '.symlinks', 'plugins', 'url_launcher_ios', 'ios', 'Classes', 'Launcher.swift')
