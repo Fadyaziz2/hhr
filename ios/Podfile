@@ -62,6 +62,14 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     # إعدادات Flutter الافتراضية
     flutter_additional_ios_build_settings(target)
+    # ==== ضبط gRPC على C++17 علشان مشاكل الـ template مع Xcode ====
+    if ['gRPC-Core', 'gRPC-C++'].include?(target.name)
+      target.build_configurations.each do |config|
+        config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++17'
+        config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
+        puts "Set C++17 for #{target.name} (#{config.name})"
+      end
+    end
 
     # نشتغل بس على BoringSSL-GRPC
     next unless target.name == 'BoringSSL-GRPC'
