@@ -44,7 +44,7 @@ dependencies:
   url_launcher: ^6.1.4
   equatable: ^2.0.5
   country_picker: ^2.0.16
-  syncfusion_flutter_datepicker: ^25.1.41
+  syncfusion_flutter_datepicker: ^23.1.38
   meta_club_api:
     path: packages/data/meta_club_api
   user_repository:
@@ -98,7 +98,7 @@ dependencies:
   share_plus: ^7.0.0
   connectivity_plus: ^6.0.3
   flutter_screenutil: ^5.8.4
-  syncfusion_flutter_gauges: ^25.1.41
+  syncfusion_flutter_gauges: ^23.1.38
   flutter_local_notifications: ^17.1.0
   http: any
   rxdart: ^0.27.7
