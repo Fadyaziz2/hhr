@@ -23,6 +23,36 @@ def flutter_root
   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
 end
 
+def remove_flag_from_build_settings(config, setting_name, flag)
+  setting_value = config.build_settings[setting_name]
+  return false unless setting_value
+
+  normalized_flags =
+    if setting_value.is_a?(Array)
+      setting_value
+    else
+      setting_value.to_s.split(/\s+/)
+    end
+
+  filtered_flags = normalized_flags.reject { |value| value == flag }
+  return false if filtered_flags.length == normalized_flags.length
+
+  config.build_settings[setting_name] =
+    if setting_value.is_a?(Array)
+      filtered_flags
+    else
+      filtered_flags.join(' ')
+    end
+
+  true
+end
+
+def remove_flag_from_all_variants(config, setting_name_prefix, flag)
+  config.build_settings.keys.grep(/^#{Regexp.escape(setting_name_prefix)}(\[.*\])?$/).any? do |key|
+    remove_flag_from_build_settings(config, key, flag)
+  end
+end
+
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
 flutter_ios_podfile_setup
@@ -41,28 +71,11 @@ post_install do |installer|
     next unless target.name == 'BoringSSL-GRPC'
 
     target.build_configurations.each do |config|
-      other_cflags = config.build_settings['OTHER_CFLAGS']
-      next unless other_cflags
+      removed_flag = %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS].any? do |setting_name|
+        remove_flag_from_all_variants(config, setting_name, '-G')
+      end
 
-      normalized_flags =
-        if other_cflags.is_a?(Array)
-          other_cflags
-        else
-          other_cflags.to_s.split(/\s+/)
-        end
-
-      filtered_flags = normalized_flags.reject { |flag| flag == '-G' }
-
-      next if filtered_flags.length == normalized_flags.length
-
-      config.build_settings['OTHER_CFLAGS'] =
-        if other_cflags.is_a?(Array)
-          filtered_flags
-        else
-          filtered_flags.join(' ')
-        end
-
-      puts "Removed unsupported -G compiler flag from BoringSSL-GRPC #{config.name} configuration."
+      puts "Removed unsupported -G compiler flag from BoringSSL-GRPC #{config.name} configuration." if removed_flag
     end
   end
 
