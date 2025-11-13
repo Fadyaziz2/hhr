@@ -47,12 +47,6 @@ def remove_flag_from_build_settings(config, setting_name, flag)
   true
 end
 
-def remove_flag_from_all_variants(config, setting_name_prefix, flag)
-  config.build_settings.keys.grep(/^#{Regexp.escape(setting_name_prefix)}(\[.*\])?$/).any? do |key|
-    remove_flag_from_build_settings(config, key, flag)
-  end
-end
-
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
 flutter_ios_podfile_setup
@@ -72,7 +66,7 @@ post_install do |installer|
 
     target.build_configurations.each do |config|
       removed_flag = %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS].any? do |setting_name|
-        remove_flag_from_all_variants(config, setting_name, '-G')
+        remove_flag_from_build_settings(config, setting_name, '-G')
       end
 
       puts "Removed unsupported -G compiler flag from BoringSSL-GRPC #{config.name} configuration." if removed_flag
