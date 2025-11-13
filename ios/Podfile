@@ -60,19 +60,65 @@ end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
+    # إعدادات Flutter الافتراضية
     flutter_additional_ios_build_settings(target)
 
+    # نشتغل بس على BoringSSL-GRPC
     next unless target.name == 'BoringSSL-GRPC'
 
+    # 1) إزالة -GCC_WARN_INHIBIT_ALL_WARNINGS من إعدادات الكونفيج
     target.build_configurations.each do |config|
-      removed_flag = %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS].any? do |setting_name|
-        remove_flag_from_build_settings(config, setting_name, '-G')
+      %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS].each do |setting_name|
+        setting_value = config.build_settings[setting_name]
+        next unless setting_value
+
+        flags =
+          if setting_value.is_a?(Array)
+            setting_value
+          else
+            setting_value.to_s.split(/\s+/)
+          end
+
+        # نشيل التوكن اللي بيطلع في الكومبايل
+        filtered = flags.reject { |f| f == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
+        next if filtered.length == flags.length
+
+        config.build_settings[setting_name] =
+          if setting_value.is_a?(Array)
+            filtered
+          else
+            filtered.join(' ')
+          end
+
+        puts "Removed -GCC_WARN_INHIBIT_ALL_WARNINGS from #{target.name} #{config.name} #{setting_name}"
       end
 
-      puts "Removed unsupported -G compiler flag from BoringSSL-GRPC #{config.name} configuration." if removed_flag
+      # كمان نطفي الفلاج كـ build setting لو موجود
+      if config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS']
+        config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = 'NO'
+        puts "Disabled GCC_WARN_INHIBIT_ALL_WARNINGS in #{target.name} #{config.name}"
+      end
+    end
+
+    # 2) إزالة -GCC_WARN_INHIBIT_ALL_WARNINGS من COMPILER_FLAGS على مستوى الملفات
+    target.build_phases.each do |phase|
+      next unless phase.respond_to?(:files)
+
+      phase.files.each do |file|
+        settings = file.settings
+        next unless settings && settings['COMPILER_FLAGS']
+
+        flags = settings['COMPILER_FLAGS'].to_s.split(/\s+/)
+        next unless flags.include?('-GCC_WARN_INHIBIT_ALL_WARNINGS')
+
+        flags.reject! { |f| f == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
+        settings['COMPILER_FLAGS'] = flags.join(' ')
+        puts "Removed -GCC_WARN_INHIBIT_ALL_WARNINGS from COMPILER_FLAGS of #{target.name} file #{file.display_name}"
+      end
     end
   end
 
+  # ===== إصلاح url_launcher_ios زي ما هو عندك =====
   launcher_path = File.join(__dir__, '.symlinks', 'plugins', 'url_launcher_ios', 'ios', 'Classes', 'Launcher.swift')
   if File.exist?(launcher_path)
     contents = File.read(launcher_path)
