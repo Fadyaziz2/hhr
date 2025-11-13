@@ -70,4 +70,4 @@ const List languages = [
         'https://cdn.britannica.com/79/5779-004-DC479508/Flag-Saudi-Arabia.jpg',
   }
 ];
-const rootUrl = 'https://www.24hourworx.com';
+const rootUrl = 'https://microarab.com/hr/public';

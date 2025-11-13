@@ -42,7 +42,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location when in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location to get the employee&apos;s exact location.It help to find the distance between the employee and office position for accurate daily attendance.</string>
+	<string>This app needs access to location to get the employee's exact location.It help to find the distance between the employee and office position for accurate daily attendance.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used to capture audio for image picker plugin</string>
 	<key>NSPhotoLibraryUsageDescription</key>
