@@ -42,12 +42,24 @@ post_install do |installer|
   launcher_path = File.join(__dir__, '.symlinks', 'plugins', 'url_launcher_ios', 'ios', 'Classes', 'Launcher.swift')
   if File.exist?(launcher_path)
     contents = File.read(launcher_path)
+    updated = false
+
     unless contents.match?(/@MainActor\s+(public\s+)?protocol\s+Launcher/)
       contents = contents.sub(/(public\s+)?protocol\s+Launcher(\s*:[^{]+)?\s*\{/) do |match|
         "@MainActor\n#{match}"
       end
-      File.write(launcher_path, contents)
+      updated = true
       puts 'Applied @MainActor annotation to url_launcher_ios Launcher protocol to satisfy UIApplication concurrency requirements.'
     end
+
+    unless contents.match?(/@MainActor\s+@available[^{]+extension\s+UIApplication\s*:\s*Launcher/)
+      contents = contents.sub(/@available([^{]+extension\s+UIApplication\s*:\s*Launcher\s*\{)/) do |match|
+        "@MainActor\n#{match}"
+      end
+      updated = true
+      puts 'Applied @MainActor annotation to url_launcher_ios UIApplication extension to satisfy concurrency requirements.'
+    end
+
+    File.write(launcher_path, contents) if updated
   end
 end
