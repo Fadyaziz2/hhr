@@ -159,22 +159,37 @@ post_install do |installer|
   # Patch gRPC basic_seq.h to remove an invalid `template` keyword usage that
   # breaks builds with recent versions of Clang (it expects template arguments
   # after `Traits::template CallSeqFactory`).
-  grpc_basic_seq = File.join(
-    installer.sandbox.root,
-    'gRPC-Core',
-    'src',
-    'core',
-    'lib',
-    'promise',
-    'detail',
-    'basic_seq.h'
-  )
-  if File.exist?(grpc_basic_seq)
+  grpc_basic_seq_paths = [
+    File.join(
+      installer.sandbox.root,
+      'gRPC-Core',
+      'src',
+      'core',
+      'lib',
+      'promise',
+      'detail',
+      'basic_seq.h'
+    ),
+    File.join(
+      installer.sandbox.root,
+      'gRPC-C++',
+      'src',
+      'core',
+      'lib',
+      'promise',
+      'detail',
+      'basic_seq.h'
+    )
+  ]
+
+  grpc_basic_seq_paths.each do |grpc_basic_seq|
+    next unless File.exist?(grpc_basic_seq)
+
     contents = File.read(grpc_basic_seq)
     target = 'Traits::template CallSeqFactory'
     if contents.include?(target)
       File.write(grpc_basic_seq, contents.gsub(target, 'Traits::CallSeqFactory'))
-      puts 'Patched Traits::CallSeqFactory template usage in gRPC basic_seq.h to satisfy Clang.'
+      puts "Patched Traits::CallSeqFactory template usage in #{grpc_basic_seq} to satisfy Clang."
     end
   end
 end
