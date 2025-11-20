@@ -68,7 +68,6 @@ flutter_ios_podfile_setup
 target 'Runner' do
   # Use static frameworks to ensure C++ dependencies like Abseil link correctly.
   use_frameworks! :linkage => :static
-  use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
@@ -187,23 +186,4 @@ post_install do |installer|
     end
   end
 
-  # Patch url_launcher to align with Swift concurrency requirements so Xcode
-  # no longer complains that UIApplication does not conform to Launcher.
-  launcher_path = File.join(installer.sandbox.root, 'url_launcher_ios', 'Classes', 'Launcher.swift')
-  if File.exist?(launcher_path)
-    if ensure_writable(launcher_path)
-      launcher_contents = File.read(launcher_path)
-
-      updated_contents = launcher_contents
-        .gsub('protocol Launcher', '@MainActor protocol Launcher')
-        .gsub('extension UIApplication: Launcher', '@MainActor extension UIApplication: Launcher')
-
-      if updated_contents != launcher_contents
-        File.write(launcher_path, updated_contents)
-        puts "Annotated Launcher protocol and UIApplication extension with @MainActor in #{launcher_path}."
-      end
-    else
-      puts "Skipped patching #{launcher_path} because it is not writable."
-    end
-  end
 end
