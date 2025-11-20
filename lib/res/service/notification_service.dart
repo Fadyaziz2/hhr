@@ -174,7 +174,6 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id, title, body, tzDateTime, notificationDetails,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
         payload: payload);
   }
