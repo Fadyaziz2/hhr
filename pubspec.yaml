@@ -105,6 +105,9 @@ dependencies:
   flutter_native_splash: ^2.3.7
   event_bus_plus: ^0.6.2
   fpdart: ^1.0.0
+  url_launcher: ^6.3.1
+  url_launcher_ios: ^6.3.2
+
 
 dev_dependencies:
   flutter_test:
