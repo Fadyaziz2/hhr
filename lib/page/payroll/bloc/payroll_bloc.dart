@@ -8,7 +8,6 @@ import 'package:meta_club_api/meta_club_api.dart';
 import 'package:onesthrm/res/dialogs/custom_dialogs.dart';
 import 'package:onesthrm/res/enum.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'payroll_event.dart';
 
@@ -37,12 +36,7 @@ class PayrollBloc extends Bloc<PayrollEvent, PayrollState> {
   }
 
   getPaySlip(String link) async {
-    launchUrl(Uri.parse(link), mode: LaunchMode.externalApplication).onError(
-      (error, stackTrace) {
-        debugPrint("Url is not valid!");
-        return false;
-      },
-    );
+    debugPrint('Opening payslip links is disabled in this build. Link: $link');
   }
 
   sharePaySlip(String link) async {
