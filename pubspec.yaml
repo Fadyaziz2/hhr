@@ -80,7 +80,6 @@ dependencies:
   # which is unavailable in our current Flutter SDK.
   font_awesome_flutter: 10.1.0
   toggle_switch: ^2.0.1
-  slide_digital_clock: ^1.0.2
   easy_localization: ^3.0.2
   shimmer: ^3.0.0
   custom_timer: ^0.2.3
