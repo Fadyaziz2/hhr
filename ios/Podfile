@@ -47,7 +47,21 @@ def remove_flag_from_build_settings(config, setting_name, flag)
   true
 end
 
+require 'fileutils'
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+def ensure_writable(path)
+  return true if File.writable?(path)
+
+  begin
+    FileUtils.chmod('u+w', path)
+    return true if File.writable?(path)
+  rescue Errno::EACCES, Errno::EPERM => e
+    puts "Unable to adjust permissions for #{path}: #{e.message}"
+  end
+
+  false
+end
 
 flutter_ios_podfile_setup
 
@@ -188,6 +202,11 @@ post_install do |installer|
     contents = File.read(grpc_basic_seq)
     target = 'Traits::template CallSeqFactory'
     if contents.include?(target)
+      unless ensure_writable(grpc_basic_seq)
+        puts "Skipped patching #{grpc_basic_seq} because it is not writable."
+        next
+      end
+
       File.write(grpc_basic_seq, contents.gsub(target, 'Traits::CallSeqFactory'))
       puts "Patched Traits::CallSeqFactory template usage in #{grpc_basic_seq} to satisfy Clang."
     end
