@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../page/login/view/login_page.dart';
 
 Future<void> showRegistrationSuccessDialog(
@@ -141,17 +140,14 @@ showCustomDatePicker(
                 left: 15,
                 right: 15,
               ),
-              child: SfDateRangePicker(
-                onSelectionChanged: (arg) {
-                  onDatePicked(arg.value);
+              child: CalendarDatePicker(
+                initialDate: initialDate ?? DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime.now().add(const Duration(days: 365)),
+                onDateChanged: (selectedDate) {
+                  onDatePicked(selectedDate);
                   Navigator.of(context).pop();
                 },
-                onSubmit: (arg) {},
-                maxDate: DateTime.now().add(const Duration(days: 365)),
-                initialDisplayDate: initialDate ?? DateTime.now(),
-                view: DateRangePickerView.month,
-                selectionMode: DateRangePickerSelectionMode.single,
-                allowViewNavigation: true,
               ),
             ),
           ],

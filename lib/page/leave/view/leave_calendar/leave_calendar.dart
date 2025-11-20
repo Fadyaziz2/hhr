@@ -8,12 +8,44 @@ import 'package:onesthrm/page/leave/view/create_leave_request/create_leave_reque
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/custom_button.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
-class LeaveCalendar extends StatelessWidget {
+class LeaveCalendar extends StatefulWidget {
   final int? leaveRequestTypeId;
 
   const LeaveCalendar({super.key, this.leaveRequestTypeId});
+
+  @override
+  State<LeaveCalendar> createState() => _LeaveCalendarState();
+}
+
+class _LeaveCalendarState extends State<LeaveCalendar> {
+  DateTimeRange? _selectedRange;
+
+  Future<void> _selectDateRange(BuildContext context) async {
+    final now = DateTime.now();
+    final initialRange = _selectedRange ??
+        DateTimeRange(start: now, end: now.add(const Duration(days: 1)));
+
+    final pickedRange = await showDateRangePicker(
+      context: context,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
+      initialDateRange: initialRange,
+    );
+
+    if (pickedRange != null) {
+      setState(() {
+        _selectedRange = pickedRange;
+      });
+
+      final startDate =
+          DateFormat('yyyy-MM-dd', 'en').format(pickedRange.start).toString();
+      final endDate =
+          DateFormat('yyyy-MM-dd', 'en').format(pickedRange.end).toString();
+
+      // ignore: use_build_context_synchronously
+      context.read<LeaveBloc>().add(SelectedCalendar(startDate, endDate));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +60,35 @@ class LeaveCalendar extends StatelessWidget {
             ),
           ),
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: DeviceUtil.isTablet ? 300.h :300,
-                child: SfDateRangePicker(
-                  view: DateRangePickerView.month,
-                  selectionColor: Colors.green,
-                  showNavigationArrow: true,
-                  toggleDaySelection: false,
-                  enablePastDates: false,
-                  selectionMode: DateRangePickerSelectionMode.range,
-                  onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                    String? startDate = DateFormat('yyyy-MM-dd', 'en').format(args.value.startDate).toString();
-                    String? endDate = DateFormat('yyyy-MM-dd', 'en').format(args.value.endDate ?? args.value.startDate).toString();
-                    context.read<LeaveBloc>().add(SelectedCalendar(startDate, endDate));
-                  },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectDateRange(context),
+                      child: Text(tr('select_date')),
+                    ),
+                    const SizedBox(height: 12),
+                    if (_selectedRange != null)
+                      Text(
+                        '${DateFormat('yyyy-MM-dd', 'en').format(_selectedRange!.start)}  -  ${DateFormat('yyyy-MM-dd', 'en').format(_selectedRange!.end)}',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      )
+                    else
+                      Text(
+                        tr('select_date'),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                  ],
                 ),
               ),
+              const Spacer(),
               CustomButton(
                   title: "next".tr(),
                   padding: 16,
@@ -56,7 +97,7 @@ class LeaveCalendar extends StatelessWidget {
                       Fluttertoast.showToast(msg: "Please select Date");
                     } else {
                       NavUtil.replaceScreen(context, BlocProvider.value(value: context.read<LeaveBloc>(),
-                            child: CreateLeaveRequest(leaveTypeId: leaveRequestTypeId, starDate: state.startDate, endDate: state.endDate,)));
+                            child: CreateLeaveRequest(leaveTypeId: widget.leaveRequestTypeId, starDate: state.startDate, endDate: state.endDate,)));
                     }
                   })
             ],
