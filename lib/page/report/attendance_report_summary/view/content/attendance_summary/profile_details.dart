@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:chat/chat.dart';
 import 'package:core/core.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onesthrm/page/report/attendance_report_summary/bloc/report_bloc.dart';
 import 'package:onesthrm/res/nav_utail.dart';
 import 'package:onesthrm/res/widgets/device_util.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'profile_menu_tile.dart';
 
 class ProfileDetails extends StatelessWidget {
@@ -80,11 +78,7 @@ class ProfileDetails extends StatelessWidget {
                         ProfileMenuTile(
                             iconData: Icons.call,
                             bgColor: const Color(0xFF3171F9),
-                            onPressed: () async {
-                              if (!await launchUrl(Uri.parse("tel://${profile?.phone}"))) {
-                                throw 'Could not launch ${Uri.parse("tel://${profile?.phone}")}';
-                              }
-                            }),
+                            onPressed: () => _showUnavailableActionMessage(context)),
                         ProfileMenuTile(
                             iconData: Icons.message,
                             bgColor: const Color(0xFF00B180),
@@ -102,30 +96,11 @@ class ProfileDetails extends StatelessWidget {
                         ProfileMenuTile(
                             iconData: Icons.sms,
                             bgColor: const Color(0xFF00B180),
-                            onPressed: () async {
-                              try {
-                                if (Platform.isAndroid) {
-                                  String uri = 'sms:${profile?.phone}?body=${Uri.encodeComponent("Hello there")}';
-                                  await launchUrl(Uri.parse(uri));
-                                } else if (Platform.isIOS) {
-                                  String uri = 'sms:${profile?.phone}&body=${Uri.encodeComponent("Hello there")}';
-                                  await launchUrl(Uri.parse(uri));
-                                }
-                              } catch (e) {
-                                throw Exception(e.toString());
-                              }
-                            }),
+                            onPressed: () => _showUnavailableActionMessage(context)),
                         ProfileMenuTile(
                             iconData: Icons.mail,
                             bgColor: const Color(0xFFD8DAE8),
-                            onPressed: () async {
-                              final Uri emailLaunchUri = Uri(
-                                scheme: 'mailto',
-                                path: profile?.email,
-                                queryParameters: {'subject': 'CallOut user Profile', 'body': profile?.name},
-                              );
-                              launchUrl(emailLaunchUri);
-                            }),
+                            onPressed: () => _showUnavailableActionMessage(context)),
                         ProfileMenuTile(
                           bgColor: const Color(0xFFFD5250),
                           iconData: Icons.calendar_today_outlined,
@@ -170,6 +145,14 @@ class ProfileDetails extends StatelessWidget {
             );
           }
         },
+      ),
+    );
+  }
+
+  void _showUnavailableActionMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Contact actions are unavailable in this build.'),
       ),
     );
   }

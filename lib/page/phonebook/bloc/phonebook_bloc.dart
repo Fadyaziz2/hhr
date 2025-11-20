@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta_club_api/meta_club_api.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../res/enum.dart';
 
 part 'phonebook_event.dart';
@@ -110,9 +109,7 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
   }
 
   FutureOr<void> _onDirectPhoneCall(DirectPhoneCall event, Emitter<PhoneBookState> emit) async {
-    if (!await launchUrl(Uri.parse("tel://${event.phoneNumber}"))) {
-      throw 'Could not launch ${Uri.parse("tel://${event.phoneNumber}")}';
-    }
+    debugPrint('Direct phone call disabled for ${event.phoneNumber}.');
   }
 
   Future<PhoneBookDetailsModel?> onPhoneBookDetails({required String userId}) async {
@@ -125,26 +122,11 @@ class PhoneBookBloc extends Bloc<PhoneBookEvent, PhoneBookState> {
   }
 
   FutureOr<void> _onDirectMessage(DirectMessage event, Emitter<PhoneBookState> emit) async {
-    try {
-      if (Platform.isAndroid) {
-        String uri = 'sms:${event.phoneNumber}?body=${Uri.encodeComponent("Hello there")}';
-        await launchUrl(Uri.parse(uri));
-      } else if (Platform.isIOS) {
-        String uri = 'sms:${event.phoneNumber}&body=${Uri.encodeComponent("Hello there")}';
-        await launchUrl(Uri.parse(uri));
-      }
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+    debugPrint('Direct message disabled for ${event.phoneNumber}.');
   }
 
   FutureOr<void> _onDirectMailTo(DirectMailTo event, Emitter<PhoneBookState> emit) {
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: event.email,
-      queryParameters: {'subject': 'CallOut user Profile', 'body': event.userName},
-    );
-    launchUrl(emailLaunchUri);
+    debugPrint('Direct email disabled for ${event.email}.');
   }
 
   FutureOr<void> _onIsMultiSelectionEnabled(IsMultiSelectionEnabled event, Emitter<PhoneBookState> emit) {
