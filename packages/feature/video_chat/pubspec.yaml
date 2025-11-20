@@ -10,4 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  agora_uikit: ^1.3.8
+  agora_uikit: 1.3.8
+  # Pinned to a version of the RTC engine that retains the onExtensionError
+  # callback expected by the UIKit wrapper.
+  agora_rtc_engine: 6.2.1
+
+dependency_overrides:
+  agora_rtc_engine: 6.2.1
