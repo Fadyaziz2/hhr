@@ -24,5 +24,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo "Patching agora_uikit handlers"
+./scripts/patch_agora_uikit.sh
+
 echo "Scripts ran successfully."
 
