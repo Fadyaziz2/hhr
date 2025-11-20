@@ -186,4 +186,29 @@ post_install do |installer|
       puts "Patched Traits::CallSeqFactory template usage in #{grpc_basic_seq} to satisfy Clang."
     end
   end
+
+  # بعض البيئات بتولد GeneratedPluginRegistrant فيه url_launcher_ios حتى لو البود مش موجود،
+  # وده بيكسر الكومبايل. البلوك ده يشيل أي استدعاءات أو imports خاصة بـ url_launcher_ios
+  # سواءً في نسخة Objective-C أو Swift من الملف.
+  registrant_objc = File.join(__dir__, 'Runner', 'GeneratedPluginRegistrant.m')
+  registrant_swift = File.join(__dir__, 'Runner', 'GeneratedPluginRegistrant.swift')
+
+  [[registrant_objc, /#if __has_include\(<url_launcher_ios\/FLTURLLauncherPlugin.h>\).*?@import url_launcher_ios;\n#endif\n/mi,
+                    /\n\s*\[FLTURLLauncherPlugin registerWithRegistrar:[^\n]*\];/],
+   [registrant_swift, /import url_launcher_ios\n/mi,
+                    /\n\s*UrlLauncherIosPlugin.register\(with: registry\.registrar\(forPlugin: "UrlLauncherIosPlugin"\)\)/]].each do |path, import_regex, registration_regex|
+    next unless File.exist?(path)
+
+    contents = File.read(path)
+    patched = contents.gsub(import_regex, '').gsub(registration_regex, '')
+
+    next if contents == patched
+    unless ensure_writable(path)
+      puts "Skipping url_launcher_ios removal from #{path} because it is not writable."
+      next
+    end
+
+    File.write(path, patched)
+    puts "Removed url_launcher_ios traces from #{path}"
+  end
 end
