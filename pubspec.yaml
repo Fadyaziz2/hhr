@@ -43,7 +43,6 @@ dependencies:
   formz: ^0.7.0
   equatable: ^2.0.5
   country_picker: ^2.0.16
-  syncfusion_flutter_datepicker: 28.1.38
   meta_club_api:
     path: packages/data/meta_club_api
   user_repository:
