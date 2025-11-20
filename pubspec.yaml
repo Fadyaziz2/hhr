@@ -76,7 +76,9 @@ dependencies:
   upgrader: ^10.2.0
   page_transition: ^2.0.4
   google_fonts: ^6.3.0
-  font_awesome_flutter: ^10.1.0
+  # Pinned to an SDK-compatible release; newer versions rely on Color.withValues
+  # which is unavailable in our current Flutter SDK.
+  font_awesome_flutter: 10.1.0
   toggle_switch: ^2.0.1
   slide_digital_clock: ^1.0.2
   easy_localization: ^3.0.2
