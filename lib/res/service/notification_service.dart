@@ -30,16 +30,11 @@ class NotificationService {
   _initializePlatformSpecifies() {
     const initialAndroidSettings = AndroidInitializationSettings('fav_logo');
 
-    final initialIosSettings = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: false,
-        onDidReceiveLocalNotification:
-            (int? id, String? title, String? body, String? payload) async {
-          ReceivedNotification receivedNotification = ReceivedNotification(
-              id: id!, title: title!, body: body!, payload: payload!);
-          didReceivedLocalNotificationSubject.add(receivedNotification);
-        });
+    const initialIosSettings = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: false,
+    );
 
     initializationSettings = InitializationSettings(
         android: initialAndroidSettings, iOS: initialIosSettings);
@@ -95,11 +90,18 @@ class NotificationService {
       didReceivedLocalNotificationSubject.add(receivedNotification);
     }
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings!,
-        onDidReceiveNotificationResponse: (payload) {
-      onNotificationClick(payload);
-      return;
-    });
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings!,
+      onDidReceiveNotificationResponse: (response) {
+        didReceivedLocalNotificationSubject.add(
+          ReceivedNotification(
+            id: response.id,
+            payload: response.payload,
+          ),
+        );
+        onNotificationClick(response.payload);
+      },
+    );
   }
 
   ///regular notification
