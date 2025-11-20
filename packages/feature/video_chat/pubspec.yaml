@@ -11,4 +11,5 @@ dependencies:
   flutter:
     sdk: flutter
   agora_uikit: 1.3.8
-  agora_rtc_engine: ^6.3.0
+  # Pin to a version compatible with the current Agora UIKit API surface.
+  agora_rtc_engine: 6.2.1
