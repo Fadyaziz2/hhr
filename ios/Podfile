@@ -186,4 +186,24 @@ post_install do |installer|
       puts "Patched Traits::CallSeqFactory template usage in #{grpc_basic_seq} to satisfy Clang."
     end
   end
+
+  # Patch url_launcher to align with Swift concurrency requirements so Xcode
+  # no longer complains that UIApplication does not conform to Launcher.
+  launcher_path = File.join(installer.sandbox.root, 'url_launcher_ios', 'Classes', 'Launcher.swift')
+  if File.exist?(launcher_path)
+    if ensure_writable(launcher_path)
+      launcher_contents = File.read(launcher_path)
+
+      updated_contents = launcher_contents
+        .gsub('protocol Launcher', '@MainActor protocol Launcher')
+        .gsub('extension UIApplication: Launcher', '@MainActor extension UIApplication: Launcher')
+
+      if updated_contents != launcher_contents
+        File.write(launcher_path, updated_contents)
+        puts "Annotated Launcher protocol and UIApplication extension with @MainActor in #{launcher_path}."
+      end
+    else
+      puts "Skipped patching #{launcher_path} because it is not writable."
+    end
+  end
 end
