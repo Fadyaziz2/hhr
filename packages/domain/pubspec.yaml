@@ -14,7 +14,7 @@ dependencies:
   # UUID generation
   uuid: ^3.0.7
   #Internatinalization
-  intl: ^0.18.0
+  intl: ^0.19.0
   shared_preferences: ^2.2.0
   event_bus_plus: ^0.6.2
   hive: ^2.2.2
