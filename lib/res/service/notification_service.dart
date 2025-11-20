@@ -230,8 +230,13 @@ class NotificationService {
     const iosChannelSpecifies = DarwinNotificationDetails();
     const platformChannelSpecifies = NotificationDetails(
         android: androidChannelSpecifies, iOS: iosChannelSpecifies);
-    flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeat title',
-        'repeat body', RepeatInterval.everyMinute, platformChannelSpecifies,
+    flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        'repeat title',
+        'repeat body',
+        RepeatInterval.everyMinute,
+        platformChannelSpecifies,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: 'payload');
   }
 }
