@@ -9,7 +9,7 @@ fi
 
 
 # Define the directories to traverse
-DIRECTORIES=("face" "location_track" "qr_attendance" "selfie_attendance" "video_chat")
+DIRECTORIES=("face" "location_track" "qr_attendance" "selfie_attendance")
 
 # Function to recursively find Flutter projects and run flutter clean
 clean_flutter_projects() {

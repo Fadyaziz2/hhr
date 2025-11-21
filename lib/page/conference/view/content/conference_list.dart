@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:onesthrm/page/conference/conference.dart';
 import 'package:onesthrm/res/widgets/no_data_found_widget.dart';
-import 'package:video_chat/video_chat_service.dart';
 
 class ConferenceList extends StatelessWidget {
   const ConferenceList({super.key});
@@ -63,7 +62,7 @@ class ConferenceList extends StatelessWidget {
                                       Fluttertoast.showToast(msg: "You have an upcoming conference");
                                       break;
                                     case "Join" :
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => VideoCallScreen(channelId: data?.roomId ?? '',)));
+                                      Fluttertoast.showToast(msg: "Video chat is no longer available");
                                       break;
                                     default :
                                       Fluttertoast.showToast(msg: "Status unknown");
