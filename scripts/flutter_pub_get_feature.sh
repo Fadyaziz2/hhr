@@ -6,7 +6,7 @@ if [ ! -d "$BASE_PATH" ]; then
     BASE_PATH="../packages/feature"
 fi
 
-DIRECTORIES=("face" "location_track" "qr_attendance" "selfie_attendance" "video_chat")
+DIRECTORIES=("face" "location_track" "qr_attendance" "selfie_attendance")
 
 echo "-----------------------------------------------------"
 echo "Getting dependencies for packages in $BASE_PATH"
