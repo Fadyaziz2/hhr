@@ -80,9 +80,9 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
-    # سماح بإدراج هيدرات غير معيارية داخل firebase_messaging (أو أي بود تابع)
+    # سماح بإدراج هيدرات غير معيارية داخل firebase_* (زي messaging و performance)
     # علشان نمنع خطأ "Include of non-modular header inside framework module"
-    if target.name == 'firebase_messaging' || target.name == 'FirebaseMessaging'
+    if ['firebase_messaging', 'FirebaseMessaging', 'firebase_performance', 'FirebasePerformance'].include?(target.name)
       target.build_configurations.each do |config|
         config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
       end
