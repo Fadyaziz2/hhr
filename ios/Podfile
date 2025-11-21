@@ -80,6 +80,12 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
+    # سماح بإدراج هيدرات غير معيارية داخل firebase_messaging علشان نمنع أخطاء التجميع
+    if target.name == 'firebase_messaging'
+      target.build_configurations.each do |config|
+        config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+      end
+    end
     # ==== ضبط gRPC على C++17 علشان مشاكل الـ template مع Xcode ====
     if ['gRPC-Core', 'gRPC-C++'].include?(target.name)
       target.build_configurations.each do |config|
