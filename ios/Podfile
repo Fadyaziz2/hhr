@@ -69,6 +69,11 @@ target 'Runner' do
   # Use static frameworks to ensure C++ dependencies like Abseil link correctly.
   use_frameworks! :linkage => :static
 
+  # Explicitly include the Abseil subspecs that provide the missing C++ symbols
+  # reported during linking (CHexEscape and FormatTime).
+  pod 'abseil/strings', '1.20240116.2'
+  pod 'abseil/time', '1.20240116.2'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
